@@ -1,0 +1,110 @@
+# Indigo Glass — KDE Plasma 6.6 design system (visionOS + Linear + Neumorphism)
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[](#5E6AD2)\
+$os\
+$username\
+[](bg:#818CF8 fg:#5E6AD2)\
+$directory\
+[](fg:#818CF8 bg:#1F2028)\
+$git_branch\
+$git_status\
+[](fg:#1F2028 bg:#1C1C21)\
+$nodejs\
+$rust\
+$golang\
+$python\
+$java\
+[](fg:#1C1C21 bg:#0F0F12)\
+$time\
+[ ](fg:#0F0F12)\
+$line_break$character"""
+
+palette = 'indigo_glass'
+
+[palettes.indigo_glass]
+indigo = '#5E6AD2'
+indigo_light = '#818CF8'
+violet = '#A78BFA'
+amber = '#FBBF24'
+text = '#F8F8F8'
+muted = '#6B7280'
+bg_0 = '#0F0F12'
+bg_1 = '#1C1C21'
+bg_2 = '#1F2028'
+
+[os]
+disabled = false
+style = "bg:#5E6AD2 fg:#F8F8F8"
+
+[os.symbols]
+Linux = " "
+Fedora = " "
+
+[username]
+show_always = true
+style_user = "bg:#5E6AD2 fg:#F8F8F8"
+style_root = "bg:#5E6AD2 fg:#F8F8F8"
+format = '[ $user ]($style)'
+
+[directory]
+style = "bg:#818CF8 fg:#0F0F12"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "bg:#1F2028 fg:#818CF8"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:#1F2028 fg:#FBBF24"
+format = '[$all_status$ahead_behind ]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#1C1C21 fg:#A78BFA"
+format = '[ $symbol ($version) ]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#1C1C21 fg:#A78BFA"
+format = '[ $symbol ($version) ]($style)'
+
+[golang]
+symbol = ""
+style = "bg:#1C1C21 fg:#A78BFA"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+symbol = ""
+style = "bg:#1C1C21 fg:#A78BFA"
+format = '[ $symbol ($version) ]($style)'
+
+[java]
+symbol = " "
+style = "bg:#1C1C21 fg:#A78BFA"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#0F0F12 fg:#6B7280"
+format = '[ ♥ $time ]($style)'
+
+[character]
+success_symbol = '[❯](bold #818CF8)'
+error_symbol = '[❯](bold #ED254E)'
+vimcmd_symbol = '[❮](bold #A78BFA)'
+
+[line_break]
+disabled = false

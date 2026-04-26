@@ -1,0 +1,36 @@
+# Indigo Glass — KWin config snippets
+# Append/merge these into your existing ~/.config/kwinrc
+# DO NOT replace the entire file — KWin has many other settings
+
+[org.kde.kdecoration2]
+library=org.kde.klassy
+theme=Klassy
+ButtonsOnLeft=XAM
+ButtonsOnRight=I
+BorderSize=None
+BorderSizeAuto=false
+
+[Plugins]
+blurEnabled=false
+better_blur_dxEnabled=true
+fadedesktopEnabled=true
+truely-maximizedEnabled=true
+kwin4_effect_shapecornersEnabled=false
+
+[Effect-better-blur-dx]
+BlurStrength=13
+NoiseStrength=4
+Brightness=96
+Saturation=110
+Contrast=100
+BlurMatching=false
+BlurNonMatching=true
+BlurDecorations=true
+BlurMenus=true
+BlurDocks=true
+ForceContrastParams=true
+CornerRadius=8.0
+WindowClasses=
+
+[Windows]
+BorderlessMaximizedWindows=true
