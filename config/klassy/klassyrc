@@ -1,0 +1,27 @@
+[ButtonSize]
+ButtonSize=Large
+
+[Common]
+ActiveTitleBarOpacity=80
+InactiveTitleBarOpacity=70
+OpaqueMaximizedTitleBars=false
+
+[Windeco]
+BlurTransparentTitleBars=true
+ButtonBackgroundColors=TitleBarColor
+ButtonColorHover=true
+ButtonCustomColor=true
+ButtonIconStyle=Mac OS X icon style
+ButtonShape=0
+ButtonShowOnHover=true
+CloseButtonColor=237,37,78
+CornerRadius=8
+DrawBackgroundGradient=false
+DrawTitleBarSeparator=false
+DrawTitlebarSeparator=false
+MaximizeButtonColor=113,247,159
+MinimizeButtonColor=251,191,36
+OnAllDesktopsButtonColor=129,140,248
+ThinWindowOutlineStyle=ThinWindowOutlineContrastTitleBar
+ThinWindowOutlineThickness=1
+TranslucentButtons=false

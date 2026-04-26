@@ -1,0 +1,12 @@
+# Indigo Glass — Microsoft Edge user-local override
+# Copy to ~/.local/share/applications/microsoft-edge.desktop
+# Forces Wayland-native rendering + system decorations to integrate with Klassy
+#
+# Usage:
+#   cp /usr/share/applications/microsoft-edge.desktop ~/.local/share/applications/
+#   patch ~/.local/share/applications/microsoft-edge.desktop with these Exec= lines:
+
+# Replace the bare Exec= line:
+#   Exec=/usr/bin/microsoft-edge-stable %U
+# with:
+#   Exec=/usr/bin/microsoft-edge-stable --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations --enable-wayland-ime --gtk-version=4 --disable-features=WaylandFractionalScaleV1 --use-system-default-print %U

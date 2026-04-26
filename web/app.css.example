@@ -1,0 +1,175 @@
+/* Indigo Glass — Portfolio Design System
+ * Hybrid: visionOS spatial glass + Linear discipline + Neumorphism 2.0
+ * Mirror of KDE Plasma 6.6 Indigo Glass theme
+ * Reference: ~/research/research-reports/indigo-glass-kde-setup-reference.md
+ */
+
+@import "tailwindcss";
+
+@theme {
+  /* === Base layers === */
+  --color-base: #0F0F12;          /* deep dark base */
+  --color-surface: #1C1C21;       /* window/card bg */
+  --color-surface-elevated: #1F2028; /* panels, glass */
+  --color-sidebar: #18181C;       /* sidebar bg */
+
+  /* === Accent — Linear indigo === */
+  --color-indigo: #5E6AD2;        /* primary — selection, buttons */
+  --color-indigo-light: #818CF8;  /* hover, focus, link */
+  --color-violet: #A78BFA;        /* visited link, terminal cursor accent */
+
+  /* === Semantic === */
+  --color-amber: #FBBF24;         /* warning, neutral semantic */
+  --color-positive: #71F79F;      /* success */
+  --color-negative: #ED254E;      /* error, destructive */
+
+  /* === Text === */
+  --color-text: #F8F8F8;          /* primary */
+  --color-text-muted: #6B7280;    /* secondary */
+  --color-text-inactive: #6B7280; /* disabled */
+
+  /* === Glass borders & shadows === */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.10);
+  --shadow-glass-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-glass-lg: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* === Neumorphic shadows (interactive elements only — see Neumorphism 2.0 rules) === */
+  --shadow-neu-raised: -2px -2px 6px rgba(255, 255, 255, 0.04), 2px 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-neu-pressed: inset -2px -2px 6px rgba(255, 255, 255, 0.04), inset 2px 2px 6px rgba(0, 0, 0, 0.4);
+
+  /* === Indigo glow (focus ring) === */
+  --shadow-indigo-glow: 0 0 0 2px rgba(94, 106, 210, 0.3);
+  --shadow-indigo-glow-lg: 0 0 24px rgba(94, 106, 210, 0.4);
+
+  /* === Backdrop blur tokens (for visionOS Liquid Glass) === */
+  --blur-glass-sm: blur(8px);
+  --blur-glass: blur(13px);       /* matches KWin BlurStrength=13 */
+  --blur-glass-lg: blur(20px);
+
+  /* === Typography === */
+  --font-sans: "Nunito", "SF Pro Display", -apple-system, system-ui, sans-serif;
+  --font-display: "SF Pro Display", "Inter", -apple-system, sans-serif;
+  --font-mono: "Iosevka Custom Condensed", "JetBrainsMono Nerd Font", "Fira Code", monospace;
+
+  /* === Radius tokens (Klassy CornerRadius=8 alignment) === */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 8px;          /* default — matches Klassy */
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+}
+
+/* === Base styles === */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html, body {
+    background-color: var(--color-base);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Selection — matches KDE Colors:Selection */
+  ::selection {
+    background: var(--color-indigo);
+    color: #FFFFFF;
+  }
+
+  /* Scrollbar — Indigo Glass */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background: rgba(15, 15, 18, 0.3);
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-indigo);
+    border-radius: 8px;
+    border: 2px solid var(--color-base);
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--color-indigo-light);
+  }
+
+  /* Focus rings — indigo glow */
+  *:focus-visible {
+    outline: 2px solid var(--color-indigo-light);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Links */
+  a {
+    color: var(--color-indigo-light);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  a:hover {
+    color: var(--color-violet);
+  }
+  a:visited {
+    color: var(--color-violet);
+  }
+}
+
+/* === Glass utility classes === */
+@layer utilities {
+  /* Frosted glass surface (visionOS Liquid Glass) */
+  .glass {
+    background: rgba(31, 32, 40, 0.6);
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-subtle {
+    background: rgba(28, 28, 33, 0.4);
+    backdrop-filter: var(--blur-glass-sm);
+    -webkit-backdrop-filter: var(--blur-glass-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  .glass-strong {
+    background: rgba(31, 32, 40, 0.85);
+    backdrop-filter: var(--blur-glass-lg);
+    -webkit-backdrop-filter: var(--blur-glass-lg);
+    border: 1px solid var(--color-border-strong);
+    box-shadow: var(--shadow-glass-lg);
+  }
+
+  /* Neumorphic interactive (use sparingly — buttons, cards, sliders only) */
+  .neu-raised {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-neu-raised);
+  }
+
+  .neu-pressed {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-neu-pressed);
+  }
+
+  /* Indigo focus glow */
+  .glow-indigo {
+    box-shadow: var(--shadow-indigo-glow);
+  }
+  .glow-indigo-lg {
+    box-shadow: var(--shadow-indigo-glow-lg);
+  }
+
+  /* Linear-style sharp text on dark */
+  .text-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
