@@ -1,0 +1,85 @@
+# Indigo-Glass GRUB Theme — Amber v3
+# Fixed layout: panel hugs content, bigger fonts, brighter borders
+
+title-text: ""
+desktop-image: "background.jpg"
+desktop-color: "#0a0402"
+terminal-font: "SF Pro Display Regular 22"
+terminal-box: "assets/terminal_box_*.png"
+terminal-left: "10%"
+terminal-top: "20%"
+terminal-width: "80%"
+terminal-height: "60%"
+terminal-border: "0"
+
++ progress_bar {
+  id = "__timeout__"
+  left = 0
+  top = 0
+  width = 100%
+  height = 12
+  show_text = false
+  bar_style = "assets/progress_bar_*.png"
+  highlight_style = "assets/progress_highlight_*.png"
+}
+
++ label {
+  top = 8%
+  left = 0
+  width = 100%
+  align = "center"
+  text = "Indigo-Glass"
+  color = "#fdba74"
+  font = "SF Pro Display Regular 96"
+}
+
++ label {
+  top = 8%+128
+  left = 0
+  width = 100%
+  align = "center"
+  text = "Select an Operating System"
+  color = "#fb923c"
+  font = "SF Pro Display Regular 38"
+}
+
++ boot_menu {
+  left = 50%-810
+  top = 30%
+  width = 1620
+  height = 620
+  item_font = "SF Pro Display Regular 30"
+  item_color = "#fdba74"
+  selected_item_color = "#ffffff"
+  selected_item_font = "SF Pro Display Regular 38"
+  icon_width = 56
+  icon_height = 56
+  item_icon_space = 28
+  item_height = 84
+  item_padding = 20
+  item_spacing = 8
+  selected_item_pixmap_style = "assets/select_*.png"
+  menu_pixmap_style = "assets/menu_bkg_*.png"
+  scrollbar = false
+}
+
++ label {
+  top = 88%
+  left = 0
+  width = 100%
+  align = "center"
+  id = "__timeout__"
+  text = "Booting in %d seconds  —  press any key to pause"
+  color = "#fb923c"
+  font = "SF Pro Display Regular 30"
+}
+
++ label {
+  top = 93%
+  left = 0
+  width = 100%
+  align = "center"
+  text = "[Up/Down] navigate    [Enter] boot    [E] edit    [C] console"
+  color = "#d97706"
+  font = "SF Pro Display Regular 28"
+}

@@ -14,11 +14,13 @@ set -e
 
 DRY_RUN=false
 THEMES_ONLY=false
+WITH_GRUB=false
 
 for arg in "$@"; do
   case $arg in
     --dry-run) DRY_RUN=true ;;
     --themes-only) THEMES_ONLY=true ;;
+    --with-grub) WITH_GRUB=true ;;
   esac
 done
 
@@ -195,6 +197,30 @@ run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclass' '.*'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclassmatch' '3'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclasscomplete' 'false'"
 
+if [ "$WITH_GRUB" = true ]; then
+  echo
+  echo "▶ Installing Indigo Glass GRUB theme..."
+  GRUB_SRC="$REPO_DIR/share/grub-theme"
+  GRUB_DEST="/boot/grub2/themes/indigo-glass"
+  if [ -d "$GRUB_SRC" ]; then
+    run "sudo mkdir -p $GRUB_DEST"
+    run "sudo cp -r $GRUB_SRC/. $GRUB_DEST/"
+    run "sudo cp /etc/default/grub /etc/default/grub.bak.$(date +%Y%m%d-%H%M%S)"
+    run "sudo sed -i \"s|^GRUB_THEME=.*|GRUB_THEME='$GRUB_DEST/theme.txt'|\" /etc/default/grub"
+    if grep -q '^GRUB_THEME=' /etc/default/grub; then :; else
+      run "echo \"GRUB_THEME='$GRUB_DEST/theme.txt'\" | sudo tee -a /etc/default/grub"
+    fi
+    run "sudo sed -i \"s|^GRUB_BACKGROUND=.*|GRUB_BACKGROUND='$GRUB_DEST/background.jpg'|\" /etc/default/grub"
+    if [ -d /boot/grub2 ] && [ -f /boot/grub2/grub.cfg ]; then
+      run "sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
+    elif [ -d /boot/efi/EFI/fedora ] && [ -f /boot/efi/EFI/fedora/grub.cfg ]; then
+      run "sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg"
+    fi
+  else
+    echo "  ⚠ $GRUB_SRC missing — skipping GRUB theme"
+  fi
+fi
+
 echo
 echo "▶ Reload KWin + plasmashell..."
 run "qdbus-qt6 org.kde.KWin /KWin reconfigure"
@@ -216,5 +242,7 @@ echo "  4. Optional: install Microsoft Edge Wayland flags:"
 echo "     cp /usr/share/applications/microsoft-edge.desktop ~/.local/share/applications/"
 echo "     # Then patch Exec= per config/microsoft-edge.desktop.template"
 echo "  5. Logout/login to ensure all GTK env vars propagate"
+echo "  6. Optional: install matching GRUB theme:"
+echo "     bash $REPO_DIR/scripts/install.sh --with-grub --themes-only"
 echo
 echo "Documentation: $REPO_DIR/docs/REFERENCE.md"
