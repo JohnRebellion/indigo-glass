@@ -17,6 +17,7 @@ A complete, cohesive visual identity that spans:
 - **Konsole terminal** — IndigoGlass profile with violet cursor, Iosevka Custom Condensed
 - **Shell prompt** — Starship config with indigo segments
 - **Greeter** — Fastfetch with minimal indigo display
+- **GRUB bootloader** (optional) — matching amber-on-indigo theme with SF Pro fonts
 - **Web frontend** (bonus) — Tailwind v4 `@theme` block for matching SvelteKit/Next.js portfolios
 
 All layers reference the **same color tokens**, so terminal accents match window selections match GTK buttons match webapp buttons.
@@ -96,6 +97,16 @@ If you just want themes without rebuilding compositor effects:
 ```bash
 bash scripts/install.sh --themes-only
 ```
+
+### GRUB theme (optional)
+
+Install the matching boot screen — backs up `/etc/default/grub`, points it at the bundled theme, and runs `grub2-mkconfig`:
+
+```bash
+bash scripts/install.sh --with-grub --themes-only
+```
+
+See [share/grub-theme/README.md](share/grub-theme/README.md) for details.
 
 ### Dry run
 
