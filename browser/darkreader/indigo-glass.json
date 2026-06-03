@@ -8,7 +8,7 @@
     "contrast": 100,
     "grayscale": 0,
     "sepia": 0,
-    "useFont": false,
+    "useFont": true,
     "fontFamily": "Nunito",
     "textStroke": 0,
     "engine": "dynamicTheme",
@@ -18,30 +18,33 @@
     "lightSchemeBackgroundColor": "#F8F8F8",
     "lightSchemeTextColor": "#0F0F12",
     "scrollbarColor": "#5E6AD2",
-    "selectionColor": "#5E6AD250",
+    "selectionColor": "#5E6AD2",
     "styleSystemControls": true,
     "lightColorScheme": "Default",
-    "darkColorScheme": "Indigo Glass",
+    "darkColorScheme": "Default",
     "immediateModify": false
   },
   "presets": [
     {
       "id": "preset-indigo-glass",
       "name": "Indigo Glass",
-      "urls": [["*"]],
+      "urls": ["*"],
       "theme": {
         "mode": 1,
         "brightness": 96,
         "contrast": 100,
         "grayscale": 0,
         "sepia": 0,
+        "useFont": true,
+        "fontFamily": "Nunito",
+        "textStroke": 0,
+        "engine": "dynamicTheme",
         "darkSchemeBackgroundColor": "#0F0F12",
         "darkSchemeTextColor": "#F8F8F8",
         "lightSchemeBackgroundColor": "#F8F8F8",
         "lightSchemeTextColor": "#0F0F12",
         "scrollbarColor": "#5E6AD2",
-        "selectionColor": "#5E6AD250",
-        "engine": "dynamicTheme"
+        "selectionColor": "#5E6AD2"
       }
     }
   ],
