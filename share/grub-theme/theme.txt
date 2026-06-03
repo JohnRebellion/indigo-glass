@@ -14,7 +14,7 @@ desktop-color: "#0F0F12"
   top = 96
   width = 360
   height = 140
-  file = "assets/card_entries.png"
+  file = "assets/card_os.png"
 }
 
 + image {
@@ -22,7 +22,7 @@ desktop-color: "#0F0F12"
   top = 96
   width = 360
   height = 140
-  file = "assets/card_timeout.png"
+  file = "assets/card_kernel.png"
 }
 
 + image {
@@ -30,7 +30,7 @@ desktop-color: "#0F0F12"
   top = 96
   width = 360
   height = 140
-  file = "assets/card_default.png"
+  file = "assets/card_hardware.png"
 }
 
 + label {
