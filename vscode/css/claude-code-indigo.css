@@ -97,64 +97,66 @@ html,
   font-family: "SFProWithLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
 }
 
-/* MONO rule + descendants. Two halves:
- *   1. Match the container itself
- *   2. Match descendants (child <span>s inside .toolBodyRowContent etc.)
- * Specificity stack: `html#x body#y :is(...)` boosts to (0,3,2),
- * beating the prose :not() chain (which counts as one class per :not
- * arg = (0,1,0) total despite the long arg list, since :not() takes
- * only the highest among its args). */
+/* MONO rule — EXACT Anthropic class names only (no wildcards).
+ * Audited from anthropic.claude-code/webview/index.css for selectors
+ * that genuinely render code/paths/IDs (set --app-monospace-font-family).
+ * Plus tool-output containers Anthropic forgot to font-style
+ * (.toolResult, .output, .codeBlockWrapper, .codeInput).
+ *
+ * Two halves: containers + descendants (child <span> in .toolBodyRowContent).
+ * Specificity: html body :is(...) = (0,3,0) — wins over universal prose `*`. */
 html body :is(
   code, pre, kbd, samp, tt, .monaco-editor,
-  [class*="monospace"],
-  [class*="codeBlock"],
-  [class*="terminalLine"],
-  [class*="bashOutput"],
-  [class*="toolResult"],
-  [class*="toolBody"],
-  [class*="output"],
-  [class*="codeInput"],
-  [class*="inputJson"],
-  [class*="authUrl"],
-  [class*="callbackUrl"],
-  [class*="permissionPath"],
-  [class*="permissionRequest"],
-  [class*="bashCommand"],
-  [class*="gitOutput"],
-  [class*="serverName"],
-  [class*="toolName"],
-  [class*="fileItem"],
-  [class*="diagnosticSubtitle"],
-  [class*="changedFile"],
-  [class*="toolBodyRowContent"],
-  [class*="toolBodyPlainText"],
-  [class*="toolBodyRow"]
+  /* containers Anthropic forgot to style — must force mono */
+  .toolResult_uq5aLg,
+  .output_ULYGFA,
+  .codeBlockWrapper_-a7MRw,
+  .codeInput_Eg8KCQ,
+  /* Anthropic-declared mono — restate for inheritance robustness */
+  .toolReference_uq5aLg,
+  .unknownContent_uq5aLg,
+  .toolNameTextSecondary_ZUQaOA,
+  .toolName_IHCQeQ,
+  .toolBodyRowLabel_ZUQaOA,
+  .toolBodyRowContent_ZUQaOA,
+  .toolBodyPlainText_ZUQaOA,
+  .permissionRequestInput_qlaBag,
+  .permissionRequestDescription_qlaBag,
+  .permissionPath_qlaBag,
+  .bashCommand_F2hEIg,
+  .authUrlInput_Eg8KCQ,
+  .diffStats_oblbPg,
+  .diagnosticSubtitle_1z-gnA,
+  .serverName_IHCQeQ,
+  .detailTitle_IHCQeQ,
+  .fileItem_n2luCQ,
+  .fileItem_pZbgXw,
+  .micTooltipShortcut_cKsPxg,
+  .keys_cO8y_Q,
+  .slashCommandMessage_07S1Yg,
+  .slashCommandResultMessage_07S1Yg,
+  .emptyStateText_07S1Yg,
+  .branchPill_LBSAWQ,
+  .branchPill_5FHdxw,
+  .warningBranchPill_LBSAWQ,
+  .repoPill_W2z5EA,
+  .orbChar_5FHdxw,
+  .progressSubtext_5FHdxw,
+  .changedFile_5FHdxw,
+  .gitOutput_5FHdxw,
+  .sectionHint_7xV4vA,
+  .hint_IHCQeQ
 ),
 html body :is(
   code, pre, kbd, samp, tt, .monaco-editor,
-  [class*="monospace"],
-  [class*="codeBlock"],
-  [class*="terminalLine"],
-  [class*="bashOutput"],
-  [class*="toolResult"],
-  [class*="toolBody"],
-  [class*="output"],
-  [class*="codeInput"],
-  [class*="inputJson"],
-  [class*="authUrl"],
-  [class*="callbackUrl"],
-  [class*="permissionPath"],
-  [class*="permissionRequest"],
-  [class*="bashCommand"],
-  [class*="gitOutput"],
-  [class*="serverName"],
-  [class*="toolName"],
-  [class*="fileItem"],
-  [class*="diagnosticSubtitle"],
-  [class*="changedFile"],
-  [class*="toolBodyRowContent"],
-  [class*="toolBodyPlainText"],
-  [class*="toolBodyRow"]
+  .toolResult_uq5aLg,
+  .output_ULYGFA,
+  .codeBlockWrapper_-a7MRw,
+  .codeInput_Eg8KCQ,
+  .toolBodyRowContent_ZUQaOA,
+  .toolBodyPlainText_ZUQaOA,
+  .gitOutput_5FHdxw,
+  .bashCommand_F2hEIg
 ) * {
   font-family: "Iosevka Custom Condensed",
     "Iosevka Custom",
