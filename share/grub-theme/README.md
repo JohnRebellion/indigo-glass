@@ -16,7 +16,7 @@ Per `docs/PHILOSOPHY.md` spec:
 | Surface | `#1F2028` |
 | Radius default | `8px` |
 | Chrome font | SF Pro Display (titles, brand) |
-| Body font | Nunito (descriptions, menu items, footer) |
+| Body font | Open Sans (descriptions, menu items, footer) |
 
 ## Layout
 
@@ -26,9 +26,9 @@ Dashboard view (Compot-inspired):
 - **Stamp top-right:** "UEFI · GRUB 2.14" — SF Pro 22pt accent
 - **Stat-card row:** 3 cards (ENTRIES · TIMEOUT · DEFAULT), pre-baked PNGs with rounded 8px corners + accent line + value text inline
 - **Section title:** "BOOT PICKER" — SF Pro 36pt
-- **Description:** Nunito 24pt muted
-- **Boot menu:** Nunito body, indigo glow pill, accent left-bar, "Press Enter" chip on selected
-- **Footer hints:** Nunito 22pt muted
+- **Description:** Open Sans 24pt muted
+- **Boot menu:** Open Sans body, indigo glow pill, accent left-bar, "Press Enter" chip on selected
+- **Footer hints:** Open Sans 22pt muted
 
 ## Contents
 
@@ -40,7 +40,7 @@ Dashboard view (Compot-inspired):
 - `assets/terminal_box_*.png` — 9-slice terminal box (rare, edge mode)
 - `assets/spin_center.png`, `spin_tick.png` — circular_progress assets
 - `sfpro-*.pf2` — SF Pro Display at 18,20,22,26,28,30,32,36,38,42,64,96
-- `nunito-*.pf2` — Nunito Regular at 22,24,26,28,30
+- `opensans-*.pf2` — Open Sans Regular at 22,24,26,28,30
 - `icons/*.png` — OS class icons (nobara, gnu-linux, windows, uefi-firmware, memtest, fedora, linux)
 
 ## Real-GRUB compatibility notes
@@ -75,6 +75,6 @@ For UEFI Fedora/Nobara, regenerate at `/boot/efi/EFI/fedora/grub.cfg` instead.
 ## Fonts
 
 ```bash
-grub2-mkfont --no-bitmap -s 24 -o nunito-24.pf2 /usr/share/fonts/vernnobile-nunito-fonts/Nunito-Regular.otf
+grub2-mkfont --no-bitmap -s 24 -o opensans-24.pf2 /usr/share/fonts/open-sans/OpenSans-Regular.ttf
 grub2-mkfont --no-bitmap -s 28 -o sfpro-28.pf2 /usr/local/share/fonts/s/SF_Pro_Display_Regular.otf
 ```
