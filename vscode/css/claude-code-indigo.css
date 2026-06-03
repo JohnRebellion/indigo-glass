@@ -1,0 +1,100 @@
+/* Indigo Glass — Claude Code webview retint
+ *
+ * Injected inline into VSCode Insiders workbench.html via
+ * scripts/patch-workbench.sh. apc-extension is broken on Insiders 1.124,
+ * so we hand-patch instead. Patch survives until next code-insiders
+ * package upgrade restores root ownership / overwrites the HTML; re-run
+ * the script after upgrades.
+ *
+ * Anthropic's webview defines 5 fixed brand literals + uses
+ * --app-claude-orange inline for the prompt input focus ring. The rest
+ * of --app-* chains through --vscode-* tokens and inherits our color
+ * theme automatically.
+ *
+ * Palette: #5E6AD2 primary · #818CF8 hover · #A78BFA violet
+ *          #F8F8F8 text · #6B7280 muted · #0F0F12 base · #1F2028 surface
+ */
+
+:root,
+.monaco-workbench,
+.webview {
+  --app-claude-orange: #5E6AD2;
+  --app-claude-ivory: #F8F8F8;
+  --app-claude-slate: #0F0F12;
+  --app-banner-tint: #5E6AD2;
+  --app-modal-background: #0F0F12cc;
+
+  --app-accent-color: #5E6AD2;
+  --app-link: #818CF8;
+  --app-link-color: #818CF8;
+  --app-link-foreground: #818CF8;
+  --app-spinner-foreground: #5E6AD2;
+
+  /* Font inheritance — already chains through --vscode-* but restate
+   * here so it survives if Anthropic regresses to hardcoded values. */
+  --app-font-family-mono: var(--vscode-editor-font-family, "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace);
+  --app-monospace-font-family: var(--vscode-editor-font-family, "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace);
+}
+
+.vs:root,
+body.vs,
+.vs .monaco-workbench {
+  --app-claude-slate: #FFFFFF;
+  --app-claude-ivory: #0F0F12;
+  --app-modal-background: #FFFFFFcc;
+  --app-link: #5E6AD2;
+  --app-link-color: #5E6AD2;
+  --app-link-foreground: #5E6AD2;
+}
+
+/* Inline #d97757 selectors */
+.checkbox_UxGN1Q,
+.checkboxChecked_UxGN1Q {
+  background: #5E6AD21a !important;
+  border-color: #5E6AD2 !important;
+}
+
+.suggestionBullet_UxGN1Q {
+  background: #5E6AD2cc !important;
+  border-color: #5E6AD2 !important;
+}
+
+.statusBadge_IHCQeQ.needs-auth_IHCQeQ {
+  background-color: #FBBF24 !important;
+  color: #0F0F12 !important;
+}
+
+.statusBadge_IHCQeQ.failed_IHCQeQ {
+  background-color: #ED254E !important;
+}
+
+.timelineMessage_07S1Yg.dotProgress_07S1Yg:before {
+  background-color: #818CF8 !important;
+}
+
+.splitter_qlaBag:hover {
+  background-color: #5E6AD240 !important;
+}
+
+.mention_chip,
+[class*="mentionChip"] {
+  background-color: #5E6AD230 !important;
+  color: #F8F8F8 !important;
+  border-radius: 6px !important;
+}
+
+/* Polish */
+*:focus-visible {
+  outline-color: #818CF8 !important;
+}
+
+.primaryButton_f3sAzg:hover,
+.button_qlaBag.primary_qlaBag:hover {
+  background-color: #818CF8 !important;
+  box-shadow: 0 0 0 1px #A78BFA40 !important;
+}
+
+.app_root {
+  --app-list-border-radius: 8px;
+  --app-list-gap: 2px;
+}
