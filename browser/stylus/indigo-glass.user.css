@@ -12,6 +12,19 @@
 
 @-moz-document regexp("https?://.*") {
 
+  /* Body type — Nunito for prose, system mono for code (matches KDE/GRUB layers) */
+  body,
+  p, span, div, li, td, th, a, label,
+  h1, h2, h3, h4, h5, h6,
+  input, textarea, select, button {
+    font-family: "Nunito", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif !important;
+  }
+
+  code, pre, kbd, samp, tt,
+  [class*="mono"], [class*="code"] {
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "Cascadia Code", "Fira Code", Consolas, monospace !important;
+  }
+
   /* Selection tint — indigo overlay, never solid */
   ::selection {
     background-color: rgba(94, 106, 210, 0.45) !important;
