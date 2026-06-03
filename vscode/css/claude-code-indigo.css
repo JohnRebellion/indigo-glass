@@ -45,12 +45,22 @@ html,
  * so the chat panel matches VSCode chrome typography. Bash output blocks
  * inside markdown inherit --app-monospace-font-family which already
  * chains to --vscode-editor-font-family (Iosevka). */
-/* Force Open Sans on every prose-bearing element with high specificity.
- * Universal selector with !important wins against Anthropic's class rules
- * that use -apple-system,Segoe UI,etc. Mono code blocks override below. */
+/* Force Open Sans globally first (low specificity, !important),
+ * then mono override below wins on code paths.
+ * Shadow-DOM hosts: also set on :host, :host *, ::part(*). */
+* {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
+}
+
+:host,
+:host * {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
+}
+
+html,
 html body,
-html body *:not(code):not(pre):not(kbd):not(samp):not(tt):not([class*="codeBlock"]):not([class*="terminalLine"]):not([class*="bashOutput"]):not([class*="toolResult"]):not([class*="toolBody"]):not([class*="output"]):not([class*="codeInput"]):not([class*="inputJson"]):not([class*="authUrl"]):not([class*="callbackUrl"]):not([class*="permissionPath"]):not([class*="permissionRequest"]):not([class*="bashCommand"]):not([class*="gitOutput"]):not([class*="serverName"]):not([class*="toolName"]):not([class*="fileItem"]):not([class*="diagnosticSubtitle"]):not([class*="changedFile"]):not([class*="monospace"]):not(.codicon):not([class*="codicon"]):not(.monaco-editor):not(.monaco-editor *) {
-  font-family: "Open Sans", var(--vscode-font-family, "Segoe UI"), -apple-system, system-ui, sans-serif !important;
+html body * {
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
 }
 
 code,
