@@ -1,0 +1,108 @@
+/* Indigo Glass — Claude Code webview retint
+ *
+ * Anthropic ships fixed brand values (#d97757 orange, #faf9f5 ivory, #141413 slate)
+ * inside webview/index.css. Most --app-* vars already reference --vscode-* tokens
+ * and inherit our color theme automatically; this file overrides the FIXED brand
+ * literals so the webview reads as Indigo Glass instead of Anthropic-default.
+ *
+ * Loaded via apc-extension (drcika.apc-extension). See vscode/README.md.
+ *
+ * Palette: #5E6AD2 primary · #818CF8 hover · #A78BFA violet
+ *          #F8F8F8 text · #6B7280 muted · #0F0F12 base · #1F2028 surface
+ */
+
+:root {
+  /* Brand-literal overrides — the only fixed values in the Claude Code webview */
+  --app-claude-orange: #5E6AD2;
+  --app-claude-ivory: #F8F8F8;
+  --app-claude-slate: #0F0F12;
+  --app-banner-tint: #5E6AD2;
+  --app-modal-background: #0F0F12cc;
+
+  /* These already chain through --vscode-* tokens; restate for clarity / robustness */
+  --app-accent-color: #5E6AD2;
+  --app-link: #818CF8;
+  --app-link-color: #818CF8;
+  --app-link-foreground: #818CF8;
+}
+
+/* Light VSCode theme — flip slate/ivory so contrast holds */
+.vs:root,
+body.vs {
+  --app-claude-slate: #FFFFFF;
+  --app-claude-ivory: #0F0F12;
+  --app-modal-background: #FFFFFFcc;
+  --app-link: #5E6AD2;
+  --app-link-color: #5E6AD2;
+  --app-link-foreground: #5E6AD2;
+}
+
+/* ─── Direct-literal recolors (Anthropic hardcoded #d97757 in selectors) ─────── */
+
+/* Checkbox + suggestion bullets use literal #d977571a / #d97757cc backgrounds.
+ * Match each tone of the Anthropic palette with the same alpha in indigo. */
+.checkbox_UxGN1Q,
+.checkboxChecked_UxGN1Q {
+  background: #5E6AD21a !important;
+  border-color: #5E6AD2 !important;
+}
+
+.suggestionBullet_UxGN1Q {
+  background: #5E6AD2cc !important;
+  border-color: #5E6AD2 !important;
+}
+
+/* Generic #d97757 attribute hits (footers, accents, hover tints) */
+[style*="#d97757"],
+[style*="#D97757"] {
+  --replace-orange: #5E6AD2;
+}
+
+/* ─── Webview chrome polish — match KDE Indigo Glass aesthetic ──────────────── */
+
+/* Soften focus outlines to indigo+1 instead of default white */
+*:focus-visible {
+  outline-color: #818CF8 !important;
+}
+
+/* Primary button (send / confirm) — already inherits --vscode-button-background
+ * which our theme sets to #5E6AD2. Add the hover-state glow Linear-style. */
+.primaryButton_f3sAzg:hover,
+.button_qlaBag.primary_qlaBag:hover {
+  background-color: #818CF8 !important;
+  box-shadow: 0 0 0 1px #A78BFA40 !important;
+}
+
+/* Status badges — neutralize Anthropic warm tones; map to Indigo Glass semantics */
+.statusBadge_IHCQeQ.needs-auth_IHCQeQ {
+  background-color: #FBBF24 !important;
+  color: #0F0F12 !important;
+}
+
+.statusBadge_IHCQeQ.failed_IHCQeQ {
+  background-color: #ED254E !important;
+}
+
+/* Diff inline tints — align with editor diff colors from theme.json */
+.timelineMessage_07S1Yg.dotProgress_07S1Yg:before {
+  background-color: #818CF8 !important;
+}
+
+/* Splitter / divider — make subtle indigo on hover (KDE-style) */
+.splitter_qlaBag:hover {
+  background-color: #5E6AD240 !important;
+}
+
+/* Mention chip / slash command — clean indigo pill */
+.mention_chip,
+[class*="mentionChip"] {
+  background-color: #5E6AD230 !important;
+  color: #F8F8F8 !important;
+  border-radius: 6px !important;
+}
+
+/* Optional: scroll into Linear's tighter rhythm */
+.app_root {
+  --app-list-border-radius: 8px;
+  --app-list-gap: 2px;
+}
