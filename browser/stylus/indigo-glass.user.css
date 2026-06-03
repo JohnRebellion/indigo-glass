@@ -1,0 +1,58 @@
+/* ==UserStyle==
+@name           Indigo Glass — Universal
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.1.0
+@description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, link color, focus rings. Light touch — does not invert pages (use Dark Reader for that).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/indigo-glass.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document regexp("https?://.*") {
+
+  /* Selection tint — indigo overlay, never solid */
+  ::selection {
+    background-color: rgba(94, 106, 210, 0.45) !important;
+    color: inherit !important;
+  }
+  ::-moz-selection {
+    background-color: rgba(94, 106, 210, 0.45) !important;
+    color: inherit !important;
+  }
+
+  /* Scrollbars — Linear-thin indigo on dark */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(94, 106, 210, 0.45);
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(129, 140, 248, 0.75);
+  }
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(94, 106, 210, 0.55) transparent;
+  }
+
+  /* Focus ring — indigo+1, visionOS-style soft glow */
+  *:focus-visible {
+    outline: 2px solid #5E6AD2 !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(94, 106, 210, 0.18) !important;
+  }
+}
