@@ -77,7 +77,10 @@ tt,
 [class*="toolName"],
 [class*="fileItem"],
 [class*="diagnosticSubtitle"],
-[class*="changedFile"] {
+[class*="changedFile"],
+[class*="toolBodyRowContent"],
+[class*="toolBodyPlainText"],
+[class*="toolBodyRow"] {
   font-family: var(--vscode-editor-font-family,
     "Iosevka Custom Condensed",
     "Iosevka Custom",
