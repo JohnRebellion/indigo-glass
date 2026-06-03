@@ -1,0 +1,32 @@
+{
+  "name": "indigo-glass",
+  "displayName": "Indigo Glass",
+  "description": "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 — color theme + product icons",
+  "version": "0.1.0",
+  "publisher": "indigo-glass",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Themes"],
+  "keywords": ["theme", "dark", "light", "indigo", "linear", "visionos", "glass"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JohnRebellion/indigo-glass.git",
+    "directory": "vscode"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Indigo Glass Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/indigo-glass-dark.json"
+      },
+      {
+        "label": "Indigo Glass Light",
+        "uiTheme": "vs",
+        "path": "./themes/indigo-glass-light.json"
+      }
+    ]
+  }
+}
