@@ -3,7 +3,7 @@
 # Text: #F8F8F8 (primary), #6B7280 (muted)
 # Surface: #0F0F12 (base), #1F2028 (surface)
 # Radius: 8px default. Linear discipline + visionOS material + selective neumorphism
-# Fonts: SF Pro Display for chrome, Open Sans for body labels (double-storey g)
+# Fonts: SF Pro Display for chrome, Carlito for body labels (double-storey g)
 
 title-text: ""
 desktop-image: "background.jpg"
@@ -70,7 +70,7 @@ desktop-color: "#0F0F12"
   align = "left"
   text = "Select an OS · Default boots automatically when timer ends"
   color = "#6B7280"
-  font = "Open Sans Regular 24"
+  font = "Carlito Regular 24"
 }
 
 + boot_menu {
@@ -78,10 +78,10 @@ desktop-color: "#0F0F12"
   top = 400
   width = 1800
   height = 600
-  item_font = "Open Sans Regular 28"
+  item_font = "Carlito Regular 28"
   item_color = "#F8F8F8"
   selected_item_color = "#FFFFFF"
-  selected_item_font = "Open Sans Regular 30"
+  selected_item_font = "Carlito Regular 30"
   icon_width = 44
   icon_height = 44
   item_icon_space = 24
@@ -99,5 +99,5 @@ desktop-color: "#0F0F12"
   align = "center"
   text = "↑↓ navigate    ↵ boot    E edit    C console"
   color = "#6B7280"
-  font = "Open Sans Regular 22"
+  font = "Carlito Regular 22"
 }

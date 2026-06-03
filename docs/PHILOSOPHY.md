@@ -98,7 +98,7 @@ Amber `#FBBF24` (Tailwind amber-400) keeps the warm signal where it belongs (sem
 
 Two families, distinct roles:
 
-### Open Sans for content (humanist with loop-tail g)
+### Carlito for content (humanist with loop-tail g)
 
 - **Double-storey `g`** (3-contour loop-tail) — matches Iosevka mono allograph for visual consistency
 - **High x-height** = readable at 10pt UI

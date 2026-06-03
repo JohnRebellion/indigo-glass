@@ -10,14 +10,34 @@
 @preprocessor   default
 ==/UserStyle== */
 
+/* Loop-tail allograph: site's own font + Carlito ONLY for g/a via unicode-range.
+ * Lets each site keep its identity but swaps single-storey g/a for Carlito's
+ * loop-tail allograph. Loaded outside @-moz-document so @font-face applies. */
+@font-face {
+  font-family: "IndigoLoopTail";
+  src: local("Carlito");
+  unicode-range: U+0061, U+0067;
+  font-weight: 100 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IndigoLoopTail";
+  src: local("Carlito Italic");
+  unicode-range: U+0061, U+0067;
+  font-weight: 100 900;
+  font-style: italic;
+}
+
 @-moz-document regexp("https?://.*") {
 
-  /* Body type — Open Sans for prose (loop-tail g), Iosevka for code (matches KDE/GRUB layers) */
+  /* Prepend "IndigoLoopTail" to font-family on prose elements so the
+   * browser picks Carlito for g/a only. Other glyphs fall through to
+   * the site's own font (via `font-family: inherit` from parent). */
   body,
   p, span, div, li, td, th, a, label,
   h1, h2, h3, h4, h5, h6,
   input, textarea, select, button {
-    font-family: "Open Sans", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif !important;
+    font-family: "IndigoLoopTail", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif !important;
   }
 
   code, pre, kbd, samp, tt,
