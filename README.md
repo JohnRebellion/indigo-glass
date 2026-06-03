@@ -180,7 +180,7 @@ If you have a SvelteKit / Next.js / Astro portfolio with Tailwind v4, copy `web/
 
 | Role | Font | Reason |
 |---|---|---|
-| General UI | **Open Sans** | Humanist with double-storey loop-tail g — matches Iosevka mono allograph |
+| General UI | **Carlito** | Humanist with double-storey loop-tail g — matches Iosevka mono allograph |
 | Window title / Menu / Toolbar | **SF Pro Display** | Apple-system, glass-aware |
 | Fixed / Mono / Konsole | **JetBrainsMono Nerd Font** (or Iosevka if available) | Coding |
 
