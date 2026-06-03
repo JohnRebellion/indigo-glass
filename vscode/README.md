@@ -86,11 +86,52 @@ Both inherit single-accent + tint-not-fill from the parent Linear/visionOS rules
 
 ---
 
-## Claude Code webview
+## Claude Code webview retint (via workbench.html hand-patch)
 
-The Anthropic Claude Code extension's webview reads `--app-*` CSS vars; most chain through `--vscode-*` tokens and inherit Indigo Glass automatically. Five fixed brand literals (`#d97757` orange, `#faf9f5` ivory, `#141413` slate, `#4a63af` banner tint, `#000000bf` modal scrim) cannot be retinted via standard VSCode hooks. The previous apc-extension path is broken on VSCode Insiders 1.124+ (`require.main.filename` undefined, `vs/code/electron-sandbox/` renamed to `vs/code/electron-browser/`). Accept the brand orange in the Claude Code panel until either a) apc-extension is fixed for Insiders, or b) Anthropic exposes a theming hook.
+Anthropic's Claude Code webview reads `--app-*` CSS vars; most chain through `--vscode-*` tokens and inherit Indigo Glass automatically. **Five fixed brand literals** + `--app-claude-orange` used inline for prompt-input focus ring cannot be retinted via standard VSCode color theme hooks.
 
-The recording-state red border (`--app-recording-background`) IS theme-controlled. Indigo Glass routes it to `#5E6AD230` via `editorMarkerNavigationInfo.headerBackground`.
+The apc-extension path is broken on VSCode Insiders 1.124+ (`require.main.filename` undefined, `vs/code/electron-sandbox/` moved to `vs/code/electron-browser/`). Instead we hand-patch `workbench.html` with an inline `<style>` block.
+
+### Apply the patch
+
+```bash
+# Insiders (default)
+bash vscode/scripts/patch-workbench.sh
+
+# Stable
+bash vscode/scripts/patch-workbench.sh --stable
+
+# Revert
+bash vscode/scripts/patch-workbench.sh --revert
+```
+
+Requires the file to be writable. If owned by root after a fresh install:
+
+```bash
+sudo chown $USER /usr/share/code-insiders/resources/app/out/vs/code/electron-browser/workbench/workbench.html
+```
+
+### What gets patched
+
+| Anthropic brand var | Default | Indigo Glass |
+|---|---|---|
+| `--app-claude-orange` | `#d97757` | `#5E6AD2` |
+| `--app-claude-ivory` | `#faf9f5` | `#F8F8F8` (light: `#0F0F12`) |
+| `--app-claude-slate` | `#141413` | `#0F0F12` (light: `#FFFFFF`) |
+| `--app-banner-tint` | `#4a63af` | `#5E6AD2` |
+| `--app-modal-background` | `#000000bf` | `#0F0F12cc` |
+| `--app-spinner-foreground` | `#d97757` | `#5E6AD2` |
+| `--app-font-family-mono` | inherits `--vscode-editor-font-family` | restated for safety |
+
+Plus targeted selector recolors: checkboxes, suggestion bullets, status badges, splitter hover, mention chips, primary button hover glow.
+
+### After VSCode upgrades
+
+The package manager will overwrite `workbench.html` and restore root ownership. Re-run the chown + patch. The patch script is idempotent — runs safely repeatedly.
+
+### Fonts
+
+Monospace already inherits `--vscode-editor-font-family` (e.g. Iosevka Custom). Patch restates the chain so the inheritance survives any future Anthropic regression.
 
 ---
 
@@ -101,7 +142,8 @@ The recording-state red border (`--app-recording-background`) IS theme-controlle
 | Dark color theme | ✓ shipped |
 | Light color theme | ✓ shipped |
 | Claude Code recording border | ✓ theme-controlled (indigo via editorMarkerNavigationInfo) |
-| Claude Code webview retint CSS | dropped — apc-extension broken on Insiders 1.124 |
+| Claude Code webview retint CSS | ✓ via workbench.html hand-patch (scripts/patch-workbench.sh) |
+| Claude Code mono font | ✓ inherits via --vscode-editor-font-family |
 | Product icon theme | deferred — Codicons inherit `icon.foreground` |
 | File icon theme | not planned (use Material Icons or vscode-icons) |
 | Marketplace publish | not planned (local install only) |
