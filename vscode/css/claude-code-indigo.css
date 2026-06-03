@@ -1,53 +1,73 @@
 /* Indigo Glass — Claude Code webview retint
  *
- * Injected inline into VSCode Insiders workbench.html via
- * scripts/patch-workbench.sh. apc-extension is broken on Insiders 1.124,
- * so we hand-patch instead. Patch survives until next code-insiders
- * package upgrade restores root ownership / overwrites the HTML; re-run
- * the script after upgrades.
+ * Appended to anthropic.claude-code/webview/index.css via
+ * scripts/patch-webview-css.sh. The webview runs in an isolated iframe,
+ * so workbench-level patches (apc-extension, workbench.html injection)
+ * don't reach it. Direct CSS append is the only working path.
  *
- * Anthropic's webview defines 5 fixed brand literals + uses
- * --app-claude-orange inline for the prompt input focus ring. The rest
- * of --app-* chains through --vscode-* tokens and inherits our color
- * theme automatically.
+ * Idempotent: re-running the patch script replaces the existing block
+ * bounded by /* indigo-glass:start *​/ and /* indigo-glass:end *​/.
+ * Re-apply after every Claude Code extension upgrade.
  *
  * Palette: #5E6AD2 primary · #818CF8 hover · #A78BFA violet
  *          #F8F8F8 text · #6B7280 muted · #0F0F12 base · #1F2028 surface
  */
 
-:root,
-.monaco-workbench,
-.webview {
-  --app-claude-orange: #5E6AD2;
-  --app-claude-ivory: #F8F8F8;
-  --app-claude-slate: #0F0F12;
-  --app-banner-tint: #5E6AD2;
-  --app-modal-background: #0F0F12cc;
+html,
+:root {
+  --app-claude-orange: #5E6AD2 !important;
+  --app-claude-clay-button-orange: #5E6AD2 !important;
+  --app-claude-ivory: #F8F8F8 !important;
+  --app-claude-slate: #0F0F12 !important;
+  --app-banner-tint: #5E6AD2 !important;
+  --app-modal-background: #0F0F12cc !important;
+  --app-spinner-foreground: #5E6AD2 !important;
 
-  --app-accent-color: #5E6AD2;
-  --app-link: #818CF8;
-  --app-link-color: #818CF8;
-  --app-link-foreground: #818CF8;
-  --app-spinner-foreground: #5E6AD2;
-
-  /* Font inheritance — already chains through --vscode-* but restate
-   * here so it survives if Anthropic regresses to hardcoded values. */
-  --app-font-family-mono: var(--vscode-editor-font-family, "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace);
-  --app-monospace-font-family: var(--vscode-editor-font-family, "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace);
+  --app-accent-color: #5E6AD2 !important;
+  --app-link: #818CF8 !important;
+  --app-link-color: #818CF8 !important;
+  --app-link-foreground: #818CF8 !important;
 }
 
-.vs:root,
-body.vs,
-.vs .monaco-workbench {
-  --app-claude-slate: #FFFFFF;
-  --app-claude-ivory: #0F0F12;
-  --app-modal-background: #FFFFFFcc;
-  --app-link: #5E6AD2;
-  --app-link-color: #5E6AD2;
-  --app-link-foreground: #5E6AD2;
+.vscode-light html,
+.vscode-light:root {
+  --app-claude-slate: #FFFFFF !important;
+  --app-claude-ivory: #0F0F12 !important;
+  --app-modal-background: #FFFFFFcc !important;
+  --app-link: #5E6AD2 !important;
+  --app-link-color: #5E6AD2 !important;
+  --app-link-foreground: #5E6AD2 !important;
 }
 
-/* Inline #d97757 selectors */
+/* ─── Font normalization ─────────────────────────────────────────────────────
+ * Body uses --vscode-chat-font-family which the user hasn't set; falls
+ * back to system default. Force inheritance from the workbench UI font
+ * so the chat panel matches VSCode chrome typography. Bash output blocks
+ * inside markdown inherit --app-monospace-font-family which already
+ * chains to --vscode-editor-font-family (Iosevka). */
+body {
+  font-family: var(--vscode-font-family, "Segoe UI", -apple-system, sans-serif) !important;
+}
+
+code,
+pre,
+.monaco-editor,
+[class*="monospace"],
+[class*="codeBlock"],
+[class*="terminalLine"],
+[class*="bashOutput"] {
+  font-family: var(--vscode-editor-font-family,
+    "Iosevka Custom Condensed",
+    "Iosevka Custom",
+    "MesloLGS NF",
+    "Cascadia Code",
+    "Fira Code",
+    Consolas,
+    monospace) !important;
+}
+
+/* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
+
 .checkbox_UxGN1Q,
 .checkboxChecked_UxGN1Q {
   background: #5E6AD21a !important;
@@ -76,18 +96,32 @@ body.vs,
   background-color: #5E6AD240 !important;
 }
 
-.mention_chip,
-[class*="mentionChip"] {
+[class*="mentionChip"],
+[class*="mention_chip"] {
   background-color: #5E6AD230 !important;
   color: #F8F8F8 !important;
   border-radius: 6px !important;
 }
 
-/* Polish */
+/* ─── Focus ring (THE red border around prompt) ──────────────────────────── */
+.inputContainer_cKsPxg:focus-within {
+  --focus-ring-color: #5E6AD2 !important;
+  border-color: #5E6AD2 !important;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, #5E6AD2 18%, transparent),
+    0 1px 2px color-mix(in srgb, #5E6AD2, transparent 70%) !important;
+}
+
+.codeInput_Eg8KCQ:focus {
+  border-color: #5E6AD2 !important;
+  outline: none !important;
+}
+
 *:focus-visible {
   outline-color: #818CF8 !important;
 }
 
+/* ─── Hover polish ───────────────────────────────────────────────────────── */
 .primaryButton_f3sAzg:hover,
 .button_qlaBag.primary_qlaBag:hover {
   background-color: #818CF8 !important;
@@ -95,6 +129,6 @@ body.vs,
 }
 
 .app_root {
-  --app-list-border-radius: 8px;
-  --app-list-gap: 2px;
+  --app-list-border-radius: 8px !important;
+  --app-list-gap: 2px !important;
 }
