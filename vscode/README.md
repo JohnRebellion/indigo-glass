@@ -86,52 +86,55 @@ Both inherit single-accent + tint-not-fill from the parent Linear/visionOS rules
 
 ---
 
-## Claude Code webview retint (via workbench.html hand-patch)
+## Claude Code webview retint (direct CSS append)
 
-Anthropic's Claude Code webview reads `--app-*` CSS vars; most chain through `--vscode-*` tokens and inherit Indigo Glass automatically. **Five fixed brand literals** + `--app-claude-orange` used inline for prompt-input focus ring cannot be retinted via standard VSCode color theme hooks.
+Anthropic's Claude Code webview runs in an isolated VSCode iframe. apc-extension is broken on Insiders 1.124+, and `workbench.html` patches don't cascade into the iframe. The only working path: append CSS directly to the extension's own `webview/index.css`.
 
-The apc-extension path is broken on VSCode Insiders 1.124+ (`require.main.filename` undefined, `vs/code/electron-sandbox/` moved to `vs/code/electron-browser/`). Instead we hand-patch `workbench.html` with an inline `<style>` block.
-
-### Apply the patch
+### Apply
 
 ```bash
-# Insiders (default)
-bash vscode/scripts/patch-workbench.sh
-
-# Stable
-bash vscode/scripts/patch-workbench.sh --stable
-
-# Revert
-bash vscode/scripts/patch-workbench.sh --revert
+bash vscode/scripts/patch-webview-css.sh           # patch
+bash vscode/scripts/patch-webview-css.sh --revert  # strip block
 ```
 
-Requires the file to be writable. If owned by root after a fresh install:
+The script auto-detects Claude Code under `~/.vscode-insiders/extensions/` or `~/.vscode/extensions/`. The CSS file is user-owned so no `sudo` is needed.
 
-```bash
-sudo chown $USER /usr/share/code-insiders/resources/app/out/vs/code/electron-browser/workbench/workbench.html
-```
+**Reload after patching:** `Ctrl+Shift+P` → `Developer: Reload Window`.
 
-### What gets patched
+### What gets overridden
 
 | Anthropic brand var | Default | Indigo Glass |
 |---|---|---|
 | `--app-claude-orange` | `#d97757` | `#5E6AD2` |
+| `--app-claude-clay-button-orange` | `#c6613f` | `#5E6AD2` |
 | `--app-claude-ivory` | `#faf9f5` | `#F8F8F8` (light: `#0F0F12`) |
 | `--app-claude-slate` | `#141413` | `#0F0F12` (light: `#FFFFFF`) |
 | `--app-banner-tint` | `#4a63af` | `#5E6AD2` |
 | `--app-modal-background` | `#000000bf` | `#0F0F12cc` |
-| `--app-spinner-foreground` | `#d97757` | `#5E6AD2` |
-| `--app-font-family-mono` | inherits `--vscode-editor-font-family` | restated for safety |
+| `--app-spinner-foreground` | inherits | `#5E6AD2` |
 
-Plus targeted selector recolors: checkboxes, suggestion bullets, status badges, splitter hover, mention chips, primary button hover glow.
-
-### After VSCode upgrades
-
-The package manager will overwrite `workbench.html` and restore root ownership. Re-run the chown + patch. The patch script is idempotent — runs safely repeatedly.
+Plus targeted overrides:
+- `.inputContainer_cKsPxg:focus-within` — the prompt focus ring (was the orange-red border)
+- `.codeInput_Eg8KCQ:focus` — inline code editor focus
+- Literal `#d97757` selectors: checkboxes, suggestion bullets, splitter, mention chips
+- Status badges, button hover glow
 
 ### Fonts
 
-Monospace already inherits `--vscode-editor-font-family` (e.g. Iosevka Custom). Patch restates the chain so the inheritance survives any future Anthropic regression.
+Webview `body` uses `--vscode-chat-font-family` (often unset → ugly fallback). The CSS forces:
+
+```css
+body                              → var(--vscode-font-family)         /* workbench UI font */
+code, pre, .monaco-editor,
+[class*="monospace"|"codeBlock"|"bashOutput"]
+                                  → var(--vscode-editor-font-family)  /* Iosevka */
+```
+
+This fixes bash/tool output blocks rendering in system fallback font.
+
+### After Claude Code extension upgrades
+
+The extension reinstalls into a new versioned directory (`anthropic.claude-code-X.Y.Z/`), wiping the patch. Re-run `bash vscode/scripts/patch-webview-css.sh`.
 
 ---
 
