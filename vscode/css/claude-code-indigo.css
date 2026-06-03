@@ -86,6 +86,8 @@ html,
   font-style: italic;
 }
 
+/* PROSE (sans) — low-specificity universal so mono rules below win on
+ * code paths via cascade (mono rule has higher class-count specificity). */
 * {
   font-family: "SFProWithLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
 }
@@ -95,49 +97,73 @@ html,
   font-family: "SFProWithLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
 }
 
-html,
-html body,
-html body * {
-  font-family: "SFProWithLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
-}
-
-code,
-pre,
-kbd,
-samp,
-tt,
-.monaco-editor,
-[class*="monospace"],
-[class*="codeBlock"],
-[class*="terminalLine"],
-[class*="bashOutput"],
-[class*="toolResult"],
-[class*="toolBody"],
-[class*="output"],
-[class*="codeInput"],
-[class*="inputJson"],
-[class*="authUrl"],
-[class*="callbackUrl"],
-[class*="permissionPath"],
-[class*="permissionRequest"],
-[class*="bashCommand"],
-[class*="gitOutput"],
-[class*="serverName"],
-[class*="toolName"],
-[class*="fileItem"],
-[class*="diagnosticSubtitle"],
-[class*="changedFile"],
-[class*="toolBodyRowContent"],
-[class*="toolBodyPlainText"],
-[class*="toolBodyRow"] {
-  font-family: var(--vscode-editor-font-family,
-    "Iosevka Custom Condensed",
+/* MONO rule + descendants. Two halves:
+ *   1. Match the container itself
+ *   2. Match descendants (child <span>s inside .toolBodyRowContent etc.)
+ * Specificity stack: `html#x body#y :is(...)` boosts to (0,3,2),
+ * beating the prose :not() chain (which counts as one class per :not
+ * arg = (0,1,0) total despite the long arg list, since :not() takes
+ * only the highest among its args). */
+html body :is(
+  code, pre, kbd, samp, tt, .monaco-editor,
+  [class*="monospace"],
+  [class*="codeBlock"],
+  [class*="terminalLine"],
+  [class*="bashOutput"],
+  [class*="toolResult"],
+  [class*="toolBody"],
+  [class*="output"],
+  [class*="codeInput"],
+  [class*="inputJson"],
+  [class*="authUrl"],
+  [class*="callbackUrl"],
+  [class*="permissionPath"],
+  [class*="permissionRequest"],
+  [class*="bashCommand"],
+  [class*="gitOutput"],
+  [class*="serverName"],
+  [class*="toolName"],
+  [class*="fileItem"],
+  [class*="diagnosticSubtitle"],
+  [class*="changedFile"],
+  [class*="toolBodyRowContent"],
+  [class*="toolBodyPlainText"],
+  [class*="toolBodyRow"]
+),
+html body :is(
+  code, pre, kbd, samp, tt, .monaco-editor,
+  [class*="monospace"],
+  [class*="codeBlock"],
+  [class*="terminalLine"],
+  [class*="bashOutput"],
+  [class*="toolResult"],
+  [class*="toolBody"],
+  [class*="output"],
+  [class*="codeInput"],
+  [class*="inputJson"],
+  [class*="authUrl"],
+  [class*="callbackUrl"],
+  [class*="permissionPath"],
+  [class*="permissionRequest"],
+  [class*="bashCommand"],
+  [class*="gitOutput"],
+  [class*="serverName"],
+  [class*="toolName"],
+  [class*="fileItem"],
+  [class*="diagnosticSubtitle"],
+  [class*="changedFile"],
+  [class*="toolBodyRowContent"],
+  [class*="toolBodyPlainText"],
+  [class*="toolBodyRow"]
+) * {
+  font-family: "Iosevka Custom Condensed",
     "Iosevka Custom",
     "MesloLGS NF",
     "Cascadia Code",
     "Fira Code",
     Consolas,
-    monospace) !important;
+    monospace !important;
+  font-variant-ligatures: contextual !important;
 }
 
 /* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
