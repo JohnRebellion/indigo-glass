@@ -355,6 +355,14 @@
     "welcomePage.tileHoverBackground": "#2A2D38",
     "walkThrough.embeddedEditorBackground": "#0F0F12",
 
+    "editorMarkerNavigation.background": "#1F2028",
+    "editorMarkerNavigationError.background": "#ED254E",
+    "editorMarkerNavigationError.headerBackground": "#ED254E30",
+    "editorMarkerNavigationWarning.background": "#FBBF24",
+    "editorMarkerNavigationWarning.headerBackground": "#FBBF2430",
+    "editorMarkerNavigationInfo.background": "#5E6AD2",
+    "editorMarkerNavigationInfo.headerBackground": "#5E6AD230",
+
     "charts.foreground": "#F8F8F8",
     "charts.lines": "#FFFFFF10",
     "charts.red": "#ED254E",
