@@ -86,35 +86,11 @@ Both inherit single-accent + tint-not-fill from the parent Linear/visionOS rules
 
 ---
 
-## Claude Code webview retint (optional)
+## Claude Code webview
 
-The Anthropic Claude Code extension renders its own webview with a fixed brand palette (`#d97757` orange, `#faf9f5` ivory, `#141413` slate). Most of its `--app-*` CSS vars already chain through `--vscode-*` tokens — meaning the **editor / sidebar / status bar already harmonize** with Indigo Glass automatically.
+The Anthropic Claude Code extension's webview reads `--app-*` CSS vars; most chain through `--vscode-*` tokens and inherit Indigo Glass automatically. Five fixed brand literals (`#d97757` orange, `#faf9f5` ivory, `#141413` slate, `#4a63af` banner tint, `#000000bf` modal scrim) cannot be retinted via standard VSCode hooks. The previous apc-extension path is broken on VSCode Insiders 1.124+ (`require.main.filename` undefined, `vs/code/electron-sandbox/` renamed to `vs/code/electron-browser/`). Accept the brand orange in the Claude Code panel until either a) apc-extension is fixed for Insiders, or b) Anthropic exposes a theming hook.
 
-Only the **5 fixed brand literals** stick out. To retint them:
-
-1. Install [`drcika.apc-extension`](https://marketplace.visualstudio.com/items?itemName=drcika.apc-extension):
-   ```bash
-   code-insiders --install-extension drcika.apc-extension
-   ```
-2. Add to `settings.json`:
-   ```jsonc
-   "apc.imports": [
-     "file:///home/johnn/projects/indigo-glass/vscode/css/claude-code-indigo.css"
-   ]
-   ```
-3. **Developer: Reload Window** — apc injects the CSS on next startup, no elevation needed for `apc.imports` (only the native VSCode patching path requires admin).
-
-What `css/claude-code-indigo.css` overrides:
-
-| Anthropic brand var | Default | Indigo Glass |
-|---|---|---|
-| `--app-claude-orange` | `#d97757` | `#5E6AD2` |
-| `--app-claude-ivory` | `#faf9f5` | `#F8F8F8` (light: `#0F0F12`) |
-| `--app-claude-slate` | `#141413` | `#0F0F12` (light: `#FFFFFF`) |
-| `--app-banner-tint` | `#4a63af` | `#5E6AD2` |
-| `--app-modal-background` | `#000000bf` | `#0F0F12cc` |
-
-Plus targeted selector recolors for the literal `#d97757` checkboxes / suggestion bullets, status badges, splitter hover, mention chips.
+The recording-state red border (`--app-recording-background`) IS theme-controlled. Indigo Glass routes it to `#5E6AD230` via `editorMarkerNavigationInfo.headerBackground`.
 
 ---
 
@@ -124,7 +100,8 @@ Plus targeted selector recolors for the literal `#d97757` checkboxes / suggestio
 |---|---|
 | Dark color theme | ✓ shipped |
 | Light color theme | ✓ shipped |
-| Claude Code webview retint CSS | ✓ shipped (opt-in via apc-extension) |
+| Claude Code recording border | ✓ theme-controlled (indigo via editorMarkerNavigationInfo) |
+| Claude Code webview retint CSS | dropped — apc-extension broken on Insiders 1.124 |
 | Product icon theme | deferred — Codicons inherit `icon.foreground` |
 | File icon theme | not planned (use Material Icons or vscode-icons) |
 | Marketplace publish | not planned (local install only) |

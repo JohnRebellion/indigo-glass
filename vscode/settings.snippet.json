@@ -46,10 +46,5 @@
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.cursorStyle": "block",
 
-  "// Monospace font intentionally NOT set — keep user choice": "",
-
-  "// Optional — Claude Code webview retint (requires drcika.apc-extension)": "",
-  "apc.imports": [
-    "file:///home/johnn/projects/indigo-glass/vscode/css/claude-code-indigo.css"
-  ]
+  "// Monospace font intentionally NOT set — keep user choice": ""
 }
