@@ -168,6 +168,56 @@ html body :is(
   font-variant-ligatures: contextual !important;
 }
 
+/* ─── Mono size bump ─────────────────────────────────────────────────────────
+ * Anthropic webview sets:
+ *   --app-monospace-font-size: var(--vscode-editor-font-size, 12px)   → 12px
+ *   --app-monospace-font-size-small: calc(12px - 2px)                  → 10px
+ * Plus many selectors use .85em / .9em / fixed 10px-13px — too small
+ * at default settings (13px chat base × 0.85 = ~11px).
+ *
+ * Bump baseline + clamp small variants. Affects mono content only via
+ * cascade — prose Carlito/SF Pro stays at chat-font-size. */
+html, :root {
+  --app-monospace-font-size: 14px !important;
+  --app-monospace-font-size-small: 12px !important;
+}
+
+/* Force a minimum on Anthropic's relative-sized mono selectors */
+html body :is(
+  .toolBodyRowLabel_ZUQaOA,
+  .toolBodyRowContent_ZUQaOA,
+  .toolNameTextSecondary_ZUQaOA,
+  .toolName_IHCQeQ,
+  .diagnosticSubtitle_1z-gnA,
+  .diffStats_oblbPg,
+  .authUrlInput_Eg8KCQ,
+  .permissionRequestInput_qlaBag,
+  .permissionRequestDescription_qlaBag,
+  .permissionPath_qlaBag,
+  .bashCommand_F2hEIg,
+  .serverName_IHCQeQ,
+  .fileItem_n2luCQ,
+  .fileItem_pZbgXw,
+  .slashCommandMessage_07S1Yg,
+  .slashCommandResultMessage_07S1Yg,
+  .gitOutput_5FHdxw,
+  .changedFile_5FHdxw,
+  .progressSubtext_5FHdxw,
+  .branchPill_LBSAWQ,
+  .branchPill_5FHdxw,
+  .warningBranchPill_LBSAWQ,
+  .repoPill_W2z5EA,
+  .sectionHint_7xV4vA,
+  .hint_IHCQeQ,
+  .toolReference_uq5aLg code,
+  .unknownContent_uq5aLg code,
+  .root_-a7MRw code,
+  .toolBodyRowContent_ZUQaOA pre,
+  .toolBodyRowContent_ZUQaOA code
+) {
+  font-size: 13px !important;
+}
+
 /* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
 
 .checkbox_UxGN1Q,
