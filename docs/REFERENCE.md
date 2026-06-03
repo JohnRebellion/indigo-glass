@@ -97,7 +97,7 @@ Text muted:      #6B7280
 
 | Role | Font | Size | Reason |
 |---|---|---|---|
-| General UI | **Nunito** | 10pt | Humanist rounded — neumorphic-friendly |
+| General UI | **Open Sans** | 10pt | Humanist with double-storey loop-tail g (matches Iosevka mono) |
 | Window title | **SF Pro Display** | 10pt | Apple-system, glass-aware |
 | Menu | SF Pro Display | 10pt | Match titlebar |
 | Toolbar | SF Pro Display | 9pt | Hierarchy |
@@ -106,7 +106,7 @@ Text muted:      #6B7280
 | Konsole | Iosevka Custom Condensed | 13pt | Terminal |
 
 **Two-family discipline:**
-- Nunito (humanist rounded) → app content
+- Open Sans (humanist, double-storey loop-tail g) → app content
 - SF Pro Display (geometric Apple) → window chrome
 
 ---
@@ -315,7 +315,7 @@ BlurTransparentTitleBars=true
 ```ini
 [General]
 ColorScheme=IndigoGlass
-font=Nunito,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 fixed=Iosevka Custom Condensed,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 menuFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=SF Pro Display,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
@@ -353,7 +353,7 @@ gtk-cursor-theme-name=breeze_cursors
 gtk-cursor-theme-size=24
 gtk-decoration-layout=close,keepabove,maximize:minimize
 gtk-enable-animations=true
-gtk-font-name=Nunito 10
+gtk-font-name=Open Sans 10
 gtk-icon-theme-name=Tela-circle-purple-dark
 gtk-modules=colorreload-gtk-module:window-decorations-gtk-module:appmenu-gtk-module
 gtk-shell-shows-menubar=1
@@ -802,7 +802,7 @@ SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block
   --color-positive: #71F79F;
   --color-negative: #ED254E;
 
-  --font-sans: "Nunito", "SF Pro Display", system-ui, sans-serif;
+  --font-sans: "Open Sans", "SF Pro Display", system-ui, sans-serif;
   --font-display: "SF Pro Display", "Inter", -apple-system, sans-serif;
   --font-mono: "Iosevka Custom Condensed", "JetBrainsMono Nerd Font", monospace;
 

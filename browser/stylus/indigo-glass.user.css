@@ -12,12 +12,12 @@
 
 @-moz-document regexp("https?://.*") {
 
-  /* Body type — Nunito for prose, system mono for code (matches KDE/GRUB layers) */
+  /* Body type — Open Sans for prose (loop-tail g), Iosevka for code (matches KDE/GRUB layers) */
   body,
   p, span, div, li, td, th, a, label,
   h1, h2, h3, h4, h5, h6,
   input, textarea, select, button {
-    font-family: "Nunito", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif !important;
+    font-family: "Open Sans", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif !important;
   }
 
   code, pre, kbd, samp, tt,

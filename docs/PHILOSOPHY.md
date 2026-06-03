@@ -98,12 +98,13 @@ Amber `#FBBF24` (Tailwind amber-400) keeps the warm signal where it belongs (sem
 
 Two families, distinct roles:
 
-### Nunito for content (humanist rounded)
+### Open Sans for content (humanist with loop-tail g)
 
+- **Double-storey `g`** (3-contour loop-tail) — matches Iosevka mono allograph for visual consistency
 - **High x-height** = readable at 10pt UI
-- **Round terminals** = matches Klassy rounded buttons + neumorphic widgets
-- **Free, broad weight range** (200-1000)
-- **Familiar warmth** — humanist sans for body text, not robotic
+- **Free, broad weight range** (300-800 + italic axes)
+- **Humanist** — warm for body text, not robotic
+- **Replaced Nunito** which uses single-storey g — broke the loop-tail contract
 
 ### SF Pro Display for chrome (geometric Apple)
 

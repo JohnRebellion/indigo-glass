@@ -49,7 +49,7 @@
   --blur-glass-lg: blur(20px);
 
   /* === Typography === */
-  --font-sans: "Nunito", "SF Pro Display", -apple-system, system-ui, sans-serif;
+  --font-sans: "Open Sans", "SF Pro Display", -apple-system, system-ui, sans-serif;
   --font-display: "SF Pro Display", "Inter", -apple-system, sans-serif;
   --font-mono: "Iosevka Custom Condensed", "JetBrainsMono Nerd Font", "Fira Code", monospace;
 

@@ -49,7 +49,7 @@ body,
 [class*="messageInput"],
 [class*="inputContainer"],
 [class*="inputWrapper"] {
-  font-family: "Nunito", var(--vscode-font-family, "Segoe UI"), -apple-system, system-ui, sans-serif !important;
+  font-family: "Open Sans", var(--vscode-font-family, "Segoe UI"), -apple-system, system-ui, sans-serif !important;
 }
 
 code,
