@@ -1,0 +1,71 @@
+{
+  "schemeVersion": 2,
+  "enabled": true,
+  "fetchNews": false,
+  "theme": {
+    "mode": 1,
+    "brightness": 96,
+    "contrast": 100,
+    "grayscale": 0,
+    "sepia": 0,
+    "useFont": false,
+    "fontFamily": "Nunito",
+    "textStroke": 0,
+    "engine": "dynamicTheme",
+    "stylesystem": false,
+    "darkSchemeBackgroundColor": "#0F0F12",
+    "darkSchemeTextColor": "#F8F8F8",
+    "lightSchemeBackgroundColor": "#F8F8F8",
+    "lightSchemeTextColor": "#0F0F12",
+    "scrollbarColor": "#5E6AD2",
+    "selectionColor": "#5E6AD250",
+    "styleSystemControls": true,
+    "lightColorScheme": "Default",
+    "darkColorScheme": "Indigo Glass",
+    "immediateModify": false
+  },
+  "presets": [
+    {
+      "id": "preset-indigo-glass",
+      "name": "Indigo Glass",
+      "urls": [["*"]],
+      "theme": {
+        "mode": 1,
+        "brightness": 96,
+        "contrast": 100,
+        "grayscale": 0,
+        "sepia": 0,
+        "darkSchemeBackgroundColor": "#0F0F12",
+        "darkSchemeTextColor": "#F8F8F8",
+        "lightSchemeBackgroundColor": "#F8F8F8",
+        "lightSchemeTextColor": "#0F0F12",
+        "scrollbarColor": "#5E6AD2",
+        "selectionColor": "#5E6AD250",
+        "engine": "dynamicTheme"
+      }
+    }
+  ],
+  "customThemes": [],
+  "enabledByDefault": true,
+  "enabledForProtectedPages": false,
+  "changeBrowserTheme": false,
+  "syncSettings": true,
+  "syncSitesFixes": false,
+  "automation": {
+    "enabled": false,
+    "mode": "",
+    "behavior": "OnOff"
+  },
+  "time": {
+    "activation": "18:00",
+    "deactivation": "9:00"
+  },
+  "location": {
+    "latitude": null,
+    "longitude": null
+  },
+  "previewNewDesign": false,
+  "enableForPDF": true,
+  "enableForProtectedPages": false,
+  "detectDarkTheme": true
+}
