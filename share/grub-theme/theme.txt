@@ -1,85 +1,103 @@
-# Indigo-Glass GRUB Theme — Amber v3
-# Fixed layout: panel hugs content, bigger fonts, brighter borders
+# Indigo Glass — GRUB Theme
+# Canonical palette: #5E6AD2 (primary), #818CF8 (accent), #A78BFA (hover-glow)
+# Text: #F8F8F8 (primary), #6B7280 (muted)
+# Surface: #0F0F12 (base), #1F2028 (surface)
+# Radius: 8px default. Linear discipline + visionOS material + selective neumorphism
+# Fonts: SF Pro Display for chrome, Nunito for body labels
 
 title-text: ""
 desktop-image: "background.jpg"
-desktop-color: "#0a0402"
-terminal-font: "SF Pro Display Regular 22"
-terminal-box: "assets/terminal_box_*.png"
-terminal-left: "10%"
-terminal-top: "20%"
-terminal-width: "80%"
-terminal-height: "60%"
-terminal-border: "0"
+desktop-color: "#0F0F12"
 
-+ progress_bar {
-  id = "__timeout__"
-  left = 0
-  top = 0
-  width = 100%
-  height = 12
-  show_text = false
-  bar_style = "assets/progress_bar_*.png"
-  highlight_style = "assets/progress_highlight_*.png"
++ image {
+  left = 60
+  top = 96
+  width = 360
+  height = 140
+  file = "assets/card_entries.png"
+}
+
++ image {
+  left = 440
+  top = 96
+  width = 360
+  height = 140
+  file = "assets/card_timeout.png"
+}
+
++ image {
+  left = 820
+  top = 96
+  width = 360
+  height = 140
+  file = "assets/card_default.png"
 }
 
 + label {
-  top = 8%
-  left = 0
-  width = 100%
-  align = "center"
-  text = "Indigo-Glass"
-  color = "#fdba74"
-  font = "SF Pro Display Regular 96"
+  top = 32
+  left = 60
+  width = 600
+  align = "left"
+  text = "Nobara Workstation"
+  color = "#F8F8F8"
+  font = "SF Pro Display Regular 28"
 }
 
 + label {
-  top = 8%+128
-  left = 0
-  width = 100%
-  align = "center"
-  text = "Select an Operating System"
-  color = "#fb923c"
-  font = "SF Pro Display Regular 38"
+  top = 32
+  left = 1460
+  width = 400
+  align = "right"
+  text = "UEFI · GRUB 2.14"
+  color = "#818CF8"
+  font = "SF Pro Display Regular 22"
+}
+
++ label {
+  top = 280
+  left = 60
+  width = 1000
+  align = "left"
+  text = "BOOT PICKER"
+  color = "#F8F8F8"
+  font = "SF Pro Display Regular 36"
+}
+
++ label {
+  top = 330
+  left = 60
+  width = 1600
+  align = "left"
+  text = "Select an OS · Default boots automatically when timer ends"
+  color = "#6B7280"
+  font = "Nunito Regular 24"
 }
 
 + boot_menu {
-  left = 50%-810
-  top = 30%
-  width = 1620
-  height = 620
-  item_font = "SF Pro Display Regular 30"
-  item_color = "#fdba74"
-  selected_item_color = "#ffffff"
-  selected_item_font = "SF Pro Display Regular 38"
-  icon_width = 56
-  icon_height = 56
-  item_icon_space = 28
+  left = 60
+  top = 400
+  width = 1800
+  height = 600
+  item_font = "Nunito Regular 28"
+  item_color = "#F8F8F8"
+  selected_item_color = "#FFFFFF"
+  selected_item_font = "Nunito Regular 30"
+  icon_width = 44
+  icon_height = 44
+  item_icon_space = 24
   item_height = 84
-  item_padding = 20
-  item_spacing = 8
+  item_padding = 4
+  item_spacing = 2
   selected_item_pixmap_style = "assets/select_*.png"
-  menu_pixmap_style = "assets/menu_bkg_*.png"
   scrollbar = false
 }
 
 + label {
-  top = 88%
+  top = 1010
   left = 0
-  width = 100%
+  width = 1920
   align = "center"
-  id = "__timeout__"
-  text = "Booting in %d seconds  —  press any key to pause"
-  color = "#fb923c"
-  font = "SF Pro Display Regular 30"
-}
-
-+ label {
-  top = 93%
-  left = 0
-  width = 100%
-  align = "center"
-  text = "[Up/Down] navigate    [Enter] boot    [E] edit    [C] console"
-  color = "#d97706"
-  font = "SF Pro Display Regular 28"
+  text = "↑↓ navigate    ↵ boot    E edit    C console"
+  color = "#6B7280"
+  font = "Nunito Regular 22"
 }
