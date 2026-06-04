@@ -1,0 +1,19 @@
+[Unit]
+Description=Indigo Glass — watch VSCode Insiders extensions for Claude Code updates
+Documentation=https://github.com/JohnRebellion/indigo-glass
+
+[Path]
+# Fires whenever the extensions directory changes (new ext install, ext upgrade).
+# Includes the moment dnf/installer drops a new anthropic.claude-code-X.Y.Z dir.
+PathModified=%h/.vscode-insiders/extensions
+PathChanged=%h/.vscode-insiders/extensions
+
+# Also catch the stable VSCode dir if you run both
+PathModified=%h/.vscode/extensions
+
+# Debounce — wait 5s after last change before triggering
+TriggerLimitIntervalSec=30s
+TriggerLimitBurst=3
+
+[Install]
+WantedBy=default.target
