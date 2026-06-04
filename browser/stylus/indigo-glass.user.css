@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.4
+@version        0.1.5
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, link color, focus rings. Light touch — does not invert pages (use Dark Reader for that).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -10,7 +10,13 @@
 @preprocessor   default
 ==/UserStyle== */
 
-@-moz-document regexp("https?://.*") {
+/* Domain exclusions: sites with heavy CSS-in-JS + icon-font dependency
+ * where our overrides cause more harm than good.
+ * Outlook OWA: renders nav/ribbon icons as PUA glyphs in generic <span>
+ *   without icon-specific classes. Mono font lacks those code points.
+ * Microsoft 365 chrome (sharepoint, office.com): same icon-font issue.
+ * Use Dark Reader's native handling on these instead. */
+@-moz-document regexp("https?://(?!.*(outlook\\.office|outlook\\.live|outlook\\.com|office\\.com|sharepoint\\.com|teams\\.microsoft|teams\\.live|microsoft365)).*") {
 
   /* Loop-tail allograph: site's own font + Carlito ONLY for g/a via
    * unicode-range. Swaps single-storey g/a for Carlito's loop-tail
@@ -119,14 +125,14 @@
     font-variant-ligatures: contextual !important;
   }
 
-  /* Icon fonts MUST keep their original family. Use `revert` to undo
-   * our overrides — falls back to the site's native font-family
-   * declaration (e.g. "Segoe Fluent Icons", "FabricMDL2Icons",
-   * "Material Icons", "Font Awesome 6 Free", "codicon"). */
+  /* Icon fonts MUST keep their original family. Restore explicitly
+   * with the full common-icon-font stack so site's native declaration
+   * wins over our Iosevka/Carlito chain. */
   html body :is(
-    [class*="Icon"]:not([class*="IconText"]):not([class*="IconLabel"]),
-    [class*="icon"]:not([class*="iconText"]):not([class*="iconLabel"]),
+    [class*="Icon"],
+    [class*="icon"],
     [class*="ms-Icon"],
+    [class*="ms-FontIcon"],
     [class*="fluentui-icon"],
     [class*="material-icons"],
     [class*="material-symbols"],
@@ -134,16 +140,35 @@
     .fa, .fas, .far, .fal, .fab, .fad,
     .codicon,
     [class*="codicon"],
+    [data-icon-name],
     [data-icon],
     [class*="symbol-icon"],
-    [class*="emoji"]
+    [class*="emoji"],
+    i[class*="ms-"]
   ),
-  /* And any element with an icon font family already declared */
+  html body :is(
+    [class*="Icon"],
+    [class*="icon"]
+  ) *,
   [style*="Segoe Fluent Icons"],
   [style*="FabricMDL2Icons"],
   [style*="Material Icons"],
   [style*="Font Awesome"] {
-    font-family: revert !important;
+    font-family:
+      "Segoe Fluent Icons",
+      "Segoe MDL2 Assets",
+      "FabricMDL2Icons",
+      "Material Icons",
+      "Material Symbols Outlined",
+      "Material Symbols Rounded",
+      "Material Symbols Sharp",
+      "Font Awesome 6 Free",
+      "Font Awesome 6 Brands",
+      "Font Awesome 5 Free",
+      "Font Awesome 5 Brands",
+      "FontAwesome",
+      "codicon",
+      revert !important;
   }
 
   /* Selection tint — indigo overlay, never solid */
