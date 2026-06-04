@@ -1,0 +1,13 @@
+{
+  "name": "indigo_glass",
+  "bgColor": "#0F0F12",
+  "mainColor": "#5E6AD2",
+  "subColor": "#6B7280",
+  "subAltColor": "#1F2028",
+  "textColor": "#F8F8F8",
+  "errorColor": "#ED254E",
+  "errorExtraColor": "#FF5272",
+  "colorfulErrorColor": "#ED254E",
+  "colorfulErrorExtraColor": "#FF5272",
+  "caretColor": "#818CF8"
+}
