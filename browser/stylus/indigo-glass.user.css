@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.0
+@version        0.1.1
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, link color, focus rings. Light touch — does not invert pages (use Dark Reader for that).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -10,25 +10,44 @@
 @preprocessor   default
 ==/UserStyle== */
 
-/* Loop-tail allograph: site's own font + Carlito ONLY for g/a via unicode-range.
- * Lets each site keep its identity but swaps single-storey g/a for Carlito's
- * loop-tail allograph. Loaded outside @-moz-document so @font-face applies. */
-@font-face {
-  font-family: "IndigoLoopTail";
-  src: local("Carlito");
-  unicode-range: U+0061, U+0067;
-  font-weight: 100 900;
-  font-style: normal;
-}
-@font-face {
-  font-family: "IndigoLoopTail";
-  src: local("Carlito Italic");
-  unicode-range: U+0061, U+0067;
-  font-weight: 100 900;
-  font-style: italic;
-}
-
 @-moz-document regexp("https?://.*") {
+
+  /* Loop-tail allograph: site's own font + Carlito ONLY for g/a via
+   * unicode-range. Swaps single-storey g/a for Carlito's loop-tail
+   * allograph while leaving other glyphs to the site's own font.
+   *
+   * Note: @font-face is nested inside @-moz-document because
+   * UserStyles World rejects styles with rules outside @-moz-document
+   * (https://userstyles.world/docs/faq#bad-style-format-error).
+   * Stylus engine lifts nested @font-face to top scope at runtime. */
+  @font-face {
+    font-family: "IndigoLoopTail";
+    src: local("Carlito");
+    unicode-range: U+0061, U+0067;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "IndigoLoopTail";
+    src: local("Carlito Bold");
+    unicode-range: U+0061, U+0067;
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "IndigoLoopTail";
+    src: local("Carlito Italic");
+    unicode-range: U+0061, U+0067;
+    font-weight: normal;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "IndigoLoopTail";
+    src: local("Carlito Bold Italic");
+    unicode-range: U+0061, U+0067;
+    font-weight: bold;
+    font-style: italic;
+  }
 
   /* Prepend "IndigoLoopTail" to font-family on prose elements so the
    * browser picks Carlito for g/a only. Other glyphs fall through to
