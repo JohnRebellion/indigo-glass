@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.1
+@version        0.1.2
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, link color, focus rings. Light touch — does not invert pages (use Dark Reader for that).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -49,18 +49,27 @@
     font-style: italic;
   }
 
-  /* Prepend "IndigoLoopTail" to font-family on prose elements so the
-   * browser picks Carlito for g/a only. Other glyphs fall through to
-   * the site's own font (via `font-family: inherit` from parent). */
-  body,
-  p, span, div, li, td, th, a, label,
-  h1, h2, h3, h4, h5, h6,
-  input, textarea, select, button {
-    font-family: "IndigoLoopTail", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif !important;
+  /* Loop-tail fix — universal selector lets Carlito take g/a, rest
+   * stays with site's font via the IndigoLoopTail @font-face chain.
+   * Universal `*` ensures we hit elements even when sites use deep
+   * class hashing (FB, Discord) or inline styles via CSS-in-JS.
+   *
+   * Mono override below uses higher specificity (compound selector)
+   * to win on code paths. */
+  html body,
+  html body *:not(code):not(pre):not(kbd):not(samp):not(tt):not([class*="mono"]):not([class*="code"]):not([class*="hljs"]) {
+    font-family: "IndigoLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
   }
 
-  code, pre, kbd, samp, tt,
-  [class*="mono"], [class*="code"] {
+  /* Mono — higher specificity wins for code paths */
+  html body code,
+  html body pre,
+  html body kbd,
+  html body samp,
+  html body tt,
+  html body [class*="mono"],
+  html body [class*="code"],
+  html body [class*="hljs"] {
     font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "Cascadia Code", "Fira Code", Consolas, monospace !important;
   }
 
