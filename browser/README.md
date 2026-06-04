@@ -61,7 +61,21 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 | Selection | `#5E6AD250` |
 | Engine | `dynamicTheme` |
 
-Includes a preset block `Indigo Glass` targeting `*` so the palette applies globally. Toggle off per-site (Dark Reader popup → "OFF for this site") when a site's native dark mode is good enough.
+Includes a preset block `Indigo Glass` targeting `*` so the palette applies globally.
+
+### Native-dark sites — Dark Reader disabled by default
+
+`indigo-glass.json` ships a `siteList` of 20 sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets blended with `#0F0F12` into muddy blue-black). Cleaner to let each site's native dark mode render.
+
+Disabled list:
+- facebook.com, messenger.com, instagram.com
+- x.com, twitter.com, linkedin.com
+- github.com, stackoverflow.com, reddit.com
+- youtube.com, spotify.com, monkeytype.com
+- claude.ai, chatgpt.com, openai.com
+- discord.com, linear.app, notion.so, vercel.com
+
+To add more: Dark Reader popup → click toggle → "**OFF for this site**". Or edit `siteList` in the JSON and re-import.
 
 ---
 
