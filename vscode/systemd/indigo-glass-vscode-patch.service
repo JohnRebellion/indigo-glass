@@ -1,0 +1,14 @@
+[Unit]
+Description=Indigo Glass — re-apply Claude Code webview CSS patch
+Documentation=https://github.com/JohnRebellion/indigo-glass
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash %h/projects/indigo-glass/vscode/scripts/patch-webview-css.sh
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=30s
+
+[Install]
+WantedBy=default.target
