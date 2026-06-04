@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.3
+@version        0.1.4
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, link color, focus rings. Light touch — does not invert pages (use Dark Reader for that).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -57,7 +57,7 @@
    * Mono override below uses higher specificity (compound selector)
    * to win on code paths. */
   html body,
-  html body *:not(code):not(pre):not(kbd):not(samp):not(tt):not(textarea):not([contenteditable=""]):not([contenteditable="true"]):not([contenteditable="plaintext-only"]):not([role="textbox"]):not([class*="mono"]):not([class*="code"]):not([class*="hljs"]):not([class*="prism"]):not([class*="highlight"]):not([class*="editor"]):not([class*="syntax"]):not(.word):not(.letter):not(.key):not(.blob-code):not(.blob-code *):not(.monaco-editor):not(.monaco-editor *):not(.CodeMirror):not(.CodeMirror *):not(.cm-editor):not(.cm-editor *):not(.ace_editor):not(.ace_editor *) {
+  html body *:not(code):not(pre):not(kbd):not(samp):not(tt):not(textarea):not([contenteditable=""]):not([contenteditable="true"]):not([contenteditable="plaintext-only"]):not([role="textbox"]):not([class*="monospace"]):not([class*="hljs"]):not([class*="prism"]):not([class*="codeBlock"]):not([class*="codeblock"]):not([class*="CodeBlock"]):not([class*="code-block"]):not([class*="code_block"]):not([class*="syntaxhighlighter"]):not(.word):not(.letter):not(.key):not(.blob-code):not(.blob-code *):not(.monaco-editor):not(.monaco-editor *):not(.CodeMirror):not(.CodeMirror *):not(.cm-editor):not(.cm-editor *):not(.ace_editor):not(.ace_editor *):not([class*="Icon"]):not([class*="icon"]):not([class*="ms-Icon"]):not([class*="material-icons"]):not([class*="material-symbols"]):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fal):not(.fab):not(.codicon):not([class*="codicon"]):not([data-icon]):not([class*="emoji"]):not([class*="symbol"]) {
     font-family: "IndigoLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
   }
 
@@ -75,17 +75,27 @@
    *   5. Monkeytype typing target: .word, #words, .key
    *   6. Common chat / dev inputs: [role="textbox"] */
   html body :is(
+    /* Coding contexts — exact tags only */
     code, pre, kbd, samp, tt,
-    [class*="mono"], [class*="code"], [class*="hljs"],
-    [class*="prism"], [class*="highlight"], [class*="editor"],
-    [class*="syntax"], [class*="codeblock"], [class*="CodeBlock"],
+    /* Coding class wildcards — narrow set to avoid false-positives
+     * like Outlook's .ms-EditorWindow or .ms-Icon */
+    [class*="hljs"],
+    [class*="prism"],
+    [class*="codeBlock"],
+    [class*="codeblock"],
+    [class*="CodeBlock"],
+    [class*="code-block"],
+    [class*="code_block"],
+    [class*="syntaxhighlighter"],
+    [class*="monospace"],
+    /* Web IDE wrappers (specific, won't false-trigger) */
     .monaco-editor, .monaco-editor *,
     .CodeMirror, .CodeMirror *,
     .cm-editor, .cm-editor *,
     .ace_editor, .ace_editor *,
     .codejar, .codejar-wrapper,
+    /* Editable text — typing targets */
     textarea,
-    [contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"],
     [role="textbox"],
     /* Monkeytype */
     .word, .word *, .letter,
@@ -95,7 +105,7 @@
     .blob-code, .blob-code-inner,
     /* StackOverflow */
     .s-code-block, .s-code-block *
-  ) {
+  ):not([class*="Icon"]):not([class*="icon"]):not([class*="symbol"]):not([class*="Symbol"]):not([class*="emoji"]):not([class*="Emoji"]):not([class*="ms-Icon"]):not([class*="material-icons"]):not([class*="fa-"]):not(.fa):not(.codicon):not([data-icon]):not([class*="codicon"]) {
     font-family:
       "Iosevka Custom Condensed",
       "Iosevka Custom",
@@ -107,6 +117,33 @@
       Consolas,
       monospace !important;
     font-variant-ligatures: contextual !important;
+  }
+
+  /* Icon fonts MUST keep their original family. Use `revert` to undo
+   * our overrides — falls back to the site's native font-family
+   * declaration (e.g. "Segoe Fluent Icons", "FabricMDL2Icons",
+   * "Material Icons", "Font Awesome 6 Free", "codicon"). */
+  html body :is(
+    [class*="Icon"]:not([class*="IconText"]):not([class*="IconLabel"]),
+    [class*="icon"]:not([class*="iconText"]):not([class*="iconLabel"]),
+    [class*="ms-Icon"],
+    [class*="fluentui-icon"],
+    [class*="material-icons"],
+    [class*="material-symbols"],
+    [class*="fa-"],
+    .fa, .fas, .far, .fal, .fab, .fad,
+    .codicon,
+    [class*="codicon"],
+    [data-icon],
+    [class*="symbol-icon"],
+    [class*="emoji"]
+  ),
+  /* And any element with an icon font family already declared */
+  [style*="Segoe Fluent Icons"],
+  [style*="FabricMDL2Icons"],
+  [style*="Material Icons"],
+  [style*="Font Awesome"] {
+    font-family: revert !important;
   }
 
   /* Selection tint — indigo overlay, never solid */
