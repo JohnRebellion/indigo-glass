@@ -182,11 +182,36 @@ If you have a SvelteKit / Next.js / Astro portfolio with Tailwind v4, copy `web/
 |---|---|---|
 | General UI | **Carlito** | Humanist with double-storey loop-tail g — matches Iosevka mono allograph |
 | Window title / Menu / Toolbar | **SF Pro Display** | Apple-system, glass-aware |
-| Fixed / Mono / Konsole | **JetBrainsMono Nerd Font** (or Iosevka if available) | Coding |
+| Fixed / Mono / Konsole | **Iosevka Custom Condensed** → **MesloLGS NF** → **JetBrainsMono Nerd Font** → monospace | Coding |
 
 Two-family discipline: humanist rounded for content + geometric sharp for chrome.
 
-> **Note:** The author's personal config uses **Iosevka Custom Condensed** for monospace and **SF Pro Display** for chrome — but both are proprietary/custom. The public version defaults to **JetBrainsMono Nerd Font** (open-source) and falls back to system Inter/SF Pro if available.
+### Canonical mono cascade (every coding context)
+
+Same fallback chain everywhere code is rendered or typed:
+
+```
+Iosevka Custom Condensed   (private ss18 build — double-storey g)
+→ Iosevka Custom
+→ MesloLGS NF              (Powerlevel10K-default Nerd Font)
+→ JetBrainsMono Nerd Font  (broad Nerd Font glyph coverage)
+→ Cascadia Code
+→ Fira Code
+→ Consolas
+→ monospace
+```
+
+Applied to:
+- **VSCode** — `editor.fontFamily` (user setting)
+- **VSCode Claude Code** — webview mono selectors via patch-webview-css.sh
+- **Konsole** — `IndigoGlass.profile Font=`
+- **KDE / kdeglobals** — `fixed=Iosevka Custom Condensed`
+- **Stylus universal** — every web `code/pre/textarea/.monaco-editor/.CodeMirror/.cm-editor/.ace_editor`, plus Monkeytype `.word`, GitHub `.blob-code`, StackOverflow `.s-code-block`
+- **GRUB** — N/A (boot picker is display-only, no mono content)
+
+The fallback chain is consistent so font installation order doesn't matter; the highest-priority installed font wins.
+
+> **Note:** The author's personal config uses **Iosevka Custom Condensed** for monospace and **SF Pro Display** for chrome — both bundled in `share/fonts/indigo-glass-fonts.zip` (see browser/README.md for install).
 
 ---
 
