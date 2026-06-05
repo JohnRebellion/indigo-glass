@@ -1,4 +1,4 @@
-# Indigo Glass — Claude Code webview retint (Windows PowerShell port)
+﻿# Indigo Glass - Claude Code webview retint (Windows PowerShell port)
 #
 # Mirrors vscode/scripts/patch-webview-css.sh for Win11. Appends the
 # repo's vscode/css/claude-code-indigo.css to the Anthropic Claude Code
@@ -59,7 +59,7 @@ if ($Revert) {
     Write-Host "Reverted: $WebviewCss"
   }
   else {
-    Write-Host 'No patch block found — nothing to revert.'
+    Write-Host 'No patch block found - nothing to revert.'
   }
   exit 0
 }
@@ -87,4 +87,4 @@ else {
 
 Set-Content -Path $WebviewCss -Value $newContent -NoNewline
 Write-Host "Patched: $WebviewCss"
-Write-Host 'Reload VSCode: Ctrl+Shift+P → Developer: Reload Window'
+Write-Host 'Reload VSCode: Ctrl+Shift+P -> Developer: Reload Window'
