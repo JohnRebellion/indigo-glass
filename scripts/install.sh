@@ -52,7 +52,7 @@ if [ "$THEMES_ONLY" = false ]; then
   echo "▶ Installing system packages..."
   case $DISTRO in
     fedora|nobara)
-      run "sudo dnf install -y \
+      run "sudo dnf install -y --skip-unavailable \
         cmake extra-cmake-modules git \
         qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtsvg-devel qt6-qttools-devel \
         kdecoration-devel kf6-kguiaddons-devel kf6-kiconthemes-devel \
@@ -60,9 +60,19 @@ if [ "$THEMES_ONLY" = false ]; then
         kf6-kconfig-devel kf6-kcmutils-devel kf6-kglobalaccel-devel \
         kf6-kdbusaddons-devel kf6-kpackage-devel kf6-kirigami-devel \
         kf6-kirigami-addons-devel kf6-kcrash-devel kf6-kio-devel \
-        kf6-knotifications-devel kwin-devel \
-        starship fastfetch jetbrainsmono-nerd-fonts \
-        gtk-murrine-engine gnome-themes-extra"
+        kf6-knotifications-devel kf6-ki18n-devel kf6-frameworkintegration-devel kwin-devel sassc \
+        fastfetch jetbrains-mono-fonts cascadia-code-nf-fonts \
+        gtk-murrine-engine adwaita-gtk2-theme"
+      # starship + JetBrainsMono Nerd Font installed below (not in F44 repos)
+      if ! command -v starship &>/dev/null; then
+        run "curl -fsSL https://starship.rs/install.sh | sudo sh -s -- -y"
+      fi
+      if ! fc-list 2>/dev/null | grep -qi 'JetBrainsMono Nerd'; then
+        run "mkdir -p \$HOME/.local/share/fonts/JetBrainsMonoNerd && \
+             curl -fsSL -o /tmp/JetBrainsMono.zip https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip && \
+             unzip -oq /tmp/JetBrainsMono.zip -d \$HOME/.local/share/fonts/JetBrainsMonoNerd && \
+             fc-cache -f \$HOME/.local/share/fonts"
+      fi
       ;;
     arch|manjaro)
       run "sudo pacman -S --needed --noconfirm \
