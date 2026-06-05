@@ -42,6 +42,26 @@ if ($Skip -notcontains 'fonts') {
     # Read font's internal family + style name from name table (record 1 + 2)
     # so the registry key matches what Windows expects (not the filename).
     Add-Type -AssemblyName 'PresentationCore'
+
+    # Win32 AddFontResource + WM_FONTCHANGE broadcast - forces immediate
+    # registration without logout. New fonts become usable in same session.
+    if (-not ([System.Management.Automation.PSTypeName]'IndigoGlass.FontLoader').Type) {
+      Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+namespace IndigoGlass {
+  public class FontLoader {
+    [DllImport("gdi32.dll", CharSet=CharSet.Unicode)]
+    public static extern int AddFontResourceEx(string lpszFilename, uint fl, IntPtr pdv);
+    [DllImport("user32.dll")]
+    public static extern int SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    public const uint FR_PRIVATE = 0x10;
+    public const uint WM_FONTCHANGE = 0x1D;
+    public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xFFFF);
+  }
+}
+"@
+    }
     function Get-FontInternalName {
       param([string]$Path)
       try {
@@ -73,9 +93,10 @@ if ($Skip -notcontains 'fonts') {
       $kind = if ($src.Extension -ieq '.otf') { '(OpenType)' } else { '(TrueType)' }
       $regName = "$internalName $kind"
 
-      # Skip copy if dest exists w/ same size; just ensure registry
+      # Skip copy if dest exists w/ same size; just ensure registry + load
       if ((Test-Path $dest) -and ((Get-Item $dest).Length -eq $src.Length)) {
         Set-ItemProperty -Path $regKey -Name $regName -Value $dest -ErrorAction SilentlyContinue
+        [IndigoGlass.FontLoader]::AddFontResourceEx($dest, 0, [IntPtr]::Zero) | Out-Null
         $skipped++
         return
       }
@@ -83,14 +104,24 @@ if ($Skip -notcontains 'fonts') {
       try {
         Copy-Item -Path $src.FullName -Destination $dest -Force -ErrorAction Stop
         Set-ItemProperty -Path $regKey -Name $regName -Value $dest
+        [IndigoGlass.FontLoader]::AddFontResourceEx($dest, 0, [IntPtr]::Zero) | Out-Null
         $installed++
       } catch [System.IO.IOException] {
         if (Test-Path $dest) {
           Set-ItemProperty -Path $regKey -Name $regName -Value $dest -ErrorAction SilentlyContinue
+          [IndigoGlass.FontLoader]::AddFontResourceEx($dest, 0, [IntPtr]::Zero) | Out-Null
         }
         $locked++
       }
     }
+
+    # Broadcast WM_FONTCHANGE so running apps (Win Terminal, VSCode, etc.)
+    # refresh their font list without requiring logout.
+    [IndigoGlass.FontLoader]::SendMessage(
+      [IndigoGlass.FontLoader]::HWND_BROADCAST,
+      [IndigoGlass.FontLoader]::WM_FONTCHANGE,
+      [IntPtr]::Zero, [IntPtr]::Zero
+    ) | Out-Null
 
     # Remove stale filename-based registry entries from earlier install.ps1 runs.
     # Matches: "Carlito-Bold (TrueType)", "IosevkaCustom-Condensed (TrueType)" etc.
