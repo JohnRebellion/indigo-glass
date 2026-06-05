@@ -39,34 +39,72 @@ if ($Skip -notcontains 'fonts') {
     $regKey = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts'
     if (-not (Test-Path $regKey)) { New-Item -Path $regKey -Force | Out-Null }
 
+    # Read font's internal family + style name from name table (record 1 + 2)
+    # so the registry key matches what Windows expects (not the filename).
+    Add-Type -AssemblyName 'PresentationCore'
+    function Get-FontInternalName {
+      param([string]$Path)
+      try {
+        $uri = New-Object System.Uri($Path)
+        $fonts = [Windows.Media.GlyphTypeface]::new($uri)
+        $family = $fonts.Win32FamilyNames.Values | Select-Object -First 1
+        $face = $fonts.Win32FaceNames.Values | Select-Object -First 1
+        if ($face -and $face -ne 'Regular') { return "$family $face" }
+        return $family
+      } catch {
+        return $null
+      }
+    }
+
     $installed = 0
     $skipped = 0
     $locked = 0
+    $unnamed = 0
     Get-ChildItem -Path "$RepoRoot\share\fonts\indigo-glass-fonts" -Recurse -Include *.ttf,*.otf -ErrorAction SilentlyContinue | ForEach-Object {
-      $dest = Join-Path $fontDir $_.Name
-      $regName = [System.IO.Path]::GetFileNameWithoutExtension($_.Name) + ' (TrueType)'
+      $src = $_
+      $dest = Join-Path $fontDir $src.Name
 
-      # Skip copy if dest already exists w/ same size (font is loaded; can't overwrite)
-      if ((Test-Path $dest) -and ((Get-Item $dest).Length -eq $_.Length)) {
-        # Just ensure registry entry exists
+      # Read internal name from the source file (before copy)
+      $internalName = Get-FontInternalName -Path $src.FullName
+      if (-not $internalName) {
+        $internalName = [System.IO.Path]::GetFileNameWithoutExtension($src.Name)
+        $unnamed++
+      }
+      $kind = if ($src.Extension -ieq '.otf') { '(OpenType)' } else { '(TrueType)' }
+      $regName = "$internalName $kind"
+
+      # Skip copy if dest exists w/ same size; just ensure registry
+      if ((Test-Path $dest) -and ((Get-Item $dest).Length -eq $src.Length)) {
         Set-ItemProperty -Path $regKey -Name $regName -Value $dest -ErrorAction SilentlyContinue
         $skipped++
         return
       }
 
       try {
-        Copy-Item -Path $_.FullName -Destination $dest -Force -ErrorAction Stop
+        Copy-Item -Path $src.FullName -Destination $dest -Force -ErrorAction Stop
         Set-ItemProperty -Path $regKey -Name $regName -Value $dest
         $installed++
       } catch [System.IO.IOException] {
-        # File locked (already loaded by Windows) - register existing dest if present
         if (Test-Path $dest) {
           Set-ItemProperty -Path $regKey -Name $regName -Value $dest -ErrorAction SilentlyContinue
         }
         $locked++
       }
     }
+
+    # Remove stale filename-based registry entries from earlier install.ps1 runs.
+    # Matches: "Carlito-Bold (TrueType)", "IosevkaCustom-Condensed (TrueType)" etc.
+    # Keep proper entries like "Carlito Bold (TrueType)", "Iosevka Custom Condensed (TrueType)"
+    Get-Item -Path $regKey | Select-Object -ExpandProperty Property |
+      Where-Object { $_ -match '^(IosevkaCustom-|Carlito-)' } |
+      ForEach-Object {
+        Write-Host "  cleaned stale registry: $_" -ForegroundColor DarkYellow
+        Remove-ItemProperty -Path $regKey -Name $_ -ErrorAction SilentlyContinue
+      }
     Write-Host "  Installed: $installed  | Already present: $skipped  | Locked (in use): $locked" -ForegroundColor Green
+    if ($unnamed -gt 0) {
+      Write-Host "  Note: $unnamed font(s) had no readable internal name; registered by filename." -ForegroundColor DarkGray
+    }
     if ($locked -gt 0) {
       Write-Host "  Locked fonts kept their existing copy + got HKCU registry entry." -ForegroundColor DarkGray
       Write-Host "  To replace locked fonts: log out + back in, then re-run." -ForegroundColor DarkGray
