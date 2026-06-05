@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.9
+@version        0.1.10
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito prose font, indigo scrollbars, indigo selection, indigo focus ring, double-storey g/a allograph. Safe on icon fonts (excludes via narrow selectors). Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -73,34 +73,18 @@
    * Critically: NO universal `*` selector — icon fonts live in <span>
    * and <i> elements that would be wrongly overridden. Only explicit
    * prose tags. */
+  /* Carlito on prose via :not() exclusion of icon-bearing elements.
+   * Universal selector ensures we reach prose inside arbitrarily-deep
+   * <span> trees that SPA frameworks (React/Vue/Svelte) build.
+   *
+   * Excludes (must keep their own font for icon glyph rendering):
+   *   - <i>, <svg> and their descendants (icon carriers)
+   *   - elements with class containing icon-font terms
+   *   - elements with explicit aria-hidden (decorative-only)
+   *   - <code>/<pre>/<kbd>/<samp>/<tt> (UA monospace stays)
+   *   - <input> types that don't accept text */
   html body,
-  html body p,
-  html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
-  html body li,
-  html body a,
-  html body label,
-  html body button,
-  html body td, html body th,
-  html body blockquote,
-  html body dd, html body dt,
-  html body figcaption,
-  html body small,
-  html body strong, html body em,
-  html body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
-  html body select,
-  /* Generic prose carriers used by SPA frameworks (React/Vue/Svelte/etc.):
-   * any element with bidi-text dir attr, or ARIA text role. These attrs
-   * are added only to text-bearing elements per accessibility specs,
-   * not to icon-rendering elements. */
-  html body [dir="auto"],
-  html body [dir="ltr"],
-  html body [dir="rtl"],
-  html body [role="heading"],
-  html body [role="link"],
-  html body [role="article"],
-  html body [role="dialog"],
-  html body [role="textbox"],
-  html body [role="paragraph"] {
+  html body *:not(i):not(i *):not(svg):not(svg *):not(use):not(picture):not(img):not(canvas):not(video):not(audio):not(code):not(pre):not(kbd):not(samp):not(tt):not(code *):not(pre *):not([aria-hidden="true"]):not([class*="Icon"]):not([class*="icon"]):not([class*="ms-Icon"]):not([class*="ms-Font"]):not([class*="material-icons"]):not([class*="material-symbols"]):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fal):not(.fab):not(.fad):not(.codicon):not([class*="codicon"]):not([data-icon]):not([data-icon-name]):not([class*="symbol"]):not([class*="Symbol"]):not([class*="emoji"]):not([class*="Emoji"]):not([class*="glyph"]):not([class*="Glyph"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]) {
     font-family:
       "IndigoLoopTail",
       "Carlito",
