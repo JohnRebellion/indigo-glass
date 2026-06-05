@@ -1,4 +1,4 @@
-# Indigo Glass — Windows 11 master installer
+﻿# Indigo Glass - Windows 11 master installer
 #
 # End-to-end: fonts, Windows Terminal scheme, Win11 accent registry,
 # PowerShell profile, Starship config, VSCode Claude Code webview patch.
@@ -21,8 +21,8 @@ $RepoRoot  = Split-Path -Parent $ScriptDir
 
 function Step([string]$name) {
   Write-Host ""
-  Write-Host "── $name " -NoNewline -ForegroundColor Cyan
-  Write-Host ("─" * (60 - $name.Length)) -ForegroundColor DarkGray
+  Write-Host "-- $name " -NoNewline -ForegroundColor Cyan
+  Write-Host ("-" * (60 - $name.Length)) -ForegroundColor DarkGray
 }
 
 function Skipped([string]$reason) {
@@ -148,7 +148,11 @@ else { Step 'Install Starship config'; Skipped '-Skip starship' }
 if ($Skip -notcontains 'vscode') {
   Step 'Patch Claude Code webview CSS'
   if ($DryRun) { Write-Host "  [dry-run] run patch-webview-css.ps1" }
-  else { & pwsh -File "$ScriptDir\vscode\patch-webview-css.ps1" }
+  else {
+    # Use whichever PowerShell is running this script
+    $shell = if (Get-Command pwsh -ErrorAction SilentlyContinue) { 'pwsh' } else { 'powershell' }
+    & $shell -ExecutionPolicy Bypass -File "$ScriptDir\vscode\patch-webview-css.ps1"
+  }
 }
 else { Step 'Patch Claude Code webview CSS'; Skipped '-Skip vscode' }
 

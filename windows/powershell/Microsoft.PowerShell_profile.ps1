@@ -1,4 +1,4 @@
-# Indigo Glass — PowerShell profile (Win11 + PowerShell 7)
+﻿# Indigo Glass - PowerShell profile (Win11 + PowerShell 7)
 #
 # Mirrors the Linux Starship/Iosevka setup. Copy to one of:
 #   $HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1            (pwsh 7+)
@@ -18,7 +18,7 @@ elseif (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
   oh-my-posh init pwsh | Invoke-Expression
 }
 
-# PSReadLine — Indigo Glass token colors
+# PSReadLine - Indigo Glass token colors
 if (Get-Module -ListAvailable -Name PSReadLine) {
   Set-PSReadLineOption -EditMode Emacs
   Set-PSReadLineOption -PredictionSource HistoryAndPlugin
