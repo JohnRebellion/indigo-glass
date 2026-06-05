@@ -97,11 +97,11 @@ Text muted:      #6B7280
 
 | Role | Font | Size | Reason |
 |---|---|---|---|
-| General UI | **Carlito** | 10pt | Humanist with double-storey loop-tail g (matches Iosevka mono) |
-| Window title | **SF Pro Display** | 10pt | Apple-system, glass-aware |
-| Menu | SF Pro Display | 10pt | Match titlebar |
-| Toolbar | SF Pro Display | 9pt | Hierarchy |
-| Smallest | SF Pro Display | 8pt | Hierarchy |
+| General UI | **Carlito** | 12pt | Humanist with double-storey loop-tail g (matches Iosevka mono) |
+| Window title | **SF Pro Display** | 11pt | Apple-system, glass-aware |
+| Menu | SF Pro Display | 11pt | Match titlebar |
+| Toolbar | SF Pro Display | 10pt | Hierarchy |
+| Smallest | SF Pro Display | 9pt | Hierarchy |
 | Fixed/Mono | **Iosevka Custom Condensed** | 11pt | Coding |
 | Konsole | Iosevka Custom Condensed | 13pt | Terminal |
 
@@ -315,11 +315,11 @@ BlurTransparentTitleBars=true
 ```ini
 [General]
 ColorScheme=IndigoGlass
-font=Carlito,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=Carlito,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 fixed=Iosevka Custom Condensed,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-smallestReadableFont=SF Pro Display,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-toolBarFont=SF Pro Display,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=SF Pro Display,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=SF Pro Display,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
 Theme=Tela-circle-purple-dark
@@ -353,7 +353,7 @@ gtk-cursor-theme-name=breeze_cursors
 gtk-cursor-theme-size=24
 gtk-decoration-layout=close,keepabove,maximize:minimize
 gtk-enable-animations=true
-gtk-font-name=Carlito 10
+gtk-font-name=Carlito 12
 gtk-icon-theme-name=Tela-circle-purple-dark
 gtk-modules=colorreload-gtk-module:window-decorations-gtk-module:appmenu-gtk-module
 gtk-shell-shows-menubar=1
