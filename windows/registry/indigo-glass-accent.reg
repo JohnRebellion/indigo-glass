@@ -1,0 +1,32 @@
+Windows Registry Editor Version 5.00
+
+; Indigo Glass — Windows 11 accent color #5E6AD2
+;
+; Apply: double-click in Explorer, or `reg import indigo-glass-accent.reg`
+; Revert: Settings → Personalization → Colors → "Automatic" or pick new
+;
+; #5E6AD2 → little-endian BGR + alpha = D2 6A 5E FF = 0xff5e6ad2
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM]
+"AccentColor"=dword:ff5e6ad2
+"ColorizationColor"=dword:c45e6ad2
+"ColorizationAfterglow"=dword:c45e6ad2
+"ColorizationColorBalance"=dword:00000059
+"ColorizationAfterglowBalance"=dword:0000000a
+"ColorizationBlurBalance"=dword:00000001
+"ColorizationGlassReflectionIntensity"=dword:00000000
+"ColorizationGlassAttribute"=dword:00000001
+"EnableWindowColorization"=dword:00000001
+"AccentColorMenu"=dword:ff5e6ad2
+
+[HKEY_CURRENT_USER\Control Panel\Desktop]
+"AutoColorization"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize]
+"AppsUseLightTheme"=dword:00000000
+"SystemUsesLightTheme"=dword:00000000
+"ColorPrevalence"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent]
+"AccentColorMenu"=dword:ff5e6ad2
+"StartColorMenu"=dword:ff5e6ad2
