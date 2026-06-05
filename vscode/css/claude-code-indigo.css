@@ -180,13 +180,11 @@ html body :is(
 html, :root {
   /* Iosevka has bigger metrics than Carlito at the same px. Empirical
    * match for body prose (Carlito 13px → visible-h 9):
-   *   Iosevka 11px → 8  (undershoots by 1)
-   *   Iosevka 12px → 10 (overshoots by 1)
-   * 12px wins for fuller ascender/descender presence.
-   * Anthropic uses .85em / .9em (~11-12px at 13px base) — staying near
-   * that band keeps line-spacing within their layout grid. */
-  --app-monospace-font-size: 12px !important;
-  --app-monospace-font-size-small: 11px !important;
+   *   Iosevka 11px → 8  (undershoots by 1, mono reads slightly smaller)
+   *   Iosevka 12px → 10 (overshoots, mono dominates visually)
+   * Visual reports show 12px is too tall — picking 11px to err small. */
+  --app-monospace-font-size: 11px !important;
+  --app-monospace-font-size-small: 10px !important;
 }
 
 /* Force a minimum on Anthropic's relative-sized mono selectors */
@@ -222,7 +220,7 @@ html body :is(
   .toolBodyRowContent_ZUQaOA pre,
   .toolBodyRowContent_ZUQaOA code
 ) {
-  font-size: 12px !important;
+  font-size: 11px !important;
 }
 
 /* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
