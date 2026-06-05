@@ -178,8 +178,8 @@ html body :is(
  * Bump baseline + clamp small variants. Affects mono content only via
  * cascade — prose Carlito/SF Pro stays at chat-font-size. */
 html, :root {
-  --app-monospace-font-size: 15px !important;        /* 11pt @ 96 DPI = KDE body parity */
-  --app-monospace-font-size-small: 13px !important;  /* 10pt @ 96 DPI = KDE chrome parity */
+  --app-monospace-font-size: 13px !important;        /* matches chat prose base (13px) — mono sits flush with surrounding text */
+  --app-monospace-font-size-small: 12px !important;  /* 9pt @ 96 DPI — secondary mono (diff stats etc) */
 }
 
 /* Force a minimum on Anthropic's relative-sized mono selectors */
@@ -215,7 +215,7 @@ html body :is(
   .toolBodyRowContent_ZUQaOA pre,
   .toolBodyRowContent_ZUQaOA code
 ) {
-  font-size: 15px !important;
+  font-size: 13px !important;
 }
 
 /* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
