@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.7
+@version        0.1.8
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito prose font, indigo scrollbars, indigo selection, indigo focus ring, double-storey g/a allograph. Safe on icon fonts (excludes via narrow selectors). Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -87,7 +87,18 @@
   html body small,
   html body strong, html body em,
   html body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
-  html body select {
+  html body select,
+  /* Inline text spans w/ dir attr — FB, Twitter use these for prose */
+  html body span[dir],
+  html body div[dir],
+  /* Visible labels w/ aria text role */
+  html body [role="heading"],
+  html body [role="link"],
+  html body [role="article"],
+  html body [role="dialog"] span,
+  /* FB Marketplace card text */
+  html body [data-pagelet*="marketplace"] span,
+  html body [data-pagelet*="MainFeed"] span {
     font-family:
       "IndigoLoopTail",
       "Carlito",
