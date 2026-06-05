@@ -1,6 +1,6 @@
 [Appearance]
 ColorScheme=IndigoGlass
-Font=Iosevka Custom Condensed,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+Font=Iosevka Custom Condensed,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 LineSpacing=2
 UseFontLineChararacters=false
 WordCharacters=-./\?()\"[]{}&%@!#*,;'<>|~^
