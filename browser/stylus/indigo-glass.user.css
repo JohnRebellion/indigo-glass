@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.5
-@description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, link color, focus rings. Light touch — does not invert pages (use Dark Reader for that).
+@version        0.1.6
+@description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint for scrollbars, selection, focus rings + Carlito loop-tail g/a substitution via unicode-range. Light touch — does not invert pages (use Dark Reader for that) and does NOT swap mono fonts (too many false-positives on icon fonts).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/indigo-glass.user.css
@@ -10,22 +10,32 @@
 @preprocessor   default
 ==/UserStyle== */
 
-/* Domain exclusions: sites with heavy CSS-in-JS + icon-font dependency
- * where our overrides cause more harm than good.
- * Outlook OWA: renders nav/ribbon icons as PUA glyphs in generic <span>
- *   without icon-specific classes. Mono font lacks those code points.
- * Microsoft 365 chrome (sharepoint, office.com): same icon-font issue.
- * Use Dark Reader's native handling on these instead. */
-@-moz-document regexp("https?://(?!.*(outlook\\.office|outlook\\.live|outlook\\.com|office\\.com|sharepoint\\.com|teams\\.microsoft|teams\\.live|microsoft365)).*") {
+/* Why this style intentionally stays narrow:
+ *
+ * Earlier versions tried to force Iosevka mono onto every coding context
+ * cross-site, but [class*="code"|"editor"|"mono"] catches too many icon
+ * elements — sites use icon fonts (Segoe Fluent Icons, FabricMDL2Icons,
+ * Material Icons, Font Awesome, codicon) whose glyphs only render at PUA
+ * code points. Forcing Iosevka onto those elements produces broken bars
+ * because Iosevka has no PUA glyphs.
+ *
+ * Cross-site mono enforcement is unsafe without a per-site allow-list.
+ * Browsers already render <code>/<pre>/<kbd>/<samp>/<tt>/textarea as
+ * monospace natively (UA stylesheet). That's enough for most coding
+ * contexts; the user's system default monospace font wins.
+ *
+ * What this style now does:
+ *   1. Loop-tail g/a substitution via Carlito unicode-range (cosmetic).
+ *   2. Indigo scrollbars (webkit + Firefox).
+ *   3. Indigo selection tint.
+ *   4. Indigo focus ring.
+ *
+ * No font-family overrides on body/prose/mono/anything. Sites keep
+ * their own font choices; we only swap g/a glyphs via unicode-range. */
 
-  /* Loop-tail allograph: site's own font + Carlito ONLY for g/a via
-   * unicode-range. Swaps single-storey g/a for Carlito's loop-tail
-   * allograph while leaving other glyphs to the site's own font.
-   *
-   * Note: @font-face is nested inside @-moz-document because
-   * UserStyles World rejects styles with rules outside @-moz-document
-   * (https://userstyles.world/docs/faq#bad-style-format-error).
-   * Stylus engine lifts nested @font-face to top scope at runtime. */
+@-moz-document regexp("https?://.*") {
+
+  /* ─── Carlito loop-tail g/a for any text on any site ──────────────────── */
   @font-face {
     font-family: "IndigoLoopTail";
     src: local("Carlito");
@@ -55,123 +65,25 @@
     font-style: italic;
   }
 
-  /* Loop-tail fix — universal selector lets Carlito take g/a, rest
-   * stays with site's font via the IndigoLoopTail @font-face chain.
-   * Universal `*` ensures we hit elements even when sites use deep
-   * class hashing (FB, Discord) or inline styles via CSS-in-JS.
+  /* Prepend "IndigoLoopTail" to font-family on prose-only elements.
+   * The unicode-range @font-face ensures the browser uses Carlito
+   * ONLY for U+0061 (a) and U+0067 (g). Every other glyph falls
+   * through to the site's own font.
    *
-   * Mono override below uses higher specificity (compound selector)
-   * to win on code paths. */
+   * Critically: NO universal `*` selector — that would catch icon
+   * elements. Only direct prose tags. */
   html body,
-  html body *:not(code):not(pre):not(kbd):not(samp):not(tt):not(textarea):not([contenteditable=""]):not([contenteditable="true"]):not([contenteditable="plaintext-only"]):not([role="textbox"]):not([class*="monospace"]):not([class*="hljs"]):not([class*="prism"]):not([class*="codeBlock"]):not([class*="codeblock"]):not([class*="CodeBlock"]):not([class*="code-block"]):not([class*="code_block"]):not([class*="syntaxhighlighter"]):not(.word):not(.letter):not(.key):not(.blob-code):not(.blob-code *):not(.monaco-editor):not(.monaco-editor *):not(.CodeMirror):not(.CodeMirror *):not(.cm-editor):not(.cm-editor *):not(.ace_editor):not(.ace_editor *):not([class*="Icon"]):not([class*="icon"]):not([class*="ms-Icon"]):not([class*="material-icons"]):not([class*="material-symbols"]):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fal):not(.fab):not(.codicon):not([class*="codicon"]):not([data-icon]):not([class*="emoji"]):not([class*="symbol"]) {
-    font-family: "IndigoLoopTail", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
+  html body p,
+  html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+  html body li,
+  html body a,
+  html body label,
+  html body button,
+  html body td, html body th {
+    font-family: "IndigoLoopTail", inherit !important;
   }
 
-  /* ─── Mono everywhere code is rendered or typed ──────────────────────────
-   * Iosevka Custom Condensed everywhere coding happens. Fallback chain:
-   * Iosevka Custom Condensed → Iosevka Custom → MesloLGS NF →
-   * JetBrainsMono Nerd Font → monospace.
-   *
-   * Targets:
-   *   1. Coding contexts: <code>, <pre>, <kbd>, <samp>, <tt>
-   *   2. Class wildcards: code, mono, hljs, prism, highlight, editor, syntax
-   *   3. Web IDE wrappers: .monaco-editor, .CodeMirror, .cm-editor (CM6),
-   *      .ace_editor, .codejar
-   *   4. Editable text fields: <textarea>, [contenteditable]
-   *   5. Monkeytype typing target: .word, #words, .key
-   *   6. Common chat / dev inputs: [role="textbox"] */
-  html body :is(
-    /* Coding contexts — exact tags only */
-    code, pre, kbd, samp, tt,
-    /* Coding class wildcards — narrow set to avoid false-positives
-     * like Outlook's .ms-EditorWindow or .ms-Icon */
-    [class*="hljs"],
-    [class*="prism"],
-    [class*="codeBlock"],
-    [class*="codeblock"],
-    [class*="CodeBlock"],
-    [class*="code-block"],
-    [class*="code_block"],
-    [class*="syntaxhighlighter"],
-    [class*="monospace"],
-    /* Web IDE wrappers (specific, won't false-trigger) */
-    .monaco-editor, .monaco-editor *,
-    .CodeMirror, .CodeMirror *,
-    .cm-editor, .cm-editor *,
-    .ace_editor, .ace_editor *,
-    .codejar, .codejar-wrapper,
-    /* Editable text — typing targets */
-    textarea,
-    [role="textbox"],
-    /* Monkeytype */
-    .word, .word *, .letter,
-    #words, #words *,
-    .key, .keymap-key,
-    /* GitHub */
-    .blob-code, .blob-code-inner,
-    /* StackOverflow */
-    .s-code-block, .s-code-block *
-  ):not([class*="Icon"]):not([class*="icon"]):not([class*="symbol"]):not([class*="Symbol"]):not([class*="emoji"]):not([class*="Emoji"]):not([class*="ms-Icon"]):not([class*="material-icons"]):not([class*="fa-"]):not(.fa):not(.codicon):not([data-icon]):not([class*="codicon"]) {
-    font-family:
-      "Iosevka Custom Condensed",
-      "Iosevka Custom",
-      "MesloLGS NF",
-      "JetBrainsMono Nerd Font",
-      "JetBrainsMono NF",
-      "Cascadia Code",
-      "Fira Code",
-      Consolas,
-      monospace !important;
-    font-variant-ligatures: contextual !important;
-  }
-
-  /* Icon fonts MUST keep their original family. Restore explicitly
-   * with the full common-icon-font stack so site's native declaration
-   * wins over our Iosevka/Carlito chain. */
-  html body :is(
-    [class*="Icon"],
-    [class*="icon"],
-    [class*="ms-Icon"],
-    [class*="ms-FontIcon"],
-    [class*="fluentui-icon"],
-    [class*="material-icons"],
-    [class*="material-symbols"],
-    [class*="fa-"],
-    .fa, .fas, .far, .fal, .fab, .fad,
-    .codicon,
-    [class*="codicon"],
-    [data-icon-name],
-    [data-icon],
-    [class*="symbol-icon"],
-    [class*="emoji"],
-    i[class*="ms-"]
-  ),
-  html body :is(
-    [class*="Icon"],
-    [class*="icon"]
-  ) *,
-  [style*="Segoe Fluent Icons"],
-  [style*="FabricMDL2Icons"],
-  [style*="Material Icons"],
-  [style*="Font Awesome"] {
-    font-family:
-      "Segoe Fluent Icons",
-      "Segoe MDL2 Assets",
-      "FabricMDL2Icons",
-      "Material Icons",
-      "Material Symbols Outlined",
-      "Material Symbols Rounded",
-      "Material Symbols Sharp",
-      "Font Awesome 6 Free",
-      "Font Awesome 6 Brands",
-      "Font Awesome 5 Free",
-      "Font Awesome 5 Brands",
-      "FontAwesome",
-      "codicon",
-      revert !important;
-  }
-
-  /* Selection tint — indigo overlay, never solid */
+  /* ─── Selection tint — indigo overlay ─────────────────────────────────── */
   ::selection {
     background-color: rgba(94, 106, 210, 0.45) !important;
     color: inherit !important;
@@ -181,7 +93,7 @@
     color: inherit !important;
   }
 
-  /* Scrollbars — Linear-thin indigo on dark */
+  /* ─── Scrollbars — Linear-thin indigo ─────────────────────────────────── */
   *::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -202,13 +114,14 @@
     background: transparent;
   }
 
-  /* Firefox scrollbar */
+  /* Firefox scrollbar — applied via `*` because scrollbar-width/-color
+   * are inherited properties and only affect the scrollbar pseudo. */
   * {
     scrollbar-width: thin;
     scrollbar-color: rgba(94, 106, 210, 0.55) transparent;
   }
 
-  /* Focus ring — indigo+1, visionOS-style soft glow */
+  /* ─── Focus ring — visionOS-style indigo glow ─────────────────────────── */
   *:focus-visible {
     outline: 2px solid #5E6AD2 !important;
     outline-offset: 2px;
