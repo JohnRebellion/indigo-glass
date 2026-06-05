@@ -39,16 +39,40 @@ if ($Skip -notcontains 'fonts') {
     $regKey = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts'
     if (-not (Test-Path $regKey)) { New-Item -Path $regKey -Force | Out-Null }
 
-    $count = 0
+    $installed = 0
+    $skipped = 0
+    $locked = 0
     Get-ChildItem -Path "$RepoRoot\share\fonts\indigo-glass-fonts" -Recurse -Include *.ttf,*.otf -ErrorAction SilentlyContinue | ForEach-Object {
       $dest = Join-Path $fontDir $_.Name
-      Copy-Item -Path $_.FullName -Destination $dest -Force
       $regName = [System.IO.Path]::GetFileNameWithoutExtension($_.Name) + ' (TrueType)'
-      Set-ItemProperty -Path $regKey -Name $regName -Value $dest
-      $count++
+
+      # Skip copy if dest already exists w/ same size (font is loaded; can't overwrite)
+      if ((Test-Path $dest) -and ((Get-Item $dest).Length -eq $_.Length)) {
+        # Just ensure registry entry exists
+        Set-ItemProperty -Path $regKey -Name $regName -Value $dest -ErrorAction SilentlyContinue
+        $skipped++
+        return
+      }
+
+      try {
+        Copy-Item -Path $_.FullName -Destination $dest -Force -ErrorAction Stop
+        Set-ItemProperty -Path $regKey -Name $regName -Value $dest
+        $installed++
+      } catch [System.IO.IOException] {
+        # File locked (already loaded by Windows) - register existing dest if present
+        if (Test-Path $dest) {
+          Set-ItemProperty -Path $regKey -Name $regName -Value $dest -ErrorAction SilentlyContinue
+        }
+        $locked++
+      }
     }
-    Write-Host "  Installed $count fonts to $fontDir" -ForegroundColor Green
-    Write-Host "  Cache refresh: log out + back in, or open Notepad once" -ForegroundColor DarkGray
+    Write-Host "  Installed: $installed  | Already present: $skipped  | Locked (in use): $locked" -ForegroundColor Green
+    if ($locked -gt 0) {
+      Write-Host "  Locked fonts kept their existing copy + got HKCU registry entry." -ForegroundColor DarkGray
+      Write-Host "  To replace locked fonts: log out + back in, then re-run." -ForegroundColor DarkGray
+    } else {
+      Write-Host "  Cache refresh: log out + back in, or open Notepad once" -ForegroundColor DarkGray
+    }
   }
 }
 else { Step 'Install fonts'; Skipped '-Skip fonts' }
