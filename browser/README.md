@@ -33,14 +33,19 @@ Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/
 
 ### What it paints
 
-| Element | Color |
-|---|---|
-| `::selection` | `rgba(94,106,210,0.45)` — indigo glass overlay |
-| Scrollbar thumb | `rgba(94,106,210,0.45)` → hover `rgba(129,140,248,0.75)` |
-| `*:focus-visible` | `#5E6AD2` outline + `rgba(94,106,210,0.18)` 4px soft glow |
-| Firefox scrollbar | `thin` + indigo color |
+| Property | Value | Targets |
+|---|---|---|
+| Prose font | `Carlito → SF Pro Display → system-ui` | body, p, h1-h6, li, a, label, button, td/th, blockquote, dd/dt, small, strong, em, input (text), select |
+| Loop-tail g/a allograph | Carlito via `unicode-range U+0061, U+0067` | every text element (browser auto-selects per glyph) |
+| `::selection` | `rgba(94,106,210,0.45)` indigo glass overlay | all selections |
+| Scrollbar | `rgba(94,106,210,0.45)` thumb → hover `rgba(129,140,248,0.75)` | webkit + Firefox |
+| `*:focus-visible` | `#5E6AD2` outline + `rgba(94,106,210,0.18)` 4px soft glow | all focus rings |
 
 Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP page.
+
+**Safe on icon fonts.** No `*` universal selector, no `[class*="icon"|"editor"|"code"]` wildcards — those broke icon glyphs in Outlook, GitHub, etc. when used too broadly. Only explicit prose tags get the Carlito font. Sites' icon fonts (Segoe Fluent Icons, Material Icons, Font Awesome, codicon, etc.) keep working.
+
+**Mono font NOT enforced** on browser. Native UA stylesheet renders `<code>/<pre>/<kbd>/<samp>/<tt>/textarea` as monospace using the user's system mono setting. Forcing Iosevka cross-site caught too many icon classes by class-substring matching. VSCode Claude Code retint handles mono enforcement in that controlled context.
 
 ---
 
