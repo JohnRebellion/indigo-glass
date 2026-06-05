@@ -178,8 +178,11 @@ html body :is(
  * Bump baseline + clamp small variants. Affects mono content only via
  * cascade — prose Carlito/SF Pro stays at chat-font-size. */
 html, :root {
-  --app-monospace-font-size: 13px !important;        /* matches chat prose base (13px) — mono sits flush with surrounding text */
-  --app-monospace-font-size-small: 12px !important;  /* 9pt @ 96 DPI — secondary mono (diff stats etc) */
+  /* Iosevka has +3 line-h and +3 bbox vs Carlito at same px — to make
+   * mono visually FLUSH with body prose, mono px must be ~2 less.
+   * Body prose = 13px Carlito (bbox 10). Iosevka 11px = bbox 10 = parity. */
+  --app-monospace-font-size: 11px !important;
+  --app-monospace-font-size-small: 10px !important;
 }
 
 /* Force a minimum on Anthropic's relative-sized mono selectors */
@@ -215,7 +218,7 @@ html body :is(
   .toolBodyRowContent_ZUQaOA pre,
   .toolBodyRowContent_ZUQaOA code
 ) {
-  font-size: 13px !important;
+  font-size: 11px !important;
 }
 
 /* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
