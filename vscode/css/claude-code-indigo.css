@@ -355,24 +355,27 @@ html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
 
-/* Prompt input: keep Carlito font swap (loop-tail g/a) — instead of
- * trying to reconcile metric overrides with webview caret math, just
- * give the input MORE vertical room. Taller input box absorbs the
- * Carlito vs native ascent/descent drift visually. User specifically
- * asked for this approach over metric tweaking. */
+/* Prompt input: modest extra room + disable font features that shift
+ * glyph advance widths (kerning, ligatures, contextual alternates).
+ * Caret drifting horizontally past last char = font has variable
+ * advance widths the textarea caret math doesn't account for. */
 html body .inputContainer_cKsPxg,
 html body .messageInput_cKsPxg {
-  min-height: 56px !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-  line-height: 1.5 !important;
+  min-height: 40px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  line-height: 1.35 !important;
 }
 
 html body textarea.messageInput_cKsPxg,
 html body .inputContainer_cKsPxg textarea,
 html body .codeInput_Eg8KCQ textarea {
-  min-height: 36px !important;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
-  line-height: 1.5 !important;
+  min-height: 28px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  line-height: 1.35 !important;
+  font-kerning: none !important;
+  font-variant-ligatures: none !important;
+  font-feature-settings: "kern" 0, "liga" 0, "calt" 0 !important;
+  letter-spacing: 0 !important;
 }
