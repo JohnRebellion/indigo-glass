@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Indigo Glass — Edge Theme",
   "short_name": "Indigo Glass",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Aligns Edge chrome (frame, toolbar, tabs, NTP) to Indigo Glass tokens. Eliminates the color seam between Klassy/KWin titlebar and Edge nav bar.",
   "author": "John Rebellion",
   "theme": {
@@ -31,7 +31,9 @@
       "button_background":         [31, 32, 40]
     },
     "tints": {
-      "buttons": [-1, -1, 0.95]
+      "buttons":           [0.65, 0.90, 0.74],
+      "frame":             [-1, -1, -1],
+      "background_tab":    [-1, -1, -1]
     },
     "properties": {
       "ntp_background_alignment": "center"
