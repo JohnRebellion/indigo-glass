@@ -42,7 +42,7 @@
           <h3>Linear app dark discipline notes</h3>
           <p>
             The good design language emerges when restraint becomes the style.
-            A single accent <a href="#">indigo</a>, mono icons, near-black surfaces.
+            A single accent <a href="/">indigo</a>, mono icons, near-black surfaces.
             Avoid pure <code>#000</code> &mdash; it halates on OLED.
           </p>
           <div class="post-meta">

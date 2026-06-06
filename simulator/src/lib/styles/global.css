@@ -1,5 +1,49 @@
 /* Indigo Glass simulator - global reset + chrome */
 
+/* Self-host canonical fonts so simulator renders identically on every OS */
+@font-face {
+  font-family: "Iosevka Custom";
+  src: url("/fonts/iosevka/IosevkaCustom-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Iosevka Custom Condensed";
+  src: url("/fonts/iosevka/IosevkaCustom-Condensed.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Carlito";
+  src: url("/fonts/carlito/Carlito-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Carlito";
+  src: url("/fonts/carlito/Carlito-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Carlito";
+  src: url("/fonts/carlito/Carlito-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Carlito";
+  src: url("/fonts/carlito/Carlito-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 html, body {
   margin: 0;
   padding: 0;

@@ -43,14 +43,17 @@
       <div class="side-header">EXPLORER</div>
       <ul class="file-list">
         {#each files as f}
-          <li
-            class="file"
-            class:active={active === f.name}
-            onclick={() => (active = f.name)}
-            data-testid="file-{f.name.replace('.', '-')}"
-          >
-            <span class="file-icon">{f.icon}</span>
-            <span class="file-name">{f.name}</span>
+          <li>
+            <button
+              type="button"
+              class="file"
+              class:active={active === f.name}
+              onclick={() => (active = f.name)}
+              data-testid="file-{f.name.replace('.', '-')}"
+            >
+              <span class="file-icon">{f.icon}</span>
+              <span class="file-name">{f.name}</span>
+            </button>
           </li>
         {/each}
       </ul>
@@ -160,6 +163,10 @@
     margin: 0;
     padding: 0;
   }
+  .file-list li {
+    margin: 0;
+    padding: 0;
+  }
   .file {
     display: flex;
     align-items: center;
@@ -167,6 +174,12 @@
     padding: 2px 12px;
     cursor: pointer;
     font-size: 10pt;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
   }
   .file:hover { background: color-mix(in srgb, var(--ig-indigo) 10%, transparent); }
   .file.active {
