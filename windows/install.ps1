@@ -336,7 +336,9 @@ if ($Skip -notcontains 'vscode') {
       $j = $clean | ConvertFrom-Json -Depth 100
       $j | Add-Member -NotePropertyName 'editor.fontSize' -NotePropertyValue $P.vsc_editor -Force
       $j | Add-Member -NotePropertyName 'chat.fontSize' -NotePropertyValue $P.vsc_chat -Force
+      $j | Add-Member -NotePropertyName 'chat.editor.fontSize' -NotePropertyValue $P.vsc_chat -Force
       $j | Add-Member -NotePropertyName 'terminal.integrated.fontSize' -NotePropertyValue $P.vsc_terminal -Force
+      $j | Add-Member -NotePropertyName 'scm.inputFontSize' -NotePropertyValue $P.vsc_chat -Force
       Copy-Item $vsc "$vsc.before-indigo-glass" -Force
       $j | ConvertTo-Json -Depth 100 | Set-Content -Path $vsc
       Write-Host "  patched $vsc" -ForegroundColor Green
