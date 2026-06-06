@@ -97,7 +97,7 @@ Text muted:      #6B7280
 
 | Role | Font | Size | Reason |
 |---|---|---|---|
-| General UI | **Carlito** | 12pt | Humanist with double-storey loop-tail g (matches Iosevka mono) |
+| General UI | **Carlito** | 11pt | Humanist with double-storey loop-tail g (matches Iosevka mono) |
 | Window title | **SF Pro Display** | 11pt | Apple-system, glass-aware |
 | Menu | SF Pro Display | 11pt | Match titlebar |
 | Toolbar | SF Pro Display | 10pt | Hierarchy |
@@ -315,7 +315,7 @@ BlurTransparentTitleBars=true
 ```ini
 [General]
 ColorScheme=IndigoGlass
-font=Carlito,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=Carlito,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 fixed=Iosevka Custom Condensed,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 menuFont=SF Pro Display,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=SF Pro Display,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
@@ -353,7 +353,7 @@ gtk-cursor-theme-name=breeze_cursors
 gtk-cursor-theme-size=24
 gtk-decoration-layout=close,keepabove,maximize:minimize
 gtk-enable-animations=true
-gtk-font-name=Carlito 12
+gtk-font-name=Carlito 11
 gtk-icon-theme-name=Tela-circle-purple-dark
 gtk-modules=colorreload-gtk-module:window-decorations-gtk-module:appmenu-gtk-module
 gtk-shell-shows-menubar=1
