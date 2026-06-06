@@ -1,0 +1,10 @@
+{
+  "presets": [
+    { "id": "indigo", "name": "Indigo Glass", "primary": "#7c3aed", "accent": "#a78bfa" },
+    { "id": "palette", "name": "Cmd-K Palette", "primary": "#312e81", "accent": "#a78bfa" },
+    { "id": "compot", "name": "Compot Dashboard", "primary": "#0a0a14", "accent": "#a78bfa" },
+    { "id": "amber", "name": "Amber Ember", "primary": "#fb923c", "accent": "#fbbf24" },
+    { "id": "blue", "name": "Sapphire", "primary": "#3b82f6", "accent": "#60a5fa" },
+    { "id": "green", "name": "Emerald", "primary": "#10b981", "accent": "#34d399" }
+  ]
+}
