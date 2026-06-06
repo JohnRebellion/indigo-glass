@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import '../lib/styles/tokens.css';
   import '../lib/styles/density.css';
+  import '../lib/styles/density-optin.css';
   import '../lib/styles/liquid-glass.css';
   import '../lib/styles/global.css';
 
@@ -12,7 +13,8 @@
     { href: '/browser/',          label: 'Browser',      id: 'browser' },
     { href: '/vscode/',           label: 'VSCode',       id: 'vscode' },
     { href: '/vscode/claude-code/', label: 'Claude Code', id: 'claude-code' },
-    { href: '/grub/',             label: 'GRUB',         id: 'grub' }
+    { href: '/grub/',             label: 'GRUB',         id: 'grub' },
+    { href: '/density-test/',     label: 'Density',      id: 'density' }
   ];
 
   function isActive(href: string): boolean {

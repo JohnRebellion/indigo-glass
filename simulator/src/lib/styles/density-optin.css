@@ -1,0 +1,68 @@
+/* Indigo Glass - opt-in density rules
+ *
+ * Applies to elements ONLY when ancestor has `.ig-density-on` class.
+ * Apps that want compact layouts add the class to <html> or a container.
+ * Default rendering preserves site/app native padding (Facebook, Outlook,
+ * Discord, etc. all break if their button/input padding is forcibly
+ * collapsed).
+ *
+ * Tokens at tokens/out/density.css map to spacing variables in
+ * tokens/indigo-glass.tokens.toml [spacing] section.
+ */
+
+/* Buttons - compact 4/10 */
+.ig-density-on button:not([class*="icon"]):not([class*="Icon"]),
+.ig-density-on [role="button"]:not([class*="icon"]):not([class*="Icon"]) {
+  padding: 4px 10px;
+}
+
+/* Inputs / textarea / select - 4/8 */
+.ig-density-on input[type="text"],
+.ig-density-on input[type="search"],
+.ig-density-on input[type="email"],
+.ig-density-on input[type="url"],
+.ig-density-on input[type="password"],
+.ig-density-on input[type="number"],
+.ig-density-on input:not([type]),
+.ig-density-on select,
+.ig-density-on textarea {
+  padding: 4px 8px;
+}
+
+/* Form labels in column grids - 2px gap */
+.ig-density-on form label {
+  gap: 2px;
+}
+
+/* List rows w/o their own padding override - 3/8 */
+.ig-density-on ul:not([class]) > li:not([class]) > a:not([class]),
+.ig-density-on ol:not([class]) > li:not([class]) > a:not([class]) {
+  padding: 3px 8px;
+}
+
+/* Chips - 1/8 */
+.ig-density-on .chip,
+.ig-density-on [class*="chip"]:not([class*="chipboard"]) {
+  padding: 1px 8px;
+}
+
+/* Card body padding tightened only when explicitly opted in via the
+ * parent class. Cards with their own [class] are untouched. */
+.ig-density-on .card:not([class~="card-relaxed"]) {
+  padding: 8px 12px;
+}
+.ig-density-on .card h4,
+.ig-density-on .card h3 {
+  margin-bottom: 4px;
+}
+.ig-density-on .card p {
+  margin-bottom: 6px;
+}
+
+/* Section + container gap - only when ancestor opts in.
+ * Uses :where to keep specificity neutral (won't fight existing rules). */
+.ig-density-on :where(section, .stack, .container) {
+  margin-bottom: 12px;
+}
+
+/* Pre/code: never touch (mono context handled by font-family rules) */
