@@ -1,0 +1,201 @@
+/* Indigo Glass - Obsidian theme
+ *
+ * visionOS spatial glass + Linear dark discipline + Neumorphism 2.0
+ * Compact density. Translucent backdrop. No refraction.
+ * Generated values mirror tokens/indigo-glass.tokens.toml */
+
+.theme-dark {
+  /* Surfaces */
+  --background-primary: #0F0F12;
+  --background-primary-alt: #1C1C21;
+  --background-secondary: #18181C;
+  --background-secondary-alt: #1F2028;
+  --background-modifier-hover: rgba(94, 106, 210, 0.10);
+  --background-modifier-active-hover: rgba(94, 106, 210, 0.18);
+  --background-modifier-border: rgba(255, 255, 255, 0.06);
+  --background-modifier-border-hover: rgba(255, 255, 255, 0.10);
+  --background-modifier-border-focus: #5E6AD2;
+  --background-modifier-form-field: #1C1C21;
+  --background-modifier-success: rgba(113, 247, 159, 0.12);
+  --background-modifier-error: rgba(237, 37, 78, 0.12);
+  --background-modifier-error-rgb: 237, 37, 78;
+  --background-modifier-error-hover: rgba(237, 37, 78, 0.20);
+
+  /* Text */
+  --text-normal: #F8F8F8;
+  --text-muted: #6B7280;
+  --text-faint: #4B5563;
+  --text-on-accent: #FFFFFF;
+  --text-error: #ED254E;
+  --text-success: #71F79F;
+  --text-accent: #818CF8;
+  --text-accent-hover: #A78BFA;
+  --text-selection: rgba(94, 106, 210, 0.45);
+  --text-highlight-bg: rgba(251, 191, 36, 0.25);
+  --text-highlight-bg-active: rgba(251, 191, 36, 0.45);
+  --text-italic-color: var(--text-muted);
+
+  /* Accent */
+  --interactive-accent: #5E6AD2;
+  --interactive-accent-hover: #818CF8;
+  --interactive-normal: #1F2028;
+  --interactive-hover: #2A2C36;
+
+  /* Tags + chips */
+  --tag-color: #A78BFA;
+  --tag-background: rgba(167, 139, 250, 0.12);
+  --tag-color-hover: #C8B5FF;
+
+  /* Code (mono) */
+  --code-normal: #F8F8F8;
+  --code-background: #1F2028;
+  --code-comment: #6B7280;
+  --code-keyword: #818CF8;
+  --code-string: #71F79F;
+  --code-number: #A78BFA;
+  --code-function: #FBBF24;
+  --code-tag: #818CF8;
+  --code-property: #A78BFA;
+  --code-operator: #A2B0FF;
+  --code-punctuation: #6B7280;
+  --code-class: #A78BFA;
+  --code-constant: #A78BFA;
+  --code-important: #ED254E;
+
+  /* Links */
+  --link-color: #818CF8;
+  --link-color-hover: #A78BFA;
+  --link-external-color: #818CF8;
+  --link-external-color-hover: #A78BFA;
+  --link-unresolved-color: #ED254E;
+  --link-unresolved-opacity: 0.7;
+
+  /* Headings - subtle steps using indigo family */
+  --h1-color: #F8F8F8;
+  --h2-color: #F8F8F8;
+  --h3-color: #F8F8F8;
+  --h4-color: #F8F8F8;
+  --h5-color: #818CF8;
+  --h6-color: #A78BFA;
+
+  /* Scrollbar */
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: rgba(94, 106, 210, 0.45);
+  --scrollbar-active-thumb-bg: rgba(129, 140, 248, 0.75);
+}
+
+/* Typography */
+body {
+  --font-text: "Carlito", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-monospace: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "JetBrainsMono Nerd Font", "Cascadia Code", "Fira Code", Consolas, monospace;
+  --font-interface: "SF Pro Display", -apple-system, "Segoe UI", "Inter", system-ui, sans-serif;
+  --font-text-size: 16px;
+  --font-text-theme: var(--font-text);
+  --font-mono-theme: var(--font-monospace);
+}
+
+/* Compact density (DENSITY.md) */
+.workspace-tab-header {
+  padding: 3px 8px !important;
+}
+.workspace-leaf-content {
+  padding: 4px !important;
+}
+.nav-file-title,
+.nav-folder-title {
+  padding: 3px 8px !important;
+  border-radius: 4px;
+}
+.suggestion-item,
+.menu-item {
+  padding: 4px 8px !important;
+  font-size: 13px;
+}
+button,
+.mod-cta,
+.clickable-icon {
+  padding: 4px 10px !important;
+  border-radius: 6px;
+}
+input,
+textarea,
+.cm-editor .cm-content {
+  padding: 4px 8px !important;
+}
+
+/* Glass panels - translucent backdrop, no refraction */
+.modal,
+.popover,
+.menu,
+.workspace-tab-header-container,
+.workspace-sidedock,
+.status-bar {
+  background-color: rgba(31, 32, 40, 0.70) !important;
+  backdrop-filter: blur(13px) saturate(110%);
+  -webkit-backdrop-filter: blur(13px) saturate(110%);
+  border: 1px solid var(--background-modifier-border);
+}
+
+/* Honor reduce-transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .modal,
+  .popover,
+  .menu,
+  .workspace-tab-header-container,
+  .workspace-sidedock,
+  .status-bar {
+    background-color: #1F2028 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Selection */
+.cm-editor .cm-content ::selection,
+.markdown-preview-view ::selection {
+  background-color: var(--text-selection) !important;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid #5E6AD2 !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(94, 106, 210, 0.18) !important;
+}
+
+/* Active line - subtle */
+.cm-editor .cm-activeLine {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Indent guides - subtle */
+.cm-editor .cm-indent-guide,
+.HyperMD-list-line {
+  border-left-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Callouts (Obsidian admonitions) - Indigo Glass semantic colors */
+.callout[data-callout="note"] {
+  --callout-color: 129, 140, 248;
+}
+.callout[data-callout="info"],
+.callout[data-callout="tip"] {
+  --callout-color: 94, 106, 210;
+}
+.callout[data-callout="warning"],
+.callout[data-callout="caution"] {
+  --callout-color: 251, 191, 36;
+}
+.callout[data-callout="success"],
+.callout[data-callout="done"] {
+  --callout-color: 113, 247, 159;
+}
+.callout[data-callout="failure"],
+.callout[data-callout="error"],
+.callout[data-callout="bug"] {
+  --callout-color: 237, 37, 78;
+}
+.callout[data-callout="example"],
+.callout[data-callout="quote"] {
+  --callout-color: 167, 139, 250;
+}
