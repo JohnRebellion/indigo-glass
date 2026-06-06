@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=Indigo Glass
+Description=Indigo Glass - visionOS spatial glass + Linear discipline
+Author=John Rebellion
+Copyright=(c) 2026, John Rebellion
+License=MIT
+Type=sddm-theme
+Version=0.1.0
+Website=https://github.com/JohnRebellion/indigo-glass
+Screenshot=preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=indigo-glass
+Theme-API=2.0
