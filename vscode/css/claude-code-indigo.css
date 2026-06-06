@@ -354,3 +354,23 @@ html body .messageInput_cKsPxg,
 html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
+
+/* Prompt input: native font (no Carlito g/a swap) to keep caret + text
+ * baseline aligned. SFProWithLoopTail metric overrides reduce drift but
+ * webview caret position is computed against native chat-font line-height,
+ * not the override-adjusted box. Easier to skip the swap inside the input
+ * and accept single-storey g/a there only. Prose elsewhere keeps Carlito. */
+html body textarea.messageInput_cKsPxg,
+html body .messageInput_cKsPxg,
+html body .messageInput_cKsPxg *,
+html body .inputContainer_cKsPxg textarea,
+html body .codeInput_Eg8KCQ,
+html body .codeInput_Eg8KCQ textarea {
+  font-family:
+    "SF Pro Display",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    system-ui,
+    sans-serif !important;
+}
