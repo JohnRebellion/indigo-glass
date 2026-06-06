@@ -223,7 +223,7 @@
     flex: 1;
     display: flex;
     overflow: auto;
-    font-family: "Iosevka Custom Condensed", "MesloLGS NF", monospace;
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "JetBrainsMono Nerd Font", Consolas, monospace;
     font-size: 10pt;
     line-height: 1.4;
   }
@@ -235,9 +235,14 @@
     text-align: right;
     user-select: none;
     background: var(--ig-base);
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace;
   }
-  .ln { font-size: 9pt; }
-  .code {
+  .ln {
+    font-size: 9pt;
+    font-family: inherit;
+  }
+  .code,
+  .code code {
     flex: 1;
     margin: 0;
     padding: 8px 12px;
@@ -245,6 +250,14 @@
     color: var(--ig-text);
     white-space: pre;
     overflow: auto;
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "JetBrainsMono Nerd Font", Consolas, monospace !important;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+  .code code {
+    padding: 0;
+    background: transparent;
+    display: block;
   }
 
   .status-bar {
