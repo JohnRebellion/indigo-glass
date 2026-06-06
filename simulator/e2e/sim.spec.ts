@@ -73,8 +73,8 @@ test('tab nav active state', async ({ page }) => {
   await expect(page.getByTestId('tab-browser')).toHaveClass(/active/);
 });
 
-test('reduced motion honored', async ({ page, context }) => {
-  await context.emulateMedia({ reducedMotion: 'reduce' });
+test('reduced motion honored', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/browser/');
   await expect(page.getByTestId('sim-browser')).toBeVisible();
 });
