@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.13
-@description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito prose font, indigo scrollbars, indigo selection, indigo focus ring, double-storey g/a allograph. Safe on icon fonts (excludes via narrow selectors). Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
+@version        0.1.14
+@description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: indigo scrollbars, indigo selection, indigo focus ring. No font-family swap (sites keep their native fonts to avoid vertical metric drift; loop-tail typography lives in controlled surfaces only). Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/indigo-glass.user.css
@@ -24,96 +24,42 @@
  * monospace natively (UA stylesheet). That's enough for most coding
  * contexts; the user's system default monospace font wins.
  *
- * What this style now does:
- *   1. Loop-tail g/a substitution via Carlito unicode-range (cosmetic).
- *   2. Indigo scrollbars (webkit + Firefox).
- *   3. Indigo selection tint.
- *   4. Indigo focus ring.
+ * What this style now does (v0.1.14+, cosmetic-only):
+ *   1. Indigo scrollbars (webkit + Firefox).
+ *   2. Indigo selection tint.
+ *   3. Indigo focus ring.
  *
- * No font-family overrides on body/prose/mono/anything. Sites keep
- * their own font choices; we only swap g/a glyphs via unicode-range. */
+ * NO font-family overrides — not even loop-tail g/a swap via
+ * unicode-range, because raw Carlito (the local() source for
+ * IndigoLoopTail's a/g glyphs) brings its own metrics into the
+ * line box and shifts vertical layout vs site native font.
+ * Typography lives in controlled surfaces only. */
 
 @-moz-document regexp("https?://.*") {
 
-  /* ─── Carlito loop-tail g/a for any text on any site ──────────────────── */
-  /* Metric overrides match Carlito's box to system-ui defaults so
-   * the font swap doesn't introduce vertical line-height drift on
-   * sites like FB (Optimistic font has different ascent/descent). */
-  @font-face {
-    font-family: "IndigoLoopTail";
-    src: local("Carlito");
-    unicode-range: U+0061, U+0067;
-    font-weight: normal;
-    font-style: normal;
-    size-adjust: 96%;
-    ascent-override: 90%;
-    descent-override: 22%;
-    line-gap-override: 0%;
-  }
-  @font-face {
-    font-family: "IndigoLoopTail";
-    src: local("Carlito Bold");
-    unicode-range: U+0061, U+0067;
-    font-weight: bold;
-    font-style: normal;
-    size-adjust: 96%;
-    ascent-override: 90%;
-    descent-override: 22%;
-    line-gap-override: 0%;
-  }
-  @font-face {
-    font-family: "IndigoLoopTail";
-    src: local("Carlito Italic");
-    unicode-range: U+0061, U+0067;
-    font-weight: normal;
-    font-style: italic;
-    size-adjust: 96%;
-    ascent-override: 90%;
-    descent-override: 22%;
-    line-gap-override: 0%;
-  }
-  @font-face {
-    font-family: "IndigoLoopTail";
-    src: local("Carlito Bold Italic");
-    unicode-range: U+0061, U+0067;
-    font-weight: bold;
-    font-style: italic;
-    size-adjust: 96%;
-    ascent-override: 90%;
-    descent-override: 22%;
-    line-gap-override: 0%;
-  }
+  /* NO @font-face IndigoLoopTail — see comment below for why universal
+   * font-family swap was removed in v0.1.14. Loop-tail g/a typography
+   * lives in controlled surfaces (Plasma system font, simulator,
+   * Obsidian, VSCode) not on every website. */
 
-  /* Force Carlito on prose elements site-wide so Indigo Glass typography
-   * carries across native-dark sites (where Dark Reader is disabled).
-   * IndigoLoopTail keeps loop-tail g/a via unicode-range, then full
-   * Carlito covers all other glyphs.
+  /* NO universal font-family swap.
    *
-   * Critically: NO universal `*` selector — icon fonts live in <span>
-   * and <i> elements that would be wrongly overridden. Only explicit
-   * prose tags. */
-  /* Carlito on prose via :not() exclusion of icon-bearing elements.
-   * Universal selector ensures we reach prose inside arbitrarily-deep
-   * <span> trees that SPA frameworks (React/Vue/Svelte) build.
+   * Tried v0.1.5-0.1.13: force Carlito (or IndigoLoopTail+Carlito) onto
+   * site prose. Result: vertical drift on FB, Discord, etc because
+   * Carlito's ascent/descent ≠ site's native font (Optimistic, Whitney,
+   * Inter, system-ui).
    *
-   * Excludes (must keep their own font for icon glyph rendering):
-   *   - <i>, <svg> and their descendants (icon carriers)
-   *   - elements with class containing icon-font terms
-   *   - elements with explicit aria-hidden (decorative-only)
-   *   - <code>/<pre>/<kbd>/<samp>/<tt> (UA monospace stays)
-   *   - <input> types that don't accept text */
-  html body,
-  html body *:not(i):not(i *):not(svg):not(svg *):not(use):not(picture):not(img):not(canvas):not(video):not(audio):not(code):not(pre):not(kbd):not(samp):not(tt):not(code *):not(pre *):not([aria-hidden="true"]):not([class*="Icon"]):not([class*="icon"]):not([class*="ms-Icon"]):not([class*="ms-Font"]):not([class*="material-icons"]):not([class*="material-symbols"]):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fal):not(.fab):not(.fad):not(.codicon):not([class*="codicon"]):not([data-icon]):not([data-icon-name]):not([class*="symbol"]):not([class*="Symbol"]):not([class*="emoji"]):not([class*="Emoji"]):not([class*="glyph"]):not([class*="Glyph"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]) {
-    font-family:
-      "IndigoLoopTail",
-      "Carlito",
-      "SF Pro Display",
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      system-ui,
-      sans-serif !important;
-  }
+   * CSS Fonts L5 size-adjust/ascent-override/descent-override only work
+   * inside our own @font-face declaration (IndigoLoopTail). Raw Carlito
+   * keeps its native metrics. Listing "Carlito" in font-family stack =
+   * drift on every site.
+   *
+   * Universal font swap is fundamentally incompatible with metric-safe
+   * rendering across N sites. Solution: typography lives in controlled
+   * surfaces (Plasma system font = Carlito 11, Konsole, VSCode, Obsidian,
+   * Spicetify, Vencord, simulator). Browser content = native fonts.
+   *
+   * This style stays cosmetic-only: selection, scrollbar, focus ring. */
 
   /* ─── Selection tint — indigo overlay ─────────────────────────────────── */
   ::selection {
