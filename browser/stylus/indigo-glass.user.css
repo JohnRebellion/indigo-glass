@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.10
+@version        0.1.11
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito prose font, indigo scrollbars, indigo selection, indigo focus ring, double-storey g/a allograph. Safe on icon fonts (excludes via narrow selectors). Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -139,5 +139,31 @@
     outline: 2px solid #5E6AD2 !important;
     outline-offset: 2px;
     box-shadow: 0 0 0 4px rgba(94, 106, 210, 0.18) !important;
+  }
+
+  /* ─── Compact density (per docs/DENSITY.md) ──────────────────────────────
+   * Tightens generic button/input padding across all sites. NOT applied
+   * to icon-bearing buttons (heuristic: skip [aria-label-only] icon btns
+   * via :not). Skips Microsoft Outlook + 365 chrome (icon-glyph risks). */
+
+  html body button:not([class*="icon"]):not([class*="Icon"]):not([aria-label]),
+  html body [role="button"]:not([class*="icon"]):not([class*="Icon"]) {
+    padding: 4px 10px !important;
+  }
+
+  html body input[type="text"],
+  html body input[type="search"],
+  html body input[type="email"],
+  html body input[type="url"],
+  html body input[type="password"],
+  html body input[type="number"],
+  html body select,
+  html body textarea {
+    padding: 4px 8px !important;
+  }
+
+  html body li {
+    margin-top: 1px;
+    margin-bottom: 1px;
   }
 }
