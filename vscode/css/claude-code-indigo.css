@@ -289,3 +289,61 @@ html body :is(
   --app-list-border-radius: 8px !important;
   --app-list-gap: 2px !important;
 }
+
+/* ─── Compact density (per docs/DENSITY.md) ─────────────────────────────────
+ * Tightens Anthropic webview defaults toward Linear-style discipline:
+ *   buttons    4/10
+ *   inputs     4/8
+ *   list rows  3/8 + 1px gap
+ *   tool body  4/6 internal
+ * Plus reduced section gaps. */
+
+html body .messageInput_cKsPxg,
+html body .codeInput_Eg8KCQ,
+html body .authUrlInput_Eg8KCQ,
+html body .permissionRequestInput_qlaBag,
+html body .inputJson_qlaBag {
+  padding: 4px 8px !important;
+}
+
+html body .primaryButton_f3sAzg,
+html body .button_qlaBag,
+html body .actionButton_IHCQeQ {
+  padding: 4px 10px !important;
+}
+
+html body .toolBodyRow_ZUQaOA,
+html body .toolBodyRowContent_ZUQaOA,
+html body .toolBodyRowLabel_ZUQaOA {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+
+html body .fileItem_n2luCQ,
+html body .fileItem_pZbgXw,
+html body .slashCommandMessage_07S1Yg,
+html body .slashCommandResultMessage_07S1Yg {
+  padding: 3px 8px !important;
+}
+
+/* Section gaps - reduce default 12-16 to 8 */
+html body [class*="section"],
+html body [class*="Section"] {
+  gap: 8px !important;
+}
+
+/* Tighter list rows + 1px row gap */
+html body .messageList_07S1Yg,
+html body .timelineMessage_07S1Yg {
+  margin-top: 1px !important;
+  margin-bottom: 1px !important;
+}
+
+/* Radius alignment w/ tokens (8px default) */
+html body .toolResult_uq5aLg,
+html body .codeBlockWrapper_-a7MRw,
+html body .codeInput_Eg8KCQ,
+html body .messageInput_cKsPxg,
+html body .inputContainer_cKsPxg {
+  border-radius: 8px !important;
+}
