@@ -1,0 +1,107 @@
+/* Indigo Glass simulator - global reset + chrome */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif;
+  background: var(--ig-base);
+  color: var(--ig-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--ig-indigo-hi);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--ig-violet);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--ig-indigo) 45%, transparent);
+  color: inherit;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ig-indigo) 45%, transparent);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--ig-indigo-hi) 75%, transparent);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ig-indigo) 55%, transparent) transparent;
+}
+
+/* Indigo Glass mixin classes for sim use */
+.ig-panel {
+  background: color-mix(in srgb, var(--ig-surface-alt) 70%, transparent);
+  backdrop-filter: blur(var(--ig-blur-md)) saturate(110%);
+  -webkit-backdrop-filter: blur(var(--ig-blur-md)) saturate(110%);
+  border: 1px solid var(--ig-border);
+  border-radius: var(--ig-radius-default);
+}
+
+.ig-button {
+  background: var(--ig-indigo);
+  color: white;
+  border: none;
+  padding: var(--ig-density-button-pad-y, 4px) var(--ig-density-button-pad-x, 10px);
+  border-radius: var(--ig-radius-sm);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--ig-dur-quick) var(--ig-ease-standard);
+}
+.ig-button:hover {
+  background: var(--ig-indigo-hi);
+}
+.ig-button-secondary {
+  background: var(--ig-surface-alt);
+  color: var(--ig-text);
+}
+.ig-button-secondary:hover {
+  background: color-mix(in srgb, var(--ig-indigo) 20%, var(--ig-surface-alt));
+}
+
+.ig-input {
+  background: var(--ig-surface);
+  color: var(--ig-text);
+  border: 1px solid var(--ig-border);
+  border-bottom: 1px solid var(--ig-border-strong);
+  padding: var(--ig-density-input-pad-y, 4px) var(--ig-density-input-pad-x, 8px);
+  border-radius: var(--ig-radius-sm);
+  font-family: inherit;
+}
+.ig-input:focus {
+  outline: none;
+  border-color: var(--ig-indigo);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ig-indigo) 18%, transparent);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ig-indigo);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ig-indigo) 18%, transparent);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}

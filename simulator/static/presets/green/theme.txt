@@ -1,0 +1,161 @@
+# Compot Dashboard — full GRUB dashboard
+# Real GRUB stock components only (label, image, boot_menu, progress_bar, circular_progress)
+# green variant
+
+title-text: ""
+desktop-image: "background.jpg"
+desktop-color: "#0a0a14"
+terminal-font: "SF Pro Display Regular 22"
+terminal-box: "assets/terminal_box_*.png"
+terminal-left: "10%"
+terminal-top: "20%"
+terminal-width: "80%"
+terminal-height: "60%"
+terminal-border: "0"
+
+# Top-edge thin progress
++ progress_bar {
+  id = "__timeout__"
+  left = 0
+  top = 0
+  width = 100%
+  height = 3
+  show_text = false
+  bar_style = "assets/progress_bar_*.png"
+  highlight_style = "assets/progress_highlight_*.png"
+}
+
+# Brand top-left
++ label {
+  top = 32
+  left = 60
+  width = 600
+  align = "left"
+  text = "Emerald"
+  color = "#d1fae5"
+  font = "SF Pro Display Regular 28"
+}
+
+# Top-right system info
++ label {
+  top = 32
+  left = 100%-460
+  width = 400
+  align = "right"
+  text = "UEFI · GRUB 2.14"
+  color = "#34d399"
+  font = "SF Pro Display Regular 22"
+}
+
+# Section: Stat cards row =====================================
+# Card 1 background
++ image { left = 60   top = 96  width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 80   top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
++ label { top = 124   left = 80  width = 320 align = "left" text = "ENTRIES" color = "#34d399" font = "SF Pro Display Regular 18" }
++ label { top = 148   left = 80  width = 320 align = "left" text = "5"       color = "#d1fae5" font = "SF Pro Display Regular 42" }
++ label { top = 204   left = 80  width = 320 align = "left" text = "Boot options" color = "#10b981" font = "SF Pro Display Regular 18" }
+
+# Card 2: Timeout (with sparkline)
++ image { left = 440  top = 96  width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 460  top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
++ label { top = 124   left = 460 width = 320 align = "left" text = "TIMEOUT" color = "#34d399" font = "SF Pro Display Regular 18" }
++ label { top = 148   left = 460 width = 200 align = "left" text = "5s"      color = "#d1fae5" font = "SF Pro Display Regular 42" }
++ image { left = 660  top = 156 width = 110 height = 30  file = "assets/sparkline.png" }
++ label { top = 204   left = 460 width = 320 align = "left" text = "Auto-boot countdown" color = "#10b981" font = "SF Pro Display Regular 18" }
+
+# Card 3: Default OS
++ image { left = 820  top = 96  width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 840  top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
++ label { top = 124   left = 840 width = 320 align = "left" text = "DEFAULT" color = "#34d399" font = "SF Pro Display Regular 18" }
++ label { top = 148   left = 840 width = 320 align = "left" text = "Nobara"  color = "#d1fae5" font = "SF Pro Display Regular 32" }
++ label { top = 200   left = 840 width = 320 align = "left" text = "Linux · 7.0.1 · KDE Plasma" color = "#10b981" font = "SF Pro Display Regular 18" }
+
+# Card 4: Disk / donut chart
++ image { left = 1200 top = 96  width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 1220 top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
++ label { top = 124   left = 1220 width = 220 align = "left" text = "DISK" color = "#34d399" font = "SF Pro Display Regular 18" }
++ label { top = 148   left = 1220 width = 220 align = "left" text = "72%"   color = "#d1fae5" font = "SF Pro Display Regular 42" }
++ label { top = 200   left = 1220 width = 220 align = "left" text = "468 / 650 GB" color = "#10b981" font = "SF Pro Display Regular 18" }
++ image { left = 1450 top = 106 width = 110 height = 110 file = "assets/donut.png" }
+
+# Card 5: Kernel / build (right edge)
++ image { left = 1580 top = 96  width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 1600 top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
++ label { top = 124   left = 1600 width = 320 align = "left" text = "KERNEL" color = "#34d399" font = "SF Pro Display Regular 18" }
++ label { top = 148   left = 1600 width = 320 align = "left" text = "7.0.1" color = "#d1fae5" font = "SF Pro Display Regular 42" }
++ label { top = 200   left = 1600 width = 320 align = "left" text = "fc43.x86_64 · GA" color = "#10b981" font = "SF Pro Display Regular 18" }
+
+# Section: Boot Picker title =================================
++ label {
+  top = 280
+  left = 60
+  width = 1000
+  align = "left"
+  text = "BOOT PICKER"
+  color = "#d1fae5"
+  font = "SF Pro Display Regular 36"
+}
+
++ label {
+  top = 280+50
+  left = 60
+  width = 1600
+  align = "left"
+  text = "Select an OS · Default boots automatically when timer ends"
+  color = "#10b981"
+  font = "SF Pro Display Regular 20"
+}
+
+# Faux filter chip on right of section header
++ label {
+  top = 280+18
+  left = 100%-380
+  width = 320
+  align = "right"
+  text = "↑↓  ↵  to navigate"
+  color = "#34d399"
+  font = "SF Pro Display Regular 20"
+}
+
+# Table-style entries =========================================
++ boot_menu {
+  left = 60
+  top = 360
+  width = 100%-120
+  height = 660
+  item_font = "SF Pro Display Regular 28"
+  item_color = "#d1fae5"
+  selected_item_color = "#ffffff"
+  selected_item_font = "SF Pro Display Regular 30"
+  icon_width = 44
+  icon_height = 44
+  item_icon_space = 24
+  item_height = 84
+  item_padding = 4
+  item_spacing = 2
+  selected_item_pixmap_style = "assets/select_*.png"
+  scrollbar = false
+}
+
+# Footer countdown spinner
++ circular_progress {
+  id = "__timeout__"
+  left = 50%-12
+  top = 92%
+  width = 24
+  height = 24
+  num_ticks = 12
+  ticks_disappear = true
+  center_bitmap = "assets/spin_center.png"
+  tick_bitmap = "assets/spin_tick.png"
+}
+
++ label {
+  top = 96%
+  left = 0
+  width = 100%
+  align = "center"
+  text = "↑↓ navigate    ↵ boot    E edit    C console"
+  color = "#10b981"
+  font = "SF Pro Display Regular 20"
+}
