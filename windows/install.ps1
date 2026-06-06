@@ -13,7 +13,8 @@
 param(
   [string[]]$Skip = @(),
   [switch]$DryRun,
-  [switch]$RebuildFontCache
+  [switch]$RebuildFontCache,
+  [string]$HostProfile = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -29,6 +30,60 @@ function Step([string]$name) {
 function Skipped([string]$reason) {
   Write-Host "  SKIP: $reason" -ForegroundColor DarkYellow
 }
+
+# Resolve host profile: explicit param > hostname match > _default
+$HostsDir = Join-Path $RepoRoot 'hosts'
+if (-not $HostProfile) {
+  $HN = ($env:COMPUTERNAME).ToLower()
+  if (Test-Path (Join-Path $HostsDir "$HN.toml")) {
+    $HostProfile = $HN
+  }
+  elseif ($HN -match 'aspire.*5|aspire5') {
+    $HostProfile = 'aspire5-14-1080p'
+  }
+  else {
+    $HostProfile = '_default'
+  }
+}
+$ProfilePath = Join-Path $HostsDir "$HostProfile.toml"
+if (-not (Test-Path $ProfilePath)) {
+  Write-Host "Host profile not found: $ProfilePath. Falling back to _default." -ForegroundColor DarkYellow
+  $HostProfile = '_default'
+  $ProfilePath = Join-Path $HostsDir '_default.toml'
+}
+Write-Host ""
+Write-Host "Host profile: $HostProfile" -ForegroundColor Cyan
+Write-Host "  ($ProfilePath)" -ForegroundColor DarkGray
+
+# Minimal TOML reader for our flat int values
+function Get-Toml {
+  param([string]$Path, [string]$Section, [string]$Key)
+  $inSection = $false
+  foreach ($line in Get-Content $Path) {
+    $t = $line.Trim()
+    if ($t -match "^\[(.+)\]$") {
+      $inSection = ($Matches[1] -eq $Section)
+      continue
+    }
+    if (-not $inSection) { continue }
+    if ($t -match "^$Key\s*=\s*([^#]+?)\s*(#.*)?$") {
+      $val = $Matches[1].Trim().Trim('"')
+      return $val
+    }
+  }
+  return $null
+}
+
+$P = @{
+  body_pt          = [int](Get-Toml $ProfilePath 'fonts' 'body_pt')
+  mono_pt          = [int](Get-Toml $ProfilePath 'fonts' 'mono_pt')
+  menu_pt          = [int](Get-Toml $ProfilePath 'fonts' 'menu_pt')
+  wt_size          = [int](Get-Toml $ProfilePath 'windows_terminal' 'font_size')
+  vsc_editor       = [int](Get-Toml $ProfilePath 'vscode' 'editor_fontsize')
+  vsc_chat         = [int](Get-Toml $ProfilePath 'vscode' 'chat_fontsize')
+  vsc_terminal     = [int](Get-Toml $ProfilePath 'vscode' 'terminal_fontsize')
+}
+Write-Host "  fonts: body=$($P.body_pt) mono=$($P.mono_pt) wt=$($P.wt_size) vsc_editor=$($P.vsc_editor)" -ForegroundColor DarkGray
 
 # 1. Fonts (per-user, no admin)
 if ($Skip -notcontains 'fonts') {
@@ -197,10 +252,11 @@ if ($Skip -notcontains 'terminal') {
       if (-not $settings.profiles.defaults.font) {
         $settings.profiles.defaults | Add-Member -NotePropertyName 'font' -NotePropertyValue ([PSCustomObject]@{
           face = 'Iosevka Custom Condensed'
-          size = 10
+          size = $P.wt_size
         }) -Force
       } else {
         $settings.profiles.defaults.font.face = 'Iosevka Custom Condensed'
+        $settings.profiles.defaults.font | Add-Member -NotePropertyName 'size' -NotePropertyValue $P.wt_size -Force
       }
     }
 
@@ -259,12 +315,43 @@ if ($Skip -notcontains 'starship') {
 }
 else { Step 'Install Starship config'; Skipped '-Skip starship' }
 
-# 6. VSCode Claude Code webview retint
+# 6a. VSCode font sizes from host profile
+if ($Skip -notcontains 'vscode') {
+  Step 'Apply VSCode font sizes (host profile)'
+  $vscPaths = @(
+    "$env:APPDATA\Code - Insiders\User\settings.json",
+    "$env:APPDATA\Code\User\settings.json"
+  ) | Where-Object { Test-Path $_ }
+
+  foreach ($vsc in $vscPaths) {
+    if ($DryRun) {
+      Write-Host "  [dry-run] would set editor=$($P.vsc_editor) chat=$($P.vsc_chat) terminal=$($P.vsc_terminal) in $vsc"
+      continue
+    }
+    try {
+      $raw = Get-Content $vsc -Raw
+      # JSONC tolerant strip
+      $clean = $raw -replace '//[^\n]*', ''
+      $clean = $clean -replace ',(\s*[}\]])', '$1'
+      $j = $clean | ConvertFrom-Json -Depth 100
+      $j | Add-Member -NotePropertyName 'editor.fontSize' -NotePropertyValue $P.vsc_editor -Force
+      $j | Add-Member -NotePropertyName 'chat.fontSize' -NotePropertyValue $P.vsc_chat -Force
+      $j | Add-Member -NotePropertyName 'terminal.integrated.fontSize' -NotePropertyValue $P.vsc_terminal -Force
+      Copy-Item $vsc "$vsc.before-indigo-glass" -Force
+      $j | ConvertTo-Json -Depth 100 | Set-Content -Path $vsc
+      Write-Host "  patched $vsc" -ForegroundColor Green
+    } catch {
+      Write-Host "  WARN: failed to patch $vsc - $($_.Exception.Message)" -ForegroundColor DarkYellow
+    }
+  }
+}
+else { Step 'Apply VSCode font sizes'; Skipped '-Skip vscode' }
+
+# 6b. VSCode Claude Code webview retint
 if ($Skip -notcontains 'vscode') {
   Step 'Patch Claude Code webview CSS'
   if ($DryRun) { Write-Host "  [dry-run] run patch-webview-css.ps1" }
   else {
-    # Use whichever PowerShell is running this script
     $shell = if (Get-Command pwsh -ErrorAction SilentlyContinue) { 'pwsh' } else { 'powershell' }
     & $shell -ExecutionPolicy Bypass -File "$ScriptDir\vscode\patch-webview-css.ps1"
   }

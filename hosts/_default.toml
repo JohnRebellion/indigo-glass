@@ -1,0 +1,43 @@
+# Indigo Glass - default host profile (Nobara desktop, 27" 1440p @ 100%)
+#
+# Canonical baseline. Other host profiles override only the fields that
+# differ. If a profile sets no value for a key, _default wins.
+#
+# Apply manually:
+#   bash hosts/apply.sh                          # auto-detect host
+#   bash hosts/apply.sh --host _default          # force default
+#   pwsh windows/install.ps1 -HostProfile _default
+
+[meta]
+name = "Nobara Desktop"
+display_inches = 27
+display_resolution = "2560x1440"
+display_dpi_effective = 109
+scale_factor = 1.0
+description = "27in 1440p reference, Win 100% / KDE 100% scale"
+
+# Body / chrome font point sizes
+[fonts]
+body_pt = 11           # Carlito - app content
+mono_pt = 11           # Iosevka Custom Condensed - editor/terminal/code
+menu_pt = 11           # SF Pro Display - menus
+toolbar_pt = 10        # SF Pro Display - toolbars
+smallest_pt = 9        # SF Pro Display - tooltips/captions
+window_title_pt = 11   # SF Pro Display - window decoration
+
+[konsole]
+font_size = 13
+
+[vscode]
+editor_fontsize = 14
+chat_fontsize = 13
+terminal_fontsize = 13
+
+[windows_terminal]
+font_size = 10
+
+[kde]
+panel_pt = 11
+
+[gtk]
+font_pt = 11
