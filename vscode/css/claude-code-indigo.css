@@ -329,8 +329,14 @@ html body :is(
  *   tool body  4/6 internal
  * Plus reduced section gaps. */
 
-html body .messageInput_cKsPxg,
-html body .codeInput_Eg8KCQ,
+/* Density padding REMOVED from .messageInput_cKsPxg + .codeInput_Eg8KCQ
+ * (the Lexical-backed editors). The density commit's 4px vertical padding
+ * shrank the input's intrinsic line box vs the textarea's natural height,
+ * shifting text baseline down relative to caret position. Lexical's two-
+ * layer render amplified this into the visible baseline split user saw.
+ *
+ * Keep density only on non-Lexical input controls (auth URL, permission
+ * request, JSON input — plain HTML inputs without overlay layers). */
 html body .authUrlInput_Eg8KCQ,
 html body .permissionRequestInput_qlaBag,
 html body .inputJson_qlaBag {
