@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.15
+@version        0.1.16
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito typography (loop-tail double-storey g/a) with CSS Fonts L5 metric overrides so Carlito's box matches system-ui ascent/descent — zero vertical drift on FB/Discord/etc. Plus indigo scrollbars, selection, focus ring. Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -33,7 +33,9 @@
  * to system-ui — site keeps native rendering.
  *
  * Calibration values for Carlito vs system-ui (Linux Inter / Segoe UI):
- *   size-adjust:          96%   (Carlito x-height slightly larger)
+ *   size-adjust:         105%   (Carlito x-height ~5% smaller than Inter,
+ *                                bump back up to match native visual size —
+ *                                v0.1.15 96% appeared visibly smaller)
  *   ascent-override:      90%   (matches Inter/Segoe ascent ratio)
  *   descent-override:     22%   (matches Inter/Segoe descent ratio)
  *   line-gap-override:    0%    (no extra line gap)
@@ -48,7 +50,7 @@
     src: local("Carlito"), local("Carlito Regular");
     font-weight: normal;
     font-style: normal;
-    size-adjust: 96%;
+    size-adjust: 105%;
     ascent-override: 90%;
     descent-override: 22%;
     line-gap-override: 0%;
@@ -58,7 +60,7 @@
     src: local("Carlito Bold"), local("Carlito-Bold");
     font-weight: bold;
     font-style: normal;
-    size-adjust: 96%;
+    size-adjust: 105%;
     ascent-override: 90%;
     descent-override: 22%;
     line-gap-override: 0%;
@@ -68,7 +70,7 @@
     src: local("Carlito Italic"), local("Carlito-Italic");
     font-weight: normal;
     font-style: italic;
-    size-adjust: 96%;
+    size-adjust: 105%;
     ascent-override: 90%;
     descent-override: 22%;
     line-gap-override: 0%;
@@ -78,7 +80,7 @@
     src: local("Carlito Bold Italic"), local("Carlito-BoldItalic");
     font-weight: bold;
     font-style: italic;
-    size-adjust: 96%;
+    size-adjust: 105%;
     ascent-override: 90%;
     descent-override: 22%;
     line-gap-override: 0%;
