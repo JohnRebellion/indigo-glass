@@ -355,32 +355,22 @@ html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
 
-/* Prompt input: revert font swap to native chat font so caret
- * advance-width math matches rendered glyph widths. Lexical editor
- * (Claude Code's input framework) renders text in layers — caret in
- * hidden textarea uses one font's advance, visible text uses another.
- * Forcing Carlito on visible layer while caret stays on native font =
- * persistent horizontal drift no metric override can reconcile.
+/* Prompt input: plain Carlito direct (no SFProWithLoopTail layering).
+ * User confirmed OK with whatever native Carlito glyphs are — drop the
+ * unicode-range subset chain that was causing layered render drift.
  *
- * Trade: loses Carlito loop-tail g/a inside the input ONLY. Everywhere
- * else (assistant messages, code blocks, tool output) keeps Carlito
- * via the universal SFProWithLoopTail cascade above. */
-html body textarea.messageInput_cKsPxg,
+ * Lexical editor renders text in a contenteditable div + a placeholder
+ * span. Both need Carlito so caret math (which Chromium computes from
+ * the contenteditable's font) and rendered text use same advance widths. */
+html body .inputContainer_cKsPxg,
+html body .inputContainer_cKsPxg *,
 html body .messageInput_cKsPxg,
 html body .messageInput_cKsPxg *,
-html body .inputContainer_cKsPxg textarea,
 html body .codeInput_Eg8KCQ,
-html body .codeInput_Eg8KCQ textarea,
-html body [contenteditable="true"] {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    "Segoe UI",
-    system-ui,
-    sans-serif !important;
-  font-kerning: auto !important;
-  font-variant-ligatures: normal !important;
-  font-feature-settings: normal !important;
-  letter-spacing: normal !important;
+html body .codeInput_Eg8KCQ * {
+  font-family: "Carlito", system-ui, sans-serif !important;
+  font-kerning: auto;
+  font-variant-ligatures: normal;
+  font-feature-settings: normal;
+  letter-spacing: normal;
 }
