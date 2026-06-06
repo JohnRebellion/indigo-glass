@@ -1,0 +1,32 @@
+<!--
+  Indigo Glass - Liquid Glass refraction filter
+  Inline this SVG once per app (in <body> or layout host). Filter id `ig-liquid-glass`
+  is referenced by the `.ig-liquid::before` rule in liquid-glass.css.
+
+  Mechanic:
+    1. feTurbulence generates organic noise field (fractalNoise, low baseFrequency
+       so ripples are subtle and large rather than grainy)
+    2. feDisplacementMap shifts source pixels by the noise field's R/G channels
+       at scale=6 (CSS var --ig-liquid-displacement). At 6 px, gives a watery
+       wobble without distorting text legibility.
+
+  Because we apply this in `backdrop-filter: url(#ig-liquid-glass)` on a layer
+  that ALREADY has `backdrop-filter: blur(13px)`, the source pixels are blurred
+  FIRST then refracted. Never reveals sharp background. Never clear-glass.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="ig-liquid-glass" x="0%" y="0%" width="100%" height="100%">
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency="0.012 0.014"
+      numOctaves="2"
+      seed="7"
+      result="noise"/>
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="noise"
+      scale="6"
+      xChannelSelector="R"
+      yChannelSelector="G"/>
+  </filter>
+</svg>
