@@ -26,15 +26,16 @@ smallest_pt = 9        # SF Pro Display - tooltips/captions
 window_title_pt = 11   # SF Pro Display - window decoration
 
 [konsole]
-font_size = 13
+font_size = 11      # pt — body anchor (canon)
 
 [vscode]
-editor_fontsize = 14
-chat_fontsize = 13
-terminal_fontsize = 13
+# px — 11pt body @ 96 DPI web ≈ 15px. ALL canonical body.
+editor_fontsize = 15
+chat_fontsize = 15
+terminal_fontsize = 15
 
 [windows_terminal]
-font_size = 10
+font_size = 11      # pt — body anchor (canon)
 
 [kde]
 panel_pt = 11
