@@ -326,13 +326,7 @@ html body .slashCommandResultMessage_07S1Yg {
   padding: 3px 8px !important;
 }
 
-/* Section gaps - reduce default 12-16 to 8 */
-html body [class*="section"],
-html body [class*="Section"] {
-  gap: 8px !important;
-}
-
-/* Tighter list rows + 1px row gap */
+/* Tighter list rows + 1px row gap (Anthropic-class scoped only) */
 html body .messageList_07S1Yg,
 html body .timelineMessage_07S1Yg {
   margin-top: 1px !important;
