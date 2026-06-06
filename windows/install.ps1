@@ -12,7 +12,8 @@
 
 param(
   [string[]]$Skip = @(),
-  [switch]$DryRun
+  [switch]$DryRun,
+  [switch]$RebuildFontCache
 )
 
 $ErrorActionPreference = 'Stop'
@@ -145,6 +146,27 @@ namespace IndigoGlass {
   }
 }
 else { Step 'Install fonts'; Skipped '-Skip fonts' }
+
+# 1b. Font cache rebuild (forces DirectWrite to re-enumerate)
+if ($RebuildFontCache) {
+  Step 'Rebuild Win font cache'
+  if ($DryRun) { Write-Host '  [dry-run] would stop FontCache, clear cache dir, restart' }
+  else {
+    try {
+      Stop-Service FontCache -Force -ErrorAction Stop
+      $cacheDir = "$env:LOCALAPPDATA\Microsoft\Windows\FontCache"
+      if (Test-Path $cacheDir) {
+        Get-ChildItem $cacheDir -Recurse -Force -ErrorAction SilentlyContinue |
+          Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+      }
+      Start-Service FontCache
+      Write-Host '  Font cache rebuilt. Restart Windows Terminal + VSCode now.' -ForegroundColor Green
+    } catch {
+      Write-Host "  ERROR: $($_.Exception.Message)" -ForegroundColor Red
+      Write-Host '  Run as admin or open Settings > Personalization > Fonts to force refresh.' -ForegroundColor DarkGray
+    }
+  }
+}
 
 # 2. Windows Terminal color scheme
 if ($Skip -notcontains 'terminal') {
