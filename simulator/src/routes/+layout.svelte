@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import '../lib/styles/tokens.css';
   import '../lib/styles/density.css';
+  import '../lib/styles/liquid-glass.css';
   import '../lib/styles/global.css';
 
   let { children } = $props();
@@ -19,6 +20,14 @@
     return $page.url.pathname.startsWith(href);
   }
 </script>
+
+<!-- Liquid Glass refraction filter - referenced by .ig-liquid -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="ig-liquid-glass" x="0%" y="0%" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.014" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
 
 <div class="ig-shell">
   <header class="ig-shell-header" data-testid="shell-header">

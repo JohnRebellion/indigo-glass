@@ -32,7 +32,7 @@
     <h2>Surfaces</h2>
     <div class="ig-grid">
       {#each surfaces as s}
-        <a class="ig-card" href={s.href} data-testid="card-{s.name.toLowerCase().replace(/\s/g, '-')}">
+        <a class="ig-card ig-liquid" href={s.href} data-testid="card-{s.name.toLowerCase().replace(/\s/g, '-')}">
           <strong>{s.name}</strong>
           <span>{s.desc}</span>
         </a>
