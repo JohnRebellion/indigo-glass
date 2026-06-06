@@ -53,12 +53,21 @@ html,
  * Carlito g, a = double-storey loop-tail (verified: 3, 2 contours).
  * SF Pro Display g, a = single-storey (Apple house style). */
 
+/* CSS Fonts L5 metric overrides match Carlito's box to SF Pro Display
+ * metrics so g/a glyph swap doesn't inflate the line box. Without
+ * these, Carlito's native ascent (~1010/upem) inflates line-height
+ * vs SF Pro (~1950/2048), causing text baseline to sit below the
+ * native cursor position in the Claude Code prompt input. */
 @font-face {
   font-family: "SFProWithLoopTail";
   src: local("Carlito");
   unicode-range: U+0061, U+0067; /* lowercase a, g only */
   font-weight: 100 900;
   font-style: normal;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  descent-override: 24%;
+  line-gap-override: 0%;
 }
 @font-face {
   font-family: "SFProWithLoopTail";
@@ -66,6 +75,10 @@ html,
   unicode-range: U+0061, U+0067;
   font-weight: 100 900;
   font-style: italic;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  descent-override: 24%;
+  line-gap-override: 0%;
 }
 @font-face {
   font-family: "SFProWithLoopTail";
