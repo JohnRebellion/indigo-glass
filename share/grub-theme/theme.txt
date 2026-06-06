@@ -6,9 +6,9 @@ desktop-color: "#0F0F12"
 
 + image {
   left = 60
-  top = 96
+  top = 84
   width = 1800
-  height = 110
+  height = 180
   file = "assets/specs_banner.png"
 }
 
@@ -31,7 +31,7 @@ desktop-color: "#0F0F12"
   font = "SF Pro Display Regular 16"
 }
 + label {
-  top = 240
+  top = 300
   left = 60
   width = 1000
   align = "left"
@@ -40,7 +40,7 @@ desktop-color: "#0F0F12"
   font = "SF Pro Display Regular 22"
 }
 + label {
-  top = 280
+  top = 340
   left = 60
   width = 1600
   align = "left"
@@ -50,7 +50,7 @@ desktop-color: "#0F0F12"
 }
 + boot_menu {
   left = 60
-  top = 340
+  top = 400
   width = 1800
   height = 600
   item_font = "Carlito Regular 18"
