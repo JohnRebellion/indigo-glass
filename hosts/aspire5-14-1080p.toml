@@ -1,0 +1,39 @@
+# Indigo Glass - Acer Aspire 5, 14" 1080p @ Win 100% scale
+#
+# DPI math: 1920x1080 over 14" diagonal = 157 effective DPI.
+# Reference (27" 1440p): 109 DPI. Scale ratio: 157/109 = 1.44x.
+# User opted to NOT raise Win display scaling, so sizes scale at the
+# font level to match physical mm of the 27" reference.
+
+[meta]
+name = "Acer Aspire 5"
+display_inches = 14
+display_resolution = "1920x1080"
+display_dpi_effective = 157
+scale_factor = 1.44
+description = "14in 1080p, Win 100% scale, font sizes scaled 1.44x of default"
+
+[fonts]
+body_pt = 16           # 11 * 1.44 = 15.84 -> 16
+mono_pt = 16
+menu_pt = 16
+toolbar_pt = 14        # 10 * 1.44 = 14.4 -> 14
+smallest_pt = 13       # 9 * 1.44 = 12.96 -> 13
+window_title_pt = 16
+
+[konsole]
+font_size = 19         # 13 * 1.44 = 18.7 -> 19
+
+[vscode]
+editor_fontsize = 20   # 14 * 1.44 = 20.2 -> 20
+chat_fontsize = 19     # 13 * 1.44 = 18.7 -> 19
+terminal_fontsize = 19
+
+[windows_terminal]
+font_size = 14         # 10 * 1.44 = 14.4 -> 14
+
+[kde]
+panel_pt = 16
+
+[gtk]
+font_pt = 16
