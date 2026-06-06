@@ -1,6 +1,4 @@
-# Indigo Glass — GRUB Theme (downsized v2 for visual test)
-# Target: 1920x1080 native, fonts ~50% smaller than v1
-# Canon: 11pt body anchor
+# Indigo Glass — GRUB Theme v3 (mid-size between v1 huge and v2 tiny)
 
 title-text: ""
 desktop-image: "background.jpg"
@@ -9,24 +7,22 @@ desktop-color: "#0F0F12"
 + image {
   left = 60
   top = 96
-  width = 240
-  height = 90
+  width = 300
+  height = 110
   file = "assets/card_os.png"
 }
-
 + image {
-  left = 320
+  left = 380
   top = 96
-  width = 240
-  height = 90
+  width = 300
+  height = 110
   file = "assets/card_kernel.png"
 }
-
 + image {
-  left = 580
+  left = 700
   top = 96
-  width = 240
-  height = 90
+  width = 300
+  height = 110
   file = "assets/card_hardware.png"
 }
 
@@ -37,9 +33,8 @@ desktop-color: "#0F0F12"
   align = "left"
   text = "Nobara Workstation"
   color = "#F8F8F8"
-  font = "SF Pro Display Regular 16"
+  font = "SF Pro Display Regular 20"
 }
-
 + label {
   top = 32
   left = 1460
@@ -47,48 +42,44 @@ desktop-color: "#0F0F12"
   align = "right"
   text = "UEFI · GRUB 2.14"
   color = "#818CF8"
-  font = "SF Pro Display Regular 12"
+  font = "SF Pro Display Regular 16"
 }
-
 + label {
-  top = 220
+  top = 240
   left = 60
   width = 1000
   align = "left"
   text = "BOOT PICKER"
   color = "#F8F8F8"
-  font = "SF Pro Display Regular 18"
+  font = "SF Pro Display Regular 22"
 }
-
 + label {
-  top = 250
+  top = 280
   left = 60
   width = 1600
   align = "left"
   text = "Select an OS · Default boots automatically when timer ends"
   color = "#6B7280"
-  font = "Carlito Regular 12"
+  font = "Carlito Regular 16"
 }
-
 + boot_menu {
   left = 60
-  top = 300
+  top = 340
   width = 1800
   height = 600
-  item_font = "Carlito Regular 14"
+  item_font = "Carlito Regular 18"
   item_color = "#F8F8F8"
   selected_item_color = "#FFFFFF"
-  selected_item_font = "Carlito Regular 16"
-  icon_width = 24
-  icon_height = 24
-  item_icon_space = 14
-  item_height = 44
-  item_padding = 4
+  selected_item_font = "Carlito Regular 20"
+  icon_width = 32
+  icon_height = 32
+  item_icon_space = 18
+  item_height = 56
+  item_padding = 6
   item_spacing = 2
   selected_item_pixmap_style = "assets/select_*.png"
   scrollbar = false
 }
-
 + label {
   top = 1010
   left = 0
@@ -96,5 +87,5 @@ desktop-color: "#0F0F12"
   align = "center"
   text = "↑↓ navigate    ↵ boot    E edit    C console"
   color = "#6B7280"
-  font = "Carlito Regular 12"
+  font = "Carlito Regular 16"
 }
