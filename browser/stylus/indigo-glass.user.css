@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Indigo Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.12
+@version        0.1.13
 @description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito prose font, indigo scrollbars, indigo selection, indigo focus ring, double-storey g/a allograph. Safe on icon fonts (excludes via narrow selectors). Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -36,12 +36,19 @@
 @-moz-document regexp("https?://.*") {
 
   /* ─── Carlito loop-tail g/a for any text on any site ──────────────────── */
+  /* Metric overrides match Carlito's box to system-ui defaults so
+   * the font swap doesn't introduce vertical line-height drift on
+   * sites like FB (Optimistic font has different ascent/descent). */
   @font-face {
     font-family: "IndigoLoopTail";
     src: local("Carlito");
     unicode-range: U+0061, U+0067;
     font-weight: normal;
     font-style: normal;
+    size-adjust: 96%;
+    ascent-override: 90%;
+    descent-override: 22%;
+    line-gap-override: 0%;
   }
   @font-face {
     font-family: "IndigoLoopTail";
@@ -49,6 +56,10 @@
     unicode-range: U+0061, U+0067;
     font-weight: bold;
     font-style: normal;
+    size-adjust: 96%;
+    ascent-override: 90%;
+    descent-override: 22%;
+    line-gap-override: 0%;
   }
   @font-face {
     font-family: "IndigoLoopTail";
@@ -56,6 +67,10 @@
     unicode-range: U+0061, U+0067;
     font-weight: normal;
     font-style: italic;
+    size-adjust: 96%;
+    ascent-override: 90%;
+    descent-override: 22%;
+    line-gap-override: 0%;
   }
   @font-face {
     font-family: "IndigoLoopTail";
@@ -63,6 +78,10 @@
     unicode-range: U+0061, U+0067;
     font-weight: bold;
     font-style: italic;
+    size-adjust: 96%;
+    ascent-override: 90%;
+    descent-override: 22%;
+    line-gap-override: 0%;
   }
 
   /* Force Carlito on prose elements site-wide so Indigo Glass typography
