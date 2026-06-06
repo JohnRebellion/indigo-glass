@@ -1,0 +1,23 @@
+{
+  "name": "Indigo Glass",
+  "background": "#0F0F12",
+  "foreground": "#F8F8F8",
+  "cursorColor": "#818CF8",
+  "selectionBackground": "#5E6AD2",
+  "black": "#18181C",
+  "red": "#ED254E",
+  "green": "#71F79F",
+  "yellow": "#FBBF24",
+  "blue": "#5E6AD2",
+  "purple": "#A78BFA",
+  "cyan": "#67E8F9",
+  "white": "#F8F8F8",
+  "brightBlack": "#6B7280",
+  "brightRed": "#FF5272",
+  "brightGreen": "#8CFFB4",
+  "brightYellow": "#FFD250",
+  "brightBlue": "#818CF8",
+  "brightPurple": "#C8B5FF",
+  "brightCyan": "#A5F3FC",
+  "brightWhite": "#FFFFFF"
+}
