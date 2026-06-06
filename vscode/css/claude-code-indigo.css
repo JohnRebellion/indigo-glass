@@ -355,20 +355,38 @@ html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
 
-/* Prompt input: plain Carlito direct (no SFProWithLoopTail layering).
- * User confirmed OK with whatever native Carlito glyphs are — drop the
- * unicode-range subset chain that was causing layered render drift.
+/* Prompt input: native font everywhere — Lexical editor uses MULTIPLE
+ * layers (contenteditable + selection overlay + placeholder span). One
+ * font-family rule hits only the layer matched by our selector; other
+ * layers keep their native font, producing the visible baseline split
+ * (selected text raised, unselected text lower).
  *
- * Lexical editor renders text in a contenteditable div + a placeholder
- * span. Both need Carlito so caret math (which Chromium computes from
- * the contenteditable's font) and rendered text use same advance widths. */
+ * Confirmed empirically (2026-06-07): user screenshot showed selected
+ * text rendering ~8px higher than unselected text in the same input.
+ *
+ * Surrender Carlito in input — use native font on every input-related
+ * class hash + their descendants + every overlay/placeholder/chip we
+ * can target. All layers same font = no baseline split, caret aligned. */
 html body .inputContainer_cKsPxg,
 html body .inputContainer_cKsPxg *,
+html body .inputContainerBackground_cKsPxg,
+html body .inputContainer_07S1Yg,
+html body .inputContainer_07S1Yg *,
 html body .messageInput_cKsPxg,
 html body .messageInput_cKsPxg *,
+html body .inputMentionChip_cKsPxg,
 html body .codeInput_Eg8KCQ,
-html body .codeInput_Eg8KCQ * {
-  font-family: "Carlito", system-ui, sans-serif !important;
+html body .codeInput_Eg8KCQ *,
+html body .placeholder_q4zSJA,
+html body .input_q4zSJA,
+html body .input_ukWSlw {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Segoe UI",
+    system-ui,
+    sans-serif !important;
   font-kerning: auto;
   font-variant-ligatures: normal;
   font-feature-settings: normal;
