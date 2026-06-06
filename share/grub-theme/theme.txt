@@ -1,9 +1,6 @@
-# Indigo Glass — GRUB Theme
-# Canonical palette: #5E6AD2 (primary), #818CF8 (accent), #A78BFA (hover-glow)
-# Text: #F8F8F8 (primary), #6B7280 (muted)
-# Surface: #0F0F12 (base), #1F2028 (surface)
-# Radius: 8px default. Linear discipline + visionOS material + selective neumorphism
-# Fonts: SF Pro Display for chrome, Carlito for body labels (double-storey g)
+# Indigo Glass — GRUB Theme (downsized v2 for visual test)
+# Target: 1920x1080 native, fonts ~50% smaller than v1
+# Canon: 11pt body anchor
 
 title-text: ""
 desktop-image: "background.jpg"
@@ -12,24 +9,24 @@ desktop-color: "#0F0F12"
 + image {
   left = 60
   top = 96
-  width = 360
-  height = 140
+  width = 240
+  height = 90
   file = "assets/card_os.png"
 }
 
 + image {
-  left = 440
+  left = 320
   top = 96
-  width = 360
-  height = 140
+  width = 240
+  height = 90
   file = "assets/card_kernel.png"
 }
 
 + image {
-  left = 820
+  left = 580
   top = 96
-  width = 360
-  height = 140
+  width = 240
+  height = 90
   file = "assets/card_hardware.png"
 }
 
@@ -40,7 +37,7 @@ desktop-color: "#0F0F12"
   align = "left"
   text = "Nobara Workstation"
   color = "#F8F8F8"
-  font = "SF Pro Display Regular 28"
+  font = "SF Pro Display Regular 16"
 }
 
 + label {
@@ -50,42 +47,42 @@ desktop-color: "#0F0F12"
   align = "right"
   text = "UEFI · GRUB 2.14"
   color = "#818CF8"
-  font = "SF Pro Display Regular 22"
+  font = "SF Pro Display Regular 12"
 }
 
 + label {
-  top = 280
+  top = 220
   left = 60
   width = 1000
   align = "left"
   text = "BOOT PICKER"
   color = "#F8F8F8"
-  font = "SF Pro Display Regular 36"
+  font = "SF Pro Display Regular 18"
 }
 
 + label {
-  top = 330
+  top = 250
   left = 60
   width = 1600
   align = "left"
   text = "Select an OS · Default boots automatically when timer ends"
   color = "#6B7280"
-  font = "Carlito Regular 24"
+  font = "Carlito Regular 12"
 }
 
 + boot_menu {
   left = 60
-  top = 400
+  top = 300
   width = 1800
   height = 600
-  item_font = "Carlito Regular 28"
+  item_font = "Carlito Regular 14"
   item_color = "#F8F8F8"
   selected_item_color = "#FFFFFF"
-  selected_item_font = "Carlito Regular 30"
-  icon_width = 44
-  icon_height = 44
-  item_icon_space = 24
-  item_height = 84
+  selected_item_font = "Carlito Regular 16"
+  icon_width = 24
+  icon_height = 24
+  item_icon_space = 14
+  item_height = 44
   item_padding = 4
   item_spacing = 2
   selected_item_pixmap_style = "assets/select_*.png"
@@ -99,5 +96,5 @@ desktop-color: "#0F0F12"
   align = "center"
   text = "↑↓ navigate    ↵ boot    E edit    C console"
   color = "#6B7280"
-  font = "Carlito Regular 22"
+  font = "Carlito Regular 12"
 }
