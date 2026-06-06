@@ -1,0 +1,242 @@
+# Indigo Glass - design tokens (single source of truth)
+#
+# Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
+# concrete config from this file via tokens/codegen.py.
+#
+# Schema version: 1
+# Last token revision: 2026-06-07 (density-tightening pass)
+#
+# Edit values here, run codegen, commit results. Do NOT hardcode hex
+# in layer configs anymore.
+
+[meta]
+schema_version = 1
+name = "Indigo Glass"
+description = "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent"
+density = "compact"
+glass_style = "translucent_backdrop"  # NOT refraction. Backdrop blur only.
+revision = 1
+
+# =============================================================================
+# PALETTE - sRGB hex (universal)
+# =============================================================================
+
+[palette.sRGB]
+# Surfaces
+base          = "#0F0F12"   # Linear deep near-black (NOT pure #000)
+surface       = "#1C1C21"   # Window background
+surface_alt   = "#1F2028"   # Elevated panel, glass base
+sidebar       = "#18181C"
+overlay       = "#0F0F12cc" # 80% scrim for modals
+
+# Borders
+border        = "#FFFFFF0F" # ~6% white - subtle glass edge
+border_strong = "#FFFFFF1A" # ~10% - more visible on hover
+
+# Brand
+indigo        = "#5E6AD2"   # Linear primary - selection, buttons
+indigo_hi     = "#818CF8"   # +1 brightness - hover, focus
+violet        = "#A78BFA"   # Visited link, accent decoration
+
+# Semantic
+amber         = "#FBBF24"   # Warning (single semantic color, not generic info)
+positive      = "#71F79F"   # Success
+negative      = "#ED254E"   # Error, destructive
+
+# Text
+text          = "#F8F8F8"   # Primary
+text_muted    = "#6B7280"   # Secondary, disabled
+text_dim      = "#4B5563"   # Tertiary, hint
+
+# =============================================================================
+# PALETTE - Display-P3 wide gamut overlay
+# =============================================================================
+# Use `@media (color-gamut: p3)` to switch.
+# Same perceptual color, more saturation on capable monitors.
+
+[palette.P3]
+indigo    = "color(display-p3 0.36 0.40 0.81)"
+indigo_hi = "color(display-p3 0.51 0.55 0.96)"
+violet    = "color(display-p3 0.65 0.55 0.97)"
+amber     = "color(display-p3 0.98 0.74 0.16)"
+positive  = "color(display-p3 0.44 0.96 0.62)"
+negative  = "color(display-p3 0.92 0.13 0.30)"
+
+# =============================================================================
+# DENSITY - compact Linear-style spacing
+# =============================================================================
+# Tightened from default Klassy/Material values. Smaller padding
+# inside interactive elements, smaller gaps between elements.
+# Goal: information density without crowding.
+
+[spacing]
+# Inner padding (inside interactive elements)
+pad_xs       = 2    # icon-only buttons, mini chips
+pad_sm       = 4    # tight buttons, list items
+pad_md       = 6    # standard buttons, inputs
+pad_lg       = 10   # primary buttons, modal headers
+pad_xl       = 16   # section padding only
+
+# Outer margins (between elements)
+gap_xs       = 2    # icon clusters
+gap_sm       = 4    # form fields, list items
+gap_md       = 8    # section internal
+gap_lg       = 12   # section to section
+gap_xl       = 20   # major regions
+
+# Button-specific (compact yet legible)
+button_pad_y = 4
+button_pad_x = 10   # asymmetric: less vertical, more horizontal for legibility
+icon_button_pad = 4
+
+# Input
+input_pad_y  = 4
+input_pad_x  = 8
+
+# List row
+list_row_pad_y = 3
+list_row_pad_x = 8
+list_row_gap   = 1  # near-flush rows
+
+# Sidebar
+sidebar_item_pad_y = 3
+sidebar_item_pad_x = 8
+
+# =============================================================================
+# RADIUS - 8px default per visionOS, sharper for chips
+# =============================================================================
+
+[radius]
+none   = 0
+xs     = 2     # pill chips, tags
+sm     = 4     # inputs, small buttons
+md     = 6     # toggles
+default = 8    # canonical Klassy match
+lg     = 12    # modals, cards
+xl     = 16    # large panels
+full   = 9999  # circles
+
+# =============================================================================
+# BLUR - backdrop-filter values (visionOS-style translucent backdrop)
+# =============================================================================
+# NOT refraction (Apple Liquid Glass clear). Pure backdrop blur.
+
+[blur]
+none = 0
+sm   = 8
+md   = 13   # matches KWin BlurStrength=13 (Indigo Glass canonical)
+lg   = 20
+xl   = 32
+
+# =============================================================================
+# OPACITY - layered translucency
+# =============================================================================
+
+[opacity]
+window_active   = 0.92
+window_inactive = 0.85
+glass_panel     = 0.70   # behind backdrop blur
+glass_panel_lo  = 0.55
+glass_panel_hi  = 0.85
+overlay_scrim   = 0.80
+disabled        = 0.40
+hover_tint      = 0.10
+
+# =============================================================================
+# SHADOW - selective Neumorphism 2.0 (interactive elements only)
+# =============================================================================
+
+[shadow]
+none           = "none"
+glass_sm       = "0 2px 8px rgba(0,0,0,0.30)"
+glass          = "0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06)"
+glass_lg       = "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)"
+neu_raised     = "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)"
+neu_pressed    = "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)"
+indigo_glow    = "0 0 0 2px rgba(94,106,210,0.30)"
+indigo_glow_lg = "0 0 24px rgba(94,106,210,0.40)"
+
+# =============================================================================
+# TYPOGRAPHY
+# =============================================================================
+# Type scale: minor third (1.2x) for compact rhythm.
+# Base anchor = 11pt (Nobara desktop reference). All sizes derive.
+
+[type.families]
+prose  = ["Carlito", "SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "system-ui", "sans-serif"]
+chrome = ["SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Inter", "system-ui", "sans-serif"]
+mono   = ["Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "JetBrainsMono Nerd Font", "JetBrainsMono NF", "Cascadia Code", "Fira Code", "Consolas", "monospace"]
+
+[type.scale]
+# Multiplier-based scale. ratio = 1.2 (minor third).
+# Anchor at body=11pt for Nobara desktop.
+ratio = 1.2
+anchor_pt = 11
+
+# Derived sizes (anchor * ratio^n)
+xs_pt   = 8     # 11 / 1.2 / 1.2 (-2 step), tooltips
+sm_pt   = 9     # 11 / 1.2 (-1 step), captions/smallest readable
+md_pt   = 11    # anchor, body
+lg_pt   = 13    # +1 step, headings small
+xl_pt   = 16    # +2 step, headings medium
+xxl_pt  = 19    # +3 step, headings large
+hero_pt = 23    # +4 step, hero only
+
+# Per-role aliases (what each surface uses)
+[type.roles]
+body_pt          = 11
+mono_pt          = 11
+menu_pt          = 11
+toolbar_pt       = 10
+smallest_pt      = 9
+caption_pt       = 9
+window_title_pt  = 11
+heading_pt       = 13
+section_pt       = 16
+
+[type.line_height]
+# Tight for Linear discipline, looser for prose-heavy regions
+tight   = 1.20
+default = 1.40
+prose   = 1.55
+
+# =============================================================================
+# MOTION (subdued, no animation overload)
+# =============================================================================
+
+[motion.duration_ms]
+instant  = 60
+quick    = 120
+default  = 200
+slow     = 320
+hero     = 500
+
+[motion.easing]
+# CSS cubic-bezier values
+standard  = "cubic-bezier(0.4, 0.0, 0.2, 1.0)"  # M3 standard
+emphasize = "cubic-bezier(0.2, 0.0, 0.0, 1.0)"  # M3 emphasize
+spring    = "cubic-bezier(0.34, 1.56, 0.64, 1.0)"  # mild overshoot (NOT bouncy)
+
+# =============================================================================
+# ACCESSIBILITY
+# =============================================================================
+
+[a11y]
+# When prefers-reduced-transparency: opacities go to 1.0, blur disabled.
+# When prefers-reduced-motion: motion durations go to 0 or instant only.
+reduce_transparency_opacity = 1.0
+reduce_motion_duration_ms = 0
+focus_outline_width_px = 2
+
+# =============================================================================
+# GLASS COMPOSITION (visionOS-style backdrop-blur layering)
+# =============================================================================
+# Render order: base bg -> backdrop-filter blur -> tinted overlay -> content
+# NO refraction filter. Just blur + indigo tint at low opacity.
+
+[glass]
+# Default glass surface (cards, panels, modals)
+backdrop_blur = 13          # matches KWin BlurStrength
+backdrop_tint = "#5E6AD208" # indigo @ ~3% opacity for warmth
+backdrop_bg   = "#1F2028B3" # surface_alt @ 70% opacity
+border        = "#FFFFFF14" # 8% white
