@@ -1,39 +1,40 @@
 # Indigo Glass - Acer Aspire 5, 14" 1080p @ Win 100% scale
 #
 # DPI math: 1920x1080 over 14" diagonal = 157 effective DPI.
-# Reference (27" 1440p): 109 DPI. Scale ratio: 157/109 = 1.44x.
-# User opted to NOT raise Win display scaling, so sizes scale at the
-# font level to match physical mm of the 27" reference.
+# Reference (27" 1440p): 109 DPI. Raw ratio: 157/109 = 1.44x.
+# 1.44x tested -> too aggressive (Carlito 16pt overflows panels/menus).
+# Settled on ~1.33x: matches physical mm closely enough while keeping
+# WM/panel chrome in proportion. User-confirmed 2026-06-06.
 
 [meta]
 name = "Acer Aspire 5"
 display_inches = 14
 display_resolution = "1920x1080"
 display_dpi_effective = 157
-scale_factor = 1.44
-description = "14in 1080p, Win 100% scale, font sizes scaled 1.44x of default"
+scale_factor = 1.33
+description = "14in 1080p, Win 100% scale, fonts ~1.33x of 27in 1440p default"
 
 [fonts]
-body_pt = 16           # 11 * 1.44 = 15.84 -> 16
-mono_pt = 16
-menu_pt = 16
-toolbar_pt = 14        # 10 * 1.44 = 14.4 -> 14
-smallest_pt = 13       # 9 * 1.44 = 12.96 -> 13
-window_title_pt = 16
+body_pt = 15           # 11 * 1.33 = 14.6  -> 15
+mono_pt = 15
+menu_pt = 15
+toolbar_pt = 13        # 10 * 1.33 = 13.3  -> 13
+smallest_pt = 12       # 9  * 1.33 = 11.97 -> 12
+window_title_pt = 15
 
 [konsole]
-font_size = 19         # 13 * 1.44 = 18.7 -> 19
+font_size = 17         # 13 * 1.33 = 17.29 -> 17
 
 [vscode]
-editor_fontsize = 20   # 14 * 1.44 = 20.2 -> 20
-chat_fontsize = 19     # 13 * 1.44 = 18.7 -> 19
-terminal_fontsize = 19
+editor_fontsize = 19   # 14 * 1.36 = 19.04 -> 19
+chat_fontsize = 17     # 13 * 1.33 = 17.29 -> 17
+terminal_fontsize = 17
 
 [windows_terminal]
-font_size = 14         # 10 * 1.44 = 14.4 -> 14
+font_size = 13         # 10 * 1.33 = 13.3  -> 13
 
 [kde]
-panel_pt = 16
+panel_pt = 15
 
 [gtk]
-font_pt = 16
+font_pt = 15
