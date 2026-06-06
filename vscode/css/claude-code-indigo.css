@@ -355,27 +355,32 @@ html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
 
-/* Prompt input: modest extra room + disable font features that shift
- * glyph advance widths (kerning, ligatures, contextual alternates).
- * Caret drifting horizontally past last char = font has variable
- * advance widths the textarea caret math doesn't account for. */
-html body .inputContainer_cKsPxg,
-html body .messageInput_cKsPxg {
-  min-height: 40px !important;
-  padding-top: 4px !important;
-  padding-bottom: 4px !important;
-  line-height: 1.35 !important;
-}
-
+/* Prompt input: revert font swap to native chat font so caret
+ * advance-width math matches rendered glyph widths. Lexical editor
+ * (Claude Code's input framework) renders text in layers — caret in
+ * hidden textarea uses one font's advance, visible text uses another.
+ * Forcing Carlito on visible layer while caret stays on native font =
+ * persistent horizontal drift no metric override can reconcile.
+ *
+ * Trade: loses Carlito loop-tail g/a inside the input ONLY. Everywhere
+ * else (assistant messages, code blocks, tool output) keeps Carlito
+ * via the universal SFProWithLoopTail cascade above. */
 html body textarea.messageInput_cKsPxg,
+html body .messageInput_cKsPxg,
+html body .messageInput_cKsPxg *,
 html body .inputContainer_cKsPxg textarea,
-html body .codeInput_Eg8KCQ textarea {
-  min-height: 28px !important;
-  padding-top: 4px !important;
-  padding-bottom: 4px !important;
-  line-height: 1.35 !important;
-  font-kerning: none !important;
-  font-variant-ligatures: none !important;
-  font-feature-settings: "kern" 0, "liga" 0, "calt" 0 !important;
-  letter-spacing: 0 !important;
+html body .codeInput_Eg8KCQ,
+html body .codeInput_Eg8KCQ textarea,
+html body [contenteditable="true"] {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Segoe UI",
+    system-ui,
+    sans-serif !important;
+  font-kerning: auto !important;
+  font-variant-ligatures: normal !important;
+  font-feature-settings: normal !important;
+  letter-spacing: normal !important;
 }
