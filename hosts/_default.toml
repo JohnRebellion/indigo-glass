@@ -29,10 +29,12 @@ window_title_pt = 11   # SF Pro Display - window decoration
 font_size = 11      # pt — body anchor (canon)
 
 [vscode]
-# px — 11pt body @ 96 DPI web ≈ 15px. ALL canonical body.
-editor_fontsize = 15
-chat_fontsize = 15
-terminal_fontsize = 15
+# px — Carlito (smaller x-height than Inter/Segoe) renders 11pt visually at 14px,
+# not the naive 11pt @ 96 DPI = 15px math. Editor font is Iosevka mono which at
+# 14px matches Carlito 14px visually for prose parity in chat/editor split view.
+editor_fontsize = 14
+chat_fontsize = 14
+terminal_fontsize = 14
 
 [windows_terminal]
 font_size = 11      # pt — body anchor (canon)
