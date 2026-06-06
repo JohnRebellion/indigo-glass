@@ -355,48 +355,24 @@ html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
 
-/* Prompt input: pure Carlito (user wants double-storey g/a) with
- * explicit line-height + matched metric overrides so caret + text
- * baseline align. Trick: force line-height to a fixed em ratio so
- * webview cursor and font line box use the same metric source. */
-@font-face {
-  font-family: "IndigoCarlitoInput";
-  src: local("Carlito"), local("Carlito Regular");
-  font-weight: normal;
-  font-style: normal;
-  size-adjust: 92%;
-  ascent-override: 85%;
-  descent-override: 20%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: "IndigoCarlitoInput";
-  src: local("Carlito Bold"), local("Carlito-Bold");
-  font-weight: bold;
-  font-style: normal;
-  size-adjust: 92%;
-  ascent-override: 85%;
-  descent-override: 20%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: "IndigoCarlitoInput";
-  src: local("Carlito Italic"), local("Carlito-Italic");
-  font-weight: normal;
-  font-style: italic;
-  size-adjust: 92%;
-  ascent-override: 85%;
-  descent-override: 20%;
-  line-gap-override: 0%;
+/* Prompt input: keep Carlito font swap (loop-tail g/a) — instead of
+ * trying to reconcile metric overrides with webview caret math, just
+ * give the input MORE vertical room. Taller input box absorbs the
+ * Carlito vs native ascent/descent drift visually. User specifically
+ * asked for this approach over metric tweaking. */
+html body .inputContainer_cKsPxg,
+html body .messageInput_cKsPxg {
+  min-height: 56px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  line-height: 1.5 !important;
 }
 
 html body textarea.messageInput_cKsPxg,
-html body .messageInput_cKsPxg,
-html body .messageInput_cKsPxg *,
 html body .inputContainer_cKsPxg textarea,
-html body .codeInput_Eg8KCQ,
 html body .codeInput_Eg8KCQ textarea {
-  font-family: "IndigoCarlitoInput", "Carlito", system-ui, sans-serif !important;
-  line-height: 1.4 !important;
-  vertical-align: baseline !important;
+  min-height: 36px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  line-height: 1.5 !important;
 }
