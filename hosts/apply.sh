@@ -133,7 +133,9 @@ except json.JSONDecodeError as e:
     print(f'  parse fail {path}: {e}', file=sys.stderr); sys.exit(0)
 d['editor.fontSize'] = ed
 d['chat.fontSize'] = ch
+d['chat.editor.fontSize'] = ch
 d['terminal.integrated.fontSize'] = tm
+d['scm.inputFontSize'] = ch
 with open(path, 'w') as f:
     json.dump(d, f, indent=2)
 print(f'  patched {path}')
