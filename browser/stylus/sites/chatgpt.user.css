@@ -1,0 +1,58 @@
+/* ==UserStyle==
+@name           Indigo Glass - ChatGPT
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.1.0
+@description    Retint chatgpt.com with Indigo Glass palette + Carlito loop-tail.
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/chatgpt.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document domain("chatgpt.com"), domain("chat.openai.com") {
+
+  :root {
+    --main-surface-primary: #0F0F12 !important;
+    --main-surface-secondary: #1C1C21 !important;
+    --main-surface-tertiary: #1F2028 !important;
+    --sidebar-surface-primary: #18181C !important;
+    --sidebar-surface-secondary: #1F2028 !important;
+    --sidebar-surface-tertiary: #2A2D38 !important;
+    --surface-primary: #0F0F12 !important;
+    --surface-secondary: #1C1C21 !important;
+    --surface-tertiary: #1F2028 !important;
+    --surface-quaternary: #2A2D38 !important;
+
+    --text-primary: #F8F8F8 !important;
+    --text-secondary: #C9CBD3 !important;
+    --text-tertiary: #6B7280 !important;
+    --text-quaternary: #4B5563 !important;
+
+    --link: #818CF8 !important;
+    --link-hover: #A78BFA !important;
+
+    --interactive-bg-accent-default: #5E6AD2 !important;
+    --interactive-bg-accent-hover: #818CF8 !important;
+
+    --border-default: rgba(255, 255, 255, 0.10) !important;
+    --border-light: rgba(255, 255, 255, 0.06) !important;
+    --border-heavy: rgba(255, 255, 255, 0.14) !important;
+
+    --text-error: #ED254E !important;
+    --text-warning: #FBBF24 !important;
+    --text-success: #71F79F !important;
+  }
+
+  pre, code, kbd, samp, tt,
+  pre code, pre *,
+  .font-mono, [class*="mono"],
+  [class*="code-block"] {
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "Cascadia Code", monospace !important;
+  }
+
+  body, p, h1, h2, h3, h4, h5, h6, li, a, label, button,
+  [class*="prose"], [class*="markdown"] {
+    font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
+  }
+}

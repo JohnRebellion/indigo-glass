@@ -1,0 +1,142 @@
+/**
+ * @name Indigo Glass
+ * @description Indigo Glass palette + Carlito loop-tail + compact density for Discord (Vencord/BetterDiscord/Goosemod).
+ * @author John Rebellion
+ * @version 0.1.0
+ * @website https://github.com/JohnRebellion/indigo-glass
+ * @source https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/vencord/indigo-glass.theme.css
+ */
+
+:root {
+  --ig-base: #0F0F12;
+  --ig-surface: #1C1C21;
+  --ig-surface-alt: #1F2028;
+  --ig-sidebar: #18181C;
+  --ig-indigo: #5E6AD2;
+  --ig-indigo-hi: #818CF8;
+  --ig-violet: #A78BFA;
+  --ig-amber: #FBBF24;
+  --ig-positive: #71F79F;
+  --ig-negative: #ED254E;
+  --ig-text: #F8F8F8;
+  --ig-text-muted: #6B7280;
+}
+
+.theme-dark,
+.theme-darker,
+.theme-pureBlack {
+  --background-primary: var(--ig-base) !important;
+  --background-secondary: var(--ig-surface) !important;
+  --background-secondary-alt: var(--ig-surface-alt) !important;
+  --background-tertiary: var(--ig-sidebar) !important;
+  --background-accent: var(--ig-indigo) !important;
+  --background-floating: var(--ig-surface-alt) !important;
+  --background-mobile-primary: var(--ig-base) !important;
+  --background-mobile-secondary: var(--ig-surface) !important;
+  --background-modifier-hover: rgba(94, 106, 210, 0.10) !important;
+  --background-modifier-active: rgba(94, 106, 210, 0.18) !important;
+  --background-modifier-selected: rgba(94, 106, 210, 0.22) !important;
+  --background-modifier-accent: rgba(255, 255, 255, 0.06) !important;
+
+  --text-normal: var(--ig-text) !important;
+  --text-muted: var(--ig-text-muted) !important;
+  --text-link: var(--ig-indigo-hi) !important;
+  --text-positive: var(--ig-positive) !important;
+  --text-warning: var(--ig-amber) !important;
+  --text-danger: var(--ig-negative) !important;
+
+  --interactive-normal: var(--ig-text) !important;
+  --interactive-hover: var(--ig-text) !important;
+  --interactive-active: var(--ig-indigo-hi) !important;
+  --interactive-muted: var(--ig-text-muted) !important;
+
+  --header-primary: var(--ig-text) !important;
+  --header-secondary: var(--ig-text-muted) !important;
+
+  --channels-default: var(--ig-text-muted) !important;
+  --channel-icon: var(--ig-text-muted) !important;
+  --channeltextarea-background: var(--ig-surface-alt) !important;
+
+  --activity-card-background: var(--ig-surface-alt) !important;
+  --modal-background: var(--ig-base) !important;
+  --modal-footer-background: var(--ig-surface) !important;
+  --scrollbar-thin-thumb: rgba(94, 106, 210, 0.45) !important;
+  --scrollbar-auto-thumb: rgba(94, 106, 210, 0.45) !important;
+  --scrollbar-auto-track: transparent !important;
+
+  --brand-experiment: var(--ig-indigo) !important;
+  --brand-experiment-100: var(--ig-indigo) !important;
+  --brand-experiment-200: var(--ig-indigo) !important;
+  --brand-experiment-360: var(--ig-indigo) !important;
+  --brand-experiment-500: var(--ig-indigo) !important;
+  --brand-experiment-560: var(--ig-indigo-hi) !important;
+  --brand-experiment-600: var(--ig-indigo-hi) !important;
+
+  --status-positive-text: var(--ig-positive) !important;
+  --status-warning-text: var(--ig-amber) !important;
+  --status-danger-text: var(--ig-negative) !important;
+}
+
+/* Selection */
+::selection {
+  background: rgba(94, 106, 210, 0.45) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(94, 106, 210, 0.45) !important;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(129, 140, 248, 0.75) !important;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--ig-indigo) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(94, 106, 210, 0.18) !important;
+}
+
+/* Compact channel list */
+[class*="containerDefault"] {
+  margin-bottom: 1px !important;
+}
+[class*="containerDefault"] [class*="link"] {
+  padding: 4px 8px !important;
+}
+
+/* Compact message rows */
+[class*="messageListItem"] {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* Code blocks - Iosevka */
+code, pre, kbd, samp, tt,
+[class*="markup"] code,
+[class*="markup"] pre {
+  font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "Cascadia Code", monospace !important;
+}
+
+/* Prose */
+body, [class*="markup"], [class*="message"], [class*="title"] {
+  font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
+}
+
+/* Mentions */
+[class*="mentioned"] {
+  background-color: rgba(94, 106, 210, 0.18) !important;
+}
+
+/* Reduced transparency */
+@media (prefers-reduced-transparency: reduce) {
+  [class*="popout"], [class*="tooltip"], [class*="modal"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
