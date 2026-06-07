@@ -1,12 +1,11 @@
-# Indigo Glass — GRUB Theme v6
-# Designed for 1920x1080 viewport (real GRUB picks via gfxmode bias).
-# GRUB-native PF2 labels — no PNG-baked text, no fringing.
+# Indigo Glass — GRUB Theme v7
+# Canonical multi-line format (no inline blocks). Designed for 1920x1080.
 
 title-text: ""
 desktop-image: "background.jpg"
 desktop-color: "#0F0F12"
 
-# ─── System specs panel (top) — bg only, no text baked ──────────────────
+# ─── System specs panel ─────────────────────────────────────────────────
 + image {
   left = 60
   top = 48
@@ -16,29 +15,149 @@ desktop-color: "#0F0F12"
 }
 
 # Column 1: CPU
-+ label { left = 90;   top = 70;  width = 340; align = "left"; text = "CPU";              color = "#A5A9B2"; font = "SF Pro Display Regular 18"; }
-+ label { left = 90;   top = 102; width = 340; align = "left"; text = "Ryzen 7 5700X3D";  color = "#F8F8F8"; font = "Carlito Regular 26"; }
-+ label { left = 90;   top = 152; width = 340; align = "left"; text = "16-thread zen3";   color = "#818CF8"; font = "Carlito Regular 16"; }
++ label {
+  left = 90
+  top = 70
+  width = 340
+  align = "left"
+  text = "CPU"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 18"
+}
++ label {
+  left = 90
+  top = 102
+  width = 340
+  align = "left"
+  text = "Ryzen 7 5700X3D"
+  color = "#F8F8F8"
+  font = "Carlito Regular 26"
+}
++ label {
+  left = 90
+  top = 152
+  width = 340
+  align = "left"
+  text = "16-thread zen3"
+  color = "#818CF8"
+  font = "Carlito Regular 16"
+}
 
 # Column 2: MEMORY
-+ label { left = 450;  top = 70;  width = 340; align = "left"; text = "MEMORY";           color = "#A5A9B2"; font = "SF Pro Display Regular 18"; }
-+ label { left = 450;  top = 102; width = 340; align = "left"; text = "64 GB DDR4";       color = "#F8F8F8"; font = "Carlito Regular 26"; }
-+ label { left = 450;  top = 152; width = 340; align = "left"; text = "3600 MT/s · 4×16"; color = "#818CF8"; font = "Carlito Regular 16"; }
++ label {
+  left = 450
+  top = 70
+  width = 340
+  align = "left"
+  text = "MEMORY"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 18"
+}
++ label {
+  left = 450
+  top = 102
+  width = 340
+  align = "left"
+  text = "64 GB DDR4"
+  color = "#F8F8F8"
+  font = "Carlito Regular 26"
+}
++ label {
+  left = 450
+  top = 152
+  width = 340
+  align = "left"
+  text = "3600 MT/s"
+  color = "#818CF8"
+  font = "Carlito Regular 16"
+}
 
 # Column 3: GPU
-+ label { left = 810;  top = 70;  width = 340; align = "left"; text = "GPU";              color = "#A5A9B2"; font = "SF Pro Display Regular 18"; }
-+ label { left = 810;  top = 102; width = 340; align = "left"; text = "Radeon RX 7600";   color = "#F8F8F8"; font = "Carlito Regular 26"; }
-+ label { left = 810;  top = 152; width = 340; align = "left"; text = "8 GB VRAM";        color = "#818CF8"; font = "Carlito Regular 16"; }
++ label {
+  left = 810
+  top = 70
+  width = 340
+  align = "left"
+  text = "GPU"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 18"
+}
++ label {
+  left = 810
+  top = 102
+  width = 340
+  align = "left"
+  text = "Radeon RX 7600"
+  color = "#F8F8F8"
+  font = "Carlito Regular 26"
+}
++ label {
+  left = 810
+  top = 152
+  width = 340
+  align = "left"
+  text = "8 GB VRAM"
+  color = "#818CF8"
+  font = "Carlito Regular 16"
+}
 
 # Column 4: STORAGE
-+ label { left = 1170; top = 70;  width = 280; align = "left"; text = "STORAGE";          color = "#A5A9B2"; font = "SF Pro Display Regular 18"; }
-+ label { left = 1170; top = 102; width = 280; align = "left"; text = "Kingmax 1TB NVMe"; color = "#F8F8F8"; font = "Carlito Regular 26"; }
-+ label { left = 1170; top = 152; width = 280; align = "left"; text = "PCIe Gen4 x4";     color = "#818CF8"; font = "Carlito Regular 16"; }
++ label {
+  left = 1170
+  top = 70
+  width = 280
+  align = "left"
+  text = "STORAGE"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 18"
+}
++ label {
+  left = 1170
+  top = 102
+  width = 280
+  align = "left"
+  text = "1TB NVMe"
+  color = "#F8F8F8"
+  font = "Carlito Regular 26"
+}
++ label {
+  left = 1170
+  top = 152
+  width = 280
+  align = "left"
+  text = "PCIe Gen4 x4"
+  color = "#818CF8"
+  font = "Carlito Regular 16"
+}
 
 # Column 5: MOTHERBOARD
-+ label { left = 1490; top = 70;  width = 340; align = "left"; text = "MOTHERBOARD";      color = "#A5A9B2"; font = "SF Pro Display Regular 18"; }
-+ label { left = 1490; top = 102; width = 340; align = "left"; text = "MSI B550M-P";      color = "#F8F8F8"; font = "Carlito Regular 26"; }
-+ label { left = 1490; top = 152; width = 340; align = "left"; text = "BIOS AMI 1.90";    color = "#818CF8"; font = "Carlito Regular 16"; }
++ label {
+  left = 1490
+  top = 70
+  width = 340
+  align = "left"
+  text = "MOTHERBOARD"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 18"
+}
++ label {
+  left = 1490
+  top = 102
+  width = 340
+  align = "left"
+  text = "MSI B550M-P"
+  color = "#F8F8F8"
+  font = "Carlito Regular 26"
+}
++ label {
+  left = 1490
+  top = 152
+  width = 340
+  align = "left"
+  text = "AMI BIOS 1.90"
+  color = "#818CF8"
+  font = "Carlito Regular 16"
+}
 
 # ─── Hero + subhead ─────────────────────────────────────────────────────
 + label {
@@ -50,12 +169,13 @@ desktop-color: "#0F0F12"
   color = "#F8F8F8"
   font = "SF Pro Display Regular 22"
 }
+
 + label {
   top = 308
   left = 60
   width = 1600
   align = "left"
-  text = "Select an OS · Default boots automatically when timer ends"
+  text = "Select an OS - Default boots automatically when timer ends"
   color = "#A5A9B2"
   font = "Carlito Regular 16"
 }
@@ -86,7 +206,7 @@ desktop-color: "#0F0F12"
   left = 0
   width = 1920
   align = "center"
-  text = "↑↓ navigate    ↵ boot    e edit    c console"
+  text = "navigate    enter boot    e edit    c console"
   color = "#A5A9B2"
   font = "Carlito Regular 16"
 }
