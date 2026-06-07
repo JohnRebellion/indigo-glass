@@ -1,212 +1,79 @@
-# Indigo Glass — GRUB Theme v7
-# Canonical multi-line format (no inline blocks). Designed for 1920x1080.
+# Indigo Glass — GRUB Theme v10 (fastfetch HW, parity-verified)
+# 5 stat cards: CPU / MEMORY / GPU / DISK / BOARD. ASCII labels.
+# PF2 font names match embedded "Family Style Size" — "SF Pro Display Regular N".
+# Note: literal "%" in text MUST be doubled as "%%" — GRUB feeds label text through printf.
 
 title-text: ""
 desktop-image: "background.jpg"
-desktop-color: "#0F0F12"
+desktop-color: "#0a0a14"
 
-# ─── System specs panel ─────────────────────────────────────────────────
-+ image {
-  left = 60
-  top = 48
-  width = 1800
-  height = 168
-  file = "assets/specs_panel.png"
-}
+# Brand
++ label { top = 32 left = 60 width = 600 align = "left" text = "Indigo Glass" color = "#e0e7ff" font = "SF Pro Display Regular 28" }
++ label { top = 32 left = 1460 width = 400 align = "right" text = "Nobara 43 - GRUB 2.12" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
-# Column 1: CPU
-+ label {
-  left = 90
-  top = 70
-  width = 340
-  align = "left"
-  text = "CPU"
-  color = "#A5A9B2"
-  font = "SF Pro Display Regular 18"
-}
-+ label {
-  left = 90
-  top = 102
-  width = 340
-  align = "left"
-  text = "Ryzen 7 5700X3D"
-  color = "#F8F8F8"
-  font = "Carlito Regular 26"
-}
-+ label {
-  left = 90
-  top = 152
-  width = 340
-  align = "left"
-  text = "16-thread zen3"
-  color = "#818CF8"
-  font = "Carlito Regular 16"
-}
+# ───── Card 1: CPU ─────
++ image { left = 60 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 80 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
++ label { top = 124 left = 80 width = 320 align = "left" text = "CPU" color = "#a78bfa" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 80 width = 320 align = "left" text = "Ryzen 7" color = "#e0e7ff" font = "SF Pro Display Regular 36" }
++ image { left = 80 top = 192 width = 110 height = 14 file = "assets/thread_dots.png" }
++ label { top = 210 left = 80 width = 320 align = "left" text = "5700X3D - 16T - 4.15 GHz" color = "#6b7280" font = "SF Pro Display Regular 18" }
 
-# Column 2: MEMORY
-+ label {
-  left = 450
-  top = 70
-  width = 340
-  align = "left"
-  text = "MEMORY"
-  color = "#A5A9B2"
-  font = "SF Pro Display Regular 18"
-}
-+ label {
-  left = 450
-  top = 102
-  width = 340
-  align = "left"
-  text = "64 GB DDR4"
-  color = "#F8F8F8"
-  font = "Carlito Regular 26"
-}
-+ label {
-  left = 450
-  top = 152
-  width = 340
-  align = "left"
-  text = "3600 MT/s"
-  color = "#818CF8"
-  font = "Carlito Regular 16"
-}
+# ───── Card 2: MEMORY ─────
++ image { left = 440 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 460 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
++ label { top = 124 left = 460 width = 320 align = "left" text = "MEMORY" color = "#a78bfa" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 460 width = 200 align = "left" text = "32 GB" color = "#e0e7ff" font = "SF Pro Display Regular 42" }
++ image { left = 660 top = 156 width = 110 height = 30 file = "assets/dimm_slots.png" }
++ label { top = 210 left = 460 width = 320 align = "left" text = "DDR4 3600 MT/s - 2/4 DIMMs" color = "#6b7280" font = "SF Pro Display Regular 18" }
 
-# Column 3: GPU
-+ label {
-  left = 810
-  top = 70
-  width = 340
-  align = "left"
-  text = "GPU"
-  color = "#A5A9B2"
-  font = "SF Pro Display Regular 18"
-}
-+ label {
-  left = 810
-  top = 102
-  width = 340
-  align = "left"
-  text = "Radeon RX 7600"
-  color = "#F8F8F8"
-  font = "Carlito Regular 26"
-}
-+ label {
-  left = 810
-  top = 152
-  width = 340
-  align = "left"
-  text = "8 GB VRAM"
-  color = "#818CF8"
-  font = "Carlito Regular 16"
-}
+# ───── Card 3: GPU ─────
++ image { left = 820 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 840 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
++ label { top = 124 left = 840 width = 320 align = "left" text = "GPU" color = "#a78bfa" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 840 width = 320 align = "left" text = "RX 7600 XT" color = "#e0e7ff" font = "SF Pro Display Regular 32" }
++ image { left = 840 top = 196 width = 80 height = 22 file = "assets/rdna_chip.png" }
++ label { top = 210 left = 930 width = 240 align = "left" text = "16 GB - Discrete" color = "#6b7280" font = "SF Pro Display Regular 18" }
 
-# Column 4: STORAGE
-+ label {
-  left = 1170
-  top = 70
-  width = 280
-  align = "left"
-  text = "STORAGE"
-  color = "#A5A9B2"
-  font = "SF Pro Display Regular 18"
-}
-+ label {
-  left = 1170
-  top = 102
-  width = 280
-  align = "left"
-  text = "1TB NVMe"
-  color = "#F8F8F8"
-  font = "Carlito Regular 26"
-}
-+ label {
-  left = 1170
-  top = 152
-  width = 280
-  align = "left"
-  text = "PCIe Gen4 x4"
-  color = "#818CF8"
-  font = "Carlito Regular 16"
-}
+# ───── Card 4: DISK ─────
++ image { left = 1200 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
++ image { left = 1220 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
++ label { top = 124 left = 1220 width = 220 align = "left" text = "DISK" color = "#a78bfa" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 1220 width = 220 align = "left" text = "91%%" color = "#e0e7ff" font = "SF Pro Display Regular 42" }
++ image { left = 1450 top = 106 width = 110 height = 110 file = "assets/donut_91.png" }
++ label { top = 210 left = 1220 width = 240 align = "left" text = "Kingmax 1 TB NVMe btrfs" color = "#6b7280" font = "SF Pro Display Regular 18" }
 
-# Column 5: MOTHERBOARD
-+ label {
-  left = 1490
-  top = 70
-  width = 340
-  align = "left"
-  text = "MOTHERBOARD"
-  color = "#A5A9B2"
-  font = "SF Pro Display Regular 18"
-}
-+ label {
-  left = 1490
-  top = 102
-  width = 340
-  align = "left"
-  text = "MSI B550M-P"
-  color = "#F8F8F8"
-  font = "Carlito Regular 26"
-}
-+ label {
-  left = 1490
-  top = 152
-  width = 340
-  align = "left"
-  text = "AMI BIOS 1.90"
-  color = "#818CF8"
-  font = "Carlito Regular 16"
-}
+# ───── Card 5: BOARD ─────
++ image { left = 1580 top = 96 width = 280 height = 140 file = "assets/card_c.png" }
++ image { left = 1600 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
++ label { top = 124 left = 1600 width = 240 align = "left" text = "BOARD" color = "#a78bfa" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 1600 width = 240 align = "left" text = "PRO B550M-P" color = "#e0e7ff" font = "SF Pro Display Regular 28" }
++ image { left = 1600 top = 196 width = 80 height = 22 file = "assets/chipset_chip.png" }
++ label { top = 210 left = 1690 width = 170 align = "left" text = "MSI MS-7D95" color = "#6b7280" font = "SF Pro Display Regular 18" }
 
-# ─── Hero + subhead ─────────────────────────────────────────────────────
-+ label {
-  top = 270
-  left = 60
-  width = 800
-  align = "left"
-  text = "BOOT PICKER"
-  color = "#F8F8F8"
-  font = "SF Pro Display Regular 22"
-}
+# ───── BOOT PICKER header ─────
++ label { top = 280 left = 60 width = 1000 align = "left" text = "BOOT PICKER" color = "#e0e7ff" font = "SF Pro Display Regular 36" }
++ label { top = 330 left = 60 width = 1600 align = "left" text = "Select an OS - default boots when timer ends" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 298 left = 1540 width = 320 align = "right" text = "Up/Down  Enter  to navigate" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
-+ label {
-  top = 308
-  left = 60
-  width = 1600
-  align = "left"
-  text = "Select an OS - Default boots automatically when timer ends"
-  color = "#A5A9B2"
-  font = "Carlito Regular 16"
-}
-
-# ─── Boot menu ──────────────────────────────────────────────────────────
+# ───── Boot menu (table-style) ─────
 + boot_menu {
   left = 60
-  top = 370
+  top = 360
   width = 1800
-  height = 620
-  item_font = "Carlito Regular 20"
-  item_color = "#F8F8F8"
-  selected_item_color = "#FFFFFF"
-  selected_item_font = "Carlito Regular 22"
-  icon_width = 32
-  icon_height = 32
-  item_icon_space = 18
-  item_height = 60
-  item_padding = 8
-  item_spacing = 4
-  selected_item_pixmap_style = "assets/select_*.png"
+  height = 660
+  item_font = "SF Pro Display Regular 28"
+  item_color = "#e0e7ff"
+  selected_item_color = "#ffffff"
+  selected_item_font = "SF Pro Display Regular 30"
+  icon_width = 44
+  icon_height = 44
+  item_icon_space = 24
+  item_height = 84
+  item_padding = 4
+  item_spacing = 2
   scrollbar = false
 }
 
-# ─── Footer hint ────────────────────────────────────────────────────────
-+ label {
-  top = 1030
-  left = 0
-  width = 1920
-  align = "center"
-  text = "navigate    enter boot    e edit    c console"
-  color = "#A5A9B2"
-  font = "Carlito Regular 16"
-}
+# ───── Footer ─────
++ label { top = 1037 left = 0 width = 1920 align = "center" text = "navigate    enter boot    e edit    c console" color = "#6b7280" font = "SF Pro Display Regular 18" }

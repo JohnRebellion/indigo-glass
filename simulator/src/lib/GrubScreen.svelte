@@ -279,6 +279,8 @@
     if (comp.props.id === '__timeout__') {
       text = text.replace('%d', String(cfg.timeout));
     }
+    // GRUB printf-format escape: %% → %  (matches grub_vsnprintf behaviour)
+    text = text.replace(/%%/g, '%');
     const align = (comp.props.align ?? 'left') as 'left' | 'center' | 'right';
     const color = parseColor(comp.props.color ?? '#ffffff');
     const fontName = comp.props.font ?? '';
