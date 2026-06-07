@@ -1,21 +1,167 @@
-# Indigo Glass — GRUB Theme v4
-# Designed for 1024x768 viewport baseline. Renders crisp at higher resolutions
-# (gfxmode auto). Banner is system-detected hardware/firmware (no entry-tied).
+# Indigo Glass — GRUB Theme v5
+# Native GRUB labels (PF2 fonts) — no PNG-rasterized text, no fringing.
+# Designed for 1024x768 viewport.
 
 title-text: ""
 desktop-image: "background.jpg"
 desktop-color: "#0F0F12"
 
-# System specs banner — top of screen
+# ─── System specs panel (top) — native GRUB labels ──────────────────────
+# Pure background panel (no text baked in)
 + image {
   left = 32
   top = 24
   width = 960
-  height = 100
-  file = "assets/specs_banner.png"
+  height = 90
+  file = "assets/specs_panel.png"
 }
 
-# Hero + subhead
+# Column 1: CPU
++ label {
+  left = 48
+  top = 36
+  width = 180
+  align = "left"
+  text = "CPU"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 12"
+}
++ label {
+  left = 48
+  top = 54
+  width = 180
+  align = "left"
+  text = "Ryzen 7 5700X3D"
+  color = "#F8F8F8"
+  font = "Carlito Regular 16"
+}
++ label {
+  left = 48
+  top = 80
+  width = 180
+  align = "left"
+  text = "16-thread zen3"
+  color = "#818CF8"
+  font = "Carlito Regular 12"
+}
+
+# Column 2: MEMORY
++ label {
+  left = 240
+  top = 36
+  width = 180
+  align = "left"
+  text = "MEMORY"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 12"
+}
++ label {
+  left = 240
+  top = 54
+  width = 180
+  align = "left"
+  text = "64 GB DDR4"
+  color = "#F8F8F8"
+  font = "Carlito Regular 16"
+}
++ label {
+  left = 240
+  top = 80
+  width = 180
+  align = "left"
+  text = "3600 MT/s · 4x16"
+  color = "#818CF8"
+  font = "Carlito Regular 12"
+}
+
+# Column 3: GPU
++ label {
+  left = 432
+  top = 36
+  width = 180
+  align = "left"
+  text = "GPU"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 12"
+}
++ label {
+  left = 432
+  top = 54
+  width = 180
+  align = "left"
+  text = "Radeon RX 7600"
+  color = "#F8F8F8"
+  font = "Carlito Regular 16"
+}
++ label {
+  left = 432
+  top = 80
+  width = 180
+  align = "left"
+  text = "8 GB VRAM"
+  color = "#818CF8"
+  font = "Carlito Regular 12"
+}
+
+# Column 4: STORAGE
++ label {
+  left = 624
+  top = 36
+  width = 160
+  align = "left"
+  text = "STORAGE"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 12"
+}
++ label {
+  left = 624
+  top = 54
+  width = 160
+  align = "left"
+  text = "1TB NVMe"
+  color = "#F8F8F8"
+  font = "Carlito Regular 16"
+}
++ label {
+  left = 624
+  top = 80
+  width = 160
+  align = "left"
+  text = "PCIe Gen4 x4"
+  color = "#818CF8"
+  font = "Carlito Regular 12"
+}
+
+# Column 5: MOTHERBOARD
++ label {
+  left = 796
+  top = 36
+  width = 180
+  align = "left"
+  text = "MOTHERBOARD"
+  color = "#A5A9B2"
+  font = "SF Pro Display Regular 12"
+}
++ label {
+  left = 796
+  top = 54
+  width = 180
+  align = "left"
+  text = "MSI B550M-P"
+  color = "#F8F8F8"
+  font = "Carlito Regular 16"
+}
++ label {
+  left = 796
+  top = 80
+  width = 180
+  align = "left"
+  text = "BIOS AMI 1.90"
+  color = "#818CF8"
+  font = "Carlito Regular 12"
+}
+
+# ─── Hero + subhead ─────────────────────────────────────────────────────
 + label {
   top = 150
   left = 32
@@ -26,16 +172,16 @@ desktop-color: "#0F0F12"
   font = "SF Pro Display Regular 14"
 }
 + label {
-  top = 172
+  top = 170
   left = 32
   width = 900
   align = "left"
-  text = "Select an OS · Default boots automatically when timer ends"
-  color = "#6B7280"
+  text = "Select an OS · Default boots automatically"
+  color = "#A5A9B2"
   font = "Carlito Regular 12"
 }
 
-# Boot menu
+# ─── Boot menu ──────────────────────────────────────────────────────────
 + boot_menu {
   left = 32
   top = 210
@@ -55,13 +201,13 @@ desktop-color: "#0F0F12"
   scrollbar = false
 }
 
-# Footer hint
+# ─── Footer hint ────────────────────────────────────────────────────────
 + label {
   top = 730
   left = 0
   width = 1024
   align = "center"
-  text = "↑↓ navigate    ↵ boot    E edit    C console"
-  color = "#6B7280"
+  text = "navigate    enter boot    e edit    c console"
+  color = "#A5A9B2"
   font = "Carlito Regular 12"
 }
