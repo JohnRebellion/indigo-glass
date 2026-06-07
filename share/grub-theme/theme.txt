@@ -12,49 +12,44 @@ desktop-color: "#0a0a14"
 + label { top = 32 left = 1460 width = 400 align = "right" text = "Nobara 43 - GRUB 2.12" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── Card 1: CPU ─────
-+ image { left = 60 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
 + image { left = 80 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
-+ label { top = 124 left = 80 width = 320 align = "left" text = "CPU" color = "#a78bfa" font = "SF Pro Display Regular 18" }
-+ label { top = 148 left = 80 width = 320 align = "left" text = "Ryzen 7" color = "#e0e7ff" font = "SF Pro Display Regular 36" }
++ label { top = 124 left = 80 width = 320 align = "left" text = "CPU" color = "#c4b5fd" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 80 width = 320 align = "left" text = "Ryzen 7" color = "#ffffff" font = "SF Pro Display Regular 36" }
 + image { left = 80 top = 192 width = 110 height = 14 file = "assets/thread_dots.png" }
-+ label { top = 210 left = 80 width = 320 align = "left" text = "5700X3D - 16T - 4.15 GHz" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 210 left = 80 width = 320 align = "left" text = "5700X3D - 16T - 4.15 GHz" color = "#d1d5db" font = "SF Pro Display Regular 18" }
 
 # ───── Card 2: MEMORY ─────
-+ image { left = 440 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
 + image { left = 460 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
-+ label { top = 124 left = 460 width = 320 align = "left" text = "MEMORY" color = "#a78bfa" font = "SF Pro Display Regular 18" }
-+ label { top = 148 left = 460 width = 200 align = "left" text = "32 GB" color = "#e0e7ff" font = "SF Pro Display Regular 42" }
++ label { top = 124 left = 460 width = 320 align = "left" text = "MEMORY" color = "#c4b5fd" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 460 width = 200 align = "left" text = "32 GB" color = "#ffffff" font = "SF Pro Display Regular 42" }
 + image { left = 660 top = 156 width = 110 height = 30 file = "assets/dimm_slots.png" }
-+ label { top = 210 left = 460 width = 320 align = "left" text = "DDR4 3600 MT/s - 2/4 DIMMs" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 210 left = 460 width = 320 align = "left" text = "DDR4 3600 MT/s - 2/4 DIMMs" color = "#d1d5db" font = "SF Pro Display Regular 18" }
 
 # ───── Card 3: GPU ─────
-+ image { left = 820 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
 + image { left = 840 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
-+ label { top = 124 left = 840 width = 320 align = "left" text = "GPU" color = "#a78bfa" font = "SF Pro Display Regular 18" }
-+ label { top = 148 left = 840 width = 320 align = "left" text = "RX 7600 XT" color = "#e0e7ff" font = "SF Pro Display Regular 32" }
++ label { top = 124 left = 840 width = 320 align = "left" text = "GPU" color = "#c4b5fd" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 840 width = 320 align = "left" text = "RX 7600 XT" color = "#ffffff" font = "SF Pro Display Regular 32" }
 + image { left = 840 top = 196 width = 80 height = 22 file = "assets/rdna_chip.png" }
-+ label { top = 210 left = 930 width = 240 align = "left" text = "16 GB - Discrete" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 210 left = 930 width = 240 align = "left" text = "16 GB - Discrete" color = "#d1d5db" font = "SF Pro Display Regular 18" }
 
 # ───── Card 4: DISK ─────
-+ image { left = 1200 top = 96 width = 360 height = 140 file = "assets/card_c.png" }
 + image { left = 1220 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
-+ label { top = 124 left = 1220 width = 220 align = "left" text = "DISK" color = "#a78bfa" font = "SF Pro Display Regular 18" }
-+ label { top = 148 left = 1220 width = 220 align = "left" text = "91%%" color = "#e0e7ff" font = "SF Pro Display Regular 42" }
++ label { top = 124 left = 1220 width = 220 align = "left" text = "DISK" color = "#c4b5fd" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 1220 width = 220 align = "left" text = "91%%" color = "#ffffff" font = "SF Pro Display Regular 42" }
 + image { left = 1450 top = 106 width = 110 height = 110 file = "assets/donut_91.png" }
-+ label { top = 210 left = 1220 width = 240 align = "left" text = "Kingmax 1 TB NVMe btrfs" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 210 left = 1220 width = 240 align = "left" text = "Kingmax 1 TB NVMe btrfs" color = "#d1d5db" font = "SF Pro Display Regular 18" }
 
 # ───── Card 5: BOARD ─────
-+ image { left = 1580 top = 96 width = 280 height = 140 file = "assets/card_c.png" }
 + image { left = 1600 top = 110 width = 60 height = 4 file = "assets/accent_line.png" }
-+ label { top = 124 left = 1600 width = 240 align = "left" text = "BOARD" color = "#a78bfa" font = "SF Pro Display Regular 18" }
-+ label { top = 148 left = 1600 width = 240 align = "left" text = "PRO B550M-P" color = "#e0e7ff" font = "SF Pro Display Regular 28" }
++ label { top = 124 left = 1600 width = 240 align = "left" text = "BOARD" color = "#c4b5fd" font = "SF Pro Display Regular 18" }
++ label { top = 148 left = 1600 width = 240 align = "left" text = "PRO B550M-P" color = "#ffffff" font = "SF Pro Display Regular 28" }
 + image { left = 1600 top = 196 width = 80 height = 22 file = "assets/chipset_chip.png" }
-+ label { top = 210 left = 1690 width = 170 align = "left" text = "MSI MS-7D95" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 210 left = 1690 width = 170 align = "left" text = "MSI MS-7D95" color = "#d1d5db" font = "SF Pro Display Regular 18" }
 
 # ───── BOOT PICKER header ─────
 + label { top = 280 left = 60 width = 1000 align = "left" text = "BOOT PICKER" color = "#e0e7ff" font = "SF Pro Display Regular 36" }
-+ label { top = 330 left = 60 width = 1600 align = "left" text = "Select an OS - default boots when timer ends" color = "#6b7280" font = "SF Pro Display Regular 18" }
-+ label { top = 298 left = 1540 width = 320 align = "right" text = "Up/Down  Enter  to navigate" color = "#a78bfa" font = "SF Pro Display Regular 22" }
++ label { top = 330 left = 60 width = 1600 align = "left" text = "Select an OS - default boots when timer ends" color = "#d1d5db" font = "SF Pro Display Regular 18" }
++ label { top = 298 left = 1360 width = 500 align = "right" text = "Up/Down  Enter  to navigate" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── Boot menu (table-style) ─────
 + boot_menu {
@@ -76,4 +71,4 @@ desktop-color: "#0a0a14"
 }
 
 # ───── Footer ─────
-+ label { top = 1037 left = 0 width = 1920 align = "center" text = "navigate    enter boot    e edit    c console" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 1037 left = 0 width = 1920 align = "center" text = "navigate    enter boot    e edit    c console" color = "#d1d5db" font = "SF Pro Display Regular 18" }
