@@ -16,3 +16,10 @@ Thumbs.db
 
 # Test scratch
 /tmp/
+
+# Cursor build artifacts
+cursor/.work/
+cursor/out/
+
+# Browser theme cache
+browser/edge-theme/**/Cached Theme.pak
