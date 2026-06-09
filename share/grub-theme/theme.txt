@@ -61,6 +61,7 @@ desktop-color: "#0a0a14"
   item_color = "#e0e7ff"
   selected_item_color = "#ffffff"
   selected_item_font = "SF Pro Display Regular 30"
+  selected_item_pixmap_style = "assets/select_*.png"
   icon_width = 44
   icon_height = 44
   item_icon_space = 24

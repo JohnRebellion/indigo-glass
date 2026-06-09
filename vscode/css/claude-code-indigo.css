@@ -255,7 +255,7 @@ html body :is(
   .toolBodyRowContent_ZUQaOA code
 ) {
   /* Canon hint/section — 9pt Carlito visual ≈ 11px (Carlito x-height) */
-  font-size: 11px !important;
+  font-size: 13px !important;
 }
 
 /* ─── Inline #d97757 selectors ───────────────────────────────────────────── */
