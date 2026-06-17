@@ -41,7 +41,13 @@ BOOT="/boot/grub2/themes/indigo-glass"
 
 run() {
   echo "  \$ $*"
-  [ "$DRY_RUN" = false ] && eval "$@"
+  # NOTE: must not let the dry-run guard be the last expression — under
+  # `set -e` a bare `[ ... ] && cmd` returns 1 when the test is false (dry run),
+  # which aborts the whole script mid-overlay. Use an explicit if/return.
+  if [ "$DRY_RUN" = false ]; then
+    eval "$@"
+  fi
+  return 0
 }
 
 # Overlay files from $SRC onto $dest. Mode controls WHICH files:
@@ -115,8 +121,10 @@ if [ "$DEPLOY" = true ]; then
   # Prefer the BIOS/EFI path that exists. On Fedora/Nobara both /boot/grub2/grub.cfg
   # and /boot/efi/EFI/fedora/grub.cfg may exist; /boot/grub2/grub.cfg is the live one.
   GRUB_CFG=""
+  # /boot/grub2 is root-only (drwx------) on Fedora/Nobara, so a plain `[ -f ]`
+  # as the invoking user always fails. Probe with `sudo test -f`.
   for cand in /boot/grub2/grub.cfg /boot/efi/EFI/fedora/grub.cfg; do
-    [ -f "$cand" ] && { GRUB_CFG="$cand"; break; }
+    if sudo test -f "$cand"; then GRUB_CFG="$cand"; break; fi
   done
   if [ -n "$GRUB_CFG" ]; then
     run "sudo grub2-mkconfig -o \"$GRUB_CFG\""
