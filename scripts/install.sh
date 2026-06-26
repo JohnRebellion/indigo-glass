@@ -179,8 +179,11 @@ run "cp '$REPO_DIR/share/konsole/IndigoGlass.profile' '$HOME/.local/share/konsol
 # ─── Install configs ───
 echo
 echo "▶ Installing config files..."
-run "mkdir -p $HOME/.config/{gtk-3.0,gtk-4.0,fastfetch,plasma-workspace/env}"
+run "mkdir -p $HOME/.config/{gtk-3.0,gtk-4.0,fastfetch,plasma-workspace/env,klassy}"
+# Klassy 6.5+ reads ~/.config/klassy/klassyrc; older builds read ~/.config/klassyrc.
+# Write BOTH so the decoration picks up our config regardless of version.
 run "cp '$REPO_DIR/config/klassy/klassyrc' '$HOME/.config/klassyrc'"
+run "cp '$REPO_DIR/config/klassy/klassyrc' '$HOME/.config/klassy/klassyrc'"
 run "cp '$REPO_DIR/config/starship.toml' '$HOME/.config/starship.toml'"
 run "cp '$REPO_DIR/config/fastfetch/config.jsonc' '$HOME/.config/fastfetch/config.jsonc'"
 run "cp '$REPO_DIR/config/gtk-3.0/settings.ini' '$HOME/.config/gtk-3.0/settings.ini'"
@@ -208,7 +211,10 @@ echo
 echo "▶ Patching klassyrc corner radius (matches better-blur-dx clip)..."
 # WindowCornerRadius from tokens/out/klassy-radius.ini. The full klassyrc was
 # copied above; this re-asserts the radius from the token source for parity.
+# kwriteconfig6 --file with a bare name targets ~/.config/<name>; Klassy 6.5+
+# actually reads ~/.config/klassy/klassyrc, so write the absolute path too.
 apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" klassyrc
+apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" "$HOME/.config/klassy/klassyrc"
 
 echo
 echo "▶ Adding global window opacity rule (88% active / 85% inactive)..."
