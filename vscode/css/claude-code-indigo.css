@@ -383,6 +383,20 @@ html body .inputContainer_cKsPxg {
   border-radius: 8px !important;
 }
 
+/* Squircle corners on the larger glass surfaces (2026 premium corner).
+ * Progressive enhancement: Chromium 139+ (VSCode's Electron tracks Chromium)
+ * gets superellipse corners; border-radius above is the fallback. Bumped to
+ * 12px under corner-shape so the squircle reads at the larger surface size. */
+@supports (corner-shape: superellipse(2)) {
+  html body .toolResult_uq5aLg,
+  html body .codeBlockWrapper_-a7MRw,
+  html body .messageInput_cKsPxg,
+  html body .inputContainer_cKsPxg {
+    corner-shape: superellipse(2) !important;
+    border-radius: 12px !important;
+  }
+}
+
 /* Prompt input: native font everywhere — Lexical editor uses MULTIPLE
  * layers (contenteditable + selection overlay + placeholder span). One
  * font-family rule hits only the layer matched by our selector; other
