@@ -4,7 +4,7 @@
   "fetchNews": false,
   "theme": {
     "mode": 1,
-    "brightness": 100,
+    "brightness": 96,
     "contrast": 100,
     "grayscale": 0,
     "sepia": 0,
@@ -38,7 +38,7 @@
         "grayscale": 0,
         "sepia": 0,
         "useFont": true,
-        "fontFamily": "Nunito",
+        "fontFamily": "Carlito",
         "textStroke": 0,
         "engine": "dynamicTheme",
         "stylesheet": "",
