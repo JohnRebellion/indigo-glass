@@ -32,6 +32,12 @@
   --ig-liquid-border: rgba(255, 255, 255, 0.08);
   --ig-liquid-highlight: rgba(255, 255, 255, 0.18);
   --ig-liquid-radius: 12px;
+  /* Glassmorphism 2.0 grain - static fractal noise ON TOP of the blur.
+   * Distinct from the displacement refraction (::before). Pulls the noise
+   * tile + tile size from tokens glass.css; falls back to no grain if the
+   * token vars are absent (e.g. liquid-glass.css used standalone). */
+  --ig-liquid-grain: var(--ig-grain-image, none);
+  --ig-liquid-grain-tile: var(--ig-grain-tile, 200px);
 }
 
 .ig-liquid {
@@ -63,7 +69,11 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: var(--ig-liquid-tint);
+  /* tint + grain micro-texture (Glassmorphism 2.0) over the blurred backdrop */
+  background-color: var(--ig-liquid-tint);
+  background-image: var(--ig-liquid-grain);
+  background-size: var(--ig-liquid-grain-tile) var(--ig-liquid-grain-tile);
+  mix-blend-mode: overlay;
   z-index: 0;
 }
 
@@ -98,7 +108,15 @@
               border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Reduce-transparency a11y: drop refraction + drop blur to solid panel */
+/* Squircle corners on liquid panels (Chromium 139+; radius fallback elsewhere) */
+@supports (corner-shape: superellipse(2)) {
+  .ig-liquid-squircle {
+    corner-shape: superellipse(2);
+    border-radius: 16px;
+  }
+}
+
+/* Reduce-transparency a11y: drop refraction + grain + blur to solid panel */
 @media (prefers-reduced-transparency: reduce) {
   .ig-liquid,
   .ig-liquid-hero,
@@ -109,6 +127,9 @@
   }
   .ig-liquid::before {
     display: none;
+  }
+  .ig-liquid::after {
+    background-image: none;  /* kill grain, keep flat tint */
   }
 }
 
