@@ -34,7 +34,31 @@ echo
 
 run() {
   echo "  $ $*"
-  [ "$DRY_RUN" = false ] && eval "$@"
+  if [ "$DRY_RUN" = false ]; then
+    eval "$@"
+  fi
+}
+
+# Apply a generated INI partial (tokens/out/*.ini) to a KDE config via
+# kwriteconfig6, key by key. Keeps the token file as the single source of
+# truth instead of duplicating values inline. Skips comments + blank lines.
+# Usage: apply_ini_to_config <ini-path> <kde-config-file>
+apply_ini_to_config() {
+  local ini="$1" cfg="$2" group=""
+  if [ ! -f "$ini" ]; then
+    echo "  ⚠ generated $ini missing — run: python3 tokens/codegen.py"
+    return 0
+  fi
+  while IFS= read -r line; do
+    case "$line" in
+      ''|\#*) continue ;;                       # blank / comment
+      \[*\]) group="${line#[}"; group="${group%]}" ;;
+      *=*)
+        local key="${line%%=*}" val="${line#*=}"
+        run "kwriteconfig6 --file '$cfg' --group '$group' --key '$key' '$val'"
+        ;;
+    esac
+  done < "$ini"
 }
 
 # ─── Detect distro ───
@@ -176,24 +200,15 @@ run "kwriteconfig6 --file kdeglobals --group 'Appmenu Style' --key 'Style' 'Widg
 
 echo
 echo "▶ Patching kwinrc (Klassy decoration + better-blur-dx)..."
-run "kwriteconfig6 --file kwinrc --group 'org.kde.kdecoration2' --key 'library' 'org.kde.klassy'"
-run "kwriteconfig6 --file kwinrc --group 'org.kde.kdecoration2' --key 'theme' 'Klassy'"
-run "kwriteconfig6 --file kwinrc --group 'org.kde.kdecoration2' --key 'ButtonsOnLeft' 'XAM'"
-run "kwriteconfig6 --file kwinrc --group 'org.kde.kdecoration2' --key 'ButtonsOnRight' 'I'"
-run "kwriteconfig6 --file kwinrc --group 'Plugins' --key 'blurEnabled' 'false'"
-run "kwriteconfig6 --file kwinrc --group 'Plugins' --key 'better_blur_dxEnabled' 'true'"
-run "kwriteconfig6 --file kwinrc --group 'Plugins' --key 'kwin4_effect_shapecornersEnabled' 'false'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'BlurStrength' '13'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'NoiseStrength' '4'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'Brightness' '96'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'Saturation' '110'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'BlurNonMatching' 'true'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'BlurDecorations' 'true'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'BlurMenus' 'true'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'BlurDocks' 'true'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'ForceContrastParams' 'true'"
-run "kwriteconfig6 --file kwinrc --group 'Effect-better-blur-dx' --key 'CornerRadius' '8.0'"
-run "kwriteconfig6 --file kwinrc --group 'Windows' --key 'BorderlessMaximizedWindows' 'true'"
+# Driven from the token-generated snippet (tokens/out/kwinrc-blur.ini) so the
+# blur strength / noise / brightness / corner-radius stay single-sourced.
+apply_ini_to_config "$REPO_DIR/tokens/out/kwinrc-blur.ini" kwinrc
+
+echo
+echo "▶ Patching klassyrc corner radius (matches better-blur-dx clip)..."
+# WindowCornerRadius from tokens/out/klassy-radius.ini. The full klassyrc was
+# copied above; this re-asserts the radius from the token source for parity.
+apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" klassyrc
 
 echo
 echo "▶ Adding global window opacity rule (88% active / 85% inactive)..."
