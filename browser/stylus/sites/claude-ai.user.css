@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Indigo Glass - Claude.ai
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.0
-@description    Retint claude.ai with Indigo Glass palette + Carlito loop-tail allograph. Pairs with the universal Indigo Glass Stylus style.
+@version        0.2.0
+@description    Retint claude.ai with Indigo Glass palette + Carlito loop-tail allograph. OKLCH accents, squircle surfaces. Pairs with the universal Indigo Glass Stylus style.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/claude-ai.user.css
@@ -36,6 +36,29 @@
     --danger-000: #ED254E !important;
     --danger-100: #FF5272 !important;
     --success-000: #71F79F !important;
+  }
+
+  /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex). */
+  @supports (color: oklch(0% 0 0)) {
+    :root {
+      --accent-main-000: oklch(0.5674 0.1585 275.21) !important;
+      --accent-main-100: oklch(0.6801 0.1583 276.93) !important;
+      --accent-main-200: oklch(0.7090 0.1592 293.54) !important;
+      --accent-secondary-000: oklch(0.7090 0.1592 293.54) !important;
+      --danger-000: oklch(0.6124 0.2279 17.60) !important;
+      --success-000: oklch(0.8792 0.1706 152.51) !important;
+    }
+  }
+
+  /* Squircle corners on chat/message/menu surfaces (Chromium 139+ via
+   * Electron-equivalent; radius fallback elsewhere). Stable role/test hooks. */
+  @supports (corner-shape: superellipse(2)) {
+    [role="dialog"],
+    [role="menu"],
+    [data-testid*="message"],
+    [class*="rounded"] {
+      corner-shape: superellipse(2) !important;
+    }
   }
 
   /* Force code blocks to Iosevka */

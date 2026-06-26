@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Indigo Glass - Linear
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.0
-@description    Refine linear.app with Indigo Glass palette. Linear's native dark mode is already close - just shift accents.
+@version        0.2.0
+@description    Refine linear.app with Indigo Glass palette. Linear's native dark mode is already close - just shift accents. OKLCH accents, squircle surfaces.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/linear.user.css
@@ -34,6 +34,28 @@
     --color-error: #ED254E !important;
     --color-warning: #FBBF24 !important;
     --color-success: #71F79F !important;
+  }
+
+  /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex). */
+  @supports (color: oklch(0% 0 0)) {
+    :root {
+      --color-accent: oklch(0.5674 0.1585 275.21) !important;
+      --color-accent-hover: oklch(0.6801 0.1583 276.93) !important;
+      --color-accent-active: oklch(0.7090 0.1592 293.54) !important;
+      --color-error: oklch(0.6124 0.2279 17.60) !important;
+      --color-warning: oklch(0.8369 0.1644 84.43) !important;
+      --color-success: oklch(0.8792 0.1706 152.51) !important;
+    }
+  }
+
+  /* Squircle corners on cards/modals/menus (Chromium 139+; radius fallback). */
+  @supports (corner-shape: superellipse(2)) {
+    [role="dialog"],
+    [role="menu"],
+    [class*="card"],
+    [class*="modal"] {
+      corner-shape: superellipse(2) !important;
+    }
   }
 
   /* Linear already uses Inter Display - just enforce loop-tail g via Carlito */

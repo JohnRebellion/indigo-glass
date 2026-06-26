@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Indigo Glass - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.0
-@description    Retint notion.so + notion.site with Indigo Glass palette + Carlito loop-tail.
+@version        0.2.0
+@description    Retint notion.so + notion.site with Indigo Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/notion.user.css
@@ -30,13 +30,41 @@
     --notion-purple: #A78BFA !important;
     --notion-pink: #C8B5FF !important;
     --notion-red: #ED254E !important;
-    --notion-orange: #FB923C !important;
+    --notion-orange: #FBBF24 !important; /* orange banned (PHILOSOPHY.md) -> amber, the single warm accent */
     --notion-yellow: #FBBF24 !important;
     --notion-green: #71F79F !important;
     --notion-teal: #67E8F9 !important;
 
     --notion-divider: rgba(255, 255, 255, 0.06) !important;
     --notion-selected-block: rgba(94, 106, 210, 0.22) !important;
+  }
+
+  /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).
+   * Overrides the hex above wherever oklch() is supported - all current
+   * browsers. Matches tokens/out/css-vars.css @supports block. */
+  @supports (color: oklch(0% 0 0)) {
+    :root {
+      --notion-primary: oklch(0.5674 0.1585 275.21) !important;
+      --notion-primary-hover: oklch(0.6801 0.1583 276.93) !important;
+      --notion-blue: oklch(0.5674 0.1585 275.21) !important;
+      --notion-purple: oklch(0.7090 0.1592 293.54) !important;
+      --notion-orange: oklch(0.8369 0.1644 84.43) !important;
+      --notion-yellow: oklch(0.8369 0.1644 84.43) !important;
+      --notion-red: oklch(0.6124 0.2279 17.60) !important;
+      --notion-green: oklch(0.8792 0.1706 152.51) !important;
+    }
+  }
+
+  /* Squircle corners on cards/menus/buttons (Chromium 139+; radius fallback).
+   * Notion class names churn - target stable attribute/role hooks. */
+  @supports (corner-shape: superellipse(2)) {
+    [role="menu"],
+    [role="dialog"],
+    .notion-page-content [contenteditable] [data-block-id],
+    a.notion-collection-item,
+    button {
+      corner-shape: superellipse(2) !important;
+    }
   }
 
   /* Notion uses Inter for prose - swap to Indigo Glass body chain */
