@@ -60,6 +60,44 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-2xl: 24px;
+
+  /* === Motion (subdued — guides, never flashes) === */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasize: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* mild overshoot */
+  --dur-quick: 120ms;
+  --dur-default: 200ms;
+  --dur-slow: 320ms;
+  /* Semantic interaction roles (2026 micro-interaction band) */
+  --motion-button-hover: var(--dur-quick) var(--ease-standard);
+  --motion-card-hover: var(--dur-default) var(--ease-standard);
+  --motion-panel-open: var(--dur-slow) var(--ease-emphasize);
+  --motion-neu-press: var(--dur-quick) var(--ease-spring);
+
+  /* === Glass grain micro-texture (Glassmorphism 2.0) === */
+  --grain-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ignoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ignoise)' opacity='0.04'/%3E%3C/svg%3E");
+  --grain-tile: 200px;
+}
+
+/* === OKLCH native palette (perceptually uniform, P3-capable).
+   Overrides the hex @theme above wherever oklch() is supported — which is
+   every current browser. Hex remains the fallback. These round-trip exactly
+   to the canonical Indigo Glass hex values. === */
+@supports (color: oklch(0% 0 0)) {
+  :root {
+    --color-base: oklch(0.1698 0.0062 285.72);
+    --color-surface: oklch(0.2286 0.0096 285.62);
+    --color-surface-elevated: oklch(0.2460 0.0152 279.60);
+    --color-sidebar: oklch(0.2108 0.0078 285.71);
+    --color-indigo: oklch(0.5674 0.1585 275.21);
+    --color-indigo-light: oklch(0.6801 0.1583 276.93);
+    --color-violet: oklch(0.7090 0.1592 293.54);
+    --color-amber: oklch(0.8369 0.1644 84.43);
+    --color-positive: oklch(0.8792 0.1706 152.51);
+    --color-negative: oklch(0.6124 0.2279 17.60);
+    --color-text: oklch(0.9791 0.0000 89.88);
+    --color-text-muted: oklch(0.5510 0.0234 264.36);
+  }
 }
 
 /* === Base styles === */
@@ -121,14 +159,54 @@
 
 /* === Glass utility classes === */
 @layer utilities {
-  /* Frosted glass surface (visionOS Liquid Glass) */
+  /* Frosted glass surface (visionOS Liquid Glass + Glassmorphism 2.0 grain) */
   .glass {
+    position: relative;
     background: rgba(31, 32, 40, 0.6);
     backdrop-filter: var(--blur-glass);
     -webkit-backdrop-filter: var(--blur-glass);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-glass);
+    isolation: isolate;
+    overflow: hidden;
   }
+  /* grain micro-texture ON TOP of the blur */
+  .glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain-image);
+    background-size: var(--grain-tile) var(--grain-tile);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glass > * { position: relative; z-index: 1; }
+
+  /* Squircle corners — Chromium 139+; border-radius is the fallback */
+  .squircle { border-radius: var(--radius-lg); }
+  @supports (corner-shape: superellipse(2)) {
+    .squircle {
+      corner-shape: superellipse(2);
+      border-radius: var(--radius-xl);
+    }
+  }
+
+  /* Ambient light-source orbs — "lit glass". Single-accent hues only. */
+  .ambient { position: relative; background-color: var(--color-base); }
+  .ambient::before {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    background-image:
+      radial-gradient(circle at 25% 25%, color-mix(in oklab, var(--color-indigo) 6%, transparent) 0%, transparent 55%),
+      radial-gradient(circle at 78% 75%, color-mix(in oklab, var(--color-violet) 4%, transparent) 0%, transparent 55%),
+      radial-gradient(circle at 60% 100%, color-mix(in oklab, var(--color-indigo-light) 3%, transparent) 0%, transparent 55%);
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ambient > * { position: relative; z-index: 1; }
 
   .glass-subtle {
     background: rgba(28, 28, 33, 0.4);
@@ -171,5 +249,24 @@
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.02em;
+  }
+}
+
+/* === Accessibility: reduced transparency drops blur + grain + ambient === */
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .glass-subtle, .glass-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-color: var(--color-surface-elevated);
+  }
+  .glass::after { display: none; }
+  .ambient::before { display: none; }
+}
+
+/* === Accessibility: reduced motion kills transitions === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
   }
 }
