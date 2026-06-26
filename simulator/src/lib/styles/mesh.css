@@ -25,6 +25,17 @@
     radial-gradient(at 70% 70%, rgba(167, 139, 250, 0.22) 0%, rgba(167, 139, 250, 0) 60%);
 }
 
+/* Token-canonical ambient orbs (matches tokens [ambient]: 6/4/3% indigo/violet/
+ * indigo-hi at 25/25, 78/75, 60/100). The "lit glass" backdrop for app shells -
+ * far subtler than the hero mesh, tuned for content behind glass panels. */
+.ig-mesh-ambient {
+  background-color: #0F0F12;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(94, 106, 210, 0.06) 0%, transparent 55%),
+    radial-gradient(circle at 78% 75%, rgba(167, 139, 250, 0.04) 0%, transparent 55%),
+    radial-gradient(circle at 60% 100%, rgba(129, 140, 248, 0.03) 0%, transparent 55%);
+}
+
 .ig-mesh-hero {
   position: relative;
   background-color: #0F0F12;
@@ -49,7 +60,8 @@
 
 @media (prefers-reduced-transparency: reduce) {
   .ig-mesh,
-  .ig-mesh-soft {
+  .ig-mesh-soft,
+  .ig-mesh-ambient {
     background-image: none;
     background-color: #1F2028;
   }

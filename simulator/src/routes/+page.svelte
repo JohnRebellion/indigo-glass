@@ -21,18 +21,18 @@
   ];
 </script>
 
-<div class="ig-overview">
+<div class="ig-overview ig-ambient">
   <header class="ig-overview-hero">
     <h1>Indigo Glass</h1>
     <p class="ig-tagline">visionOS spatial glass + Linear dark discipline + Neumorphism 2.0</p>
-    <p class="ig-sub">Compact, translucent, single-accent. No refraction, no bouncy motion.</p>
+    <p class="ig-sub">Compact, translucent, single-accent. OKLCH color, grained glass, squircle corners, ambient light.</p>
   </header>
 
   <section class="ig-surfaces" data-testid="surfaces">
     <h2>Surfaces</h2>
     <div class="ig-grid">
       {#each surfaces as s}
-        <a class="ig-card ig-liquid" href={s.href} data-testid="card-{s.name.toLowerCase().replace(/\s/g, '-')}">
+        <a class="ig-card ig-liquid ig-liquid-squircle" href={s.href} data-testid="card-{s.name.toLowerCase().replace(/\s/g, '-')}">
           <strong>{s.name}</strong>
           <span>{s.desc}</span>
         </a>
