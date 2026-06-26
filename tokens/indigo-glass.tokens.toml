@@ -272,6 +272,17 @@ backdrop_tint = "#5E6AD208" # indigo @ ~3% opacity for warmth
 backdrop_bg   = "#1F2028B3" # surface_alt @ 70% opacity
 border        = "#FFFFFF14" # 8% white
 
+# Compositor render params (KWin kwin-effects-better-blur-dx + Dark Reader).
+# These were hand-maintained in config/kwin/kwinrc.snippets and the browser
+# Dark Reader JSON; now single-sourced. brightness 96 = visionOS "soft light"
+# (slightly dimmed glass), canonical across compositor + browser retint.
+[glass.render]
+brightness   = 96    # KWin Brightness + Dark Reader brightness (canonical)
+saturation   = 110   # KWin Saturation + matches CSS `saturate(110%)`
+contrast     = 100
+noise_strength = 4    # KWin NoiseStrength - compositor-native grain
+                      # (the desktop equivalent of [glass.grain] for web)
+
 # Grain / frosted-glass micro-texture (Glassmorphism 2.0 differentiator).
 # A static fractal-noise SVG layered ON TOP of the blur (not behind it),
 # at very low opacity. Simulates sandblasted/ground glass tactility.

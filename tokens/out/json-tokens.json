@@ -279,6 +279,12 @@
     "backdrop_tint": "#5E6AD208",
     "backdrop_bg": "#1F2028B3",
     "border": "#FFFFFF14",
+    "render": {
+      "brightness": 96,
+      "saturation": 110,
+      "contrast": 100,
+      "noise_strength": 4
+    },
     "grain": {
       "enabled": true,
       "opacity": 0.04,
