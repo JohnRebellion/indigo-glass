@@ -3,6 +3,7 @@
   import '../lib/styles/tokens.css';
   import '../lib/styles/density.css';
   import '../lib/styles/density-optin.css';
+  import '../lib/styles/glass.css';
   import '../lib/styles/liquid-glass.css';
   import '../lib/styles/global.css';
 

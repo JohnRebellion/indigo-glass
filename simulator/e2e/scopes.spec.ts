@@ -9,11 +9,32 @@ import { test, expect, type Page } from '@playwright/test';
  * CSS rendering.
  */
 
+/**
+ * Resolve any computed color (rgb(), oklch(), color(display-p3 ...)) to a
+ * canonical `rgb(r, g, b)` string by painting it on a throwaway canvas.
+ * The palette is OKLCH-authored, so getComputedStyle returns the literal
+ * oklch() string in browsers that support it - normalize before asserting.
+ */
+async function resolveColor(page: Page, raw: string): Promise<string> {
+  return page.evaluate((value) => {
+    const c = document.createElement('canvas');
+    c.width = c.height = 1;
+    const ctx = c.getContext('2d')!;
+    ctx.fillStyle = '#000';
+    ctx.fillStyle = value;          // browser parses oklch/p3/rgb
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+    return `rgb(${r}, ${g}, ${b})`;
+  }, raw);
+}
+
 async function readBg(page: Page, selector: string): Promise<string> {
-  return page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).backgroundColor);
+  const raw = await page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).backgroundColor);
+  return resolveColor(page, raw);
 }
 async function readColor(page: Page, selector: string): Promise<string> {
-  return page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).color);
+  const raw = await page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).color);
+  return resolveColor(page, raw);
 }
 async function readFontFamily(page: Page, selector: string): Promise<string> {
   return page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).fontFamily);
@@ -54,9 +75,9 @@ test.describe('palette propagation', () => {
 
   test('browser tab active border-bottom = indigo', async ({ page }) => {
     await page.goto('/browser/');
-    const borderColor = await page.locator('.tab.active').first()
+    const rawBorder = await page.locator('.tab.active').first()
       .evaluate((el) => getComputedStyle(el as Element).borderBottomColor);
-    expect(borderColor).toBe(HEX.indigo);
+    expect(await resolveColor(page, rawBorder)).toBe(HEX.indigo);
   });
 });
 
@@ -94,8 +115,8 @@ test.describe('focus ring', () => {
       const s = getComputedStyle(el as Element);
       return { color: s.outlineColor, width: s.outlineWidth };
     });
-    // Outline color via focus-visible global rule
-    expect(outline.color).toBe(HEX.indigo);
+    // Outline color via focus-visible global rule (normalize oklch -> rgb)
+    expect(await resolveColor(page, outline.color)).toBe(HEX.indigo);
   });
 });
 

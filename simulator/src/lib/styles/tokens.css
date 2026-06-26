@@ -3,14 +3,11 @@
 /* DO NOT EDIT - regenerate via `python3 tokens/codegen.py` */
 
 :root {
-  /* Palette - sRGB */
+  /* Palette - sRGB hex (universal fallback) */
   --ig-base: #0F0F12;
   --ig-surface: #1C1C21;
   --ig-surface-alt: #1F2028;
   --ig-sidebar: #18181C;
-  --ig-overlay: #0F0F12cc;
-  --ig-border: #FFFFFF0F;
-  --ig-border-strong: #FFFFFF1A;
   --ig-indigo: #5E6AD2;
   --ig-indigo-hi: #818CF8;
   --ig-violet: #A78BFA;
@@ -20,6 +17,9 @@
   --ig-text: #F8F8F8;
   --ig-text-muted: #6B7280;
   --ig-text-dim: #4B5563;
+  --ig-overlay: #0F0F12CC;
+  --ig-border: #FFFFFF0F;
+  --ig-border-strong: #FFFFFF1A;
 
   /* Spacing */
   --ig-pad-xs: 2px;
@@ -52,6 +52,7 @@
   --ig-radius-lg: 12px;
   --ig-radius-xl: 16px;
   --ig-radius-full: 9999px;
+  --ig-squircle-n: 2;
 
   /* Blur */
   --ig-blur-none: 0px;
@@ -115,17 +116,49 @@
   --ig-ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1.0);
   --ig-ease-emphasize: cubic-bezier(0.2, 0.0, 0.0, 1.0);
   --ig-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1.0);
+  --ig-motion-button-hover: var(--ig-dur-quick) var(--ig-ease-standard);
+  --ig-motion-focus-ring: var(--ig-dur-quick) var(--ig-ease-standard);
+  --ig-motion-card-hover: var(--ig-dur-default) var(--ig-ease-standard);
+  --ig-motion-toggle: var(--ig-dur-default) var(--ig-ease-standard);
+  --ig-motion-panel-open: var(--ig-dur-slow) var(--ig-ease-emphasize);
+  --ig-motion-neu-press: var(--ig-dur-quick) var(--ig-ease-spring);
+  --ig-motion-state-draw: var(--ig-dur-hero) var(--ig-ease-emphasize);
+
+  /* Accent lightness-shift deltas (for relative color) */
+  --ig-hover-dl: 0.06;
+  --ig-active-dl: -0.04;
+  --ig-subtle-dl: -0.1;
 }
 
-/* Display-P3 wide-gamut overlay */
+/* OKLCH native colors (perceptually uniform). All current browsers
+   support oklch(); this overrides the hex fallback above. */
+@supports (color: oklch(0% 0 0)) {
+  :root {
+    --ig-base: oklch(0.1698 0.0062 285.72);
+    --ig-surface: oklch(0.2286 0.0096 285.62);
+    --ig-surface-alt: oklch(0.2460 0.0152 279.60);
+    --ig-sidebar: oklch(0.2108 0.0078 285.71);
+    --ig-indigo: oklch(0.5674 0.1585 275.21);
+    --ig-indigo-hi: oklch(0.6801 0.1583 276.93);
+    --ig-violet: oklch(0.7090 0.1592 293.54);
+    --ig-amber: oklch(0.8369 0.1644 84.43);
+    --ig-positive: oklch(0.8792 0.1706 152.51);
+    --ig-negative: oklch(0.6124 0.2279 17.60);
+    --ig-text: oklch(0.9791 0.0000 89.88);
+    --ig-text-muted: oklch(0.5510 0.0234 264.36);
+    --ig-text-dim: oklch(0.4461 0.0263 256.80);
+  }
+}
+
+/* Display-P3 wide-gamut overlay (more chroma on capable monitors) */
 @media (color-gamut: p3) {
   :root {
-    --ig-indigo: color(display-p3 0.36 0.40 0.81);
-    --ig-indigo-hi: color(display-p3 0.51 0.55 0.96);
-    --ig-violet: color(display-p3 0.65 0.55 0.97);
-    --ig-amber: color(display-p3 0.98 0.74 0.16);
-    --ig-positive: color(display-p3 0.44 0.96 0.62);
-    --ig-negative: color(display-p3 0.92 0.13 0.30);
+    --ig-indigo: color(display-p3 0.3776 0.4143 0.7972);
+    --ig-indigo-hi: color(display-p3 0.5138 0.5477 0.9440);
+    --ig-violet: color(display-p3 0.6372 0.5492 0.9528);
+    --ig-amber: color(display-p3 0.9481 0.7585 0.2941);
+    --ig-positive: color(display-p3 0.5846 0.9569 0.6544);
+    --ig-negative: color(display-p3 0.8543 0.2375 0.3230);
   }
 }
 
