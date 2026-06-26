@@ -2,8 +2,8 @@
 """
 Indigo Glass - token codegen.
 
-Reads tokens/indigo-glass.tokens.toml and emits derived per-layer
-artifacts:
+Reads tokens/indigo-glass.tokens.toml (OKLCH-authored, schema v2) and emits
+derived per-layer artifacts:
 
     tokens/out/css-vars.css        # CSS custom properties (web/Stylus)
     tokens/out/scss-vars.scss      # Sass equivalent
@@ -11,18 +11,24 @@ artifacts:
     tokens/out/kde-palette.colors  # KDE color scheme partial
     tokens/out/wt-scheme.json      # Windows Terminal scheme partial
     tokens/out/density.css         # Compact-density CSS rules
+    tokens/out/glass.css           # Glass surface + grain + squircle + ambient
+
+The palette source of truth is [palette.oklch]. We derive byte-identical sRGB
+hex (for KDE/GTK/GRUB/Windows, which cannot parse oklch()), display-p3, and
+native oklch() CSS from those values - all in one place, no color drift.
 
 Usage:
     python3 tokens/codegen.py             # emit all
     python3 tokens/codegen.py --check     # exit 1 if any out-of-date
 
-Requires Python 3.11+ (uses tomllib).
+Requires Python 3.11+ (uses tomllib). No third-party dependencies.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -38,22 +44,120 @@ TOKENS_FILE = REPO_ROOT / "tokens" / "indigo-glass.tokens.toml"
 OUT_DIR = REPO_ROOT / "tokens" / "out"
 
 
-def load_tokens() -> dict:
-    with TOKENS_FILE.open("rb") as f:
-        return tomllib.load(f)
+# =============================================================================
+# Color conversion - OKLCH <-> sRGB <-> Display-P3 (dependency-free)
+# Reference: Bjorn Ottosson, https://bottosson.github.io/posts/oklab/
+# =============================================================================
 
+def _srgb_to_linear(c: float) -> float:
+    return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+
+
+def _linear_to_srgb(c: float) -> float:
+    return c * 12.92 if c <= 0.0031308 else 1.055 * (c ** (1 / 2.4)) - 0.055
+
+
+def _oklab_to_linear_srgb(L: float, a: float, b: float) -> tuple[float, float, float]:
+    l_ = L + 0.3963377774 * a + 0.2158037573 * b
+    m_ = L - 0.1055613458 * a - 0.0638541728 * b
+    s_ = L - 0.0894841775 * a - 1.2914855480 * b
+    l, m, s = l_ ** 3, m_ ** 3, s_ ** 3
+    return (
+        +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+        -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+        -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+    )
+
+
+def _oklch_to_linear_srgb(L: float, C: float, H: float) -> tuple[float, float, float]:
+    a = C * math.cos(math.radians(H))
+    b = C * math.sin(math.radians(H))
+    return _oklab_to_linear_srgb(L, a, b)
+
+
+def oklch_to_hex(L: float, C: float, H: float) -> str:
+    """Exact sRGB hex (gamut-clipped) for an OKLCH triple."""
+    out = []
+    for lin in _oklch_to_linear_srgb(L, C, H):
+        srgb = max(0.0, min(1.0, _linear_to_srgb(lin)))
+        out.append(round(srgb * 255))
+    return "#{:02X}{:02X}{:02X}".format(*out)
+
+
+def oklch_to_p3(L: float, C: float, H: float) -> str:
+    """Display-P3 CSS color() string. Uses the same linear sRGB primaries
+    re-expressed in the P3 container so wide-gamut monitors get more chroma
+    while sRGB monitors clip to the identical perceptual color."""
+    # Linear sRGB -> XYZ (D65) -> linear P3, then gamma-encode P3 channels.
+    rl, gl, bl = _oklch_to_linear_srgb(L, C, H)
+    # sRGB linear -> XYZ
+    x = 0.4123908 * rl + 0.3575843 * gl + 0.1804808 * bl
+    y = 0.2126390 * rl + 0.7151687 * gl + 0.0721923 * bl
+    z = 0.0193308 * rl + 0.1191948 * gl + 0.9505322 * bl
+    # XYZ -> linear Display-P3
+    pr = 2.4934969 * x - 0.9313836 * y - 0.4027108 * z
+    pg = -0.8294890 * x + 1.7626641 * y + 0.0236247 * z
+    pb = 0.0358458 * x - 0.0761724 * y + 0.9568845 * z
+    enc = [max(0.0, min(1.0, _linear_to_srgb(c))) for c in (pr, pg, pb)]
+    return "color(display-p3 {:.4f} {:.4f} {:.4f})".format(*enc)
+
+
+def oklch_css(L: float, C: float, H: float) -> str:
+    """Native CSS oklch() string."""
+    return f"oklch({L:.4f} {C:.4f} {H:.2f})"
+
+
+def hex_to_rgb(h: str) -> str:
+    h = h.lstrip("#")
+    if len(h) >= 6:
+        return f"{int(h[0:2],16)},{int(h[2:4],16)},{int(h[4:6],16)}"
+    return "0,0,0"
+
+
+def rgba_hex(base_hex: str, alpha: float) -> str:
+    """#RRGGBB + alpha float -> #RRGGBBAA."""
+    a = round(max(0.0, min(1.0, alpha)) * 255)
+    return f"{base_hex}{a:02X}"
+
+
+# =============================================================================
+# Derive a flat palette (hex / p3 / oklch) from [palette.oklch] + [palette.alpha]
+# =============================================================================
+
+def derive_palette(t: dict) -> dict:
+    """Returns {key: {'hex','p3','oklch'}} plus alpha-derived entries.
+    Key order preserves the .toml authoring order, then alpha entries."""
+    pal: dict[str, dict] = {}
+    for key, (L, C, H) in t["palette"]["oklch"].items():
+        pal[key] = {
+            "hex": oklch_to_hex(L, C, H),
+            "p3": oklch_to_p3(L, C, H),
+            "oklch": oklch_css(L, C, H),
+        }
+    # Alpha entries: base can be a palette key or a literal hex.
+    for key, (base, alpha) in t["palette"]["alpha"].items():
+        base_hex = pal[base]["hex"] if base in pal else base
+        h = rgba_hex(base_hex, alpha)
+        pal[key] = {"hex": h, "p3": h, "oklch": h}  # alpha not gamut-mapped
+    return pal
+
+
+# =============================================================================
+# Emitters
+# =============================================================================
 
 def emit_css_vars(t: dict) -> str:
+    pal = derive_palette(t)
     lines = [
         "/* Indigo Glass design tokens - CSS custom properties */",
         "/* Generated by tokens/codegen.py from tokens/indigo-glass.tokens.toml */",
         "/* DO NOT EDIT - regenerate via `python3 tokens/codegen.py` */",
         "",
         ":root {",
-        "  /* Palette - sRGB */",
+        "  /* Palette - sRGB hex (universal fallback) */",
     ]
-    for k, v in t["palette"]["sRGB"].items():
-        lines.append(f"  --ig-{k.replace('_', '-')}: {v};")
+    for k, v in pal.items():
+        lines.append(f"  --ig-{k.replace('_', '-')}: {v['hex']};")
 
     lines.extend(["", "  /* Spacing */"])
     for k, v in t["spacing"].items():
@@ -61,8 +165,13 @@ def emit_css_vars(t: dict) -> str:
 
     lines.extend(["", "  /* Radius */"])
     for k, v in t["radius"].items():
-        suffix = "px" if k != "full" else "px"
-        lines.append(f"  --ig-radius-{k}: {v}{suffix};")
+        if isinstance(v, dict):
+            continue  # radius.squircle subtable handled in glass.css
+        lines.append(f"  --ig-radius-{k}: {v}px;")
+    # Squircle helper values
+    sq = t["radius"].get("squircle", {})
+    if sq.get("enabled"):
+        lines.append(f"  --ig-squircle-n: {sq['superellipse_n']};")
 
     lines.extend(["", "  /* Blur */"])
     for k, v in t["blur"].items():
@@ -94,18 +203,44 @@ def emit_css_vars(t: dict) -> str:
         lines.append(f"  --ig-dur-{k}: {v}ms;")
     for k, v in t["motion"]["easing"].items():
         lines.append(f"  --ig-ease-{k}: {v};")
+    # Semantic motion roles -> ready-to-use transition shorthand fragments.
+    for role, (dur, ease) in t["motion"].get("roles", {}).items():
+        rname = role.replace("_", "-")
+        lines.append(
+            f"  --ig-motion-{rname}: var(--ig-dur-{dur}) var(--ig-ease-{ease});"
+        )
+
+    # Accent-derivation helpers (relative color syntax, single-hue shifts)
+    d = t["palette"].get("derive", {})
+    if d:
+        lines.extend(["", "  /* Accent lightness-shift deltas (for relative color) */"])
+        for k, v in d.items():
+            lines.append(f"  --ig-{k.replace('_', '-')}: {v};")
 
     lines.append("}")
     lines.append("")
 
-    # P3 wide-gamut override
+    # Native oklch() upgrade - applies everywhere oklch() is supported.
     lines.extend([
-        "/* Display-P3 wide-gamut overlay */",
+        "/* OKLCH native colors (perceptually uniform). All current browsers",
+        "   support oklch(); this overrides the hex fallback above. */",
+        "@supports (color: oklch(0% 0 0)) {",
+        "  :root {",
+    ])
+    for k, v in t["palette"]["oklch"].items():
+        lines.append(f"    --ig-{k.replace('_', '-')}: {oklch_css(*v)};")
+    lines.append("  }")
+    lines.append("}")
+    lines.append("")
+
+    # P3 wide-gamut overlay (brand + semantic colors only)
+    lines.extend([
+        "/* Display-P3 wide-gamut overlay (more chroma on capable monitors) */",
         "@media (color-gamut: p3) {",
         "  :root {",
     ])
-    for k, v in t["palette"]["P3"].items():
-        lines.append(f"    --ig-{k.replace('_', '-')}: {v};")
+    for k in ("indigo", "indigo_hi", "violet", "amber", "positive", "negative"):
+        lines.append(f"    --ig-{k.replace('_', '-')}: {pal[k]['p3']};")
     lines.append("  }")
     lines.append("}")
     lines.append("")
@@ -115,12 +250,12 @@ def emit_css_vars(t: dict) -> str:
         "/* Reduced transparency - disable backdrop blur + raise opacity */",
         "@media (prefers-reduced-transparency: reduce) {",
         "  :root {",
-        f"    --ig-blur-md: 0;",
-        f"    --ig-blur-lg: 0;",
-        f"    --ig-blur-xl: 0;",
-        f"    --ig-opacity-glass-panel: 1.0;",
-        f"    --ig-opacity-glass-panel-lo: 1.0;",
-        f"    --ig-opacity-glass-panel-hi: 1.0;",
+        "    --ig-blur-md: 0;",
+        "    --ig-blur-lg: 0;",
+        "    --ig-blur-xl: 0;",
+        "    --ig-opacity-glass-panel: 1.0;",
+        "    --ig-opacity-glass-panel-lo: 1.0;",
+        "    --ig-opacity-glass-panel-hi: 1.0;",
         "  }",
         "}",
         "",
@@ -141,35 +276,41 @@ def emit_css_vars(t: dict) -> str:
 
 def emit_scss_vars(t: dict) -> str:
     css = emit_css_vars(t)
-    # Quick conversion: --ig-foo: VAL; -> $ig-foo: VAL;
-    out = []
-    out.append("// Indigo Glass design tokens - Sass variables")
-    out.append("// Generated by tokens/codegen.py")
-    out.append("")
+    out = [
+        "// Indigo Glass design tokens - Sass variables",
+        "// Generated by tokens/codegen.py",
+        "",
+    ]
+    seen = set()
     for line in css.split("\n"):
         s = line.strip()
         if s.startswith("--ig-") and ":" in s:
             k, v = s.split(":", 1)
             k = k.replace("--", "$").strip()
             v = v.rstrip(";").strip()
+            if k in seen:  # oklch @supports re-declares; keep first (hex)
+                continue
+            seen.add(k)
             out.append(f"{k}: {v};")
     return "\n".join(out) + "\n"
 
 
 def emit_json(t: dict) -> str:
-    return json.dumps(t, indent=2) + "\n"
+    """Emit the raw tokens plus a derived flat palette for JS consumers."""
+    out = dict(t)
+    pal = derive_palette(t)
+    out["_derived"] = {
+        "palette": pal,
+        "note": "hex/p3/oklch derived from [palette.oklch] by codegen.py",
+    }
+    return json.dumps(out, indent=2) + "\n"
 
 
 def emit_kde_colors(t: dict) -> str:
-    """KDE color scheme partial. Merge into IndigoGlass.colors."""
-    p = t["palette"]["sRGB"]
-
-    def hex_to_rgb(h: str) -> str:
-        h = h.lstrip("#")
-        if len(h) >= 6:
-            r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
-            return f"{r},{g},{b}"
-        return "0,0,0"
+    """KDE color scheme partial. Merge into IndigoGlass.colors.
+    KDE cannot parse oklch() - uses derived RGB."""
+    pal = derive_palette(t)
+    p = {k: v["hex"] for k, v in pal.items()}
 
     lines = [
         "# Indigo Glass - KDE color scheme partial",
@@ -232,8 +373,9 @@ def emit_kde_colors(t: dict) -> str:
 
 
 def emit_wt_scheme(t: dict) -> str:
-    """Windows Terminal scheme."""
-    p = t["palette"]["sRGB"]
+    """Windows Terminal scheme. Uses derived hex (no oklch support)."""
+    pal = derive_palette(t)
+    p = {k: v["hex"] for k, v in pal.items()}
     scheme = {
         "name": "Indigo Glass",
         "background": p["base"],
@@ -262,7 +404,6 @@ def emit_wt_scheme(t: dict) -> str:
 
 def emit_density_css(t: dict) -> str:
     s = t["spacing"]
-    r = t["radius"]
     lines = [
         "/* Indigo Glass - compact density rules */",
         "/* Generated by tokens/codegen.py - see docs/DENSITY.md */",
@@ -303,6 +444,182 @@ def emit_density_css(t: dict) -> str:
     return "\n".join(lines)
 
 
+def _noise_data_uri(opacity: float, base_freq: float, octaves: int) -> str:
+    """Inline SVG fractal-noise tile as a CSS url()."""
+    svg = (
+        "%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E"
+        "%3Cfilter id='ignoise'%3E"
+        f"%3CfeTurbulence type='fractalNoise' baseFrequency='{base_freq}' "
+        f"numOctaves='{octaves}' stitchTiles='stitch'/%3E"
+        "%3C/filter%3E"
+        f"%3Crect width='100%25' height='100%25' filter='url(%23ignoise)' "
+        f"opacity='{opacity}'/%3E"
+        "%3C/svg%3E"
+    )
+    return f"url(\"data:image/svg+xml,{svg}\")"
+
+
+def emit_glass_css(t: dict) -> str:
+    """Glass surface recipe + grain texture + squircle + ambient orbs.
+    The single canonical implementation; layers @import or copy this."""
+    g = t["glass"]
+    grain = g.get("grain", {})
+    sq = t["radius"].get("squircle", {})
+    amb = t.get("ambient", {})
+    pal = derive_palette(t)
+
+    lines = [
+        "/* Indigo Glass - glass / grain / squircle / ambient (v2) */",
+        "/* Generated by tokens/codegen.py - DO NOT EDIT */",
+        "",
+        ":root {",
+        f"  --ig-glass-bg: {g['backdrop_bg']};",
+        f"  --ig-glass-tint: {g['backdrop_tint']};",
+        f"  --ig-glass-border: {g['border']};",
+        f"  --ig-glass-blur: {g['backdrop_blur']}px;",
+    ]
+    if grain.get("enabled"):
+        lines.append(f"  --ig-grain-opacity: {grain['opacity']};")
+        lines.append(f"  --ig-grain-tile: {grain['tile_px']}px;")
+        lines.append(
+            f"  --ig-grain-image: {_noise_data_uri(grain['opacity'], grain['base_frequency'], grain['num_octaves'])};"
+        )
+    lines.append("}")
+    lines.append("")
+
+    # Glass surface with grain on top of blur
+    lines.extend([
+        "/* Frosted glass surface - blur + indigo tint + grain micro-texture */",
+        ".ig-glass {",
+        "  position: relative;",
+        "  background-color: var(--ig-glass-bg);",
+        "  border: 1px solid var(--ig-glass-border);",
+        "  border-radius: var(--ig-radius-lg);",
+        "  backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);",
+        "  -webkit-backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);",
+        "  isolation: isolate;",
+        "  overflow: hidden;",
+        "  box-shadow: var(--ig-shadow-glass);",
+        "}",
+        "/* indigo tint film */",
+        ".ig-glass::before {",
+        "  content: \"\";",
+        "  position: absolute;",
+        "  inset: 0;",
+        "  background: var(--ig-glass-tint);",
+        "  pointer-events: none;",
+        "  z-index: 0;",
+        "}",
+    ])
+    if grain.get("enabled"):
+        lines.extend([
+            "/* grain micro-texture ON TOP of blur (Glassmorphism 2.0) */",
+            ".ig-glass::after {",
+            "  content: \"\";",
+            "  position: absolute;",
+            "  inset: 0;",
+            "  background-image: var(--ig-grain-image);",
+            "  background-size: var(--ig-grain-tile) var(--ig-grain-tile);",
+            "  mix-blend-mode: overlay;",
+            "  pointer-events: none;",
+            "  z-index: 0;",
+            "}",
+        ])
+    lines.extend([
+        ".ig-glass > * { position: relative; z-index: 1; }",
+        "",
+    ])
+
+    # Standalone grain utility (apply to any surface)
+    if grain.get("enabled"):
+        lines.extend([
+            "/* Standalone grain overlay - add to any element */",
+            ".ig-grain { position: relative; }",
+            ".ig-grain::after {",
+            "  content: \"\";",
+            "  position: absolute;",
+            "  inset: 0;",
+            "  background-image: var(--ig-grain-image);",
+            "  background-size: var(--ig-grain-tile) var(--ig-grain-tile);",
+            "  mix-blend-mode: overlay;",
+            "  pointer-events: none;",
+            "}",
+            "",
+        ])
+
+    # Squircle corners (progressive enhancement)
+    if sq.get("enabled"):
+        n = sq["superellipse_n"]
+        lines.extend([
+            "/* Squircle corners - Chromium 139+ via corner-shape; standard",
+            "   border-radius is the cross-browser fallback. */",
+            ".ig-squircle {",
+            "  border-radius: var(--ig-radius-lg);",
+            "}",
+            "@supports (corner-shape: superellipse(2)) {",
+            "  .ig-squircle {",
+            f"    corner-shape: superellipse({n});",
+            "    border-radius: var(--ig-radius-xl);",
+            "  }",
+            "}",
+            "",
+        ])
+
+    # Ambient orbs - canonical light-source gradients
+    if amb.get("enabled"):
+        def orb(colorkey: str, opacity: float, x: int, y: int) -> str:
+            hexc = pal[colorkey]["hex"]
+            return (
+                f"radial-gradient(circle at {x}% {y}%, "
+                f"color-mix(in oklab, {hexc} {round(opacity*100)}%, transparent) 0%, "
+                f"transparent 55%)"
+            )
+        orbs = []
+        posmap = {
+            "orb_primary": (amb["orb_primary"], amb["orb_primary_opacity"]),
+            "orb_secondary": (amb["orb_secondary"], amb["orb_secondary_opacity"]),
+            "orb_tertiary": (amb["orb_tertiary"], amb["orb_tertiary_opacity"]),
+        }
+        for pos in amb["positions"]:
+            ckey, op = posmap[pos["color"]]
+            orbs.append(orb(ckey, op, pos["x"], pos["y"]))
+        joined = ",\n    ".join(orbs)
+        lines.extend([
+            "/* Ambient light-source orbs - 'lit glass'. Single-accent hues only. */",
+            ".ig-ambient {",
+            "  position: relative;",
+            "  background-color: var(--ig-base);",
+            "}",
+            ".ig-ambient::before {",
+            "  content: \"\";",
+            "  position: absolute;",
+            "  inset: -10%;",
+            "  background-image:",
+            f"    {joined};",
+            f"  filter: blur({amb['feather_px']}px);",
+            "  pointer-events: none;",
+            "  z-index: 0;",
+            "}",
+            ".ig-ambient > * { position: relative; z-index: 1; }",
+            "",
+        ])
+
+    # a11y branches
+    lines.extend([
+        "@media (prefers-reduced-transparency: reduce) {",
+        "  .ig-glass {",
+        "    backdrop-filter: none;",
+        "    -webkit-backdrop-filter: none;",
+        "    background-color: var(--ig-surface-alt);",
+        "  }",
+        "  .ig-glass::after, .ig-grain::after { display: none; }",
+        "  .ig-ambient::before { display: none; }",
+        "}",
+        "",
+    ])
+    return "\n".join(lines)
+
+
 WRITERS = [
     ("css-vars.css", emit_css_vars),
     ("scss-vars.scss", emit_scss_vars),
@@ -310,7 +627,13 @@ WRITERS = [
     ("kde-palette.colors", emit_kde_colors),
     ("wt-scheme.json", emit_wt_scheme),
     ("density.css", emit_density_css),
+    ("glass.css", emit_glass_css),
 ]
+
+
+def load_tokens() -> dict:
+    with TOKENS_FILE.open("rb") as f:
+        return tomllib.load(f)
 
 
 def main():

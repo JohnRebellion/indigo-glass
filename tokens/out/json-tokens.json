@@ -1,38 +1,99 @@
 {
   "meta": {
-    "schema_version": 1,
+    "schema_version": 2,
     "name": "Indigo Glass",
     "description": "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent",
     "density": "compact",
     "glass_style": "translucent_backdrop",
-    "revision": 1
+    "revision": 2,
+    "color_authoring": "oklch"
   },
   "palette": {
-    "sRGB": {
-      "base": "#0F0F12",
-      "surface": "#1C1C21",
-      "surface_alt": "#1F2028",
-      "sidebar": "#18181C",
-      "overlay": "#0F0F12cc",
-      "border": "#FFFFFF0F",
-      "border_strong": "#FFFFFF1A",
-      "indigo": "#5E6AD2",
-      "indigo_hi": "#818CF8",
-      "violet": "#A78BFA",
-      "amber": "#FBBF24",
-      "positive": "#71F79F",
-      "negative": "#ED254E",
-      "text": "#F8F8F8",
-      "text_muted": "#6B7280",
-      "text_dim": "#4B5563"
+    "oklch": {
+      "base": [
+        0.1698,
+        0.0062,
+        285.72
+      ],
+      "surface": [
+        0.2286,
+        0.0096,
+        285.62
+      ],
+      "surface_alt": [
+        0.246,
+        0.0152,
+        279.6
+      ],
+      "sidebar": [
+        0.2108,
+        0.0078,
+        285.71
+      ],
+      "indigo": [
+        0.5674,
+        0.1585,
+        275.21
+      ],
+      "indigo_hi": [
+        0.6801,
+        0.1583,
+        276.93
+      ],
+      "violet": [
+        0.709,
+        0.1592,
+        293.54
+      ],
+      "amber": [
+        0.8369,
+        0.1644,
+        84.43
+      ],
+      "positive": [
+        0.8792,
+        0.1706,
+        152.51
+      ],
+      "negative": [
+        0.6124,
+        0.2279,
+        17.6
+      ],
+      "text": [
+        0.9791,
+        0.0,
+        89.88
+      ],
+      "text_muted": [
+        0.551,
+        0.0234,
+        264.36
+      ],
+      "text_dim": [
+        0.4461,
+        0.0263,
+        256.8
+      ]
     },
-    "P3": {
-      "indigo": "color(display-p3 0.36 0.40 0.81)",
-      "indigo_hi": "color(display-p3 0.51 0.55 0.96)",
-      "violet": "color(display-p3 0.65 0.55 0.97)",
-      "amber": "color(display-p3 0.98 0.74 0.16)",
-      "positive": "color(display-p3 0.44 0.96 0.62)",
-      "negative": "color(display-p3 0.92 0.13 0.30)"
+    "alpha": {
+      "overlay": [
+        "base",
+        0.8
+      ],
+      "border": [
+        "#FFFFFF",
+        0.06
+      ],
+      "border_strong": [
+        "#FFFFFF",
+        0.1
+      ]
+    },
+    "derive": {
+      "hover_dl": 0.06,
+      "active_dl": -0.04,
+      "subtle_dl": -0.1
     }
   },
   "spacing": {
@@ -65,7 +126,17 @@
     "default": 8,
     "lg": 12,
     "xl": 16,
-    "full": 9999
+    "full": 9999,
+    "squircle": {
+      "enabled": true,
+      "superellipse_n": 2,
+      "apply_to": [
+        "card",
+        "modal",
+        "avatar",
+        "app-icon"
+      ]
+    }
   },
   "blur": {
     "none": 0,
@@ -166,6 +237,36 @@
       "standard": "cubic-bezier(0.4, 0.0, 0.2, 1.0)",
       "emphasize": "cubic-bezier(0.2, 0.0, 0.0, 1.0)",
       "spring": "cubic-bezier(0.34, 1.56, 0.64, 1.0)"
+    },
+    "roles": {
+      "button_hover": [
+        "quick",
+        "standard"
+      ],
+      "focus_ring": [
+        "quick",
+        "standard"
+      ],
+      "card_hover": [
+        "default",
+        "standard"
+      ],
+      "toggle": [
+        "default",
+        "standard"
+      ],
+      "panel_open": [
+        "slow",
+        "emphasize"
+      ],
+      "neu_press": [
+        "quick",
+        "spring"
+      ],
+      "state_draw": [
+        "hero",
+        "emphasize"
+      ]
     }
   },
   "a11y": {
@@ -177,6 +278,125 @@
     "backdrop_blur": 13,
     "backdrop_tint": "#5E6AD208",
     "backdrop_bg": "#1F2028B3",
-    "border": "#FFFFFF14"
+    "border": "#FFFFFF14",
+    "grain": {
+      "enabled": true,
+      "opacity": 0.04,
+      "base_frequency": 0.65,
+      "num_octaves": 3,
+      "tile_px": 200
+    }
+  },
+  "ambient": {
+    "enabled": true,
+    "orb_primary": "indigo",
+    "orb_primary_opacity": 0.06,
+    "orb_secondary": "violet",
+    "orb_secondary_opacity": 0.04,
+    "orb_tertiary": "indigo_hi",
+    "orb_tertiary_opacity": 0.03,
+    "feather_px": 120,
+    "positions": [
+      {
+        "color": "orb_primary",
+        "x": 25,
+        "y": 25
+      },
+      {
+        "color": "orb_secondary",
+        "x": 78,
+        "y": 75
+      },
+      {
+        "color": "orb_tertiary",
+        "x": 60,
+        "y": 100
+      }
+    ]
+  },
+  "_derived": {
+    "palette": {
+      "base": {
+        "hex": "#0F0F12",
+        "p3": "color(display-p3 0.0588 0.0588 0.0696)",
+        "oklch": "oklch(0.1698 0.0062 285.72)"
+      },
+      "surface": {
+        "hex": "#1C1C21",
+        "p3": "color(display-p3 0.1098 0.1098 0.1278)",
+        "oklch": "oklch(0.2286 0.0096 285.62)"
+      },
+      "surface_alt": {
+        "hex": "#1F2028",
+        "p3": "color(display-p3 0.1223 0.1254 0.1542)",
+        "oklch": "oklch(0.2460 0.0152 279.60)"
+      },
+      "sidebar": {
+        "hex": "#18181C",
+        "p3": "color(display-p3 0.0941 0.0941 0.1085)",
+        "oklch": "oklch(0.2108 0.0078 285.71)"
+      },
+      "indigo": {
+        "hex": "#5E6AD2",
+        "p3": "color(display-p3 0.3776 0.4143 0.7972)",
+        "oklch": "oklch(0.5674 0.1585 275.21)"
+      },
+      "indigo_hi": {
+        "hex": "#818CF8",
+        "p3": "color(display-p3 0.5138 0.5477 0.9440)",
+        "oklch": "oklch(0.6801 0.1583 276.93)"
+      },
+      "violet": {
+        "hex": "#A78BFA",
+        "p3": "color(display-p3 0.6372 0.5492 0.9528)",
+        "oklch": "oklch(0.7090 0.1592 293.54)"
+      },
+      "amber": {
+        "hex": "#FBBF24",
+        "p3": "color(display-p3 0.9481 0.7585 0.2941)",
+        "oklch": "oklch(0.8369 0.1644 84.43)"
+      },
+      "positive": {
+        "hex": "#71F79F",
+        "p3": "color(display-p3 0.5846 0.9569 0.6544)",
+        "oklch": "oklch(0.8792 0.1706 152.51)"
+      },
+      "negative": {
+        "hex": "#ED254E",
+        "p3": "color(display-p3 0.8543 0.2375 0.3230)",
+        "oklch": "oklch(0.6124 0.2279 17.60)"
+      },
+      "text": {
+        "hex": "#F8F8F8",
+        "p3": "color(display-p3 0.9725 0.9725 0.9725)",
+        "oklch": "oklch(0.9791 0.0000 89.88)"
+      },
+      "text_muted": {
+        "hex": "#6B7280",
+        "p3": "color(display-p3 0.4246 0.4462 0.4970)",
+        "oklch": "oklch(0.5510 0.0234 264.36)"
+      },
+      "text_dim": {
+        "hex": "#4B5563",
+        "p3": "color(display-p3 0.3015 0.3321 0.3831)",
+        "oklch": "oklch(0.4461 0.0263 256.80)"
+      },
+      "overlay": {
+        "hex": "#0F0F12CC",
+        "p3": "#0F0F12CC",
+        "oklch": "#0F0F12CC"
+      },
+      "border": {
+        "hex": "#FFFFFF0F",
+        "p3": "#FFFFFF0F",
+        "oklch": "#FFFFFF0F"
+      },
+      "border_strong": {
+        "hex": "#FFFFFF1A",
+        "p3": "#FFFFFF1A",
+        "oklch": "#FFFFFF1A"
+      }
+    },
+    "note": "hex/p3/oklch derived from [palette.oklch] by codegen.py"
   }
 }
