@@ -1,19 +1,26 @@
 # Indigo Glass - Tokens
 
-Single source of truth for palette, spacing, radius, blur, opacity, shadow, typography, motion.
+Single source of truth for palette, spacing, radius, blur, opacity, shadow, typography, motion, glass, ambient.
+
+**Schema v2 (2026-06-26):** the palette is now authored in **OKLCH** (perceptually
+uniform). `codegen.py` derives byte-identical sRGB hex (for KDE/GTK/GRUB/Windows,
+which cannot parse `oklch()`), Display-P3, and native `oklch()` CSS from the same
+source values — so there is zero color drift across layers. New sections:
+`[radius.squircle]`, `[glass.grain]`, `[ambient]`, `[motion.roles]`.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `indigo-glass.tokens.toml` | Canonical token values (edit this) |
-| `codegen.py` | Reads tokens, emits per-layer artifacts (run this) |
-| `out/css-vars.css` | CSS custom properties for web/Stylus (generated) |
+| `indigo-glass.tokens.toml` | Canonical token values (edit this) — palette in `[palette.oklch]` |
+| `codegen.py` | Reads tokens, emits per-layer artifacts (run this); includes dependency-free OKLCH↔sRGB↔P3 conversion |
+| `out/css-vars.css` | CSS custom properties + `@supports` oklch() upgrade + P3 overlay (generated) |
 | `out/scss-vars.scss` | Sass variables (generated) |
-| `out/json-tokens.json` | JSON dump for JS consumers (generated) |
-| `out/kde-palette.colors` | KDE color scheme partial (generated) |
-| `out/wt-scheme.json` | Windows Terminal scheme (generated) |
+| `out/json-tokens.json` | JSON dump + `_derived.palette` {hex,p3,oklch} for JS consumers (generated) |
+| `out/kde-palette.colors` | KDE color scheme partial — derived RGB (generated) |
+| `out/wt-scheme.json` | Windows Terminal scheme — derived hex (generated) |
 | `out/density.css` | Compact-density CSS rules (generated) |
+| `out/glass.css` | `.ig-glass` + grain texture + `.ig-squircle` + `.ig-ambient` orbs (generated) |
 
 ## Workflow
 
@@ -61,22 +68,49 @@ See [docs/DENSITY.md](../docs/DENSITY.md) for the rationale. Default OS chrome (
 
 ## Why visionOS-translucent (NOT Apple Liquid Glass refraction)
 
-We use `backdrop-filter: blur()` with low-opacity indigo tint. No refraction filter. No specular highlights. Backdrop blur = ambient context, never distracting.
+We use `backdrop-filter: blur()` with low-opacity indigo tint, plus a static
+fractal-noise **grain** layer on top (Glassmorphism 2.0 — `[glass.grain]`). No
+refraction filter in the base glass. No specular highlights. Backdrop blur =
+ambient context, never distracting.
 
-See `[glass]` section in `indigo-glass.tokens.toml`.
+See `[glass]` / `[glass.grain]` sections in `indigo-glass.tokens.toml`, emitted
+to `out/glass.css` as `.ig-glass` and the standalone `.ig-grain` utility.
 
-## P3 wide-gamut overlay
+## OKLCH color authoring (schema v2)
+
+The palette source of truth is `[palette.oklch]` — `[L, C, H]` triples. codegen
+derives everything else:
 
 ```css
+/* hex fallback (KDE/GTK/GRUB/Windows + old browsers) */
+:root { --ig-indigo: #5E6AD2; }
+
+/* native oklch upgrade (all current browsers) */
+@supports (color: oklch(0% 0 0)) {
+  :root { --ig-indigo: oklch(0.5674 0.1585 275.21); }
+}
+
+/* P3 wide-gamut overlay (more chroma on capable monitors) */
 @media (color-gamut: p3) {
-  :root {
-    --ig-indigo: color(display-p3 0.36 0.40 0.81);
-    /* ... */
-  }
+  :root { --ig-indigo: color(display-p3 0.3592 0.4012 0.8129); }
 }
 ```
 
-On P3-capable monitors (MacBook XDR, modern OLED), saturation reads ~30% more vivid without changing the perceptual hue. Falls back to sRGB hex on non-P3.
+All three round-trip to the **same** perceptual color; the hex values are
+byte-identical to the previous hand-authored palette (verified in codegen). Hover/
+active variants are derived in CSS via relative color syntax
+(`oklch(from var(--ig-indigo) calc(l + 0.06) c h)`) so the single-accent rule holds.
+
+## Squircle corners
+
+`[radius.squircle]` → `out/glass.css` `.ig-squircle`. Progressive enhancement:
+`corner-shape: superellipse(2)` on Chromium 139+, standard `border-radius`
+fallback everywhere else.
+
+## Ambient light orbs
+
+`[ambient]` → `out/glass.css` `.ig-ambient`. Large, soft radial gradients behind
+glass ("lit glass"). Single-accent hues only (indigo/violet at 3-6%).
 
 ## Accessibility
 

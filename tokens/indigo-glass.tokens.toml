@@ -3,64 +3,72 @@
 # Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
 # concrete config from this file via tokens/codegen.py.
 #
-# Schema version: 1
-# Last token revision: 2026-06-07 (density-tightening pass)
+# Schema version: 2
+# Last token revision: 2026-06-26 (OKLCH authoring + glassmorphism 2.0 pass)
 #
 # Edit values here, run codegen, commit results. Do NOT hardcode hex
 # in layer configs anymore.
+#
+# v2: The palette is now authored in OKLCH (perceptually uniform). codegen
+# derives byte-identical sRGB hex (for KDE/GTK/GRUB/Windows), display-p3,
+# and native oklch() CSS from these values. See tokens/README.md.
 
 [meta]
-schema_version = 1
+schema_version = 2
 name = "Indigo Glass"
 description = "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent"
 density = "compact"
 glass_style = "translucent_backdrop"  # NOT refraction. Backdrop blur only.
-revision = 1
+revision = 2
+color_authoring = "oklch"  # source of truth is [palette.oklch]; hex is derived
 
 # =============================================================================
-# PALETTE - sRGB hex (universal)
+# PALETTE - OKLCH authoring space (SOURCE OF TRUTH)
 # =============================================================================
+# Perceptually uniform: L = lightness (0-1), C = chroma, H = hue (degrees).
+# These values round-trip to the exact canonical Indigo Glass hex codes.
+# Hover/active variants are derived in CSS via relative color syntax
+# (oklch(from var(--x) calc(l + N) c h)) so we do not hand-maintain them.
+#
+# Each entry: [L, C, H]. Alpha (for borders/overlay) handled separately below.
 
-[palette.sRGB]
+[palette.oklch]
 # Surfaces
-base          = "#0F0F12"   # Linear deep near-black (NOT pure #000)
-surface       = "#1C1C21"   # Window background
-surface_alt   = "#1F2028"   # Elevated panel, glass base
-sidebar       = "#18181C"
-overlay       = "#0F0F12cc" # 80% scrim for modals
-
-# Borders
-border        = "#FFFFFF0F" # ~6% white - subtle glass edge
-border_strong = "#FFFFFF1A" # ~10% - more visible on hover
+base          = [0.1698, 0.0062, 285.72]  # Linear deep near-black (NOT pure #000)
+surface       = [0.2286, 0.0096, 285.62]  # Window background
+surface_alt   = [0.2460, 0.0152, 279.60]  # Elevated panel, glass base
+sidebar       = [0.2108, 0.0078, 285.71]
 
 # Brand
-indigo        = "#5E6AD2"   # Linear primary - selection, buttons
-indigo_hi     = "#818CF8"   # +1 brightness - hover, focus
-violet        = "#A78BFA"   # Visited link, accent decoration
+indigo        = [0.5674, 0.1585, 275.21]  # Linear primary - selection, buttons
+indigo_hi     = [0.6801, 0.1583, 276.93]  # +1 brightness - hover, focus
+violet        = [0.7090, 0.1592, 293.54]  # Visited link, accent decoration
 
 # Semantic
-amber         = "#FBBF24"   # Warning (single semantic color, not generic info)
-positive      = "#71F79F"   # Success
-negative      = "#ED254E"   # Error, destructive
+amber         = [0.8369, 0.1644, 84.43]   # Warning (single semantic color)
+positive      = [0.8792, 0.1706, 152.51]  # Success
+negative      = [0.6124, 0.2279, 17.60]   # Error, destructive
 
 # Text
-text          = "#F8F8F8"   # Primary
-text_muted    = "#6B7280"   # Secondary, disabled
-text_dim      = "#4B5563"   # Tertiary, hint
+text          = [0.9791, 0.0000, 89.88]   # Primary
+text_muted    = [0.5510, 0.0234, 264.36]  # Secondary, disabled
+text_dim      = [0.4461, 0.0263, 256.80]  # Tertiary, hint
+
+# Alpha-channel surfaces (RGBA derived). [hex_base, alpha_float]
+[palette.alpha]
+overlay       = ["base", 0.80]   # 80% scrim for modals -> #0F0F12cc
+border        = ["#FFFFFF", 0.06]  # ~6% white - subtle glass edge
+border_strong = ["#FFFFFF", 0.10]  # ~10% - more visible on hover
 
 # =============================================================================
-# PALETTE - Display-P3 wide gamut overlay
+# DERIVED ACCENT STEPS (OKLCH lightness shifts - documentation only)
 # =============================================================================
-# Use `@media (color-gamut: p3)` to switch.
-# Same perceptual color, more saturation on capable monitors.
-
-[palette.P3]
-indigo    = "color(display-p3 0.36 0.40 0.81)"
-indigo_hi = "color(display-p3 0.51 0.55 0.96)"
-violet    = "color(display-p3 0.65 0.55 0.97)"
-amber     = "color(display-p3 0.98 0.74 0.16)"
-positive  = "color(display-p3 0.44 0.96 0.62)"
-negative  = "color(display-p3 0.92 0.13 0.30)"
+# These are emitted as CSS relative-color helpers, not stored as hex, so the
+# single-accent rule holds: every step is the SAME hue, only L changes.
+[palette.derive]
+hover_dl     = 0.06   # +L for hover state    oklch(from c calc(l + 0.06) c h)
+active_dl    = -0.04  # -L for pressed state
+subtle_dl    = -0.10  # dim variant for secondary surfaces
 
 # =============================================================================
 # DENSITY - compact Linear-style spacing
@@ -115,6 +123,17 @@ default = 8    # canonical Klassy match
 lg     = 12    # modals, cards
 xl     = 16    # large panels
 full   = 9999  # circles
+
+# Squircle / superellipse corners (2026 premium corner geometry).
+# Emitted as CSS `corner-shape: superellipse(N)` with an SVG clip-path
+# fallback for Firefox/Safari (corner-shape is Chromium 139+ as of 2026).
+# n=2 is the Apple "squircle"; higher n -> closer to square corner.
+[radius.squircle]
+enabled       = true
+superellipse_n = 2      # corner-shape: superellipse(2) == squircle
+# Surfaces that opt into squircle geometry (web/simulator only; KDE uses
+# Klassy CornerRadius which approximates via standard radius).
+apply_to      = ["card", "modal", "avatar", "app-icon"]
 
 # =============================================================================
 # BLUR - backdrop-filter values (visionOS-style translucent backdrop)
@@ -217,6 +236,18 @@ standard  = "cubic-bezier(0.4, 0.0, 0.2, 1.0)"  # M3 standard
 emphasize = "cubic-bezier(0.2, 0.0, 0.0, 1.0)"  # M3 emphasize
 spring    = "cubic-bezier(0.34, 1.56, 0.64, 1.0)"  # mild overshoot (NOT bouncy)
 
+# Semantic interaction -> (duration role, easing role). Mirrors the 2026
+# micro-interaction timing standard (150-400ms band). codegen emits these
+# as ready-to-use transition shorthands: --ig-motion-<role>.
+[motion.roles]
+button_hover  = ["quick", "standard"]    # 120ms - scale/color
+focus_ring    = ["quick", "standard"]    # 120ms - outline
+card_hover    = ["default", "standard"]  # 200ms - lift + shadow
+toggle        = ["default", "standard"]  # 200ms - slide
+panel_open    = ["slow", "emphasize"]    # 320ms - sheet expand
+neu_press     = ["quick", "spring"]      # 120ms - pillowy push (overshoot)
+state_draw    = ["hero", "emphasize"]    # 500ms - success/error draw
+
 # =============================================================================
 # ACCESSIBILITY
 # =============================================================================
@@ -240,3 +271,38 @@ backdrop_blur = 13          # matches KWin BlurStrength
 backdrop_tint = "#5E6AD208" # indigo @ ~3% opacity for warmth
 backdrop_bg   = "#1F2028B3" # surface_alt @ 70% opacity
 border        = "#FFFFFF14" # 8% white
+
+# Grain / frosted-glass micro-texture (Glassmorphism 2.0 differentiator).
+# A static fractal-noise SVG layered ON TOP of the blur (not behind it),
+# at very low opacity. Simulates sandblasted/ground glass tactility.
+# Distinct from [glass] refraction displacement in liquid-glass.css.
+[glass.grain]
+enabled        = true
+opacity        = 0.04   # 3-6% band; 4% reads as texture, not noise
+base_frequency = 0.65   # feTurbulence baseFrequency (high = fine grain)
+num_octaves    = 3
+tile_px        = 200    # background-size of the noise tile
+
+# =============================================================================
+# AMBIENT - light-source gradient orbs behind glass (visionOS "lit glass")
+# =============================================================================
+# Large, soft radial gradients positioned as pseudo-light-sources behind
+# glass panels. MUST use the existing indigo/violet hues only (single-accent
+# rule). Already realized by simulator mesh.css / .ig-mesh-hero; these tokens
+# canonicalize the values so every layer matches.
+
+[ambient]
+enabled            = true
+orb_primary        = "indigo"   # palette key
+orb_primary_opacity = 0.06      # 5-6% - barely perceptible warmth
+orb_secondary      = "violet"
+orb_secondary_opacity = 0.04
+orb_tertiary       = "indigo_hi"
+orb_tertiary_opacity = 0.03
+feather_px         = 120        # blur radius for orb softness
+# Default orb placements (pct of viewport). Kept sparse for restraint.
+positions = [
+  { color = "orb_primary",   x = 25, y = 25 },
+  { color = "orb_secondary", x = 78, y = 75 },
+  { color = "orb_tertiary",  x = 60, y = 100 },
+]
