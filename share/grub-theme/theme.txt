@@ -11,39 +11,39 @@ desktop-image: "background.jpg"
 desktop-color: "#0a0a14"
 
 # ───── Card 1: CPU  (col x=107) ─────
-+ image { left = 107 top = 96 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 112 left = 107 width = 440 align = "left" text = "CPU" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
-+ label { top = 144 left = 107 width = 440 align = "left" text = "Ryzen 7 5700X3D" color = "#ffffff" font = "SF Pro Display Regular 40" }
-+ label { top = 204 left = 107 width = 440 align = "left" text = "8C / 16T - 96MB 3D V-Cache" color = "#d1d5db" font = "SF Pro Display Regular 24" }
-+ label { top = 238 left = 107 width = 440 align = "left" text = "AMD-V - IOMMU - AVX2/AES/SHA" color = "#a78bfa" font = "SF Pro Display Regular 22" }
++ image { left = 107 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 107 width = 440 align = "left" text = "CPU" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 107 width = 440 align = "left" text = "Ryzen 7 5700X3D" color = "#ffffff" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 107 width = 440 align = "left" text = "8C / 16T - 96MB 3D V-Cache" color = "#d1d5db" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 107 width = 440 align = "left" text = "AMD-V - IOMMU - AVX2/AES/SHA" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── Card 2: MEMORY  (col x=613) ─────
-+ image { left = 613 top = 96 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 112 left = 613 width = 440 align = "left" text = "MEMORY" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
-+ label { top = 144 left = 613 width = 440 align = "left" text = "32 GB DDR4" color = "#ffffff" font = "SF Pro Display Regular 40" }
-+ label { top = 204 left = 613 width = 440 align = "left" text = "3600 MT/s - Dual Channel" color = "#d1d5db" font = "SF Pro Display Regular 24" }
-+ label { top = 238 left = 613 width = 440 align = "left" text = "G.SKILL Trident Z - CL18" color = "#a78bfa" font = "SF Pro Display Regular 22" }
++ image { left = 613 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 613 width = 440 align = "left" text = "MEMORY" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 613 width = 440 align = "left" text = "32 GB DDR4" color = "#ffffff" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 613 width = 440 align = "left" text = "3600 MT/s - Dual Channel" color = "#d1d5db" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 613 width = 440 align = "left" text = "G.SKILL Trident Z - CL18" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── Card 3: GPU  (col x=1120) ─────
-+ image { left = 1120 top = 96 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 112 left = 1120 width = 460 align = "left" text = "GPU" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
-+ label { top = 144 left = 1120 width = 460 align = "left" text = "RX 7600 XT 16GB" color = "#ffffff" font = "SF Pro Display Regular 40" }
-+ label { top = 204 left = 1120 width = 460 align = "left" text = "RDNA 3 - Vulkan 1.4 / GL 4.6" color = "#d1d5db" font = "SF Pro Display Regular 24" }
-+ label { top = 238 left = 1120 width = 460 align = "left" text = "AV1 / HEVC - Encode + Decode" color = "#a78bfa" font = "SF Pro Display Regular 22" }
++ image { left = 1120 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 1120 width = 460 align = "left" text = "GPU" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 1120 width = 460 align = "left" text = "RX 7600 XT 16GB" color = "#ffffff" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 1120 width = 460 align = "left" text = "RDNA 3 - Vulkan 1.4 / GL 4.6" color = "#d1d5db" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 1120 width = 460 align = "left" text = "AV1 / HEVC - Encode + Decode" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── Card 4: DISK  (col x=1627) — static capacity only ─────
-+ image { left = 1627 top = 96 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 112 left = 1627 width = 440 align = "left" text = "DISK" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
-+ label { top = 144 left = 1627 width = 440 align = "left" text = "1 TB NVMe" color = "#ffffff" font = "SF Pro Display Regular 40" }
-+ label { top = 204 left = 1627 width = 440 align = "left" text = "Kingmax - PCIe" color = "#d1d5db" font = "SF Pro Display Regular 24" }
-+ label { top = 238 left = 1627 width = 440 align = "left" text = "btrfs - zstd compression" color = "#a78bfa" font = "SF Pro Display Regular 22" }
++ image { left = 1627 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 1627 width = 440 align = "left" text = "DISK" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 1627 width = 440 align = "left" text = "1 TB NVMe" color = "#ffffff" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 1627 width = 440 align = "left" text = "Kingmax - PCIe" color = "#d1d5db" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 1627 width = 440 align = "left" text = "btrfs - zstd compression" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── Card 5: BOARD  (col x=2133) ─────
-+ image { left = 2133 top = 96 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 112 left = 2133 width = 400 align = "left" text = "BOARD" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
-+ label { top = 144 left = 2133 width = 400 align = "left" text = "MSI B550M-P" color = "#ffffff" font = "SF Pro Display Regular 40" }
-+ label { top = 204 left = 2133 width = 400 align = "left" text = "AMI BIOS 1.90 - UEFI" color = "#d1d5db" font = "SF Pro Display Regular 24" }
-+ label { top = 238 left = 2133 width = 400 align = "left" text = "Realtek GbE - USB 3.1" color = "#a78bfa" font = "SF Pro Display Regular 22" }
++ image { left = 2133 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 2133 width = 400 align = "left" text = "BOARD" color = "#c4b5fd" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 2133 width = 400 align = "left" text = "MSI B550M-P" color = "#ffffff" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 2133 width = 400 align = "left" text = "AMI BIOS 1.90 - UEFI" color = "#d1d5db" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 2133 width = 400 align = "left" text = "Realtek GbE - USB 3.1" color = "#a78bfa" font = "SF Pro Display Regular 22" }
 
 # ───── BOOT PICKER header ─────
 + label { top = 360 left = 80 width = 1333 align = "left" text = "BOOT PICKER" color = "#e0e7ff" font = "SF Pro Display Regular 48" }
