@@ -146,10 +146,12 @@ Base, surface, surface-elevated. No "surface-50, surface-100, surface-150" casca
 
 ---
 
-## Why "Indigo Glass" as a name?
+## Why "Lime Glass" as a name?
 
-- **Indigo** = the color, the brand recognition link to Linear
-- **Glass** = the material language, the visionOS reference
+- **Lime** = the accent — a single ghost-lime (`#A8E635`) on deep black, the brand signature
+- **Glass** = the material language, the visionOS/brutalist-glass reference
 - **Together** = a complete design identity, not just "another dark theme"
 
-Naming the system as a *product* (not just "my dotfiles") forces design discipline: every change must answer "is this Indigo Glass?" — not "is this what I happen to like today?"
+Naming the system as a *product* (not just "my dotfiles") forces design discipline: every change must answer "is this Lime Glass?" — not "is this what I happen to like today?"
+
+> **Heritage:** the system began as **Indigo Glass** (Linear-indigo `#5E6AD2` accent). That palette still ships as the `indigo` variant (`[variants.indigo]` in the token file) — Lime Glass is the default, Indigo Glass is one `default_variant` switch away.
