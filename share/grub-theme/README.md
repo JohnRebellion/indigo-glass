@@ -1,6 +1,6 @@
-# Indigo Glass — GRUB Theme
+# Lime Glass — GRUB Theme
 
-Custom GRUB2 boot theme matching the Indigo Glass design system.
+Custom GRUB2 boot theme matching the Lime Glass design system.
 
 ## Design alignment
 

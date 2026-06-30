@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# patch-webview-css.sh — append Indigo Glass retint to Claude Code webview CSS
+# patch-webview-css.sh — append Lime Glass retint to Claude Code webview CSS
 #
 # Why: VSCode webview iframe is isolated. apc-extension is broken on
 # Insiders 1.124+. Workbench-level patches don't reach the iframe.

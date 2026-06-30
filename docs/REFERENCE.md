@@ -1,4 +1,4 @@
-# Indigo Glass — Cross-Platform Design System
+# Lime Glass — Cross-Platform Design System
 **Full reference for from-scratch rebuild + troubleshooting**
 
 **Scope:** KDE Plasma 6.6 desktop, GTK apps, terminal (Konsole + Starship + Fastfetch), portfolio web (`~/portfolio/web` — SvelteKit + Tailwind v4)
@@ -10,7 +10,7 @@
 
 ## Aesthetic Goal
 
-**Hybrid:** visionOS spatial glass + Linear app dark discipline + Neumorphism 2.0 (selective tactility)
+**Hybrid:** brutalist-glass + Linear app dark discipline + Neumorphism 2.0 (selective tactility)
 
 **Core formula:**
 - Deep dark base (`#0F0F12`)
@@ -224,7 +224,7 @@ Key values (all groups):
 ```ini
 [General]
 ColorScheme=IndigoGlass
-Name=Indigo Glass
+Name=Lime Glass
 
 [Colors:Selection]
 BackgroundNormal=94,106,210      # #5E6AD2
@@ -632,7 +632,7 @@ WindowClasses=
 **Combined with window opacity rule** (in kwinrulesrc) for body translucency:
 ```ini
 [uuid-here]
-Description=Indigo Glass — body opacity
+Description=Lime Glass — body opacity
 opacityactive=88
 opacityactiverule=2
 opacityinactive=85
@@ -784,7 +784,7 @@ edge://flags/:
 
 ---
 
-## Portfolio Web (`~/portfolio/web`) — Tailwind v4 Indigo Glass
+## Portfolio Web (`~/portfolio/web`) — Tailwind v4 Lime Glass
 
 SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block in `src/app.css`.
 

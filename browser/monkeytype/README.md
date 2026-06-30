@@ -1,6 +1,6 @@
-# Indigo Glass — Monkeytype theme
+# Lime Glass — Monkeytype theme
 
-Custom Monkeytype theme using the canonical Indigo Glass palette.
+Custom Monkeytype theme using the canonical Lime Glass palette.
 
 | Slot | Hex | Role |
 |---|---|---|
@@ -10,7 +10,7 @@ Custom Monkeytype theme using the canonical Indigo Glass palette.
 | sub | `#6B7280` | muted hint text |
 | sub alt | `#1F2028` | elevated surface (key blocks, modals) |
 | caret | `#818CF8` | indigo+1 — visible blink against bg |
-| error | `#ED254E` | typed-wrong (Indigo Glass negative) |
+| error | `#ED254E` | typed-wrong (Lime Glass negative) |
 | extra error | `#FF5272` | brighter red on top of error |
 
 ---

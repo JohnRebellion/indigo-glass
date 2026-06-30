@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Indigo Glass - apply host-specific font sizes to Linux configs
+# Lime Glass - apply host-specific font sizes to Linux configs
 #
 # Reads hosts/<profile>.toml and writes the values into live config
 # files. Idempotent: re-running with the same profile is a no-op for

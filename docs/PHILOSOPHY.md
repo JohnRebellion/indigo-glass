@@ -1,4 +1,4 @@
-# Indigo Glass — Design Philosophy
+# Lime Glass — Design Philosophy
 
 > Why the hybrid? Why these colors? Why these constraints?
 

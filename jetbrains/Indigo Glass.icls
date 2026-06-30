@@ -1,8 +1,8 @@
-<scheme name="Indigo Glass" version="142" parent_scheme="Darcula">
+<scheme name="Lime Glass" version="142" parent_scheme="Darcula">
   <metaInfo>
     <property name="created">2026-06-07</property>
     <property name="ide">JetBrains IDEs (IDEA/PyCharm/RustRover/GoLand/WebStorm/Rider)</property>
-    <property name="originalScheme">Indigo Glass</property>
+    <property name="originalScheme">Lime Glass</property>
   </metaInfo>
   <colors>
     <option name="CARET_COLOR" value="818CF8"/>

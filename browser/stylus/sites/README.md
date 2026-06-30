@@ -1,6 +1,6 @@
-# Indigo Glass - Per-site Stylus overrides
+# Lime Glass - Per-site Stylus overrides
 
-Surgical retints for sites where the universal Indigo Glass Stylus style isn't enough OR where the site has strong native dark mode that just needs accent realignment.
+Surgical retints for sites where the universal Lime Glass Stylus style isn't enough OR where the site has strong native dark mode that just needs accent realignment.
 
 ## Sites covered
 
@@ -28,12 +28,12 @@ Each `*.user.css` installs separately via Stylus:
 
 ## Why per-site
 
-The universal Stylus style avoids most font/scrollbar drift cross-site. But sites with their OWN dark mode (Linear, Notion, Claude, ChatGPT) use brand-specific accent colors that read as "wrong" alongside Indigo Glass elsewhere. Surgical per-site CSS shifts ONLY their accent CSS vars to indigo - native dark surfaces stay intact.
+The universal Stylus style avoids most font/scrollbar drift cross-site. But sites with their OWN dark mode (Linear, Notion, Claude, ChatGPT) use brand-specific accent colors that read as "wrong" alongside Lime Glass elsewhere. Surgical per-site CSS shifts ONLY their accent CSS vars to indigo - native dark surfaces stay intact.
 
 ## Add a new site
 
 1. Open the site, devtools -> Computed -> look for `--bg-*` `--text-*` `--accent-*` CSS custom properties on `:root` or `html`
-2. Map their tokens to Indigo Glass palette:
+2. Map their tokens to Lime Glass palette:
    - bg/surface family -> base/surface/surface_alt
    - text family -> text/text_muted/text_dim
    - accent/primary -> indigo/indigo_hi

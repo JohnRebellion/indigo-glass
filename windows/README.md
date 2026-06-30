@@ -1,4 +1,4 @@
-# Indigo Glass — Windows 11 + WSL2
+# Lime Glass — Windows 11 + WSL2
 
 Cross-platform parity. Windows host gets the same chrome (palette, fonts, accent, prompt) as the KDE/Linux side. WSL2 distros run the Linux config unchanged.
 

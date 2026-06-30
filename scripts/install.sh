@@ -1,5 +1,5 @@
 #!/bin/bash
-# Indigo Glass — Installation script
+# Lime Glass — Installation script
 # Sets up complete design system: KDE Plasma + GTK + Konsole + Starship + Fastfetch
 #
 # Tested on: Fedora 43 / Nobara 43, KDE Plasma 6.6+, Wayland
@@ -25,7 +25,7 @@ for arg in "$@"; do
 done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-echo "▶ Indigo Glass installer"
+echo "▶ Lime Glass installer"
 echo "  Source: $REPO_DIR"
 echo "  User: $USER"
 echo "  Home: $HOME"
@@ -170,7 +170,7 @@ fi
 
 # ─── Copy theme assets ───
 echo
-echo "▶ Installing Indigo Glass color schemes + Konsole profile..."
+echo "▶ Installing Lime Glass color schemes + Konsole profile..."
 run "mkdir -p $HOME/.local/share/color-schemes $HOME/.local/share/konsole"
 run "cp '$REPO_DIR/share/color-schemes/IndigoGlass.colors' '$HOME/.local/share/color-schemes/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.colorscheme' '$HOME/.local/share/konsole/'"
@@ -219,7 +219,7 @@ apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" "$HOME/.config/klas
 echo
 echo "▶ Adding global window opacity rule (88% active / 85% inactive)..."
 UUID=$(uuidgen)
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'Description' 'Indigo Glass — global window opacity'"
+run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'Description' 'Lime Glass — global window opacity'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityactive' '88'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityactiverule' '2'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityinactive' '85'"
@@ -230,7 +230,7 @@ run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclasscomplete' 'f
 
 if [ "$WITH_GRUB" = true ]; then
   echo
-  echo "▶ Installing Indigo Glass GRUB theme..."
+  echo "▶ Installing Lime Glass GRUB theme..."
   GRUB_SRC="$REPO_DIR/share/grub-theme"
   GRUB_DEST="/boot/grub2/themes/indigo-glass"
   if [ -d "$GRUB_SRC" ]; then
@@ -260,7 +260,7 @@ run "sleep 2"
 run "kstart plasmashell &"
 
 echo
-echo "✓ Indigo Glass installation complete."
+echo "✓ Lime Glass installation complete."
 echo
 echo "Next steps:"
 echo "  1. Append shell snippet to ~/.zshrc:"

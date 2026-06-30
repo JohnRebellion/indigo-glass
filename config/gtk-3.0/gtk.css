@@ -1,6 +1,6 @@
 @import 'colors.css';
 
-/* Indigo Glass — GTK3 accent override */
+/* Lime Glass — GTK3 accent override */
 @define-color theme_selected_bg_color #5E6AD2;
 @define-color theme_selected_fg_color #FFFFFF;
 @define-color accent_color #818CF8;

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Indigo Glass - build Bibata cursor variant w/ indigo accent
+# Lime Glass - build Bibata cursor variant w/ indigo accent
 #
 # Bibata upstream: https://github.com/ful1e5/Bibata_Cursor
 # Build pipeline (v2.0.6+):
@@ -9,7 +9,7 @@
 #   3. ctgen + configs/normal/x.build.toml compile to XCursor
 #
 # We add a custom "Bibata-Modern-IndigoGlass" entry to render.json
-# w/ Indigo Glass palette mapping, then run cbmp + ctgen for just
+# w/ Lime Glass palette mapping, then run cbmp + ctgen for just
 # that one variant.
 #
 # Deps:
@@ -25,10 +25,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/out"
 WORK_DIR="$SCRIPT_DIR/.work"
 
-# Indigo Glass palette mapped to Bibata color slots:
+# Lime Glass palette mapped to Bibata color slots:
 #   match #00FF00 -> outline   = #0F0F12 (deep near-black)
 #   match #0000FF -> base fill = #F8F8F8 (white-ish for cursor body)
-#   match #FF0000 -> accent    = #5E6AD2 (Indigo Glass primary)
+#   match #FF0000 -> accent    = #5E6AD2 (Lime Glass primary)
 ACCENT="#5E6AD2"
 OUTLINE="#0F0F12"
 BASE="#F8F8F8"
@@ -61,7 +61,7 @@ fi
 cd "$WORK_DIR/Bibata_Cursor"
 
 # Insert custom variant into render.json (idempotent)
-echo "Patching render.json with Indigo Glass variant..."
+echo "Patching render.json with Lime Glass variant..."
 python3 - "$ACCENT" "$OUTLINE" "$BASE" "$VARIANT" <<'PY'
 import json
 import sys
@@ -97,7 +97,7 @@ ctgen configs/normal/x.build.toml \
   -p x11 \
   -d "bitmaps/$VARIANT" \
   -n "$VARIANT" \
-  -c "Indigo Glass - rounded edge Bibata w/ #5E6AD2 accent (v2.0.6)"
+  -c "Lime Glass - rounded edge Bibata w/ #5E6AD2 accent (v2.0.6)"
 
 # Locate output
 THEME_DIR="themes/$VARIANT"
@@ -114,8 +114,8 @@ cp -r "$THEME_DIR" "$FINAL_DIR"
 
 cat > "$FINAL_DIR/index.theme" <<EOF
 [Icon Theme]
-Name=Bibata Indigo Glass
-Comment=Bibata cursor recolored with Indigo Glass accent ($ACCENT)
+Name=Bibata Lime Glass
+Comment=Bibata cursor recolored with Lime Glass accent ($ACCENT)
 Inherits=Bibata-Modern-Classic
 EOF
 

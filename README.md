@@ -1,6 +1,6 @@
-# Indigo Glass
+# Lime Glass
 
-> Cross-platform design system for KDE Plasma 6.6+ — a hybrid of **visionOS spatial glass**, **Linear app dark discipline**, and **Neumorphism 2.0** (selective tactility).
+> Cross-platform design system for KDE Plasma 6.6+ — a hybrid of **brutalist-glass**, **Linear app dark discipline**, and **Neumorphism 2.0** (selective tactility).
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Plasma](https://img.shields.io/badge/KDE_Plasma-6.6%2B-1d99f3.svg)
@@ -144,7 +144,7 @@ For users who want to merge selectively without running the script:
 
 If you have a SvelteKit / Next.js / Astro portfolio with Tailwind v4, copy `web/app.css.example` content into your main CSS file. Provides:
 
-- `@theme` block with all Indigo Glass tokens
+- `@theme` block with all Lime Glass tokens
 - Glass utilities: `.glass`, `.glass-subtle`, `.glass-strong`
 - Neumorphic utilities: `.neu-raised`, `.neu-pressed`
 - Indigo glow: `.glow-indigo`, `.glow-indigo-lg`

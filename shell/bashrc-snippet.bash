@@ -1,4 +1,4 @@
-# Indigo Glass — bash integration
+# Lime Glass — bash integration
 # Append to ~/.bashrc
 
 export GTK_THEME="WhiteSur-Dark-purple"

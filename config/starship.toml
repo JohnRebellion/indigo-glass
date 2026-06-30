@@ -1,4 +1,4 @@
-# Indigo Glass — KDE Plasma 6.6 design system (visionOS + Linear + Neumorphism)
+# Lime Glass — KDE Plasma 6.6 design system (brutalist-glass + Linear + Neumorphism)
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
