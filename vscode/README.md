@@ -1,8 +1,8 @@
-# Indigo Glass — VSCode Theme
+# Lime Glass — VSCode Theme
 
-visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 — ported to VSCode color tokens.
+brutalist-glass + Linear dark discipline + Neumorphism 2.0 — ported to VSCode color tokens.
 
-Ships **two color themes** (Dark + Light) sharing the same canonical Indigo Glass palette as the KDE/Konsole/GRUB sister themes in this repo.
+Ships **two color themes** (Dark + Light) sharing the same canonical Lime Glass palette as the KDE/Konsole/GRUB sister themes in this repo.
 
 > Full design rationale: [../docs/PHILOSOPHY.md](../docs/PHILOSOPHY.md) · Cross-platform reference: [../docs/REFERENCE.md](../docs/REFERENCE.md)
 
@@ -43,7 +43,7 @@ Design discipline carried from KDE rules:
 ln -sf ~/projects/indigo-glass/vscode ~/.vscode/extensions/indigo-glass-0.1.0
 ```
 
-Restart VSCode → `Ctrl+K Ctrl+T` → **Indigo Glass Dark** or **Indigo Glass Light**.
+Restart VSCode → `Ctrl+K Ctrl+T` → **Lime Glass Dark** or **Lime Glass Light**.
 
 ### Option B — vsix package
 
@@ -103,7 +103,7 @@ The script auto-detects Claude Code under `~/.vscode-insiders/extensions/` or `~
 
 ### What gets overridden
 
-| Anthropic brand var | Default | Indigo Glass |
+| Anthropic brand var | Default | Lime Glass |
 |---|---|---|
 | `--app-claude-orange` | `#d97757` | `#5E6AD2` |
 | `--app-claude-clay-button-orange` | `#c6613f` | `#5E6AD2` |

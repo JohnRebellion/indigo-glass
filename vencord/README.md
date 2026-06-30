@@ -1,4 +1,4 @@
-# Indigo Glass - Discord (Vencord / BetterDiscord)
+# Lime Glass - Discord (Vencord / BetterDiscord)
 
 Single `.theme.css` file w/ `@name` `@description` metadata. Works on Vencord, BetterDiscord, Goosemod.
 
@@ -26,7 +26,7 @@ Same flow, themes folder at:
 ## What it overrides
 
 - Discord's `theme-dark` / `theme-darker` / `theme-pureBlack` CSS vars
-- All `--background-*` -> Indigo Glass palette
+- All `--background-*` -> Lime Glass palette
 - `--brand-experiment-*` (blurple) -> `#5E6AD2` indigo
 - Compact channel list (1px gaps, 4/8 padding)
 - Compact message list (8px horizontal)

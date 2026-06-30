@@ -1,4 +1,4 @@
-# Indigo Glass - Cursor
+# Lime Glass - Cursor
 
 Bibata cursor recolored with `#5E6AD2` indigo accent.
 
@@ -23,7 +23,7 @@ kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme 'Bibata-IndigoGl
 ## Notes
 
 - Inherits from `Bibata-Modern-Classic`. Falls back gracefully if some glyphs missing.
-- Default Bibata accent (`#80B4FF` / `#3F8AE5`) replaced with Indigo Glass `#5E6AD2`.
+- Default Bibata accent (`#80B4FF` / `#3F8AE5`) replaced with Lime Glass `#5E6AD2`.
 - Outline color `#1A4F7F` swapped to indigo+1 `#818CF8`.
 - Size auto-handled by Bibata's multi-resolution PNG pipeline.
 

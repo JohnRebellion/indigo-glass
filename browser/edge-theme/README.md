@@ -1,6 +1,6 @@
-# Indigo Glass — Edge Theme Extension
+# Lime Glass — Edge Theme Extension
 
-Forces Edge chrome (frame, toolbar, tabs, NTP) to render at Indigo Glass token values. Eliminates the visual seam between KWin/Klassy titlebar (`#1F2028`) and Edge nav bar (default Chromium dark `#1C1D1F`).
+Forces Edge chrome (frame, toolbar, tabs, NTP) to render at Lime Glass token values. Eliminates the visual seam between KWin/Klassy titlebar (`#1F2028`) and Edge nav bar (default Chromium dark `#1C1D1F`).
 
 ## Install (unpacked, per profile)
 

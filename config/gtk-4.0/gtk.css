@@ -1,6 +1,6 @@
 @import 'colors.css';
 
-/* Indigo Glass — libadwaita accent override */
+/* Lime Glass — libadwaita accent override */
 @define-color accent_color #818CF8;
 @define-color accent_bg_color #5E6AD2;
 @define-color accent_fg_color #FFFFFF;

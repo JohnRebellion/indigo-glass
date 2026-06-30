@@ -1,6 +1,6 @@
 Windows Registry Editor Version 5.00
 
-; Indigo Glass — Windows 11 accent color #5E6AD2
+; Lime Glass — Windows 11 accent color #5E6AD2
 ;
 ; Apply: double-click in Explorer, or `reg import indigo-glass-accent.reg`
 ; Revert: Settings → Personalization → Colors → "Automatic" or pick new

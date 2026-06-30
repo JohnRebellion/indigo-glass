@@ -1,9 +1,9 @@
 {
-  "// Indigo Glass — recommended settings (paste into ~/.config/Code/User/settings.json)": "",
+  "// Lime Glass — recommended settings (paste into ~/.config/Code/User/settings.json)": "",
 
-  "workbench.colorTheme": "Indigo Glass Dark",
-  "workbench.preferredDarkColorTheme": "Indigo Glass Dark",
-  "workbench.preferredLightColorTheme": "Indigo Glass Light",
+  "workbench.colorTheme": "Lime Glass Dark",
+  "workbench.preferredDarkColorTheme": "Lime Glass Dark",
+  "workbench.preferredLightColorTheme": "Lime Glass Light",
   "window.autoDetectColorScheme": true,
 
   "editor.cursorBlinking": "smooth",
@@ -42,7 +42,7 @@
   "breadcrumbs.enabled": true,
   "breadcrumbs.icons": true,
 
-  "// Match the canonical Indigo Glass terminal cursor": "block + smooth",
+  "// Match the canonical Lime Glass terminal cursor": "block + smooth",
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.cursorStyle": "block",
 

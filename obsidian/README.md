@@ -1,4 +1,4 @@
-# Indigo Glass - Obsidian theme
+# Lime Glass - Obsidian theme
 
 Note-taking parity. Same palette, fonts, density, translucency as VSCode/KDE/browser layers.
 
@@ -19,7 +19,7 @@ Copy-Item -Recurse "obsidian\Indigo Glass" "$env:USERPROFILE\Documents\YourVault
 
 ## What it themes
 
-- Editor background `#0F0F12` + foreground `#F8F8F8` (Indigo Glass canonical)
+- Editor background `#0F0F12` + foreground `#F8F8F8` (Lime Glass canonical)
 - Selection = indigo overlay `rgba(94,106,210,0.45)`
 - Mono code = Iosevka Custom Condensed chain
 - Body text = Carlito chain
@@ -42,4 +42,4 @@ For Aspire 5 / high-DPI 1080p hosts: bump base font size 18, editor 16.
 
 - Uses `prefers-reduced-transparency: reduce` to disable backdrop blur for accessibility
 - No refraction filters - pure backdrop-blur translucency
-- Callout colors mirror VSCode dark theme + Indigo Glass semantic palette
+- Callout colors mirror VSCode dark theme + Lime Glass semantic palette

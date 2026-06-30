@@ -1,4 +1,4 @@
-# Indigo Glass - Density Manifesto
+# Lime Glass - Density Manifesto
 
 > Compact, legible, no padding unless necessary. Margins between elements only when they group content.
 

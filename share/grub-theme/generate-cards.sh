@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# generate-cards.sh — bake Indigo Glass GRUB stat cards from live system info
+# generate-cards.sh — bake Lime Glass GRUB stat cards from live system info
 #
 # Usage:
 #   bash generate-cards.sh [output-dir]

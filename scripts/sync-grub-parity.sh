@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Indigo Glass — GRUB theme parity sync
+# Lime Glass — GRUB theme parity sync
 #
 # share/grub-theme/ is the SINGLE SOURCE OF TRUTH for the GRUB theme.
 # This script propagates it to the two downstream consumers so real boot,
@@ -84,7 +84,7 @@ overlay() {
   done
 }
 
-echo "▶ Indigo Glass GRUB parity sync"
+echo "▶ Lime Glass GRUB parity sync"
 echo "  source (truth): $SRC"
 [ "$DRY_RUN" = true ] && echo "  ⚠ DRY RUN"
 echo

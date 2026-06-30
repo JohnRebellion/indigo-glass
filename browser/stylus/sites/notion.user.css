@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Indigo Glass - Notion
+@name           Lime Glass - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
-@description    Retint notion.so + notion.site with Indigo Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
+@version        0.3.0
+@description    Retint notion.so + notion.site with Lime Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/notion.user.css
@@ -67,7 +67,7 @@
     }
   }
 
-  /* Notion uses Inter for prose - swap to Indigo Glass body chain */
+  /* Notion uses Inter for prose - swap to Lime Glass body chain */
   body, [class*="notion-page"], [contenteditable] {
     font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
   }

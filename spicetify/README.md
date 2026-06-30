@@ -1,4 +1,4 @@
-# Indigo Glass - Spicetify (Spotify desktop)
+# Lime Glass - Spicetify (Spotify desktop)
 
 ## Install
 
@@ -22,14 +22,14 @@ spicetify apply
 
 ## What it does
 
-- 16-color palette in `color.ini` matching Indigo Glass tokens
+- 16-color palette in `color.ini` matching Lime Glass tokens
 - `user.css` adds compact density (track rows 2/8px), translucent now-playing bar (rgba(28,28,33,0.85) + 13px backdrop blur), indigo selection + buttons + focus ring + progress bars
 - Honors `prefers-reduced-transparency: reduce` -> flattens panels to solid `#1F2028`
 - Carlito body font (uses local install)
 
 ## Color map
 
-| Spicetify | Indigo Glass token | Hex |
+| Spicetify | Lime Glass token | Hex |
 |---|---|---|
 | main | base | #0F0F12 |
 | sidebar | sidebar | #18181C |

@@ -1,4 +1,4 @@
-# Indigo Glass — Browser Layer
+# Lime Glass — Browser Layer
 
 Non-destructive web retint for [Dark Reader](https://chromewebstore.google.com/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh) (`ifoakfbpdcdoeenechcleahebpibofpc`) and [Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne) (`clngdbkpkpeebahjckkjfobafhncgmne`).
 
@@ -11,7 +11,7 @@ Non-destructive web retint for [Dark Reader](https://chromewebstore.google.com/d
 | Layer | What it does |
 |---|---|
 | **Stylus** universal `.user.css` | Light-touch retint — scrollbars, selection, focus ring. Never inverts pages. Always safe. |
-| **Dark Reader** preset | Page-wide inversion engine with Indigo Glass colors. Toggle per-site if a page breaks. |
+| **Dark Reader** preset | Page-wide inversion engine with Lime Glass colors. Toggle per-site if a page breaks. |
 
 Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/focus). Dark Reader handles full-page inversion for sites without a native dark mode.
 
@@ -53,7 +53,7 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 
 1. Open Dark Reader popup → ⚙ → **Manage settings** → **Import settings**
 2. Select `darkreader/indigo-glass.json`
-3. Dark Reader applies Indigo Glass palette:
+3. Dark Reader applies Lime Glass palette:
 
 | Setting | Value |
 |---|---|
@@ -66,7 +66,7 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 | Selection | `#5E6AD250` |
 | Engine | `dynamicTheme` |
 
-Includes a preset block `Indigo Glass` targeting `*` so the palette applies globally.
+Includes a preset block `Lime Glass` targeting `*` so the palette applies globally.
 
 ### Native-dark sites — Dark Reader disabled by default
 
@@ -104,7 +104,7 @@ Identical to Edge. Same extension IDs, same imports. No extra work.
 
 ---
 
-## Combining with the rest of Indigo Glass
+## Combining with the rest of Lime Glass
 
 This browser layer is the **outermost ring** of the design system:
 

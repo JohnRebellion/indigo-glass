@@ -1,4 +1,4 @@
-# Indigo Glass - JetBrains IDE color scheme
+# Lime Glass - JetBrains IDE color scheme
 
 Works on: IntelliJ IDEA, PyCharm, WebStorm, RustRover, GoLand, Rider, PhpStorm, RubyMine, CLion, DataGrip, Android Studio (any JetBrains IDE).
 
@@ -23,7 +23,7 @@ Works on: IntelliJ IDEA, PyCharm, WebStorm, RustRover, GoLand, Rider, PhpStorm, 
 
 3. Restart IDE.
 
-## Font setup (match the rest of Indigo Glass)
+## Font setup (match the rest of Lime Glass)
 
 Settings -> Editor -> Font:
 - Family: `Iosevka Custom Condensed`
@@ -37,7 +37,7 @@ Settings -> Appearance & Behavior -> Appearance -> Font:
 
 ## Token mapping
 
-| Indigo Glass token | JetBrains key |
+| Lime Glass token | JetBrains key |
 |---|---|
 | `base` `#0F0F12` | Default scheme background |
 | `surface_alt` `#1F2028` | Notification + tooltip bg |
@@ -50,7 +50,7 @@ Settings -> Appearance & Behavior -> Appearance -> Font:
 | `amber` `#FBBF24` | Function name, escape char, VCS modified |
 | `negative` `#ED254E` | Error, invalid escape, VCS removed |
 
-## Token-type aesthetic (matches VSCode Indigo Glass theme)
+## Token-type aesthetic (matches VSCode Lime Glass theme)
 
 - **Keyword**: indigo+1 bold (`818CF8`)
 - **Class / Type / Number / Const**: violet (`A78BFA`)

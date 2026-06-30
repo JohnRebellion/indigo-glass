@@ -1,4 +1,4 @@
-# Indigo Glass - Typography
+# Lime Glass - Typography
 
 > Single canonical scale. No more flip-flop commits on font size.
 

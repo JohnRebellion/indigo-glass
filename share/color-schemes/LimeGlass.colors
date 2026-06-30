@@ -20,12 +20,12 @@ IntensityEffect=0
 
 [Colors:Button]
 BackgroundAlternate=42,46,58
-BackgroundNormal=31,32,40
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
-ForegroundActive=129,140,248
+BackgroundNormal=18,18,22
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
+ForegroundActive=193,255,88
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
@@ -33,41 +33,41 @@ ForegroundPositive=113,247,159
 ForegroundVisited=130,153,255
 
 [Colors:Complementary]
-BackgroundAlternate=28,28,33
-BackgroundNormal=15,15,18
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
-ForegroundActive=129,140,248
+BackgroundAlternate=13,13,16
+BackgroundNormal=7,8,10
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
+ForegroundActive=193,255,88
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=167,139,250
+ForegroundVisited=139,196,6
 
 [Colors:Header]
-BackgroundAlternate=28,28,33
-BackgroundNormal=15,15,18
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
-ForegroundActive=129,140,248
+BackgroundAlternate=13,13,16
+BackgroundNormal=7,8,10
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
+ForegroundActive=193,255,88
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=167,139,250
+ForegroundVisited=139,196,6
 
 [Colors:Selection]
-BackgroundAlternate=129,140,248
-BackgroundNormal=94,106,210
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
+BackgroundAlternate=193,255,88
+BackgroundNormal=168,230,53
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
 ForegroundActive=252,252,252
 ForegroundInactive=211,218,227
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=255,255,255
@@ -76,12 +76,12 @@ ForegroundVisited=189,195,199
 
 [Colors:Tooltip]
 BackgroundAlternate=42,46,58
-BackgroundNormal=31,32,40
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
-ForegroundActive=129,140,248
+BackgroundNormal=18,18,22
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
+ForegroundActive=193,255,88
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=211,218,227
@@ -89,32 +89,32 @@ ForegroundPositive=113,247,159
 ForegroundVisited=130,153,255
 
 [Colors:View]
-BackgroundAlternate=28,28,33
-BackgroundNormal=15,15,18
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
-ForegroundActive=129,140,248
+BackgroundAlternate=13,13,16
+BackgroundNormal=7,8,10
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
+ForegroundActive=193,255,88
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=167,139,250
+ForegroundVisited=139,196,6
 
 [Colors:Window]
 BackgroundAlternate=42,46,58
-BackgroundNormal=28,28,33
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
-ForegroundActive=129,140,248
+BackgroundNormal=13,13,16
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
+ForegroundActive=193,255,88
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=139,196,6
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=211,218,227
 ForegroundPositive=113,247,159
-ForegroundVisited=167,139,250
+ForegroundVisited=139,196,6
 
 [General]
 ColorScheme=IndigoGlass
@@ -126,10 +126,10 @@ contrast=4
 frameContrast=0.2
 
 [WM]
-activeBackground=31,32,40
-activeBlend=31,32,40
+activeBackground=18,18,22
+activeBlend=18,18,22
 activeFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=248,248,248
-inactiveBackground=28,28,33
-inactiveBlend=28,28,33
+inactiveBackground=13,13,16
+inactiveBlend=13,13,16
 inactiveForeground=107,114,128

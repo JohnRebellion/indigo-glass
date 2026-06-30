@@ -1,6 +1,6 @@
-/* Indigo Glass - Obsidian theme
+/* Lime Glass - Obsidian theme
  *
- * visionOS spatial glass + Linear dark discipline + Neumorphism 2.0
+ * brutalist-glass + Linear dark discipline + Neumorphism 2.0
  * Compact density. Translucent backdrop. No refraction.
  * Generated values mirror tokens/indigo-glass.tokens.toml */
 
@@ -174,7 +174,7 @@ textarea,
   border-left-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-/* Callouts (Obsidian admonitions) - Indigo Glass semantic colors */
+/* Callouts (Obsidian admonitions) - Lime Glass semantic colors */
 .callout[data-callout="note"] {
   --callout-color: 129, 140, 248;
 }
