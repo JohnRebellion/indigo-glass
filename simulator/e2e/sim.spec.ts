@@ -23,7 +23,7 @@ test('palette has 11 swatches', async ({ page }) => {
   await page.goto('/');
   const expected = [
     'base', 'surface', 'surface_alt',
-    'indigo', 'indigo_hi', 'violet',
+    'lime', 'lime_hi', 'lime_alt',
     'amber', 'positive', 'negative',
     'text', 'text_muted'
   ];

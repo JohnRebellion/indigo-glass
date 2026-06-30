@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test';
 /**
  * Cross-scope theme assertions.
  *
- * Validates that the canonical Indigo Glass tokens propagate correctly
+ * Validates that the canonical Lime Glass tokens propagate correctly
  * into the simulator surfaces (browser / vscode / claude-code / grub /
  * overview / density-test). Catches drift between tokens.toml + per-surface
  * CSS rendering.
@@ -40,12 +40,14 @@ async function readFontFamily(page: Page, selector: string): Promise<string> {
   return page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).fontFamily);
 }
 
+// Lime Glass default variant: deep-black ladder + ghost-lime accent.
+// (var names stay --ig-indigo* for API compat; values are lime.)
 const HEX = {
-  base: 'rgb(15, 15, 18)',
-  text: 'rgb(248, 248, 248)',
-  indigo: 'rgb(94, 106, 210)',
-  indigoHi: 'rgb(129, 140, 248)',
-  surfaceAlt: 'rgb(31, 32, 40)'
+  base: 'rgb(7, 8, 10)',          // #07080A Raycast-deep
+  text: 'rgb(248, 248, 248)',     // #F8F8F8
+  indigo: 'rgb(168, 230, 53)',    // #A8E635 lime accent
+  indigoHi: 'rgb(193, 255, 88)',  // #C1FF58 lime hover
+  surfaceAlt: 'rgb(18, 18, 22)'   // #121216
 };
 
 test.describe('palette propagation', () => {
@@ -142,7 +144,7 @@ test.describe('scrollbar', () => {
     test.skip(browserName !== 'firefox', 'scrollbar-color spec is Firefox-only via getComputedStyle');
     await page.goto('/');
     const sc = await page.evaluate(() => getComputedStyle(document.body).scrollbarColor);
-    expect(sc).toMatch(/94[,\s]+106[,\s]+210|5e6ad2/i);
+    expect(sc).toMatch(/168[,\s]+230[,\s]+53|a8e635/i);
   });
 });
 

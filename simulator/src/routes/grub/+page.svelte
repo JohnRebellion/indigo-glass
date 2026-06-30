@@ -15,7 +15,7 @@
   }
 
   let presets = $state<PresetInfo[]>([]);
-  let activeId = $state<string>('indigo');
+  let activeId = $state<string>('lime');
   let loaded = $state<LoadedPreset | null>(null);
   let cfg = $state<GrubCfg>({
     entries: [
@@ -248,15 +248,15 @@
     margin-bottom: 1.5rem;
   }
   .brand h1 { font-size: 1rem; margin: 0; letter-spacing: 0.01em; }
-  .brand p  { font-size: 0.72rem; color: #818cf8; margin: 0; }
+  .brand p  { font-size: 0.72rem; color: #C1FF58; margin: 0; }
   .logo {
     width: 32px; height: 32px; border-radius: 8px;
-    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    background: linear-gradient(135deg, #A8E635, #8BC407);
     box-shadow: 0 0 12px rgba(124,58,237,0.6), inset 0 1px 0 rgba(255,255,255,0.4);
   }
   h2 {
     font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
-    color: #818cf8; margin: 1.25rem 0 0.6rem;
+    color: #C1FF58; margin: 1.25rem 0 0.6rem;
   }
   section { margin-bottom: 1.25rem; }
 
@@ -294,8 +294,8 @@
     display: block; font-size: 0.72rem; color: #c7d2fe;
     margin: 0.55rem 0;
   }
-  label .val { float: right; color: #818cf8; }
-  input[type='range'] { width: 100%; accent-color: #a78bfa; }
+  label .val { float: right; color: #C1FF58; }
+  input[type='range'] { width: 100%; accent-color: #8BC407; }
   input[type='text'], textarea {
     background: #15152a; border: 1px solid #2a2a4a; color: #e0e7ff;
     padding: 0.4rem; border-radius: 4px; font: 11px monospace; width: 100%;
@@ -310,7 +310,7 @@
     gap: 0.3rem;
     margin-bottom: 0.3rem;
   }
-  .entry-row.active > input { border-color: #a78bfa; box-shadow: 0 0 0 1px rgba(167,139,250,0.4); }
+  .entry-row.active > input { border-color: #8BC407; box-shadow: 0 0 0 1px rgba(167,139,250,0.4); }
   .x { background: #2a1a1a; color: #fca5a5; }
   .x:hover { background: #7f1d1d; color: #fff; }
   .add { width: 100%; margin-top: 0.3rem; }
@@ -325,7 +325,7 @@
   }
   button:hover { background: #3a3a5a; }
   button.primary {
-    background: linear-gradient(180deg, #7c3aed, #5b21b6);
+    background: linear-gradient(180deg, #A8E635, #5b21b6);
     color: #fff;
     box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 4px 12px rgba(124,58,237,0.4);
   }
