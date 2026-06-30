@@ -1,15 +1,18 @@
 {
   "meta": {
-    "schema_version": 2,
-    "name": "Indigo Glass",
-    "description": "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent",
+    "schema_version": 3,
+    "name": "Lime Glass",
+    "description": "brutalist-glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent",
     "density": "compact",
     "glass_style": "translucent_backdrop",
-    "revision": 2,
-    "color_authoring": "oklch"
+    "revision": 3,
+    "color_authoring": "oklch",
+    "default_variant": "lime"
   },
-  "palette": {
-    "oklch": {
+  "variants": {
+    "indigo": {
+      "name": "Indigo Glass",
+      "brand_hue": "indigo",
       "base": [
         0.1698,
         0.0062,
@@ -30,17 +33,17 @@
         0.0078,
         285.71
       ],
-      "indigo": [
+      "accent": [
         0.5674,
         0.1585,
         275.21
       ],
-      "indigo_hi": [
+      "accent_hi": [
         0.6801,
         0.1583,
         276.93
       ],
-      "violet": [
+      "accent_alt": [
         0.709,
         0.1592,
         293.54
@@ -76,6 +79,77 @@
         256.8
       ]
     },
+    "lime": {
+      "name": "Lime Glass",
+      "brand_hue": "lime",
+      "base": [
+        0.134,
+        0.0051,
+        262.32
+      ],
+      "surface": [
+        0.1605,
+        0.0063,
+        285.67
+      ],
+      "surface_alt": [
+        0.184,
+        0.0081,
+        285.58
+      ],
+      "sidebar": [
+        0.1462,
+        0.0064,
+        285.58
+      ],
+      "accent": [
+        0.8523,
+        0.2049,
+        127.71
+      ],
+      "accent_hi": [
+        0.9323,
+        0.2049,
+        127.71
+      ],
+      "accent_alt": [
+        0.7523,
+        0.1947,
+        127.71
+      ],
+      "amber": [
+        0.8369,
+        0.1644,
+        84.43
+      ],
+      "positive": [
+        0.8792,
+        0.1706,
+        152.51
+      ],
+      "negative": [
+        0.6124,
+        0.2279,
+        17.6
+      ],
+      "text": [
+        0.9791,
+        0.0,
+        89.88
+      ],
+      "text_muted": [
+        0.551,
+        0.0234,
+        264.36
+      ],
+      "text_dim": [
+        0.4461,
+        0.0263,
+        256.8
+      ]
+    }
+  },
+  "palette": {
     "alpha": {
       "overlay": [
         "base",
@@ -276,8 +350,8 @@
   },
   "glass": {
     "backdrop_blur": 13,
-    "backdrop_tint": "#5E6AD208",
-    "backdrop_bg": "#1F2028B3",
+    "tint_alpha": 0.03,
+    "bg_alpha": 0.7,
     "border": "#FFFFFF14",
     "render": {
       "brightness": 96,
@@ -321,88 +395,233 @@
     ]
   },
   "_derived": {
-    "palette": {
-      "base": {
-        "hex": "#0F0F12",
-        "p3": "color(display-p3 0.0588 0.0588 0.0696)",
-        "oklch": "oklch(0.1698 0.0062 285.72)"
-      },
-      "surface": {
-        "hex": "#1C1C21",
-        "p3": "color(display-p3 0.1098 0.1098 0.1278)",
-        "oklch": "oklch(0.2286 0.0096 285.62)"
-      },
-      "surface_alt": {
-        "hex": "#1F2028",
-        "p3": "color(display-p3 0.1223 0.1254 0.1542)",
-        "oklch": "oklch(0.2460 0.0152 279.60)"
-      },
-      "sidebar": {
-        "hex": "#18181C",
-        "p3": "color(display-p3 0.0941 0.0941 0.1085)",
-        "oklch": "oklch(0.2108 0.0078 285.71)"
-      },
+    "default_variant": "lime",
+    "palettes": {
       "indigo": {
-        "hex": "#5E6AD2",
-        "p3": "color(display-p3 0.3776 0.4143 0.7972)",
-        "oklch": "oklch(0.5674 0.1585 275.21)"
+        "base": {
+          "hex": "#0F0F12",
+          "p3": "color(display-p3 0.0588 0.0588 0.0696)",
+          "oklch": "oklch(0.1698 0.0062 285.72)"
+        },
+        "surface": {
+          "hex": "#1C1C21",
+          "p3": "color(display-p3 0.1098 0.1098 0.1278)",
+          "oklch": "oklch(0.2286 0.0096 285.62)"
+        },
+        "surface_alt": {
+          "hex": "#1F2028",
+          "p3": "color(display-p3 0.1223 0.1254 0.1542)",
+          "oklch": "oklch(0.2460 0.0152 279.60)"
+        },
+        "sidebar": {
+          "hex": "#18181C",
+          "p3": "color(display-p3 0.0941 0.0941 0.1085)",
+          "oklch": "oklch(0.2108 0.0078 285.71)"
+        },
+        "accent": {
+          "hex": "#5E6AD2",
+          "p3": "color(display-p3 0.3776 0.4143 0.7972)",
+          "oklch": "oklch(0.5674 0.1585 275.21)"
+        },
+        "indigo": {
+          "hex": "#5E6AD2",
+          "p3": "color(display-p3 0.3776 0.4143 0.7972)",
+          "oklch": "oklch(0.5674 0.1585 275.21)"
+        },
+        "lime": {
+          "hex": "#5E6AD2",
+          "p3": "color(display-p3 0.3776 0.4143 0.7972)",
+          "oklch": "oklch(0.5674 0.1585 275.21)"
+        },
+        "accent_hi": {
+          "hex": "#818CF8",
+          "p3": "color(display-p3 0.5138 0.5477 0.9440)",
+          "oklch": "oklch(0.6801 0.1583 276.93)"
+        },
+        "indigo_hi": {
+          "hex": "#818CF8",
+          "p3": "color(display-p3 0.5138 0.5477 0.9440)",
+          "oklch": "oklch(0.6801 0.1583 276.93)"
+        },
+        "lime_hi": {
+          "hex": "#818CF8",
+          "p3": "color(display-p3 0.5138 0.5477 0.9440)",
+          "oklch": "oklch(0.6801 0.1583 276.93)"
+        },
+        "accent_alt": {
+          "hex": "#A78BFA",
+          "p3": "color(display-p3 0.6372 0.5492 0.9528)",
+          "oklch": "oklch(0.7090 0.1592 293.54)"
+        },
+        "violet": {
+          "hex": "#A78BFA",
+          "p3": "color(display-p3 0.6372 0.5492 0.9528)",
+          "oklch": "oklch(0.7090 0.1592 293.54)"
+        },
+        "lime_alt": {
+          "hex": "#A78BFA",
+          "p3": "color(display-p3 0.6372 0.5492 0.9528)",
+          "oklch": "oklch(0.7090 0.1592 293.54)"
+        },
+        "amber": {
+          "hex": "#FBBF24",
+          "p3": "color(display-p3 0.9481 0.7585 0.2941)",
+          "oklch": "oklch(0.8369 0.1644 84.43)"
+        },
+        "positive": {
+          "hex": "#71F79F",
+          "p3": "color(display-p3 0.5846 0.9569 0.6544)",
+          "oklch": "oklch(0.8792 0.1706 152.51)"
+        },
+        "negative": {
+          "hex": "#ED254E",
+          "p3": "color(display-p3 0.8543 0.2375 0.3230)",
+          "oklch": "oklch(0.6124 0.2279 17.60)"
+        },
+        "text": {
+          "hex": "#F8F8F8",
+          "p3": "color(display-p3 0.9725 0.9725 0.9725)",
+          "oklch": "oklch(0.9791 0.0000 89.88)"
+        },
+        "text_muted": {
+          "hex": "#6B7280",
+          "p3": "color(display-p3 0.4246 0.4462 0.4970)",
+          "oklch": "oklch(0.5510 0.0234 264.36)"
+        },
+        "text_dim": {
+          "hex": "#4B5563",
+          "p3": "color(display-p3 0.3015 0.3321 0.3831)",
+          "oklch": "oklch(0.4461 0.0263 256.80)"
+        },
+        "overlay": {
+          "hex": "#0F0F12CC",
+          "p3": "#0F0F12CC",
+          "oklch": "#0F0F12CC"
+        },
+        "border": {
+          "hex": "#FFFFFF0F",
+          "p3": "#FFFFFF0F",
+          "oklch": "#FFFFFF0F"
+        },
+        "border_strong": {
+          "hex": "#FFFFFF1A",
+          "p3": "#FFFFFF1A",
+          "oklch": "#FFFFFF1A"
+        }
       },
-      "indigo_hi": {
-        "hex": "#818CF8",
-        "p3": "color(display-p3 0.5138 0.5477 0.9440)",
-        "oklch": "oklch(0.6801 0.1583 276.93)"
-      },
-      "violet": {
-        "hex": "#A78BFA",
-        "p3": "color(display-p3 0.6372 0.5492 0.9528)",
-        "oklch": "oklch(0.7090 0.1592 293.54)"
-      },
-      "amber": {
-        "hex": "#FBBF24",
-        "p3": "color(display-p3 0.9481 0.7585 0.2941)",
-        "oklch": "oklch(0.8369 0.1644 84.43)"
-      },
-      "positive": {
-        "hex": "#71F79F",
-        "p3": "color(display-p3 0.5846 0.9569 0.6544)",
-        "oklch": "oklch(0.8792 0.1706 152.51)"
-      },
-      "negative": {
-        "hex": "#ED254E",
-        "p3": "color(display-p3 0.8543 0.2375 0.3230)",
-        "oklch": "oklch(0.6124 0.2279 17.60)"
-      },
-      "text": {
-        "hex": "#F8F8F8",
-        "p3": "color(display-p3 0.9725 0.9725 0.9725)",
-        "oklch": "oklch(0.9791 0.0000 89.88)"
-      },
-      "text_muted": {
-        "hex": "#6B7280",
-        "p3": "color(display-p3 0.4246 0.4462 0.4970)",
-        "oklch": "oklch(0.5510 0.0234 264.36)"
-      },
-      "text_dim": {
-        "hex": "#4B5563",
-        "p3": "color(display-p3 0.3015 0.3321 0.3831)",
-        "oklch": "oklch(0.4461 0.0263 256.80)"
-      },
-      "overlay": {
-        "hex": "#0F0F12CC",
-        "p3": "#0F0F12CC",
-        "oklch": "#0F0F12CC"
-      },
-      "border": {
-        "hex": "#FFFFFF0F",
-        "p3": "#FFFFFF0F",
-        "oklch": "#FFFFFF0F"
-      },
-      "border_strong": {
-        "hex": "#FFFFFF1A",
-        "p3": "#FFFFFF1A",
-        "oklch": "#FFFFFF1A"
+      "lime": {
+        "base": {
+          "hex": "#07080A",
+          "p3": "color(display-p3 0.0282 0.0312 0.0384)",
+          "oklch": "oklch(0.1340 0.0051 262.32)"
+        },
+        "surface": {
+          "hex": "#0D0D10",
+          "p3": "color(display-p3 0.0510 0.0510 0.0618)",
+          "oklch": "oklch(0.1605 0.0063 285.67)"
+        },
+        "surface_alt": {
+          "hex": "#121216",
+          "p3": "color(display-p3 0.0706 0.0706 0.0849)",
+          "oklch": "oklch(0.1840 0.0081 285.58)"
+        },
+        "sidebar": {
+          "hex": "#0A0A0D",
+          "p3": "color(display-p3 0.0392 0.0392 0.0499)",
+          "oklch": "oklch(0.1462 0.0064 285.58)"
+        },
+        "accent": {
+          "hex": "#A8E635",
+          "p3": "color(display-p3 0.7102 0.8952 0.3431)",
+          "oklch": "oklch(0.8523 0.2049 127.71)"
+        },
+        "indigo": {
+          "hex": "#A8E635",
+          "p3": "color(display-p3 0.7102 0.8952 0.3431)",
+          "oklch": "oklch(0.8523 0.2049 127.71)"
+        },
+        "lime": {
+          "hex": "#A8E635",
+          "p3": "color(display-p3 0.7102 0.8952 0.3431)",
+          "oklch": "oklch(0.8523 0.2049 127.71)"
+        },
+        "accent_hi": {
+          "hex": "#C1FF58",
+          "p3": "color(display-p3 0.8105 1.0000 0.4510)",
+          "oklch": "oklch(0.9323 0.2049 127.71)"
+        },
+        "indigo_hi": {
+          "hex": "#C1FF58",
+          "p3": "color(display-p3 0.8105 1.0000 0.4510)",
+          "oklch": "oklch(0.9323 0.2049 127.71)"
+        },
+        "lime_hi": {
+          "hex": "#C1FF58",
+          "p3": "color(display-p3 0.8105 1.0000 0.4510)",
+          "oklch": "oklch(0.9323 0.2049 127.71)"
+        },
+        "accent_alt": {
+          "hex": "#8BC406",
+          "p3": "color(display-p3 0.5931 0.7622 0.2378)",
+          "oklch": "oklch(0.7523 0.1947 127.71)"
+        },
+        "violet": {
+          "hex": "#8BC406",
+          "p3": "color(display-p3 0.5931 0.7622 0.2378)",
+          "oklch": "oklch(0.7523 0.1947 127.71)"
+        },
+        "lime_alt": {
+          "hex": "#8BC406",
+          "p3": "color(display-p3 0.5931 0.7622 0.2378)",
+          "oklch": "oklch(0.7523 0.1947 127.71)"
+        },
+        "amber": {
+          "hex": "#FBBF24",
+          "p3": "color(display-p3 0.9481 0.7585 0.2941)",
+          "oklch": "oklch(0.8369 0.1644 84.43)"
+        },
+        "positive": {
+          "hex": "#71F79F",
+          "p3": "color(display-p3 0.5846 0.9569 0.6544)",
+          "oklch": "oklch(0.8792 0.1706 152.51)"
+        },
+        "negative": {
+          "hex": "#ED254E",
+          "p3": "color(display-p3 0.8543 0.2375 0.3230)",
+          "oklch": "oklch(0.6124 0.2279 17.60)"
+        },
+        "text": {
+          "hex": "#F8F8F8",
+          "p3": "color(display-p3 0.9725 0.9725 0.9725)",
+          "oklch": "oklch(0.9791 0.0000 89.88)"
+        },
+        "text_muted": {
+          "hex": "#6B7280",
+          "p3": "color(display-p3 0.4246 0.4462 0.4970)",
+          "oklch": "oklch(0.5510 0.0234 264.36)"
+        },
+        "text_dim": {
+          "hex": "#4B5563",
+          "p3": "color(display-p3 0.3015 0.3321 0.3831)",
+          "oklch": "oklch(0.4461 0.0263 256.80)"
+        },
+        "overlay": {
+          "hex": "#07080ACC",
+          "p3": "#07080ACC",
+          "oklch": "#07080ACC"
+        },
+        "border": {
+          "hex": "#FFFFFF0F",
+          "p3": "#FFFFFF0F",
+          "oklch": "#FFFFFF0F"
+        },
+        "border_strong": {
+          "hex": "#FFFFFF1A",
+          "p3": "#FFFFFF1A",
+          "oklch": "#FFFFFF1A"
+        }
       }
     },
-    "note": "hex/p3/oklch derived from [palette.oklch] by codegen.py"
+    "note": "hex/p3/oklch derived from [variants.*] by codegen.py"
   }
 }
