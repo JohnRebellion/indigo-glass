@@ -1,4 +1,4 @@
-# Indigo Glass - Tokens
+# Lime Glass - Tokens
 
 Single source of truth for palette, spacing, radius, blur, opacity, shadow, typography, motion, glass, ambient.
 
@@ -64,7 +64,7 @@ python3 tokens/codegen.py --check
 
 ## Why compact-density tokens
 
-See [docs/DENSITY.md](../docs/DENSITY.md) for the rationale. Default OS chrome (Klassy/Material/Win Fluent) ships generous padding for new users + touch. Indigo Glass tightens for power-users on 1440p+ desktops without crowding letters.
+See [docs/DENSITY.md](../docs/DENSITY.md) for the rationale. Default OS chrome (Klassy/Material/Win Fluent) ships generous padding for new users + touch. Lime Glass tightens for power-users on 1440p+ desktops without crowding letters.
 
 ## Why visionOS-translucent (NOT Apple Liquid Glass refraction)
 

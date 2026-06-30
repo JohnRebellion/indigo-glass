@@ -1,4 +1,4 @@
-# Indigo Glass - design tokens (single source of truth)
+# Lime Glass - design tokens (single source of truth)
 #
 # Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
 # concrete config from this file via tokens/codegen.py.
@@ -14,49 +14,77 @@
 # and native oklch() CSS from these values. See tokens/README.md.
 
 [meta]
-schema_version = 2
-name = "Indigo Glass"
-description = "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent"
+schema_version = 3
+name = "Lime Glass"                 # active brand name (was "Indigo Glass")
+description = "brutalist-glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent"
 density = "compact"
 glass_style = "translucent_backdrop"  # NOT refraction. Backdrop blur only.
-revision = 2
-color_authoring = "oklch"  # source of truth is [palette.oklch]; hex is derived
+revision = 3
+color_authoring = "oklch"  # source of truth is [variants.*]; hex is derived
+default_variant = "lime"   # which variant [palette] resolves to + which installs
+# v3: palette is now multi-variant. Shared tokens (spacing/radius/blur/type/
+# motion/glass) are variant-agnostic; only [variants.<name>] carries colors.
+# codegen resolves default_variant into [palette] for legacy single-set output
+# AND emits per-variant files (css-vars.<v>.css, kde-palette.<v>.colors, ...).
 
 # =============================================================================
-# PALETTE - OKLCH authoring space (SOURCE OF TRUTH)
+# VARIANTS - per-theme OKLCH palettes (SOURCE OF TRUTH)
 # =============================================================================
-# Perceptually uniform: L = lightness (0-1), C = chroma, H = hue (degrees).
-# These values round-trip to the exact canonical Indigo Glass hex codes.
-# Hover/active variants are derived in CSS via relative color syntax
-# (oklch(from var(--x) calc(l + N) c h)) so we do not hand-maintain them.
-#
-# Each entry: [L, C, H]. Alpha (for borders/overlay) handled separately below.
+# Perceptually uniform: [L, C, H]. L=lightness 0-1, C=chroma, H=hue degrees.
+# Single-accent rule: hover/active are SAME hue, only L shifts (see [palette.derive]).
+# Every variant defines the same key set so codegen treats them uniformly.
+# `accent`/`accent_hi`/`accent_alt` are the brand triple (was indigo/indigo_hi/violet).
 
-[palette.oklch]
-# Surfaces
-base          = [0.1698, 0.0062, 285.72]  # Linear deep near-black (NOT pure #000)
-surface       = [0.2286, 0.0096, 285.62]  # Window background
-surface_alt   = [0.2460, 0.0152, 279.60]  # Elevated panel, glass base
-sidebar       = [0.2108, 0.0078, 285.71]
-
-# Brand
-indigo        = [0.5674, 0.1585, 275.21]  # Linear primary - selection, buttons
-indigo_hi     = [0.6801, 0.1583, 276.93]  # +1 brightness - hover, focus
-violet        = [0.7090, 0.1592, 293.54]  # Visited link, accent decoration
-
+[variants.indigo]
+name        = "Indigo Glass"
+brand_hue   = "indigo"
+# Surfaces (cool near-black)
+base        = [0.1698, 0.0062, 285.72]
+surface     = [0.2286, 0.0096, 285.62]
+surface_alt = [0.2460, 0.0152, 279.60]
+sidebar     = [0.2108, 0.0078, 285.71]
+# Brand (indigo / indigo_hi / violet)
+accent      = [0.5674, 0.1585, 275.21]
+accent_hi   = [0.6801, 0.1583, 276.93]
+accent_alt  = [0.7090, 0.1592, 293.54]
 # Semantic
-amber         = [0.8369, 0.1644, 84.43]   # Warning (single semantic color)
-positive      = [0.8792, 0.1706, 152.51]  # Success
-negative      = [0.6124, 0.2279, 17.60]   # Error, destructive
-
+amber       = [0.8369, 0.1644, 84.43]
+positive    = [0.8792, 0.1706, 152.51]
+negative    = [0.6124, 0.2279, 17.60]
 # Text
-text          = [0.9791, 0.0000, 89.88]   # Primary
-text_muted    = [0.5510, 0.0234, 264.36]  # Secondary, disabled
-text_dim      = [0.4461, 0.0263, 256.80]  # Tertiary, hint
+text        = [0.9791, 0.0000, 89.88]
+text_muted  = [0.5510, 0.0234, 264.36]
+text_dim    = [0.4461, 0.0263, 256.80]
 
-# Alpha-channel surfaces (RGBA derived). [hex_base, alpha_float]
+[variants.lime]
+name        = "Lime Glass"
+brand_hue   = "lime"
+# Surfaces (lime-tinted near-black; hue ~120 so glass reads warm-green dark)
+# Surfaces: NEUTRAL deep near-black (NOT lime-tinted). Raycast-deep ladder
+# (#07080A family) - deeper than Indigo Glass's #0F0F12 to MAXIMIZE lime
+# contrast (13.39:1 vs 12.79:1) while staying OLED-safe (not pure #000, so no
+# halation) and preserving depth-via-elevation. Per user: deeper blacks.
+base        = [0.1340, 0.0051, 262.32]   # #07080A - Raycast-deep near-black
+surface     = [0.1605, 0.0063, 285.67]   # #0D0D10
+surface_alt = [0.1840, 0.0081, 285.58]   # #121216 (glass base)
+sidebar     = [0.1462, 0.0064, 285.58]   # #0A0A0D
+# Brand (lime / lime_hi / lime_alt) - single hue 127.71, AA-verified on base
+accent      = [0.8523, 0.2049, 127.71]   # #A8E635 ghost lime
+accent_hi   = [0.9323, 0.2049, 127.71]   # #C1FF58 hover (brighter)
+accent_alt  = [0.7523, 0.1947, 127.71]   # #8BC407 active/decoration
+# Semantic (unchanged hues - warnings/errors must stay legible vs lime)
+amber       = [0.8369, 0.1644, 84.43]
+positive    = [0.8792, 0.1706, 152.51]
+negative    = [0.6124, 0.2279, 17.60]
+# Text: neutral (matches the neutral base; no green tint)
+text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
+text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
+text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
+
+# Alpha-channel surfaces (RGBA derived per-variant). [base_key_or_hex, alpha].
+# Shared across variants (white-on-dark borders + base scrim).
 [palette.alpha]
-overlay       = ["base", 0.80]   # 80% scrim for modals -> #0F0F12cc
+overlay       = ["base", 0.80]    # 80% scrim for modals
 border        = ["#FFFFFF", 0.06]  # ~6% white - subtle glass edge
 border_strong = ["#FFFFFF", 0.10]  # ~10% - more visible on hover
 
@@ -266,10 +294,13 @@ focus_outline_width_px = 2
 # NO refraction filter. Just blur + indigo tint at low opacity.
 
 [glass]
-# Default glass surface (cards, panels, modals)
+# Default glass surface (cards, panels, modals).
+# backdrop_tint / backdrop_bg are DERIVED per-variant by codegen:
+#   tint = <variant.accent> @ tint_alpha ; bg = <variant.surface_alt> @ bg_alpha
+# so the glass picks up each variant's accent automatically.
 backdrop_blur = 13          # matches KWin BlurStrength
-backdrop_tint = "#5E6AD208" # indigo @ ~3% opacity for warmth
-backdrop_bg   = "#1F2028B3" # surface_alt @ 70% opacity
+tint_alpha    = 0.03        # accent tint opacity (~3% for warmth)
+bg_alpha      = 0.70        # surface_alt opacity behind blur
 border        = "#FFFFFF14" # 8% white
 
 # Compositor render params (KWin kwin-effects-better-blur-dx + Dark Reader).
