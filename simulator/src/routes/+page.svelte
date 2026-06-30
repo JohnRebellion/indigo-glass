@@ -1,18 +1,19 @@
 <script lang="ts">
   const surfaces = [
     { href: '/browser/',          name: 'Browser',                 desc: 'Stylus + Dark Reader cross-site retint' },
-    { href: '/vscode/',           name: 'VSCode',                  desc: 'Indigo Glass Dark color theme' },
+    { href: '/vscode/',           name: 'VSCode',                  desc: 'Lime Glass Dark color theme' },
     { href: '/vscode/claude-code/', name: 'Claude Code',           desc: 'Anthropic webview retint via patch-webview-css' },
     { href: '/grub/',             name: 'GRUB',                    desc: 'Boot picker theme (consolidated from grub-simulator)' }
   ];
 
+  // Lime Glass default variant (deep-black ladder + ghost-lime accent).
   const palette = [
-    { token: 'base',        hex: '#0F0F12', role: 'Linear deep near-black' },
-    { token: 'surface',     hex: '#1C1C21', role: 'Window background' },
-    { token: 'surface_alt', hex: '#1F2028', role: 'Elevated panel, glass base' },
-    { token: 'indigo',      hex: '#5E6AD2', role: 'Brand primary' },
-    { token: 'indigo_hi',   hex: '#818CF8', role: 'Hover, focus' },
-    { token: 'violet',      hex: '#A78BFA', role: 'Visited link, accent' },
+    { token: 'base',        hex: '#07080A', role: 'Raycast-deep near-black' },
+    { token: 'surface',     hex: '#0D0D10', role: 'Window background' },
+    { token: 'surface_alt', hex: '#121216', role: 'Elevated panel, glass base' },
+    { token: 'lime',        hex: '#A8E635', role: 'Brand primary (accent)' },
+    { token: 'lime_hi',     hex: '#C1FF58', role: 'Hover, focus' },
+    { token: 'lime_alt',    hex: '#8BC407', role: 'Visited link, accent' },
     { token: 'amber',       hex: '#FBBF24', role: 'Warning' },
     { token: 'positive',    hex: '#71F79F', role: 'Success' },
     { token: 'negative',    hex: '#ED254E', role: 'Error' },
@@ -23,9 +24,9 @@
 
 <div class="ig-overview ig-ambient">
   <header class="ig-overview-hero">
-    <h1>Indigo Glass</h1>
-    <p class="ig-tagline">visionOS spatial glass + Linear dark discipline + Neumorphism 2.0</p>
-    <p class="ig-sub">Compact, translucent, single-accent. OKLCH color, grained glass, squircle corners, ambient light.</p>
+    <h1>Lime Glass</h1>
+    <p class="ig-tagline">brutalist-glass + Linear dark discipline + Neumorphism 2.0</p>
+    <p class="ig-sub">Compact, translucent, single-accent. Deep black + ghost lime, OKLCH color, grained glass, squircle corners.</p>
   </header>
 
   <section class="ig-surfaces" data-testid="surfaces">

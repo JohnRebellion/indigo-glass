@@ -36,7 +36,7 @@
   <header class="ig-shell-header" data-testid="shell-header">
     <div class="ig-brand">
       <span class="ig-brand-dot"></span>
-      <span class="ig-brand-name">Indigo Glass</span>
+      <span class="ig-brand-name">Lime Glass</span>
       <span class="ig-brand-sub">simulator</span>
     </div>
     <nav class="ig-tabs" aria-label="Surfaces">
