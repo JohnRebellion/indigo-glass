@@ -1,4 +1,4 @@
-# Indigo Glass - Liquid Glass
+# Lime Glass - Liquid Glass
 
 Refraction-over-blur layer. Inspired by Apple Liquid Glass but constrained: **never clear glass**. Source is always pre-blurred before refraction, so backgrounds stay ambient context, never reveal sharp detail through the panel.
 

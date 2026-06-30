@@ -1,29 +1,33 @@
-/* Indigo Glass — Portfolio Design System
- * Hybrid: visionOS spatial glass + Linear discipline + Neumorphism 2.0
- * Mirror of KDE Plasma 6.6 Indigo Glass theme
- * Reference: ~/research/research-reports/indigo-glass-kde-setup-reference.md
+/* Lime Glass — Portfolio Design System
+ * Hybrid: brutalist-glass + Linear discipline + Neumorphism 2.0
+ * Mirror of KDE Plasma 6.6 Lime Glass theme (default variant)
+ * Colors generated from tokens/indigo-glass.tokens.toml [variants.lime].
+ * For the indigo variant, swap the palette block + @supports values for
+ * the values in tokens/out/css-vars.indigo.css.
  */
 
 @import "tailwindcss";
 
 @theme {
-  /* === Base layers === */
-  --color-base: #0F0F12;          /* deep dark base */
-  --color-surface: #1C1C21;       /* window/card bg */
-  --color-surface-elevated: #1F2028; /* panels, glass */
-  --color-sidebar: #18181C;       /* sidebar bg */
+  /* === Base layers (NEUTRAL deep near-black — background stays black) === */
+  --color-base: #07080A;          /* deep dark base */
+  --color-surface: #0D0D10;       /* window/card bg */
+  --color-surface-elevated: #121216; /* panels, glass */
+  --color-sidebar: #0A0A0D;       /* sidebar bg */
 
-  /* === Accent — Linear indigo === */
-  --color-indigo: #5E6AD2;        /* primary — selection, buttons */
-  --color-indigo-light: #818CF8;  /* hover, focus, link */
-  --color-violet: #A78BFA;        /* visited link, terminal cursor accent */
+  /* === Accent — ghost lime (single accent, hue 128°) === */
+  --color-indigo: #A8E635;        /* primary — selection, buttons (name kept for API compat) */
+  --color-indigo-light: #C1FF58;  /* hover, focus, link */
+  --color-violet: #8BC407;        /* visited link, decoration (accent-alt) */
+  --color-lime: #A8E635;          /* explicit lime alias */
+  --color-lime-hi: #C1FF58;
 
   /* === Semantic === */
   --color-amber: #FBBF24;         /* warning, neutral semantic */
   --color-positive: #71F79F;      /* success */
   --color-negative: #ED254E;      /* error, destructive */
 
-  /* === Text === */
+  /* === Text (neutral, on deep-black base) === */
   --color-text: #F8F8F8;          /* primary */
   --color-text-muted: #6B7280;    /* secondary */
   --color-text-inactive: #6B7280; /* disabled */
@@ -39,9 +43,9 @@
   --shadow-neu-raised: -2px -2px 6px rgba(255, 255, 255, 0.04), 2px 2px 6px rgba(0, 0, 0, 0.4);
   --shadow-neu-pressed: inset -2px -2px 6px rgba(255, 255, 255, 0.04), inset 2px 2px 6px rgba(0, 0, 0, 0.4);
 
-  /* === Indigo glow (focus ring) === */
-  --shadow-indigo-glow: 0 0 0 2px rgba(94, 106, 210, 0.3);
-  --shadow-indigo-glow-lg: 0 0 24px rgba(94, 106, 210, 0.4);
+  /* === Accent glow (focus ring) — lime === */
+  --shadow-indigo-glow: 0 0 0 2px rgba(168, 230, 53, 0.3);
+  --shadow-indigo-glow-lg: 0 0 24px rgba(168, 230, 53, 0.4);
 
   /* === Backdrop blur tokens (for visionOS Liquid Glass) === */
   --blur-glass-sm: blur(8px);
@@ -82,16 +86,18 @@
 /* === OKLCH native palette (perceptually uniform, P3-capable).
    Overrides the hex @theme above wherever oklch() is supported — which is
    every current browser. Hex remains the fallback. These round-trip exactly
-   to the canonical Indigo Glass hex values. === */
+   to the canonical Lime Glass hex values. === */
 @supports (color: oklch(0% 0 0)) {
   :root {
-    --color-base: oklch(0.1698 0.0062 285.72);
-    --color-surface: oklch(0.2286 0.0096 285.62);
-    --color-surface-elevated: oklch(0.2460 0.0152 279.60);
-    --color-sidebar: oklch(0.2108 0.0078 285.71);
-    --color-indigo: oklch(0.5674 0.1585 275.21);
-    --color-indigo-light: oklch(0.6801 0.1583 276.93);
-    --color-violet: oklch(0.7090 0.1592 293.54);
+    --color-base: oklch(0.1340 0.0051 262.32);
+    --color-surface: oklch(0.1605 0.0063 285.67);
+    --color-surface-elevated: oklch(0.1840 0.0081 285.58);
+    --color-sidebar: oklch(0.1462 0.0064 285.58);
+    --color-indigo: oklch(0.8523 0.2049 127.71);
+    --color-indigo-light: oklch(0.9323 0.2049 127.71);
+    --color-violet: oklch(0.7523 0.1947 127.71);
+    --color-lime: oklch(0.8523 0.2049 127.71);
+    --color-lime-hi: oklch(0.9323 0.2049 127.71);
     --color-amber: oklch(0.8369 0.1644 84.43);
     --color-positive: oklch(0.8792 0.1706 152.51);
     --color-negative: oklch(0.6124 0.2279 17.60);
@@ -121,7 +127,7 @@
     color: #FFFFFF;
   }
 
-  /* Scrollbar — Indigo Glass */
+  /* Scrollbar — Lime Glass */
   *::-webkit-scrollbar {
     width: 10px;
     height: 10px;
