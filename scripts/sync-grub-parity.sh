@@ -5,8 +5,8 @@
 # This script propagates it to the two downstream consumers so real boot,
 # the QEMU preview, and the SvelteKit simulator stay 1:1:
 #
-#   1. simulator/static/presets/indigo/  (the in-browser simulator preset)
-#   2. /boot/grub2/themes/indigo-glass/   (the live installed theme)  [--deploy]
+#   1. simulator/static/presets/lime/  (the in-browser simulator preset)
+#   2. /boot/grub2/themes/lime-glass/   (the live installed theme)  [--deploy]
 #
 # Without --deploy it only syncs the simulator preset (safe, no sudo). Use
 # --deploy to also push to /boot and regenerate grub.cfg.
@@ -34,8 +34,8 @@ done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$REPO_DIR/share/grub-theme"
-SIM="$REPO_DIR/simulator/static/presets/indigo"
-BOOT="/boot/grub2/themes/indigo-glass"
+SIM="$REPO_DIR/simulator/static/presets/lime"
+BOOT="/boot/grub2/themes/lime-glass"
 
 [ -d "$SRC" ] || { echo "✗ source missing: $SRC" >&2; exit 1; }
 
@@ -123,7 +123,7 @@ if [ "$DEPLOY" = true ]; then
   GRUB_CFG=""
   # /boot/grub2 is root-only (drwx------) on Fedora/Nobara, so a plain `[ -f ]`
   # as the invoking user always fails. Probe with `sudo test -f`.
-  for cand in /boot/grub2/grub.cfg /boot/efi/EFI/fedora/grub.cfg; do
+  for cand in /boot/grub2/grub.cfg /boot/efi/EFI/*/grub.cfg; do
     if sudo test -f "$cand"; then GRUB_CFG="$cand"; break; fi
   done
   if [ -n "$GRUB_CFG" ]; then
