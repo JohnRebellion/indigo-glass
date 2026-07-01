@@ -172,7 +172,10 @@ fi
 echo
 echo "▶ Installing Lime Glass color schemes + Konsole profile..."
 run "mkdir -p $HOME/.local/share/color-schemes $HOME/.local/share/konsole"
+# Install BOTH variants' schemes so either can be selected; Lime Glass is default.
+run "cp '$REPO_DIR/share/color-schemes/LimeGlass.colors' '$HOME/.local/share/color-schemes/'"
 run "cp '$REPO_DIR/share/color-schemes/IndigoGlass.colors' '$HOME/.local/share/color-schemes/'"
+run "cp '$REPO_DIR/share/konsole/LimeGlass.colorscheme' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.colorscheme' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.profile' '$HOME/.local/share/konsole/'"
 
@@ -195,7 +198,7 @@ run "chmod +x $HOME/.config/plasma-workspace/env/gtk.sh"
 
 echo
 echo "▶ Patching kdeglobals (color scheme + widget style + icons)..."
-run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'IndigoGlass'"
+run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'LimeGlass'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'widgetStyle' 'Klassy'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'LookAndFeelPackage' 'org.kde.breezedark.desktop'"
 run "kwriteconfig6 --file kdeglobals --group 'Icons' --key 'Theme' 'Tela-circle-purple-dark'"
@@ -243,15 +246,17 @@ if [ "$WITH_GRUB" = true ]; then
     fi
     run "sudo sed -i \"s|^GRUB_BACKGROUND=.*|GRUB_BACKGROUND='$GRUB_DEST/background.jpg'|\" /etc/default/grub"
     # Regenerate grub.cfg wherever it actually lives (BIOS grub2, or EFI per-distro:
-    # fedora / nobara / etc). Find it rather than assuming a fixed path.
-    GRUB_CFG=""
-    for cand in /boot/grub2/grub.cfg /boot/efi/EFI/*/grub.cfg; do
-      [ -f "$cand" ] && GRUB_CFG="$cand" && break
-    done
-    if [ -n "$GRUB_CFG" ]; then
-      run "sudo grub2-mkconfig -o $GRUB_CFG"
+    # fedora / nobara / etc). /boot is root-only, so probe via sudo. In --dry-run
+    # we can't sudo, so just print the candidates that WOULD be tried.
+    if [ "$DRY_RUN" = true ]; then
+      echo "  $ sudo sh -c 'grub2-mkconfig -o <first existing of: /boot/grub2/grub.cfg, /boot/efi/EFI/*/grub.cfg>'"
     else
-      echo "  ⚠ grub.cfg not found — run 'sudo grub2-mkconfig -o <path>' manually"
+      GRUB_CFG=$(sudo sh -c 'for c in /boot/grub2/grub.cfg /boot/efi/EFI/*/grub.cfg; do [ -f "$c" ] && echo "$c" && break; done')
+      if [ -n "$GRUB_CFG" ]; then
+        run "sudo grub2-mkconfig -o $GRUB_CFG"
+      else
+        echo "  ⚠ grub.cfg not found under /boot — run 'sudo grub2-mkconfig -o <path>' manually"
+      fi
     fi
   else
     echo "  ⚠ $GRUB_SRC missing — skipping GRUB theme"
@@ -259,11 +264,12 @@ if [ "$WITH_GRUB" = true ]; then
 fi
 
 echo
-echo "▶ Reload KWin + plasmashell..."
+echo "▶ Reload KWin (live, no plasmashell restart)..."
 run "qdbus-qt6 org.kde.KWin /KWin reconfigure"
-run "kquitapp6 plasmashell"
-run "sleep 2"
-run "kstart plasmashell &"
+# NOTE: plasmashell is intentionally NOT killed - KWin reconfigure applies the
+# color scheme + blur live. If a panel widget caches the old accent, log out/in
+# (also required for GTK env vars). Kept non-destructive so the running session
+# is never interrupted mid-install.
 
 echo
 echo "✓ Lime Glass installation complete."
@@ -274,7 +280,7 @@ echo "     cat $REPO_DIR/shell/zshrc-snippet.zsh >> ~/.zshrc"
 echo "  2. Append GTK_THEME export to ~/.profile:"
 echo "     cat $REPO_DIR/shell/profile-snippet.sh >> ~/.profile"
 echo "  3. Set Konsole default profile:"
-echo "     System Settings → Konsole → Default Profile → IndigoGlass"
+echo "     System Settings → Konsole → Default Profile → set colorscheme LimeGlass"
 echo "  4. Optional: install Microsoft Edge Wayland flags:"
 echo "     cp /usr/share/applications/microsoft-edge.desktop ~/.local/share/applications/"
 echo "     # Then patch Exec= per config/microsoft-edge.desktop.template"
