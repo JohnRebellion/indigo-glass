@@ -691,8 +691,11 @@ def emit_kwin_blur(t: dict) -> str:
         "[org.kde.kdecoration2]",
         "library=org.kde.klassy",
         "theme=Klassy",
-        "ButtonsOnLeft=XAM",
-        "ButtonsOnRight=I",
+        # macOS-style titlebar controls: Close, mInimize, mAximize on the LEFT
+        # (Klassy button codes: X=close, I=minimize, A=maximize, M=app menu).
+        # Menu button on the right keeps it available without cluttering left.
+        "ButtonsOnLeft=XIA",
+        "ButtonsOnRight=M",
         "BorderSize=None",
         "BorderSizeAuto=false",
         "",
