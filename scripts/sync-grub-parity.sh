@@ -117,6 +117,20 @@ if [ "$DEPLOY" = true ]; then
   echo "▶ Deploy → installed theme ($BOOT) [sudo]"
   run "sudo mkdir -p \"$BOOT\""
   overlay "$BOOT" full "sudo "
+  # Update GRUB variables in /etc/default/grub to point at the lime-glass paths.
+  # Critically GRUB_FONT: /etc/grub.d/00_header puts it in the `if loadfont` guard
+  # that ENABLES gfxterm. If GRUB_FONT points at a missing path the guard fails,
+  # gfxterm never activates, and the theme silently doesn't load (text-mode boot).
+  echo "▶ Update /etc/default/grub (GRUB_THEME/BACKGROUND/FONT)"
+  # GRUB_THEME + BACKGROUND: replace-in-place OR append if absent.
+  for pair in "GRUB_THEME=$BOOT/theme.txt" "GRUB_BACKGROUND=$BOOT/background.jpg" "GRUB_FONT=$BOOT/carlito-12.pf2"; do
+    key="${pair%%=*}"
+    if sudo grep -q "^${key}=" /etc/default/grub; then
+      run "sudo sed -i \"s|^${key}=.*|${key}='${pair#*=}'|\" /etc/default/grub"
+    else
+      run "echo \"${key}='${pair#*=}'\" | sudo tee -a /etc/default/grub >/dev/null"
+    fi
+  done
   echo "▶ Regenerate grub.cfg"
   # Prefer the BIOS/EFI path that exists. On Fedora/Nobara both /boot/grub2/grub.cfg
   # and /boot/efi/EFI/fedora/grub.cfg may exist; /boot/grub2/grub.cfg is the live one.
