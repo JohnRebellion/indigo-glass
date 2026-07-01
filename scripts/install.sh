@@ -232,7 +232,7 @@ if [ "$WITH_GRUB" = true ]; then
   echo
   echo "▶ Installing Lime Glass GRUB theme..."
   GRUB_SRC="$REPO_DIR/share/grub-theme"
-  GRUB_DEST="/boot/grub2/themes/indigo-glass"
+  GRUB_DEST="/boot/grub2/themes/lime-glass"
   if [ -d "$GRUB_SRC" ]; then
     run "sudo mkdir -p $GRUB_DEST"
     run "sudo cp -r $GRUB_SRC/. $GRUB_DEST/"
@@ -242,10 +242,16 @@ if [ "$WITH_GRUB" = true ]; then
       run "echo \"GRUB_THEME='$GRUB_DEST/theme.txt'\" | sudo tee -a /etc/default/grub"
     fi
     run "sudo sed -i \"s|^GRUB_BACKGROUND=.*|GRUB_BACKGROUND='$GRUB_DEST/background.jpg'|\" /etc/default/grub"
-    if [ -d /boot/grub2 ] && [ -f /boot/grub2/grub.cfg ]; then
-      run "sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
-    elif [ -d /boot/efi/EFI/fedora ] && [ -f /boot/efi/EFI/fedora/grub.cfg ]; then
-      run "sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg"
+    # Regenerate grub.cfg wherever it actually lives (BIOS grub2, or EFI per-distro:
+    # fedora / nobara / etc). Find it rather than assuming a fixed path.
+    GRUB_CFG=""
+    for cand in /boot/grub2/grub.cfg /boot/efi/EFI/*/grub.cfg; do
+      [ -f "$cand" ] && GRUB_CFG="$cand" && break
+    done
+    if [ -n "$GRUB_CFG" ]; then
+      run "sudo grub2-mkconfig -o $GRUB_CFG"
+    else
+      echo "  ⚠ grub.cfg not found — run 'sudo grub2-mkconfig -o <path>' manually"
     fi
   else
     echo "  ⚠ $GRUB_SRC missing — skipping GRUB theme"
