@@ -6,6 +6,10 @@
   let showPalette = $state(true);
   // Toggle the Chat panel (a Tools-tier surface on the right)
   let showChat = $state(true);
+  // Apple iOS 27 "clarity <-> tinted" glass slider (0.00 = pure blur, 0.20 = heavily tinted)
+  let glassTintAlpha = $state(0.03);
+  // Apple iOS 26.4 "Reduce Bright Effects" toggle — mutes accent glows + grain
+  let reduceBright = $state(false);
 
   const files = [
     { name: 'README.md', icon: 'doc' },
@@ -24,12 +28,24 @@
   };
 </script>
 
-<div class="vscode" class:layered data-testid="sim-vscode">
-  <!-- Demo controls: toggle the 2026 layered treatment on/off -->
+<div
+  class="vscode"
+  class:layered
+  data-testid="sim-vscode"
+  data-reduce-bright={reduceBright ? '' : undefined}
+  style="--ig-glass-tint-alpha: {glassTintAlpha};"
+>
+  <!-- Demo controls: toggle the 2026 layered treatment + Apple-style runtime knobs -->
   <div class="demo-controls" data-testid="demo-controls">
-    <label><input type="checkbox" bind:checked={layered} /> Layered UI (2026 workbench/tools/actions tiers)</label>
+    <label><input type="checkbox" bind:checked={layered} /> Layered UI</label>
     <label><input type="checkbox" bind:checked={showChat} /> Chat panel</label>
-    <label><input type="checkbox" bind:checked={showPalette} /> Command palette (Actions tier)</label>
+    <label><input type="checkbox" bind:checked={showPalette} /> Command palette</label>
+    <label><input type="checkbox" bind:checked={reduceBright} /> Reduce Bright Effects (iOS 26.4)</label>
+    <label class="slider-label">
+      Glass tint
+      <input type="range" min="0" max="0.20" step="0.01" bind:value={glassTintAlpha} />
+      <span class="slider-val">{glassTintAlpha.toFixed(2)}</span>
+    </label>
   </div>
 
   <div class="title-bar">
@@ -92,8 +108,8 @@
     </div>
 
     {#if showChat}
-      <!-- CHAT PANEL: Tools tier (mid-tonal, sits alongside sidebar) -->
-      <aside class="chat-panel" data-testid="chat-panel">
+      <!-- CHAT PANEL: Tools tier (mid-tonal) + squircle at container boundary only -->
+      <aside class="chat-panel ig-squircle-container" data-testid="chat-panel">
         <div class="chat-header">
           <span class="chat-title">💬 CHAT</span>
           <span class="chat-model">lime-glass · claude</span>
@@ -370,24 +386,44 @@ actions   = "#121216"</pre>
     border-bottom: 1px solid var(--ig-border);
     font-size: 9pt;
     color: var(--ig-text-muted);
+    flex-wrap: wrap;
   }
   .demo-controls label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
   .demo-controls input[type="checkbox"] { accent-color: var(--ig-indigo); }
+  .demo-controls input[type="range"] { accent-color: var(--ig-indigo); width: 110px; }
+  .slider-label { gap: 6px !important; }
+  .slider-val { font-family: "Iosevka Custom Condensed", monospace; color: var(--ig-indigo); }
 
   /* ── Chat panel (Tools tier) ─────────────────────────────────── */
   .chat-panel {
+    position: relative;
     width: 320px;
     display: flex;
     flex-direction: column;
-    background: var(--ig-base);
+    background-color: rgba(var(--ig-glass-surface-rgb), var(--ig-glass-bg-alpha));
+    backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);
+    -webkit-backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);
     border-left: 1px solid var(--ig-border);
+    isolation: isolate;
     min-width: 0;
   }
+  /* accent tint film — the LIVE, runtime-adjustable surface */
+  .chat-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--ig-glass-accent-rgb), var(--ig-glass-tint-alpha));
+    pointer-events: none;
+    z-index: 0;
+  }
+  .chat-panel > * { position: relative; z-index: 1; }
   .vscode.layered .chat-panel {
-    background: var(--ig-surface);
+    background-color: rgba(var(--ig-glass-surface-rgb), calc(var(--ig-glass-bg-alpha) + 0.1));
     /* subtle glow to signal it's a Tools surface, not part of the editor */
     box-shadow: inset 1px 0 0 var(--ig-border);
   }
+  /* Reduce-bright kills grain/glow. Kill the accent tint film too via var. */
+  [data-reduce-bright] .chat-panel::before { display: none; }
   .chat-header {
     display: flex;
     align-items: center;
