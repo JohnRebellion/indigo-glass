@@ -517,9 +517,15 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
     vname = t["variants"][variant]["name"]
 
     # Glass tint/bg derived from the active variant: accent @ tint_alpha,
-    # surface_alt @ bg_alpha (replaces the old hardcoded indigo literals).
-    glass_tint = rgba_hex(pal["accent"]["hex"], g["tint_alpha"])
-    glass_bg = rgba_hex(pal["surface_alt"]["hex"], g["bg_alpha"])
+    # surface_alt @ bg_alpha. Also emit the alpha values as SEPARATE runtime
+    # vars so users can override glass thickness live (Apple iOS 27 pattern:
+    # a slider between "clearer glass" and "more tinted glass" instead of a
+    # hardcoded default). --ig-glass-tint and --ig-glass-bg remain as ready-
+    # to-use rgba; --ig-glass-*-alpha are user-overridable knobs.
+    accent_hex = pal["accent"]["hex"]
+    surf_alt_hex = pal["surface_alt"]["hex"]
+    glass_tint = rgba_hex(accent_hex, g["tint_alpha"])
+    glass_bg = rgba_hex(surf_alt_hex, g["bg_alpha"])
 
     lines = [
         f"/* {vname} - glass / grain / squircle / ambient (v3) */",
@@ -530,6 +536,11 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
         f"  --ig-glass-tint: {glass_tint};",
         f"  --ig-glass-border: {g['border']};",
         f"  --ig-glass-blur: {g['backdrop_blur']}px;",
+        f"  /* Runtime knobs (Apple iOS 27 clarity/tint pattern) - override to taste */",
+        f"  --ig-glass-tint-alpha: {g['tint_alpha']};",
+        f"  --ig-glass-bg-alpha: {g['bg_alpha']};",
+        f"  --ig-glass-accent-rgb: {int(accent_hex[1:3],16)}, {int(accent_hex[3:5],16)}, {int(accent_hex[5:7],16)};",
+        f"  --ig-glass-surface-rgb: {int(surf_alt_hex[1:3],16)}, {int(surf_alt_hex[3:5],16)}, {int(surf_alt_hex[5:7],16)};",
     ]
     if grain.get("enabled"):
         lines.append(f"  --ig-grain-opacity: {grain['opacity']};")
@@ -540,12 +551,15 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
     lines.append("}")
     lines.append("")
 
-    # Glass surface with grain on top of blur
+    # Glass surface with grain on top of blur.
+    # The tint uses rgba(var(--ig-glass-accent-rgb), var(--ig-glass-tint-alpha))
+    # so setting :root { --ig-glass-tint-alpha: 0.10 } live re-tints without
+    # any recompilation - the Apple iOS 27 "clearer <-> tinted" slider pattern.
     lines.extend([
-        "/* Frosted glass surface - blur + indigo tint + grain micro-texture */",
+        "/* Frosted glass surface - blur + accent tint + grain micro-texture */",
         ".ig-glass {",
         "  position: relative;",
-        "  background-color: var(--ig-glass-bg);",
+        "  background-color: rgba(var(--ig-glass-surface-rgb), var(--ig-glass-bg-alpha));",
         "  border: 1px solid var(--ig-glass-border);",
         "  border-radius: var(--ig-radius-lg);",
         "  backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);",
@@ -554,12 +568,12 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
         "  overflow: hidden;",
         "  box-shadow: var(--ig-shadow-glass);",
         "}",
-        "/* indigo tint film */",
+        "/* accent tint film (runtime-adjustable via --ig-glass-tint-alpha) */",
         ".ig-glass::before {",
         "  content: \"\";",
         "  position: absolute;",
         "  inset: 0;",
-        "  background: var(--ig-glass-tint);",
+        "  background: rgba(var(--ig-glass-accent-rgb), var(--ig-glass-tint-alpha));",
         "  pointer-events: none;",
         "  z-index: 0;",
         "}",
@@ -600,19 +614,33 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
             "",
         ])
 
-    # Squircle corners (progressive enhancement)
+    # Squircle corners (progressive enhancement).
+    # Apple iOS 27 changed sidebar corner radii ONLY - not every element.
+    # Rule of thumb: apply squircle at HIERARCHY BOUNDARIES (sidebar, chat panel,
+    # dialog, popover) - NOT inline (tabs, buttons, chips inside a container).
+    # `.ig-squircle`           - general utility (any element)
+    # `.ig-squircle-container` - the recommended scope: outer container edges
     if sq.get("enabled"):
         n = sq["superellipse_n"]
         lines.extend([
             "/* Squircle corners - Chromium 139+ via corner-shape; standard",
-            "   border-radius is the cross-browser fallback. */",
-            ".ig-squircle {",
+            "   border-radius is the cross-browser fallback.",
+            "   Prefer .ig-squircle-container for container edges (sidebar/chat/",
+            "   dialog); use .ig-squircle only for standalone shapes. */",
+            ".ig-squircle,",
+            ".ig-squircle-container {",
             "  border-radius: var(--ig-radius-lg);",
             "}",
             "@supports (corner-shape: superellipse(2)) {",
-            "  .ig-squircle {",
+            "  .ig-squircle,",
+            "  .ig-squircle-container {",
             f"    corner-shape: superellipse({n});",
             "    border-radius: var(--ig-radius-xl);",
+            "  }",
+            "  /* Inline children inside a squircle-container should NOT also be",
+            "     squircled (creates a nested-radius artefact). */",
+            "  .ig-squircle-container :is(button, .tab, .chip, .badge) {",
+            "    corner-shape: normal;",
             "  }",
             "}",
             "",
@@ -657,8 +685,15 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
             "",
         ])
 
-    # a11y branches
+    # A11y branches — TWO signals:
+    # 1. `prefers-reduced-transparency` (OS-level) — user set it in KDE/GNOME/macOS
+    # 2. `[data-reduce-bright]` (app-level) — user toggled it in-app
+    #    (Apple iOS 26.4 added exactly this: a separate 'Reduce Bright Effects'
+    #    toggle SEPARATE from Reduce Transparency, because glossy accent glows
+    #    can be uncomfortable in sunlight even when transparency is fine.)
+    # Both should kill grain + ambient orbs and mute accent glow effects.
     lines.extend([
+        "/* Reduce transparency — OS-level a11y setting */",
         "@media (prefers-reduced-transparency: reduce) {",
         "  .ig-glass {",
         "    backdrop-filter: none;",
@@ -667,6 +702,20 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
         "  }",
         "  .ig-glass::after, .ig-grain::after { display: none; }",
         "  .ig-ambient::before { display: none; }",
+        "}",
+        "",
+        "/* Reduce Bright Effects — app-level toggle (Apple iOS 26.4 pattern).",
+        "   Add data-reduce-bright to <html>, or use the `prefers-reduced-motion`",
+        "   heuristic as a proxy for users likely to also want dimmer effects. */",
+        "[data-reduce-bright] .ig-ambient::before,",
+        "[data-reduce-bright] .ig-glass::after,",
+        "[data-reduce-bright] .ig-grain::after {",
+        "  display: none;",
+        "}",
+        "[data-reduce-bright] {",
+        "  --ig-glass-tint-alpha: 0;              /* kill accent tint on glass */",
+        "  --ig-shadow-indigo-glow: none;         /* no accent focus-glow */",
+        "  --ig-shadow-indigo-glow-lg: none;",
         "}",
         "",
     ])
