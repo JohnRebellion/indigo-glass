@@ -758,15 +758,23 @@ def emit_kwin_blur(t: dict) -> str:
         "[Effect-better-blur-dx]",
         f"BlurStrength={blur}",
         f"NoiseStrength={r['noise_strength']}",
-        f"Brightness={r['brightness']}",
-        f"Saturation={r['saturation']}",
-        f"Contrast={r['contrast']}",
+        # Brightness/Saturation/Contrast are only applied when ForceContrastParams
+        # is true. Historically we set them to canonical values AND set force=true,
+        # which darkened blurred content (Brightness=96 -> 96% luma on blur pass);
+        # combined with 12-15% window translucency this rendered as solid-black
+        # blur regions on real hardware after a fresh boot. Emit force=false and
+        # neutral 100/100/100 so the blur pass stays photometric-neutral. The
+        # canonical brightness/saturation values remain in [glass.render] for the
+        # BROWSER (Dark Reader) which honours them independently.
+        f"Brightness={100 if not r.get('force_contrast_params', False) else r['brightness']}",
+        f"Saturation={100 if not r.get('force_contrast_params', False) else r['saturation']}",
+        f"Contrast={100 if not r.get('force_contrast_params', False) else r['contrast']}",
         "BlurMatching=false",
         "BlurNonMatching=true",
         "BlurDecorations=true",
         "BlurMenus=true",
         "BlurDocks=true",
-        "ForceContrastParams=true",
+        f"ForceContrastParams={'true' if r.get('force_contrast_params', False) else 'false'}",
         f"CornerRadius={float(radius)}",
         "WindowClasses=",
         "",
