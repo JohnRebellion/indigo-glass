@@ -304,15 +304,26 @@ bg_alpha      = 0.70        # surface_alt opacity behind blur
 border        = "#FFFFFF14" # 8% white
 
 # Compositor render params (KWin kwin-effects-better-blur-dx + Dark Reader).
-# These were hand-maintained in config/kwin/kwinrc.snippets and the browser
-# Dark Reader JSON; now single-sourced. brightness 96 = visionOS "soft light"
-# (slightly dimmed glass), canonical across compositor + browser retint.
+#
+# BLUR passes through KWin already, but ForceContrastParams=true was a mistake:
+# when combined with Brightness < 100 it FORCES the blurred output to be
+# darkened by that percentage, which -- combined with our 12-15% window
+# translucency -- produced solid-black-looking blur regions on real hardware
+# (only surfaces once the compositor is freshly initialised at boot; qdbus
+# reconfigure alone didn't reproduce it).
+#
+# Fix: force_contrast_params = false (KWin default). Brightness/Saturation/
+# Contrast still exist in the token file because the browser Dark Reader
+# retint uses `brightness` and matches CSS `saturate()` there, but on the
+# COMPOSITOR side those values are ignored unless force_contrast_params=true.
 [glass.render]
-brightness   = 96    # KWin Brightness + Dark Reader brightness (canonical)
-saturation   = 110   # KWin Saturation + matches CSS `saturate(110%)`
+brightness   = 96    # Dark Reader brightness (canonical soft-light);
+                     # NOT applied to KWin blur when force_contrast_params=false
+saturation   = 110   # matches CSS `saturate(110%)`; also inert for KWin blur
 contrast     = 100
 noise_strength = 4    # KWin NoiseStrength - compositor-native grain
                       # (the desktop equivalent of [glass.grain] for web)
+force_contrast_params = false  # was true; caused black-blur on real hardware
 
 # Grain / frosted-glass micro-texture (Glassmorphism 2.0 differentiator).
 # A static fractal-noise SVG layered ON TOP of the blur (not behind it),
