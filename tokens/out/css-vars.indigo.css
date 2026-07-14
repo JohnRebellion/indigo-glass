@@ -84,6 +84,8 @@
   --ig-shadow-glass-lg: 0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06);
   --ig-shadow-neu-raised: -2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40);
   --ig-shadow-neu-pressed: inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40);
+  --ig-shadow-accent-glow: 0 0 0 2px rgba(94,106,210,0.30);
+  --ig-shadow-accent-glow-lg: 0 0 24px rgba(94,106,210,0.40);
   --ig-shadow-indigo-glow: 0 0 0 2px rgba(94,106,210,0.30);
   --ig-shadow-indigo-glow-lg: 0 0 24px rgba(94,106,210,0.40);
 
@@ -165,6 +167,9 @@
 /* Display-P3 wide-gamut overlay (more chroma on capable monitors) */
 @media (color-gamut: p3) {
   :root {
+    --ig-accent: color(display-p3 0.3776 0.4143 0.7972);
+    --ig-accent-hi: color(display-p3 0.5138 0.5477 0.9440);
+    --ig-accent-alt: color(display-p3 0.6372 0.5492 0.9528);
     --ig-indigo: color(display-p3 0.3776 0.4143 0.7972);
     --ig-indigo-hi: color(display-p3 0.5138 0.5477 0.9440);
     --ig-violet: color(display-p3 0.6372 0.5492 0.9528);

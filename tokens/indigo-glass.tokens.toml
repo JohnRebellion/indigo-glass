@@ -3,15 +3,18 @@
 # Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
 # concrete config from this file via tokens/codegen.py.
 #
-# Schema version: 2
-# Last token revision: 2026-06-26 (OKLCH authoring + glassmorphism 2.0 pass)
+# Schema version: 3
+# Last token revision: 2026-07-14 (multi-variant: Lime Glass default + Indigo)
 #
 # Edit values here, run codegen, commit results. Do NOT hardcode hex
 # in layer configs anymore.
 #
-# v2: The palette is now authored in OKLCH (perceptually uniform). codegen
-# derives byte-identical sRGB hex (for KDE/GTK/GRUB/Windows), display-p3,
-# and native oklch() CSS from these values. See tokens/README.md.
+# v3: The palette is multi-variant. Colors live only in [variants.<name>]
+# (OKLCH-authored, perceptually uniform); shared tokens (spacing/radius/blur/
+# type/motion/glass) are variant-agnostic. codegen resolves [meta].default_variant
+# into the legacy single-set output AND emits per-variant files. It derives
+# byte-identical sRGB hex (for KDE/GTK/GRUB/Windows), display-p3, and native
+# oklch() CSS from these values. See tokens/README.md.
 
 [meta]
 schema_version = 3
@@ -59,7 +62,6 @@ text_dim    = [0.4461, 0.0263, 256.80]
 [variants.lime]
 name        = "Lime Glass"
 brand_hue   = "lime"
-# Surfaces (lime-tinted near-black; hue ~120 so glass reads warm-green dark)
 # Surfaces: NEUTRAL deep near-black (NOT lime-tinted). Raycast-deep ladder
 # (#07080A family) - deeper than Indigo Glass's #0F0F12 to MAXIMIZE lime
 # contrast (13.39:1 vs 12.79:1) while staying OLED-safe (not pure #000, so no
@@ -71,7 +73,7 @@ sidebar     = [0.1462, 0.0064, 285.58]   # #0A0A0D
 # Brand (lime / lime_hi / lime_alt) - single hue 127.71, AA-verified on base
 accent      = [0.8523, 0.2049, 127.71]   # #A8E635 ghost lime
 accent_hi   = [0.9323, 0.2049, 127.71]   # #C1FF58 hover (brighter)
-accent_alt  = [0.7523, 0.1947, 127.71]   # #8BC407 active/decoration
+accent_alt  = [0.7523, 0.1947, 127.71]   # #8BC406 active/decoration (copy hex from tokens/out, not this comment)
 # Semantic (unchanged hues - warnings/errors must stay legible vs lime)
 amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 152.51]
@@ -200,8 +202,11 @@ glass          = "0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06)"
 glass_lg       = "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)"
 neu_raised     = "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)"
 neu_pressed    = "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)"
-indigo_glow    = "0 0 0 2px rgba(94,106,210,0.30)"
-indigo_glow_lg = "0 0 24px rgba(94,106,210,0.40)"
+# accent_glow / accent_glow_lg are DERIVED per-variant from the active accent
+# by codegen (see emit_css_vars); the rgba below is a documentation placeholder
+# only and is overwritten at emit time. Do NOT hardcode a variant hex here.
+accent_glow    = "0 0 0 2px rgba(0,0,0,0.30)"
+accent_glow_lg = "0 0 24px rgba(0,0,0,0.40)"
 
 # =============================================================================
 # TYPOGRAPHY
@@ -340,13 +345,15 @@ tile_px        = 200    # background-size of the noise tile
 # AMBIENT - light-source gradient orbs behind glass (visionOS "lit glass")
 # =============================================================================
 # Large, soft radial gradients positioned as pseudo-light-sources behind
-# glass panels. MUST use the existing indigo/violet hues only (single-accent
-# rule). Already realized by simulator mesh.css / .ig-mesh-hero; these tokens
-# canonicalize the values so every layer matches.
+# glass panels. MUST use accent / accent_alt hues only (single-accent rule).
+# The "indigo"/"violet" keys below are legacy alias names that resolve to the
+# active variant's accent/accent_alt via _BRAND_ALIAS - so orbs are lime in the
+# lime variant, indigo in the indigo variant. Already realized by simulator
+# mesh.css / .ig-mesh-hero; these tokens canonicalize the values so layers match.
 
 [ambient]
 enabled            = true
-orb_primary        = "indigo"   # palette key
+orb_primary        = "indigo"   # palette key (alias -> active accent)
 orb_primary_opacity = 0.06      # 5-6% - barely perceptible warmth
 orb_secondary      = "violet"
 orb_secondary_opacity = 0.04

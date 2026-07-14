@@ -2,20 +2,25 @@
 """
 Lime Glass - token codegen.
 
-Reads tokens/indigo-glass.tokens.toml (OKLCH-authored, schema v2) and emits
-derived per-layer artifacts:
+Reads tokens/indigo-glass.tokens.toml (OKLCH-authored, schema v3) and emits
+derived per-layer artifacts. Each is written three ways: the active-variant
+default (e.g. css-vars.css), plus one file per variant (css-vars.lime.css,
+css-vars.indigo.css):
 
-    tokens/out/css-vars.css        # CSS custom properties (web/Stylus)
-    tokens/out/scss-vars.scss      # Sass equivalent
-    tokens/out/json-tokens.json    # JSON (VSCode/web/JS consumers)
-    tokens/out/kde-palette.colors  # KDE color scheme partial
-    tokens/out/wt-scheme.json      # Windows Terminal scheme partial
-    tokens/out/density.css         # Compact-density CSS rules
-    tokens/out/glass.css           # Glass surface + grain + squircle + ambient
+    tokens/out/css-vars[.variant].css    # CSS custom properties (web/Stylus)
+    tokens/out/scss-vars[.variant].scss  # Sass equivalent
+    tokens/out/json-tokens.json          # JSON (all variants; VSCode/web/JS)
+    tokens/out/kde-palette[.variant].colors  # KDE color scheme partial
+    tokens/out/wt-scheme[.variant].json  # Windows Terminal scheme partial
+    tokens/out/glass[.variant].css       # Glass + grain + squircle + ambient
+    tokens/out/density.css               # Compact-density CSS rules
+    tokens/out/kwinrc-blur.ini           # KWin blur strength
+    tokens/out/klassy-radius.ini         # Klassy corner radius
 
-The palette source of truth is [palette.oklch]. We derive byte-identical sRGB
-hex (for KDE/GTK/GRUB/Windows, which cannot parse oklch()), display-p3, and
-native oklch() CSS from those values - all in one place, no color drift.
+The palette source of truth is [variants.<name>] (OKLCH triples). The active
+variant is [meta].default_variant. We derive byte-identical sRGB hex (for
+KDE/GTK/GRUB/Windows, which cannot parse oklch()), display-p3, and native
+oklch() CSS from those values - all in one place, no color drift.
 
 Usage:
     python3 tokens/codegen.py             # emit all
@@ -252,8 +257,22 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
         lines.append(f"  --ig-opacity-{k.replace('_', '-')}: {v};")
 
     lines.extend(["", "  /* Shadow */"])
+    # accent_glow{,_lg} are derived from the active accent so the focus-glow
+    # matches the variant instead of shipping a hardcoded indigo rgba. The
+    # legacy --ig-shadow-indigo-glow{,-lg} names are emitted as aliases for
+    # back-compat (mirrors _BRAND_ALIAS behaviour for the accent triple).
+    accent_rgb = hex_to_rgb(pal["accent"]["hex"])
+    accent_glow = f"0 0 0 2px rgba({accent_rgb},0.30)"
+    accent_glow_lg = f"0 0 24px rgba({accent_rgb},0.40)"
     for k, v in t["shadow"].items():
+        if k == "accent_glow":
+            v = accent_glow
+        elif k == "accent_glow_lg":
+            v = accent_glow_lg
         lines.append(f"  --ig-shadow-{k.replace('_', '-')}: {v};")
+    # Legacy aliases (kept so consumers referencing indigo-glow keep working).
+    lines.append(f"  --ig-shadow-indigo-glow: {accent_glow};")
+    lines.append(f"  --ig-shadow-indigo-glow-lg: {accent_glow_lg};")
 
     lines.extend(["", "  /* Type scale (pt) */"])
     for k, v in t["type"]["scale"].items():
@@ -309,8 +328,13 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
         "@media (color-gamut: p3) {",
         "  :root {",
     ])
-    for k in ("indigo", "indigo_hi", "violet", "amber", "positive", "negative"):
-        lines.append(f"    --ig-{k.replace('_', '-')}: {pal[k]['p3']};")
+    # Semantic accent names + their legacy brand aliases both get the P3
+    # upgrade so no consumer is left on the sRGB-clipped value.
+    p3_keys = ("accent", "accent_hi", "accent_alt", "indigo", "indigo_hi",
+               "violet", "amber", "positive", "negative")
+    for k in p3_keys:
+        if k in pal:
+            lines.append(f"    --ig-{k.replace('_', '-')}: {pal[k]['p3']};")
     lines.append("  }")
     lines.append("}")
     lines.append("")
@@ -743,7 +767,9 @@ def emit_glass_css(t: dict, variant: str | None = None) -> str:
         "}",
         "[data-reduce-bright] {",
         "  --ig-glass-tint-alpha: 0;              /* kill accent tint on glass */",
-        "  --ig-shadow-indigo-glow: none;         /* no accent focus-glow */",
+        "  --ig-shadow-accent-glow: none;         /* no accent focus-glow */",
+        "  --ig-shadow-accent-glow-lg: none;",
+        "  --ig-shadow-indigo-glow: none;         /* legacy alias */",
         "  --ig-shadow-indigo-glow-lg: none;",
         "}",
         "",

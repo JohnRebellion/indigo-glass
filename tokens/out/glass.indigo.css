@@ -123,6 +123,8 @@
 }
 [data-reduce-bright] {
   --ig-glass-tint-alpha: 0;              /* kill accent tint on glass */
-  --ig-shadow-indigo-glow: none;         /* no accent focus-glow */
+  --ig-shadow-accent-glow: none;         /* no accent focus-glow */
+  --ig-shadow-accent-glow-lg: none;
+  --ig-shadow-indigo-glow: none;         /* legacy alias */
   --ig-shadow-indigo-glow-lg: none;
 }
