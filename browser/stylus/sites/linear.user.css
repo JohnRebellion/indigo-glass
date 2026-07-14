@@ -13,20 +13,20 @@
 @-moz-document domain("linear.app") {
 
   :root {
-    --color-bg-primary: #0F0F12 !important;
-    --color-bg-secondary: #1C1C21 !important;
-    --color-bg-tertiary: #1F2028 !important;
+    --color-bg-primary: #07080A !important;
+    --color-bg-secondary: #0D0D10 !important;
+    --color-bg-tertiary: #121216 !important;
     --color-bg-quaternary: #2A2D38 !important;
-    --color-sidebar-bg: #18181C !important;
+    --color-sidebar-bg: #0A0A0D !important;
 
     --color-text-primary: #F8F8F8 !important;
     --color-text-secondary: #C9CBD3 !important;
     --color-text-tertiary: #6B7280 !important;
     --color-text-quaternary: #4B5563 !important;
 
-    --color-accent: #5E6AD2 !important;
-    --color-accent-hover: #818CF8 !important;
-    --color-accent-active: #A78BFA !important;
+    --color-accent: #A8E635 !important;
+    --color-accent-hover: #C1FF58 !important;
+    --color-accent-active: #8BC406 !important;
 
     --color-border-primary: rgba(255, 255, 255, 0.06) !important;
     --color-border-secondary: rgba(255, 255, 255, 0.10) !important;

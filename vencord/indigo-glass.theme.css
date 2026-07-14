@@ -8,13 +8,13 @@
  */
 
 :root {
-  --ig-base: #0F0F12;
-  --ig-surface: #1C1C21;
-  --ig-surface-alt: #1F2028;
-  --ig-sidebar: #18181C;
-  --ig-indigo: #5E6AD2;
-  --ig-indigo-hi: #818CF8;
-  --ig-violet: #A78BFA;
+  --ig-base: #07080A;
+  --ig-surface: #0D0D10;
+  --ig-surface-alt: #121216;
+  --ig-sidebar: #0A0A0D;
+  --ig-indigo: #A8E635;
+  --ig-indigo-hi: #C1FF58;
+  --ig-violet: #8BC406;
   --ig-amber: #FBBF24;
   --ig-positive: #71F79F;
   --ig-negative: #ED254E;
@@ -33,9 +33,9 @@
   --background-floating: var(--ig-surface-alt) !important;
   --background-mobile-primary: var(--ig-base) !important;
   --background-mobile-secondary: var(--ig-surface) !important;
-  --background-modifier-hover: rgba(94, 106, 210, 0.10) !important;
-  --background-modifier-active: rgba(94, 106, 210, 0.18) !important;
-  --background-modifier-selected: rgba(94, 106, 210, 0.22) !important;
+  --background-modifier-hover: rgba(168, 230, 53, 0.10) !important;
+  --background-modifier-active: rgba(168, 230, 53, 0.18) !important;
+  --background-modifier-selected: rgba(168, 230, 53, 0.22) !important;
   --background-modifier-accent: rgba(255, 255, 255, 0.06) !important;
 
   --text-normal: var(--ig-text) !important;
@@ -60,8 +60,8 @@
   --activity-card-background: var(--ig-surface-alt) !important;
   --modal-background: var(--ig-base) !important;
   --modal-footer-background: var(--ig-surface) !important;
-  --scrollbar-thin-thumb: rgba(94, 106, 210, 0.45) !important;
-  --scrollbar-auto-thumb: rgba(94, 106, 210, 0.45) !important;
+  --scrollbar-thin-thumb: rgba(168, 230, 53, 0.45) !important;
+  --scrollbar-auto-thumb: rgba(168, 230, 53, 0.45) !important;
   --scrollbar-auto-track: transparent !important;
 
   --brand-experiment: var(--ig-indigo) !important;
@@ -79,7 +79,7 @@
 
 /* Selection */
 ::selection {
-  background: rgba(94, 106, 210, 0.45) !important;
+  background: rgba(168, 230, 53, 0.45) !important;
 }
 
 /* Scrollbar */
@@ -88,18 +88,18 @@
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(94, 106, 210, 0.45) !important;
+  background-color: rgba(168, 230, 53, 0.45) !important;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(129, 140, 248, 0.75) !important;
+  background-color: rgba(193, 255, 88, 0.75) !important;
 }
 
 /* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--ig-indigo) !important;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(94, 106, 210, 0.18) !important;
+  box-shadow: 0 0 0 4px rgba(168, 230, 53, 0.18) !important;
 }
 
 /* Compact channel list */
@@ -130,7 +130,7 @@ body, [class*="markup"], [class*="message"], [class*="title"] {
 
 /* Mentions */
 [class*="mentioned"] {
-  background-color: rgba(94, 106, 210, 0.18) !important;
+  background-color: rgba(168, 230, 53, 0.18) !important;
 }
 
 /* Reduced transparency */
