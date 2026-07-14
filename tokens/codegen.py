@@ -120,6 +120,33 @@ def rgba_hex(base_hex: str, alpha: float) -> str:
     return f"{base_hex}{a:02X}"
 
 
+def _relative_luminance(hex_color: str) -> float:
+    """WCAG relative luminance of an sRGB hex color (0..1)."""
+    h = hex_color.lstrip("#")
+    r, g, b = (int(h[i : i + 2], 16) / 255 for i in (0, 2, 4))
+    rl, gl, bl = (_srgb_to_linear(c) for c in (r, g, b))
+    return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl
+
+
+def contrast_ratio(fg_hex: str, bg_hex: str) -> float:
+    """WCAG 2.x contrast ratio between two sRGB hex colors (1..21)."""
+    l1 = _relative_luminance(fg_hex)
+    l2 = _relative_luminance(bg_hex)
+    lighter, darker = (l1, l2) if l1 >= l2 else (l2, l1)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+def readable_on(bg_hex: str, dark_hex: str, light_hex: str = "#FFFFFF") -> str:
+    """Pick whichever of dark_hex / light_hex reads better on bg_hex.
+
+    Prefers light text (the design default) when it clears WCAG AA (4.5:1);
+    otherwise falls back to the dark option. On a light accent like lime
+    (#A8E635) white fails at 1.50:1, so this returns the near-black base."""
+    if contrast_ratio(light_hex, bg_hex) >= 4.5:
+        return light_hex
+    return dark_hex
+
+
 # =============================================================================
 # Variant resolution
 # =============================================================================
@@ -382,8 +409,10 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         "[Colors:Selection]",
         f"BackgroundNormal={hex_to_rgb(p['indigo'])}",
         f"BackgroundAlternate={hex_to_rgb(p['indigo_hi'])}",
-        "ForegroundNormal=255,255,255",
-        f"ForegroundActive={hex_to_rgb(p['text'])}",
+        # Foreground picked by WCAG contrast against the selection accent:
+        # white on a dark accent (indigo), near-black on a light one (lime).
+        f"ForegroundNormal={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
+        f"ForegroundActive={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
         "",
         "[Colors:View]",
         f"BackgroundNormal={hex_to_rgb(p['base'])}",

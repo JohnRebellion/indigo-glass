@@ -357,7 +357,8 @@
       "brightness": 96,
       "saturation": 110,
       "contrast": 100,
-      "noise_strength": 4
+      "noise_strength": 4,
+      "force_contrast_params": false
     },
     "grain": {
       "enabled": true,
