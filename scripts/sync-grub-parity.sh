@@ -200,4 +200,9 @@ fi
 
 echo "✓ Parity sync complete."
 echo "  Verify in simulator:  cd simulator && bun run dev   → open indigo preset"
-[ "$DEPLOY" = false ] && echo "  Then deploy to real:  bash scripts/sync-grub-parity.sh --deploy"
+# NOTE: keep this as an if, not `[ ... ] && echo`. As the script's final
+# statement under `set -e`, a bare test that evaluates false returns exit 1
+# and aborts any caller that shells out to us (e.g. install.sh --with-grub).
+if [ "$DEPLOY" = false ]; then
+  echo "  Then deploy to real:  bash scripts/sync-grub-parity.sh --deploy"
+fi
