@@ -1,5 +1,5 @@
 [Appearance]
-ColorScheme=IndigoGlass
+ColorScheme=LimeGlass
 Font=Iosevka Custom Condensed,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 LineSpacing=2
 UseFontLineChararacters=false
@@ -7,13 +7,13 @@ WordCharacters=-./\?()\"[]{}&%@!#*,;'<>|~^
 
 [Cursor Options]
 CursorShape=2
-CustomCursorColor=167,139,250
-CustomCursorTextColor=15,15,18
+CustomCursorColor=168,230,53
+CustomCursorTextColor=7,8,10
 UseCustomCursorColor=true
 
 [General]
 Command=/bin/zsh
-Name=IndigoGlass
+Name=LimeGlass
 Parent=FALLBACK/
 TerminalColumns=220
 TerminalRows=50

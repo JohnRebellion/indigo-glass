@@ -110,7 +110,7 @@ apply_sed "$HOME/.config/gtk-3.0/settings.ini" '^gtk-font-name=Carlito [0-9]+' "
 apply_sed "$HOME/.config/gtk-4.0/settings.ini" '^gtk-font-name=Carlito [0-9]+' "gtk-font-name=Carlito $GTK_PT"
 
 echo "[3/5] Konsole"
-apply_sed "$HOME/.local/share/konsole/IndigoGlass.profile" \
+apply_sed "$HOME/.local/share/konsole/LimeGlass.profile" \
   '^Font=Iosevka Custom Condensed,[0-9]+' \
   "Font=Iosevka Custom Condensed,$KONSOLE_SZ"
 
