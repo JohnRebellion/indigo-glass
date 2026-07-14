@@ -84,6 +84,53 @@ overlay() {
   done
 }
 
+# Regenerate the live grub.cfg SAFELY. grub2-mkconfig writing straight to the
+# live config is the highest-blast-radius operation here: an interrupted run
+# (disk full, kill) leaves a truncated boot config, and a bad theme reference
+# passes mkconfig silently and only fails at boot. So: build into a temp file,
+# validate it (non-empty + grub script-check), back up the current cfg, then
+# atomically mv into place.
+regen_grub_cfg() {
+  local cfg="$1"
+  local tmp="${cfg}.new"
+  local stamp bak
+  stamp="$(date +%Y%m%d-%H%M%S)"
+  bak="${cfg}.bak-${stamp}"
+
+  run "sudo grub2-mkconfig -o \"$tmp\""
+  if [ "$DRY_RUN" = true ]; then
+    echo "  \$ (validate non-empty + grub2-script-check \"$tmp\")"
+    echo "  \$ sudo cp -a \"$cfg\" \"$bak\" && sudo mv \"$tmp\" \"$cfg\""
+    return 0
+  fi
+
+  # 1. non-empty
+  if ! sudo test -s "$tmp"; then
+    echo "  ✗ generated grub.cfg is empty — aborting, live config untouched" >&2
+    sudo rm -f "$tmp"
+    return 1
+  fi
+  # 2. syntax check (tool is grub2-script-check on Fedora, grub-script-check elsewhere)
+  local checker=""
+  for c in grub2-script-check grub-script-check; do
+    command -v "$c" >/dev/null 2>&1 && { checker="$c"; break; }
+  done
+  if [ -n "$checker" ]; then
+    if ! sudo "$checker" "$tmp"; then
+      echo "  ✗ $checker rejected generated grub.cfg — aborting, live config untouched" >&2
+      sudo rm -f "$tmp"
+      return 1
+    fi
+    echo "  ✓ $checker passed"
+  else
+    echo "  ⚠ no grub script-check tool found — skipping syntax validation"
+  fi
+  # 3. back up the live cfg, then atomic swap
+  run "sudo cp -a \"$cfg\" \"$bak\""
+  run "sudo mv \"$tmp\" \"$cfg\""
+  echo "  ✓ grub.cfg updated (backup: $bak)"
+}
+
 echo "▶ Lime Glass GRUB parity sync"
 echo "  source (truth): $SRC"
 [ "$DRY_RUN" = true ] && echo "  ⚠ DRY RUN"
@@ -141,7 +188,7 @@ if [ "$DEPLOY" = true ]; then
     if sudo test -f "$cand"; then GRUB_CFG="$cand"; break; fi
   done
   if [ -n "$GRUB_CFG" ]; then
-    run "sudo grub2-mkconfig -o \"$GRUB_CFG\""
+    regen_grub_cfg "$GRUB_CFG"
   else
     echo "  ⚠ grub.cfg not found — run: sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
   fi
