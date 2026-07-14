@@ -13,27 +13,29 @@
 **Hybrid:** brutalist-glass + Linear app dark discipline + Neumorphism 2.0 (selective tactility)
 
 **Core formula:**
-- Deep dark base (`#0F0F12`)
+- Deep dark base (`#07080A`)
 - Frosted glass layers floating in z-depth
 - Sharp geometric typography (Linear-style)
 - Soft pillowy widgets (neumorphic, selective)
-- Indigo `#5E6AD2` single accent
+- Lime `#A8E635` single accent (OKLCH hue 127.71 — green; heritage indigo sat at hue ~262)
 - Amber `#FBBF24` semantic warning only
 
 ---
 
-## Color Palette (canonical — used by all layers)
+## Color Palette (Lime default — canonical, used by all layers)
+
+> Values here are the Lime default variant; the Indigo heritage variant uses `#5E6AD2` etc. See the root README "Variants" section.
 
 ```
-Base:            #0F0F12     Dark surface
-Surface:         #1C1C21     Window bg
-Surface+1:       #1F2028     Elevated panels, glass base
-Sidebar:         #18181C     Sidebar bg
+Base:            #07080A     Dark surface
+Surface:         #0D0D10     Window bg
+Surface+1:       #121216     Elevated panels, glass base
+Sidebar:         #0A0A0D     Sidebar bg
 Glass border:    rgba(255,255,255,0.06)
 Glass border+:   rgba(255,255,255,0.10)
-Indigo:          #5E6AD2     Linear primary — selection, buttons
-Indigo+1:        #818CF8     Hover, focus, active link
-Violet:          #A78BFA     Visited link, accent decoration
+Accent:          #A8E635     Lime primary — selection, buttons
+Accent+1:        #C1FF58     Hover, focus, active link
+Accent-alt:      #8BC406     Visited link, accent decoration
 Amber:           #FBBF24     Semantic warning
 Positive:        #71F79F     Success
 Negative:        #ED254E     Error, destructive
@@ -41,24 +43,26 @@ Text primary:    #F8F8F8
 Text muted:      #6B7280
 ```
 
+Lime accent OKLCH hue is **127.71** (green); the heritage indigo accent sat at hue **~262**.
+
 ### Where each color lives
 
 | Color | KDE | GTK4 | Konsole | Starship | Fastfetch | Klassy | Portfolio (Tailwind) |
 |---|---|---|---|---|---|---|---|
-| `#0F0F12` Base | View bg | view_bg | bg | bg_0 | - | - | --color-base |
-| `#1C1C21` Surface | Window bg | window_bg | - | bg_1 | - | - | --color-surface |
-| `#1F2028` Surface+1 | Window alt | headerbar | - | bg_2 | - | - | --color-surface-elevated |
-| `#5E6AD2` Indigo | Selection | accent_bg | - | indigo | - | (via scheme) | --color-indigo |
-| `#818CF8` Indigo+1 | Decoration | accent | Color4 | indigo_light | keys | OnAllDesktops btn | --color-indigo-light |
-| `#A78BFA` Violet | Link | violet_color | Color5 | violet | title | - | --color-violet |
+| `#07080A` Base | View bg | view_bg | bg | bg_0 | - | - | --color-base |
+| `#0D0D10` Surface | Window bg | window_bg | - | bg_1 | - | - | --color-surface |
+| `#121216` Surface+1 | Window alt | headerbar | - | bg_2 | - | - | --color-surface-elevated |
+| `#A8E635` Accent | Selection | accent_bg | - | accent | - | (via scheme) | --color-accent |
+| `#C1FF58` Accent+1 | Decoration | accent | Color4 | accent_light | keys | OnAllDesktops btn | --color-accent-hi |
+| `#8BC406` Accent-alt | Link | accent_alt_color | Color5 | accent_alt | title | - | --color-accent-alt |
 | `#FBBF24` Amber | Neutral | warning | Color3 | amber | - | Min btn | --color-amber |
 | `#ED254E` Negative | Negative | destructive | Color1 | - | - | Close btn | --color-negative |
 | `#71F79F` Positive | Positive | success | Color2 | - | - | Max btn | --color-positive |
 
 **RGB equivalents (for KDE color schemes):**
-- `#5E6AD2` = `94,106,210`
-- `#818CF8` = `129,140,248`
-- `#A78BFA` = `167,139,250`
+- `#A8E635` = `168,230,53`
+- `#C1FF58` = `193,255,88`
+- `#8BC406` = `139,196,6`
 - `#FBBF24` = `251,191,36`
 
 ---
@@ -71,7 +75,7 @@ Text muted:      #6B7280
 | Window button layout | XAM left, I right | same — `ButtonsOnLeft=XAM, ButtonsOnRight=I` |
 | Window button style | Traffic lights / rounded rect | `~/.config/klassyrc` |
 | Plasma desktop theme | **breeze-dark** (safe — see Bug 7) | `~/.config/plasmarc [Theme] name=breeze-dark` |
-| Color scheme | **IndigoGlass** (custom) | `~/.local/share/color-schemes/IndigoGlass.colors` |
+| Color scheme | **LimeGlass** (custom) | `~/.local/share/color-schemes/LimeGlass.colors` |
 | Widget style (Qt) | **Klassy** | `~/.config/kdeglobals [KDE] widgetStyle=Klassy` |
 | LookAndFeel | **org.kde.breezedark.desktop** (neutral) | `~/.config/kdeglobals [KDE] LookAndFeelPackage` |
 | KWin blur engine | **kwin-effects-better-blur-dx** (xarblu fork — stock blur broken on 6.6) | `~/.config/kwinrc [Effect-better-blur-dx]` |
@@ -83,9 +87,9 @@ Text muted:      #6B7280
 | Cursor theme | breeze_cursors (optional Bibata Modern Ice) | `~/.config/kcminputrc` |
 | GTK theme | **WhiteSur-Dark-purple** | `~/.config/gtk-3.0/settings.ini`, `~/.config/gtk-4.0/settings.ini` |
 | GTK env override | `GTK_THEME=WhiteSur-Dark-purple` | `~/.zshrc`, `~/.bashrc`, `~/.profile`, `~/.config/plasma-workspace/env/gtk.sh` |
-| libadwaita accent | indigo override CSS | `~/.config/gtk-4.0/gtk.css` |
-| Konsole color scheme | IndigoGlass | `~/.local/share/konsole/IndigoGlass.colorscheme` |
-| Konsole profile | IndigoGlass (Iosevka 13pt, violet cursor) | `~/.local/share/konsole/IndigoGlass.profile` |
+| libadwaita accent | lime override CSS | `~/.config/gtk-4.0/gtk.css` |
+| Konsole color scheme | LimeGlass | `~/.local/share/konsole/LimeGlass.colorscheme` |
+| Konsole profile | LimeGlass (Iosevka 13pt, accent cursor) | `~/.local/share/konsole/LimeGlass.profile` |
 | Shell prompt | Starship (replaces P10K) | `~/.config/starship.toml` |
 | Greeter | Fastfetch (replaces neofetch) | `~/.config/fastfetch/config.jsonc` |
 | Edge launch flags | Wayland + system decorations | `~/.local/share/applications/microsoft-edge.desktop` |
@@ -216,33 +220,33 @@ kpackagetool6 --type Plasma/Applet -i package
 
 ## Phase 4 — Configuration Files
 
-### `~/.local/share/color-schemes/IndigoGlass.colors`
+### `~/.local/share/color-schemes/LimeGlass.colors`
 
-Full file: see `~/.config/_backup-20260425-161425-indigo-glass/color-schemes/IndigoGlass.colors`
+Full file: see the shipped `share/color-schemes/LimeGlass.colors`
 
 Key values (all groups):
 ```ini
 [General]
-ColorScheme=IndigoGlass
-Name=Lime Glass
+ColorScheme=LimeGlass
+Name=LimeGlass
 
 [Colors:Selection]
-BackgroundNormal=94,106,210      # #5E6AD2
-BackgroundAlternate=129,140,248  # #818CF8
-DecorationFocus=129,140,248
-DecorationHover=129,140,248
+BackgroundNormal=168,230,53      # #A8E635
+BackgroundAlternate=193,255,88   # #C1FF58
+DecorationFocus=193,255,88
+DecorationHover=193,255,88
 
 [Colors:Window]
-BackgroundNormal=28,28,33        # #1C1C21
-BackgroundAlternate=42,46,58     # #1F2028 (depth)
+BackgroundNormal=13,13,16        # #0D0D10
+BackgroundAlternate=18,18,22     # #121216 (depth)
 ForegroundNormal=211,218,227     # text
-ForegroundActive=129,140,248     # indigo accent
+ForegroundActive=193,255,88      # lime accent
 ForegroundNeutral=251,191,36     # AMBER (warning) — semantic
 
 [WM]
-activeBackground=31,32,40
+activeBackground=18,18,22
 activeForeground=248,248,248
-inactiveBackground=28,28,33
+inactiveBackground=13,13,16
 inactiveForeground=107,114,128
 ```
 
@@ -314,7 +318,7 @@ BlurTransparentTitleBars=true
 
 ```ini
 [General]
-ColorScheme=IndigoGlass
+ColorScheme=LimeGlass
 font=Carlito,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 fixed=Iosevka Custom Condensed,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 menuFont=SF Pro Display,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
@@ -367,27 +371,27 @@ gtk-xft-dpi=98304
 
 Same as gtk-3.0 minus button-images, menu-images, modules, toolbar-style, shell-shows-menubar.
 
-### `~/.config/gtk-4.0/gtk.css` — libadwaita indigo override
+### `~/.config/gtk-4.0/gtk.css` — libadwaita lime override
 
 ```css
 @import 'colors.css';
 
-@define-color accent_color #818CF8;
-@define-color accent_bg_color #5E6AD2;
+@define-color accent_color #C1FF58;
+@define-color accent_bg_color #A8E635;
 @define-color accent_fg_color #FFFFFF;
 
 @define-color destructive_color #ED254E;
 @define-color success_color #71F79F;
 @define-color warning_color #FBBF24;
 
-@define-color window_bg_color #1C1C21;
+@define-color window_bg_color #0D0D10;
 @define-color window_fg_color #F8F8F8;
-@define-color view_bg_color #0F0F12;
-@define-color headerbar_bg_color #1F2028;
+@define-color view_bg_color #07080A;
+@define-color headerbar_bg_color #121216;
 @define-color headerbar_fg_color #F8F8F8;
 @define-color card_bg_color rgba(255,255,255,0.04);
-@define-color popover_bg_color #1F2028;
-@define-color sidebar_bg_color #18181C;
+@define-color popover_bg_color #121216;
+@define-color sidebar_bg_color #0A0A0D;
 ```
 
 ### `~/.config/gtk-3.0/gtk.css`
@@ -395,13 +399,13 @@ Same as gtk-3.0 minus button-images, menu-images, modules, toolbar-style, shell-
 ```css
 @import 'colors.css';
 
-@define-color theme_selected_bg_color #5E6AD2;
+@define-color theme_selected_bg_color #A8E635;
 @define-color theme_selected_fg_color #FFFFFF;
-@define-color accent_color #818CF8;
-@define-color accent_bg_color #5E6AD2;
+@define-color accent_color #C1FF58;
+@define-color accent_bg_color #A8E635;
 @define-color accent_fg_color #FFFFFF;
-@define-color link_color #818CF8;
-@define-color link_visited_color #A78BFA;
+@define-color link_color #C1FF58;
+@define-color link_visited_color #8BC406;
 ```
 
 ### Shell exports — `~/.zshrc`, `~/.bashrc`, `~/.profile`
@@ -433,35 +437,35 @@ See backup directory for full files. Key choice:
 
 ### Konsole
 
-`~/.local/share/konsole/IndigoGlass.profile`:
+`~/.local/share/konsole/LimeGlass.profile`:
 ```ini
 [Appearance]
-ColorScheme=IndigoGlass
+ColorScheme=LimeGlass
 Font=Iosevka Custom Condensed,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 LineSpacing=2
 
 [Cursor Options]
 CursorShape=2
 UseCustomCursorColor=true
-CustomCursorColor=167,139,250
-CustomCursorTextColor=15,15,18
+CustomCursorColor=139,196,6
+CustomCursorTextColor=7,8,10
 
 [General]
 Command=/bin/zsh
-Name=IndigoGlass
+Name=LimeGlass
 
 [Scrolling]
 HistoryMode=2
 ScrollBarPosition=2
 ```
 
-`~/.local/share/konsole/IndigoGlass.colorscheme` — full Catppuccin-inspired indigo palette. See backup.
+`~/.local/share/konsole/LimeGlass.colorscheme` — full Catppuccin-inspired lime palette. See backup.
 
 ### `~/.config/konsolerc`
 
 ```ini
 [Desktop Entry]
-DefaultProfile=IndigoGlass.profile
+DefaultProfile=LimeGlass.profile
 ```
 
 ---
@@ -504,7 +508,7 @@ Enables macOS-style: maximized windows lose titlebar, panel windowbuttons + appm
 ```bash
 # After all configs in place + builds done:
 qdbus-qt6 org.kde.KWin /KWin reconfigure
-plasma-apply-colorscheme IndigoGlass
+plasma-apply-colorscheme LimeGlass
 plasma-apply-lookandfeel -a org.kde.breezedark.desktop
 gsettings set org.gnome.desktop.interface gtk-theme 'WhiteSur-Dark-purple'
 gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle-purple-dark'
@@ -551,7 +555,7 @@ grep "ColorScheme=\|widgetStyle=\|name=\|Theme=" ~/.config/plasmarc ~/.config/kd
 
 ### Bug 2: kdeglobals selection color reverts to Breeze blue after `plasma-apply-lookandfeel`
 **Cause:** LnF package writes its own `[Colors:Selection]` over scheme.
-**Fix:** Re-run `plasma-apply-colorscheme IndigoGlass` after every LnF change. Or manually restore `[Colors:Selection]` group via `kwriteconfig6`.
+**Fix:** Re-run `plasma-apply-colorscheme LimeGlass` after every LnF change. Or manually restore `[Colors:Selection]` group via `kwriteconfig6`.
 
 ### Bug 3: kite-dark plasma theme has hardcoded Breeze blue selection
 **Cause:** Theme ships `colors` file with `61,174,233` instead of reading global scheme.
@@ -702,14 +706,14 @@ kquitapp6 plasmashell && sleep 2 && kstart plasmashell &
    make -j$(nproc) && sudo make install
    ```
 3. KDE-Rounded-Corners COPR may need rebuild too — check matinlotfali repo for updated branch
-4. Re-apply IndigoGlass: `plasma-apply-colorscheme IndigoGlass`
+4. Re-apply LimeGlass: `plasma-apply-colorscheme LimeGlass`
 
 ### When LookAndFeel package upgraded
 LnF can overwrite color scheme + plasma theme. Re-apply:
 ```bash
-kwriteconfig6 --file kdeglobals --group "General" --key "ColorScheme" "IndigoGlass"
+kwriteconfig6 --file kdeglobals --group "General" --key "ColorScheme" "LimeGlass"
 kwriteconfig6 --file plasmarc --group "Theme" --key "name" "MacSonoma-Dark"
-plasma-apply-colorscheme IndigoGlass
+plasma-apply-colorscheme LimeGlass
 ```
 
 ### When breaking — emergency reset
@@ -741,7 +745,7 @@ kquitapp6 plasmashell && kstart plasmashell &
 ```
 edge://settings/appearance:
   Overall appearance: Dark        (NOT GTK — bug)
-  Theme → Colour theme → Custom eyedropper → #5E6AD2
+  Theme → Colour theme → Custom eyedropper → #A8E635
   Show home button: off
   Show favourites bar: only on new tabs
 
@@ -792,12 +796,13 @@ SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block
 
 ```css
 @theme {
-  --color-base: #0F0F12;
-  --color-surface: #1C1C21;
-  --color-surface-elevated: #1F2028;
-  --color-indigo: #5E6AD2;
-  --color-indigo-light: #818CF8;
-  --color-violet: #A78BFA;
+  --color-base: #07080A;
+  --color-surface: #0D0D10;
+  --color-surface-elevated: #121216;
+  --color-sidebar: #0A0A0D;
+  --color-accent: #A8E635;
+  --color-accent-hi: #C1FF58;
+  --color-accent-alt: #8BC406;
   --color-amber: #FBBF24;
   --color-positive: #71F79F;
   --color-negative: #ED254E;
@@ -811,6 +816,8 @@ SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block
 }
 ```
 
+> The legacy `--color-indigo` / `--color-indigo-light` / `--color-violet` var names still resolve as aliases for backward compatibility, but prefer `--color-accent` / `--color-accent-hi` / `--color-accent-alt`.
+
 ### Glass utility classes
 
 ```html
@@ -823,8 +830,8 @@ SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block
 <button class="neu-raised">…</button>   <!-- raised pillow -->
 <button class="neu-pressed">…</button>  <!-- pressed/inset -->
 
-<!-- Indigo focus glow -->
-<input class="glow-indigo">
+<!-- Accent focus glow -->
+<input class="glow-accent">
 
 <!-- Linear-style display text -->
 <h1 class="text-display">…</h1>
@@ -835,7 +842,7 @@ SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block
 - Use `.glass` / `.glass-strong` for: cards, modals, sidebars, hero sections
 - Use `.neu-raised` / `.neu-pressed` ONLY for: buttons, sliders, toggles, knobs (interactive)
 - NEVER apply neumorphism to: text, nav, backgrounds, headers (accessibility)
-- Single accent: `text-indigo` for primary, `text-violet` for secondary, `text-amber` for warning only
+- Single accent: `text-accent` for primary, `text-accent-alt` for secondary, `text-amber` for warning only
 
 ### Build verification
 

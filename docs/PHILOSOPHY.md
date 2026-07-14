@@ -11,7 +11,7 @@
 Apple's spatial computing OS introduced **dimensional materials** as a primary UI language. Five principles map directly to a 2D Linux desktop:
 
 1. **Glass is the chrome.** UI doesn't sit on top of content — it floats, frosted, tinted. The blur layer IS the design.
-2. **Tint, don't fill.** Color applied AS a tint to the glass material, not as a flat colored background. Saturated solids contaminate blur. Desaturated indigo on dark glass tints elegantly.
+2. **Tint, don't fill.** Color applied AS a tint to the glass material, not as a flat colored background. Saturated solids contaminate blur. A single restrained accent on dark glass tints elegantly.
 3. **Depth via shadow falloff.** Z-axis hierarchy through shadow + opacity gradients, not borders + lines.
 4. **Content primary, chrome recedes.** Decoration vanishes when not needed. Window titlebars minimal. Panels translucent.
 5. **Soft light.** Warmth even in dark palettes. Not harsh flat black.
@@ -22,7 +22,7 @@ Linear.app set the modern dark UI standard with three pillars:
 
 1. **Cognitive linearity.** Single reading direction. One action per screen region. No zig-zag attention.
 2. **Typography is hierarchy.** Weight contrast > size contrast. Inter Display heavy for headings, regular for body.
-3. **Dark by conviction.** `#0F0F12` near-black (NOT pure black — pure black halates on OLED, exhausts eyes). Single accent (`#5E6AD2` indigo) used sparingly. Subtle gradients on dark surfaces — not flat, not loud.
+3. **Dark by conviction.** Deep near-black base (`#07080A` by default — NOT pure black, which halates on OLED and exhausts eyes). Single accent (ghost-lime `#A8E635` by default; indigo `#5E6AD2` heritage) used sparingly. Subtle gradients on dark surfaces — not flat, not loud.
 
 Restraint IS the style. One accent, mono icons, clean panels, no rainbow.
 
@@ -65,26 +65,34 @@ Each solves a problem the others don't:
 
 ## Color reasoning
 
-### Why `#5E6AD2` not `#6366F1`?
+### The accent-selection principle
 
-Both look like "indigo" at a glance. Linear's exact brand color is `#5E6AD2` — slightly more desaturated than Tailwind's `indigo-500` (`#6366F1`). The desaturation matters:
+Every variant obeys the same rule: **one decorative accent hue, chosen to sit at maximum contrast on a near-black base, expressed as a single hue with lightness-shifted hi/alt siblings.** The accent is not "a palette" — it is one hue. Hover (`hi`) and active/decoration (`alt`) are lightness shifts of that same hue, never new colors. This keeps the interface reading as one voice instead of a spectrum.
 
-- Saturated colors **vibrate** on near-black (eye strain on OLED/VA panels)
-- Desaturated indigo **tints glass** without polluting blur
-- LCH color space (perceptually uniform, what Linear uses) treats `#5E6AD2` as the calmer/more authoritative variant
+The principle demands three things of any candidate hue:
 
-Apple's visionOS HIG even warns: "system blue has bad contrast on glass background — make it brighter for visionOS." Linear's `#5E6AD2` already lives in that brighter zone.
+- **High contrast on near-black** — the base is deliberately deep (not pure `#000`, to avoid OLED halation) so the accent can carry the eye without a second competing color
+- **Single hue** — one authoritative decorative color; everything interactive shares it, and depth comes from elevation, not from more hues
+- **No blur pollution** — the accent must tint glass cleanly rather than vibrate on it (saturated colors vibrate on near-black and cause eye strain on OLED/VA panels)
+
+### Default: ghost-lime `#A8E635`
+
+Lime Glass sets the accent to ghost-lime `#A8E635` (hue `127.71`) on a neutral Raycast-deep near-black base `#07080A`. The base is intentionally *deeper* than the heritage indigo base to **maximize lime contrast** — `13.39:1` against `#07080A` — while staying OLED-safe (not pure black, so no halation) and preserving depth-via-elevation. The base stays neutral, not lime-tinted: the lime lives only in the accent, so a single hue does all the decorative work. `#C1FF58` is the brighter hover shift, `#8BC406` the darker active/decoration shift — the same hue at three lightnesses.
+
+### Heritage alternative: indigo `#5E6AD2`
+
+The original Indigo Glass variant uses Linear's brand indigo `#5E6AD2` (hue ~`264`) on the shallower `#0F0F12` base, achieving `12.79:1`. It follows the identical principle — desaturated (unlike Tailwind's `#6366F1`) so it tints glass without vibrating, treated in LCH as the calmer/more authoritative variant, and Apple's visionOS HIG already places `#5E6AD2` in the "brighter zone" it recommends for glass backgrounds. Indigo remains available as a heritage variant; lime is the default.
 
 ### Why `#FBBF24` amber for warning?
 
 Two-color split (Linear's own pattern):
 
-- **Cool indigo** for everything interactive (selection, focus, hover, links)
+- **The decorative accent** (lime by default, indigo in heritage) for everything interactive (selection, focus, hover, links)
 - **Warm amber** ONLY for semantic warnings (notifications, pending states, attention)
 
 This preserves orange's cognitive role (warning = warm) without contaminating the visual language with random warm spots.
 
-Orange `#FF7B00` (the original KDE Sweet/Breeze accent) failed on three counts:
+Orange `#FF7B00` (the original KDE Sweet/Breeze accent) failed on three counts as a primary accent:
 
 1. **Optical vibration** on near-black glass surfaces
 2. **Semantic collision** — orange = warning universally, can't also = "primary"
@@ -126,7 +134,7 @@ The contrast between **rounded humanist body** and **sharp geometric chrome** cr
 
 ### Single accent
 
-`#5E6AD2` indigo is the ONLY decorative accent. Variations (`#818CF8`, `#A78BFA`) are luminance shifts of the same hue — not different colors.
+Exactly ONE decorative accent hue per variant (lime `#A8E635` by default; indigo `#5E6AD2` heritage). The hi/alt variations (e.g. lime `#C1FF58` / `#8BC406`, or indigo `#818CF8` / `#A78BFA`) are luminance shifts of that one hue — not different colors.
 
 ### Three text colors max
 
