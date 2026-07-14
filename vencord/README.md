@@ -27,16 +27,16 @@ Same flow, themes folder at:
 
 - Discord's `theme-dark` / `theme-darker` / `theme-pureBlack` CSS vars
 - All `--background-*` -> Lime Glass palette
-- `--brand-experiment-*` (blurple) -> `#5E6AD2` indigo
+- `--brand-experiment-*` (blurple) -> `#A8E635` lime
 - Compact channel list (1px gaps, 4/8 padding)
 - Compact message list (8px horizontal)
 - Code blocks -> Iosevka Custom Condensed
 - Prose -> Carlito w/ IndigoLoopTail loop-tail g/a
-- Selection + scrollbar + focus ring -> indigo
+- Selection + scrollbar + focus ring -> lime
 - Honors `prefers-reduced-transparency: reduce`
 
 ## Notes
 
 - Discord's Vencord ships its own theme schema. We follow the standard BetterDiscord `.theme.css` header (works in both).
 - Does NOT replace the Discord client mascot/logo (theme-only, not asset-swap).
-- Mentioned messages get a soft indigo backdrop instead of blurple.
+- Mentioned messages get a soft lime backdrop instead of blurple.

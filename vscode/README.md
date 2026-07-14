@@ -12,24 +12,24 @@ Ships **two color themes** (Dark + Light) sharing the same canonical Lime Glass 
 
 | Token | Dark | Light | Role |
 |---|---|---|---|
-| `editor.background` | `#0F0F12` | `#FFFFFF` | Linear-deep / paper |
-| `sideBar.background` | `#0F0F12` | `#F8F8F8` | Chrome |
-| `tab.activeBackground` | `#1F2028` | `#FFFFFF` | Elevated surface |
-| Selection | `#5E6AD250` | `#5E6AD230` | Indigo tint, never solid |
-| `button.background` | `#5E6AD2` | `#5E6AD2` | Canonical primary |
-| `button.hoverBackground` | `#818CF8` | `#7C3AED` | Hover accent |
+| `editor.background` | `#07080A` | `#FFFFFF` | Linear-deep / paper |
+| `sideBar.background` | `#07080A` | `#F8F8F8` | Chrome |
+| `tab.activeBackground` | `#121216` | `#FFFFFF` | Elevated surface |
+| Selection | `#A8E63550` | `#4E700430` | Lime tint, never solid |
+| `button.background` | `#A8E635` | `#4E7004` | Canonical primary |
+| `button.hoverBackground` | `#C1FF58` | `#5C8305` | Hover accent |
 | Strings | `#71F79F` | `#15803D` | Positive |
-| Keywords | `#818CF8` | `#5E6AD2` | Indigo |
-| Types / classes | `#A78BFA` | `#7C3AED` | Violet |
+| Keywords | `#C1FF58` | `#4E7004` | Accent hi |
+| Types / classes | `#8BC406` | `#5C8305` | Accent alt |
 | Functions | `#FBBF24` | `#B45309` | Amber semantic |
 | Errors | `#ED254E` | `#C81D45` | Negative |
 | Comments | `#6B7280` | `#6B7280` | Muted (italic) |
 
-Light variant uses **darkened** accent variants for AA contrast on white (`#7C3AED` instead of `#A78BFA`, `#15803D` instead of `#71F79F`). Indigo primary stays canonical.
+The Dark theme uses the canonical lime palette. The **Light** theme cannot: ghost-lime `#A8E635` is illegible on white, so it uses a **darker lime ladder** (primary `#4E7004`, hover `#5C8305`, accent-alt `#5C8305`) for AA contrast on paper. Positive/negative also darken (`#15803D`, `#C81D45`). Same hue, dropped lightness.
 
 Design discipline carried from KDE rules:
-- **One accent.** Indigo `#5E6AD2`. No rainbow UI chrome.
-- **Tint, don't fill.** Selections use `#5E6AD250` alpha overlay — glass tint, not solid block.
+- **One accent.** Lime `#A8E635`. No rainbow UI chrome.
+- **Tint, don't fill.** Selections use `#A8E63550` alpha overlay — glass tint, not solid block.
 - **Linear left-bar.** Active tab marked by 1px top border, not background fill.
 - **Three text colors only.** `#F8F8F8` primary, `#6B7280` muted, accent-color highlight.
 
@@ -62,7 +62,7 @@ See `settings.snippet.json` in this directory. Paste into `~/.config/Code/User/s
 Key picks:
 - **Auto theme follow OS** via `window.autoDetectColorScheme` + `preferredDarkColorTheme` / `preferredLightColorTheme`
 - **Smooth cursor + scrolling** for visionOS-style motion
-- **Bracket pair colorization on** — uses the indigo→violet→green→amber rotation
+- **Bracket pair colorization on** — uses the lime→accent-alt→green→amber rotation
 - **Semantic highlighting on**
 - **Font family NOT set** — user's monospace pick is preserved
 
@@ -73,11 +73,11 @@ Key picks:
 ```
 Dark (default)            Light
 ─────────────────         ─────────────────
-bg     #0F0F12            bg     #FFFFFF
-text   #F8F8F8            text   #0F0F12
-sel    #5E6AD250          sel    #5E6AD230
+bg     #07080A            bg     #FFFFFF
+text   #F8F8F8            text   #07080A
+sel    #A8E63550          sel    #4E700430
 fn     #FBBF24            fn     #B45309
-type   #A78BFA            type   #7C3AED
+type   #8BC406            type   #5C8305
 str    #71F79F            str    #15803D
 err    #ED254E            err    #C81D45
 ```
@@ -105,13 +105,13 @@ The script auto-detects Claude Code under `~/.vscode-insiders/extensions/` or `~
 
 | Anthropic brand var | Default | Lime Glass |
 |---|---|---|
-| `--app-claude-orange` | `#d97757` | `#5E6AD2` |
-| `--app-claude-clay-button-orange` | `#c6613f` | `#5E6AD2` |
-| `--app-claude-ivory` | `#faf9f5` | `#F8F8F8` (light: `#0F0F12`) |
-| `--app-claude-slate` | `#141413` | `#0F0F12` (light: `#FFFFFF`) |
-| `--app-banner-tint` | `#4a63af` | `#5E6AD2` |
-| `--app-modal-background` | `#000000bf` | `#0F0F12cc` |
-| `--app-spinner-foreground` | inherits | `#5E6AD2` |
+| `--app-claude-orange` | `#d97757` | `#A8E635` |
+| `--app-claude-clay-button-orange` | `#c6613f` | `#A8E635` |
+| `--app-claude-ivory` | `#faf9f5` | `#F8F8F8` (light: `#07080A`) |
+| `--app-claude-slate` | `#141413` | `#07080A` (light: `#FFFFFF`) |
+| `--app-banner-tint` | `#4a63af` | `#A8E635` |
+| `--app-modal-background` | `#000000bf` | `#07080Acc` |
+| `--app-spinner-foreground` | inherits | `#A8E635` |
 
 Plus targeted overrides:
 - `.inputContainer_cKsPxg:focus-within` — the prompt focus ring (was the orange-red border)
@@ -144,7 +144,7 @@ The extension reinstalls into a new versioned directory (`anthropic.claude-code-
 |---|---|
 | Dark color theme | ✓ shipped |
 | Light color theme | ✓ shipped |
-| Claude Code recording border | ✓ theme-controlled (indigo via editorMarkerNavigationInfo) |
+| Claude Code recording border | ✓ theme-controlled (lime via editorMarkerNavigationInfo) |
 | Claude Code webview retint CSS | ✓ via workbench.html hand-patch (scripts/patch-workbench.sh) |
 | Claude Code mono font | ✓ inherits via --vscode-editor-font-family |
 | Product icon theme | deferred — Codicons inherit `icon.foreground` |

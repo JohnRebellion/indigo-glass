@@ -7,7 +7,7 @@ Refraction-over-blur layer. Inspired by Apple Liquid Glass but constrained: **ne
 ```
 1. backdrop-filter: blur(13px) saturate(110%)     -- ambient blur
 2. SVG #ig-liquid-glass displacement filter        -- watery refraction
-3. low-opacity indigo tint overlay                 -- brand context
+3. low-opacity lime tint overlay                   -- brand context
 4. 1px inset specular highlight                    -- glass edge
 ```
 
@@ -57,8 +57,8 @@ Adjust per host via CSS custom properties:
   --ig-liquid-blur: 20px;        /* heavier blur on noisy backgrounds */
   --ig-liquid-saturate: 130%;    /* warmer */
   --ig-liquid-displacement: 4;   /* less ripple on small text */
-  --ig-liquid-tint: #5E6AD212;   /* stronger brand tint */
-  --ig-liquid-surface: rgba(31, 32, 40, 0.85);  /* more opaque */
+  --ig-liquid-tint: #A8E63512;   /* stronger brand tint */
+  --ig-liquid-surface: rgba(18, 18, 22, 0.85);  /* more opaque */
 }
 ```
 
@@ -79,7 +79,7 @@ Adjust per host via CSS custom properties:
 
 ## Accessibility
 
-`prefers-reduced-transparency: reduce` → drops backdrop-filter + SVG filter, falls back to solid `#1F2028` surface.
+`prefers-reduced-transparency: reduce` → drops backdrop-filter + SVG filter, falls back to solid `#121216` surface.
 
 `prefers-reduced-motion: reduce` → drops hover transition.
 
