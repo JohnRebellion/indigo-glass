@@ -177,6 +177,7 @@ run "cp '$REPO_DIR/share/color-schemes/LimeGlass.colors' '$HOME/.local/share/col
 run "cp '$REPO_DIR/share/color-schemes/IndigoGlass.colors' '$HOME/.local/share/color-schemes/'"
 run "cp '$REPO_DIR/share/konsole/LimeGlass.colorscheme' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.colorscheme' '$HOME/.local/share/konsole/'"
+run "cp '$REPO_DIR/share/konsole/LimeGlass.profile' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.profile' '$HOME/.local/share/konsole/'"
 
 # ─── Install configs ───
@@ -280,7 +281,7 @@ echo "     cat $REPO_DIR/shell/zshrc-snippet.zsh >> ~/.zshrc"
 echo "  2. Append GTK_THEME export to ~/.profile:"
 echo "     cat $REPO_DIR/shell/profile-snippet.sh >> ~/.profile"
 echo "  3. Set Konsole default profile:"
-echo "     System Settings → Konsole → Default Profile → set colorscheme LimeGlass"
+echo "     Konsole → Settings → Manage Profiles → set 'LimeGlass' as default"
 echo "  4. Optional: install Microsoft Edge Wayland flags:"
 echo "     cp /usr/share/applications/microsoft-edge.desktop ~/.local/share/applications/"
 echo "     # Then patch Exec= per config/microsoft-edge.desktop.template"
