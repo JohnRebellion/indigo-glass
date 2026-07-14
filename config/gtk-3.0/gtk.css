@@ -1,10 +1,10 @@
 @import 'colors.css';
 
-/* Indigo Glass — GTK3 accent override */
-@define-color theme_selected_bg_color #5E6AD2;
+/* Lime Glass — GTK3 accent override */
+@define-color theme_selected_bg_color #A8E635;
 @define-color theme_selected_fg_color #FFFFFF;
-@define-color accent_color #818CF8;
-@define-color accent_bg_color #5E6AD2;
+@define-color accent_color #C1FF58;
+@define-color accent_bg_color #A8E635;
 @define-color accent_fg_color #FFFFFF;
-@define-color link_color #818CF8;
-@define-color link_visited_color #A78BFA;
+@define-color link_color #C1FF58;
+@define-color link_visited_color #8BC407;

@@ -1,4 +1,4 @@
-/* Indigo Glass - reusable mesh-gradient CSS module
+/* Lime Glass - reusable mesh-gradient CSS module
  *
  * Linear/Vercel/Stripe-style multi-radial blob background.
  * Use as hero bg, simulator decoration, web/SvelteKit layout bg.
@@ -8,37 +8,37 @@
  */
 
 .ig-mesh {
-  background-color: #0F0F12;
+  background-color: #07080A;
   background-image:
-    radial-gradient(at 20% 30%, rgba(94, 106, 210, 0.55) 0%, rgba(94, 106, 210, 0) 55%),
-    radial-gradient(at 75% 20%, rgba(129, 140, 248, 0.45) 0%, rgba(129, 140, 248, 0) 50%),
-    radial-gradient(at 80% 80%, rgba(167, 139, 250, 0.40) 0%, rgba(167, 139, 250, 0) 60%),
+    radial-gradient(at 20% 30%, rgba(168, 230, 53, 0.55) 0%, rgba(168, 230, 53, 0) 55%),
+    radial-gradient(at 75% 20%, rgba(193, 255, 88, 0.45) 0%, rgba(193, 255, 88, 0) 50%),
+    radial-gradient(at 80% 80%, rgba(139, 196, 6, 0.40) 0%, rgba(139, 196, 6, 0) 60%),
     radial-gradient(at 15% 85%, rgba(31, 32, 40, 0.85) 0%, rgba(31, 32, 40, 0) 45%);
   background-size: 100% 100%;
   background-position: 0 0;
 }
 
 .ig-mesh-soft {
-  background-color: #0F0F12;
+  background-color: #07080A;
   background-image:
-    radial-gradient(at 30% 20%, rgba(94, 106, 210, 0.30) 0%, rgba(94, 106, 210, 0) 60%),
-    radial-gradient(at 70% 70%, rgba(167, 139, 250, 0.22) 0%, rgba(167, 139, 250, 0) 60%);
+    radial-gradient(at 30% 20%, rgba(168, 230, 53, 0.30) 0%, rgba(168, 230, 53, 0) 60%),
+    radial-gradient(at 70% 70%, rgba(139, 196, 6, 0.22) 0%, rgba(139, 196, 6, 0) 60%);
 }
 
 /* Token-canonical ambient orbs (matches tokens [ambient]: 6/4/3% indigo/violet/
  * indigo-hi at 25/25, 78/75, 60/100). The "lit glass" backdrop for app shells -
  * far subtler than the hero mesh, tuned for content behind glass panels. */
 .ig-mesh-ambient {
-  background-color: #0F0F12;
+  background-color: #07080A;
   background-image:
-    radial-gradient(circle at 25% 25%, rgba(94, 106, 210, 0.06) 0%, transparent 55%),
-    radial-gradient(circle at 78% 75%, rgba(167, 139, 250, 0.04) 0%, transparent 55%),
-    radial-gradient(circle at 60% 100%, rgba(129, 140, 248, 0.03) 0%, transparent 55%);
+    radial-gradient(circle at 25% 25%, rgba(168, 230, 53, 0.06) 0%, transparent 55%),
+    radial-gradient(circle at 78% 75%, rgba(139, 196, 6, 0.04) 0%, transparent 55%),
+    radial-gradient(circle at 60% 100%, rgba(193, 255, 88, 0.03) 0%, transparent 55%);
 }
 
 .ig-mesh-hero {
   position: relative;
-  background-color: #0F0F12;
+  background-color: #07080A;
   overflow: hidden;
 }
 .ig-mesh-hero::before {
@@ -46,9 +46,9 @@
   position: absolute;
   inset: -10%;
   background-image:
-    radial-gradient(at 25% 25%, rgba(94, 106, 210, 0.60) 0%, transparent 55%),
-    radial-gradient(at 75% 75%, rgba(167, 139, 250, 0.45) 0%, transparent 60%),
-    radial-gradient(at 50% 100%, rgba(129, 140, 248, 0.30) 0%, transparent 50%);
+    radial-gradient(at 25% 25%, rgba(168, 230, 53, 0.60) 0%, transparent 55%),
+    radial-gradient(at 75% 75%, rgba(139, 196, 6, 0.45) 0%, transparent 60%),
+    radial-gradient(at 50% 100%, rgba(193, 255, 88, 0.30) 0%, transparent 50%);
   filter: blur(80px) saturate(110%);
   z-index: 0;
   pointer-events: none;
@@ -74,8 +74,8 @@
   .ig-mesh-light {
     background-color: #F8F8F8;
     background-image:
-      radial-gradient(at 20% 30%, rgba(94, 106, 210, 0.18) 0%, rgba(94, 106, 210, 0) 55%),
-      radial-gradient(at 75% 20%, rgba(167, 139, 250, 0.15) 0%, rgba(167, 139, 250, 0) 50%),
-      radial-gradient(at 80% 80%, rgba(129, 140, 248, 0.12) 0%, rgba(129, 140, 248, 0) 60%);
+      radial-gradient(at 20% 30%, rgba(168, 230, 53, 0.18) 0%, rgba(168, 230, 53, 0) 55%),
+      radial-gradient(at 75% 20%, rgba(139, 196, 6, 0.15) 0%, rgba(139, 196, 6, 0) 50%),
+      radial-gradient(at 80% 80%, rgba(193, 255, 88, 0.12) 0%, rgba(193, 255, 88, 0) 60%);
   }
 }

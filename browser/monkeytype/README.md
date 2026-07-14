@@ -1,16 +1,16 @@
-# Indigo Glass — Monkeytype theme
+# Lime Glass — Monkeytype theme
 
-Custom Monkeytype theme using the canonical Indigo Glass palette.
+Custom Monkeytype theme using the canonical Lime Glass palette.
 
 | Slot | Hex | Role |
 |---|---|---|
-| background | `#0F0F12` | Linear deep base |
-| main | `#5E6AD2` | typed-correct + brand indigo |
+| background | `#07080A` | Linear deep base |
+| main | `#A8E635` | typed-correct + brand lime |
 | text | `#F8F8F8` | future text (high contrast) |
 | sub | `#6B7280` | muted hint text |
-| sub alt | `#1F2028` | elevated surface (key blocks, modals) |
-| caret | `#818CF8` | indigo+1 — visible blink against bg |
-| error | `#ED254E` | typed-wrong (Indigo Glass negative) |
+| sub alt | `#121216` | elevated surface (key blocks, modals) |
+| caret | `#C1FF58` | accent+1 — visible blink against bg |
+| error | `#ED254E` | typed-wrong (Lime Glass negative) |
 | extra error | `#FF5272` | brighter red on top of error |
 
 ---
@@ -30,16 +30,16 @@ Monkeytype stores themes in localStorage as `customTheme`. Paste into DevTools c
 
 ```js
 localStorage.setItem('customTheme', JSON.stringify({
-  bgColor: '#0F0F12',
-  mainColor: '#5E6AD2',
+  bgColor: '#07080A',
+  mainColor: '#A8E635',
   subColor: '#6B7280',
-  subAltColor: '#1F2028',
+  subAltColor: '#121216',
   textColor: '#F8F8F8',
   errorColor: '#ED254E',
   errorExtraColor: '#FF5272',
   colorfulErrorColor: '#ED254E',
   colorfulErrorExtraColor: '#FF5272',
-  caretColor: '#818CF8'
+  caretColor: '#C1FF58'
 }));
 location.reload();
 ```

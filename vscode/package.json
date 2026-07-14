@@ -1,7 +1,7 @@
 {
   "name": "indigo-glass",
-  "displayName": "Indigo Glass",
-  "description": "visionOS spatial glass + Linear dark discipline + Neumorphism 2.0 — color theme + product icons",
+  "displayName": "Lime Glass",
+  "description": "brutalist-glass + Linear dark discipline + Neumorphism 2.0 — color theme + product icons",
   "version": "0.1.0",
   "publisher": "indigo-glass",
   "license": "MIT",
@@ -18,12 +18,12 @@
   "contributes": {
     "themes": [
       {
-        "label": "Indigo Glass Dark",
+        "label": "Lime Glass Dark",
         "uiTheme": "vs-dark",
         "path": "./themes/indigo-glass-dark.json"
       },
       {
-        "label": "Indigo Glass Light",
+        "label": "Lime Glass Light",
         "uiTheme": "vs",
         "path": "./themes/indigo-glass-light.json"
       }

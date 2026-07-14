@@ -48,9 +48,9 @@
   const SCREEN_W = 2560;
   const SCREEN_H = 1440;
 
-  // Plasma IndigoGlass color scheme (~/.local/share/color-schemes/IndigoGlass.colors)
+  // Plasma LimeGlass color scheme (~/.local/share/color-schemes/LimeGlass.colors)
   // Panel = Button BackgroundNormal #1f2028
-  // Pill  = Selection BackgroundNormal #5e6ad2 / accent #818cf8
+  // Pill  = Selection BackgroundNormal #a8e635 / accent #c1ff58
   function panelTintFor(id: string): [number, number, number, number] {
     switch (id) {
       case 'amber':  return [40, 18, 8, 0.42];
@@ -65,7 +65,7 @@
       case 'amber':  return [251, 146, 60, 0.45];
       case 'blue':   return [59, 130, 246, 0.45];
       case 'green':  return [16, 185, 129, 0.45];
-      default:       return [129, 140, 248, 0.5]; // Plasma focus #818cf8 (brighter than #5e6ad2)
+      default:       return [168, 230, 53, 0.5]; // Lime accent #a8e635
     }
   }
 
@@ -112,7 +112,7 @@
       case 'amber':  return '#fbbf24';
       case 'blue':   return '#60a5fa';
       case 'green':  return '#34d399';
-      default:       return '#a78bfa';
+      default:       return '#8bc406';
     }
   }
 
@@ -338,7 +338,7 @@
       ctx.save();
       ctx.translate(tx, ty);
       ctx.rotate(angle + Math.PI / 2);
-      ctx.fillStyle = isOn ? 'rgba(167,139,250,1)' : 'rgba(255,255,255,0.12)';
+      ctx.fillStyle = isOn ? 'rgba(139,196,6,1)' : 'rgba(255,255,255,0.12)';
       ctx.fillRect(-1.5, -4, 3, 8);
       ctx.restore();
     }
@@ -356,7 +356,7 @@
     ctx.fillStyle = 'rgba(255,255,255,0.08)';
     ctx.fillRect(left, bgY, width, Math.max(2, height));
     const progress = 0.7;
-    ctx.fillStyle = 'rgba(167,139,250,0.85)';
+    ctx.fillStyle = 'rgba(139,196,6,0.85)';
     ctx.fillRect(left, bgY, width * progress, Math.max(2, height));
   }
 
@@ -387,7 +387,7 @@
         radius: glassOverrides.panelRadius ?? 16,
         tint: panelTint,
         blurPx: glassOverrides.panelBlur ?? 80,
-        borderTopColor: 'rgba(129,140,248,0.45)',
+        borderTopColor: 'rgba(193,255,88,0.45)',
         borderBottomColor: 'rgba(0,0,0,0.75)',
         borderWidth: 1.5,
         specularStrength: glassOverrides.panelSpecular ?? 0.55,

@@ -1,5 +1,5 @@
 [Unit]
-Description=Indigo Glass — watch VSCode Insiders extensions for Claude Code updates
+Description=Lime Glass — watch VSCode Insiders extensions for Claude Code updates
 Documentation=https://github.com/JohnRebellion/indigo-glass
 
 [Path]

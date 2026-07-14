@@ -1,4 +1,4 @@
-# Indigo Glass - Host Profiles
+# Lime Glass - Host Profiles
 
 Per-machine font size overrides. One repo, many displays.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — install Indigo Glass VSCode auto-patch systemd user units
+# install.sh — install Lime Glass VSCode auto-patch systemd user units
 #
 # Watches ~/.vscode-insiders/extensions and ~/.vscode/extensions for
 # changes (extension install/upgrade) and re-runs patch-webview-css.sh.
@@ -25,9 +25,19 @@ if [[ "${1:-}" == "--remove" ]]; then
   exit 0
 fi
 
+# Real repo root (this script lives in <repo>/vscode/systemd).
+REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+PATCH_SCRIPT="$REPO_DIR/vscode/scripts/patch-webview-css.sh"
+[[ -f "$PATCH_SCRIPT" ]] || { echo "ERROR: patch script not found: $PATCH_SCRIPT" >&2; exit 1; }
+
 mkdir -p "$UNIT_DIR"
 for u in "${UNITS[@]}"; do
-  cp "$SCRIPT_DIR/$u" "$UNIT_DIR/$u"
+  # Template the actual patch-script path into ExecStart instead of shipping a
+  # hardcoded %h/projects/indigo-glass/... that only works for the author's
+  # clone location. Any ExecStart line ending in patch-webview-css.sh is
+  # rewritten to the resolved absolute path.
+  sed "s|^ExecStart=.*patch-webview-css\.sh.*$|ExecStart=/bin/bash ${PATCH_SCRIPT}|" \
+    "$SCRIPT_DIR/$u" > "$UNIT_DIR/$u"
 done
 
 systemctl --user daemon-reload

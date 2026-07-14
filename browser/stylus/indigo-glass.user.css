@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Indigo Glass — Universal
+@name           Lime Glass — Universal
 @namespace      github.com/JohnRebellion/indigo-glass
 @version        0.1.16
-@description    visionOS spatial glass + Linear dark discipline. Universal cross-site retint: Carlito typography (loop-tail double-storey g/a) with CSS Fonts L5 metric overrides so Carlito's box matches system-ui ascent/descent — zero vertical drift on FB/Discord/etc. Plus indigo scrollbars, selection, focus ring. Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
+@description    brutalist-glass + Linear dark discipline. Universal cross-site retint: Carlito typography (loop-tail double-storey g/a) with CSS Fonts L5 metric overrides so Carlito's box matches system-ui ascent/descent — zero vertical drift on FB/Discord/etc. Plus indigo scrollbars, selection, focus ring. Pair with Dark Reader for full page inversion, or use alone on sites with native dark mode.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/indigo-glass.user.css
@@ -110,11 +110,11 @@
 
   /* ─── Selection tint — indigo overlay ─────────────────────────────────── */
   ::selection {
-    background-color: rgba(94, 106, 210, 0.45) !important;
+    background-color: rgba(168, 230, 53, 0.45) !important;
     color: inherit !important;
   }
   ::-moz-selection {
-    background-color: rgba(94, 106, 210, 0.45) !important;
+    background-color: rgba(168, 230, 53, 0.45) !important;
     color: inherit !important;
   }
 
@@ -127,13 +127,13 @@
     background: transparent;
   }
   *::-webkit-scrollbar-thumb {
-    background-color: rgba(94, 106, 210, 0.45);
+    background-color: rgba(168, 230, 53, 0.45);
     border-radius: 5px;
     border: 2px solid transparent;
     background-clip: padding-box;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(129, 140, 248, 0.75);
+    background-color: rgba(193, 255, 88, 0.75);
   }
   *::-webkit-scrollbar-corner {
     background: transparent;
@@ -143,14 +143,14 @@
    * are inherited properties and only affect the scrollbar pseudo. */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(94, 106, 210, 0.55) transparent;
+    scrollbar-color: rgba(168, 230, 53, 0.55) transparent;
   }
 
   /* ─── Focus ring — visionOS-style indigo glow ─────────────────────────── */
   *:focus-visible {
-    outline: 2px solid #5E6AD2 !important;
+    outline: 2px solid #A8E635 !important;
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px rgba(94, 106, 210, 0.18) !important;
+    box-shadow: 0 0 0 4px rgba(168, 230, 53, 0.18) !important;
   }
 
   /* ─── Density: NOT enforced globally ─────────────────────────────────────

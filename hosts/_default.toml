@@ -1,4 +1,4 @@
-# Indigo Glass - default host profile (Nobara desktop, 27" 1440p @ 100%)
+# Lime Glass - default host profile (Nobara desktop, 27" 1440p @ 100%)
 #
 # Canonical baseline. Other host profiles override only the fields that
 # differ. If a profile sets no value for a key, _default wins.

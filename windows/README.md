@@ -1,4 +1,4 @@
-# Indigo Glass — Windows 11 + WSL2
+# Lime Glass — Windows 11 + WSL2
 
 Cross-platform parity. Windows host gets the same chrome (palette, fonts, accent, prompt) as the KDE/Linux side. WSL2 distros run the Linux config unchanged.
 
@@ -7,7 +7,7 @@ Cross-platform parity. Windows host gets the same chrome (palette, fonts, accent
 | Surface | File | Notes |
 |---|---|---|
 | Windows Terminal scheme + Iosevka | `terminal/indigo-glass.scheme.json` | Injected via `install.ps1`; default profile points at it |
-| Win11 accent `#5E6AD2` + dark mode | `registry/indigo-glass-accent.reg` | HKCU only, no admin |
+| Win11 accent `#A8E635` + dark mode | `registry/indigo-glass-accent.reg` | HKCU only, no admin |
 | PowerShell 7 profile + Starship | `powershell/Microsoft.PowerShell_profile.ps1` | Mirrors Linux `~/.config/starship.toml` |
 | VSCode Claude Code retint | `vscode/patch-webview-css.ps1` | Reads repo-side `vscode/css/claude-code-indigo.css` |
 | Auto-patch on ext updates | `task-scheduler/IndigoGlass-VSCodePatch.xml` | Logon trigger + hourly check (Win11 has no `systemd.path`) |
@@ -100,10 +100,10 @@ Not signed in? Manually re-import:
 ```
 Win11 host
   ├── Windows Terminal      palette + Iosevka
-  ├── PowerShell 7          Starship prompt, indigo PSReadLine colors
+  ├── PowerShell 7          Starship prompt, lime PSReadLine colors
   ├── VSCode                theme JSON + Claude Code webview patch
   ├── Edge browser          Stylus + Dark Reader, cloud-synced
-  ├── System chrome         accent #5E6AD2 + dark mode via registry
+  ├── System chrome         accent #A8E635 + dark mode via registry
   └── Fonts                 Iosevka, Carlito, SF Pro, Inter, JetBrainsMono
 
 WSL2 distro
