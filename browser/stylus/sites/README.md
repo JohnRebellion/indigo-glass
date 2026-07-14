@@ -15,7 +15,7 @@ All four:
 - Override `:root` CSS custom properties the site already defines (no specificity wars)
 - Force prose font to `IndigoLoopTail -> Carlito` (loop-tail g/a)
 - Force code blocks to Iosevka Custom Condensed
-- Carry indigo `#5E6AD2` accent + violet `#A78BFA` + amber/positive/negative semantic
+- Carry lime `#A8E635` accent + accent-alt `#8BC406` + amber/positive/negative semantic
 
 ## Install
 
@@ -28,7 +28,7 @@ Each `*.user.css` installs separately via Stylus:
 
 ## Why per-site
 
-The universal Stylus style avoids most font/scrollbar drift cross-site. But sites with their OWN dark mode (Linear, Notion, Claude, ChatGPT) use brand-specific accent colors that read as "wrong" alongside Lime Glass elsewhere. Surgical per-site CSS shifts ONLY their accent CSS vars to indigo - native dark surfaces stay intact.
+The universal Stylus style avoids most font/scrollbar drift cross-site. But sites with their OWN dark mode (Linear, Notion, Claude, ChatGPT) use brand-specific accent colors that read as "wrong" alongside Lime Glass elsewhere. Surgical per-site CSS shifts ONLY their accent CSS vars to lime - native dark surfaces stay intact.
 
 ## Add a new site
 
@@ -36,7 +36,7 @@ The universal Stylus style avoids most font/scrollbar drift cross-site. But site
 2. Map their tokens to Lime Glass palette:
    - bg/surface family -> base/surface/surface_alt
    - text family -> text/text_muted/text_dim
-   - accent/primary -> indigo/indigo_hi
+   - accent/primary -> accent/accent_hi
    - semantic (red/green/yellow) -> negative/positive/amber
 3. Copy `claude-ai.user.css` as template, change domain + var names, save in this dir
 4. Commit + push -> auto-update via `@updateURL`

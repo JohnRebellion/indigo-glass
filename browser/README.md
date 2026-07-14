@@ -37,9 +37,9 @@ Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/
 |---|---|---|
 | Prose font | `Carlito → SF Pro Display → system-ui` | body, p, h1-h6, li, a, label, button, td/th, blockquote, dd/dt, small, strong, em, input (text), select |
 | Loop-tail g/a allograph | Carlito via `unicode-range U+0061, U+0067` | every text element (browser auto-selects per glyph) |
-| `::selection` | `rgba(94,106,210,0.45)` indigo glass overlay | all selections |
-| Scrollbar | `rgba(94,106,210,0.45)` thumb → hover `rgba(129,140,248,0.75)` | webkit + Firefox |
-| `*:focus-visible` | `#5E6AD2` outline + `rgba(94,106,210,0.18)` 4px soft glow | all focus rings |
+| `::selection` | `rgba(168,230,53,0.45)` lime glass overlay | all selections |
+| Scrollbar | `rgba(168,230,53,0.45)` thumb → hover `rgba(193,255,88,0.75)` | webkit + Firefox |
+| `*:focus-visible` | `#A8E635` outline + `rgba(168,230,53,0.18)` 4px soft glow | all focus rings |
 
 Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP page.
 
@@ -60,17 +60,17 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 | Mode | Dark |
 | Brightness | 96 |
 | Contrast | 100 |
-| Background | `#0F0F12` |
+| Background | `#07080A` |
 | Text | `#F8F8F8` |
-| Scrollbar | `#5E6AD2` |
-| Selection | `#5E6AD250` |
+| Scrollbar | `#A8E635` |
+| Selection | `#A8E63550` |
 | Engine | `dynamicTheme` |
 
 Includes a preset block `Lime Glass` targeting `*` so the palette applies globally.
 
 ### Native-dark sites — Dark Reader disabled by default
 
-`indigo-glass.json` ships a `siteList` of 20 sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets blended with `#0F0F12` into muddy blue-black). Cleaner to let each site's native dark mode render.
+`indigo-glass.json` ships a `siteList` of 20 sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets blended with `#07080A` into muddy blue-black). Cleaner to let each site's native dark mode render.
 
 Disabled list:
 - facebook.com, messenger.com, instagram.com

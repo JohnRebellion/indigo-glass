@@ -19,13 +19,13 @@ Copy-Item -Recurse "obsidian\Indigo Glass" "$env:USERPROFILE\Documents\YourVault
 
 ## What it themes
 
-- Editor background `#0F0F12` + foreground `#F8F8F8` (Lime Glass canonical)
-- Selection = indigo overlay `rgba(94,106,210,0.45)`
+- Editor background `#07080A` + foreground `#F8F8F8` (Lime Glass canonical)
+- Selection = lime overlay `rgba(168,230,53,0.45)`
 - Mono code = Iosevka Custom Condensed chain
 - Body text = Carlito chain
 - Interface chrome = SF Pro Display chain
 - Tabs/sidebar = translucent panel w/ 13px backdrop blur + 70% surface
-- Callouts: indigo/violet/amber/positive/negative per semantic
+- Callouts: lime/accent-alt/amber/positive/negative per semantic
 - Compact density: 3-4px row padding, 4/8 input padding, 4/10 button padding
 - Reduce-transparency a11y media query: drops blur + raises opacity
 
