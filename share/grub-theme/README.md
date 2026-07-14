@@ -1,6 +1,6 @@
-# Indigo Glass — GRUB Theme
+# Lime Glass — GRUB Theme
 
-Custom GRUB2 boot theme matching the Indigo Glass design system.
+Custom GRUB2 boot theme matching the Lime Glass design system.
 
 ## Design alignment
 
@@ -8,12 +8,12 @@ Per `docs/PHILOSOPHY.md` spec:
 
 | Spec | Value |
 |------|-------|
-| Primary accent | `#5E6AD2` (Linear brand indigo) |
-| Accent shifts | `#818CF8`, `#A78BFA` (luminance variants of same hue) |
+| Primary accent | `#A8E635` (ghost lime) |
+| Accent shifts | `#C1FF58`, `#8BC406` (luminance variants of same hue) |
 | Text primary | `#F8F8F8` |
 | Text muted | `#6B7280` |
-| Surface base | `#0F0F12` |
-| Surface | `#1F2028` |
+| Surface base | `#07080A` |
+| Surface | `#121216` |
 | Radius default | `8px` |
 | Chrome font | SF Pro Display (titles, brand) |
 | Body font | Carlito (descriptions, menu items, footer) |
@@ -27,13 +27,13 @@ Dashboard view (Compot-inspired):
 - **Stat-card row:** 3 cards (ENTRIES · TIMEOUT · DEFAULT), pre-baked PNGs with rounded 8px corners + accent line + value text inline
 - **Section title:** "BOOT PICKER" — SF Pro 36pt
 - **Description:** Carlito 24pt muted
-- **Boot menu:** Carlito body, indigo glow pill, accent left-bar, "Press Enter" chip on selected
+- **Boot menu:** Carlito body, lime glow pill, accent left-bar, "Press Enter" chip on selected
 - **Footer hints:** Carlito 22pt muted
 
 ## Contents
 
 - `theme.txt` — GRUB theme definition (multi-line, no `N+N` math, no inline blocks)
-- `background.jpg` — deep `#0F0F12` w/ indigo glow center
+- `background.jpg` — deep `#07080A` w/ lime glow center
 - `assets/card_entries.png`, `card_timeout.png`, `card_default.png` — pre-baked stat cards w/ text+borders
 - `assets/select_w.png`, `select_c.png`, `select_e.png` — 3-slice selection pill (glow + accent left-bar + Press Enter chip baked in)
 - `assets/progress_bar_*.png`, `progress_highlight_*.png` — top-edge progress

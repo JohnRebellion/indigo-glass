@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Indigo Glass — GRUB theme parity sync
+# Lime Glass — GRUB theme parity sync
 #
 # share/grub-theme/ is the SINGLE SOURCE OF TRUTH for the GRUB theme.
 # This script propagates it to the two downstream consumers so real boot,
 # the QEMU preview, and the SvelteKit simulator stay 1:1:
 #
-#   1. simulator/static/presets/indigo/  (the in-browser simulator preset)
-#   2. /boot/grub2/themes/indigo-glass/   (the live installed theme)  [--deploy]
+#   1. simulator/static/presets/lime/  (the in-browser simulator preset)
+#   2. /boot/grub2/themes/lime-glass/   (the live installed theme)  [--deploy]
 #
 # Without --deploy it only syncs the simulator preset (safe, no sudo). Use
 # --deploy to also push to /boot and regenerate grub.cfg.
@@ -34,8 +34,8 @@ done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$REPO_DIR/share/grub-theme"
-SIM="$REPO_DIR/simulator/static/presets/indigo"
-BOOT="/boot/grub2/themes/indigo-glass"
+SIM="$REPO_DIR/simulator/static/presets/lime"
+BOOT="/boot/grub2/themes/lime-glass"
 
 [ -d "$SRC" ] || { echo "✗ source missing: $SRC" >&2; exit 1; }
 
@@ -84,7 +84,54 @@ overlay() {
   done
 }
 
-echo "▶ Indigo Glass GRUB parity sync"
+# Regenerate the live grub.cfg SAFELY. grub2-mkconfig writing straight to the
+# live config is the highest-blast-radius operation here: an interrupted run
+# (disk full, kill) leaves a truncated boot config, and a bad theme reference
+# passes mkconfig silently and only fails at boot. So: build into a temp file,
+# validate it (non-empty + grub script-check), back up the current cfg, then
+# atomically mv into place.
+regen_grub_cfg() {
+  local cfg="$1"
+  local tmp="${cfg}.new"
+  local stamp bak
+  stamp="$(date +%Y%m%d-%H%M%S)"
+  bak="${cfg}.bak-${stamp}"
+
+  run "sudo grub2-mkconfig -o \"$tmp\""
+  if [ "$DRY_RUN" = true ]; then
+    echo "  \$ (validate non-empty + grub2-script-check \"$tmp\")"
+    echo "  \$ sudo cp -a \"$cfg\" \"$bak\" && sudo mv \"$tmp\" \"$cfg\""
+    return 0
+  fi
+
+  # 1. non-empty
+  if ! sudo test -s "$tmp"; then
+    echo "  ✗ generated grub.cfg is empty — aborting, live config untouched" >&2
+    sudo rm -f "$tmp"
+    return 1
+  fi
+  # 2. syntax check (tool is grub2-script-check on Fedora, grub-script-check elsewhere)
+  local checker=""
+  for c in grub2-script-check grub-script-check; do
+    command -v "$c" >/dev/null 2>&1 && { checker="$c"; break; }
+  done
+  if [ -n "$checker" ]; then
+    if ! sudo "$checker" "$tmp"; then
+      echo "  ✗ $checker rejected generated grub.cfg — aborting, live config untouched" >&2
+      sudo rm -f "$tmp"
+      return 1
+    fi
+    echo "  ✓ $checker passed"
+  else
+    echo "  ⚠ no grub script-check tool found — skipping syntax validation"
+  fi
+  # 3. back up the live cfg, then atomic swap
+  run "sudo cp -a \"$cfg\" \"$bak\""
+  run "sudo mv \"$tmp\" \"$cfg\""
+  echo "  ✓ grub.cfg updated (backup: $bak)"
+}
+
+echo "▶ Lime Glass GRUB parity sync"
 echo "  source (truth): $SRC"
 [ "$DRY_RUN" = true ] && echo "  ⚠ DRY RUN"
 echo
@@ -117,17 +164,31 @@ if [ "$DEPLOY" = true ]; then
   echo "▶ Deploy → installed theme ($BOOT) [sudo]"
   run "sudo mkdir -p \"$BOOT\""
   overlay "$BOOT" full "sudo "
+  # Update GRUB variables in /etc/default/grub to point at the lime-glass paths.
+  # Critically GRUB_FONT: /etc/grub.d/00_header puts it in the `if loadfont` guard
+  # that ENABLES gfxterm. If GRUB_FONT points at a missing path the guard fails,
+  # gfxterm never activates, and the theme silently doesn't load (text-mode boot).
+  echo "▶ Update /etc/default/grub (GRUB_THEME/BACKGROUND/FONT)"
+  # GRUB_THEME + BACKGROUND: replace-in-place OR append if absent.
+  for pair in "GRUB_THEME=$BOOT/theme.txt" "GRUB_BACKGROUND=$BOOT/background.jpg" "GRUB_FONT=$BOOT/carlito-12.pf2"; do
+    key="${pair%%=*}"
+    if sudo grep -q "^${key}=" /etc/default/grub; then
+      run "sudo sed -i \"s|^${key}=.*|${key}='${pair#*=}'|\" /etc/default/grub"
+    else
+      run "echo \"${key}='${pair#*=}'\" | sudo tee -a /etc/default/grub >/dev/null"
+    fi
+  done
   echo "▶ Regenerate grub.cfg"
   # Prefer the BIOS/EFI path that exists. On Fedora/Nobara both /boot/grub2/grub.cfg
   # and /boot/efi/EFI/fedora/grub.cfg may exist; /boot/grub2/grub.cfg is the live one.
   GRUB_CFG=""
   # /boot/grub2 is root-only (drwx------) on Fedora/Nobara, so a plain `[ -f ]`
   # as the invoking user always fails. Probe with `sudo test -f`.
-  for cand in /boot/grub2/grub.cfg /boot/efi/EFI/fedora/grub.cfg; do
+  for cand in /boot/grub2/grub.cfg /boot/efi/EFI/*/grub.cfg; do
     if sudo test -f "$cand"; then GRUB_CFG="$cand"; break; fi
   done
   if [ -n "$GRUB_CFG" ]; then
-    run "sudo grub2-mkconfig -o \"$GRUB_CFG\""
+    regen_grub_cfg "$GRUB_CFG"
   else
     echo "  ⚠ grub.cfg not found — run: sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
   fi

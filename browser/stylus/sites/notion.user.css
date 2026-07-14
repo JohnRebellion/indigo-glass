@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Indigo Glass - Notion
+@name           Lime Glass - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
-@description    Retint notion.so + notion.site with Indigo Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
+@version        0.3.0
+@description    Retint notion.so + notion.site with Lime Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/notion.user.css
@@ -13,21 +13,21 @@
 @-moz-document domain("notion.so"), domain("notion.site") {
 
   :root {
-    --notion-app-background: #0F0F12 !important;
-    --notion-app-background-secondary: #1C1C21 !important;
-    --notion-default-background: #0F0F12 !important;
-    --notion-gray-background: #1F2028 !important;
-    --notion-sidebar-background: #18181C !important;
+    --notion-app-background: #07080A !important;
+    --notion-app-background-secondary: #0D0D10 !important;
+    --notion-default-background: #07080A !important;
+    --notion-gray-background: #121216 !important;
+    --notion-sidebar-background: #0A0A0D !important;
 
     --notion-text: #F8F8F8 !important;
     --notion-text-secondary: #C9CBD3 !important;
     --notion-text-faint: #6B7280 !important;
 
-    --notion-primary: #5E6AD2 !important;
-    --notion-primary-hover: #818CF8 !important;
+    --notion-primary: #A8E635 !important;
+    --notion-primary-hover: #C1FF58 !important;
 
-    --notion-blue: #5E6AD2 !important;
-    --notion-purple: #A78BFA !important;
+    --notion-blue: #A8E635 !important;
+    --notion-purple: #8BC406 !important;
     --notion-pink: #C8B5FF !important;
     --notion-red: #ED254E !important;
     --notion-orange: #FBBF24 !important; /* orange banned (PHILOSOPHY.md) -> amber, the single warm accent */
@@ -36,7 +36,7 @@
     --notion-teal: #67E8F9 !important;
 
     --notion-divider: rgba(255, 255, 255, 0.06) !important;
-    --notion-selected-block: rgba(94, 106, 210, 0.22) !important;
+    --notion-selected-block: rgba(168, 230, 53, 0.22) !important;
   }
 
   /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).
@@ -67,7 +67,7 @@
     }
   }
 
-  /* Notion uses Inter for prose - swap to Indigo Glass body chain */
+  /* Notion uses Inter for prose - swap to Lime Glass body chain */
   body, [class*="notion-page"], [contenteditable] {
     font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
   }
@@ -81,6 +81,6 @@
 
   /* Selection */
   ::selection {
-    background-color: rgba(94, 106, 210, 0.45) !important;
+    background-color: rgba(168, 230, 53, 0.45) !important;
   }
 }

@@ -1,5 +1,5 @@
 <!--
-  Indigo Glass - Liquid Glass refraction filter
+  Lime Glass - Liquid Glass refraction filter
   Inline this SVG once per app (in <body> or layout host). Filter id `ig-liquid-glass`
   is referenced by the `.ig-liquid::before` rule in liquid-glass.css.
 

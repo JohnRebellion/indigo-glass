@@ -1,6 +1,6 @@
-# Indigo Glass - SDDM greeter theme
+# Lime Glass - SDDM greeter theme
 
-Login screen w/ Indigo Glass palette + mesh wallpaper. QML-based (SDDM standard).
+Login screen w/ Lime Glass palette + mesh wallpaper. QML-based (SDDM standard).
 
 ## Install
 
@@ -9,7 +9,7 @@ sudo cp -r indigo-glass /usr/share/sddm/themes/
 sudo kwriteconfig6 --file /etc/sddm.conf --group Theme --key Current 'indigo-glass'
 ```
 
-Or via Plasma Settings -> Login Screen (SDDM) -> Theme -> select "Indigo Glass".
+Or via Plasma Settings -> Login Screen (SDDM) -> Theme -> select "Lime Glass".
 
 ## Preview without reboot
 

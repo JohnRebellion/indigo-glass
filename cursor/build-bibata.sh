@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Indigo Glass - build Bibata cursor variant w/ indigo accent
+# Lime Glass - build Bibata cursor variant w/ lime accent
 #
 # Bibata upstream: https://github.com/ful1e5/Bibata_Cursor
 # Build pipeline (v2.0.6+):
@@ -8,8 +8,8 @@
 #   2. cbmp + render.json recolor + render to bitmaps/<variant>/
 #   3. ctgen + configs/normal/x.build.toml compile to XCursor
 #
-# We add a custom "Bibata-Modern-IndigoGlass" entry to render.json
-# w/ Indigo Glass palette mapping, then run cbmp + ctgen for just
+# We add a custom "Bibata-Modern-LimeGlass" entry to render.json
+# w/ Lime Glass palette mapping, then run cbmp + ctgen for just
 # that one variant.
 #
 # Deps:
@@ -17,7 +17,7 @@
 #   nodejs + npm (cbmp ships via npx)
 #   clickgen     (pip - script auto-installs)
 #
-# Output: out/Bibata-IndigoGlass/ (XCursor)
+# Output: out/Bibata-LimeGlass/ (XCursor)
 
 set -euo pipefail
 
@@ -25,14 +25,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/out"
 WORK_DIR="$SCRIPT_DIR/.work"
 
-# Indigo Glass palette mapped to Bibata color slots:
-#   match #00FF00 -> outline   = #0F0F12 (deep near-black)
+# Lime Glass palette mapped to Bibata color slots:
+#   match #00FF00 -> outline   = #07080A (deep near-black)
 #   match #0000FF -> base fill = #F8F8F8 (white-ish for cursor body)
-#   match #FF0000 -> accent    = #5E6AD2 (Indigo Glass primary)
-ACCENT="#5E6AD2"
-OUTLINE="#0F0F12"
+#   match #FF0000 -> accent    = #A8E635 (Lime Glass primary)
+ACCENT="#A8E635"
+OUTLINE="#07080A"
 BASE="#F8F8F8"
-VARIANT="Bibata-Modern-IndigoGlass"
+VARIANT="Bibata-Modern-LimeGlass"
 
 require() {
   command -v "$1" >/dev/null 2>&1 || { echo "ERROR: need $1 ($2)" >&2; exit 1; }
@@ -61,7 +61,7 @@ fi
 cd "$WORK_DIR/Bibata_Cursor"
 
 # Insert custom variant into render.json (idempotent)
-echo "Patching render.json with Indigo Glass variant..."
+echo "Patching render.json with Lime Glass variant..."
 python3 - "$ACCENT" "$OUTLINE" "$BASE" "$VARIANT" <<'PY'
 import json
 import sys
@@ -97,7 +97,7 @@ ctgen configs/normal/x.build.toml \
   -p x11 \
   -d "bitmaps/$VARIANT" \
   -n "$VARIANT" \
-  -c "Indigo Glass - rounded edge Bibata w/ #5E6AD2 accent (v2.0.6)"
+  -c "Lime Glass - rounded edge Bibata w/ #A8E635 accent (v2.0.6)"
 
 # Locate output
 THEME_DIR="themes/$VARIANT"
@@ -107,15 +107,15 @@ if [[ ! -d "$THEME_DIR" ]]; then
   exit 2
 fi
 
-# Copy + rename to Bibata-IndigoGlass (drop "Modern-" prefix in output dir)
-FINAL_DIR="$OUT_DIR/Bibata-IndigoGlass"
+# Copy + rename to Bibata-LimeGlass (drop "Modern-" prefix in output dir)
+FINAL_DIR="$OUT_DIR/Bibata-LimeGlass"
 rm -rf "$FINAL_DIR"
 cp -r "$THEME_DIR" "$FINAL_DIR"
 
 cat > "$FINAL_DIR/index.theme" <<EOF
 [Icon Theme]
-Name=Bibata Indigo Glass
-Comment=Bibata cursor recolored with Indigo Glass accent ($ACCENT)
+Name=Bibata Lime Glass
+Comment=Bibata cursor recolored with Lime Glass accent ($ACCENT)
 Inherits=Bibata-Modern-Classic
 EOF
 
@@ -124,5 +124,5 @@ echo "[ok] Built: $FINAL_DIR"
 echo ""
 echo "Install (per-user):"
 echo "  cp -r $FINAL_DIR ~/.local/share/icons/"
-echo "  kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme 'Bibata-IndigoGlass'"
+echo "  kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme 'Bibata-LimeGlass'"
 echo "  # Then log out + back in, or restart Plasma"

@@ -1,4 +1,4 @@
-# Indigo Glass - JetBrains IDE color scheme
+# Lime Glass - JetBrains IDE color scheme
 
 Works on: IntelliJ IDEA, PyCharm, WebStorm, RustRover, GoLand, Rider, PhpStorm, RubyMine, CLion, DataGrip, Android Studio (any JetBrains IDE).
 
@@ -23,7 +23,7 @@ Works on: IntelliJ IDEA, PyCharm, WebStorm, RustRover, GoLand, Rider, PhpStorm, 
 
 3. Restart IDE.
 
-## Font setup (match the rest of Indigo Glass)
+## Font setup (match the rest of Lime Glass)
 
 Settings -> Editor -> Font:
 - Family: `Iosevka Custom Condensed`
@@ -37,27 +37,27 @@ Settings -> Appearance & Behavior -> Appearance -> Font:
 
 ## Token mapping
 
-| Indigo Glass token | JetBrains key |
+| Lime Glass token | JetBrains key |
 |---|---|
-| `base` `#0F0F12` | Default scheme background |
-| `surface_alt` `#1F2028` | Notification + tooltip bg |
+| `base` `#07080A` | Default scheme background |
+| `surface_alt` `#121216` | Notification + tooltip bg |
 | `text` `#F8F8F8` | Foreground |
 | `text_muted` `#6B7280` | Line numbers, comments |
-| `indigo` `#5E6AD2` | Selection bg, focus border |
-| `indigo_hi` `#818CF8` | Caret, hover, keywords, modified tab |
-| `violet` `#A78BFA` | Class/type, number, predefined symbol |
+| `accent` `#A8E635` | Selection bg, focus border |
+| `accent_hi` `#C1FF58` | Caret, hover, keywords, modified tab |
+| `accent_alt` `#8BC406` | Class/type, number, predefined symbol |
 | `positive` `#71F79F` | String literal, VCS added |
 | `amber` `#FBBF24` | Function name, escape char, VCS modified |
 | `negative` `#ED254E` | Error, invalid escape, VCS removed |
 
-## Token-type aesthetic (matches VSCode Indigo Glass theme)
+## Token-type aesthetic (matches VSCode Lime Glass theme)
 
-- **Keyword**: indigo+1 bold (`818CF8`)
-- **Class / Type / Number / Const**: violet (`A78BFA`)
+- **Keyword**: accent+1 bold (`C1FF58`)
+- **Class / Type / Number / Const**: accent-alt (`8BC406`)
 - **String**: positive (`71F79F`)
 - **Function (decl/call/static/instance)**: amber (`FBBF24`)
 - **Comment**: muted italic (`6B7280`)
-- **Operator**: indigo-bright (`A2B0FF`)
+- **Operator**: accent-bright (`C1FF58`)
 - **Punctuation (brace/bracket/dot)**: muted (`6B7280`)
 - **Variable / Parameter / Property**: text (`F8F8F8`)
 

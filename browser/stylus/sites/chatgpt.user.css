@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Indigo Glass - ChatGPT
+@name           Lime Glass - ChatGPT
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
-@description    Retint chatgpt.com with Indigo Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
+@version        0.3.0
+@description    Retint chatgpt.com with Lime Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/chatgpt.user.css
@@ -13,15 +13,15 @@
 @-moz-document domain("chatgpt.com"), domain("chat.openai.com") {
 
   :root {
-    --main-surface-primary: #0F0F12 !important;
-    --main-surface-secondary: #1C1C21 !important;
-    --main-surface-tertiary: #1F2028 !important;
-    --sidebar-surface-primary: #18181C !important;
-    --sidebar-surface-secondary: #1F2028 !important;
+    --main-surface-primary: #07080A !important;
+    --main-surface-secondary: #0D0D10 !important;
+    --main-surface-tertiary: #121216 !important;
+    --sidebar-surface-primary: #0A0A0D !important;
+    --sidebar-surface-secondary: #121216 !important;
     --sidebar-surface-tertiary: #2A2D38 !important;
-    --surface-primary: #0F0F12 !important;
-    --surface-secondary: #1C1C21 !important;
-    --surface-tertiary: #1F2028 !important;
+    --surface-primary: #07080A !important;
+    --surface-secondary: #0D0D10 !important;
+    --surface-tertiary: #121216 !important;
     --surface-quaternary: #2A2D38 !important;
 
     --text-primary: #F8F8F8 !important;
@@ -29,11 +29,11 @@
     --text-tertiary: #6B7280 !important;
     --text-quaternary: #4B5563 !important;
 
-    --link: #818CF8 !important;
-    --link-hover: #A78BFA !important;
+    --link: #C1FF58 !important;
+    --link-hover: #8BC406 !important;
 
-    --interactive-bg-accent-default: #5E6AD2 !important;
-    --interactive-bg-accent-hover: #818CF8 !important;
+    --interactive-bg-accent-default: #A8E635 !important;
+    --interactive-bg-accent-hover: #C1FF58 !important;
 
     --border-default: rgba(255, 255, 255, 0.10) !important;
     --border-light: rgba(255, 255, 255, 0.06) !important;

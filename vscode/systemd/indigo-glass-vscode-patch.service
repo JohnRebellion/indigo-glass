@@ -1,5 +1,5 @@
 [Unit]
-Description=Indigo Glass — re-apply Claude Code webview CSS patch
+Description=Lime Glass — re-apply Claude Code webview CSS patch
 Documentation=https://github.com/JohnRebellion/indigo-glass
 After=network.target
 

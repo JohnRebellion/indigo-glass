@@ -1,4 +1,4 @@
-﻿# Indigo Glass - Claude Code webview retint (Windows PowerShell port)
+﻿# Lime Glass - Claude Code webview retint (Windows PowerShell port)
 #
 # Mirrors vscode/scripts/patch-webview-css.sh for Win11. Appends the
 # repo's vscode/css/claude-code-indigo.css to the Anthropic Claude Code

@@ -1,6 +1,6 @@
-# Indigo Glass - Font Bundle
+# Lime Glass - Font Bundle
 
-Canonical font set used across all Indigo Glass layers (KDE, GRUB, Konsole, VSCode, browser, Windows Terminal, PowerShell).
+Canonical font set used across all Lime Glass layers (KDE, GRUB, Konsole, VSCode, browser, Windows Terminal, PowerShell).
 
 ## Bundle contents
 

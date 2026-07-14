@@ -1,5 +1,5 @@
 #!/bin/bash
-# Indigo Glass — Installation script
+# Lime Glass — Installation script
 # Sets up complete design system: KDE Plasma + GTK + Konsole + Starship + Fastfetch
 #
 # Tested on: Fedora 43 / Nobara 43, KDE Plasma 6.6+, Wayland
@@ -25,7 +25,7 @@ for arg in "$@"; do
 done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-echo "▶ Indigo Glass installer"
+echo "▶ Lime Glass installer"
 echo "  Source: $REPO_DIR"
 echo "  User: $USER"
 echo "  Home: $HOME"
@@ -170,10 +170,14 @@ fi
 
 # ─── Copy theme assets ───
 echo
-echo "▶ Installing Indigo Glass color schemes + Konsole profile..."
+echo "▶ Installing Lime Glass color schemes + Konsole profile..."
 run "mkdir -p $HOME/.local/share/color-schemes $HOME/.local/share/konsole"
+# Install BOTH variants' schemes so either can be selected; Lime Glass is default.
+run "cp '$REPO_DIR/share/color-schemes/LimeGlass.colors' '$HOME/.local/share/color-schemes/'"
 run "cp '$REPO_DIR/share/color-schemes/IndigoGlass.colors' '$HOME/.local/share/color-schemes/'"
+run "cp '$REPO_DIR/share/konsole/LimeGlass.colorscheme' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.colorscheme' '$HOME/.local/share/konsole/'"
+run "cp '$REPO_DIR/share/konsole/LimeGlass.profile' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.profile' '$HOME/.local/share/konsole/'"
 
 # ─── Install configs ───
@@ -195,7 +199,7 @@ run "chmod +x $HOME/.config/plasma-workspace/env/gtk.sh"
 
 echo
 echo "▶ Patching kdeglobals (color scheme + widget style + icons)..."
-run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'IndigoGlass'"
+run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'LimeGlass'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'widgetStyle' 'Klassy'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'LookAndFeelPackage' 'org.kde.breezedark.desktop'"
 run "kwriteconfig6 --file kdeglobals --group 'Icons' --key 'Theme' 'Tela-circle-purple-dark'"
@@ -219,7 +223,7 @@ apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" "$HOME/.config/klas
 echo
 echo "▶ Adding global window opacity rule (88% active / 85% inactive)..."
 UUID=$(uuidgen)
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'Description' 'Indigo Glass — global window opacity'"
+run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'Description' 'Lime Glass — global window opacity'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityactive' '88'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityactiverule' '2'"
 run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityinactive' '85'"
@@ -230,37 +234,31 @@ run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclasscomplete' 'f
 
 if [ "$WITH_GRUB" = true ]; then
   echo
-  echo "▶ Installing Indigo Glass GRUB theme..."
-  GRUB_SRC="$REPO_DIR/share/grub-theme"
-  GRUB_DEST="/boot/grub2/themes/indigo-glass"
-  if [ -d "$GRUB_SRC" ]; then
-    run "sudo mkdir -p $GRUB_DEST"
-    run "sudo cp -r $GRUB_SRC/. $GRUB_DEST/"
-    run "sudo cp /etc/default/grub /etc/default/grub.bak.$(date +%Y%m%d-%H%M%S)"
-    run "sudo sed -i \"s|^GRUB_THEME=.*|GRUB_THEME='$GRUB_DEST/theme.txt'|\" /etc/default/grub"
-    if grep -q '^GRUB_THEME=' /etc/default/grub; then :; else
-      run "echo \"GRUB_THEME='$GRUB_DEST/theme.txt'\" | sudo tee -a /etc/default/grub"
-    fi
-    run "sudo sed -i \"s|^GRUB_BACKGROUND=.*|GRUB_BACKGROUND='$GRUB_DEST/background.jpg'|\" /etc/default/grub"
-    if [ -d /boot/grub2 ] && [ -f /boot/grub2/grub.cfg ]; then
-      run "sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
-    elif [ -d /boot/efi/EFI/fedora ] && [ -f /boot/efi/EFI/fedora/grub.cfg ]; then
-      run "sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg"
-    fi
+  echo "▶ Installing Lime Glass GRUB theme..."
+  # Delegate to the single GRUB deploy path (sync-grub-parity.sh --deploy).
+  # That script is the ONE place that copies the theme to /boot, writes
+  # GRUB_THEME/BACKGROUND *and GRUB_FONT* (the loadfont guard that enables
+  # gfxterm), and regenerates grub.cfg atomically with a syntax check. Keeping
+  # a second hand-rolled copy here is what let GRUB_FONT drift out of sync.
+  # Invoke directly (not via run()) so the parity script's own --dry-run
+  # handling prints the planned GRUB edits instead of being suppressed.
+  if [ "$DRY_RUN" = true ]; then
+    bash "$REPO_DIR/scripts/sync-grub-parity.sh" --deploy --dry-run
   else
-    echo "  ⚠ $GRUB_SRC missing — skipping GRUB theme"
+    bash "$REPO_DIR/scripts/sync-grub-parity.sh" --deploy
   fi
 fi
 
 echo
-echo "▶ Reload KWin + plasmashell..."
+echo "▶ Reload KWin (live, no plasmashell restart)..."
 run "qdbus-qt6 org.kde.KWin /KWin reconfigure"
-run "kquitapp6 plasmashell"
-run "sleep 2"
-run "kstart plasmashell &"
+# NOTE: plasmashell is intentionally NOT killed - KWin reconfigure applies the
+# color scheme + blur live. If a panel widget caches the old accent, log out/in
+# (also required for GTK env vars). Kept non-destructive so the running session
+# is never interrupted mid-install.
 
 echo
-echo "✓ Indigo Glass installation complete."
+echo "✓ Lime Glass installation complete."
 echo
 echo "Next steps:"
 echo "  1. Append shell snippet to ~/.zshrc:"
@@ -268,7 +266,7 @@ echo "     cat $REPO_DIR/shell/zshrc-snippet.zsh >> ~/.zshrc"
 echo "  2. Append GTK_THEME export to ~/.profile:"
 echo "     cat $REPO_DIR/shell/profile-snippet.sh >> ~/.profile"
 echo "  3. Set Konsole default profile:"
-echo "     System Settings → Konsole → Default Profile → IndigoGlass"
+echo "     Konsole → Settings → Manage Profiles → set 'LimeGlass' as default"
 echo "  4. Optional: install Microsoft Edge Wayland flags:"
 echo "     cp /usr/share/applications/microsoft-edge.desktop ~/.local/share/applications/"
 echo "     # Then patch Exec= per config/microsoft-edge.desktop.template"

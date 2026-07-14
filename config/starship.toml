@@ -1,42 +1,43 @@
-# Indigo Glass — KDE Plasma 6.6 design system (visionOS + Linear + Neumorphism)
+# Lime Glass — KDE Plasma 6.6 design system (brutalist-glass + Linear + Neumorphism)
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](#5E6AD2)\
+[](#A8E635)\
 $os\
 $username\
-[](bg:#818CF8 fg:#5E6AD2)\
+[](bg:#C1FF58 fg:#A8E635)\
 $directory\
-[](fg:#818CF8 bg:#1F2028)\
+[](fg:#C1FF58 bg:#121216)\
 $git_branch\
 $git_status\
-[](fg:#1F2028 bg:#1C1C21)\
+[](fg:#121216 bg:#0D0D10)\
 $nodejs\
 $rust\
 $golang\
 $python\
 $java\
-[](fg:#1C1C21 bg:#0F0F12)\
+[](fg:#0D0D10 bg:#07080A)\
 $time\
-[ ](fg:#0F0F12)\
+[ ](fg:#07080A)\
 $line_break$character"""
 
-palette = 'indigo_glass'
+palette = 'lime_glass'
 
-[palettes.indigo_glass]
-indigo = '#5E6AD2'
-indigo_light = '#818CF8'
-violet = '#A78BFA'
+# Values from tokens/out/css-vars.lime.css (Lime Glass default variant).
+[palettes.lime_glass]
+accent = '#A8E635'
+accent_hi = '#C1FF58'
+accent_alt = '#8BC406'
 amber = '#FBBF24'
 text = '#F8F8F8'
 muted = '#6B7280'
-bg_0 = '#0F0F12'
-bg_1 = '#1C1C21'
-bg_2 = '#1F2028'
+bg_0 = '#07080A'
+bg_1 = '#0D0D10'
+bg_2 = '#121216'
 
 [os]
 disabled = false
-style = "bg:#5E6AD2 fg:#F8F8F8"
+style = "bg:#A8E635 fg:#F8F8F8"
 
 [os.symbols]
 Linux = " "
@@ -44,12 +45,12 @@ Fedora = " "
 
 [username]
 show_always = true
-style_user = "bg:#5E6AD2 fg:#F8F8F8"
-style_root = "bg:#5E6AD2 fg:#F8F8F8"
+style_user = "bg:#A8E635 fg:#F8F8F8"
+style_root = "bg:#A8E635 fg:#F8F8F8"
 format = '[ $user ]($style)'
 
 [directory]
-style = "bg:#818CF8 fg:#0F0F12"
+style = "bg:#C1FF58 fg:#07080A"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -63,48 +64,48 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:#1F2028 fg:#818CF8"
+style = "bg:#121216 fg:#C1FF58"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#1F2028 fg:#FBBF24"
+style = "bg:#121216 fg:#FBBF24"
 format = '[$all_status$ahead_behind ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#1C1C21 fg:#A78BFA"
+style = "bg:#0D0D10 fg:#8BC406"
 format = '[ $symbol ($version) ]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#1C1C21 fg:#A78BFA"
+style = "bg:#0D0D10 fg:#8BC406"
 format = '[ $symbol ($version) ]($style)'
 
 [golang]
 symbol = ""
-style = "bg:#1C1C21 fg:#A78BFA"
+style = "bg:#0D0D10 fg:#8BC406"
 format = '[ $symbol ($version) ]($style)'
 
 [python]
 symbol = ""
-style = "bg:#1C1C21 fg:#A78BFA"
+style = "bg:#0D0D10 fg:#8BC406"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:#1C1C21 fg:#A78BFA"
+style = "bg:#0D0D10 fg:#8BC406"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:#0F0F12 fg:#6B7280"
+style = "bg:#07080A fg:#6B7280"
 format = '[ ♥ $time ]($style)'
 
 [character]
-success_symbol = '[❯](bold #818CF8)'
+success_symbol = '[❯](bold #C1FF58)'
 error_symbol = '[❯](bold #ED254E)'
-vimcmd_symbol = '[❮](bold #A78BFA)'
+vimcmd_symbol = '[❮](bold #8BC406)'
 
 [line_break]
 disabled = false

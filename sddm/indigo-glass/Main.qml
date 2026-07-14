@@ -1,4 +1,4 @@
-// Indigo Glass - SDDM greeter
+// Lime Glass - SDDM greeter
 // Minimal login form. Single accent. Translucent panel over mesh wallpaper.
 
 import QtQuick 2.15
@@ -12,8 +12,9 @@ Rectangle {
     height: Screen.height
     color: "#0F0F12"
 
-    property string accent: "#5E6AD2"
-    property string accentHi: "#818CF8"
+    property string accent: "#A8E635"
+    property string accentHi: "#C1FF58"
+    property string onAccent: "#07080A"  // dark text on the light lime accent
     property string surfaceAlt: "#1F2028"
     property string text: "#F8F8F8"
     property string textMuted: "#6B7280"
@@ -69,7 +70,7 @@ Rectangle {
                         color: accent
                     }
                     Text {
-                        text: "Indigo Glass"
+                        text: "Lime Glass"
                         font.family: "Carlito"
                         font.pixelSize: 14
                         font.weight: Font.Bold
@@ -136,7 +137,7 @@ Rectangle {
                     }
                     contentItem: Text {
                         text: loginButton.text
-                        color: "white"
+                        color: onAccent
                         font.family: "Carlito"
                         font.pixelSize: 11
                         font.weight: Font.Medium

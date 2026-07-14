@@ -1,6 +1,6 @@
-# Indigo Glass - Simulator
+# Lime Glass - Simulator
 
-SvelteKit visual + Playwright preview of all Indigo Glass surfaces.
+SvelteKit visual + Playwright preview of all Lime Glass surfaces.
 Consolidated from the standalone `~/grub-simulator` repo.
 
 ## Surfaces
@@ -18,7 +18,7 @@ Consolidated from the standalone `~/grub-simulator` repo.
 - Visual proof the tokens + density rules + glass composition look right
 - Playwright snapshot regression: every commit verifies no surface drifts
 - Reference target for non-installable surfaces (GRUB live testing slow)
-- Single page to show a stakeholder "what Indigo Glass is"
+- Single page to show a stakeholder "what Lime Glass is"
 
 ## Run
 

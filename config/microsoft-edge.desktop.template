@@ -1,4 +1,4 @@
-# Indigo Glass — Microsoft Edge user-local override
+# Lime Glass — Microsoft Edge user-local override
 # Copy to ~/.local/share/applications/microsoft-edge.desktop
 # Forces Wayland-native rendering + system decorations to integrate with Klassy
 #

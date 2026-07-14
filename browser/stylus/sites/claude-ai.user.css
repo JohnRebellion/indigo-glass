@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Indigo Glass - Claude.ai
+@name           Lime Glass - Claude.ai
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
-@description    Retint claude.ai with Indigo Glass palette + Carlito loop-tail allograph. OKLCH accents, squircle surfaces. Pairs with the universal Indigo Glass Stylus style.
+@version        0.3.0
+@description    Retint claude.ai with Lime Glass palette + Carlito loop-tail allograph. OKLCH accents, squircle surfaces. Pairs with the universal Lime Glass Stylus style.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/claude-ai.user.css
@@ -13,22 +13,22 @@
 @-moz-document domain("claude.ai") {
 
   :root {
-    --bg-000: #0F0F12 !important;
-    --bg-100: #1C1C21 !important;
-    --bg-200: #1F2028 !important;
+    --bg-000: #07080A !important;
+    --bg-100: #0D0D10 !important;
+    --bg-200: #121216 !important;
     --bg-300: #2A2D38 !important;
     --bg-400: #2A2D38 !important;
-    --bg-500: #1F2028 !important;
+    --bg-500: #121216 !important;
     --text-000: #F8F8F8 !important;
     --text-100: #F8F8F8 !important;
     --text-200: #C9CBD3 !important;
     --text-300: #9CA0AB !important;
     --text-400: #6B7280 !important;
     --text-500: #4B5563 !important;
-    --accent-main-000: #5E6AD2 !important;
-    --accent-main-100: #818CF8 !important;
-    --accent-main-200: #A78BFA !important;
-    --accent-secondary-000: #A78BFA !important;
+    --accent-main-000: #A8E635 !important;
+    --accent-main-100: #C1FF58 !important;
+    --accent-main-200: #8BC406 !important;
+    --accent-secondary-000: #8BC406 !important;
     --accent-secondary-100: #C8B5FF !important;
     --border-100: rgba(255, 255, 255, 0.06) !important;
     --border-200: rgba(255, 255, 255, 0.10) !important;

@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
 """
-Indigo Glass - token codegen.
+Lime Glass - token codegen.
 
-Reads tokens/indigo-glass.tokens.toml (OKLCH-authored, schema v2) and emits
-derived per-layer artifacts:
+Reads tokens/indigo-glass.tokens.toml (OKLCH-authored, schema v3) and emits
+derived per-layer artifacts. Each is written three ways: the active-variant
+default (e.g. css-vars.css), plus one file per variant (css-vars.lime.css,
+css-vars.indigo.css):
 
-    tokens/out/css-vars.css        # CSS custom properties (web/Stylus)
-    tokens/out/scss-vars.scss      # Sass equivalent
-    tokens/out/json-tokens.json    # JSON (VSCode/web/JS consumers)
-    tokens/out/kde-palette.colors  # KDE color scheme partial
-    tokens/out/wt-scheme.json      # Windows Terminal scheme partial
-    tokens/out/density.css         # Compact-density CSS rules
-    tokens/out/glass.css           # Glass surface + grain + squircle + ambient
+    tokens/out/css-vars[.variant].css    # CSS custom properties (web/Stylus)
+    tokens/out/scss-vars[.variant].scss  # Sass equivalent
+    tokens/out/json-tokens.json          # JSON (all variants; VSCode/web/JS)
+    tokens/out/kde-palette[.variant].colors  # KDE color scheme partial
+    tokens/out/wt-scheme[.variant].json  # Windows Terminal scheme partial
+    tokens/out/glass[.variant].css       # Glass + grain + squircle + ambient
+    tokens/out/density.css               # Compact-density CSS rules
+    tokens/out/kwinrc-blur.ini           # KWin blur strength
+    tokens/out/klassy-radius.ini         # Klassy corner radius
 
-The palette source of truth is [palette.oklch]. We derive byte-identical sRGB
-hex (for KDE/GTK/GRUB/Windows, which cannot parse oklch()), display-p3, and
-native oklch() CSS from those values - all in one place, no color drift.
+The palette source of truth is [variants.<name>] (OKLCH triples). The active
+variant is [meta].default_variant. We derive byte-identical sRGB hex (for
+KDE/GTK/GRUB/Windows, which cannot parse oklch()), display-p3, and native
+oklch() CSS from those values - all in one place, no color drift.
 
 Usage:
     python3 tokens/codegen.py             # emit all
@@ -120,15 +125,84 @@ def rgba_hex(base_hex: str, alpha: float) -> str:
     return f"{base_hex}{a:02X}"
 
 
+def _relative_luminance(hex_color: str) -> float:
+    """WCAG relative luminance of an sRGB hex color (0..1)."""
+    h = hex_color.lstrip("#")
+    r, g, b = (int(h[i : i + 2], 16) / 255 for i in (0, 2, 4))
+    rl, gl, bl = (_srgb_to_linear(c) for c in (r, g, b))
+    return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl
+
+
+def contrast_ratio(fg_hex: str, bg_hex: str) -> float:
+    """WCAG 2.x contrast ratio between two sRGB hex colors (1..21)."""
+    l1 = _relative_luminance(fg_hex)
+    l2 = _relative_luminance(bg_hex)
+    lighter, darker = (l1, l2) if l1 >= l2 else (l2, l1)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+def readable_on(bg_hex: str, dark_hex: str, light_hex: str = "#FFFFFF") -> str:
+    """Pick whichever of dark_hex / light_hex reads better on bg_hex.
+
+    Prefers light text (the design default) when it clears WCAG AA (4.5:1);
+    otherwise falls back to the dark option. On a light accent like lime
+    (#A8E635) white fails at 1.50:1, so this returns the near-black base."""
+    if contrast_ratio(light_hex, bg_hex) >= 4.5:
+        return light_hex
+    return dark_hex
+
+
 # =============================================================================
-# Derive a flat palette (hex / p3 / oklch) from [palette.oklch] + [palette.alpha]
+# Variant resolution
+# =============================================================================
+# The token file carries multiple [variants.<name>] palettes. A variant uses
+# generic brand keys (accent / accent_hi / accent_alt); every consumer (CSS,
+# KDE, WT) historically referenced indigo / indigo_hi / violet. We alias the
+# brand triple to BOTH name sets so old emitters keep working unchanged and
+# the output var names stay stable regardless of which variant is active.
+
+_BRAND_ALIAS = {  # variant key -> legacy palette keys it also populates
+    "accent": ["indigo", "lime"],
+    "accent_hi": ["indigo_hi", "lime_hi"],
+    "accent_alt": ["violet", "lime_alt"],
+}
+_PALETTE_KEYS = [
+    "base", "surface", "surface_alt", "sidebar",
+    "accent", "accent_hi", "accent_alt",
+    "amber", "positive", "negative",
+    "text", "text_muted", "text_dim",
+]
+
+
+def resolve_variant(t: dict, name: str) -> dict:
+    """Build the legacy [palette.oklch]-shaped {key: [L,C,H]} dict for one
+    variant, expanding brand aliases so indigo*/lime*/violet keys all exist."""
+    v = t["variants"][name]
+    out: dict[str, list] = {}
+    for k in _PALETTE_KEYS:
+        lch = v[k]
+        out[k] = lch
+        if k in _BRAND_ALIAS:
+            for alias in _BRAND_ALIAS[k]:
+                out[alias] = lch
+    return out
+
+
+def active_variant(t: dict) -> str:
+    return t["meta"].get("default_variant", "indigo")
+
+
+# =============================================================================
+# Derive a flat palette (hex / p3 / oklch) from a resolved variant + [palette.alpha]
 # =============================================================================
 
-def derive_palette(t: dict) -> dict:
+def derive_palette(t: dict, variant: str | None = None) -> dict:
     """Returns {key: {'hex','p3','oklch'}} plus alpha-derived entries.
-    Key order preserves the .toml authoring order, then alpha entries."""
+    `variant` defaults to meta.default_variant."""
+    variant = variant or active_variant(t)
+    oklch = resolve_variant(t, variant)
     pal: dict[str, dict] = {}
-    for key, (L, C, H) in t["palette"]["oklch"].items():
+    for key, (L, C, H) in oklch.items():
         pal[key] = {
             "hex": oklch_to_hex(L, C, H),
             "p3": oklch_to_p3(L, C, H),
@@ -146,10 +220,11 @@ def derive_palette(t: dict) -> dict:
 # Emitters
 # =============================================================================
 
-def emit_css_vars(t: dict) -> str:
-    pal = derive_palette(t)
+def emit_css_vars(t: dict, variant: str | None = None) -> str:
+    variant = variant or active_variant(t)
+    pal = derive_palette(t, variant)
     lines = [
-        "/* Indigo Glass design tokens - CSS custom properties */",
+        "/* Lime Glass design tokens - CSS custom properties */",
         "/* Generated by tokens/codegen.py from tokens/indigo-glass.tokens.toml */",
         "/* DO NOT EDIT - regenerate via `python3 tokens/codegen.py` */",
         "",
@@ -182,8 +257,22 @@ def emit_css_vars(t: dict) -> str:
         lines.append(f"  --ig-opacity-{k.replace('_', '-')}: {v};")
 
     lines.extend(["", "  /* Shadow */"])
+    # accent_glow{,_lg} are derived from the active accent so the focus-glow
+    # matches the variant instead of shipping a hardcoded indigo rgba. The
+    # legacy --ig-shadow-indigo-glow{,-lg} names are emitted as aliases for
+    # back-compat (mirrors _BRAND_ALIAS behaviour for the accent triple).
+    accent_rgb = hex_to_rgb(pal["accent"]["hex"])
+    accent_glow = f"0 0 0 2px rgba({accent_rgb},0.30)"
+    accent_glow_lg = f"0 0 24px rgba({accent_rgb},0.40)"
     for k, v in t["shadow"].items():
+        if k == "accent_glow":
+            v = accent_glow
+        elif k == "accent_glow_lg":
+            v = accent_glow_lg
         lines.append(f"  --ig-shadow-{k.replace('_', '-')}: {v};")
+    # Legacy aliases (kept so consumers referencing indigo-glow keep working).
+    lines.append(f"  --ig-shadow-indigo-glow: {accent_glow};")
+    lines.append(f"  --ig-shadow-indigo-glow-lg: {accent_glow_lg};")
 
     lines.extend(["", "  /* Type scale (pt) */"])
     for k, v in t["type"]["scale"].items():
@@ -227,7 +316,7 @@ def emit_css_vars(t: dict) -> str:
         "@supports (color: oklch(0% 0 0)) {",
         "  :root {",
     ])
-    for k, v in t["palette"]["oklch"].items():
+    for k, v in resolve_variant(t, variant).items():
         lines.append(f"    --ig-{k.replace('_', '-')}: {oklch_css(*v)};")
     lines.append("  }")
     lines.append("}")
@@ -239,8 +328,13 @@ def emit_css_vars(t: dict) -> str:
         "@media (color-gamut: p3) {",
         "  :root {",
     ])
-    for k in ("indigo", "indigo_hi", "violet", "amber", "positive", "negative"):
-        lines.append(f"    --ig-{k.replace('_', '-')}: {pal[k]['p3']};")
+    # Semantic accent names + their legacy brand aliases both get the P3
+    # upgrade so no consumer is left on the sRGB-clipped value.
+    p3_keys = ("accent", "accent_hi", "accent_alt", "indigo", "indigo_hi",
+               "violet", "amber", "positive", "negative")
+    for k in p3_keys:
+        if k in pal:
+            lines.append(f"    --ig-{k.replace('_', '-')}: {pal[k]['p3']};")
     lines.append("  }")
     lines.append("}")
     lines.append("")
@@ -274,10 +368,10 @@ def emit_css_vars(t: dict) -> str:
     return "\n".join(lines)
 
 
-def emit_scss_vars(t: dict) -> str:
-    css = emit_css_vars(t)
+def emit_scss_vars(t: dict, variant: str | None = None) -> str:
+    css = emit_css_vars(t, variant or active_variant(t))
     out = [
-        "// Indigo Glass design tokens - Sass variables",
+        "// Lime Glass design tokens - Sass variables",
         "// Generated by tokens/codegen.py",
         "",
     ]
@@ -296,28 +390,30 @@ def emit_scss_vars(t: dict) -> str:
 
 
 def emit_json(t: dict) -> str:
-    """Emit the raw tokens plus a derived flat palette for JS consumers."""
+    """Emit the raw tokens plus derived flat palettes (per variant) for JS."""
     out = dict(t)
-    pal = derive_palette(t)
     out["_derived"] = {
-        "palette": pal,
-        "note": "hex/p3/oklch derived from [palette.oklch] by codegen.py",
+        "default_variant": active_variant(t),
+        "palettes": {v: derive_palette(t, v) for v in t["variants"]},
+        "note": "hex/p3/oklch derived from [variants.*] by codegen.py",
     }
     return json.dumps(out, indent=2) + "\n"
 
 
-def emit_kde_colors(t: dict) -> str:
-    """KDE color scheme partial. Merge into IndigoGlass.colors.
+def emit_kde_colors(t: dict, variant: str | None = None) -> str:
+    """KDE color scheme partial. Merge into the .colors scheme.
     KDE cannot parse oklch() - uses derived RGB."""
-    pal = derive_palette(t)
+    pal = derive_palette(t, variant or active_variant(t))
     p = {k: v["hex"] for k, v in pal.items()}
 
+    vname = t["variants"][variant or active_variant(t)]["name"]
+    scheme_id = vname.replace(" ", "")  # e.g. "LimeGlass"
     lines = [
-        "# Indigo Glass - KDE color scheme partial",
-        "# Generated by tokens/codegen.py - merge into IndigoGlass.colors",
+        f"# {vname} - KDE color scheme partial",
+        f"# Generated by tokens/codegen.py - merge into {scheme_id}.colors",
         "",
         "[General]",
-        "Name=IndigoGlass",
+        f"Name={scheme_id}",
         "shadeSortColumn=true",
         "",
         "[Colors:Window]",
@@ -337,8 +433,10 @@ def emit_kde_colors(t: dict) -> str:
         "[Colors:Selection]",
         f"BackgroundNormal={hex_to_rgb(p['indigo'])}",
         f"BackgroundAlternate={hex_to_rgb(p['indigo_hi'])}",
-        "ForegroundNormal=255,255,255",
-        f"ForegroundActive={hex_to_rgb(p['text'])}",
+        # Foreground picked by WCAG contrast against the selection accent:
+        # white on a dark accent (indigo), near-black on a light one (lime).
+        f"ForegroundNormal={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
+        f"ForegroundActive={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
         "",
         "[Colors:View]",
         f"BackgroundNormal={hex_to_rgb(p['base'])}",
@@ -372,12 +470,13 @@ def emit_kde_colors(t: dict) -> str:
     return "\n".join(lines)
 
 
-def emit_wt_scheme(t: dict) -> str:
+def emit_wt_scheme(t: dict, variant: str | None = None) -> str:
     """Windows Terminal scheme. Uses derived hex (no oklch support)."""
-    pal = derive_palette(t)
+    variant = variant or active_variant(t)
+    pal = derive_palette(t, variant)
     p = {k: v["hex"] for k, v in pal.items()}
     scheme = {
-        "name": "Indigo Glass",
+        "name": t["variants"][variant]["name"],
         "background": p["base"],
         "foreground": p["text"],
         "cursorColor": p["indigo_hi"],
@@ -405,7 +504,7 @@ def emit_wt_scheme(t: dict) -> str:
 def emit_density_css(t: dict) -> str:
     s = t["spacing"]
     lines = [
-        "/* Indigo Glass - compact density rules */",
+        "/* Lime Glass - compact density rules */",
         "/* Generated by tokens/codegen.py - see docs/DENSITY.md */",
         "",
         "/* Density is OPT-IN. Apps add `.ig-density-on` to <html> (or any",
@@ -459,24 +558,42 @@ def _noise_data_uri(opacity: float, base_freq: float, octaves: int) -> str:
     return f"url(\"data:image/svg+xml,{svg}\")"
 
 
-def emit_glass_css(t: dict) -> str:
+def emit_glass_css(t: dict, variant: str | None = None) -> str:
     """Glass surface recipe + grain texture + squircle + ambient orbs.
     The single canonical implementation; layers @import or copy this."""
+    variant = variant or active_variant(t)
     g = t["glass"]
     grain = g.get("grain", {})
     sq = t["radius"].get("squircle", {})
     amb = t.get("ambient", {})
-    pal = derive_palette(t)
+    pal = derive_palette(t, variant)
+    vname = t["variants"][variant]["name"]
+
+    # Glass tint/bg derived from the active variant: accent @ tint_alpha,
+    # surface_alt @ bg_alpha. Also emit the alpha values as SEPARATE runtime
+    # vars so users can override glass thickness live (Apple iOS 27 pattern:
+    # a slider between "clearer glass" and "more tinted glass" instead of a
+    # hardcoded default). --ig-glass-tint and --ig-glass-bg remain as ready-
+    # to-use rgba; --ig-glass-*-alpha are user-overridable knobs.
+    accent_hex = pal["accent"]["hex"]
+    surf_alt_hex = pal["surface_alt"]["hex"]
+    glass_tint = rgba_hex(accent_hex, g["tint_alpha"])
+    glass_bg = rgba_hex(surf_alt_hex, g["bg_alpha"])
 
     lines = [
-        "/* Indigo Glass - glass / grain / squircle / ambient (v2) */",
+        f"/* {vname} - glass / grain / squircle / ambient (v3) */",
         "/* Generated by tokens/codegen.py - DO NOT EDIT */",
         "",
         ":root {",
-        f"  --ig-glass-bg: {g['backdrop_bg']};",
-        f"  --ig-glass-tint: {g['backdrop_tint']};",
+        f"  --ig-glass-bg: {glass_bg};",
+        f"  --ig-glass-tint: {glass_tint};",
         f"  --ig-glass-border: {g['border']};",
         f"  --ig-glass-blur: {g['backdrop_blur']}px;",
+        f"  /* Runtime knobs (Apple iOS 27 clarity/tint pattern) - override to taste */",
+        f"  --ig-glass-tint-alpha: {g['tint_alpha']};",
+        f"  --ig-glass-bg-alpha: {g['bg_alpha']};",
+        f"  --ig-glass-accent-rgb: {int(accent_hex[1:3],16)}, {int(accent_hex[3:5],16)}, {int(accent_hex[5:7],16)};",
+        f"  --ig-glass-surface-rgb: {int(surf_alt_hex[1:3],16)}, {int(surf_alt_hex[3:5],16)}, {int(surf_alt_hex[5:7],16)};",
     ]
     if grain.get("enabled"):
         lines.append(f"  --ig-grain-opacity: {grain['opacity']};")
@@ -487,12 +604,15 @@ def emit_glass_css(t: dict) -> str:
     lines.append("}")
     lines.append("")
 
-    # Glass surface with grain on top of blur
+    # Glass surface with grain on top of blur.
+    # The tint uses rgba(var(--ig-glass-accent-rgb), var(--ig-glass-tint-alpha))
+    # so setting :root { --ig-glass-tint-alpha: 0.10 } live re-tints without
+    # any recompilation - the Apple iOS 27 "clearer <-> tinted" slider pattern.
     lines.extend([
-        "/* Frosted glass surface - blur + indigo tint + grain micro-texture */",
+        "/* Frosted glass surface - blur + accent tint + grain micro-texture */",
         ".ig-glass {",
         "  position: relative;",
-        "  background-color: var(--ig-glass-bg);",
+        "  background-color: rgba(var(--ig-glass-surface-rgb), var(--ig-glass-bg-alpha));",
         "  border: 1px solid var(--ig-glass-border);",
         "  border-radius: var(--ig-radius-lg);",
         "  backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);",
@@ -501,12 +621,12 @@ def emit_glass_css(t: dict) -> str:
         "  overflow: hidden;",
         "  box-shadow: var(--ig-shadow-glass);",
         "}",
-        "/* indigo tint film */",
+        "/* accent tint film (runtime-adjustable via --ig-glass-tint-alpha) */",
         ".ig-glass::before {",
         "  content: \"\";",
         "  position: absolute;",
         "  inset: 0;",
-        "  background: var(--ig-glass-tint);",
+        "  background: rgba(var(--ig-glass-accent-rgb), var(--ig-glass-tint-alpha));",
         "  pointer-events: none;",
         "  z-index: 0;",
         "}",
@@ -547,19 +667,33 @@ def emit_glass_css(t: dict) -> str:
             "",
         ])
 
-    # Squircle corners (progressive enhancement)
+    # Squircle corners (progressive enhancement).
+    # Apple iOS 27 changed sidebar corner radii ONLY - not every element.
+    # Rule of thumb: apply squircle at HIERARCHY BOUNDARIES (sidebar, chat panel,
+    # dialog, popover) - NOT inline (tabs, buttons, chips inside a container).
+    # `.ig-squircle`           - general utility (any element)
+    # `.ig-squircle-container` - the recommended scope: outer container edges
     if sq.get("enabled"):
         n = sq["superellipse_n"]
         lines.extend([
             "/* Squircle corners - Chromium 139+ via corner-shape; standard",
-            "   border-radius is the cross-browser fallback. */",
-            ".ig-squircle {",
+            "   border-radius is the cross-browser fallback.",
+            "   Prefer .ig-squircle-container for container edges (sidebar/chat/",
+            "   dialog); use .ig-squircle only for standalone shapes. */",
+            ".ig-squircle,",
+            ".ig-squircle-container {",
             "  border-radius: var(--ig-radius-lg);",
             "}",
             "@supports (corner-shape: superellipse(2)) {",
-            "  .ig-squircle {",
+            "  .ig-squircle,",
+            "  .ig-squircle-container {",
             f"    corner-shape: superellipse({n});",
             "    border-radius: var(--ig-radius-xl);",
+            "  }",
+            "  /* Inline children inside a squircle-container should NOT also be",
+            "     squircled (creates a nested-radius artefact). */",
+            "  .ig-squircle-container :is(button, .tab, .chip, .badge) {",
+            "    corner-shape: normal;",
             "  }",
             "}",
             "",
@@ -604,8 +738,15 @@ def emit_glass_css(t: dict) -> str:
             "",
         ])
 
-    # a11y branches
+    # A11y branches — TWO signals:
+    # 1. `prefers-reduced-transparency` (OS-level) — user set it in KDE/GNOME/macOS
+    # 2. `[data-reduce-bright]` (app-level) — user toggled it in-app
+    #    (Apple iOS 26.4 added exactly this: a separate 'Reduce Bright Effects'
+    #    toggle SEPARATE from Reduce Transparency, because glossy accent glows
+    #    can be uncomfortable in sunlight even when transparency is fine.)
+    # Both should kill grain + ambient orbs and mute accent glow effects.
     lines.extend([
+        "/* Reduce transparency — OS-level a11y setting */",
         "@media (prefers-reduced-transparency: reduce) {",
         "  .ig-glass {",
         "    backdrop-filter: none;",
@@ -614,6 +755,22 @@ def emit_glass_css(t: dict) -> str:
         "  }",
         "  .ig-glass::after, .ig-grain::after { display: none; }",
         "  .ig-ambient::before { display: none; }",
+        "}",
+        "",
+        "/* Reduce Bright Effects — app-level toggle (Apple iOS 26.4 pattern).",
+        "   Add data-reduce-bright to <html>, or use the `prefers-reduced-motion`",
+        "   heuristic as a proxy for users likely to also want dimmer effects. */",
+        "[data-reduce-bright] .ig-ambient::before,",
+        "[data-reduce-bright] .ig-glass::after,",
+        "[data-reduce-bright] .ig-grain::after {",
+        "  display: none;",
+        "}",
+        "[data-reduce-bright] {",
+        "  --ig-glass-tint-alpha: 0;              /* kill accent tint on glass */",
+        "  --ig-shadow-accent-glow: none;         /* no accent focus-glow */",
+        "  --ig-shadow-accent-glow-lg: none;",
+        "  --ig-shadow-indigo-glow: none;         /* legacy alias */",
+        "  --ig-shadow-indigo-glow-lg: none;",
         "}",
         "",
     ])
@@ -630,7 +787,7 @@ def emit_kwin_blur(t: dict) -> str:
     r = t["glass"]["render"]
     radius = t["radius"]["default"]
     lines = [
-        "# Indigo Glass - KWin config snippets",
+        "# Lime Glass - KWin config snippets",
         "# Generated by tokens/codegen.py - DO NOT EDIT (edit tokens, regenerate)",
         "# Append/merge into your existing ~/.config/kwinrc",
         "# DO NOT replace the entire file - KWin has many other settings",
@@ -638,8 +795,11 @@ def emit_kwin_blur(t: dict) -> str:
         "[org.kde.kdecoration2]",
         "library=org.kde.klassy",
         "theme=Klassy",
-        "ButtonsOnLeft=XAM",
-        "ButtonsOnRight=I",
+        # macOS-style titlebar controls: Close, mInimize, mAximize on the LEFT
+        # (Klassy button codes: X=close, I=minimize, A=maximize, M=app menu).
+        # Menu button on the right keeps it available without cluttering left.
+        "ButtonsOnLeft=XIA",
+        "ButtonsOnRight=M",
         "BorderSize=None",
         "BorderSizeAuto=false",
         "",
@@ -653,15 +813,23 @@ def emit_kwin_blur(t: dict) -> str:
         "[Effect-better-blur-dx]",
         f"BlurStrength={blur}",
         f"NoiseStrength={r['noise_strength']}",
-        f"Brightness={r['brightness']}",
-        f"Saturation={r['saturation']}",
-        f"Contrast={r['contrast']}",
+        # Brightness/Saturation/Contrast are only applied when ForceContrastParams
+        # is true. Historically we set them to canonical values AND set force=true,
+        # which darkened blurred content (Brightness=96 -> 96% luma on blur pass);
+        # combined with 12-15% window translucency this rendered as solid-black
+        # blur regions on real hardware after a fresh boot. Emit force=false and
+        # neutral 100/100/100 so the blur pass stays photometric-neutral. The
+        # canonical brightness/saturation values remain in [glass.render] for the
+        # BROWSER (Dark Reader) which honours them independently.
+        f"Brightness={100 if not r.get('force_contrast_params', False) else r['brightness']}",
+        f"Saturation={100 if not r.get('force_contrast_params', False) else r['saturation']}",
+        f"Contrast={100 if not r.get('force_contrast_params', False) else r['contrast']}",
         "BlurMatching=false",
         "BlurNonMatching=true",
         "BlurDecorations=true",
         "BlurMenus=true",
         "BlurDocks=true",
-        "ForceContrastParams=true",
+        f"ForceContrastParams={'true' if r.get('force_contrast_params', False) else 'false'}",
         f"CornerRadius={float(radius)}",
         "WindowClasses=",
         "",
@@ -681,7 +849,7 @@ def emit_klassy_radius(t: dict) -> str:
     Merge into ~/.config/klassyrc."""
     radius = t["radius"]["default"]
     lines = [
-        "# Indigo Glass - Klassy corner-radius partial",
+        "# Lime Glass - Klassy corner-radius partial",
         "# Generated by tokens/codegen.py - merge into ~/.config/klassyrc [Windeco]",
         "# Matches Effect-better-blur-dx CornerRadius so the frosted-glass clip",
         "# and the window-decoration corner share one radius (no 2px mismatch).",
@@ -693,17 +861,43 @@ def emit_klassy_radius(t: dict) -> str:
     return "\n".join(lines)
 
 
-WRITERS = [
+# Per-variant emitters: emitted once per variant. Canonical filename (no
+# variant suffix) = the default variant, for back-compat with consumers that
+# read e.g. tokens/out/css-vars.css. Plus a <stem>.<variant>.<ext> for each.
+VARIANT_WRITERS = [
     ("css-vars.css", emit_css_vars),
     ("scss-vars.scss", emit_scss_vars),
-    ("json-tokens.json", emit_json),
     ("kde-palette.colors", emit_kde_colors),
     ("wt-scheme.json", emit_wt_scheme),
-    ("density.css", emit_density_css),
     ("glass.css", emit_glass_css),
+]
+
+# Shared emitters: variant-agnostic, emitted once at the canonical name.
+SHARED_WRITERS = [
+    ("json-tokens.json", emit_json),
+    ("density.css", emit_density_css),
     ("kwinrc-blur.ini", emit_kwin_blur),
     ("klassy-radius.ini", emit_klassy_radius),
 ]
+
+
+def _variant_filename(stem_ext: str, variant: str) -> str:
+    stem, _, ext = stem_ext.rpartition(".")
+    return f"{stem}.{variant}.{ext}"
+
+
+def build_outputs(t: dict) -> dict[str, str]:
+    """Returns {filename: content} for every artifact (default + per-variant)."""
+    variants = list(t["variants"].keys())
+    default = active_variant(t)
+    out: dict[str, str] = {}
+    for fname, fn in VARIANT_WRITERS:
+        for v in variants:
+            out[_variant_filename(fname, v)] = fn(t, v)
+        out[fname] = fn(t, default)  # canonical = default variant
+    for fname, fn in SHARED_WRITERS:
+        out[fname] = fn(t)
+    return out
 
 
 def load_tokens() -> dict:
@@ -721,8 +915,7 @@ def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     rc = 0
-    for fname, fn in WRITERS:
-        new = fn(t)
+    for fname, new in build_outputs(t).items():
         target = OUT_DIR / fname
         if args.check:
             if not target.exists() or target.read_text() != new:
