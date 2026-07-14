@@ -51,25 +51,25 @@ const HEX = {
 };
 
 test.describe('palette propagation', () => {
-  test('overview body bg = base #0F0F12', async ({ page }) => {
+  test('overview body bg = base #07080A', async ({ page }) => {
     await page.goto('/');
     const bg = await readBg(page, '.ig-shell');
     expect(bg).toBe(HEX.base);
   });
 
-  test('overview brand dot bg = indigo #5E6AD2', async ({ page }) => {
+  test('overview brand dot bg = lime #A8E635', async ({ page }) => {
     await page.goto('/');
     const bg = await readBg(page, '.ig-brand-dot');
     expect(bg).toBe(HEX.indigo);
   });
 
-  test('vscode editor bg = base #0F0F12', async ({ page }) => {
+  test('vscode editor bg = base #07080A', async ({ page }) => {
     await page.goto('/vscode/');
     const bg = await readBg(page, '.code');
     expect(bg).toBe(HEX.base);
   });
 
-  test('claude-code header brand dot = indigo', async ({ page }) => {
+  test('claude-code header brand dot = lime', async ({ page }) => {
     await page.goto('/vscode/claude-code/');
     const bg = await readBg(page, '.cc-brand-dot');
     expect(bg).toBe(HEX.indigo);

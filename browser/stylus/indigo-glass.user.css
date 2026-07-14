@@ -133,7 +133,7 @@
     background-clip: padding-box;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(129, 140, 248, 0.75);
+    background-color: rgba(193, 255, 88, 0.75);
   }
   *::-webkit-scrollbar-corner {
     background: transparent;
