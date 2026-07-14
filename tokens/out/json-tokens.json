@@ -236,8 +236,8 @@
     "glass_lg": "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)",
     "neu_raised": "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)",
     "neu_pressed": "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)",
-    "indigo_glow": "0 0 0 2px rgba(94,106,210,0.30)",
-    "indigo_glow_lg": "0 0 24px rgba(94,106,210,0.40)"
+    "accent_glow": "0 0 0 2px rgba(0,0,0,0.30)",
+    "accent_glow_lg": "0 0 24px rgba(0,0,0,0.40)"
   },
   "type": {
     "families": {
