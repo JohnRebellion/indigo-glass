@@ -90,7 +90,7 @@ AFTER:  padding: 3px 8px; margin: 0;
 
 ## How density interacts with translucency
 
-Compact density + translucent glass = more background visible per element = the indigo tint reads through cleanly. Wasted padding = wasted glass canvas.
+Compact density + translucent glass = more background visible per element = the accent tint reads through cleanly. Wasted padding = wasted glass canvas.
 
 ## See also
 
