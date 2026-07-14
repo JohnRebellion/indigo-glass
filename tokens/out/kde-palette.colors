@@ -22,8 +22,8 @@ DecorationHover=193,255,88
 [Colors:Selection]
 BackgroundNormal=168,230,53
 BackgroundAlternate=193,255,88
-ForegroundNormal=255,255,255
-ForegroundActive=248,248,248
+ForegroundNormal=7,8,10
+ForegroundActive=7,8,10
 
 [Colors:View]
 BackgroundNormal=7,8,10
