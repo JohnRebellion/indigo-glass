@@ -65,12 +65,25 @@ sync_ext() {
 
   local srcsize; srcsize="$(du -sh "$src" 2>/dev/null | cut -f1)"
   if [[ $APPLY -eq 1 ]]; then
+    # Re-check Edge right before touching this profile: the single startup
+    # pgrep is a TOCTOU window — Edge may have launched mid-run, and writing a
+    # live extension-settings dir corrupts it.
+    if pgrep -x msedge >/dev/null 2>&1 || pgrep -f '/opt/microsoft/msedge/msedge ' >/dev/null 2>&1; then
+      die "Edge started mid-sync. Close ALL Edge windows and retry."
+    fi
+    # Stage into a temp dir, then swap: copy first (slow part), and only once
+    # it's fully in place do we move the old dir aside and the new one in. A
+    # kill between steps leaves either the old dir or a .tmp/.bak — never a
+    # missing settings dir.
+    mkdir -p "$(dirname "$dst")"
+    local tmp="${dst}.tmp-$STAMP"
+    rm -rf "$tmp"
+    cp -a "$src" "$tmp"
     if [[ -d "$dst" ]]; then
       mv "$dst" "${dst}.bak-$STAMP"
       log "  [$label] $extname: backed up -> $(basename "${dst}.bak-$STAMP")"
     fi
-    mkdir -p "$(dirname "$dst")"
-    cp -a "$src" "$dst"
+    mv "$tmp" "$dst"
     log "  [$label] $extname: cloned ($srcsize)"
   else
     log "  [$label] $extname: WOULD clone ($srcsize) -> $dst"
