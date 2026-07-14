@@ -235,32 +235,17 @@ run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclasscomplete' 'f
 if [ "$WITH_GRUB" = true ]; then
   echo
   echo "▶ Installing Lime Glass GRUB theme..."
-  GRUB_SRC="$REPO_DIR/share/grub-theme"
-  GRUB_DEST="/boot/grub2/themes/lime-glass"
-  if [ -d "$GRUB_SRC" ]; then
-    run "sudo mkdir -p $GRUB_DEST"
-    run "sudo cp -r $GRUB_SRC/. $GRUB_DEST/"
-    run "sudo cp /etc/default/grub /etc/default/grub.bak.$(date +%Y%m%d-%H%M%S)"
-    run "sudo sed -i \"s|^GRUB_THEME=.*|GRUB_THEME='$GRUB_DEST/theme.txt'|\" /etc/default/grub"
-    if grep -q '^GRUB_THEME=' /etc/default/grub; then :; else
-      run "echo \"GRUB_THEME='$GRUB_DEST/theme.txt'\" | sudo tee -a /etc/default/grub"
-    fi
-    run "sudo sed -i \"s|^GRUB_BACKGROUND=.*|GRUB_BACKGROUND='$GRUB_DEST/background.jpg'|\" /etc/default/grub"
-    # Regenerate grub.cfg wherever it actually lives (BIOS grub2, or EFI per-distro:
-    # fedora / nobara / etc). /boot is root-only, so probe via sudo. In --dry-run
-    # we can't sudo, so just print the candidates that WOULD be tried.
-    if [ "$DRY_RUN" = true ]; then
-      echo "  $ sudo sh -c 'grub2-mkconfig -o <first existing of: /boot/grub2/grub.cfg, /boot/efi/EFI/*/grub.cfg>'"
-    else
-      GRUB_CFG=$(sudo sh -c 'for c in /boot/grub2/grub.cfg /boot/efi/EFI/*/grub.cfg; do [ -f "$c" ] && echo "$c" && break; done')
-      if [ -n "$GRUB_CFG" ]; then
-        run "sudo grub2-mkconfig -o $GRUB_CFG"
-      else
-        echo "  ⚠ grub.cfg not found under /boot — run 'sudo grub2-mkconfig -o <path>' manually"
-      fi
-    fi
+  # Delegate to the single GRUB deploy path (sync-grub-parity.sh --deploy).
+  # That script is the ONE place that copies the theme to /boot, writes
+  # GRUB_THEME/BACKGROUND *and GRUB_FONT* (the loadfont guard that enables
+  # gfxterm), and regenerates grub.cfg atomically with a syntax check. Keeping
+  # a second hand-rolled copy here is what let GRUB_FONT drift out of sync.
+  # Invoke directly (not via run()) so the parity script's own --dry-run
+  # handling prints the planned GRUB edits instead of being suppressed.
+  if [ "$DRY_RUN" = true ]; then
+    bash "$REPO_DIR/scripts/sync-grub-parity.sh" --deploy --dry-run
   else
-    echo "  ⚠ $GRUB_SRC missing — skipping GRUB theme"
+    bash "$REPO_DIR/scripts/sync-grub-parity.sh" --deploy
   fi
 fi
 
