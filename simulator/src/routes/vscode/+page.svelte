@@ -22,9 +22,9 @@
   const samples: Record<string, string> = {
     'README.md': `# Lime Glass\n\nbrutalist-glass + Linear dark discipline.`,
     'index.ts': `import { palette } from './tokens';\n\nexport function applyTheme(host: string): void {\n  const tokens = palette[host];\n  document.documentElement.style.setProperty('--ig-indigo', tokens.indigo);\n}\n\nconst result = applyTheme('default');`,
-    'theme.json': `{\n  "name": "Lime Glass Dark",\n  "type": "dark",\n  "colors": {\n    "editor.background": "#0F0F12",\n    "editor.foreground": "#F8F8F8"\n  }\n}`,
+    'theme.json': `{\n  "name": "Lime Glass Dark",\n  "type": "dark",\n  "colors": {\n    "editor.background": "#07080A",\n    "editor.foreground": "#F8F8F8"\n  }\n}`,
     'package.json': `{\n  "name": "indigo-glass",\n  "version": "0.1.0"\n}`,
-    'tokens.toml': `[palette.sRGB]\nbase = "#0F0F12"\nindigo = "#5E6AD2"`
+    'tokens.toml': `[variants.lime]\nbase = "#07080A"\naccent = "#A8E635"`
   };
 </script>
 

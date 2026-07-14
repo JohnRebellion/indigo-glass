@@ -251,7 +251,7 @@
   .brand p  { font-size: 0.72rem; color: #C1FF58; margin: 0; }
   .logo {
     width: 32px; height: 32px; border-radius: 8px;
-    background: linear-gradient(135deg, #A8E635, #8BC407);
+    background: linear-gradient(135deg, #A8E635, #8BC406);
     box-shadow: 0 0 12px rgba(124,58,237,0.6), inset 0 1px 0 rgba(255,255,255,0.4);
   }
   h2 {
@@ -295,7 +295,7 @@
     margin: 0.55rem 0;
   }
   label .val { float: right; color: #C1FF58; }
-  input[type='range'] { width: 100%; accent-color: #8BC407; }
+  input[type='range'] { width: 100%; accent-color: #8BC406; }
   input[type='text'], textarea {
     background: #15152a; border: 1px solid #2a2a4a; color: #e0e7ff;
     padding: 0.4rem; border-radius: 4px; font: 11px monospace; width: 100%;
@@ -310,7 +310,7 @@
     gap: 0.3rem;
     margin-bottom: 0.3rem;
   }
-  .entry-row.active > input { border-color: #8BC407; box-shadow: 0 0 0 1px rgba(167,139,250,0.4); }
+  .entry-row.active > input { border-color: #8BC406; box-shadow: 0 0 0 1px rgba(139,196,6,0.4); }
   .x { background: #2a1a1a; color: #fca5a5; }
   .x:hover { background: #7f1d1d; color: #fff; }
   .add { width: 100%; margin-top: 0.3rem; }
