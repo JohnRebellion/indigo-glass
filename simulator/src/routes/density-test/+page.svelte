@@ -84,7 +84,7 @@
   <!-- Code blocks -->
   <section data-testid="section-code">
     <h3>Code (always mono)</h3>
-    <p>Inline <code>--ig-indigo: #5E6AD2</code> and a block:</p>
+    <p>Inline <code>--ig-accent: #A8E635</code> and a block:</p>
     <pre><code>{codeSnippet}</code></pre>
   </section>
 </div>
