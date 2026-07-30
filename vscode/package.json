@@ -3,7 +3,7 @@
   "displayName": "Lime Glass",
   "description": "brutalist-glass + Linear dark discipline + Neumorphism 2.0 — color theme + product icons",
   "version": "0.1.0",
-  "publisher": "indigo-glass",
+  "publisher": "johnrebellion",
   "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"

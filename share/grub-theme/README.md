@@ -33,7 +33,8 @@ Dashboard view (Compot-inspired):
 ## Contents
 
 - `theme.txt` — GRUB theme definition (multi-line, no `N+N` math, no inline blocks)
-- `background.jpg` — deep `#07080A` w/ lime glow center
+- `background.jpg` — abstract digital wash in ghost lime's OKLCH complement (violet-purple, h≈308°): dark multi-point gradient, blurred diagonal beams, signal arcs + lime motes, vignetted to `#07080A` edges. Max luminance capped (L≈0.34 OKLab) so glass overlays and labels keep contrast. Baked by `generate-background.sh`.
+- `generate-background.sh` — deterministic ImageMagick bake for `background.jpg` + `thumb.jpg`
 - `assets/card_entries.png`, `card_timeout.png`, `card_default.png` — pre-baked stat cards w/ text+borders
 - `assets/select_w.png`, `select_c.png`, `select_e.png` — 3-slice selection pill (glow + accent left-bar + Press Enter chip baked in)
 - `assets/progress_bar_*.png`, `progress_highlight_*.png` — top-edge progress
