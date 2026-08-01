@@ -98,8 +98,9 @@ The installer:
 4. Installs **WhiteSur-Dark-purple** GTK theme + **Tela-circle-purple-dark** icons
 5. Copies all configs (Klassy, GTK, Konsole, Starship, Fastfetch)
 6. Patches kdeglobals + kwinrc with LimeGlass scheme + Klassy decoration + better-blur-dx settings
-7. Adds global window opacity rule (88% active / 85% inactive)
-8. Reloads KWin + plasmashell
+7. Installs + enables `kwin-blur-watchdog.service` (re-loads blur after suspend — Bug 10)
+8. Adds global window opacity rule (88% active / 85% inactive)
+9. Reloads KWin + plasmashell
 
 ### Manual / themes-only install
 
@@ -271,8 +272,9 @@ The fallback chain is consistent so font installation order doesn't matter; the 
 | Custom plasma themes (kite-indigo, MacSonoma-Dark) trigger FBO crashes | Stay on `breeze-dark` plasma theme — translucent context menus sacrificed |
 | KDE-Rounded-Corners plugin causes GL_INVALID_VALUE crashes | Disabled; Klassy titlebar handles top corners |
 | Stock KWin blur fails on Klassy titlebars | Use better-blur-dx fork |
+| better-blur-dx silently unloads after suspend/resume | `kwin-blur-watchdog.service` re-loads it on resume (installed by install.sh) |
 
-See [`docs/REFERENCE.md`](docs/REFERENCE.md) Bugs 6-9 for full diagnoses + recovery commands.
+See [`docs/REFERENCE.md`](docs/REFERENCE.md) Bugs 6-10 for full diagnoses + recovery commands.
 
 ---
 

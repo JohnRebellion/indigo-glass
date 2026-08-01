@@ -1,0 +1,18 @@
+[Unit]
+Description=Lime Glass — reload Better Blur (better_blur_dx) after suspend/resume
+# See docs/REFERENCE.md Bug 10: KWin drops the effect across suspend/resume.
+After=graphical-session.target plasma-kwin_wayland.service
+PartOf=graphical-session.target
+# Bound restart: a persistently broken environment (gdbus monitor failing
+# instantly) trips to 'failed' instead of looping every 5s forever.
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/kwin-blur-watchdog.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=plasma-workspace.target
