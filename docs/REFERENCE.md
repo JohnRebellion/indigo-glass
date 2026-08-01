@@ -658,6 +658,27 @@ kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key "ButtonsOnRight
 qdbus-qt6 org.kde.KWin /KWin reconfigure
 ```
 
+### Bug 10: better_blur_dx silently unloads after suspend/resume
+**Cause:** KWin drops the better_blur_dx effect across suspend/resume and never re-loads it, even though `[Plugins] better_blur_dxEnabled=true` is untouched in kwinrc. No error is logged — the effect just disappears from `loadedEffects`.
+**Symptoms:**
+- Blur gone after waking the laptop; windows show flat translucency
+- `gdbus call --session --dest org.kde.KWin --object-path /Effects --method org.freedesktop.DBus.Properties.Get org.kde.kwin.Effects loadedEffects` — no `better_blur_dx`
+- kwinrc still has the effect enabled; plugin `.so` present and ABI-matched
+**Immediate fix (one-shot):**
+```bash
+~/.local/bin/kwin-blur-watchdog.sh --once
+# or manually:
+gdbus call --session --dest org.kde.KWin --object-path /Effects \
+  --method org.kde.kwin.Effects.loadEffect better_blur_dx
+```
+**Long-term fix:** `kwin-blur-watchdog.service` (systemd user unit, installed by `scripts/install.sh`) listens for logind's `PrepareForSleep` signal and re-loads the effect after every resume. It only loads when kwinrc has an explicit `better_blur_dxEnabled=true` (fail closed), and skips loading if the plugin `.so` changed on disk since session start — dlopen'ing a replaced build into the running compositor risks a mixed-version crash; relogin activates new builds instead.
+```bash
+systemctl --user status kwin-blur-watchdog.service   # check it's running
+journalctl --user -u kwin-blur-watchdog.service      # see reload history
+```
+**Pinned build:** `scripts/install.sh` builds better-blur-dx at commit `9d4177ddd9d2d22094e018f4f0d47e47d436ab43` (2026-07-31) so both machines run the same binary. Override with `BLUR_COMMIT=<hash> bash scripts/install.sh` when testing newer upstream; bump the pin here and in install.sh together.
+**Nobara workstation caveat:** the workstation also runs `kde-heal-blur-desktop` machinery (dnf post-transaction hook + login autostart) that independently rebuilds/reloads blur. Watchdog and kde-heal coexist but can race — e.g. kde-heal issuing `kwin_wayland --replace` while the watchdog is mid-retry. Benign (the watchdog's retries just fail until the new compositor is up, and its start-limit tolerates it), but remember both actors exist when reading confusing journal timelines there.
+
 ---
 
 ## Backup + Restore

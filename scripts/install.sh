@@ -141,11 +141,15 @@ if [ "$THEMES_ONLY" = false ]; then
 fi
 
 # ─── Build kwin-effects-better-blur-dx ───
+# Pinned to a known-good commit so all machines converge on the same build
+# (docs/REFERENCE.md Bug 10). Override with BLUR_COMMIT=<hash> to test newer.
+BLUR_COMMIT="${BLUR_COMMIT:-9d4177ddd9d2d22094e018f4f0d47e47d436ab43}"  # 2026-07-31
 if [ "$THEMES_ONLY" = false ]; then
   echo
-  echo "▶ Building kwin-effects-better-blur-dx..."
+  echo "▶ Building kwin-effects-better-blur-dx @ $BLUR_COMMIT..."
   run "cd /tmp && rm -rf kwin-effects-better-blur-dx"
-  run "cd /tmp && git clone --depth 1 https://github.com/xarblu/kwin-effects-better-blur-dx.git"
+  run "cd /tmp && git clone https://github.com/xarblu/kwin-effects-better-blur-dx.git"
+  run "cd /tmp/kwin-effects-better-blur-dx && git checkout '$BLUR_COMMIT'"
   run "cd /tmp/kwin-effects-better-blur-dx && mkdir -p build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=/usr"
   run "cd /tmp/kwin-effects-better-blur-dx/build && make -j\$(nproc)"
   run "cd /tmp/kwin-effects-better-blur-dx/build && sudo make install"
@@ -219,6 +223,22 @@ echo "▶ Patching klassyrc corner radius (matches better-blur-dx clip)..."
 # actually reads ~/.config/klassy/klassyrc, so write the absolute path too.
 apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" klassyrc
 apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" "$HOME/.config/klassy/klassyrc"
+
+echo
+echo "▶ Installing Better Blur resume watchdog (Bug 10: effect drops after suspend)..."
+run "mkdir -p $HOME/.local/bin $HOME/.config/systemd/user"
+run "cp '$REPO_DIR/scripts/kwin-blur-watchdog.sh' '$HOME/.local/bin/kwin-blur-watchdog.sh'"
+run "chmod +x $HOME/.local/bin/kwin-blur-watchdog.sh"
+run "cp '$REPO_DIR/config/systemd/kwin-blur-watchdog.service' '$HOME/.config/systemd/user/kwin-blur-watchdog.service'"
+# Guarded: systemctl --user needs a live user session (fails via sudo/SSH
+# without lingering) — don't let it abort the rest of the install (set -e).
+if systemctl --user show-environment >/dev/null 2>&1; then
+  run "systemctl --user daemon-reload"
+  run "systemctl --user enable --now kwin-blur-watchdog.service"
+else
+  echo "  ⚠ no systemd --user session — enable later with:"
+  echo "    systemctl --user enable --now kwin-blur-watchdog.service"
+fi
 
 echo
 echo "▶ Adding global window opacity rule (88% active / 85% inactive)..."
