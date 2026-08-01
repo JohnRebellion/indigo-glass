@@ -9,7 +9,8 @@
 # Guards:
 #   - Only loads when kwinrc has an explicit [Plugins] better_blur_dxEnabled=true
 #     (absent key or unreadable config = fail closed, do not load).
-#   - If the plugin .so changed on disk since this service started, loading is
+#   - If the plugin .so on disk is newer than the running compositor (KWin
+#     process start time; service-start snapshot as fallback), loading is
 #     skipped: KWin still runs the old build in-process, and dlopen'ing the
 #     replaced file would mix two builds in one compositor (crash risk on
 #     Wayland = dead session). Relogin activates the new build instead.
@@ -29,16 +30,15 @@ log() {
 
 # Fail loudly if a required tool is missing — a silent no-op watchdog is
 # worse than none (busctl: systemd; gdbus: glib2; kreadconfig6: kf6-kconfig).
-for cmd in busctl kreadconfig6 gdbus stdbuf stat; do
+for cmd in busctl kreadconfig6 gdbus stdbuf stat ps date; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     log "missing required command: $cmd — cannot run"
     exit 1
   fi
 done
 
-# Baseline the plugin binary KWin loaded this session (service starts with
-# the session). A later mtime change means an updated build sits on disk
-# that must NOT be dlopen'd into the running compositor.
+# The plugin binary KWin loaded this session. A build newer than the running
+# compositor must NOT be dlopen'd into it (mixed-version crash risk).
 PLUGIN_SO=""
 for p in /usr/lib64/qt6/plugins/kwin/effects/plugins/better_blur_dx.so \
          /usr/lib/qt6/plugins/kwin/effects/plugins/better_blur_dx.so; do
@@ -47,14 +47,36 @@ for p in /usr/lib64/qt6/plugins/kwin/effects/plugins/better_blur_dx.so \
     break
   fi
 done
+# Service-start snapshot: fallback anchor only, for when KWin's own start
+# time can't be determined (see plugin_changed_on_disk).
 BASELINE_MTIME=""
 [ -n "$PLUGIN_SO" ] && BASELINE_MTIME=$(stat -c %Y "$PLUGIN_SO" 2>/dev/null)
 
+kwin_start_epoch() {
+  # The compositor's process start time is the true anchor for "which build
+  # is loaded". A service-start snapshot alone re-baselines whenever this
+  # watchdog restarts (Restart=on-failure, or enable --now after an install
+  # that just rebuilt the .so) and would wave the new build through.
+  local pid lstart
+  pid=$(busctl --user status org.kde.KWin 2>/dev/null | sed -n 's/^PID=\([0-9]*\)$/\1/p')
+  [ -n "$pid" ] || return 1
+  lstart=$(ps -o lstart= -p "$pid" 2>/dev/null)
+  # Empty lstart must not reach date: `date -d ""` succeeds (midnight today).
+  [ -n "$lstart" ] || return 1
+  date -d "$lstart" +%s 2>/dev/null
+}
+
 plugin_changed_on_disk() {
-  [ -n "$PLUGIN_SO" ] && [ -n "$BASELINE_MTIME" ] || return 1
-  local now
+  [ -n "$PLUGIN_SO" ] || return 1
+  local now kwin_start
   now=$(stat -c %Y "$PLUGIN_SO" 2>/dev/null)
-  [ "$now" != "$BASELINE_MTIME" ]
+  [ -n "$now" ] || return 1
+  kwin_start=$(kwin_start_epoch)
+  if [ -n "$kwin_start" ]; then
+    [ "$now" -gt "$kwin_start" ]
+  else
+    [ -n "$BASELINE_MTIME" ] && [ "$now" != "$BASELINE_MTIME" ]
+  fi
 }
 
 effect_enabled_in_config() {
