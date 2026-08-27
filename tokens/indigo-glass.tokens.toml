@@ -256,24 +256,33 @@ accent_glow_lg = "0 0 24px rgba(0,0,0,0.40)"
 glass_sm       = "0 2px 8px rgba(0,0,0,0.30)"
 glass          = "0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06)"
 
-# --- Klassy / KWin native window shadow ---
-# NOT a CSS shadow - Klassy's window-decoration shadow is a soft blurred
-# texture (ShadowSize/ShadowStrength/ShadowColor only; confirmed from
-# libbreezecommon/breezesettingsdata.kcfg and breezeboxshadowrenderer.cpp).
-# There is no offset-x/offset-y control, so the "4px 4px 0" hard shadow
-# above is architecturally impossible to reproduce as a native window
-# shadow. The honest ink translation is NOT a smaller/recoloured soft
-# shadow (that still reads as a glow, just a quieter one) - it's turning
-# the soft shadow off entirely. Compiled Klassy default is
-# ShadowLarge/255/black, which is the "old translucent" look this
-# overrides.
-[shadow.klassy]
-size     = "ShadowNone"   # kcfg enum: ShadowNone|ShadowSmall|ShadowMedium|ShadowLarge|ShadowVeryLarge
-strength = 255            # inert while size=ShadowNone; kept at the kcfg max so a future size change doesn't also need a strength change
-color    = "0, 0, 0"      # inert while size=ShadowNone
 glass_lg       = "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)"
 neu_raised     = "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)"
 neu_pressed    = "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)"
+
+# --- Klassy / KWin native window shadow ---
+# NOT a CSS shadow - the stock Klassy window-decoration shadow only exposed
+# ShadowSize/ShadowStrength/ShadowColor (soft blurred presets, no offset
+# control; confirmed from libbreezecommon/breezesettingsdata.kcfg and
+# breezeboxshadowrenderer.cpp), so the "4px 4px 0" hard shadow above was
+# not reproducible through any setting - only turning the soft shadow off
+# entirely was (size=ShadowNone). Patched: ~/src/klassy/kdecoration/
+# breezedecoration.cpp's s_shadowParams[1] ("Small") now renders a single
+# hard-ish offset(4,4)/radius(0)/opacity(1.0) layer with the second layer
+# zeroed out - as close to the CSS ink shadow as a KWin decoration shadow
+# can get (BoxShadowRenderer::calculateBlurRadius clamps blur to a 2px
+# floor even at radius=0, so ~2px softness is the real floor, not 0px).
+# ShadowNone (index 0) is left untouched as genuine no-shadow, in case a
+# fully flat window is wanted again later. Requires the patched
+# org.kde.klassy.so to be installed - see docs/REFERENCE.md.
+[shadow.klassy]
+size     = "ShadowSmall"  # kcfg enum: ShadowNone|ShadowSmall|ShadowMedium|ShadowLarge|ShadowVeryLarge - patched to the hard-offset ink shadow
+strength = 255            # kcfg max; ColorTools::alphaMix combines this with shadow1.opacity=1.0 from the patched preset
+# color is DERIVED per-variant from accent_alt by codegen (see
+# emit_klassy_radius), same pattern as ink_accent above. Placeholder below
+# is a doc default only, overwritten at emit time - do NOT hardcode a
+# variant's decimal RGB here.
+color    = "0, 0, 0"
 
 # =============================================================================
 # TYPOGRAPHY
