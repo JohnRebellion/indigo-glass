@@ -148,7 +148,7 @@
 
   /* ─── Focus ring — visionOS-style indigo glow ─────────────────────────── */
   *:focus-visible {
-    outline: 2px solid #A8E635 !important;
+    outline: 2px solid #A6C9A6 !important;
     outline-offset: 2px;
     box-shadow: 0 0 0 4px rgba(168, 230, 53, 0.18) !important;
   }

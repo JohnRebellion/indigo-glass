@@ -3,13 +3,13 @@
   "logo": {
     "type": "small",
     "padding": { "right": 2 },
-    "color": { "1": "#C1FF58" }
+    "color": { "1": "#C0E3C0" }
   },
   "display": {
     "separator": "  ",
     "color": {
-      "keys": "#C1FF58",
-      "title": "#8BC406",
+      "keys": "#C0E3C0",
+      "title": "#89A889",
       "output": "#F8F8F8"
     },
     "key": { "width": 10 }
@@ -18,7 +18,7 @@
     {
       "type": "title",
       "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}",
-      "color": { "user": "#8BC406", "at": "#6B7280", "host": "#C1FF58" }
+      "color": { "user": "#89A889", "at": "#6B7280", "host": "#C0E3C0" }
     },
     {
       "type": "custom",

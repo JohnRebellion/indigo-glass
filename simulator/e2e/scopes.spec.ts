@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test';
 /**
  * Cross-scope theme assertions.
  *
- * Validates that the canonical Lime Glass tokens propagate correctly
+ * Validates that the canonical Sage Ink tokens propagate correctly
  * into the simulator surfaces (browser / vscode / claude-code / grub /
  * overview / density-test). Catches drift between tokens.toml + per-surface
  * CSS rendering.
@@ -40,13 +40,16 @@ async function readFontFamily(page: Page, selector: string): Promise<string> {
   return page.locator(selector).first().evaluate((el) => getComputedStyle(el as Element).fontFamily);
 }
 
-// Lime Glass default variant: deep-black ladder + ghost-lime accent.
-// (var names stay --ig-indigo* for API compat; values are lime.)
+// Sage Ink default variant: deep-black ladder + muted-sage accent.
+// (var names stay --ig-indigo* for API compat; values are sage - the
+// --ig-indigo/--ig-lime/--ig-violet aliases all resolve to whatever the
+// active variant's accent triple is, per codegen's brand-alias behaviour.)
 const HEX = {
   base: 'rgb(7, 8, 10)',          // #07080A Raycast-deep
   text: 'rgb(248, 248, 248)',     // #F8F8F8
-  indigo: 'rgb(168, 230, 53)',    // #A8E635 lime accent
-  indigoHi: 'rgb(193, 255, 88)',  // #C1FF58 lime hover
+  indigo: 'rgb(166, 201, 166)',   // #A6C9A6 sage accent
+  indigoHi: 'rgb(192, 227, 192)', // #C0E3C0 sage hover
+  positive: 'rgb(63, 250, 187)',  // #3FFABB (nudged +12.5deg off sage's hue)
   surfaceAlt: 'rgb(18, 18, 22)'   // #121216
 };
 
@@ -57,7 +60,7 @@ test.describe('palette propagation', () => {
     expect(bg).toBe(HEX.base);
   });
 
-  test('overview brand dot bg = lime #A8E635', async ({ page }) => {
+  test('overview brand dot bg = sage #A6C9A6', async ({ page }) => {
     await page.goto('/');
     const bg = await readBg(page, '.ig-brand-dot');
     expect(bg).toBe(HEX.indigo);
@@ -69,7 +72,7 @@ test.describe('palette propagation', () => {
     expect(bg).toBe(HEX.base);
   });
 
-  test('claude-code header brand dot = lime', async ({ page }) => {
+  test('claude-code header brand dot = sage', async ({ page }) => {
     await page.goto('/vscode/claude-code/');
     const bg = await readBg(page, '.cc-brand-dot');
     expect(bg).toBe(HEX.indigo);
@@ -122,17 +125,23 @@ test.describe('focus ring', () => {
   });
 });
 
-test.describe('glass / translucency', () => {
-  test('overview cards have ig-liquid backdrop-filter (when supported)', async ({ page }) => {
+test.describe('ink material (Sage Ink v4 - no glass, chrome included)', () => {
+  test('overview cards are ink: no backdrop-filter, opaque fill, hard shadow', async ({ page }) => {
     await page.goto('/');
-    const filter = await page.locator('.ig-card.ig-liquid').first()
-      .evaluate((el) => getComputedStyle(el as Element).backdropFilter || (getComputedStyle(el as Element) as any).webkitBackdropFilter);
-    // Will be 'none' if browser doesn't support, OR 'blur(13px) saturate(110%)' if it does
-    // Chromium 105+ supports - assert it's not empty when feature flagged
-    expect(typeof filter).toBe('string');
+    const card = await page.locator('.ig-card').first().evaluate((el) => {
+      const s = getComputedStyle(el as Element);
+      return {
+        backdrop: s.backdropFilter || (s as unknown as Record<string, string>).webkitBackdropFilter,
+        radius: s.borderRadius,
+        shadow: s.boxShadow
+      };
+    });
+    expect(card.backdrop === 'none' || card.backdrop === '').toBe(true);
+    expect(card.radius).toBe('0px');
+    expect(card.shadow).not.toBe('none');
   });
 
-  test('vscode tab uses translucent surface_alt bg', async ({ page }) => {
+  test('vscode tab uses opaque surface_alt bg', async ({ page }) => {
     await page.goto('/vscode/');
     const bg = await readBg(page, '.tab-active');
     expect(bg).toBe(HEX.surfaceAlt);
@@ -140,11 +149,11 @@ test.describe('glass / translucency', () => {
 });
 
 test.describe('scrollbar', () => {
-  test('Firefox scrollbar-color reads indigo', async ({ page, browserName }) => {
+  test('Firefox scrollbar-color reads sage', async ({ page, browserName }) => {
     test.skip(browserName !== 'firefox', 'scrollbar-color spec is Firefox-only via getComputedStyle');
     await page.goto('/');
     const sc = await page.evaluate(() => getComputedStyle(document.body).scrollbarColor);
-    expect(sc).toMatch(/168[,\s]+230[,\s]+53|a8e635/i);
+    expect(sc).toMatch(/166[,\s]+201[,\s]+166|a6c9a6/i);
   });
 });
 
@@ -155,10 +164,10 @@ test.describe('semantics', () => {
     expect(bg).toBe('rgb(237, 37, 78)');
   });
 
-  test('overview swatch positive chip = positive green', async ({ page }) => {
+  test('overview swatch positive chip = positive green (hue nudged off sage)', async ({ page }) => {
     await page.goto('/');
     const bg = await readBg(page, '[data-testid="swatch-positive"] .ig-swatch-chip');
-    expect(bg).toBe('rgb(113, 247, 159)');
+    expect(bg).toBe(HEX.positive);
   });
 });
 

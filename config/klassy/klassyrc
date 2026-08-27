@@ -90,4 +90,4 @@ IconSize=IconDefault
 MatchTitleBarToApplicationColor=true
 SystemIconSize=SystemIcon12
 TitleAlignment=AlignCenter
-WindowCornerRadius=8
+WindowCornerRadius=0

@@ -48,9 +48,10 @@
   const SCREEN_W = 2560;
   const SCREEN_H = 1440;
 
-  // Plasma LimeGlass color scheme (~/.local/share/color-schemes/LimeGlass.colors)
+  // Plasma Sage Ink color scheme (~/.local/share/color-schemes/LimeGlass.colors —
+  // filename kept pending the coordinated rename pass, see docs/PHILOSOPHY.md)
   // Panel = Button BackgroundNormal #1f2028
-  // Pill  = Selection BackgroundNormal #a8e635 / accent #c1ff58
+  // Pill  = Selection BackgroundNormal #a6c9a6 / accent #c0e3c0
   function panelTintFor(id: string): [number, number, number, number] {
     switch (id) {
       case 'amber':  return [40, 18, 8, 0.42];
@@ -65,7 +66,7 @@
       case 'amber':  return [251, 146, 60, 0.45];
       case 'blue':   return [59, 130, 246, 0.45];
       case 'green':  return [16, 185, 129, 0.45];
-      default:       return [168, 230, 53, 0.5]; // Lime accent #a8e635
+      default:       return [166, 201, 166, 0.5]; // Sage accent #a6c9a6
     }
   }
 
@@ -112,7 +113,7 @@
       case 'amber':  return '#fbbf24';
       case 'blue':   return '#60a5fa';
       case 'green':  return '#34d399';
-      default:       return '#8bc406';
+      default:       return '#89a889';
     }
   }
 

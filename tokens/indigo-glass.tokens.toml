@@ -1,10 +1,14 @@
-# Lime Glass - design tokens (single source of truth)
+# Sage Ink - design tokens (single source of truth)
 #
 # Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
 # concrete config from this file via tokens/codegen.py.
 #
-# Schema version: 3
-# Last token revision: 2026-07-14 (multi-variant: Lime Glass default + Indigo)
+# Schema version: 4
+# Last token revision: 2026-08-27 (Sage Ink: dropped glass entirely - see
+#   research-reports/magazine-comic-style-design-system-2026-08-27.md.
+#   Was "Lime Glass" v3 multi-variant, "Indigo Glass" v1-2. No chrome-is-glass
+#   carve-out either: every surface is ink now - opaque, radius 0/2/pill,
+#   hard 4px offset shadow, colour-as-elevation (The Verge DESIGN.md).)
 #
 # Edit values here, run codegen, commit results. Do NOT hardcode hex
 # in layer configs anymore.
@@ -15,16 +19,19 @@
 # into the legacy single-set output AND emits per-variant files. It derives
 # byte-identical sRGB hex (for KDE/GTK/GRUB/Windows), display-p3, and native
 # oklch() CSS from these values. See tokens/README.md.
+# v4: Dropped the glass material entirely (blur/tint/grain tokens retained
+# below only as deprecated aliases for layers not yet migrated - see
+# [material] and [shadow]). Single material: ink.
 
 [meta]
-schema_version = 3
-name = "Lime Glass"                 # active brand name (was "Indigo Glass")
-description = "brutalist-glass + Linear dark discipline + Neumorphism 2.0 - compact, translucent, single-accent"
+schema_version = 4
+name = "Sage Ink"                   # active brand name (was "Lime Glass", "Indigo Glass")
+description = "neobrutalist ink - opaque, hard-shadow, colour-as-elevation. No glass."
 density = "compact"
-glass_style = "translucent_backdrop"  # NOT refraction. Backdrop blur only.
-revision = 3
+material_style = "flat_ink"         # was glass_style="translucent_backdrop" - no longer accurate, no glass anywhere
+revision = 4
 color_authoring = "oklch"  # source of truth is [variants.*]; hex is derived
-default_variant = "lime"   # which variant [palette] resolves to + which installs
+default_variant = "sage"   # which variant [palette] resolves to + which installs
 # v3: palette is now multi-variant. Shared tokens (spacing/radius/blur/type/
 # motion/glass) are variant-agnostic; only [variants.<name>] carries colors.
 # codegen resolves default_variant into [palette] for legacy single-set output
@@ -79,6 +86,35 @@ amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 152.51]
 negative    = [0.6124, 0.2279, 17.60]
 # Text: neutral (matches the neutral base; no green tint)
+text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
+text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
+text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
+
+[variants.sage]
+name        = "Sage Ink"
+brand_hue   = "sage"
+# Surfaces: same neutral deep near-black ladder as Lime Glass.
+base        = [0.1340, 0.0051, 262.32]   # #07080A
+surface     = [0.1605, 0.0063, 285.67]   # #0D0D10
+surface_alt = [0.1840, 0.0081, 285.58]   # #121216 (glass base)
+sidebar     = [0.1462, 0.0064, 285.58]   # #0A0A0D
+# Brand (sage / sage_hi / sage_alt) - single hue 145.0, low chroma (pale/muted
+# character, not vivid like lime). 11.00:1 on base. Fill-only accent: sage
+# cannot carry body text (1.72:1 vs --text) - see [material] rule below.
+accent      = [0.8000, 0.0600, 145.00]   # #A6C9A6 sage
+accent_hi   = [0.8800, 0.0600, 145.00]   # #C0E3C0 hover (brighter)
+accent_alt  = [0.7000, 0.0570, 145.00]   # #89A889 active/decoration
+# Semantic - positive NUDGED +12.49deg to 165.0 (was 152.51, shared with
+# indigo/lime). At 152.51 positive sat only 7.5deg from sage's 145deg hue -
+# too close to read as a distinct status color next to the accent. 165.0
+# clears it by 20deg while staying unambiguously green (teal starts ~170deg).
+# Scoped to this variant only: lime/indigo don't have the collision (lime's
+# accent is 24.8deg from 152.51 already) and changing their positive would
+# ripple into the hardcoded hex already baked into ~40 downstream configs.
+amber       = [0.8369, 0.1644, 84.43]
+positive    = [0.8792, 0.1706, 165.00]   # #3FFABB (was 152.51 / #71F79F)
+negative    = [0.6124, 0.2279, 17.60]
+# Text: neutral (matches the neutral base; no sage tint - sage is fill-only)
 text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
 text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
@@ -145,68 +181,83 @@ sidebar_item_pad_x = 8
 # =============================================================================
 
 [radius]
+# Sage Ink v4: single ink material, sharp corners. The 4/6/12/16 steps from
+# v3 (glass era) had no material meaning once glass is gone - killed rather
+# than carried forward unused. default=0 is now the CANONICAL Klassy match
+# (was 8) - regenerate + apply klassy-radius.ini to take effect on the real
+# desktop; this token edit alone does not touch the live window decoration.
 none   = 0
-xs     = 2     # pill chips, tags
-sm     = 4     # inputs, small buttons
-md     = 6     # toggles
-default = 8    # canonical Klassy match
-lg     = 12    # modals, cards
-xl     = 16    # large panels
-full   = 9999  # circles
+default = 0    # canonical Klassy match (ink: square, was glass rounded 8)
+xs     = 2     # tags, small badges - the one "soft" step ink permits
+full   = 9999  # circles, pill CTA only - the other end of the ladder, on purpose
 
-# Squircle / superellipse corners (2026 premium corner geometry).
-# Emitted as CSS `corner-shape: superellipse(N)` with an SVG clip-path
-# fallback for Firefox/Safari (corner-shape is Chromium 139+ as of 2026).
-# n=2 is the Apple "squircle"; higher n -> closer to square corner.
+# Squircle / superellipse corners - a GLASS-era device (soft, premium,
+# visionOS). Disabled in Sage Ink: brutalism wants a real corner, not a
+# superellipse approximation of one. Block kept (not deleted) because
+# emit_css_vars() reads radius.squircle.enabled unconditionally.
 [radius.squircle]
-enabled       = true
-superellipse_n = 2      # corner-shape: superellipse(2) == squircle
-# Surfaces that opt into squircle geometry (web/simulator only; KDE uses
-# Klassy CornerRadius which approximates via standard radius).
-apply_to      = ["card", "modal", "avatar", "app-icon"]
+enabled       = false
+superellipse_n = 2      # inert while enabled=false
+apply_to      = []
 
 # =============================================================================
-# BLUR - backdrop-filter values (visionOS-style translucent backdrop)
+# BLUR - VESTIGIAL in Sage Ink v4. There is no glass surface left to blur;
+# every value here is 0 in spirit. Kept ONLY because emit_kwin_blur() reads
+# blur.md unconditionally to write kwinrc-blur.ini. Whether the KWin
+# better-blur-dx effect (and its resume watchdog, scripts/kwin-blur-
+# watchdog.sh) should be disabled on the real desktop - vs. left dormant for
+# a future glass revival - is an open decision, not made here. See PENDING
+# note in tokens/README.md.
 # =============================================================================
-# NOT refraction (Apple Liquid Glass clear). Pure backdrop blur.
 
 [blur]
 none = 0
-sm   = 8
-md   = 13   # matches KWin BlurStrength=13 (Indigo Glass canonical)
-lg   = 20
-xl   = 32
+sm   = 0    # was 8 (glass era)
+md   = 0    # was 13, matched KWin BlurStrength=13 - now the value that WOULD disable the effect if applied
+lg   = 0    # was 20
+xl   = 0    # was 32
 
 # =============================================================================
-# OPACITY - layered translucency
+# OPACITY - layered translucency. glass_panel* is vestigial for the same
+# reason as [blur] - no panel is glass anymore. window_active/inactive,
+# overlay_scrim, disabled, hover_tint are still real (used by ink surfaces).
 # =============================================================================
 
 [opacity]
 window_active   = 0.92
 window_inactive = 0.85
-glass_panel     = 0.70   # behind backdrop blur
-glass_panel_lo  = 0.55
-glass_panel_hi  = 0.85
 overlay_scrim   = 0.80
 disabled        = 0.40
 hover_tint      = 0.10
+# --- deprecated (v3 glass era) ---
+glass_panel     = 0.70
+glass_panel_lo  = 0.55
+glass_panel_hi  = 0.85
 
 # =============================================================================
-# SHADOW - selective Neumorphism 2.0 (interactive elements only)
+# SHADOW - neobrutalist ink: hard offset, zero blur, colour-as-elevation
+# (The Verge DESIGN.md). Depth is a fill colour or a 1px hairline, never a
+# soft shadow - a real ink object casts a flat silhouette, not a glow.
 # =============================================================================
 
 [shadow]
 none           = "none"
+ink            = "4px 4px 0 0 #000000"   # the default: card, button, terminal
+ink_lg         = "7px 7px 0 0 #000000"   # feature tiles, hero cards
+ink_press      = "0 0 0 0 #000000"       # active/pressed state - shadow collapses as the object travels into it
+hairline       = "0 0 0 1px rgba(255,255,255,0.10)"  # quiet dividers where even ink is too loud
+# accent_glow / accent_glow_lg / ink_accent are DERIVED per-variant from the
+# active accent by codegen (see emit_css_vars); rgba/hex below are doc
+# placeholders only, overwritten at emit time. Do NOT hardcode a variant hex.
+ink_accent     = "4px 4px 0 0 #000000"   # -> accent_alt hex at emit time (hazard-coloured ink shadow)
+accent_glow    = "0 0 0 2px rgba(0,0,0,0.30)"
+accent_glow_lg = "0 0 24px rgba(0,0,0,0.40)"
+# --- deprecated (v3 glass era, kept only for layers not yet migrated) ---
 glass_sm       = "0 2px 8px rgba(0,0,0,0.30)"
 glass          = "0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06)"
 glass_lg       = "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)"
 neu_raised     = "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)"
 neu_pressed    = "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)"
-# accent_glow / accent_glow_lg are DERIVED per-variant from the active accent
-# by codegen (see emit_css_vars); the rgba below is a documentation placeholder
-# only and is overwritten at emit time. Do NOT hardcode a variant hex here.
-accent_glow    = "0 0 0 2px rgba(0,0,0,0.30)"
-accent_glow_lg = "0 0 24px rgba(0,0,0,0.40)"
 
 # =============================================================================
 # TYPOGRAPHY
@@ -264,10 +315,12 @@ slow     = 320
 hero     = 500
 
 [motion.easing]
-# CSS cubic-bezier values
-standard  = "cubic-bezier(0.4, 0.0, 0.2, 1.0)"  # M3 standard
-emphasize = "cubic-bezier(0.2, 0.0, 0.0, 1.0)"  # M3 emphasize
-spring    = "cubic-bezier(0.34, 1.56, 0.64, 1.0)"  # mild overshoot (NOT bouncy)
+# CSS cubic-bezier / step values
+standard   = "cubic-bezier(0.4, 0.0, 0.2, 1.0)"  # M3 standard
+emphasize  = "cubic-bezier(0.2, 0.0, 0.0, 1.0)"  # M3 emphasize
+mechanical = "steps(2, end)"   # ink's press: no easing, no overshoot - a stamp, not a spring
+# --- deprecated (v3 neumorphism era) ---
+spring     = "cubic-bezier(0.34, 1.56, 0.64, 1.0)"  # mild overshoot (NOT bouncy)
 
 # Semantic interaction -> (duration role, easing role). Mirrors the 2026
 # micro-interaction timing standard (150-400ms band). codegen emits these
@@ -278,8 +331,14 @@ focus_ring    = ["quick", "standard"]    # 120ms - outline
 card_hover    = ["default", "standard"]  # 200ms - lift + shadow
 toggle        = ["default", "standard"]  # 200ms - slide
 panel_open    = ["slow", "emphasize"]    # 320ms - sheet expand
-neu_press     = ["quick", "spring"]      # 120ms - pillowy push (overshoot)
 state_draw    = ["hero", "emphasize"]    # 500ms - success/error draw
+# ink_press: the object travels into its own shadow. Mechanical, not
+# springy - replaces neu_press (deprecated, was a soft pillowy overshoot,
+# the wrong feel for a hard-edged ink object). Duration uses "instant"
+# (60ms); pair with [motion.easing].mechanical, not "spring".
+ink_press     = ["instant", "mechanical"]
+# --- deprecated (v3 glass/neumorphism era) ---
+neu_press     = ["quick", "spring"]      # 120ms - pillowy push (overshoot)
 
 # =============================================================================
 # ACCESSIBILITY

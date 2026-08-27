@@ -48,7 +48,7 @@ button.main-buttons-button,
 }
 .main-card-card:hover {
   background-color: rgba(31, 32, 40, 0.85) !important;
-  border-color: #A8E635 !important;
+  border-color: #A6C9A6 !important;
 }
 
 /* Track rows - tight */
@@ -66,13 +66,13 @@ button.main-buttons-button,
 /* Active track highlight */
 .main-trackList-rowMainContent .standalone-ellipsis-one-line[data-text-color="brightAccent"],
 [class*="playing"] [data-encore-id="text"] {
-  color: #C1FF58 !important;
+  color: #C0E3C0 !important;
 }
 
 /* Sliders + progress bars */
 .progress-bar__fg,
 .x-progressBar-fillForeground {
-  background-color: #A8E635 !important;
+  background-color: #A6C9A6 !important;
 }
 .progress-bar__bg {
   background-color: rgba(255, 255, 255, 0.10) !important;
@@ -80,7 +80,7 @@ button.main-buttons-button,
 
 /* Focus ring */
 *:focus-visible {
-  outline: 2px solid #A8E635 !important;
+  outline: 2px solid #A6C9A6 !important;
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(168, 230, 53, 0.18) !important;
 }

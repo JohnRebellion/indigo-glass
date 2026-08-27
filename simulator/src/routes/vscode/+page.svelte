@@ -20,9 +20,9 @@
   ];
 
   const samples: Record<string, string> = {
-    'README.md': `# Lime Glass\n\nbrutalist-glass + Linear dark discipline.`,
+    'README.md': `# Sage Ink\n\nneobrutalist ink - opaque, hard-shadow.`,
     'index.ts': `import { palette } from './tokens';\n\nexport function applyTheme(host: string): void {\n  const tokens = palette[host];\n  document.documentElement.style.setProperty('--ig-indigo', tokens.indigo);\n}\n\nconst result = applyTheme('default');`,
-    'theme.json': `{\n  "name": "Lime Glass Dark",\n  "type": "dark",\n  "colors": {\n    "editor.background": "#07080A",\n    "editor.foreground": "#F8F8F8"\n  }\n}`,
+    'theme.json': `{\n  "name": "Sage Ink Dark",\n  "type": "dark",\n  "colors": {\n    "editor.background": "#07080A",\n    "editor.foreground": "#F8F8F8"\n  }\n}`,
     'package.json': `{\n  "name": "indigo-glass",\n  "version": "0.1.0"\n}`,
     'tokens.toml': `[variants.lime]\nbase = "#07080A"\naccent = "#A8E635"`
   };
@@ -112,7 +112,7 @@
       <aside class="chat-panel ig-squircle-container" data-testid="chat-panel">
         <div class="chat-header">
           <span class="chat-title">💬 CHAT</span>
-          <span class="chat-model">lime-glass · claude</span>
+          <span class="chat-model">sage-ink · claude</span>
         </div>
         <div class="chat-body">
           <div class="chat-msg chat-msg-user">
@@ -359,7 +359,7 @@ actions   = "#121216"</pre>
 
   /* ============================================================
    * 2026 LAYERED UI — three tonal tiers borrowed from VS Code Dark 2026,
-   * mapped onto Lime Glass's deep-black ladder.
+   * mapped onto Sage Ink's deep-black ladder.
    *
    *   .vscode.layered .*             — activates the layered treatment
    *   Workbench (deepest)   editor + tab-strip + gutter + status  =  var(--ig-base)        #07080A

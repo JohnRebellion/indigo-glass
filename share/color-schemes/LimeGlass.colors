@@ -1,7 +1,11 @@
-# Lime Glass - KDE color scheme
-# Color values merged from tokens/out/kde-palette.lime.colors (source of truth).
+# Sage Ink - KDE color scheme
+# Color values merged from tokens/out/kde-palette.sage.colors (source of truth).
 # Sections not emitted by codegen ([ColorEffects:*], [Colors:Complementary],
 # [Colors:Header], [KDE]) are hand-maintained; keep in sync manually.
+# File/Name= kept as "LimeGlass" pending the coordinated rename pass (see
+# docs/PHILOSOPHY.md changelog) - KDE's Name= must match the .colors
+# filename by convention, so it can't be renamed alone without also
+# renaming this file and every reference to it in one pass.
 [ColorEffects:Disabled]
 Color=56,56,56
 ColorAmount=0
@@ -25,11 +29,11 @@ IntensityEffect=0
 [Colors:Button]
 BackgroundAlternate=13,13,16
 BackgroundNormal=18,18,22
-DecorationFocus=193,255,88
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationFocus=192,227,192
+DecorationHover=192,227,192
+ForegroundActive=192,227,192
 ForegroundInactive=107,114,128
-ForegroundLink=139,196,6
+ForegroundLink=137,168,137
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
@@ -39,39 +43,39 @@ ForegroundVisited=130,153,255
 [Colors:Complementary]
 BackgroundAlternate=13,13,16
 BackgroundNormal=7,8,10
-DecorationFocus=193,255,88
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationFocus=192,227,192
+DecorationHover=192,227,192
+ForegroundActive=192,227,192
 ForegroundInactive=107,114,128
-ForegroundLink=139,196,6
+ForegroundLink=137,168,137
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=139,196,6
+ForegroundVisited=137,168,137
 
 [Colors:Header]
 BackgroundAlternate=13,13,16
 BackgroundNormal=7,8,10
-DecorationFocus=193,255,88
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationFocus=192,227,192
+DecorationHover=192,227,192
+ForegroundActive=192,227,192
 ForegroundInactive=107,114,128
-ForegroundLink=139,196,6
+ForegroundLink=137,168,137
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=139,196,6
+ForegroundVisited=137,168,137
 
 [Colors:Selection]
-BackgroundAlternate=193,255,88
-BackgroundNormal=168,230,53
-DecorationFocus=193,255,88
-DecorationHover=193,255,88
+BackgroundAlternate=192,227,192
+BackgroundNormal=166,201,166
+DecorationFocus=192,227,192
+DecorationHover=192,227,192
 ForegroundActive=7,8,10
 ForegroundInactive=107,114,128
-ForegroundLink=139,196,6
+ForegroundLink=137,168,137
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=7,8,10
@@ -81,11 +85,11 @@ ForegroundVisited=189,195,199
 [Colors:Tooltip]
 BackgroundAlternate=13,13,16
 BackgroundNormal=18,18,22
-DecorationFocus=193,255,88
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationFocus=192,227,192
+DecorationHover=192,227,192
+ForegroundActive=192,227,192
 ForegroundInactive=107,114,128
-ForegroundLink=139,196,6
+ForegroundLink=137,168,137
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
@@ -95,30 +99,30 @@ ForegroundVisited=130,153,255
 [Colors:View]
 BackgroundAlternate=13,13,16
 BackgroundNormal=7,8,10
-DecorationFocus=168,230,53
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationFocus=166,201,166
+DecorationHover=192,227,192
+ForegroundActive=192,227,192
 ForegroundInactive=107,114,128
-ForegroundLink=193,255,88
+ForegroundLink=192,227,192
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=139,196,6
+ForegroundVisited=137,168,137
 
 [Colors:Window]
 BackgroundAlternate=18,18,22
 BackgroundNormal=13,13,16
-DecorationFocus=168,230,53
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationFocus=166,201,166
+DecorationHover=192,227,192
+ForegroundActive=192,227,192
 ForegroundInactive=107,114,128
-ForegroundLink=193,255,88
+ForegroundLink=192,227,192
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=139,196,6
+ForegroundVisited=137,168,137
 
 [General]
 ColorScheme=LimeGlass
@@ -131,7 +135,7 @@ frameContrast=0.2
 
 [WM]
 activeBackground=13,13,16
-activeBlend=168,230,53
+activeBlend=166,201,166
 activeFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=248,248,248
 inactiveBackground=10,10,13
