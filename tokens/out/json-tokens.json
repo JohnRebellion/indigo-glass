@@ -300,9 +300,14 @@
     "accent_glow_lg": "0 0 24px rgba(0,0,0,0.40)",
     "glass_sm": "0 2px 8px rgba(0,0,0,0.30)",
     "glass": "0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06)",
-    "glass_lg": "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)",
-    "neu_raised": "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)",
-    "neu_pressed": "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)"
+    "klassy": {
+      "size": "ShadowNone",
+      "strength": 255,
+      "color": "0, 0, 0",
+      "glass_lg": "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)",
+      "neu_raised": "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)",
+      "neu_pressed": "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)"
+    }
   },
   "type": {
     "families": {
