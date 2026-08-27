@@ -16,11 +16,11 @@
   --color-sidebar: #0A0A0D;       /* sidebar bg */
 
   /* === Accent — ghost lime (single accent, hue 128°) === */
-  --color-indigo: #A8E635;        /* primary — selection, buttons (name kept for API compat) */
-  --color-indigo-light: #C1FF58;  /* hover, focus, link */
-  --color-violet: #8BC407;        /* visited link, decoration (accent-alt) */
-  --color-lime: #A8E635;          /* explicit lime alias */
-  --color-lime-hi: #C1FF58;
+  --color-indigo: #A6C9A6;        /* primary — selection, buttons (name kept for API compat) */
+  --color-indigo-light: #C0E3C0;  /* hover, focus, link */
+  --color-violet: #89A889;        /* visited link, decoration (accent-alt) */
+  --color-lime: #A6C9A6;          /* explicit lime alias */
+  --color-lime-hi: #C0E3C0;
 
   /* === Semantic === */
   --color-amber: #FBBF24;         /* warning, neutral semantic */

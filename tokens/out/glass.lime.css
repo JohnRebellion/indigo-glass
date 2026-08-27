@@ -62,27 +62,6 @@
   pointer-events: none;
 }
 
-/* Squircle corners - Chromium 139+ via corner-shape; standard
-   border-radius is the cross-browser fallback.
-   Prefer .ig-squircle-container for container edges (sidebar/chat/
-   dialog); use .ig-squircle only for standalone shapes. */
-.ig-squircle,
-.ig-squircle-container {
-  border-radius: var(--ig-radius-lg);
-}
-@supports (corner-shape: superellipse(2)) {
-  .ig-squircle,
-  .ig-squircle-container {
-    corner-shape: superellipse(2);
-    border-radius: var(--ig-radius-xl);
-  }
-  /* Inline children inside a squircle-container should NOT also be
-     squircled (creates a nested-radius artefact). */
-  .ig-squircle-container :is(button, .tab, .chip, .badge) {
-    corner-shape: normal;
-  }
-}
-
 /* Ambient light-source orbs - 'lit glass'. Single-accent hues only. */
 .ig-ambient {
   position: relative;

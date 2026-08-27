@@ -27,3 +27,7 @@ browser/edge-theme/**/Cached Theme.pak
 # GRUB QEMU preview build artifacts
 /iso/
 *.iso
+
+# Python bytecode cache (tokens/codegen.py)
+__pycache__/
+*.pyc

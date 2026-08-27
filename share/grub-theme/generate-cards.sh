@@ -81,10 +81,10 @@ echo "GPU:      $GPU_SHORT"
 make_card() {
   local out="$1" label="$2" big="$3" sub="$4" big_size="${5:-36}"
   magick -size 360x140 xc:'rgba(31,32,40,0.75)' \
-    -fill '#A8E635' -draw "roundrectangle 20,14 80,18 2,2" \
+    -fill '#A6C9A6' -draw "roundrectangle 20,14 80,18 2,2" \
     -fill none -stroke 'rgba(193,255,88,0.20)' -strokewidth 1 \
     -draw "roundrectangle 0,0 359,139 8,8" \
-    -fill '#C1FF58' -font "$SF_PRO" -pointsize 18 -gravity northwest \
+    -fill '#C0E3C0' -font "$SF_PRO" -pointsize 18 -gravity northwest \
     -annotate +20+32 "$label" \
     -fill '#F8F8F8' -pointsize "$big_size" -annotate +20+50 "$big" \
     -fill '#6B7280' -pointsize 16 -annotate +20+108 "$sub" \

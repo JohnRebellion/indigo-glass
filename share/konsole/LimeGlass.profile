@@ -7,7 +7,7 @@ WordCharacters=-./\?()\"[]{}&%@!#*,;'<>|~^
 
 [Cursor Options]
 CursorShape=2
-CustomCursorColor=168,230,53
+CustomCursorColor=166,201,166
 CustomCursorTextColor=7,8,10
 UseCustomCursorColor=true
 

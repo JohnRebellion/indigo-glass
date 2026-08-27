@@ -1,4 +1,4 @@
-/* Lime Glass simulator - global reset + chrome */
+/* Sage Ink simulator - global reset + chrome */
 
 /* Self-host canonical fonts so simulator renders identically on every OS */
 @font-face {
@@ -91,7 +91,7 @@ a:hover {
   scrollbar-color: color-mix(in srgb, var(--ig-indigo) 55%, transparent) transparent;
 }
 
-/* Lime Glass mixin classes for sim use */
+/* Sage Ink mixin classes for sim use */
 .ig-panel {
   position: relative;
   background: color-mix(in srgb, var(--ig-surface-alt) 70%, transparent);
