@@ -424,7 +424,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        id="path2368-7-5"
-       style="fill:url(#radialGradient3268-6-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0"
        d="M 6,0 C 6,4 4,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -435,7 +435,7 @@
        id="st"
        height="10"
        width="32"
-       style="fill:url(#linearGradient4945);fill-opacity:1"
+       style="opacity:0"
        x="0"
        y="0" />
     <rect
@@ -458,10 +458,10 @@
        y="0" />
     <rect
        id="sb"
-       height="10"
+       height="5"
        width="32"
        y="6"
-       style="fill:url(#linearGradient1734);fill-opacity:1"
+       style="opacity:1;fill:#000000"
        x="0" />
   </g>
   <g
@@ -471,7 +471,7 @@
        id="sl"
        height="32"
        width="10"
-       style="fill:url(#linearGradient1984);fill-opacity:1"
+       style="opacity:0"
        x="0"
        y="0" />
     <rect
@@ -495,21 +495,21 @@
     <rect
        id="sr"
        height="32"
-       width="10"
+       width="5"
        x="6"
-       style="fill:url(#linearGradient8667);fill-opacity:1"
+       style="opacity:1;fill:#000000"
        y="0" />
   </g>
   <rect
      id="shadow-hint-top-margin"
-     height="10"
+     height="0"
      style="fill:#ff00ff"
      width="2"
      x="76"
      y="0" />
   <rect
      id="shadow-hint-bottom-margin"
-     height="10"
+     height="5"
      style="fill:#ff00ff"
      width="2"
      x="76"
@@ -518,26 +518,26 @@
      id="shadow-hint-right-margin"
      height="2"
      style="fill:#ff00ff"
-     width="10"
+     width="5"
      x="101"
      y="33" />
   <rect
      id="shadow-hint-left-margin"
      height="2"
      style="fill:#ff00ff"
-     width="10"
+     width="0"
      x="47"
      y="29" />
   <rect
      id="shadow-hint-top-inset"
-     height="10"
+     height="0"
      style="fill:#00ff00"
      width="2"
      x="80"
      y="0" />
   <rect
      id="shadow-hint-bottom-inset"
-     height="10"
+     height="5"
      style="fill:#00ff00"
      width="2"
      x="80"
@@ -546,14 +546,14 @@
      id="shadow-hint-right-inset"
      height="2"
      style="fill:#00ff00"
-     width="10"
+     width="5"
      x="101"
      y="29" />
   <rect
      id="shadow-hint-left-inset"
      height="2"
      style="fill:#00ff00"
-     width="10"
+     width="0"
      x="47"
      y="33" />
   <g
@@ -567,7 +567,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        id="path2368"
-       style="fill:url(#radialGradient3268);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:1;fill:#000000"
        d="M 6,0 C 6,4 4,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -581,7 +581,7 @@
        id="path95-1" />
     <path
        id="path2368-0"
-       style="fill:url(#radialGradient3268-4);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0"
        d="M 6,0 C 6,3.9985637 3.9951555,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -596,7 +596,7 @@
        sodipodi:nodetypes="scccss" />
     <path
        id="path2368-7"
-       style="fill:url(#radialGradient3268-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0"
        d="M 6,0 C 6,3.9881462 3.9744051,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
