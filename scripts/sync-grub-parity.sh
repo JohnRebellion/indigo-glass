@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# Lime Glass — GRUB theme parity sync
+# Sage Ink — GRUB theme parity sync
 #
 # share/grub-theme/ is the SINGLE SOURCE OF TRUTH for the GRUB theme.
 # This script propagates it to the two downstream consumers so real boot,
 # the QEMU preview, and the SvelteKit simulator stay 1:1:
 #
-#   1. simulator/static/presets/lime/  (the in-browser simulator preset)
-#   2. /boot/grub2/themes/lime-glass/   (the live installed theme)  [--deploy]
+#   1. simulator/static/presets/sage/  (the in-browser simulator preset;
+#      was presets/lime/ - renamed 2026-08-28 along with the accent, since
+#      GRUB was never actually deployed to /boot yet, so there was no live
+#      install under the old name to migrate)
+#   2. /boot/grub2/themes/sage-ink/    (the live installed theme)  [--deploy]
 #
 # Without --deploy it only syncs the simulator preset (safe, no sudo). Use
 # --deploy to also push to /boot and regenerate grub.cfg.
@@ -34,8 +37,8 @@ done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$REPO_DIR/share/grub-theme"
-SIM="$REPO_DIR/simulator/static/presets/lime"
-BOOT="/boot/grub2/themes/lime-glass"
+SIM="$REPO_DIR/simulator/static/presets/sage"
+BOOT="/boot/grub2/themes/sage-ink"
 
 [ -d "$SRC" ] || { echo "✗ source missing: $SRC" >&2; exit 1; }
 
@@ -164,7 +167,7 @@ if [ "$DEPLOY" = true ]; then
   echo "▶ Deploy → installed theme ($BOOT) [sudo]"
   run "sudo mkdir -p \"$BOOT\""
   overlay "$BOOT" full "sudo "
-  # Update GRUB variables in /etc/default/grub to point at the lime-glass paths.
+  # Update GRUB variables in /etc/default/grub to point at the sage-ink paths.
   # Critically GRUB_FONT: /etc/grub.d/00_header puts it in the `if loadfont` guard
   # that ENABLES gfxterm. If GRUB_FONT points at a missing path the guard fails,
   # gfxterm never activates, and the theme silently doesn't load (text-mode boot).
