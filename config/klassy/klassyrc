@@ -20,8 +20,8 @@ VaryColorCloseOutlineInactive=Opaque
 [ButtonColors]
 ButtonBackgroundColorsActive=AccentTrafficLights
 ButtonBackgroundColorsInactive=AccentTrafficLights
-ButtonBackgroundOpacityActive=85
-ButtonBackgroundOpacityInactive=50
+ButtonBackgroundOpacityActive=100
+ButtonBackgroundOpacityInactive=100
 ButtonOverrideColorsActiveApplicationMenu={"OutlineHover":[10,0,0,0],"OutlineNormal":[10,0,0,0],"OutlinePress":[10,0,0,0]}
 ButtonOverrideColorsActiveClose={"OutlineHover":[10,0,0,0],"OutlineNormal":[10,0,0,0],"OutlinePress":[10,0,0,0]}
 ButtonOverrideColorsActiveContextHelp={"OutlineHover":[10,0,0,0],"OutlineNormal":[10,0,0,0],"OutlinePress":[10,0,0,0]}
@@ -67,12 +67,20 @@ LookAndFeelSet=org.kde.breezedark.desktop
 RefreshedConfig=6.5.3
 
 [Style]
-MenuOpacity=90
+MenuOpacity=100
 
 [TitleBarOpacity]
-ActiveTitleBarOpacity=30
-InactiveTitleBarOpacity=60
-OpaqueMaximizedTitleBars=false
+# All three of ActiveTitleBarOpacity/InactiveTitleBarOpacity/Opaque* below
+# were 30/60/false (a genuine translucent "frosted glass" titlebar) -
+# discovered live 2026-08-28 as the actual cause of "windows are still
+# transparent" after the material migration: this is a Klassy-native
+# opacity path, completely independent of KWin's blur effect and the
+# tokens.toml [opacity] table (which isn't wired to anything live). ink is
+# opaque - the titlebar/header, buttons, and menus all need 100 here, not
+# just KWin's blur turned off.
+ActiveTitleBarOpacity=100
+InactiveTitleBarOpacity=100
+OpaqueMaximizedTitleBars=true
 
 [TitleBarSpacing]
 PercentMaximizedTopBottomMargins=100
@@ -90,4 +98,20 @@ IconSize=IconDefault
 MatchTitleBarToApplicationColor=true
 SystemIconSize=SystemIcon12
 TitleAlignment=AlignCenter
-WindowCornerRadius=8
+WindowCornerRadius=0
+
+# ShadowColor derived from the active variant's accent_alt (tokens/out/klassy-radius.ini)
+[ShadowStyle]
+ShadowSize=ShadowSmall
+ShadowStrength=255
+ShadowColor=137, 168, 137
+
+# OpaqueTitleBar defaults to false in Klassy's own schema (it lives in the
+# [Exceptions] group but IS the value read when no per-window exception
+# overrides it - see libbreezecommon/decorationcolors.cpp). false is what
+# lets ActiveTitleBarOpacity/InactiveTitleBarOpacity above actually apply as
+# alpha, REGARDLESS of OverrideActiveTitleBarOpacity/OverrideInactive being
+# unset - that branch triggers on a fresh opaque base colour with no
+# override needed. Must be true for ink.
+[Exceptions]
+OpaqueTitleBar=true

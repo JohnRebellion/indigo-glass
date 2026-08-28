@@ -3,8 +3,6 @@
   import '../lib/styles/tokens.css';
   import '../lib/styles/density.css';
   import '../lib/styles/density-optin.css';
-  import '../lib/styles/glass.css';
-  import '../lib/styles/liquid-glass.css';
   import '../lib/styles/global.css';
 
   let { children } = $props();
@@ -15,7 +13,8 @@
     { href: '/vscode/',           label: 'VSCode',       id: 'vscode' },
     { href: '/vscode/claude-code/', label: 'Claude Code', id: 'claude-code' },
     { href: '/grub/',             label: 'GRUB',         id: 'grub' },
-    { href: '/density-test/',     label: 'Density',      id: 'density' }
+    { href: '/density-test/',     label: 'Density',      id: 'density' },
+    { href: '/palettes/',         label: 'Palettes',     id: 'palettes' }
   ];
 
   function isActive(href: string): boolean {
@@ -24,19 +23,11 @@
   }
 </script>
 
-<!-- Liquid Glass refraction filter - referenced by .ig-liquid -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="ig-liquid-glass" x="0%" y="0%" width="100%" height="100%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.014" numOctaves="2" seed="7" result="noise"/>
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
-
 <div class="ig-shell">
   <header class="ig-shell-header" data-testid="shell-header">
     <div class="ig-brand">
       <span class="ig-brand-dot"></span>
-      <span class="ig-brand-name">Lime Glass</span>
+      <span class="ig-brand-name">Sage Ink</span>
       <span class="ig-brand-sub">simulator</span>
     </div>
     <nav class="ig-tabs" aria-label="Surfaces">

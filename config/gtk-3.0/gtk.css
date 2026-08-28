@@ -1,10 +1,15 @@
 @import 'colors.css';
 
-/* Lime Glass — GTK3 accent override */
-@define-color theme_selected_bg_color #A8E635;
+/* Sage Ink — GTK3 accent override.
+   GTK3 apps still render on the base theme's own material (WhiteSur-Dark-
+   purple, third-party) - this only tints accent colours on top, same as it
+   always has. No ink-material rewrite here: GTK3/WhiteSur's actual widget
+   shadows/corners/vibrancy are outside indigo-glass, unlike gtk-4.0/gtk.css
+   which authors real card/popover rules directly. */
+@define-color theme_selected_bg_color #A6C9A6;
 @define-color theme_selected_fg_color #FFFFFF;
-@define-color accent_color #C1FF58;
-@define-color accent_bg_color #A8E635;
+@define-color accent_color #C0E3C0;
+@define-color accent_bg_color #A6C9A6;
 @define-color accent_fg_color #FFFFFF;
-@define-color link_color #C1FF58;
-@define-color link_visited_color #8BC407;
+@define-color link_color #C0E3C0;
+@define-color link_visited_color #89A889;

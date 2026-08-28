@@ -1,0 +1,5 @@
+/* Sage Ink is dark-first; GTK3 loads gtk-dark.css instead of this file
+ * whenever gtk-application-prefer-dark-theme is true (set system-wide in
+ * this design system's gtk-3.0/settings.ini). This file exists only so the
+ * theme is considered valid/loadable if that preference is ever off. */
+@import url("gtk-dark.css");

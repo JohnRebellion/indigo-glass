@@ -1,5 +1,5 @@
 #!/bin/bash
-# Lime Glass — Installation script
+# Sage Ink — Installation script
 # Sets up complete design system: KDE Plasma + GTK + Konsole + Starship + Fastfetch
 #
 # Tested on: Fedora 43 / Nobara 43, KDE Plasma 6.6+, Wayland
@@ -25,7 +25,7 @@ for arg in "$@"; do
 done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-echo "▶ Lime Glass installer"
+echo "▶ Sage Ink installer"
 echo "  Source: $REPO_DIR"
 echo "  User: $USER"
 echo "  Home: $HOME"
@@ -140,29 +140,33 @@ if [ "$THEMES_ONLY" = false ]; then
   run "cd $HOME/src/klassy/build && sudo make install"
 fi
 
-# ─── Build kwin-effects-better-blur-dx ───
-# Pinned to a known-good commit so all machines converge on the same build
-# (docs/REFERENCE.md Bug 10). Override with BLUR_COMMIT=<hash> to test newer.
-BLUR_COMMIT="${BLUR_COMMIT:-9d4177ddd9d2d22094e018f4f0d47e47d436ab43}"  # 2026-07-31
-if [ "$THEMES_ONLY" = false ]; then
-  echo
-  echo "▶ Building kwin-effects-better-blur-dx @ $BLUR_COMMIT..."
-  run "cd /tmp && rm -rf kwin-effects-better-blur-dx"
-  run "cd /tmp && git clone https://github.com/xarblu/kwin-effects-better-blur-dx.git"
-  run "cd /tmp/kwin-effects-better-blur-dx && git checkout '$BLUR_COMMIT'"
-  run "cd /tmp/kwin-effects-better-blur-dx && mkdir -p build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=/usr"
-  run "cd /tmp/kwin-effects-better-blur-dx/build && make -j\$(nproc)"
-  run "cd /tmp/kwin-effects-better-blur-dx/build && sudo make install"
-fi
+# ─── kwin-effects-better-blur-dx: NOT built (Sage Ink v5, 2026-08-28) ───
+# Ink has no translucent surface anywhere, so there is nothing for a
+# compositor blur pass to blur. tokens/out/kwinrc-blur.ini (applied below)
+# explicitly sets better_blur_dxEnabled=false, so building+installing this
+# plugin would only be dormant, sudo-gated dead weight on every machine this
+# script runs on. If a glass revival ever happens, restore this block from
+# git history (this comment's commit) rather than re-authoring it.
 
 # ─── Install themes ───
 echo
-echo "▶ Installing GTK theme (WhiteSur-Dark-purple)..."
-if [ ! -d "$HOME/.themes/WhiteSur-Dark-purple" ]; then
-  run "cd /tmp && rm -rf WhiteSur-gtk-theme"
-  run "cd /tmp && git clone --depth 1 https://github.com/vinceliuice/WhiteSur-gtk-theme.git"
-  run "cd /tmp/WhiteSur-gtk-theme && ./install.sh -c Dark -t purple -m -N glassy"
-fi
+echo "▶ Installing GTK theme (SageInk)..."
+# Own theme now (2026-08-28) - was WhiteSur-Dark-purple (a third-party
+# macOS-style theme, only ever accent-tinted, never actually ink-material).
+# Repo-tracked at config/gtk-theme/SageInk, no network clone needed.
+run "mkdir -p $HOME/.themes"
+run "rm -rf $HOME/.themes/SageInk"
+run "cp -r '$REPO_DIR/config/gtk-theme/SageInk' '$HOME/.themes/SageInk'"
+
+echo
+echo "▶ Installing Plasma Desktop Theme (SageInk)..."
+# Based on Klassy's own kite-indigo companion theme, re-authored opaque and
+# hard-edged: sharp corners, opacity forced to 1 throughout, soft shadow
+# gradients sharpened to a hold-then-cutoff. Repo-tracked at
+# config/plasma-theme/SageInk, no network fetch needed.
+run "mkdir -p $HOME/.local/share/plasma/desktoptheme"
+run "rm -rf $HOME/.local/share/plasma/desktoptheme/SageInk"
+run "cp -r '$REPO_DIR/config/plasma-theme/SageInk' '$HOME/.local/share/plasma/desktoptheme/SageInk'"
 
 echo
 echo "▶ Installing icon theme (Tela-circle-purple-dark)..."
@@ -174,14 +178,19 @@ fi
 
 # ─── Copy theme assets ───
 echo
-echo "▶ Installing Lime Glass color schemes + Konsole profile..."
+echo "▶ Installing Sage Ink color schemes + Konsole profile..."
 run "mkdir -p $HOME/.local/share/color-schemes $HOME/.local/share/konsole"
-# Install BOTH variants' schemes so either can be selected; Lime Glass is default.
-run "cp '$REPO_DIR/share/color-schemes/LimeGlass.colors' '$HOME/.local/share/color-schemes/'"
+# Install BOTH variants' schemes so either can be selected; Sage Ink is default.
+# NOTE: the file that used to be LimeGlass.colors/.colorscheme/.profile was
+# renamed to SageInk.* (2026-08-28) - its CONTENT was already sage, it had
+# just never been renamed to match. There is currently no installable Lime
+# Glass option; only Indigo and Sage ship. Regenerate one from
+# tokens/out/kde-palette.lime.colors if a lime option is ever wanted again.
+run "cp '$REPO_DIR/share/color-schemes/SageInk.colors' '$HOME/.local/share/color-schemes/'"
 run "cp '$REPO_DIR/share/color-schemes/IndigoGlass.colors' '$HOME/.local/share/color-schemes/'"
-run "cp '$REPO_DIR/share/konsole/LimeGlass.colorscheme' '$HOME/.local/share/konsole/'"
+run "cp '$REPO_DIR/share/konsole/SageInk.colorscheme' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.colorscheme' '$HOME/.local/share/konsole/'"
-run "cp '$REPO_DIR/share/konsole/LimeGlass.profile' '$HOME/.local/share/konsole/'"
+run "cp '$REPO_DIR/share/konsole/SageInk.profile' '$HOME/.local/share/konsole/'"
 run "cp '$REPO_DIR/share/konsole/IndigoGlass.profile' '$HOME/.local/share/konsole/'"
 
 # ─── Install configs ───
@@ -203,11 +212,12 @@ run "chmod +x $HOME/.config/plasma-workspace/env/gtk.sh"
 
 echo
 echo "▶ Patching kdeglobals (color scheme + widget style + icons)..."
-run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'LimeGlass'"
+run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'SageInk'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'widgetStyle' 'Klassy'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'LookAndFeelPackage' 'org.kde.breezedark.desktop'"
 run "kwriteconfig6 --file kdeglobals --group 'Icons' --key 'Theme' 'Tela-circle-purple-dark'"
 run "kwriteconfig6 --file kdeglobals --group 'Appmenu Style' --key 'Style' 'Widget'"
+run "kwriteconfig6 --file plasmarc --group 'Theme' --key 'name' 'SageInk'"
 
 echo
 echo "▶ Patching kwinrc (Klassy decoration + better-blur-dx)..."
@@ -224,37 +234,28 @@ echo "▶ Patching klassyrc corner radius (matches better-blur-dx clip)..."
 apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" klassyrc
 apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" "$HOME/.config/klassy/klassyrc"
 
-echo
-echo "▶ Installing Better Blur resume watchdog (Bug 10: effect drops after suspend)..."
-run "mkdir -p $HOME/.local/bin $HOME/.config/systemd/user"
-run "cp '$REPO_DIR/scripts/kwin-blur-watchdog.sh' '$HOME/.local/bin/kwin-blur-watchdog.sh'"
-run "chmod +x $HOME/.local/bin/kwin-blur-watchdog.sh"
-run "cp '$REPO_DIR/config/systemd/kwin-blur-watchdog.service' '$HOME/.config/systemd/user/kwin-blur-watchdog.service'"
-# Guarded: systemctl --user needs a live user session (fails via sudo/SSH
-# without lingering) — don't let it abort the rest of the install (set -e).
-if systemctl --user show-environment >/dev/null 2>&1; then
-  run "systemctl --user daemon-reload"
-  run "systemctl --user enable --now kwin-blur-watchdog.service"
-else
-  echo "  ⚠ no systemd --user session — enable later with:"
-  echo "    systemctl --user enable --now kwin-blur-watchdog.service"
-fi
+# The Better Blur resume watchdog is NOT installed any more (Sage Ink v5,
+# 2026-08-28). It existed to reload kwin-effects-better-blur-dx after
+# suspend, which only matters when the effect is enabled - tokens/out/
+# kwinrc-blur.ini (applied above) sets better_blur_dxEnabled=false, so the
+# watchdog would fail-closed and no-op forever (it checks that key before
+# doing anything, by design). A previously-installed watchdog was found
+# still `enabled` (though inactive) on this workstation this session and
+# was disabled: `systemctl --user disable kwin-blur-watchdog.service`.
+# If a glass revival ever re-enables the effect, restore this block from
+# git history (this comment's commit) rather than re-authoring it.
 
-echo
-echo "▶ Adding global window opacity rule (88% active / 85% inactive)..."
-UUID=$(uuidgen)
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'Description' 'Lime Glass — global window opacity'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityactive' '88'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityactiverule' '2'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityinactive' '85'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'opacityinactiverule' '2'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclass' '.*'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclassmatch' '3'"
-run "kwriteconfig6 --file kwinrulesrc --group '$UUID' --key 'wmclasscomplete' 'false'"
+# No global window-opacity rule is written any more (Sage Ink v5,
+# 2026-08-28). Ink windows are opaque - tokens.toml [opacity].window_active/
+# window_inactive are both 1.00 now (were 0.92/0.85). This block used to
+# write a NEW uuidgen-keyed rule on every run, which is non-idempotent: a
+# prior run of this exact script left a duplicate/orphaned 88%/85% rule in
+# ~/.config/kwinrulesrc that had to be found and removed by hand this
+# session, directly contradicting "ink is opaque". Don't recreate it.
 
 if [ "$WITH_GRUB" = true ]; then
   echo
-  echo "▶ Installing Lime Glass GRUB theme..."
+  echo "▶ Installing Sage Ink GRUB theme..."
   # Delegate to the single GRUB deploy path (sync-grub-parity.sh --deploy).
   # That script is the ONE place that copies the theme to /boot, writes
   # GRUB_THEME/BACKGROUND *and GRUB_FONT* (the loadfont guard that enables
@@ -278,7 +279,7 @@ run "qdbus-qt6 org.kde.KWin /KWin reconfigure"
 # is never interrupted mid-install.
 
 echo
-echo "✓ Lime Glass installation complete."
+echo "✓ Sage Ink installation complete."
 echo
 echo "Next steps:"
 echo "  1. Append shell snippet to ~/.zshrc:"
@@ -286,7 +287,7 @@ echo "     cat $REPO_DIR/shell/zshrc-snippet.zsh >> ~/.zshrc"
 echo "  2. Append GTK_THEME export to ~/.profile:"
 echo "     cat $REPO_DIR/shell/profile-snippet.sh >> ~/.profile"
 echo "  3. Set Konsole default profile:"
-echo "     Konsole → Settings → Manage Profiles → set 'LimeGlass' as default"
+echo "     Konsole → Settings → Manage Profiles → set 'SageInk' as default"
 echo "  4. Optional: install Microsoft Edge Wayland flags:"
 echo "     cp /usr/share/applications/microsoft-edge.desktop ~/.local/share/applications/"
 echo "     # Then patch Exec= per config/microsoft-edge.desktop.template"

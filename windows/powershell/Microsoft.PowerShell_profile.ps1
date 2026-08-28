@@ -26,15 +26,15 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
   Set-PSReadLineOption -HistoryNoDuplicates
   Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
   Set-PSReadLineOption -Colors @{
-    Command            = '#C1FF58'  # accent_hi
-    Parameter          = '#8BC406'  # accent_alt
+    Command            = '#C0E3C0'  # accent_hi
+    Parameter          = '#89A889'  # accent_alt
     String             = '#71F79F'  # positive
-    Number             = '#8BC406'
+    Number             = '#89A889'
     Variable           = '#F8F8F8'
-    Keyword            = '#A8E635'  # accent primary
-    Operator           = '#C1FF58'
+    Keyword            = '#A6C9A6'  # accent primary
+    Operator           = '#C0E3C0'
     Comment            = '#6B7280'  # muted
-    Type               = '#8BC406'
+    Type               = '#89A889'
     Default            = '#F8F8F8'
     Selection          = "`e[48;2;168;230;53;128m"
     Error              = '#ED254E'

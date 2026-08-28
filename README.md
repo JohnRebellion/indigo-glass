@@ -136,11 +136,11 @@ For users who want to merge selectively without running the script:
 
 | Component | File | Action |
 |---|---|---|
-| Color scheme (default) | `share/color-schemes/LimeGlass.colors` | Copy to `~/.local/share/color-schemes/` |
+| Color scheme (default) | `share/color-schemes/SageInk.colors` | Copy to `~/.local/share/color-schemes/` |
 | Color scheme (heritage) | `share/color-schemes/IndigoGlass.colors` | Copy to `~/.local/share/color-schemes/` |
-| Konsole scheme (default) | `share/konsole/LimeGlass.colorscheme` | Copy to `~/.local/share/konsole/` |
+| Konsole scheme (default) | `share/konsole/SageInk.colorscheme` | Copy to `~/.local/share/konsole/` |
 | Konsole scheme (heritage) | `share/konsole/IndigoGlass.colorscheme` | Copy to `~/.local/share/konsole/` |
-| Konsole profile (default) | `share/konsole/LimeGlass.profile` | Copy to `~/.local/share/konsole/` |
+| Konsole profile (default) | `share/konsole/SageInk.profile` | Copy to `~/.local/share/konsole/` |
 | Konsole profile (heritage) | `share/konsole/IndigoGlass.profile` | Copy to `~/.local/share/konsole/` |
 | Klassy config | `config/klassy/klassyrc` | Copy to `~/.config/klassyrc` |
 | Starship | `config/starship.toml` | Copy to `~/.config/starship.toml` |

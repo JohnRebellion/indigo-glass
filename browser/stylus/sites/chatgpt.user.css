@@ -29,11 +29,11 @@
     --text-tertiary: #6B7280 !important;
     --text-quaternary: #4B5563 !important;
 
-    --link: #C1FF58 !important;
-    --link-hover: #8BC406 !important;
+    --link: #C0E3C0 !important;
+    --link-hover: #89A889 !important;
 
-    --interactive-bg-accent-default: #A8E635 !important;
-    --interactive-bg-accent-hover: #C1FF58 !important;
+    --interactive-bg-accent-default: #A6C9A6 !important;
+    --interactive-bg-accent-hover: #C0E3C0 !important;
 
     --border-default: rgba(255, 255, 255, 0.10) !important;
     --border-light: rgba(255, 255, 255, 0.06) !important;
