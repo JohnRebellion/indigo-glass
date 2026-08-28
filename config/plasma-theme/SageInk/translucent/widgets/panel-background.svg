@@ -461,7 +461,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        id="path2368-7-5"
-       style="fill:url(#radialGradient3268-6-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0;fill:url(#radialGradient3268-6-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,4 4,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -472,7 +472,7 @@
        id="st"
        height="10"
        width="32"
-       style="fill:url(#linearGradient4945);fill-opacity:1"
+       style="opacity:0;fill:url(#linearGradient4945);fill-opacity:1"
        x="0"
        y="0" />
     <rect
@@ -498,7 +498,7 @@
        height="10"
        width="32"
        y="6"
-       style="fill:url(#linearGradient1734);fill-opacity:1"
+       style="opacity:0;fill:url(#linearGradient1734);fill-opacity:1"
        x="0" />
   </g>
   <g
@@ -508,7 +508,7 @@
        id="sl"
        height="32"
        width="10"
-       style="fill:url(#linearGradient1984);fill-opacity:1"
+       style="opacity:0;fill:url(#linearGradient1984);fill-opacity:1"
        x="0"
        y="0" />
     <rect
@@ -534,7 +534,7 @@
        height="32"
        width="10"
        x="6"
-       style="fill:url(#linearGradient8667);fill-opacity:1"
+       style="opacity:0;fill:url(#linearGradient8667);fill-opacity:1"
        y="0" />
   </g>
   <rect
@@ -604,7 +604,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        id="path2368"
-       style="fill:url(#radialGradient3268);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0;fill:url(#radialGradient3268);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,4 4,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -618,7 +618,7 @@
        id="path95-1" />
     <path
        id="path2368-0"
-       style="fill:url(#radialGradient3268-4);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0;fill:url(#radialGradient3268-4);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,3.9985637 3.9951555,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -633,7 +633,7 @@
        sodipodi:nodetypes="scccss" />
     <path
        id="path2368-7"
-       style="fill:url(#radialGradient3268-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="opacity:0;fill:url(#radialGradient3268-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,3.9881462 3.9744051,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>

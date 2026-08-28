@@ -6,8 +6,8 @@
    height="64"
    viewBox="0 0 157 64"
    width="157"
-   inkscape:version="1.4.2 (unknown)"
-   sodipodi:docname="panel-background.svgz"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="tooltip.svg"
    version="1.1"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -27,11 +27,11 @@
      inkscape:current-layer="svg2"
      inkscape:showpageshadow="2"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="15.200294"
-     inkscape:cx="17.664132"
-     inkscape:cy="34.308547"
-     inkscape:window-width="1480"
-     inkscape:window-height="834"
+     inkscape:zoom="13.045987"
+     inkscape:cx="18.588091"
+     inkscape:cy="32.845349"
+     inkscape:window-width="1920"
+     inkscape:window-height="1127"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1">
@@ -39,10 +39,7 @@
        type="xygrid"
        id="grid988"
        originx="0"
-       originy="4"
-       spacingy="1"
-       spacingx="1"
-       units="px" />
+       originy="4" />
   </sodipodi:namedview>
   <defs
      id="defs15">
@@ -61,6 +58,9 @@
     <linearGradient
        id="shadow-side"
        gradientUnits="userSpaceOnUse">
+      <!-- Ink: sharpened from a 5-stop gradual fade (0.2 -> 0 over the full
+           depth) to a hold-then-cutoff, much closer to a hard offset shadow
+           than this 9-slice format's usual soft glow. -->
       <stop
          id="stop1762"
          offset="0"
@@ -77,6 +77,7 @@
     <linearGradient
        id="shadow-corner"
        gradientUnits="userSpaceOnUse">
+      <!-- Ink: same sharpening as shadow-side above. -->
       <stop
          id="stop11958"
          offset="0"
@@ -175,44 +176,6 @@
      id="shadow-bottomright-9"
      transform="translate(95,48)" />
   <rect
-     style="color:#eff0f1;fill:currentColor;fill-opacity:1;stroke:none;stop-color:#eff0f1"
-     id="thick-center"
-     width="32"
-     height="32"
-     x="19"
-     y="75"
-     class="ColorScheme-Background" />
-  <rect
-     transform="rotate(90)"
-     style="fill:#800080;fill-opacity:1;stroke:none;stroke-width:1.1547"
-     id="thick-hint-right-margin"
-     width="4"
-     height="8"
-     x="95"
-     y="-56" />
-  <rect
-     transform="rotate(90)"
-     y="-20"
-     x="95"
-     height="8"
-     width="4"
-     id="thick-hint-left-margin"
-     style="fill:#800080;fill-opacity:1;stroke:none;stroke-width:1.1547" />
-  <rect
-     y="69"
-     x="38"
-     height="8"
-     width="4"
-     id="thick-hint-top-margin"
-     style="fill:#800080;fill-opacity:1;stroke:none;stroke-width:1.1547" />
-  <rect
-     style="fill:#800080;fill-opacity:1;stroke:none;stroke-width:1.1547"
-     id="thick-hint-bottom-margin"
-     width="4"
-     height="8"
-     x="39"
-     y="105" />
-  <rect
      id="hint-tile-center"
      height="5"
      style="fill:#ff6600"
@@ -249,7 +212,7 @@
        x="0"
        y="0" />
     <path
-       style="opacity:1;fill:currentColor"
+       style="opacity:0;fill:currentColor"
        d="M 0,5 V 6 H 32 V 5 Z"
        id="path1671"
        class="ColorScheme-Background"
@@ -267,7 +230,7 @@
        x="0"
        y="0" />
     <path
-       style="opacity:1;fill:currentColor"
+       style="opacity:0;fill:currentColor"
        d="M 0,32 H 1 V 0 H 0 Z"
        id="path1785"
        class="ColorScheme-Background"
@@ -285,7 +248,7 @@
        x="0"
        y="0" />
     <path
-       style="opacity:1;fill:currentColor"
+       style="opacity:0;fill:currentColor"
        d="M 5,32 H 6 V 0 H 5 Z"
        id="path1902"
        class="ColorScheme-Background"
@@ -360,15 +323,15 @@
   <rect
      id="hint-right-margin"
      height="4"
-     style="fill:#ff00ff;stroke-width:0.707104"
-     width="2"
-     x="42"
+     style="fill:#ff00ff;stroke-width:0.999996"
+     width="4"
+     x="40"
      y="30" />
   <rect
      id="hint-left-margin"
      height="4"
-     style="fill:#ff00ff;stroke-width:0.707104"
-     width="2"
+     style="fill:#ff00ff;stroke-width:0.999996"
+     width="4"
      x="0"
      y="30" />
   <rect
@@ -461,7 +424,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        id="path2368-7-5"
-       style="opacity:0;fill:url(#radialGradient3268-6-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="fill:url(#radialGradient3268-6-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,4 4,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -472,7 +435,7 @@
        id="st"
        height="10"
        width="32"
-       style="opacity:0;fill:url(#linearGradient4945);fill-opacity:1"
+       style="fill:url(#linearGradient4945);fill-opacity:1"
        x="0"
        y="0" />
     <rect
@@ -498,7 +461,7 @@
        height="10"
        width="32"
        y="6"
-       style="opacity:0;fill:url(#linearGradient1734);fill-opacity:1"
+       style="fill:url(#linearGradient1734);fill-opacity:1"
        x="0" />
   </g>
   <g
@@ -508,7 +471,7 @@
        id="sl"
        height="32"
        width="10"
-       style="opacity:0;fill:url(#linearGradient1984);fill-opacity:1"
+       style="fill:url(#linearGradient1984);fill-opacity:1"
        x="0"
        y="0" />
     <rect
@@ -534,7 +497,7 @@
        height="32"
        width="10"
        x="6"
-       style="opacity:0;fill:url(#linearGradient8667);fill-opacity:1"
+       style="fill:url(#linearGradient8667);fill-opacity:1"
        y="0" />
   </g>
   <rect
@@ -604,7 +567,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        id="path2368"
-       style="opacity:0;fill:url(#radialGradient3268);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="fill:url(#radialGradient3268);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,4 4,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -618,7 +581,7 @@
        id="path95-1" />
     <path
        id="path2368-0"
-       style="opacity:0;fill:url(#radialGradient3268-4);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="fill:url(#radialGradient3268-4);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,3.9985637 3.9951555,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -633,7 +596,7 @@
        sodipodi:nodetypes="scccss" />
     <path
        id="path2368-7"
-       style="opacity:0;fill:url(#radialGradient3268-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
+       style="fill:url(#radialGradient3268-6);fill-opacity:1;fill-rule:evenodd;stroke-width:0.999997"
        d="M 6,0 C 6,3.9881462 3.9744051,6 0,6 V 16 H 3 C 10.179702,16 16,10.179702 16,3 V 0 Z"
        sodipodi:nodetypes="cccsscc" />
   </g>
@@ -677,7 +640,7 @@
        id="tspan1362">pixels of the mask will be visible even though they should</tspan><tspan
        sodipodi:role="line"
        x="118"
-       y="8.6755848"
+       y="8.6755857"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.25217px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans';text-align:start;text-anchor:start;fill:#000000;stroke:none;stroke-width:5.72866"
        id="tspan1364">be covered by the svg.</tspan></text>
 </svg>
