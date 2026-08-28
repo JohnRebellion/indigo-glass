@@ -3,8 +3,7 @@
     { href: '/browser/',          name: 'Browser',                 desc: 'Stylus + Dark Reader cross-site retint' },
     { href: '/vscode/',           name: 'VSCode',                  desc: 'Sage Ink Dark color theme' },
     { href: '/vscode/claude-code/', name: 'Claude Code',           desc: 'Anthropic webview retint via patch-webview-css' },
-    { href: '/grub/',             name: 'GRUB',                    desc: 'Boot picker theme (consolidated from grub-simulator)' },
-    { href: '/glass-ink/',        name: 'Glass & Ink',             desc: 'Material decision record — why ink won, not glass' }
+    { href: '/grub/',             name: 'GRUB',                    desc: 'Boot picker theme (consolidated from grub-simulator)' }
   ];
 
   // Sage Ink default variant (deep-black ladder + muted-sage accent).
@@ -27,7 +26,7 @@
   <header class="ig-overview-hero">
     <h1>Sage Ink</h1>
     <p class="ig-tagline">neobrutalist ink — opaque, hard-shadow, colour-as-elevation</p>
-    <p class="ig-sub">Compact, single-accent. Deep black + muted sage, OKLCH color, zero glass. See <a href="/glass-ink/">Glass &amp; Ink</a> for why.</p>
+    <p class="ig-sub">Compact, single-accent. Deep black + muted sage, OKLCH color, zero glass.</p>
   </header>
 
   <section class="ig-surfaces" data-testid="surfaces">

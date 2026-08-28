@@ -1,6 +1,6 @@
 {
   "presets": [
-    { "id": "lime", "name": "Lime Glass", "primary": "#07080A", "accent": "#A8E635" },
+    { "id": "sage", "name": "Sage Ink", "primary": "#07080A", "accent": "#A6C9A6" },
     { "id": "indigo", "name": "Indigo Glass", "primary": "#7c3aed", "accent": "#a78bfa" },
     { "id": "palette", "name": "Cmd-K Palette", "primary": "#312e81", "accent": "#a78bfa" },
     { "id": "compot", "name": "Compot Dashboard", "primary": "#0a0a14", "accent": "#a78bfa" },

@@ -91,29 +91,14 @@ a:hover {
   scrollbar-color: color-mix(in srgb, var(--ig-indigo) 55%, transparent) transparent;
 }
 
-/* Sage Ink mixin classes for sim use */
+/* Sage Ink mixin classes for sim use — opaque, zero blur, hard offset elevation */
 .ig-panel {
   position: relative;
-  background: color-mix(in srgb, var(--ig-surface-alt) 70%, transparent);
-  backdrop-filter: blur(var(--ig-blur-md)) saturate(110%);
-  -webkit-backdrop-filter: blur(var(--ig-blur-md)) saturate(110%);
+  background: var(--ig-surface-alt);
   border: 1px solid var(--ig-border);
   border-radius: var(--ig-radius-default);
   isolation: isolate;
 }
-/* Glassmorphism 2.0 grain micro-texture on top of the blur */
-.ig-panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--ig-grain-image);
-  background-size: var(--ig-grain-tile, 200px) var(--ig-grain-tile, 200px);
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  border-radius: inherit;
-  z-index: 0;
-}
-.ig-panel > * { position: relative; z-index: 1; }
 
 .ig-button {
   background: var(--ig-indigo);

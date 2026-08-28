@@ -1,18 +1,45 @@
 <script lang="ts">
-  import GlassInk from '$lib/GlassInk.svelte';
   import { palettes, type Palette } from '$lib/palettes';
 
   /**
-   * Accent candidates for Glass & Ink.
+   * Accent candidates.
    *
    * Deliberately NOT a side-by-side grid: simultaneous contrast makes adjacent
    * accents distort each other, so seven panes at once would be a misleading
    * instrument. One window, one position, accent swapped in place.
    */
   let selectedId = $state('moss');
-  let material = $state<'ink' | 'glass'>('ink');
 
   const current = $derived(palettes.find((p) => p.id === selectedId) ?? palettes[0]);
+
+  const sidebarItems = [
+    { icon: '▤', label: 'Tokens', active: true },
+    { icon: '◫', label: 'Surfaces', active: false },
+    { icon: '◇', label: 'Variants', active: false },
+    { icon: '⌗', label: 'Parity', active: false },
+    { icon: '⎋', label: 'Deploy', active: false }
+  ];
+
+  const tabItems = [
+    { label: 'codegen.py', active: true },
+    { label: 'tokens.toml', active: false },
+    { label: 'klassy.ini', active: false }
+  ];
+
+  const previewCards = $derived([
+    {
+      kicker: 'Contrast',
+      title: `${current.name} on base`,
+      value: `${current.contrastBase}:1`,
+      note: 'Measured against this variant’s own base.'
+    },
+    {
+      kicker: 'Contrast',
+      title: 'Hazard 2 on base',
+      value: '5.10:1',
+      note: 'Indigo #5E6AD2. AA large only — cannot carry small text.'
+    }
+  ]);
 
   function vars(p: Palette): string {
     return [
@@ -24,9 +51,7 @@
       `--ig-base: ${p.base}`,
       `--ig-surface: ${p.surface}`,
       `--ig-surface-alt: ${p.surfaceAlt}`,
-      `--ig-sidebar: ${p.sidebar}`,
-      `--ig-glass-accent-rgb: ${p.accentRgb}`,
-      `--ig-glass-surface-rgb: ${p.surfaceRgb}`
+      `--ig-sidebar: ${p.sidebar}`
     ].join('; ');
   }
 </script>
@@ -65,12 +90,54 @@
 
   <div class="pal-stage">
     <div class="pal-window">
-      {#key selectedId + material}
-        <GlassInk
-          variant={material}
-          accentName={current.name}
-          accentContrast={`${current.contrastBase}:1`}
-        />
+      {#key selectedId}
+        <div class="pw" data-testid="pal-window">
+          <div class="pw-title">
+            <span class="pw-dots"><i></i><i></i><i></i></span>
+            <span class="pw-title-text">tokens · {current.name.toLowerCase()}</span>
+          </div>
+          <div class="pw-body">
+            <aside class="pw-side">
+              {#each sidebarItems as s}
+                <div class="pw-side-item" class:active={s.active}>
+                  <span class="pw-side-icon">{s.icon}</span>{s.label}
+                </div>
+              {/each}
+            </aside>
+            <div class="pw-main">
+              <div class="pw-tabs">
+                {#each tabItems as t}
+                  <span class="pw-tab" class:active={t.active}>{t.label}</span>
+                {/each}
+              </div>
+              <div class="pw-hazard">
+                <span class="pw-kicker pw-kicker-on-fill">Hazard block · one per view</span>
+                <h3>Colour is the elevation</h3>
+                <p>Hierarchy by saturated fill, not by shadow depth.</p>
+              </div>
+              <div class="pw-cards">
+                {#each previewCards as c}
+                  <div class="pw-card">
+                    <span class="pw-kicker">{c.kicker}</span>
+                    <strong class="pw-card-title">{c.title}</strong>
+                    <span class="pw-card-value">{c.value}</span>
+                    <p class="pw-card-note">{c.note}</p>
+                  </div>
+                {/each}
+              </div>
+              <div class="pw-btns">
+                <button type="button" class="pw-btn primary">Regenerate</button>
+                <button type="button" class="pw-btn ghost">Diff</button>
+                <span class="pw-badge">schema v3</span>
+                <span class="pw-badge alt">2 variants</span>
+              </div>
+              <pre class="pw-term"><span class="p">~/indigo-glass</span> <span class="c">$</span> python3 tokens/codegen.py
+<span class="ok">✓</span> css-vars.{current.id}.css      <span class="d">22 tokens</span>
+<span class="ok">✓</span> kde-palette.{current.id}.colors <span class="d">18 roles</span>
+<span class="ok">✓</span> klassy-radius.ini       <span class="d">ink 0</span></pre>
+            </div>
+          </div>
+        </div>
       {/key}
     </div>
 
@@ -101,14 +168,6 @@
       </div>
       <p class="pal-note">{current.note}</p>
       <p class="pal-warn"><span class="pal-label">Semantics</span>{current.collision}</p>
-
-      <div class="pal-material">
-        <span class="pal-label">Material</span>
-        <div class="pal-toggle">
-          <button type="button" class:on={material === 'ink'} onclick={() => (material = 'ink')}>Ink</button>
-          <button type="button" class:on={material === 'glass'} onclick={() => (material = 'glass')}>Glass</button>
-        </div>
-      </div>
     </aside>
   </div>
 
@@ -153,7 +212,6 @@
     background-image:
       radial-gradient(circle at 22% 20%, color-mix(in oklab, var(--ig-accent) 9%, transparent) 0%, transparent 58%),
       radial-gradient(circle at 80% 60%, color-mix(in oklab, var(--ig-accent-alt) 6%, transparent) 0%, transparent 58%);
-    filter: blur(110px);
   }
   .pal > *:not(.pal-amb) { position: relative; z-index: 1; }
 
@@ -288,27 +346,174 @@
     color: var(--ig-text-muted);
   }
 
-  .pal-material { border-top: 1px solid var(--ig-border); padding-top: 14px; }
-  .pal-toggle { display: flex; gap: 6px; }
-  .pal-toggle button {
-    flex: 1;
-    padding: 7px 10px;
+  /* ---- preview window (ink only — no material toggle, glass was retired) ---- */
+  .pw {
+    border: 1px solid var(--ig-border);
+    border-radius: 0;
+    overflow: hidden;
+    min-height: 470px;
+    display: flex;
+    flex-direction: column;
+    background: var(--ig-surface);
+    box-shadow: 8px 8px 0 0 #000;
+    container-type: inline-size;
+  }
+  .pw-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--ig-border);
+    background: var(--ig-base);
+  }
+  .pw-dots { display: flex; gap: 5px; }
+  .pw-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--ig-border-strong); }
+  .pw-dots i:first-child { background: var(--ig-accent); }
+  .pw-title-text {
+    font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ig-text-muted);
+  }
+  .pw-body { display: flex; flex: 1; min-height: 0; }
+  .pw-side {
+    width: 148px;
+    flex: 0 0 148px;
+    padding: 10px 8px;
+    border-right: 1px solid var(--ig-border);
+    background: var(--ig-base);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pw-side-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 9px;
+    font-size: 12.5px;
+    color: var(--ig-text-muted);
+  }
+  .pw-side-item.active {
+    background: var(--ig-surface-alt);
+    color: var(--ig-text);
+    box-shadow: inset 2px 0 0 0 var(--ig-accent);
+  }
+  .pw-side-icon { color: var(--ig-accent); font-size: 11px; }
+  .pw-main { flex: 1; min-width: 0; padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .pw-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--ig-border); }
+  .pw-tab {
+    font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ig-text-dim);
+    padding: 7px 11px;
+  }
+  .pw-tab.active { color: var(--ig-text); box-shadow: 0 -1px 0 0 var(--ig-accent) inset; }
+  .pw-hazard {
+    background: var(--ig-accent);
+    color: var(--ig-base);
+    box-shadow: 4px 4px 0 0 #000;
+    padding: 14px 16px;
+  }
+  .pw-hazard h3 {
+    font-family: 'Anton', 'Iosevka Custom Heavy Condensed', Impact, sans-serif;
+    font-size: 26px;
+    line-height: 0.9;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+  }
+  .pw-hazard p { margin: 0; font-size: 12.5px; opacity: 0.78; }
+  .pw-kicker {
+    display: block;
+    font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ig-accent);
+    margin-bottom: 7px;
+  }
+  .pw-kicker-on-fill { color: rgba(7, 8, 10, 0.62); }
+  .pw-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .pw-card {
+    background: var(--ig-surface-alt);
+    border: 1px solid var(--ig-border-strong);
+    box-shadow: 4px 4px 0 0 var(--ig-accent-alt);
+    padding: 13px 15px;
+  }
+  .pw-card-title { display: block; font-size: 13px; }
+  .pw-card-value {
+    display: block;
+    font-family: 'Anton', 'Iosevka Custom Heavy Condensed', Impact, sans-serif;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--ig-accent);
+    font-variant-numeric: tabular-nums;
+    margin: 4px 0 6px;
+  }
+  .pw-card-note { margin: 0; font-size: 11.5px; line-height: 1.4; color: var(--ig-text-muted); }
+  .pw-btns { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pw-btn {
     font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    background: transparent;
-    color: var(--ig-text-muted);
-    border: 1px solid var(--ig-border-strong);
     cursor: pointer;
+    padding: 8px 14px;
   }
-  .pal-toggle button.on {
+  .pw-btn.primary {
     background: var(--ig-accent);
-    border-color: var(--ig-accent);
     color: var(--ig-base);
+    border: 1px solid var(--ig-accent);
+    box-shadow: 4px 4px 0 0 #000;
   }
-  .pal-toggle button:focus-visible { outline: 2px solid var(--ig-accent-hi); outline-offset: 2px; }
+  .pw-btn.ghost {
+    background: transparent;
+    color: var(--ig-accent);
+    border: 1px solid var(--ig-accent);
+    box-shadow: 4px 4px 0 0 var(--ig-accent-alt);
+  }
+  .pw-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #000; }
+  .pw-btn:focus-visible { outline: 2px solid var(--ig-accent-hi); outline-offset: 2px; }
+  .pw-badge {
+    font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border: 1px solid var(--ig-border-strong);
+    color: var(--ig-text-muted);
+  }
+  .pw-badge.alt { border-color: rgba(94, 106, 210, 0.5); color: #7C87E8; }
+  .pw-term {
+    margin: auto 0 0;
+    padding: 12px 14px;
+    font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--ig-text);
+    background: var(--ig-base);
+    border: 1px solid var(--ig-border);
+    box-shadow: 4px 4px 0 0 #000;
+    overflow-x: auto;
+  }
+  .pw-term .p { color: var(--ig-accent); }
+  .pw-term .c { color: var(--ig-text-dim); }
+  .pw-term .ok { color: var(--ig-positive); }
+  .pw-term .d { color: var(--ig-text-muted); }
+  @container (max-width: 520px) {
+    .pw-cards { grid-template-columns: minmax(0, 1fr); }
+    .pw-side { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pw-btn:active { transform: none; }
+  }
 
   /* ---- strip ---- */
   .pal-strip { margin-top: 34px; }

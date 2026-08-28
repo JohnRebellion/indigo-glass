@@ -3,7 +3,6 @@
   import '../lib/styles/tokens.css';
   import '../lib/styles/density.css';
   import '../lib/styles/density-optin.css';
-  import '../lib/styles/glass.css';
   import '../lib/styles/global.css';
 
   let { children } = $props();
@@ -15,7 +14,6 @@
     { href: '/vscode/claude-code/', label: 'Claude Code', id: 'claude-code' },
     { href: '/grub/',             label: 'GRUB',         id: 'grub' },
     { href: '/density-test/',     label: 'Density',      id: 'density' },
-    { href: '/glass-ink/',        label: 'Glass & Ink',  id: 'glass-ink' },
     { href: '/palettes/',         label: 'Palettes',     id: 'palettes' }
   ];
 

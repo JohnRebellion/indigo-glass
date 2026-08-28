@@ -6,10 +6,6 @@
   let showPalette = $state(true);
   // Toggle the Chat panel (a Tools-tier surface on the right)
   let showChat = $state(true);
-  // Apple iOS 27 "clarity <-> tinted" glass slider (0.00 = pure blur, 0.20 = heavily tinted)
-  let glassTintAlpha = $state(0.03);
-  // Apple iOS 26.4 "Reduce Bright Effects" toggle — mutes accent glows + grain
-  let reduceBright = $state(false);
 
   const files = [
     { name: 'README.md', icon: 'doc' },
@@ -32,20 +28,12 @@
   class="vscode"
   class:layered
   data-testid="sim-vscode"
-  data-reduce-bright={reduceBright ? '' : undefined}
-  style="--ig-glass-tint-alpha: {glassTintAlpha};"
 >
-  <!-- Demo controls: toggle the 2026 layered treatment + Apple-style runtime knobs -->
+  <!-- Demo controls: toggle the 2026 layered treatment -->
   <div class="demo-controls" data-testid="demo-controls">
     <label><input type="checkbox" bind:checked={layered} /> Layered UI</label>
     <label><input type="checkbox" bind:checked={showChat} /> Chat panel</label>
     <label><input type="checkbox" bind:checked={showPalette} /> Command palette</label>
-    <label><input type="checkbox" bind:checked={reduceBright} /> Reduce Bright Effects (iOS 26.4)</label>
-    <label class="slider-label">
-      Glass tint
-      <input type="range" min="0" max="0.20" step="0.01" bind:value={glassTintAlpha} />
-      <span class="slider-val">{glassTintAlpha.toFixed(2)}</span>
-    </label>
   </div>
 
   <div class="title-bar">
@@ -390,40 +378,23 @@ actions   = "#121216"</pre>
   }
   .demo-controls label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
   .demo-controls input[type="checkbox"] { accent-color: var(--ig-indigo); }
-  .demo-controls input[type="range"] { accent-color: var(--ig-indigo); width: 110px; }
-  .slider-label { gap: 6px !important; }
-  .slider-val { font-family: "Iosevka Custom Condensed", monospace; color: var(--ig-indigo); }
 
-  /* ── Chat panel (Tools tier) ─────────────────────────────────── */
+  /* ── Chat panel (Tools tier) — opaque ink surface ───────────────── */
   .chat-panel {
     position: relative;
     width: 320px;
     display: flex;
     flex-direction: column;
-    background-color: rgba(var(--ig-glass-surface-rgb), var(--ig-glass-bg-alpha));
-    backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);
-    -webkit-backdrop-filter: blur(var(--ig-glass-blur)) saturate(110%);
+    background-color: var(--ig-surface);
     border-left: 1px solid var(--ig-border);
     isolation: isolate;
     min-width: 0;
   }
-  /* accent tint film — the LIVE, runtime-adjustable surface */
-  .chat-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(var(--ig-glass-accent-rgb), var(--ig-glass-tint-alpha));
-    pointer-events: none;
-    z-index: 0;
-  }
-  .chat-panel > * { position: relative; z-index: 1; }
   .vscode.layered .chat-panel {
-    background-color: rgba(var(--ig-glass-surface-rgb), calc(var(--ig-glass-bg-alpha) + 0.1));
-    /* subtle glow to signal it's a Tools surface, not part of the editor */
+    background-color: var(--ig-surface-alt);
+    /* hairline to signal it's a Tools surface, not part of the editor */
     box-shadow: inset 1px 0 0 var(--ig-border);
   }
-  /* Reduce-bright kills grain/glow. Kill the accent tint film too via var. */
-  [data-reduce-bright] .chat-panel::before { display: none; }
   .chat-header {
     display: flex;
     align-items: center;
@@ -524,8 +495,8 @@ actions   = "#121216"</pre>
     width: 560px;
     background: var(--ig-surface);  /* flat mode: same tone as editor variants */
     border: 1px solid var(--ig-border);
-    border-radius: 6px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+    border-radius: 0;
+    box-shadow: 14px 14px 0 0 rgba(0,0,0,0.9);
     overflow: hidden;
     font-size: 9pt;
   }
