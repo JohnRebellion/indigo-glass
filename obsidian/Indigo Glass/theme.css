@@ -1,7 +1,7 @@
-/* Lime Glass - Obsidian theme
+/* Sage Ink - Obsidian theme
  *
- * brutalist-glass + Linear dark discipline + Neumorphism 2.0
- * Compact density. Translucent backdrop. No refraction.
+ * brutalist-ink + Linear dark discipline + Neumorphism 2.0
+ * Compact density. Opaque ink surfaces, hard offset shadow, radius 0.
  * Generated values mirror tokens/indigo-glass.tokens.toml */
 
 .theme-dark {
@@ -10,8 +10,8 @@
   --background-primary-alt: #0D0D10;
   --background-secondary: #0A0A0D;
   --background-secondary-alt: #121216;
-  --background-modifier-hover: rgba(168, 230, 53, 0.10);
-  --background-modifier-active-hover: rgba(168, 230, 53, 0.18);
+  --background-modifier-hover: rgba(166, 201, 166, 0.10);
+  --background-modifier-active-hover: rgba(166, 201, 166, 0.18);
   --background-modifier-border: rgba(255, 255, 255, 0.06);
   --background-modifier-border-hover: rgba(255, 255, 255, 0.10);
   --background-modifier-border-focus: #A6C9A6;
@@ -30,7 +30,7 @@
   --text-success: #71F79F;
   --text-accent: #C0E3C0;
   --text-accent-hover: #89A889;
-  --text-selection: rgba(168, 230, 53, 0.45);
+  --text-selection: rgba(166, 201, 166, 0.45);
   --text-highlight-bg: rgba(251, 191, 36, 0.25);
   --text-highlight-bg-active: rgba(251, 191, 36, 0.45);
   --text-italic-color: var(--text-muted);
@@ -80,8 +80,8 @@
 
   /* Scrollbar */
   --scrollbar-bg: transparent;
-  --scrollbar-thumb-bg: rgba(168, 230, 53, 0.45);
-  --scrollbar-active-thumb-bg: rgba(193, 255, 88, 0.75);
+  --scrollbar-thumb-bg: rgba(166, 201, 166, 0.45);
+  --scrollbar-active-thumb-bg: rgba(192, 227, 192, 0.75);
 }
 
 /* Typography */
@@ -123,31 +123,22 @@ textarea,
   padding: 4px 8px !important;
 }
 
-/* Glass panels - translucent backdrop, no refraction */
+/* Ink surfaces - opaque, no blur */
 .modal,
 .popover,
 .menu,
 .workspace-tab-header-container,
 .workspace-sidedock,
 .status-bar {
-  background-color: rgba(31, 32, 40, 0.70) !important;
-  backdrop-filter: blur(13px) saturate(110%);
-  -webkit-backdrop-filter: blur(13px) saturate(110%);
+  background-color: #121216 !important;
   border: 1px solid var(--background-modifier-border);
 }
 
-/* Honor reduce-transparency */
-@media (prefers-reduced-transparency: reduce) {
-  .modal,
-  .popover,
-  .menu,
-  .workspace-tab-header-container,
-  .workspace-sidedock,
-  .status-bar {
-    background-color: #121216 !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+/* Floating/elevated surfaces get a hard offset shadow (colour-as-elevation) */
+.modal,
+.popover,
+.menu {
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
 }
 
 /* Selection */
@@ -160,7 +151,7 @@ textarea,
 *:focus-visible {
   outline: 2px solid #A6C9A6 !important;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(168, 230, 53, 0.18) !important;
+  box-shadow: 0 0 0 4px rgba(166, 201, 166, 0.18) !important;
 }
 
 /* Active line - subtle */
@@ -174,13 +165,13 @@ textarea,
   border-left-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-/* Callouts (Obsidian admonitions) - Lime Glass semantic colors */
+/* Callouts (Obsidian admonitions) - Sage Ink semantic colors */
 .callout[data-callout="note"] {
-  --callout-color: 193, 255, 88;
+  --callout-color: 192, 227, 192;
 }
 .callout[data-callout="info"],
 .callout[data-callout="tip"] {
-  --callout-color: 168, 230, 53;
+  --callout-color: 166, 201, 166;
 }
 .callout[data-callout="warning"],
 .callout[data-callout="caution"] {

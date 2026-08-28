@@ -1,6 +1,8 @@
-# Lime Glass — Edge Theme Extension
+# Sage Ink — Edge Theme Extension
 
-Forces Edge chrome (frame, toolbar, tabs, NTP) to render at Lime Glass token values. Eliminates the visual seam between KWin/Klassy titlebar (`#121216`) and Edge nav bar (default Chromium dark `#1C1D1F`).
+Forces Edge chrome (frame, toolbar, tabs, NTP) to render at Sage Ink token values. Eliminates the visual seam between KWin/Klassy titlebar (`#121216`) and Edge nav bar (default Chromium dark `#1C1D1F`).
+
+Unlike Stylus/Dark Reader (see `../README.md`), this one loads unpacked directly from this repo folder — a repo edit reaches Edge on the next reload, no push or manual re-import required. See "Updating" below for the exact step.
 
 ## Install (unpacked, per profile)
 
@@ -27,7 +29,7 @@ Repeat in each Edge profile launcher you use:
 | `base`            | `#07080A` | `7,8,10`       | omnibox, NTP bg   |
 | `text`            | `#F8F8F8` | `248,248,248`  | all foreground    |
 | `text_muted`      | `#6B7280` | `107,114,128`  | inactive tab text |
-| `accent_hi`       | `#C1FF58` | `193,255,88`   | NTP links         |
+| `accent_hi`       | `#C0E3C0` | `192,227,192`  | NTP links         |
 
 ## Verification
 

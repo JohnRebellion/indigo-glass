@@ -36,7 +36,7 @@
     --notion-teal: #67E8F9 !important;
 
     --notion-divider: rgba(255, 255, 255, 0.06) !important;
-    --notion-selected-block: rgba(168, 230, 53, 0.22) !important;
+    --notion-selected-block: rgba(166, 201, 166, 0.22) !important;
   }
 
   /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).
@@ -81,6 +81,6 @@
 
   /* Selection */
   ::selection {
-    background-color: rgba(168, 230, 53, 0.45) !important;
+    background-color: rgba(166, 201, 166, 0.45) !important;
   }
 }
