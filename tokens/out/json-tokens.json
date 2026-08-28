@@ -1,11 +1,11 @@
 {
   "meta": {
-    "schema_version": 4,
+    "schema_version": 5,
     "name": "Sage Ink",
     "description": "neobrutalist ink - opaque, hard-shadow, colour-as-elevation. No glass.",
     "density": "compact",
     "material_style": "flat_ink",
-    "revision": 4,
+    "revision": 5,
     "color_authoring": "oklch",
     "default_variant": "sage"
   },
@@ -272,22 +272,12 @@
       "apply_to": []
     }
   },
-  "blur": {
-    "none": 0,
-    "sm": 0,
-    "md": 0,
-    "lg": 0,
-    "xl": 0
-  },
   "opacity": {
-    "window_active": 0.92,
-    "window_inactive": 0.85,
+    "window_active": 1.0,
+    "window_inactive": 1.0,
     "overlay_scrim": 0.8,
     "disabled": 0.4,
-    "hover_tint": 0.1,
-    "glass_panel": 0.7,
-    "glass_panel_lo": 0.55,
-    "glass_panel_hi": 0.85
+    "hover_tint": 0.1
   },
   "shadow": {
     "none": "none",
@@ -298,11 +288,6 @@
     "ink_accent": "4px 4px 0 0 #000000",
     "accent_glow": "0 0 0 2px rgba(0,0,0,0.30)",
     "accent_glow_lg": "0 0 24px rgba(0,0,0,0.40)",
-    "glass_sm": "0 2px 8px rgba(0,0,0,0.30)",
-    "glass": "0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06)",
-    "glass_lg": "0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06)",
-    "neu_raised": "-2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40)",
-    "neu_pressed": "inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40)",
     "klassy": {
       "size": "ShadowSmall",
       "strength": 255,
@@ -422,53 +407,6 @@
     "reduce_transparency_opacity": 1.0,
     "reduce_motion_duration_ms": 0,
     "focus_outline_width_px": 2
-  },
-  "glass": {
-    "backdrop_blur": 13,
-    "tint_alpha": 0.03,
-    "bg_alpha": 0.7,
-    "border": "#FFFFFF14",
-    "render": {
-      "brightness": 96,
-      "saturation": 110,
-      "contrast": 100,
-      "noise_strength": 4,
-      "force_contrast_params": false
-    },
-    "grain": {
-      "enabled": true,
-      "opacity": 0.04,
-      "base_frequency": 0.65,
-      "num_octaves": 3,
-      "tile_px": 200
-    }
-  },
-  "ambient": {
-    "enabled": true,
-    "orb_primary": "indigo",
-    "orb_primary_opacity": 0.06,
-    "orb_secondary": "violet",
-    "orb_secondary_opacity": 0.04,
-    "orb_tertiary": "indigo_hi",
-    "orb_tertiary_opacity": 0.03,
-    "feather_px": 120,
-    "positions": [
-      {
-        "color": "orb_primary",
-        "x": 25,
-        "y": 25
-      },
-      {
-        "color": "orb_secondary",
-        "x": 78,
-        "y": 75
-      },
-      {
-        "color": "orb_tertiary",
-        "x": 60,
-        "y": 100
-      }
-    ]
   },
   "_derived": {
     "default_variant": "sage",

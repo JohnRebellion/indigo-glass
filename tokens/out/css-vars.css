@@ -55,22 +55,12 @@
   --ig-radius-xs: 2px;
   --ig-radius-full: 9999px;
 
-  /* Blur */
-  --ig-blur-none: 0px;
-  --ig-blur-sm: 0px;
-  --ig-blur-md: 0px;
-  --ig-blur-lg: 0px;
-  --ig-blur-xl: 0px;
-
   /* Opacity */
-  --ig-opacity-window-active: 0.92;
-  --ig-opacity-window-inactive: 0.85;
+  --ig-opacity-window-active: 1.0;
+  --ig-opacity-window-inactive: 1.0;
   --ig-opacity-overlay-scrim: 0.8;
   --ig-opacity-disabled: 0.4;
   --ig-opacity-hover-tint: 0.1;
-  --ig-opacity-glass-panel: 0.7;
-  --ig-opacity-glass-panel-lo: 0.55;
-  --ig-opacity-glass-panel-hi: 0.85;
 
   /* Shadow */
   --ig-shadow-none: none;
@@ -81,11 +71,6 @@
   --ig-shadow-ink-accent: 4px 4px 0 0 #89A889;
   --ig-shadow-accent-glow: 0 0 0 2px rgba(166,201,166,0.30);
   --ig-shadow-accent-glow-lg: 0 0 24px rgba(166,201,166,0.40);
-  --ig-shadow-glass-sm: 0 2px 8px rgba(0,0,0,0.30);
-  --ig-shadow-glass: 0 4px 24px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.06);
-  --ig-shadow-glass-lg: 0 8px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(255,255,255,0.06);
-  --ig-shadow-neu-raised: -2px -2px 6px rgba(255,255,255,0.04), 2px 2px 6px rgba(0,0,0,0.40);
-  --ig-shadow-neu-pressed: inset -2px -2px 6px rgba(255,255,255,0.04), inset 2px 2px 6px rgba(0,0,0,0.40);
   --ig-shadow-klassy: {'size': 'ShadowSmall', 'strength': 255, 'color': '0, 0, 0'};
   --ig-shadow-indigo-glow: 0 0 0 2px rgba(166,201,166,0.30);
   --ig-shadow-indigo-glow-lg: 0 0 24px rgba(166,201,166,0.40);
@@ -179,18 +164,6 @@
     --ig-amber: color(display-p3 0.9481 0.7585 0.2941);
     --ig-positive: color(display-p3 0.4961 0.9663 0.7497);
     --ig-negative: color(display-p3 0.8543 0.2375 0.3230);
-  }
-}
-
-/* Reduced transparency - disable backdrop blur + raise opacity */
-@media (prefers-reduced-transparency: reduce) {
-  :root {
-    --ig-blur-md: 0;
-    --ig-blur-lg: 0;
-    --ig-blur-xl: 0;
-    --ig-opacity-glass-panel: 1.0;
-    --ig-opacity-glass-panel-lo: 1.0;
-    --ig-opacity-glass-panel-hi: 1.0;
   }
 }
 
