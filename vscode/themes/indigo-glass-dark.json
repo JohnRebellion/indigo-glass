@@ -10,7 +10,7 @@
     "errorForeground": "#ED254E",
     "icon.foreground": "#C0E3C0",
     "selection.background": "#A6C9A644",
-    "widget.shadow": "#00000088",
+    "widget.shadow": "#89A889",
     "widget.border": "#FFFFFF10",
     "sash.hoverBorder": "#C0E3C0",
     "editor.background": "#07080A",

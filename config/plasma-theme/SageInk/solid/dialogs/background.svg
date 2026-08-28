@@ -171,7 +171,7 @@
        y="288"
        width="50"
        height="5"
-       fill="#000000"
+       fill="#89A889"
        id="rect28"
        style="opacity:1" />
     <rect
@@ -194,7 +194,7 @@
        y="288"
        width="50"
        height="5"
-       fill="#000000"
+       fill="#89A889"
        id="rect33"
        style="opacity:1" />
     <rect
@@ -271,7 +271,7 @@
        d="M 74.997677,101.93975 H 79.997677 V 106.93975 H 74.997677 Z"
        fill="#000000"
        id="path58"
-       style="opacity:1;fill:#000000;stroke-width:0.894753" />
+       style="opacity:1;fill:#89A889;stroke-width:0.894753" />
   </g>
   <g
      id="shadow-bottomleft"

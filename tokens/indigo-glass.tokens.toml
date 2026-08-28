@@ -247,9 +247,9 @@ hover_tint      = 0.10
 # so reverting this token has no effect on them. See [shadow.klassy] below.
 [shadow]
 none           = "none"
-ink            = "4px 4px 0 0 #000000"   # the default: card, button, terminal
-ink_lg         = "7px 7px 0 0 #000000"   # feature tiles, hero cards
-ink_press      = "0 0 0 0 #000000"       # active/pressed state - shadow collapses as the object travels into it
+ink            = "4px 4px 0 0 #000000"   # -> accent_alt hex at emit time (doc placeholder, do not hardcode)
+ink_lg         = "7px 7px 0 0 #000000"   # -> accent_alt hex at emit time (doc placeholder)
+ink_press      = "0 0 0 0 #000000"       # -> accent_alt hex at emit time (doc placeholder); collapses on press
 hairline       = "0 0 0 1px rgba(255,255,255,0.10)"  # quiet dividers where even ink is too loud
 # accent_glow / accent_glow_lg / ink_accent are DERIVED per-variant from the
 # active accent by codegen (see emit_css_vars); rgba/hex below are doc

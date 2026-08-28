@@ -270,6 +270,9 @@
        x="-247.07144"
        y="341.67673" />
     <path
+       d="m -262,452 v 46 h 46 v -46 z"
+       style="opacity:1;fill:#89A889;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+    <path
        inkscape:connector-curvature="0"
        id="selected-center"
        d="m -266,448 v 46 h 46 v -46 z"
@@ -447,6 +450,9 @@
          y="851.85712" />
     </g>
     <path
+       d="m -247,530 v 46 h 46 v -46 z"
+       style="opacity:1;fill:#89A889;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+    <path
        inkscape:connector-curvature="0"
        id="hover-center"
        d="m -251,526 v 46 h 46 v -46 z"
@@ -534,6 +540,9 @@
          d="m 325.14285,830.18533 v 15.33333 h -1 v -15.33333 z"
          style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978945" />
     </g>
+    <path
+       d="m -142,530 v 46 h 46 v -46 z"
+       style="opacity:1;fill:#89A889;fill-opacity:1;fill-rule:nonzero;stroke:none" />
     <path
        inkscape:connector-curvature="0"
        id="selected+hover-center"

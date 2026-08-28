@@ -269,6 +269,14 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
     # 27in 1440p monitor the doubling was justified for. See [shadow] in the
     # tokens file for the full note; the native Klassy shadow stays doubled.
     ink_accent = f"4px 4px 0 0 {pal['accent_alt']['hex']}"
+    # ink/ink_lg/ink_press: same accent_alt-derived colour as ink_accent, per
+    # user request (sage shadow instead of black, so it reads clearly against
+    # a dark foreground instead of vanishing into it). Same doc-placeholder
+    # pattern as ink_accent - toml keeps a literal hex only as a fallback
+    # comment, actual value always comes from the active variant here.
+    ink = f"4px 4px 0 0 {pal['accent_alt']['hex']}"
+    ink_lg = f"7px 7px 0 0 {pal['accent_alt']['hex']}"
+    ink_press = f"0 0 0 0 {pal['accent_alt']['hex']}"
     for k, v in t["shadow"].items():
         if k == "accent_glow":
             v = accent_glow
@@ -276,6 +284,12 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
             v = accent_glow_lg
         elif k == "ink_accent":
             v = ink_accent
+        elif k == "ink":
+            v = ink
+        elif k == "ink_lg":
+            v = ink_lg
+        elif k == "ink_press":
+            v = ink_press
         lines.append(f"  --ig-shadow-{k.replace('_', '-')}: {v};")
     # Legacy aliases (kept so consumers referencing indigo-glow keep working).
     lines.append(f"  --ig-shadow-indigo-glow: {accent_glow};")
