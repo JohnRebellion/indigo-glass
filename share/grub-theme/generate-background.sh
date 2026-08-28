@@ -92,7 +92,7 @@ DOTS="$TMP/dots.mvg"
               "1940,860,3,0.25" "980,880,2,0.18"  "2200,1080,2,0.18" \
               "760,640,2,0.15"  "1520,1060,2,0.15"; do
     IFS=, read -r x y r a <<< "$spec"
-    echo "fill rgba(168,230,53,$a)"   # ghost-lime motes — the accent's echo
+    echo "fill rgba(166,201,166,$a)"   # sage motes — the accent's echo
     echo "circle $x,$y $((x+r)),$y"
   done
 } > "$DOTS"
