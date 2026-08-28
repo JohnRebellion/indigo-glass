@@ -2,10 +2,6 @@
 # Color values merged from tokens/out/kde-palette.sage.colors (source of truth).
 # Sections not emitted by codegen ([ColorEffects:*], [Colors:Complementary],
 # [Colors:Header], [KDE]) are hand-maintained; keep in sync manually.
-# File/Name= kept as "LimeGlass" pending the coordinated rename pass (see
-# docs/PHILOSOPHY.md changelog) - KDE's Name= must match the .colors
-# filename by convention, so it can't be renamed alone without also
-# renaming this file and every reference to it in one pass.
 [ColorEffects:Disabled]
 Color=56,56,56
 ColorAmount=0
@@ -125,8 +121,8 @@ ForegroundPositive=113,247,159
 ForegroundVisited=137,168,137
 
 [General]
-ColorScheme=LimeGlass
-Name=LimeGlass
+ColorScheme=SageInk
+Name=Sage Ink
 shadeSortColumn=true
 
 [KDE]

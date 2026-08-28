@@ -1,5 +1,5 @@
 [Appearance]
-ColorScheme=LimeGlass
+ColorScheme=SageInk
 Font=Iosevka Custom Condensed,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 LineSpacing=2
 UseFontLineChararacters=false
@@ -13,7 +13,7 @@ UseCustomCursorColor=true
 
 [General]
 Command=/bin/zsh
-Name=LimeGlass
+Name=SageInk
 Parent=FALLBACK/
 TerminalColumns=220
 TerminalRows=50
