@@ -70,7 +70,7 @@
 card,
 popover > contents {
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.9);
+  box-shadow: 8px 8px 0 0 rgba(137,168,137,0.9);
 }
 
 /* ─── Buttons, entries, switches, checks, tabs, lists, scrollbars, tooltip ───
@@ -86,11 +86,11 @@ popover > contents {
 
 button {
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.9);
+  box-shadow: 8px 8px 0 0 rgba(137,168,137,0.9);
   transition: none;
 }
 button:active, button:checked {
-  box-shadow: 0 0 0 0 rgba(0,0,0,0.9);
+  box-shadow: 0 0 0 0 rgba(137,168,137,0.9);
   margin: 8px 0 0 8px;
 }
 button.circular, button.flat {
@@ -118,7 +118,7 @@ switch {
 }
 switch slider {
   border-radius: 9999px;
-  box-shadow: 2px 2px 0 0 rgba(0,0,0,0.9);
+  box-shadow: 2px 2px 0 0 rgba(137,168,137,0.9);
 }
 
 checkbutton check {
@@ -159,10 +159,10 @@ scrollbar slider:hover {
 
 tooltip {
   border-radius: 0;
-  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.9);
+  box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
 }
 
 menu, popover.menu > contents {
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.9);
+  box-shadow: 8px 8px 0 0 rgba(137,168,137,0.9);
 }

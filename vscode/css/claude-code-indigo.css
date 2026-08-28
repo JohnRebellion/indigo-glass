@@ -292,16 +292,14 @@ html body :is(
 [class*="mention_chip"] {
   background-color: #A6C9A630 !important;
   color: #F8F8F8 !important;
-  border-radius: 6px !important;
+  border-radius: 0 !important;
 }
 
 /* ─── Focus ring (THE red border around prompt) ──────────────────────────── */
 .inputContainer_cKsPxg:focus-within {
   --focus-ring-color: #A6C9A6 !important;
   border-color: #A6C9A6 !important;
-  box-shadow:
-    0 0 0 3px color-mix(in srgb, #A6C9A6 18%, transparent),
-    0 1px 2px color-mix(in srgb, #A6C9A6, transparent 70%) !important;
+  box-shadow: 4px 4px 0 0 #89A889 !important;
 }
 
 .codeInput_Eg8KCQ:focus {
@@ -317,11 +315,11 @@ html body :is(
 .primaryButton_f3sAzg:hover,
 .button_qlaBag.primary_qlaBag:hover {
   background-color: #C0E3C0 !important;
-  box-shadow: 0 0 0 1px #89A88940 !important;
+  box-shadow: 4px 4px 0 0 #89A889 !important;
 }
 
 .app_root {
-  --app-list-border-radius: 8px !important;
+  --app-list-border-radius: 0 !important;
   --app-list-gap: 2px !important;
 }
 
@@ -374,28 +372,15 @@ html body .timelineMessage_07S1Yg {
   margin-bottom: 1px !important;
 }
 
-/* Radius alignment w/ tokens (8px default) */
+/* Radius: 0 - ink is sharp-cornered. */
 html body .toolResult_uq5aLg,
 html body .codeBlockWrapper_-a7MRw,
 html body .codeInput_Eg8KCQ,
 html body .messageInput_cKsPxg,
 html body .inputContainer_cKsPxg {
-  border-radius: 8px !important;
+  border-radius: 0 !important;
 }
 
-/* Squircle corners on the larger glass surfaces (2026 premium corner).
- * Progressive enhancement: Chromium 139+ (VSCode's Electron tracks Chromium)
- * gets superellipse corners; border-radius above is the fallback. Bumped to
- * 12px under corner-shape so the squircle reads at the larger surface size. */
-@supports (corner-shape: superellipse(2)) {
-  html body .toolResult_uq5aLg,
-  html body .codeBlockWrapper_-a7MRw,
-  html body .messageInput_cKsPxg,
-  html body .inputContainer_cKsPxg {
-    corner-shape: superellipse(2) !important;
-    border-radius: 12px !important;
-  }
-}
 
 /* Prompt input: native font everywhere — Lexical editor uses MULTIPLE
  * layers (contenteditable + selection overlay + placeholder span). One

@@ -63,7 +63,7 @@ button {
   color: @theme_fg_color;
   border: 1px solid @borders;
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
   padding: 5px 12px;
   transition: none; /* mechanical: no eased hover fade */
 }
@@ -72,7 +72,7 @@ button:hover {
   border-color: @accent_color;
 }
 button:active, button:checked {
-  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 0 0 rgba(137, 168, 137, 0.9);
   margin: 8px 0 0 8px; /* travels into its own shadow */
 }
 button:disabled {
@@ -169,7 +169,7 @@ switch:checked {
 switch slider {
   background-color: @theme_fg_color;
   border-radius: 9999px;
-  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
 }
 
 /* === Notebook / tabs — sharp, hard bottom rule on active tab === */
@@ -200,14 +200,14 @@ popover, popover.background {
   color: @theme_fg_color;
   border: 1px solid @borders;
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
 }
 menu, .menu, .context-menu {
   background-color: #121216;
   color: @theme_fg_color;
   border: 1px solid @borders;
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
   padding: 4px;
 }
 menuitem, modelbutton {
@@ -272,7 +272,7 @@ scale > trough > highlight {
 scale > slider {
   background-color: @theme_fg_color;
   border-radius: 9999px; /* pill exception: a slider handle IS a circle */
-  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
 }
 
 /* === Tooltips — opaque flat, hard offset shadow (no soft glow) === */
@@ -281,7 +281,7 @@ tooltip, tooltip.background {
   color: @theme_fg_color;
   border: 1px solid @borders;
   border-radius: 0;
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
   padding: 4px 8px;
 }
 
@@ -308,7 +308,7 @@ frame {
 }
 frame.card {
   background-color: #121216;
-  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
 }
 
 /* === Selection / text === */
