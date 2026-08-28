@@ -1,8 +1,19 @@
-# Lime Glass — Browser Layer
+# Sage Ink — Browser Layer
 
 Non-destructive web retint for [Dark Reader](https://chromewebstore.google.com/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh) (`ifoakfbpdcdoeenechcleahebpibofpc`) and [Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne) (`clngdbkpkpeebahjckkjfobafhncgmne`).
 
 > Full design rationale: [../docs/PHILOSOPHY.md](../docs/PHILOSOPHY.md)
+
+---
+
+## Neither layer auto-syncs from this repo — read this before assuming a fix is live
+
+Both Stylus and Dark Reader store their actual applied state **inside the browser's own extension storage**, not as files this repo can write to directly. Editing `indigo-glass.user.css` or `indigo-glass.json` in the repo changes nothing in a running browser until one of these happens:
+
+- **Stylus**: `@updateURL` in the userstyle header points at `raw.githubusercontent.com/.../main/...` — Stylus only re-fetches from that URL (and only when you click "Check for updates," or on its own periodic check). A local, uncommitted, or unpushed-to-`main` edit is invisible to it, no matter how correct the repo file is. Fastest way to actually see a local edit: Stylus dashboard → open the installed style → replace its code with the current file content → Save (this is "Option B" below, and it's the only option that doesn't require a git push).
+- **Dark Reader**: has no update URL at all. `indigo-glass.json` is a one-time **import** — Dark Reader only reflects whatever was true in the file the last time you ran Import. A repo edit needs a fresh **Manage settings → Import settings** to actually reach the running extension.
+
+If you've edited either file and don't see the change: this is why — it's not a missed fix, it's a fix that hasn't been re-delivered to the browser yet.
 
 ---
 
@@ -11,7 +22,7 @@ Non-destructive web retint for [Dark Reader](https://chromewebstore.google.com/d
 | Layer | What it does |
 |---|---|
 | **Stylus** universal `.user.css` | Light-touch retint — scrollbars, selection, focus ring. Never inverts pages. Always safe. |
-| **Dark Reader** preset | Page-wide inversion engine with Lime Glass colors. Toggle per-site if a page breaks. |
+| **Dark Reader** preset | Page-wide inversion engine with Sage Ink colors. Toggle per-site if a page breaks. |
 
 Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/focus). Dark Reader handles full-page inversion for sites without a native dark mode.
 
@@ -23,13 +34,13 @@ Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/
 
 1. Click in browser: [Install indigo-glass.user.css](https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/indigo-glass.user.css)
 2. Stylus prompts → Install
-3. Future updates: Stylus dashboard → "Check for updates"
+3. Future updates: push local changes to `main` first, THEN Stylus dashboard → "Check for updates" — it will not see anything sitting only in a local working tree or a feature branch.
 
-### Option B — Manual paste
+### Option B — Manual paste (works with local, uncommitted changes)
 
 1. Open `stylus/indigo-glass.user.css`
-2. Stylus dashboard → "Write new style"
-3. Paste, Save
+2. Stylus dashboard → find the installed style → **Edit** (or "Write new style" if not yet installed)
+3. Replace the code with the current file content, Save
 
 ### What it paints
 
@@ -37,9 +48,9 @@ Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/
 |---|---|---|
 | Prose font | `Carlito → SF Pro Display → system-ui` | body, p, h1-h6, li, a, label, button, td/th, blockquote, dd/dt, small, strong, em, input (text), select |
 | Loop-tail g/a allograph | Carlito via `unicode-range U+0061, U+0067` | every text element (browser auto-selects per glyph) |
-| `::selection` | `rgba(168,230,53,0.45)` lime glass overlay | all selections |
-| Scrollbar | `rgba(168,230,53,0.45)` thumb → hover `rgba(193,255,88,0.75)` | webkit + Firefox |
-| `*:focus-visible` | `#A8E635` outline + `rgba(168,230,53,0.18)` 4px soft glow | all focus rings |
+| `::selection` | `rgba(166,201,166,0.45)` sage overlay | all selections |
+| Scrollbar | `rgba(166,201,166,0.45)` thumb → hover `rgba(192,227,192,0.75)` | webkit + Firefox |
+| `*:focus-visible` | `#A6C9A6` outline + `rgba(166,201,166,0.18)` 4px soft glow | all focus rings |
 
 Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP page.
 
@@ -53,34 +64,28 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 
 1. Open Dark Reader popup → ⚙ → **Manage settings** → **Import settings**
 2. Select `darkreader/indigo-glass.json`
-3. Dark Reader applies Lime Glass palette:
+3. Dark Reader applies the Sage Ink palette:
 
 | Setting | Value |
 |---|---|
 | Mode | Dark |
 | Brightness | 96 |
 | Contrast | 100 |
-| Background | `#07080A` |
+| Background | `#0F0F12` |
 | Text | `#F8F8F8` |
-| Scrollbar | `#A8E635` |
-| Selection | `#A8E63550` |
+| Scrollbar | `#A6C9A6` |
+| Selection | `#A6C9A6` |
 | Engine | `dynamicTheme` |
 
-Includes a preset block `Lime Glass` targeting `*` so the palette applies globally.
+Includes a preset block `Sage Ink` targeting `*` so the palette applies globally. **Re-run the import any time this JSON changes** — Dark Reader does not watch the file, it only reads it at import time.
 
 ### Native-dark sites — Dark Reader disabled by default
 
-`indigo-glass.json` ships a `siteList` of 20 sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets blended with `#07080A` into muddy blue-black). Cleaner to let each site's native dark mode render.
+`indigo-glass.json` ships a `siteList`/`disabledFor` list of sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets blended with `#0F0F12` into muddy blue-black). Cleaner to let each site's native dark mode render.
 
-Disabled list:
-- facebook.com, messenger.com, instagram.com
-- x.com, twitter.com, linkedin.com
-- github.com, stackoverflow.com, reddit.com
-- youtube.com, spotify.com, monkeytype.com
-- claude.ai, chatgpt.com, openai.com
-- discord.com, linear.app, notion.so, vercel.com
+Currently disabled: github.com, fast.com, mail.google.com, www.google.com, www.instagram.com, www.youtube.com, status.claude.com, docs.google.com, legacy.quran.com.
 
-To add more: Dark Reader popup → click toggle → "**OFF for this site**". Or edit `siteList` in the JSON and re-import.
+To add more: Dark Reader popup → click toggle → "**OFF for this site**". Or edit `disabledFor` in the JSON and re-import.
 
 ---
 
@@ -88,7 +93,9 @@ To add more: Dark Reader popup → click toggle → "**OFF for this site**". Or 
 
 Edge stores extensions per-profile under `~/.config/microsoft-edge/<profile>/Extensions/`. The Dark Reader settings JSON imports the same on each profile. Stylus styles sync via the extension's built-in **Backup** → **Export/Import** if cloud-sync is off.
 
-Manual steps per profile (MTUSA / SIDA4 / Personal):
+The repo also ships `scripts/sync-browser-theme.sh`, which clones the "Personal" Edge profile's already-correct extension storage into the MTUSA/SIDA4/Tyremax profiles — this propagates a profile that's already right, it does **not** fix the Personal profile itself if that one is stale (see the "neither layer auto-syncs" section above for how to actually get a fix into any single profile first). Refuses to run while any Edge process is alive (LevelDB corruption risk).
+
+Manual steps per profile if not using the sync script (MTUSA / SIDA4 / Personal):
 
 1. Open each Edge profile
 2. Install Dark Reader + Stylus from Chrome Web Store
@@ -104,7 +111,7 @@ Identical to Edge. Same extension IDs, same imports. No extra work.
 
 ---
 
-## Combining with the rest of Lime Glass
+## Combining with the rest of Sage Ink
 
 This browser layer is the **outermost ring** of the design system:
 
@@ -118,4 +125,4 @@ KDE Plasma (window deco + blur)
         └ Dark Reader (page inversion)
 ```
 
-All five layers share the same canonical palette so the visual identity follows you from boot → desktop → editor → browser without color drift.
+All five layers share the same canonical palette so the visual identity follows you from boot → desktop → editor → browser without color drift — **once each layer's own delivery mechanism has actually been re-run** (see above; none of them auto-propagate from a repo edit alone).

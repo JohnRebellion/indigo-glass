@@ -1,6 +1,7 @@
-# Lime Glass - Cursor
+# Sage Ink - Cursor
 
-Bibata cursor recolored with `#A8E635` lime accent.
+Bibata cursor (theme name `Bibata-IndigoGlass`, a heritage name kept stable
+across colour migrations) recolored with `#A6C9A6` Sage Ink accent.
 
 ## Build
 
@@ -23,8 +24,8 @@ kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme 'Bibata-IndigoGl
 ## Notes
 
 - Inherits from `Bibata-Modern-Classic`. Falls back gracefully if some glyphs missing.
-- Default Bibata accent (`#80B4FF` / `#3F8AE5`) replaced with Lime Glass `#A8E635`.
-- Outline color `#1A4F7F` swapped to accent+1 `#C1FF58`.
+- Default Bibata accent (`#80B4FF` / `#3F8AE5`) replaced with Sage Ink `#A6C9A6`.
+- Outline color swapped to deep near-black `#07080A`; base fill to `#F8F8F8`.
 - Size auto-handled by Bibata's multi-resolution PNG pipeline.
 
 ## Why a script + not pre-built tarball
