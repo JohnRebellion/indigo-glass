@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "John Rebellion"
+            }
+        ],
+        "Category": "",
+        "Description": "Sage Ink Plasma Desktop Theme - opaque, hard-edged, brutalist",
+        "EnabledByDefault": true,
+        "Id": "SageInk",
+        "License": "LGPL",
+        "Name": "Sage Ink",
+        "Version": "1.0",
+        "Website": "https://github.com/johnrebellion/indigo-glass"
+    },
+    "X-Plasma-API": "5.0"
+}
