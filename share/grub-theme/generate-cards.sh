@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# generate-cards.sh — bake Lime Glass GRUB stat cards from live system info
+# generate-cards.sh — bake Sage Ink GRUB stat cards from live system info
 #
 # Usage:
 #   bash generate-cards.sh [output-dir]
@@ -82,7 +82,7 @@ make_card() {
   local out="$1" label="$2" big="$3" sub="$4" big_size="${5:-36}"
   magick -size 360x140 xc:'rgba(31,32,40,0.75)' \
     -fill '#A6C9A6' -draw "roundrectangle 20,14 80,18 2,2" \
-    -fill none -stroke 'rgba(193,255,88,0.20)' -strokewidth 1 \
+    -fill none -stroke 'rgba(192,227,192,0.20)' -strokewidth 1 \
     -draw "roundrectangle 0,0 359,139 8,8" \
     -fill '#C0E3C0' -font "$SF_PRO" -pointsize 18 -gravity northwest \
     -annotate +20+32 "$label" \
