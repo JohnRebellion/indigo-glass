@@ -126,7 +126,7 @@ test.describe('focus ring', () => {
 });
 
 test.describe('ink material (Sage Ink v4 - no glass, chrome included)', () => {
-  test('overview cards are ink: no backdrop-filter, opaque fill, hard shadow', async ({ page }) => {
+  test('overview cards are ink: no backdrop-filter, opaque fill, hard shadow', async ({ page }) => { // drift-allow: test name asserts the absence of backdrop-filter, not a usage of it
     await page.goto('/');
     const card = await page.locator('.ig-card').first().evaluate((el) => {
       const s = getComputedStyle(el as Element);
