@@ -1,49 +1,58 @@
-# Lime Glass — Cross-Platform Design System
+# Sage Ink — Cross-Platform Design System
 **Full reference for from-scratch rebuild + troubleshooting**
 
 **Scope:** KDE Plasma 6.6 desktop, GTK apps, terminal (Konsole + Starship + Fastfetch), portfolio web (`~/portfolio/web` — SvelteKit + Tailwind v4)
 
-*Last updated: 2026-04-26*
+*Last updated: 2026-08-28*
 *Tested on: Nobara Linux 43, Plasma 6.6.4, KDE Frameworks 6.25.0, Wayland, AMD RX 7600 XT*
 
 ---
 
 ## Aesthetic Goal
 
-**Hybrid:** brutalist-glass + Linear app dark discipline + Neumorphism 2.0 (selective tactility)
+**Neobrutalist ink** + Linear app dark discipline. Reference: The Verge's `DESIGN.md` (see [Sources](#sources-used)).
 
 **Core formula:**
-- Deep dark base (`#07080A`)
-- Frosted glass layers floating in z-depth
+- Deep dark base (`#07080A`) — near-black, not pure black
+- **Opaque flat fields.** No blur, no translucency, no tint film, no grain, no ambient orbs
+- **Colour-as-elevation** — depth is a fill colour or a 1px hairline
+- **A hard offset shadow** — `8px 8px 0 0`, zero blur radius
+- **Square corners** — radius `0` everywhere, with a pill step for the CTA and `2px` for tags
 - Sharp geometric typography (Linear-style)
-- Soft pillowy widgets (neumorphic, selective)
-- Lime `#A8E635` single accent (OKLCH hue 127.71 — green; heritage indigo sat at hue ~262)
+- Sage `#A6C9A6` single accent (OKLCH `L 0.80 / C 0.06 / H 145.0`), fill-only
 - Amber `#FBBF24` semantic warning only
+
+The design intent behind each of these is in [PHILOSOPHY.md](PHILOSOPHY.md); the numbers are in `tokens/indigo-glass.tokens.toml`, which is the single source of truth for every value on this page.
 
 ---
 
-## Color Palette (Lime default — canonical, used by all layers)
+## Color Palette (Sage default — canonical, used by all layers)
 
-> Values here are the Lime default variant; the Indigo heritage variant uses `#5E6AD2` etc. See the root README "Variants" section.
+> Values here are the Sage default variant, from `tokens/out/css-vars.sage.css`. The Lime and Indigo heritage variants ship alongside — see the root README "Variants" section. A variant chooses a hue, not a material: all three render in ink.
 
 ```
-Base:            #07080A     Dark surface
+Base:            #07080A     Deep near-black
 Surface:         #0D0D10     Window bg
-Surface+1:       #121216     Elevated panels, glass base
+Surface+1:       #121216     Elevated panels
 Sidebar:         #0A0A0D     Sidebar bg
-Glass border:    rgba(255,255,255,0.06)
-Glass border+:   rgba(255,255,255,0.10)
-Accent:          #A8E635     Lime primary — selection, buttons
-Accent+1:        #C1FF58     Hover, focus, active link
-Accent-alt:      #8BC406     Visited link, accent decoration
+Border:          rgba(255,255,255,0.06)   hairline
+Border+:         rgba(255,255,255,0.10)   hairline, hover
+Accent:          #A6C9A6     Sage primary — selection, button fills
+Accent+1:        #C0E3C0     Hover, focus, active link
+Accent-alt:      #89A889     Visited link, accent decoration, ink_accent shadow
 Amber:           #FBBF24     Semantic warning
-Positive:        #71F79F     Success
+Positive:        #3FFABB     Success  (sage-only hue nudge — see below)
 Negative:        #ED254E     Error, destructive
 Text primary:    #F8F8F8
 Text muted:      #6B7280
+Text dim:        #4B5563
 ```
 
-Lime accent OKLCH hue is **127.71** (green); the heritage indigo accent sat at hue **~262**.
+Sage accent OKLCH hue is **145.0** at chroma **0.06** — deliberately low-chroma and pale, where lime ran chroma `0.2049`. Contrast on base is **11.00:1**.
+
+**Sage is fill-only.** It is `1.72:1` against `--text`, so it can never carry body text. Text on an accent fill is contrast-picked to near-black `#07080A` (codegen enforces this per variant — see the `[Colors:Selection]` group below).
+
+`positive` is `#3FFABB` in this variant only: at the shared hue `152.51` it sat 7.5° from sage and stopped reading as a distinct status colour, so it was nudged +12.49° to `165.0`. Lime and Indigo keep `#71F79F` — their accents already clear it.
 
 ### Where each color lives
 
@@ -51,19 +60,63 @@ Lime accent OKLCH hue is **127.71** (green); the heritage indigo accent sat at h
 |---|---|---|---|---|---|---|---|
 | `#07080A` Base | View bg | view_bg | bg | bg_0 | - | - | --color-base |
 | `#0D0D10` Surface | Window bg | window_bg | - | bg_1 | - | - | --color-surface |
-| `#121216` Surface+1 | Window alt | headerbar | - | bg_2 | - | - | --color-surface-elevated |
-| `#A8E635` Accent | Selection | accent_bg | - | accent | - | (via scheme) | --color-accent |
-| `#C1FF58` Accent+1 | Decoration | accent | Color4 | accent_light | keys | OnAllDesktops btn | --color-accent-hi |
-| `#8BC406` Accent-alt | Link | accent_alt_color | Color5 | accent_alt | title | - | --color-accent-alt |
+| `#121216` Surface+1 | Window alt | headerbar, card, popover, dialog | - | bg_2 | - | - | --color-surface-elevated |
+| `#A6C9A6` Accent | Selection | accent_bg | - | accent | - | (via scheme) | --color-accent |
+| `#C0E3C0` Accent+1 | Decoration | accent | Color4 | accent_light | keys | OnAllDesktops btn | --color-accent-hi |
+| `#89A889` Accent-alt | Link | link_color, violet_color | Color5 | accent_alt | title | Shadow colour | --color-accent-alt |
 | `#FBBF24` Amber | Neutral | warning | Color3 | amber | - | Min btn | --color-amber |
 | `#ED254E` Negative | Negative | destructive | Color1 | - | - | Close btn | --color-negative |
-| `#71F79F` Positive | Positive | success | Color2 | - | - | Max btn | --color-positive |
+| `#3FFABB` Positive | Positive | success | Color2 | - | - | Max btn | --color-positive |
 
-**RGB equivalents (for KDE color schemes):**
-- `#A8E635` = `168,230,53`
-- `#C1FF58` = `193,255,88`
-- `#8BC406` = `139,196,6`
+**RGB equivalents (for KDE color schemes and Klassy):**
+- `#A6C9A6` = `166,201,166`
+- `#C0E3C0` = `192,227,192`
+- `#89A889` = `137,168,137`
 - `#FBBF24` = `251,191,36`
+
+### Material tokens
+
+| Token | Value | Use |
+|---|---|---|
+| `shadow.ink` | `8px 8px 0 0 #000000` | The default — card, button, terminal |
+| `shadow.ink_lg` | `14px 14px 0 0 #000000` | Feature tiles, hero cards |
+| `shadow.ink_press` | `0 0 0 0 #000000` | Pressed — shadow collapses as the object travels into it |
+| `shadow.ink_accent` | `8px 8px 0 0 #89A889` | Hazard-coloured ink shadow (derived from `accent_alt`) |
+| `shadow.hairline` | `0 0 0 1px rgba(255,255,255,0.10)` | Quiet dividers where even ink is too loud |
+| `radius.default` | `0` | Every material surface |
+| `radius.xs` | `2` | Tags, small badges — the one soft step ink permits |
+| `radius.full` | `9999` | Circles, pill CTA only |
+| `opacity.window_active/inactive` | `1.00` | Ink windows are opaque |
+| `motion.roles.ink_press` | `60ms steps(2, end)` | "A stamp, not a spring" |
+
+> **On the shadow offsets.** They were doubled on 2026-08-28 (4px → 8px, 7px → 14px). The token file is explicit that this is a **taste call** — a deliberately chunkier read at normal viewing distance on a 27in 1440p / ~109ppi panel — and **not** a DPI-accuracy correction, which would have warranted only ~1.13x over a 96dpi baseline since this display runs at Plasma scale 1. The same doubling was applied to the CSS strings, codegen's `ink_accent` literal, and the Klassy C++ patch, so all three stay consistent.
+
+There is no `[blur]` table and no `[glass]` / `[ambient]` block: they were deleted on 2026-08-28. Do not reintroduce them per-surface — see [Material is a constraint](PHILOSOPHY.md#material-is-a-constraint-not-a-preference).
+
+---
+
+## Current boundary vs planned scope
+
+**This matters for anyone reading the screenshots and wondering why parts of the desktop are not ink.**
+
+Sage Ink today is a **tint and configuration layer on top of third-party themes**, not a ground-up toolkit theme. Concretely:
+
+| Toolkit | What Sage Ink owns today | What renders in someone else's material |
+|---|---|---|
+| **Qt / Plasma** | Colour scheme (`[Colors:*]`), Klassy window decoration (patched), fonts, density, radius | The Plasma desktop theme is **`breeze-dark`** — every SVG-driven surface it paints: the application launcher, panel popups, tooltips, OSDs, notification chrome |
+| **GTK 3 / 4** | `gtk.css` colour overrides, and (new) an ink card/popover rule | The base theme is **`WhiteSur-Dark-purple`** — widget geometry, borders, and the macOS-derived rounding and shading it ships |
+| **Icons** | Nothing | **`Tela-circle-purple-dark`** |
+
+So: native desktop chrome is **not ink today**. It is Breeze and WhiteSur wearing sage-coloured paint. A Breeze popup with soft rounded corners sitting next to an inked application window is the expected current state, not a bug to hunt.
+
+### Planned
+
+The decision has been taken to close this gap by **taking full ownership of both toolkits**:
+
+1. **A real Plasma Desktop Theme package** (`share/plasma/desktoptheme/sage-ink/`) — so the launcher, popups, tooltips and OSDs are painted from Sage Ink SVGs rather than Breeze's, and native chrome becomes genuinely ink.
+2. **A GTK base theme** — replacing WhiteSur-Dark-purple outright rather than overriding its colours, so GTK widget geometry (corners, borders, shadows) is ink rather than macOS-derived.
+
+**Neither exists yet.** `share/` currently contains `color-schemes/`, `konsole/`, `fonts/` and `grub-theme/` — there is no `desktoptheme/` and no GTK theme package. Until those ship, the table above is the accurate description of the system's reach. Do not read the roadmap as current state.
 
 ---
 
@@ -71,25 +124,24 @@ Lime accent OKLCH hue is **127.71** (green); the heritage indigo accent sat at h
 
 | Layer | Tool/Setting | File |
 |---|---|---|
-| Window decoration | **Klassy** v6.5.3 | `~/.config/kwinrc [org.kde.kdecoration2]` |
-| Window button layout | XAM left, I right | same — `ButtonsOnLeft=XAM, ButtonsOnRight=I` |
-| Window button style | Traffic lights / rounded rect | `~/.config/klassyrc` |
-| Plasma desktop theme | **breeze-dark** (safe — see Bug 7) | `~/.config/plasmarc [Theme] name=breeze-dark` |
-| Color scheme | **LimeGlass** (custom) | `~/.local/share/color-schemes/LimeGlass.colors` |
+| Window decoration | **Klassy** v6.5.3, **patched** for the hard ink shadow | `~/.config/kwinrc [org.kde.kdecoration2]` |
+| Window button layout | XIA left, M right | same — `ButtonsOnLeft=XIA, ButtonsOnRight=M` |
+| Window corner radius | **0** — square | `~/.config/klassyrc [Windeco] WindowCornerRadius=0` |
+| Window shadow | `ShadowSmall`, strength 255, colour = `accent_alt` | `~/.config/klassyrc [ShadowStyle]` — from `tokens/out/klassy-radius.ini` |
+| Plasma desktop theme | **breeze-dark** — third-party, not ink (see [scope boundary](#current-boundary-vs-planned-scope)) | `~/.config/plasmarc [Theme] name=breeze-dark` |
+| Color scheme | **Sage Ink** (renamed 2026-08-28; was `LimeGlass.colors` with sage values, kept under the old name pending this rename) | `~/.local/share/color-schemes/SageInk.colors` |
 | Widget style (Qt) | **Klassy** | `~/.config/kdeglobals [KDE] widgetStyle=Klassy` |
 | LookAndFeel | **org.kde.breezedark.desktop** (neutral) | `~/.config/kdeglobals [KDE] LookAndFeelPackage` |
-| KWin blur engine | **kwin-effects-better-blur-dx** (xarblu fork — stock blur broken on 6.6) | `~/.config/kwinrc [Effect-better-blur-dx]` |
-| Blur params | strength 13, noise 4, brightness 96, saturation 110 | same |
-| Force-blur scope | all windows + decorations + menus + docks | `BlurNonMatching=true, BlurDecorations=true, BlurMenus=true, BlurDocks=true` |
-| Window opacity rule | active 88%, inactive 85% (global wmclass=.*) | `~/.config/kwinrulesrc` |
-| Rounded corners | **DISABLED** — Klassy titlebar handles top corners | `~/.config/kwinrc [Plugins] kwin4_effect_shapecornersEnabled=false` |
-| Icon theme | **Tela-circle-purple-dark** | `~/.config/kdeglobals [Icons] Theme` |
+| KWin blur engine | **OFF** — `better_blur_dxEnabled=false`, `blurEnabled=false` | `~/.config/kwinrc [Plugins]` |
+| Window opacity | **100% / 100%** — ink windows are opaque | `[opacity].window_active` / `window_inactive` |
+| Rounded corners | **DISABLED** — radius is 0 anyway | `~/.config/kwinrc [Plugins] kwin4_effect_shapecornersEnabled=false` |
+| Icon theme | **Tela-circle-purple-dark** — third-party, not ink | `~/.config/kdeglobals [Icons] Theme` |
 | Cursor theme | breeze_cursors (optional Bibata Modern Ice) | `~/.config/kcminputrc` |
-| GTK theme | **WhiteSur-Dark-purple** | `~/.config/gtk-3.0/settings.ini`, `~/.config/gtk-4.0/settings.ini` |
+| GTK theme | **WhiteSur-Dark-purple** — third-party base, not ink | `~/.config/gtk-3.0/settings.ini`, `~/.config/gtk-4.0/settings.ini` |
 | GTK env override | `GTK_THEME=WhiteSur-Dark-purple` | `~/.zshrc`, `~/.bashrc`, `~/.profile`, `~/.config/plasma-workspace/env/gtk.sh` |
-| libadwaita accent | lime override CSS | `~/.config/gtk-4.0/gtk.css` |
-| Konsole color scheme | LimeGlass | `~/.local/share/konsole/LimeGlass.colorscheme` |
-| Konsole profile | LimeGlass (Iosevka 13pt, accent cursor) | `~/.local/share/konsole/LimeGlass.profile` |
+| libadwaita accent + ink cards | sage override CSS + `box-shadow: 8px 8px 0 0` on `card`, `popover > contents` | `~/.config/gtk-4.0/gtk.css` |
+| Konsole color scheme | Sage Ink | `~/.local/share/konsole/SageInk.colorscheme` |
+| Konsole profile | Sage Ink (Iosevka Custom Condensed, accent cursor) | `~/.local/share/konsole/SageInk.profile` |
 | Shell prompt | Starship (replaces P10K) | `~/.config/starship.toml` |
 | Greeter | Fastfetch (replaces neofetch) | `~/.config/fastfetch/config.jsonc` |
 | Edge launch flags | Wayland + system decorations | `~/.local/share/applications/microsoft-edge.desktop` |
@@ -99,19 +151,23 @@ Lime accent OKLCH hue is **127.71** (green); the heritage indigo accent sat at h
 
 ## Fonts
 
+Sizes below are the `_default` host profile (27" 1440p, 109 DPI). Other hosts scale per `hosts/*.toml` — see [TYPOGRAPHY.md](TYPOGRAPHY.md).
+
 | Role | Font | Size | Reason |
 |---|---|---|---|
 | General UI | **Carlito** | 11pt | Humanist with double-storey loop-tail g (matches Iosevka mono) |
-| Window title | **SF Pro Display** | 11pt | Apple-system, glass-aware |
+| Window title | **SF Pro Display** | 11pt | Geometric, sharp against a square titlebar |
 | Menu | SF Pro Display | 11pt | Match titlebar |
 | Toolbar | SF Pro Display | 10pt | Hierarchy |
 | Smallest | SF Pro Display | 9pt | Hierarchy |
 | Fixed/Mono | **Iosevka Custom Condensed** | 11pt | Coding |
-| Konsole | Iosevka Custom Condensed | 13pt | Terminal |
+| Konsole | Iosevka Custom Condensed | 11pt | `hosts/_default.toml [konsole] font_size = 11` — the body anchor |
+
+> The shipped `share/konsole/SageInk.profile` currently sets `Font=…,10`, which matches neither the host profile (11) nor the value this document previously claimed (13). Treat `hosts/_default.toml` as canonical and the profile as stale.
 
 **Two-family discipline:**
 - Carlito (humanist, double-storey loop-tail g) → app content
-- SF Pro Display (geometric Apple) → window chrome
+- SF Pro Display (geometric) → window chrome
 
 ---
 
@@ -163,6 +219,8 @@ make -j$(nproc)
 sudo make install
 ```
 
+**Before `make`: apply the ink-shadow patch.** Edit `~/src/klassy/kdecoration/breezedecoration.cpp` so that `s_shadowParams[1]` (the `"Small"` preset) renders a single hard `offset(8, 8)` / `radius(0)` / `opacity(1.0)` layer, with the second layer zeroed. Stock Klassy has no shadow-offset setting, so this is the only route to the ink shadow — see [`~/.config/klassyrc`](#configklassyrc) below for the full explanation. Leave `s_shadowParams[0]` (`ShadowNone`) alone.
+
 Verify:
 ```bash
 ls /usr/lib64/qt6/plugins/org.kde.kdecoration3/ | grep klassy
@@ -187,6 +245,8 @@ cd WhiteSur-gtk-theme
 ```
 
 Generates: `WhiteSur-Dark-purple` in `~/.themes/`.
+
+> These flags are unchanged from the glass era, `-N glassy` (glassy nav buttons) included. WhiteSur is a **third-party base** whose own material Sage Ink does not currently control, so the flag choice is not load-bearing for the ink system — but it is also not ink. Replacing this theme outright is the GTK half of the [planned scope](#current-boundary-vs-planned-scope).
 
 ### Tela-circle icons (purple variant)
 
@@ -220,9 +280,11 @@ kpackagetool6 --type Plasma/Applet -i package
 
 ## Phase 4 — Configuration Files
 
-### `~/.local/share/color-schemes/LimeGlass.colors`
+> **Naming lag.** The KDE colour scheme and the Konsole profile still ship under the filename and `Name=` **`LimeGlass`**, while carrying Sage values. Renaming them means every installed machine's `kdeglobals [General] ColorScheme` and `konsolerc DefaultProfile` breaks until re-applied, so the rename has not been done. The `Name=` string is heritage; the RGB triples are current. `tokens/out/kde-palette.sage.colors` is generated with `Name=SageInk` and is the file whose *values* are canonical.
 
-Full file: see the shipped `share/color-schemes/LimeGlass.colors`
+### `~/.local/share/color-schemes/SageInk.colors`
+
+Full file: see the shipped `share/color-schemes/SageInk.colors`. Values are merged from the generated `tokens/out/kde-palette.sage.colors`.
 
 Key values (all groups):
 ```ini
@@ -231,17 +293,21 @@ ColorScheme=LimeGlass
 Name=LimeGlass
 
 [Colors:Selection]
-BackgroundNormal=168,230,53      # #A8E635
-BackgroundAlternate=193,255,88   # #C1FF58
-DecorationFocus=193,255,88
-DecorationHover=193,255,88
+BackgroundNormal=166,201,166     # #A6C9A6 sage
+BackgroundAlternate=192,227,192  # #C0E3C0
+ForegroundNormal=7,8,10          # #07080A — contrast-picked: sage is a light
+ForegroundActive=7,8,10          #   fill, so on-accent text is near-black
+DecorationFocus=166,201,166
+DecorationHover=192,227,192
 
 [Colors:Window]
 BackgroundNormal=13,13,16        # #0D0D10
-BackgroundAlternate=18,18,22     # #121216 (depth)
-ForegroundNormal=211,218,227     # text
-ForegroundActive=193,255,88      # lime accent
+BackgroundAlternate=18,18,22     # #121216 (depth — colour-as-elevation)
+ForegroundNormal=248,248,248     # #F8F8F8
+ForegroundActive=192,227,192     # sage accent
 ForegroundNeutral=251,191,36     # AMBER (warning) — semantic
+ForegroundPositive=63,250,187    # #3FFABB — sage-only hue nudge
+ForegroundNegative=237,37,78     # #ED254E
 
 [WM]
 activeBackground=18,18,22
@@ -252,67 +318,54 @@ inactiveForeground=107,114,128
 
 ### `~/.config/kwinrc` — KWin
 
+Generated: `tokens/out/kwinrc-blur.ini`. **Blur is off.** The file kept its historical name after the effect it configured was switched off.
+
 ```ini
 [org.kde.kdecoration2]
 library=org.kde.klassy
 theme=Klassy
-ButtonsOnLeft=XAM
-ButtonsOnRight=I
-BorderSize=None
+ButtonsOnLeft=XIA
+ButtonsOnRight=M
+BorderSize=Normal
 BorderSizeAuto=false
 
 [Plugins]
-blurEnabled=true
-backgroundcontrastEnabled=true
-kwin4_effect_translucencyEnabled=true
-kwin4_effect_shapecornersEnabled=false
+blurEnabled=false
+better_blur_dxEnabled=false
 fadedesktopEnabled=true
 truely-maximizedEnabled=true
+kwin4_effect_shapecornersEnabled=false
 
-[Effect-blur]
-# DISABLED — using better-blur-dx instead
-BlurStrength=10
-NoiseStrength=0
-TransparentBlur=true
-
-[Effect-better-blur-dx]
-# Active blur engine (xarblu fork — Plasma 6.6 stable compatible)
-BlurStrength=13
-NoiseStrength=4
-Brightness=96
-Saturation=110
-Contrast=100
-BlurMatching=false
-BlurNonMatching=true
-BlurDecorations=true
-BlurMenus=true
-BlurDocks=true
-ForceContrastParams=true
-CornerRadius=8.0
-WindowClasses=
+# decoration corner radius (radius.default) = 0.0
 
 [Windows]
 BorderlessMaximizedWindows=true
 FocusStealingPreventionLevel=2
 ```
 
+Note what is *absent*: there is no `[Effect-better-blur-dx]` group any more, and no window-opacity rule in `kwinrulesrc`. Ink windows are opaque (`[opacity].window_active = 1.00`), so there is nothing to blur behind them. Bugs 9 and 10 below are retained as history — they describe a blur stack that is no longer switched on.
+
 ### `~/.config/klassyrc`
 
-```ini
-[Common]
-ActiveTitleBarOpacity=65
-InactiveTitleBarOpacity=55
-OpaqueMaximizedTitleBars=true
+Corner radius and shadow style come from the generated `tokens/out/klassy-radius.ini`:
 
+```ini
 [Windeco]
-ButtonShape=1
-CornerRadius=8
-DrawTitleBarSeparator=false
-DrawBackgroundGradient=false
-ThinWindowOutlineStyle=ThinWindowOutlineContrastTitleBar
-ThinWindowOutlineThickness=1
-BlurTransparentTitleBars=true
+WindowCornerRadius=0
+
+[ShadowStyle]
+ShadowSize=ShadowSmall
+ShadowStrength=255
+ShadowColor=137, 168, 137     # accent_alt #89A889, derived per-variant
 ```
+
+The rest of the shipped `config/klassy/klassyrc` (button shape, spacing, traffic-light colours) is hand-maintained.
+
+**The Klassy source patch.** Stock Klassy's window-decoration shadow only exposes `ShadowSize` / `ShadowStrength` / `ShadowColor` — soft blurred presets with **no offset control** (confirmed from `libbreezecommon/breezesettingsdata.kcfg` and `breezeboxshadowrenderer.cpp`). The `8px 8px 0` ink shadow is therefore not reachable through any setting; the only stock option was turning the shadow off entirely.
+
+So it is patched: `~/src/klassy/kdecoration/breezedecoration.cpp`'s `s_shadowParams[1]` (the `"Small"` preset) now renders a single hard offset(8,8) / radius(0) / opacity(1.0) layer with the second layer zeroed. That is as close to the CSS ink shadow as a KWin decoration shadow can get — `BoxShadowRenderer::calculateBlurRadius` clamps blur to a 2px floor even at radius 0, so ~2px of softness is the real floor, not 0px. `ShadowNone` (index 0) is left untouched as genuine no-shadow.
+
+**This requires the patched `org.kde.klassy.so` to be installed.** A stock Klassy build will render `ShadowSmall` as its original soft preset, and window shadows will silently not be ink.
 
 ### `~/.config/kdeglobals` (key sections)
 
@@ -345,7 +398,7 @@ Style=Widget
 name=breeze-dark
 ```
 
-(Keeps translucent SVG dialogs working. Right-click context menus + tooltips will be glass.)
+This is a **third-party** Plasma theme, and everything it paints — launcher, panel popups, tooltips, OSDs — renders in Breeze material, not ink. See [Current boundary vs planned scope](#current-boundary-vs-planned-scope). It is also the safe choice historically (Bug 7).
 
 ### `~/.config/gtk-3.0/settings.ini`
 
@@ -371,17 +424,17 @@ gtk-xft-dpi=98304
 
 Same as gtk-3.0 minus button-images, menu-images, modules, toolbar-style, shell-shows-menubar.
 
-### `~/.config/gtk-4.0/gtk.css` — libadwaita lime override
+### `~/.config/gtk-4.0/gtk.css` — libadwaita sage override + ink cards
 
 ```css
 @import 'colors.css';
 
-@define-color accent_color #C1FF58;
-@define-color accent_bg_color #A8E635;
+@define-color accent_color #C0E3C0;
+@define-color accent_bg_color #A6C9A6;
 @define-color accent_fg_color #FFFFFF;
 
 @define-color destructive_color #ED254E;
-@define-color success_color #71F79F;
+@define-color success_color #71F79F;    /* stale — sage's positive is #3FFABB */
 @define-color warning_color #FBBF24;
 
 @define-color window_bg_color #0D0D10;
@@ -389,24 +442,38 @@ Same as gtk-3.0 minus button-images, menu-images, modules, toolbar-style, shell-
 @define-color view_bg_color #07080A;
 @define-color headerbar_bg_color #121216;
 @define-color headerbar_fg_color #F8F8F8;
-@define-color card_bg_color rgba(255,255,255,0.04);
+@define-color card_bg_color #121216;      /* opaque flat fill — was rgba(255,255,255,0.04) */
 @define-color popover_bg_color #121216;
+@define-color dialog_bg_color #121216;
 @define-color sidebar_bg_color #0A0A0D;
+@define-color link_color #89A889;
+
+/* Ink material: hard offset shadow, square corners. GTK4 has no
+   box-shadow-on-native-widgets equivalent via colour vars alone, so this is a
+   literal CSS rule rather than a @define-color. */
+card,
+popover > contents {
+  border-radius: 0;
+  box-shadow: 8px 8px 0 0 rgba(0,0,0,0.9);
+}
 ```
+
+`card_shade_color` / `sidebar_shade_color` remain `rgba(0,0,0,0.36)`. Those are press-state darkening — functional alpha in the same family as `hover_tint` and `disabled` — not a glass material.
 
 ### `~/.config/gtk-3.0/gtk.css`
 
 ```css
 @import 'colors.css';
 
-@define-color theme_selected_bg_color #A8E635;
-@define-color theme_selected_fg_color #FFFFFF;
-@define-color accent_color #C1FF58;
-@define-color accent_bg_color #A8E635;
-@define-color accent_fg_color #FFFFFF;
-@define-color link_color #C1FF58;
-@define-color link_visited_color #8BC406;
+@define-color theme_selected_bg_color #A6C9A6;
+@define-color theme_selected_fg_color #07080A;
+@define-color accent_color #C0E3C0;
+@define-color accent_bg_color #A6C9A6;
+@define-color link_color #C0E3C0;
+@define-color link_visited_color #89A889;
 ```
+
+> Both files override *colours* on top of WhiteSur-Dark-purple. Widget geometry — corner rounding, borders, the macOS-derived shading — is still WhiteSur's. Replacing that is the GTK half of the [planned scope](#current-boundary-vs-planned-scope).
 
 ### Shell exports — `~/.zshrc`, `~/.bashrc`, `~/.profile`
 
@@ -437,17 +504,17 @@ See backup directory for full files. Key choice:
 
 ### Konsole
 
-`~/.local/share/konsole/LimeGlass.profile`:
+`~/.local/share/konsole/SageInk.profile`:
 ```ini
 [Appearance]
-ColorScheme=LimeGlass
-Font=Iosevka Custom Condensed,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+ColorScheme=SageInk
+Font=Iosevka Custom Condensed,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 LineSpacing=2
 
 [Cursor Options]
 CursorShape=2
 UseCustomCursorColor=true
-CustomCursorColor=139,196,6
+CustomCursorColor=166,201,166    # #A6C9A6 sage
 CustomCursorTextColor=7,8,10
 
 [General]
@@ -459,13 +526,15 @@ HistoryMode=2
 ScrollBarPosition=2
 ```
 
-`~/.local/share/konsole/LimeGlass.colorscheme` — full Catppuccin-inspired lime palette. See backup.
+`~/.local/share/konsole/SageInk.colorscheme` — full sage palette (renamed from `LimeGlass.colorscheme` 2026-08-28 - the values were always sage, only the filename lagged).
+
+**Konsole is opaque.** No background translucency, no blur — the terminal is an ink surface like everything else.
 
 ### `~/.config/konsolerc`
 
 ```ini
 [Desktop Entry]
-DefaultProfile=LimeGlass.profile
+DefaultProfile=SageInk.profile
 ```
 
 ---
@@ -521,33 +590,40 @@ kstart plasmashell &
 
 # Verify
 grep "ColorScheme=\|widgetStyle=\|name=\|Theme=" ~/.config/plasmarc ~/.config/kdeglobals
+
+# Verify the ink material took (all three should be 0 / false / 0)
+kreadconfig6 --file klassyrc --group Windeco --key WindowCornerRadius
+kreadconfig6 --file kwinrc --group Plugins --key better_blur_dxEnabled
+kreadconfig6 --file kwinrc --group Plugins --key blurEnabled
+
+# Verify no layer has drifted from the tokens (colour + material)
+bash scripts/check-palette-drift.sh
 ```
 
 ---
 
-## Known Limitations (Plasma 6.6 Wayland — April 2026)
+## Known Limitations (Plasma 6.6 Wayland)
+
+The limitation that dominated the glass era — *"this surface refuses to be translucent"* — is **no longer a limitation**. Ink is opaque; a stubbornly solid Kickoff popup is now the correct rendering. What remains is a different problem: those surfaces are solid in **someone else's** colours and geometry.
 
 | Issue | Cause | Status |
 |---|---|---|
-| **Kickoff popup solid (not translucent)** | Hardcoded QML background, ignores theme SVG | Fix in Plasma 6.7 (June 2026) |
-| **System tray popup partial transparency** | Same as above | Same |
-| **Notification popup partial** | Same | Same |
-| **Edge context menu solid** | Chromium native Skia widget, not Plasma-aware | Architectural — Chromium-side, won't fix |
+| **Launcher / tray / notification popups are Breeze, not ink** | They paint from the Plasma desktop theme, which is `breeze-dark` | Planned: ship a Sage Ink desktop theme package — see [scope boundary](#current-boundary-vs-planned-scope) |
+| **GTK widget geometry is WhiteSur, not ink** | `gtk.css` overrides colours only; the base theme owns corners and borders | Planned: ship a GTK base theme — same section |
+| **Edge context menu is Chromium's own** | Native Skia widget, not Plasma-aware | Architectural — Chromium-side, won't fix |
 | **Edge GTK mode broken with adw-gtk3-dark** | Chromium libadwaita lookup fails | Use `WhiteSur-Dark-purple` (full GTK3+4) instead |
-| **Kvantum blur broken on Plasma 6 Wayland** | Upstream regression | Don't use Kvantum — use native Breeze + KWin blur |
-| **kwin-effects-forceblur build fails Plasma 6.6** | API changed from 6.4 | Repo claims 6.4 only. Wait for fork update |
+| **Klassy window shadow needs a patched build** | Stock Klassy exposes no shadow offset control | Patch `s_shadowParams[1]` — see [klassyrc](#configklassyrc) above |
+| **Icons are Tela-circle, not ink** | Third-party icon theme | No current plan; icons are out of scope for the ink material |
 
-### What DOES work (translucent)
+### Historical: the glass-era blur stack
 
-- ✓ Window decoration (Klassy titlebar — full glass)
-- ✓ Panel (with translucent SVG + KWin blur)
-- ✓ Tooltips
-- ✓ **Right-click context menus** (after MacSonoma-Dark plasma theme)
-- ✓ Drop-down combos in WebUI pages (browser-rendered HTML)
+Kvantum blur regressions, `kwin-effects-forceblur` build failures, and the better-blur-dx fork all belonged to the problem of *making surfaces translucent on Plasma 6.6*. That problem is retired. The bugs are kept below for anyone reading old commits or a machine that still has the effect loaded.
 
 ---
 
 ## Critical Bugs Encountered + Fixes
+
+> **Read this list as history.** It was compiled during the Indigo/Lime Glass era. Bugs 4, 7, 9 and 10 are all downstream of translucency and blur, which Sage Ink no longer uses — `blurEnabled=false` and `better_blur_dxEnabled=false`. They are retained because the repo still *builds* the blur effect and installs the resume watchdog (`scripts/install.sh` has not yet caught up with the tokens), and because they explain why `plasmarc` is pinned to `breeze-dark`.
 
 ### Bug 1: Edge GTK mode renders white not dark
 **Cause:** `GTK_THEME=Sweet-Ambar-Blue-Dark` env var stale; `adw-gtk3-dark` lacks GTK4/libadwaita CSS that Edge needs.
@@ -599,7 +675,8 @@ sleep 1
 qdbus-qt6 org.kde.KWin /Effects loadEffect blur
 # This triggers KWin self-restart → spawns fresh kwin_wayland process → clean state
 ```
-**Trade-off:** breeze-dark plasma theme has solid (non-translucent) dialog backgrounds. Right-click context menus + tooltips lose glass. Window titlebars + panel still glassy.
+**Trade-off (as recorded at the time):** breeze-dark plasma theme has solid (non-translucent) dialog backgrounds. Right-click context menus + tooltips lose glass.
+**Under Sage Ink that trade-off no longer costs anything** — solid is correct. `plasmarc [Theme] name=breeze-dark` is now the standing configuration, and the remaining objection to it is that those surfaces are Breeze-coloured, not that they are opaque.
 **Recovery from spam:** Even after fixing config, old kwin_wayland process accumulates bad state. **Force kwin restart by unloading+reloading any effect via DBus** — KWin reconnects clean. Or logout/login.
 
 ### Bug 9: Stock KWin blur silently fails on Klassy titlebars + opaque app bodies in Plasma 6.6
@@ -726,14 +803,16 @@ kquitapp6 plasmashell && sleep 2 && kstart plasmashell &
    cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_QT5=OFF -DBUILD_QT6=ON
    make -j$(nproc) && sudo make install
    ```
+   **Re-apply the ink shadow patch to `s_shadowParams[1]` after every pull** — `git pull` will discard it, and a stock build reverts window shadows to Klassy's soft preset without any error.
 3. KDE-Rounded-Corners COPR may need rebuild too — check matinlotfali repo for updated branch
-4. Re-apply LimeGlass: `plasma-apply-colorscheme LimeGlass`
+4. Re-apply the colour scheme: `plasma-apply-colorscheme LimeGlass` (heritage filename, sage values)
+5. Re-apply the generated partials: `tokens/out/klassy-radius.ini` → `~/.config/klassyrc`, `tokens/out/kwinrc-blur.ini` → `~/.config/kwinrc`
 
 ### When LookAndFeel package upgraded
 LnF can overwrite color scheme + plasma theme. Re-apply:
 ```bash
 kwriteconfig6 --file kdeglobals --group "General" --key "ColorScheme" "LimeGlass"
-kwriteconfig6 --file plasmarc --group "Theme" --key "name" "MacSonoma-Dark"
+kwriteconfig6 --file plasmarc --group "Theme" --key "name" "breeze-dark"
 plasma-apply-colorscheme LimeGlass
 ```
 
@@ -766,7 +845,7 @@ kquitapp6 plasmashell && kstart plasmashell &
 ```
 edge://settings/appearance:
   Overall appearance: Dark        (NOT GTK — bug)
-  Theme → Colour theme → Custom eyedropper → #A8E635
+  Theme → Colour theme → Custom eyedropper → #A6C9A6
   Show home button: off
   Show favourites bar: only on new tabs
 
@@ -782,14 +861,18 @@ edge://flags/:
 
 ```
 1. dnf install all packages above
-2. Build Klassy (Phase 2)
+2. Build Klassy (Phase 2) — INCLUDING the s_shadowParams[1] ink-shadow patch
 3. Install themes — WhiteSur, Tela-circle, Panel Colorizer (Phase 3)
-4. Write all config files (Phase 4)
-5. Configure panel widgets (Phase 5)
-6. Run apply commands (Phase 6)
-7. Logout/login for env propagation
-8. In Edge: configure flags + theme picker
+4. python3 tokens/codegen.py — regenerate tokens/out/* from the token file
+5. Write all config files (Phase 4)
+6. Configure panel widgets (Phase 5)
+7. Run apply commands (Phase 6)
+8. bash scripts/check-palette-drift.sh — must exit 0
+9. Logout/login for env propagation
+10. In Edge: configure flags + theme picker
 ```
+
+Step 4 before step 5 is not optional: every concrete value in Phase 4 is meant to be derived, and hand-typing hex or a shadow string is exactly how the migrations described in [PHILOSOPHY.md](PHILOSOPHY.md#material-is-a-constraint-not-a-preference) went wrong.
 
 ---
 
@@ -800,18 +883,20 @@ edge://flags/:
 - **Tela-circle:** https://github.com/vinceliuice/Tela-circle-icon-theme
 - **Panel Colorizer:** https://github.com/luisbocanegra/plasma-panel-colorizer
 - **KDE Rounded Corners:** https://github.com/matinlotfali/KDE-Rounded-Corners
-- **Linear brand:** https://linear.app/brand (color #5E6AD2)
-- **visionOS HIG:** https://developer.apple.com/design/human-interface-guidelines/designing-for-visionos
+- **Linear brand:** https://linear.app/brand (color #5E6AD2 — the Indigo Glass heritage accent)
+- **`DESIGN.md` / The Verge:** https://github.com/voltagent/awesome-design-md — `design-md/theverge/DESIGN.md` is the lineage reference for the ink material (colour-as-elevation, near-black canvas, hazard-tape accent)
 - **Klassy plasma6 branch:** plasma6.3 (compatible with 6.6 via cmake flags)
 - **Research reports** (in this project):
-  - `kde-plasma-visionos-linear-neomorphism-design-system-2026-04-25.md`
-  - `orange-accent-replacement-dark-ui-2026-04-25.md`
+  - `magazine-comic-style-design-system-2026-08-27.md` — the Sage Ink lineage; Revision 2 identifies `DESIGN.md` / The Verge
+  - `beyond-indigo-glass-directions-2026-06-26.md` — the earlier survey that logged the neo-brutalist lane as direction B2
+  - `orange-accent-replacement-dark-ui-2026-04-25.md` — why amber is semantic-only
+  - `kde-plasma-visionos-linear-neomorphism-design-system-2026-04-25.md` — **superseded**; the original three-reference glass hybrid
 
 ---
 
-## Portfolio Web (`~/portfolio/web`) — Tailwind v4 Lime Glass
+## Portfolio Web (`~/portfolio/web`) — Tailwind v4 Sage Ink
 
-SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block in `src/app.css`.
+SvelteKit + Tailwind v4 portfolio inherits the same design tokens via an `@theme` block in `src/app.css`. Generate from `tokens/out/css-vars.sage.css` rather than typing values.
 
 ### Token map (Tailwind ↔ KDE)
 
@@ -821,54 +906,73 @@ SvelteKit + Tailwind v4 portfolio inherits same design tokens via `@theme` block
   --color-surface: #0D0D10;
   --color-surface-elevated: #121216;
   --color-sidebar: #0A0A0D;
-  --color-accent: #A8E635;
-  --color-accent-hi: #C1FF58;
-  --color-accent-alt: #8BC406;
+  --color-accent: #A6C9A6;
+  --color-accent-hi: #C0E3C0;
+  --color-accent-alt: #89A889;
   --color-amber: #FBBF24;
-  --color-positive: #71F79F;
+  --color-positive: #3FFABB;
   --color-negative: #ED254E;
 
   --font-sans: "Carlito", "SF Pro Display", system-ui, sans-serif;
   --font-display: "SF Pro Display", "Inter", -apple-system, sans-serif;
   --font-mono: "Iosevka Custom Condensed", "JetBrainsMono Nerd Font", monospace;
 
-  --radius: 8px;          /* matches Klassy CornerRadius */
-  --blur-glass: blur(13px); /* matches KWin BlurStrength=13 */
+  /* Material */
+  --radius: 0;                              /* every surface — matches Klassy */
+  --radius-xs: 2px;                         /* tags, small badges */
+  --radius-full: 9999px;                    /* circles, pill CTA */
+  --shadow-ink: 8px 8px 0 0 #000000;
+  --shadow-ink-lg: 14px 14px 0 0 #000000;
+  --shadow-ink-press: 0 0 0 0 #000000;
+  --shadow-ink-accent: 8px 8px 0 0 #89A889;
+  --shadow-hairline: 0 0 0 1px rgba(255,255,255,0.10);
+
+  /* Motion */
+  --ease-mechanical: steps(2, end);
+  --dur-instant: 60ms;
+  --motion-ink-press: var(--dur-instant) var(--ease-mechanical);
 }
 ```
 
-> The legacy `--color-indigo` / `--color-indigo-light` / `--color-violet` var names still resolve as aliases for backward compatibility, but prefer `--color-accent` / `--color-accent-hi` / `--color-accent-alt`.
+There is no `--blur-glass`, no `--shadow-glass*`, and no `--shadow-neu-*`. Those tokens were deleted from the source of truth.
 
-### Glass utility classes
+> The legacy `--color-indigo` / `--color-indigo-light` / `--color-violet` var names still resolve as aliases for backward compatibility (codegen emits them pointing at the active accent), but prefer `--color-accent` / `--color-accent-hi` / `--color-accent-alt`.
+
+### Ink utility patterns
 
 ```html
-<!-- visionOS Liquid Glass surface -->
-<div class="glass">…</div>           <!-- standard frosted -->
-<div class="glass-subtle">…</div>    <!-- light blur -->
-<div class="glass-strong">…</div>    <!-- heavy frost + shadow -->
+<!-- Ink surface: opaque fill, square corner, hard offset shadow -->
+<div class="ink">…</div>              <!-- shadow-ink -->
+<div class="ink-lg">…</div>           <!-- shadow-ink-lg — feature tiles, hero -->
+<div class="ink-accent">…</div>       <!-- hazard-coloured shadow -->
 
-<!-- Neumorphism 2.0 (interactive only) -->
-<button class="neu-raised">…</button>   <!-- raised pillow -->
-<button class="neu-pressed">…</button>  <!-- pressed/inset -->
+<!-- Quiet divider where even ink is too loud -->
+<hr class="hairline">
 
-<!-- Accent focus glow -->
-<input class="glow-accent">
+<!-- Accent focus ring -->
+<input class="ring-accent">
 
-<!-- Linear-style display text -->
+<!-- Display text -->
 <h1 class="text-display">…</h1>
 ```
 
-### Usage rules (mirrored from Neumorphism 2.0 design philosophy)
+### Usage rules
 
-- Use `.glass` / `.glass-strong` for: cards, modals, sidebars, hero sections
-- Use `.neu-raised` / `.neu-pressed` ONLY for: buttons, sliders, toggles, knobs (interactive)
-- NEVER apply neumorphism to: text, nav, backgrounds, headers (accessibility)
-- Single accent: `text-accent` for primary, `text-accent-alt` for secondary, `text-amber` for warning only
+- **Elevation is fill colour first.** Reach for `surface` → `surface-elevated` before reaching for a shadow. The shadow is the second cue, not the first.
+- **The shadow is hard.** `box-shadow` with a non-zero blur radius fails `scripts/check-palette-drift.sh --material`.
+- **The press is mechanical.** On `:active`, translate the element by the shadow's offset (`translate(8px, 8px)`) and collapse the shadow to `shadow-ink-press`. 60ms, `steps(2, end)` — a stamp, not a spring. No overshoot easing.
+- **Reserve clearance.** The shadow lives outside the box, down and to the right. See [DENSITY.md](DENSITY.md#how-density-interacts-with-ink).
+- **Single accent, fill-only.** `bg-accent` for primary, `text-amber` for warnings only. Sage is `1.72:1` against `--color-text` — never use it as a text colour.
 
 ### Build verification
 
 ```bash
 cd ~/portfolio/web
 bun run check    # svelte-check should pass with 0 errors
-bun run dev      # verify glass renders correctly in browser
+bun run dev      # verify ink surfaces render correctly in browser
+
+# from this repo:
+bash scripts/check-palette-drift.sh   # colour + material drift, exit 1 on any hit
 ```
+
+> **Known drift.** `web/app.css.example` in this repo is still the glass-era file: it carries `--shadow-glass*`, `--shadow-neu-*`, `--blur-glass`, the 4/6/8/12/16/24px radius ladder, and `--color-positive: #71F79F` (the shared value, not sage's `#3FFABB`). Its accent hexes were migrated to sage but its material was not — the exact asymmetry described in [PHILOSOPHY.md](PHILOSOPHY.md#material-is-a-constraint-not-a-preference). Do not copy it as a starting point until it is regenerated.
