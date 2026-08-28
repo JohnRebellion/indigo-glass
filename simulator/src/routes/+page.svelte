@@ -1,39 +1,39 @@
 <script lang="ts">
   const surfaces = [
     { href: '/browser/',          name: 'Browser',                 desc: 'Stylus + Dark Reader cross-site retint' },
-    { href: '/vscode/',           name: 'VSCode',                  desc: 'Lime Glass Dark color theme' },
+    { href: '/vscode/',           name: 'VSCode',                  desc: 'Sage Ink Dark color theme' },
     { href: '/vscode/claude-code/', name: 'Claude Code',           desc: 'Anthropic webview retint via patch-webview-css' },
     { href: '/grub/',             name: 'GRUB',                    desc: 'Boot picker theme (consolidated from grub-simulator)' }
   ];
 
-  // Lime Glass default variant (deep-black ladder + ghost-lime accent).
+  // Sage Ink default variant (deep-black ladder + muted-sage accent).
   const palette = [
     { token: 'base',        hex: '#07080A', role: 'Raycast-deep near-black' },
     { token: 'surface',     hex: '#0D0D10', role: 'Window background' },
-    { token: 'surface_alt', hex: '#121216', role: 'Elevated panel, glass base' },
-    { token: 'lime',        hex: '#A8E635', role: 'Brand primary (accent)' },
-    { token: 'lime_hi',     hex: '#C1FF58', role: 'Hover, focus' },
-    { token: 'lime_alt',    hex: '#8BC407', role: 'Visited link, accent' },
+    { token: 'surface_alt', hex: '#121216', role: 'Elevated panel, ink base' },
+    { token: 'sage',        hex: '#A6C9A6', role: 'Brand primary (accent) - fill only, never text' },
+    { token: 'sage_hi',     hex: '#C0E3C0', role: 'Hover, focus' },
+    { token: 'sage_alt',    hex: '#89A889', role: 'Visited link, ink shadow colour' },
     { token: 'amber',       hex: '#FBBF24', role: 'Warning' },
-    { token: 'positive',    hex: '#71F79F', role: 'Success' },
+    { token: 'positive',    hex: '#3FFABB', role: 'Success (hue nudged +12.5° off sage)' },
     { token: 'negative',    hex: '#ED254E', role: 'Error' },
     { token: 'text',        hex: '#F8F8F8', role: 'Primary text' },
     { token: 'text_muted',  hex: '#6B7280', role: 'Secondary text' }
   ];
 </script>
 
-<div class="ig-overview ig-ambient">
+<div class="ig-overview">
   <header class="ig-overview-hero">
-    <h1>Lime Glass</h1>
-    <p class="ig-tagline">brutalist-glass + Linear dark discipline + Neumorphism 2.0</p>
-    <p class="ig-sub">Compact, translucent, single-accent. Deep black + ghost lime, OKLCH color, grained glass, squircle corners.</p>
+    <h1>Sage Ink</h1>
+    <p class="ig-tagline">neobrutalist ink — opaque, hard-shadow, colour-as-elevation</p>
+    <p class="ig-sub">Compact, single-accent. Deep black + muted sage, OKLCH color, zero glass.</p>
   </header>
 
   <section class="ig-surfaces" data-testid="surfaces">
     <h2>Surfaces</h2>
     <div class="ig-grid">
       {#each surfaces as s}
-        <a class="ig-card ig-liquid ig-liquid-squircle" href={s.href} data-testid="card-{s.name.toLowerCase().replace(/\s/g, '-')}">
+        <a class="ig-card" href={s.href} data-testid="card-{s.name.toLowerCase().replace(/\s/g, '-')}">
           <strong>{s.name}</strong>
           <span>{s.desc}</span>
         </a>
@@ -104,15 +104,19 @@
     gap: 2px;
     padding: 8px 12px;
     border-radius: var(--ig-radius-default);
-    background: color-mix(in srgb, var(--ig-surface-alt) 70%, transparent);
-    border: 1px solid var(--ig-border);
+    background: var(--ig-surface-alt);
+    border: 1px solid var(--ig-border-strong);
+    box-shadow: var(--ig-shadow-ink);
     text-decoration: none;
     color: var(--ig-text);
-    backdrop-filter: blur(var(--ig-blur-md));
+    transition: transform var(--ig-motion-ink-press, 80ms steps(2, end)), box-shadow var(--ig-motion-ink-press, 80ms steps(2, end));
   }
   .ig-card:hover {
-    border-color: var(--ig-indigo);
-    background: color-mix(in srgb, var(--ig-indigo) 12%, var(--ig-surface-alt));
+    border-color: var(--ig-accent);
+  }
+  .ig-card:active {
+    transform: translate(4px, 4px);
+    box-shadow: var(--ig-shadow-none);
   }
   .ig-card strong {
     font-size: 11pt;

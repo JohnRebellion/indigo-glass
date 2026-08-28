@@ -23,11 +23,11 @@
     --notion-text-secondary: #C9CBD3 !important;
     --notion-text-faint: #6B7280 !important;
 
-    --notion-primary: #A8E635 !important;
-    --notion-primary-hover: #C1FF58 !important;
+    --notion-primary: #A6C9A6 !important;
+    --notion-primary-hover: #C0E3C0 !important;
 
-    --notion-blue: #A8E635 !important;
-    --notion-purple: #8BC406 !important;
+    --notion-blue: #A6C9A6 !important;
+    --notion-purple: #89A889 !important;
     --notion-pink: #C8B5FF !important;
     --notion-red: #ED254E !important;
     --notion-orange: #FBBF24 !important; /* orange banned (PHILOSOPHY.md) -> amber, the single warm accent */
@@ -36,7 +36,7 @@
     --notion-teal: #67E8F9 !important;
 
     --notion-divider: rgba(255, 255, 255, 0.06) !important;
-    --notion-selected-block: rgba(168, 230, 53, 0.22) !important;
+    --notion-selected-block: rgba(166, 201, 166, 0.22) !important;
   }
 
   /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).
@@ -81,6 +81,6 @@
 
   /* Selection */
   ::selection {
-    background-color: rgba(168, 230, 53, 0.45) !important;
+    background-color: rgba(166, 201, 166, 0.45) !important;
   }
 }

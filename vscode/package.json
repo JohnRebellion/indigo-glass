@@ -1,15 +1,15 @@
 {
   "name": "indigo-glass",
-  "displayName": "Lime Glass",
-  "description": "brutalist-glass + Linear dark discipline + Neumorphism 2.0 — color theme + product icons",
-  "version": "0.1.0",
+  "displayName": "Sage Ink",
+  "description": "neobrutalist ink — opaque, hard-shadow, colour-as-elevation — color theme + product icons",
+  "version": "0.2.0",
   "publisher": "johnrebellion",
   "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": ["Themes"],
-  "keywords": ["theme", "dark", "light", "indigo", "linear", "visionos", "glass"],
+  "keywords": ["theme", "dark", "light", "sage", "ink", "brutalist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/JohnRebellion/indigo-glass.git",
@@ -18,12 +18,12 @@
   "contributes": {
     "themes": [
       {
-        "label": "Lime Glass Dark",
+        "label": "Sage Ink Dark",
         "uiTheme": "vs-dark",
         "path": "./themes/indigo-glass-dark.json"
       },
       {
-        "label": "Lime Glass Light",
+        "label": "Sage Ink Light",
         "uiTheme": "vs",
         "path": "./themes/indigo-glass-light.json"
       }

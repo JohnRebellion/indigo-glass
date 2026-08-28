@@ -9,24 +9,24 @@
  * bounded by /* indigo-glass:start *​/ and /* indigo-glass:end *​/.
  * Re-apply after every Claude Code extension upgrade.
  *
- * Palette: #A8E635 primary · #C1FF58 hover · #8BC407 violet
+ * Palette: #A6C9A6 primary · #C0E3C0 hover · #89A889 violet
  *          #F8F8F8 text · #6B7280 muted · #07080A base · #121216 surface
  */
 
 html,
 :root {
-  --app-claude-orange: #A8E635 !important;
-  --app-claude-clay-button-orange: #A8E635 !important;
+  --app-claude-orange: #A6C9A6 !important;
+  --app-claude-clay-button-orange: #A6C9A6 !important;
   --app-claude-ivory: #F8F8F8 !important;
   --app-claude-slate: #07080A !important;
-  --app-banner-tint: #A8E635 !important;
+  --app-banner-tint: #A6C9A6 !important;
   --app-modal-background: #07080Acc !important;
-  --app-spinner-foreground: #A8E635 !important;
+  --app-spinner-foreground: #A6C9A6 !important;
 
-  --app-accent-color: #A8E635 !important;
-  --app-link: #C1FF58 !important;
-  --app-link-color: #C1FF58 !important;
-  --app-link-foreground: #C1FF58 !important;
+  --app-accent-color: #A6C9A6 !important;
+  --app-link: #C0E3C0 !important;
+  --app-link-color: #C0E3C0 !important;
+  --app-link-foreground: #C0E3C0 !important;
 }
 
 .vscode-light html,
@@ -34,9 +34,9 @@ html,
   --app-claude-slate: #FFFFFF !important;
   --app-claude-ivory: #07080A !important;
   --app-modal-background: #FFFFFFcc !important;
-  --app-link: #A8E635 !important;
-  --app-link-color: #A8E635 !important;
-  --app-link-foreground: #A8E635 !important;
+  --app-link: #A6C9A6 !important;
+  --app-link-color: #A6C9A6 !important;
+  --app-link-foreground: #A6C9A6 !important;
 }
 
 /* ─── Font normalization ─────────────────────────────────────────────────────
@@ -262,13 +262,13 @@ html body :is(
 
 .checkbox_UxGN1Q,
 .checkboxChecked_UxGN1Q {
-  background: #A8E6351a !important;
-  border-color: #A8E635 !important;
+  background: #A6C9A61a !important;
+  border-color: #A6C9A6 !important;
 }
 
 .suggestionBullet_UxGN1Q {
-  background: #A8E635cc !important;
-  border-color: #A8E635 !important;
+  background: #A6C9A6cc !important;
+  border-color: #A6C9A6 !important;
 }
 
 .statusBadge_IHCQeQ.needs-auth_IHCQeQ {
@@ -281,43 +281,43 @@ html body :is(
 }
 
 .timelineMessage_07S1Yg.dotProgress_07S1Yg:before {
-  background-color: #C1FF58 !important;
+  background-color: #C0E3C0 !important;
 }
 
 .splitter_qlaBag:hover {
-  background-color: #A8E63540 !important;
+  background-color: #A6C9A640 !important;
 }
 
 [class*="mentionChip"],
 [class*="mention_chip"] {
-  background-color: #A8E63530 !important;
+  background-color: #A6C9A630 !important;
   color: #F8F8F8 !important;
   border-radius: 6px !important;
 }
 
 /* ─── Focus ring (THE red border around prompt) ──────────────────────────── */
 .inputContainer_cKsPxg:focus-within {
-  --focus-ring-color: #A8E635 !important;
-  border-color: #A8E635 !important;
+  --focus-ring-color: #A6C9A6 !important;
+  border-color: #A6C9A6 !important;
   box-shadow:
-    0 0 0 3px color-mix(in srgb, #A8E635 18%, transparent),
-    0 1px 2px color-mix(in srgb, #A8E635, transparent 70%) !important;
+    0 0 0 3px color-mix(in srgb, #A6C9A6 18%, transparent),
+    0 1px 2px color-mix(in srgb, #A6C9A6, transparent 70%) !important;
 }
 
 .codeInput_Eg8KCQ:focus {
-  border-color: #A8E635 !important;
+  border-color: #A6C9A6 !important;
   outline: none !important;
 }
 
 *:focus-visible {
-  outline-color: #C1FF58 !important;
+  outline-color: #C0E3C0 !important;
 }
 
 /* ─── Hover polish ───────────────────────────────────────────────────────── */
 .primaryButton_f3sAzg:hover,
 .button_qlaBag.primary_qlaBag:hover {
-  background-color: #C1FF58 !important;
-  box-shadow: 0 0 0 1px #8BC40740 !important;
+  background-color: #C0E3C0 !important;
+  box-shadow: 0 0 0 1px #89A88940 !important;
 }
 
 .app_root {

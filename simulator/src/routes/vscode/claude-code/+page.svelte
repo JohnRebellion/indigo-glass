@@ -156,8 +156,7 @@
   .msg-assistant strong { color: var(--ig-indigo-hi); }
 
   .msg-tool {
-    background: color-mix(in srgb, var(--ig-surface-alt) 70%, transparent);
-    backdrop-filter: blur(var(--ig-blur-md));
+    background: var(--ig-surface-alt);
     border: 1px solid var(--ig-border);
     border-radius: var(--ig-radius-default);
     padding: 6px 8px;

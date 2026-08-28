@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# generate-background.sh — bake the Lime Glass GRUB background + thumb
+# generate-background.sh — bake the Sage Ink GRUB background + thumb
 #
-# Abstract "digital" wash in ghost lime's perceptual complement.
-# Ghost lime #A8E635 is OKLCH(0.85, 0.205, 127.7°); rotating hue 180° gives
-# violet-purple at h≈308° — between the Indigo heritage accent (275°) and
+# Abstract "digital" wash in the accent's perceptual complement.
+# Sage #A6C9A6 is OKLCH(0.80, 0.060, 145.0°); rotating hue 180° gives
+# violet-purple at h≈325° — between the Indigo heritage accent (275°) and
 # magenta. All tones are baked DARK (max L≈0.34 OKLab at the glow core) so
 # the translucent glass pill, accent lines, and labels drawn straight onto
 # the background keep their contrast (worst pair, #d1d5db on the glow core,
@@ -36,14 +36,14 @@ W=2560 H=1440
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-# ─── OKLCH h≈308° dark ramp (see header) ───
-DEEP='#0A0810'      # near-black violet floor
-BASE='#110919'      # base tint         L=0.16
-SHADE='#22132E'     # shade             L=0.22
-MID='#331D45'       # mid               L=0.28
-GLOW='#45285D'      # glow core         L=0.34 (luminance ceiling)
-ECHO_COOL='#211939' # −14° toward indigo heritage
-ECHO_WARM='#2C1430' # +14° toward magenta
+# ─── OKLCH h≈325° dark ramp (see header) ───
+DEEP='#0C070F'      # near-black violet floor
+BASE='#140816'      # base tint         L=0.16
+SHADE='#271128'     # shade             L=0.22
+MID='#3B1A3D'       # mid               L=0.28
+GLOW='#4F2452'       # glow core         L=0.34 (luminance ceiling)
+ECHO_COOL='#281634' # −14° toward indigo heritage
+ECHO_WARM='#311228' # +14° toward magenta
 
 # 1. Multi-point wash: inverse-distance blend of anchored tones. Anchors top
 #    out at MID — the GLOW ceiling is reserved for the radial bloom and beams.
@@ -92,7 +92,7 @@ DOTS="$TMP/dots.mvg"
               "1940,860,3,0.25" "980,880,2,0.18"  "2200,1080,2,0.18" \
               "760,640,2,0.15"  "1520,1060,2,0.15"; do
     IFS=, read -r x y r a <<< "$spec"
-    echo "fill rgba(168,230,53,$a)"   # ghost-lime motes — the accent's echo
+    echo "fill rgba(166,201,166,$a)"   # sage motes — the accent's echo
     echo "circle $x,$y $((x+r)),$y"
   done
 } > "$DOTS"

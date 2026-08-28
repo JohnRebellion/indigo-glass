@@ -1,5 +1,5 @@
-/* Lime Glass - Spicetify user CSS
- * Compact density + translucent panels.
+/* Sage Ink - Spicetify user CSS
+ * Compact density + opaque ink surfaces.
  * Loaded after Spotify base.css. */
 
 /* Hide ad notices */
@@ -10,7 +10,7 @@
 
 /* Selection */
 ::selection {
-  background: rgba(168, 230, 53, 0.45) !important;
+  background: rgba(166, 201, 166, 0.45) !important;
 }
 
 /* Buttons - compact, indigo */
@@ -21,12 +21,10 @@ button.main-buttons-button,
   border-radius: 6px !important;
 }
 
-/* Now-playing bar - translucent */
+/* Now-playing bar - opaque ink */
 .Root__now-playing-bar,
 .main-nowPlayingBar-nowPlayingBar {
-  background-color: rgba(28, 28, 33, 0.85) !important;
-  backdrop-filter: blur(13px) saturate(110%);
-  -webkit-backdrop-filter: blur(13px) saturate(110%);
+  background-color: #121216 !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
@@ -39,16 +37,16 @@ button.main-buttons-button,
   padding: 3px 8px !important;
 }
 
-/* Cards (album/playlist tiles) */
+/* Cards (album/playlist tiles) - elevated ink tile, hard shadow instead of blur */
 .main-card-card {
-  background-color: rgba(31, 32, 40, 0.70) !important;
+  background-color: #121216 !important;
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
-  backdrop-filter: blur(13px);
-  -webkit-backdrop-filter: blur(13px);
+  border-radius: 0 !important;
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9) !important;
 }
 .main-card-card:hover {
-  background-color: rgba(31, 32, 40, 0.85) !important;
-  border-color: #A8E635 !important;
+  background-color: #1F2028 !important;
+  border-color: #A6C9A6 !important;
 }
 
 /* Track rows - tight */
@@ -56,23 +54,23 @@ button.main-buttons-button,
   padding: 2px 8px !important;
 }
 .main-trackList-trackListRow:hover {
-  background-color: rgba(168, 230, 53, 0.10) !important;
+  background-color: rgba(166, 201, 166, 0.10) !important;
 }
 .main-trackList-trackListRow.main-trackList-selected,
 .main-trackList-trackListRow[aria-selected="true"] {
-  background-color: rgba(168, 230, 53, 0.22) !important;
+  background-color: rgba(166, 201, 166, 0.22) !important;
 }
 
 /* Active track highlight */
 .main-trackList-rowMainContent .standalone-ellipsis-one-line[data-text-color="brightAccent"],
 [class*="playing"] [data-encore-id="text"] {
-  color: #C1FF58 !important;
+  color: #C0E3C0 !important;
 }
 
 /* Sliders + progress bars */
 .progress-bar__fg,
 .x-progressBar-fillForeground {
-  background-color: #A8E635 !important;
+  background-color: #A6C9A6 !important;
 }
 .progress-bar__bg {
   background-color: rgba(255, 255, 255, 0.10) !important;
@@ -80,9 +78,9 @@ button.main-buttons-button,
 
 /* Focus ring */
 *:focus-visible {
-  outline: 2px solid #A8E635 !important;
+  outline: 2px solid #A6C9A6 !important;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(168, 230, 53, 0.18) !important;
+  box-shadow: 0 0 0 4px rgba(166, 201, 166, 0.18) !important;
 }
 
 /* Scrollbar */
@@ -91,11 +89,11 @@ button.main-buttons-button,
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(168, 230, 53, 0.45);
+  background-color: rgba(166, 201, 166, 0.45);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(193, 255, 88, 0.75);
+  background-color: rgba(192, 227, 192, 0.75);
 }
 
 /* Typography */
@@ -103,11 +101,3 @@ body {
   font-family: "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
 }
 
-@media (prefers-reduced-transparency: reduce) {
-  .Root__now-playing-bar,
-  .main-card-card {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background-color: #121216 !important;
-  }
-}

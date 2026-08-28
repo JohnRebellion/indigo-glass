@@ -1,5 +1,6 @@
-// Lime Glass - SDDM greeter
-// Minimal login form. Single accent. Translucent panel over mesh wallpaper.
+// Sage Ink - SDDM greeter
+// Minimal login form. Single accent. Opaque ink panel over mesh wallpaper,
+// hard offset shadow (was a translucent panel through the Lime Glass era).
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -12,9 +13,9 @@ Rectangle {
     height: Screen.height
     color: "#0F0F12"
 
-    property string accent: "#A8E635"
-    property string accentHi: "#C1FF58"
-    property string onAccent: "#07080A"  // dark text on the light lime accent
+    property string accent: "#A6C9A6"
+    property string accentHi: "#C0E3C0"
+    property string onAccent: "#07080A"  // dark text on the light sage accent
     property string surfaceAlt: "#1F2028"
     property string text: "#F8F8F8"
     property string textMuted: "#6B7280"
@@ -45,13 +46,23 @@ Rectangle {
         width: 360
         height: panel.implicitHeight
 
+        // Hard offset shadow - ink material, zero blur, colour-as-elevation.
+        // Offset matches --ig-shadow-ink (8px, doubled from 4px 2026-08-28).
+        Rectangle {
+            x: 8
+            y: 8
+            width: panel.width
+            height: panel.height
+            color: Qt.rgba(0, 0, 0, 0.9)
+        }
+
         Rectangle {
             id: panel
             anchors.fill: parent
-            color: Qt.rgba(0.12, 0.13, 0.16, 0.70)
+            color: Qt.rgba(0.12, 0.13, 0.16, 1.0)
             border.width: 1
             border.color: Qt.rgba(1, 1, 1, 0.06)
-            radius: 12
+            radius: 0
             implicitHeight: layout.implicitHeight + 32
 
             ColumnLayout {

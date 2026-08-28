@@ -67,7 +67,7 @@
           {#each Array(6) as _, i}
             <li>
               <span class="mail-from">Sender {i + 1}</span>
-              <span class="mail-subj">Re: Lime Glass token system v{i + 1}</span>
+              <span class="mail-subj">Re: Sage Ink token system v{i + 1}</span>
               <span class="mail-time muted">{i + 1}h ago</span>
             </li>
           {/each}

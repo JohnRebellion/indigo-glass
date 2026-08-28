@@ -7,17 +7,14 @@
   import { parseColor, colorToCss } from './theme/color';
   import { resolveIcon } from './theme/icon';
   import { loadImage } from './theme/nineSlice';
-  import { drawLiquidGlass } from './theme/liquidGlass';
+  import { drawInkPanel } from './theme/inkPanel';
   import type { PFF2Font, PFF2Glyph } from './theme/pff2';
 
-  interface GlassOverrides {
-    panelBlur?: number;
-    panelTintAlpha?: number;
-    panelRadius?: number;
-    panelSpecular?: number;
-    pillBlur?: number;
+  interface InkOverrides {
+    /** Pills are the deliberate rounded exception in an otherwise sharp-
+     * cornered ink system — the only override still meaningful now that
+     * the panel/blur/tint/specular glass controls are gone. */
     pillRadius?: number;
-    pillTintAlpha?: number;
   }
 
   interface Props {
@@ -26,7 +23,7 @@
     selected?: number;
     width?: number;
     height?: number;
-    glassOverrides?: GlassOverrides;
+    inkOverrides?: InkOverrides;
   }
 
   let {
@@ -35,7 +32,7 @@
     selected = 0,
     width = 2560,
     height = 1440,
-    glassOverrides = {}
+    inkOverrides = {}
   }: Props = $props();
 
   let canvas: HTMLCanvasElement;
@@ -48,9 +45,10 @@
   const SCREEN_W = 2560;
   const SCREEN_H = 1440;
 
-  // Plasma LimeGlass color scheme (~/.local/share/color-schemes/LimeGlass.colors)
+  // Plasma Sage Ink color scheme (~/.local/share/color-schemes/LimeGlass.colors —
+  // filename kept pending the coordinated rename pass, see docs/PHILOSOPHY.md)
   // Panel = Button BackgroundNormal #1f2028
-  // Pill  = Selection BackgroundNormal #a8e635 / accent #c1ff58
+  // Pill  = Selection BackgroundNormal #a6c9a6 / accent #c0e3c0
   function panelTintFor(id: string): [number, number, number, number] {
     switch (id) {
       case 'amber':  return [40, 18, 8, 0.42];
@@ -65,7 +63,7 @@
       case 'amber':  return [251, 146, 60, 0.45];
       case 'blue':   return [59, 130, 246, 0.45];
       case 'green':  return [16, 185, 129, 0.45];
-      default:       return [168, 230, 53, 0.5]; // Lime accent #a8e635
+      default:       return [166, 201, 166, 0.5]; // Sage accent #a6c9a6
     }
   }
 
@@ -112,7 +110,7 @@
       case 'amber':  return '#fbbf24';
       case 'blue':   return '#60a5fa';
       case 'green':  return '#34d399';
-      default:       return '#8bc406';
+      default:       return '#89a889';
     }
   }
 
@@ -376,24 +374,17 @@
     const iconH = parseInt(p.icon_height ?? '40', 10);
     const iconSpace = parseInt(p.item_icon_space ?? '16', 10);
 
-    // Menu background — liquid glass (per-preset tint via preset.id)
+    // Menu background — ink panel (per-preset fill via preset.id)
     // SKIP if theme.txt has no menu_pixmap_style (Cmd-K / dashboard variant)
     if (p.menu_pixmap_style) {
-      const panelTint: [number, number, number, number] = [...panelTintFor(preset.id)];
-      if (glassOverrides.panelTintAlpha !== undefined) {
-        panelTint[3] = glassOverrides.panelTintAlpha;
-      }
-      drawLiquidGlass(ctx, left, top, width, height, {
-        radius: glassOverrides.panelRadius ?? 16,
-        tint: panelTint,
-        blurPx: glassOverrides.panelBlur ?? 80,
-        borderTopColor: 'rgba(193,255,88,0.45)',
+      const panelTint = panelTintFor(preset.id);
+      drawInkPanel(ctx, left, top, width, height, {
+        radius: 0,
+        fill: [panelTint[0], panelTint[1], panelTint[2]],
+        borderTopColor: 'rgba(192,227,192,0.45)',
         borderBottomColor: 'rgba(0,0,0,0.75)',
         borderWidth: 1.5,
-        specularStrength: glassOverrides.panelSpecular ?? 0.55,
-        noiseStrength: 0.025,
-        sourceCanvas: bgCanvas,
-        flat: true
+        shadow: true
       });
     }
 
@@ -414,19 +405,12 @@
       const isSelected = i === selected;
 
       if (isSelected) {
-        const pillTint: [number, number, number, number] = [...pillTintFor(preset.id)];
-        if (glassOverrides.pillTintAlpha !== undefined) {
-          pillTint[3] = glassOverrides.pillTintAlpha;
-        }
-        drawLiquidGlass(ctx, innerX, itemY, innerW, itemHeight, {
-          radius: glassOverrides.pillRadius ?? 12,
-          tint: pillTint,
-          blurPx: glassOverrides.pillBlur ?? 80,
-          specularStrength: 0.55,
-          noiseStrength: 0.015,
-          outerShadow: false,
-          glow: true,
-          sourceCanvas: bgCanvas
+        const pillTint = pillTintFor(preset.id);
+        drawInkPanel(ctx, innerX, itemY, innerW, itemHeight, {
+          radius: inkOverrides.pillRadius ?? 12,
+          fill: [pillTint[0], pillTint[1], pillTint[2]],
+          borderWidth: 0,
+          shadow: false
         });
         // Linear-style 4px accent left-bar (rounded)
         ctx.save();

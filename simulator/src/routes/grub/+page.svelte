@@ -15,7 +15,7 @@
   }
 
   let presets = $state<PresetInfo[]>([]);
-  let activeId = $state<string>('lime');
+  let activeId = $state<string>('sage');
   let loaded = $state<LoadedPreset | null>(null);
   let cfg = $state<GrubCfg>({
     entries: [
@@ -32,15 +32,10 @@
   let editingTheme = $state<string>('');
   let viewWidth = $state(1100);
 
-  // Tunable glass params exposed to UI (override defaults in component)
-  // Plasma IndigoGlass defaults
-  let panelBlur = $state(80);
-  let panelTintAlpha = $state(0.78);
-  let panelRadius = $state(16);
-  let panelSpecular = $state(0.55);
-  let pillBlur = $state(80);
+  // Pill radius is the one tunable ink param left — panel blur/tint/
+  // specular and pill blur/tint controlled a glass material that no longer
+  // exists (see GrubScreen.svelte's InkOverrides).
   let pillRadius = $state(10);
-  let pillTintAlpha = $state(0.28);
 
   onMount(async () => {
     const idx = await fetch(`${base}/presets/index.json`).then((r) => r.json());
@@ -96,15 +91,7 @@
     URL.revokeObjectURL(url);
   }
 
-  let glassOverrides = $derived({
-    panelBlur,
-    panelTintAlpha,
-    panelRadius,
-    panelSpecular,
-    pillBlur,
-    pillRadius,
-    pillTintAlpha
-  });
+  let inkOverrides = $derived({ pillRadius });
 </script>
 
 <div class="layout">
@@ -113,7 +100,7 @@
       <span class="logo"></span>
       <div>
         <h1>GRUB Simulator</h1>
-        <p>Liquid-glass theme studio</p>
+        <p>Ink theme studio</p>
       </div>
     </header>
 
@@ -135,28 +122,14 @@
     </section>
 
     <section>
-      <h2>Glass</h2>
-      <label>Panel blur <span class="val">{panelBlur}px</span>
-        <input type="range" min="0" max="160" bind:value={panelBlur} />
-      </label>
-      <label>Panel tint <span class="val">{Math.round(panelTintAlpha * 100)}%</span>
-        <input type="range" min="0" max="100" value={Math.round(panelTintAlpha * 100)} oninput={(e) => panelTintAlpha = +e.currentTarget.value / 100} />
-      </label>
-      <label>Panel radius <span class="val">{panelRadius}px</span>
-        <input type="range" min="0" max="64" bind:value={panelRadius} />
-      </label>
-      <label>Panel specular <span class="val">{Math.round(panelSpecular * 100)}%</span>
-        <input type="range" min="0" max="100" value={Math.round(panelSpecular * 100)} oninput={(e) => panelSpecular = +e.currentTarget.value / 100} />
-      </label>
-      <hr />
-      <label>Pill blur <span class="val">{pillBlur}px</span>
-        <input type="range" min="0" max="80" bind:value={pillBlur} />
-      </label>
+      <h2>Ink</h2>
+      <!-- Panel blur/tint/specular and pill blur/tint controlled a glass
+           material that no longer exists — the panel is now a fixed opaque
+           flat fill (radius 0, hard offset shadow). Pill radius is the one
+           control that still means something: pills are the deliberate
+           rounded exception in an otherwise sharp-cornered ink system. -->
       <label>Pill radius <span class="val">{pillRadius}px</span>
         <input type="range" min="0" max="48" bind:value={pillRadius} />
-      </label>
-      <label>Pill tint <span class="val">{Math.round(pillTintAlpha * 100)}%</span>
-        <input type="range" min="0" max="100" value={Math.round(pillTintAlpha * 100)} oninput={(e) => pillTintAlpha = +e.currentTarget.value / 100} />
       </label>
     </section>
 
@@ -205,7 +178,7 @@
               {selected}
               width={viewWidth}
               height={Math.round(viewWidth * 9 / 16)}
-              {glassOverrides}
+              {inkOverrides}
             />
           {:else}
             <p style="color:#888;padding:2rem">Loading preset…</p>
@@ -252,7 +225,7 @@
   .logo {
     width: 32px; height: 32px; border-radius: 8px;
     background: linear-gradient(135deg, #A8E635, #8BC406);
-    box-shadow: 0 0 12px rgba(124,58,237,0.6), inset 0 1px 0 rgba(255,255,255,0.4);
+    box-shadow: 4px 4px 0 0 rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.4);
   }
   h2 {
     font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
@@ -272,7 +245,7 @@
     overflow: hidden;
     cursor: pointer;
     background: #1a1a2e;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.03), 0 4px 12px rgba(0,0,0,0.4);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.03), 4px 4px 0 0 rgba(0,0,0,0.9);
     outline: 2px solid transparent;
     transition: outline-color 120ms;
   }
@@ -302,7 +275,6 @@
     box-sizing: border-box;
   }
   textarea { resize: vertical; font-size: 10.5px; }
-  hr { border: 0; border-top: 1px solid rgba(255,255,255,0.07); margin: 0.85rem 0; }
 
   .entry-row {
     display: grid;
@@ -327,7 +299,7 @@
   button.primary {
     background: linear-gradient(180deg, #A8E635, #5b21b6);
     color: #fff;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 4px 12px rgba(124,58,237,0.4);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 4px 4px 0 0 rgba(0,0,0,0.9);
   }
   button.primary:hover { background: linear-gradient(180deg, #8b4ff5, #6d28d9); }
 
@@ -365,7 +337,7 @@
     background: linear-gradient(180deg, #2a2a44, #18182c);
     border-radius: 0 0 12px 12px;
     margin: 14px auto -22px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    box-shadow: 8px 8px 0 0 rgba(0,0,0,0.9);
   }
   .size-control {
     margin-top: 30px;
