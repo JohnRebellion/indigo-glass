@@ -1,0 +1,318 @@
+/* Sage Ink — GTK3 theme
+ * Neobrutalist ink: opaque flat surfaces, colour-as-elevation, hard offset
+ * shadow (zero blur), sharp corners except deliberate pill/tag exceptions.
+ * Single accent: muted sage. No frosted glass, no soft shadows, no gradients.
+ *
+ * Palette (from indigo-glass.tokens.toml [variants.sage]):
+ *   base        #07080A   surface      #0D0D10   surface-alt  #121216
+ *   sidebar     #0A0A0D   accent       #A6C9A6   accent-hi    #C0E3C0
+ *   accent-alt  #89A889   text         #F8F8F8   text-muted   #6B7280
+ *   negative    #ED254E   positive     #3FFABB   amber        #FBBF24
+ *
+ * Shadow offset is 8px (doubled from 4px 2026-08-28) — this theme renders on
+ * THIS machine's own 27in 1440p monitor via native desktop apps (Dolphin,
+ * GTK dialogs), the same category as Klassy/SDDM, not the "web/css viewed on
+ * arbitrary screens" category that reverted to 4px.
+ */
+
+@define-color theme_bg_color #0D0D10;
+@define-color theme_fg_color #F8F8F8;
+@define-color theme_base_color #07080A;
+@define-color theme_text_color #F8F8F8;
+@define-color theme_selected_bg_color #A6C9A6;
+@define-color theme_selected_fg_color #07080A;
+@define-color insensitive_bg_color #0A0A0D;
+@define-color insensitive_fg_color #6B7280;
+@define-color insensitive_base_color #0A0A0D;
+@define-color theme_unfocused_bg_color #0D0D10;
+@define-color theme_unfocused_fg_color #6B7280;
+@define-color theme_unfocused_base_color #07080A;
+@define-color theme_unfocused_selected_bg_color #89A889;
+@define-color theme_unfocused_selected_fg_color #07080A;
+@define-color borders #20222A;
+@define-color unfocused_borders #20222A;
+@define-color warning_color #FBBF24;
+@define-color error_color #ED254E;
+@define-color success_color #3FFABB;
+
+@define-color accent_color #A6C9A6;
+@define-color accent_bg_color #A6C9A6;
+@define-color accent_fg_color #07080A;
+@define-color destructive_color #ED254E;
+@define-color destructive_bg_color #ED254E;
+@define-color destructive_fg_color #F8F8F8;
+
+* {
+  outline-width: 2px;
+  outline-offset: -2px;
+  outline-color: alpha(@accent_color, 0.5);
+  -gtk-icon-shadow: none;
+  text-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+window, .background {
+  background-color: @theme_bg_color;
+  color: @theme_fg_color;
+}
+
+/* === Buttons — opaque flat fill, hard offset shadow, sharp corners === */
+button {
+  background-color: #121216;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  padding: 5px 12px;
+  transition: none; /* mechanical: no eased hover fade */
+}
+button:hover {
+  background-color: #191c1e;
+  border-color: @accent_color;
+}
+button:active, button:checked {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.9);
+  margin: 8px 0 0 8px; /* travels into its own shadow */
+}
+button:disabled {
+  opacity: 0.4;
+  box-shadow: none;
+}
+button.suggested-action {
+  background-color: @accent_color;
+  color: @accent_fg_color;
+  border-color: @accent_color;
+}
+button.suggested-action:hover {
+  background-color: @theme_selected_bg_color;
+}
+button.destructive-action {
+  background-color: @destructive_bg_color;
+  color: @destructive_fg_color;
+  border-color: @destructive_bg_color;
+}
+/* Circular buttons (icon-only, close/nav) are the deliberate pill exception */
+button.circular, button.image-button {
+  border-radius: 9999px;
+  box-shadow: none;
+}
+
+/* === Entries / text fields — flat, sharp, accent focus ring not glow === */
+entry {
+  background-color: @theme_base_color;
+  color: @theme_text_color;
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 6px 10px;
+}
+entry:focus {
+  border-color: @accent_color;
+  box-shadow: inset 0 0 0 1px @accent_color;
+}
+entry:disabled {
+  opacity: 0.4;
+}
+
+/* === Headerbar — opaque flat, no gradient, hard bottom hairline === */
+headerbar, .titlebar {
+  background-color: #121216;
+  color: @theme_fg_color;
+  border: none;
+  border-bottom: 1px solid @borders;
+  box-shadow: none;
+  border-radius: 0;
+}
+headerbar button, .titlebar button {
+  box-shadow: none;
+  background-color: transparent;
+  border-color: transparent;
+}
+headerbar button:hover, .titlebar button:hover {
+  background-color: alpha(@theme_fg_color, 0.08);
+}
+
+/* === Checkbuttons / radiobuttons — sharp check, radio stays circular === */
+checkbutton check, radiobutton radio {
+  background-color: @theme_base_color;
+  border: 1px solid @borders;
+  min-width: 16px;
+  min-height: 16px;
+}
+checkbutton check {
+  border-radius: 0; /* tag-step sharp, not the old rounded box */
+}
+radiobutton radio {
+  border-radius: 9999px; /* pill exception: a radio dot IS a circle */
+}
+checkbutton check:checked, radiobutton radio:checked {
+  background-color: @accent_color;
+  border-color: @accent_color;
+  color: @accent_fg_color;
+}
+checkbutton check:hover, radiobutton radio:hover {
+  border-color: @accent_color;
+}
+
+/* === Switches — pill track (deliberate exception), sharp knob === */
+switch {
+  background-color: #191c1e;
+  border: 1px solid @borders;
+  border-radius: 9999px;
+  box-shadow: none;
+}
+switch:checked {
+  background-color: @accent_color;
+  border-color: @accent_color;
+}
+switch slider {
+  background-color: @theme_fg_color;
+  border-radius: 9999px;
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.9);
+}
+
+/* === Notebook / tabs — sharp, hard bottom rule on active tab === */
+notebook > header {
+  background-color: #0A0A0D;
+  border: none;
+  box-shadow: none;
+}
+notebook > header tab {
+  background-color: transparent;
+  color: @theme_unfocused_fg_color;
+  border: none;
+  border-radius: 0;
+  padding: 8px 14px;
+}
+notebook > header tab:checked {
+  color: @theme_fg_color;
+  border-bottom: 2px solid @accent_color;
+  box-shadow: none;
+}
+notebook > header tab:hover {
+  color: @theme_fg_color;
+}
+
+/* === Popovers / menus — opaque flat, hard offset shadow, sharp corners === */
+popover, popover.background {
+  background-color: #121216;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+}
+menu, .menu, .context-menu {
+  background-color: #121216;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  padding: 4px;
+}
+menuitem, modelbutton {
+  border-radius: 0;
+  padding: 6px 10px;
+  transition: none;
+}
+menuitem:hover, modelbutton:hover {
+  background-color: alpha(@accent_color, 1);
+  color: @accent_fg_color;
+}
+
+/* === Lists / rows — flat, accent selection fill, no glow === */
+list, treeview {
+  background-color: @theme_base_color;
+  color: @theme_text_color;
+}
+row, treeview row {
+  border-radius: 0;
+  transition: none;
+}
+row:selected, treeview row:selected {
+  background-color: @accent_color;
+  color: @accent_fg_color;
+}
+row:hover:not(:selected), treeview row:hover:not(:selected) {
+  background-color: alpha(@theme_fg_color, 0.06);
+}
+
+/* === Scrollbars — sharp, flat, accent thumb === */
+scrollbar {
+  background-color: transparent;
+}
+scrollbar slider {
+  background-color: alpha(@theme_fg_color, 0.2);
+  border-radius: 0;
+  min-width: 8px;
+  min-height: 8px;
+}
+scrollbar slider:hover {
+  background-color: @accent_color;
+}
+
+/* === Progress bars / scales — sharp, flat, accent fill === */
+progressbar > trough {
+  background-color: #191c1e;
+  border-radius: 0;
+}
+progressbar > trough > progress {
+  background-color: @accent_color;
+  border-radius: 0;
+}
+scale > trough {
+  background-color: #191c1e;
+  border-radius: 0;
+  min-height: 4px;
+}
+scale > trough > highlight {
+  background-color: @accent_color;
+  border-radius: 0;
+}
+scale > slider {
+  background-color: @theme_fg_color;
+  border-radius: 9999px; /* pill exception: a slider handle IS a circle */
+  box-shadow: 2px 2px 0 0 rgba(0, 0, 0, 0.9);
+}
+
+/* === Tooltips — opaque flat, hard offset shadow (no soft glow) === */
+tooltip, tooltip.background {
+  background-color: #191c1e;
+  color: @theme_fg_color;
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9);
+  padding: 4px 8px;
+}
+
+/* === Dialogs — opaque flat, sharp corners === */
+dialog, .dialog-vbox, messagedialog {
+  background-color: @theme_bg_color;
+  color: @theme_fg_color;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* === Sidebar / panes — structural chrome === */
+.sidebar, placessidebar {
+  background-color: #0A0A0D;
+  color: @theme_fg_color;
+  border-right: 1px solid @borders;
+}
+
+/* === Frames / cards — opaque flat, hard shadow when it reads as elevated === */
+frame {
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: none;
+}
+frame.card {
+  background-color: #121216;
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+}
+
+/* === Selection / text === */
+selection, *:selected {
+  background-color: @accent_color;
+  color: @accent_fg_color;
+}

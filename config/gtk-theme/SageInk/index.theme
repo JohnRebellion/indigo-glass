@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=SageInk
+Comment=Neobrutalist ink GTK theme - opaque flat surfaces, hard offset shadow, single sage accent. Part of the Sage Ink design system.
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=SageInk
+MetacityTheme=SageInk
+IconTheme=Tela-circle-purple-dark
+CursorTheme=Bibata-IndigoGlass
+ButtonLayout=close,minimize,maximize:menu
