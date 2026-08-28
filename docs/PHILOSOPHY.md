@@ -1,132 +1,142 @@
-# Lime Glass — Design Philosophy
+# Sage Ink — Design Philosophy
 
-> Why the hybrid? Why these colors? Why these constraints?
+> Why ink? Why these colours? Why these constraints?
 
 ---
 
-## The three references
+## The reference
 
-### visionOS — Spatial Glass
+### The Verge — `DESIGN.md`
 
-Apple's spatial computing OS introduced **dimensional materials** as a primary UI language. Five principles map directly to a 2D Linux desktop:
+The single lineage reference is the extracted spec for **The Verge's 2024 redesign**, as published in the `DESIGN.md` library (`design-md/theverge/DESIGN.md`) and analysed in `research-reports/magazine-comic-style-design-system-2026-08-27.md`. It is magazine/comic-influenced neobrutalism — "developer console meets club night meets tech tabloid" — and four of its moves map directly onto a Linux desktop:
 
-1. **Glass is the chrome.** UI doesn't sit on top of content — it floats, frosted, tinted. The blur layer IS the design.
-2. **Tint, don't fill.** Color applied AS a tint to the glass material, not as a flat colored background. Saturated solids contaminate blur. A single restrained accent on dark glass tints elegantly.
-3. **Depth via shadow falloff.** Z-axis hierarchy through shadow + opacity gradients, not borders + lines.
-4. **Content primary, chrome recedes.** Decoration vanishes when not needed. Window titlebars minimal. Panels translucent.
-5. **Soft light.** Warmth even in dark palettes. Not harsh flat black.
+1. **Colour-as-elevation.** The Verge ships fourteen shadow entries and *none of them is a real elevation shadow* — depth is carried by fill colour and 1px hairline rings. Hierarchy is something you read, not something you infer from a blur gradient.
+2. **Near-black canvas, no light mode.** `#131313` there, `#07080A` here. Deep enough to be a printed negative rather than a screen, but not pure black. (The Verge's canvas is deliberately *warm*; ours is neutral-to-cool — hue `262` at chroma `0.005`. That difference is inherited from the Lime Glass base and was not revisited.)
+3. **Accent as hazard tape.** One accent doing all the decorative work, never a background wash.
+4. **Print logic over screen logic.** Type does the shouting; the surface stays flat and opaque.
 
-### Linear — Dark Discipline
+Two deliberate divergences, both worth naming so nobody "corrects" them later:
 
-Linear.app set the modern dark UI standard with three pillars:
+- **The accent is not acid.** The Verge runs Jelly Mint `#3cffd0` at full hazard intensity; sage is chroma `0.06` — pale and muted by choice. The *role* is the same, the loudness is not.
+- **There is a hard offset shadow.** The research report argued colour-as-elevation was "the cleanest exit from frosted glass that does not land you in neobrutalism — no 3px borders, no `6px 6px 0` shadows". Sage Ink took the neobrutalist option anyway: colour-as-elevation *plus* an `8px 8px 0` shadow. A taste call, made knowingly. See `[shadow]` in the token file.
+
+### Linear — what survived
+
+Linear.app's discipline is the one thing carried over intact from the glass era, because none of it was ever about material:
 
 1. **Cognitive linearity.** Single reading direction. One action per screen region. No zig-zag attention.
-2. **Typography is hierarchy.** Weight contrast > size contrast. Inter Display heavy for headings, regular for body.
-3. **Dark by conviction.** Deep near-black base (`#07080A` by default — NOT pure black, which halates on OLED and exhausts eyes). Single accent (ghost-lime `#A8E635` by default; indigo `#5E6AD2` heritage) used sparingly. Subtle gradients on dark surfaces — not flat, not loud.
+2. **Typography is hierarchy.** Weight contrast beats size contrast.
+3. **Dark by conviction.** Deep near-black base (`#07080A` — NOT pure black, which halates on OLED and exhausts eyes). One restrained accent, used sparingly.
 
-Restraint IS the style. One accent, mono icons, clean panels, no rainbow.
-
-### Neumorphism 2.0 — Selective Tactility
-
-Original neumorphism (2020) failed because it was applied to **entire UIs**. Low-contrast pillowy surfaces meant nav, text, and backgrounds all blurred into one soft mass. Accessibility nightmare.
-
-**2.0 evolution (2025+):** Selective application only.
-
-| Allowed | Forbidden |
-|---|---|
-| Buttons | Text, headings |
-| Sliders, knobs | Navigation, sidebars |
-| Toggles, switches | Backgrounds |
-| Volume widgets | Headers |
-| Notification cards | Body text |
-
-Soft pillowy shadows on **interactive elements only** — preserving contrast where reading happens.
+Restraint IS the style. One accent, clean panels, no rainbow. (Icons are the exception the system does not yet own — `Tela-circle-purple-dark` is a third-party, multi-colour set. See [REFERENCE.md](REFERENCE.md#current-boundary-vs-planned-scope).)
 
 ---
 
-## Why these three together?
+## What died with the glass
 
-Each solves a problem the others don't:
+v1–v2 shipped as *Indigo Glass*, v3 as *Lime Glass*. Both were a three-way hybrid of visionOS spatial glass, Linear dark discipline, and Neumorphism 2.0. Two of those three references are now dead, and this is not a softening — the tokens that expressed them have been **deleted**, not deprecated:
 
-| Problem | visionOS | Linear | Neumorphism 2.0 |
-|---|---|---|---|
-| Depth without clutter | ✓ glass + blur | — | — |
-| Restraint + readability | — | ✓ typography + accent | — |
-| Tactility on interactive | — | — | ✓ shadow extrusion |
-| Premium feel | ✓ | ✓ | ✓ |
+| Dead reference | What it claimed | Where it went |
+|---|---|---|
+| **visionOS — "glass is the chrome"** | UI floats, frosted and tinted; the blur layer IS the design | `[blur]` deleted outright. `[glass]`, `[glass.render]`, `[glass.grain]` deleted. `[radius.squircle].enabled = false`. |
+| **visionOS — "tint, don't fill"** | Colour applied AS a tint to a translucent material | Fills are opaque. `[opacity].window_active` / `window_inactive` are both `1.00` (they were `0.92` / `0.85` — the last place translucency-as-material survived). |
+| **visionOS — "depth via shadow falloff"** | Z-hierarchy through soft shadow + opacity gradients | Zero-blur offset shadow (`[shadow].ink`) plus fill hierarchy. `glass_sm` / `glass` / `glass_lg` deleted. |
+| **visionOS — "soft light"** | Ambient light-source orbs behind the glass | `[ambient]` deleted. |
+| **Neumorphism 2.0 — selective tactility** | Soft pillowy extrusion on interactive elements only | `[shadow].neu_raised` / `neu_pressed` deleted; `[motion.roles].neu_press` deprecated in favour of `ink_press`. |
 
-**visionOS alone** = beautiful but overproduced. Glass everywhere overwhelms.
-**Linear alone** = excellent reading, but flat and cold.
-**Neumorphism alone** = unusable for anything more than a calculator.
+There is no chrome-is-glass carve-out either. **Every** surface is ink now.
 
-**Hybrid** = depth where you want to feel space (windows, panels), discipline where you read (text, nav), tactility where you interact (buttons, sliders). Right tool for each surface.
+Deletion rather than deprecation was the point. Those tokens sat marked "deprecated" for weeks while `codegen.py` kept emitting `tokens/out/glass.css` for every variant — which meant glass remained a fully-supported material that any consumer could opt into and still pass every check. That is exactly how frosted surfaces survived in the shipped Obsidian, Spicetify and Vencord themes long after the tokens said ink. A deprecated token is an available token. Git history keeps the values if a glass variant is ever genuinely wanted again.
+
+What remains that *looks* like a survivor and is not: `[opacity].overlay_scrim` (0.80) dims the content *behind* a modal, not the modal's own fill; `disabled` (0.40) and `hover_tint` (0.10) are interaction states. Those are functional transparency, not a material. The one genuinely soft token left is `[shadow].accent_glow_lg` (`0 0 24px`), which is a focus affordance rather than an elevation cue.
 
 ---
 
-## Color reasoning
+## Material is a constraint, not a preference
+
+The lime → sage colour migration was enforced by `scripts/check-palette-drift.sh`, which fails the build on any stale non-active-variant accent literal in a deployable layer. It worked: the colour migration landed thoroughly.
+
+The glass → ink **material** migration had no equivalent guard, and it drifted badly — frosted surfaces survived in shipped Obsidian, Spicetify and Vencord themes, and in generated CSS, for weeks after the tokens said ink. One migration was enforced and the other was left to diligence, and the results are exactly what you would predict.
+
+So, stated plainly: **material is a first-class constraint, at the same level as the accent hue.** "Is this surface glass or ink?" is not a per-surface taste call any more than "is this button lime or sage?" is. There is exactly one material.
+
+Two mechanisms enforce that:
+
+- **Deletion.** The glass, blur, grain, ambient and neumorphic-shadow tokens are gone from the source of truth, so codegen cannot emit them and no layer can consume them and still claim to derive from tokens. A deprecated token is an available token; a deleted one is not.
+- **The drift guard, which now checks material as well as colour.** `check-palette-drift.sh` fails on `backdrop-filter`, `blur(`, `feTurbulence` grain, and — parsed rather than pattern-matched, so that a legitimate `0 0 0 2px` focus ring passes and `0 4px 24px` does not — any `box-shadow` with a non-zero blur radius. Run it as `--colour` or `--material` to scan one axis.
+
+The escape hatch is a `# drift-allow` comment on the offending line. Use it rarely and say why on the same line: an unexplained `drift-allow` is drift with a note attached.
+
+---
+
+## Colour reasoning
 
 ### The accent-selection principle
 
-Every variant obeys the same rule: **one decorative accent hue, chosen to sit at maximum contrast on a near-black base, expressed as a single hue with lightness-shifted hi/alt siblings.** The accent is not "a palette" — it is one hue. Hover (`hi`) and active/decoration (`alt`) are lightness shifts of that same hue, never new colors. This keeps the interface reading as one voice instead of a spectrum.
+Every variant obeys the same rule: **one decorative accent hue, chosen to sit at high contrast on a near-black base, expressed as a single hue with lightness-shifted hi/alt siblings.** The accent is not "a palette" — it is one hue. Hover (`hi`) and active/decoration (`alt`) are lightness shifts of that same hue, never new colours. `[palette.derive]` states the deltas the CSS relative-colour helpers use: `hover_dl = +0.06`, `active_dl = -0.04`, `subtle_dl = -0.10`.
 
-The principle demands three things of any candidate hue:
+Colour is **authored in OKLCH** (`[meta].color_authoring = "oklch"`) and hex is *derived* by codegen, never hand-picked. `[variants.<name>]` carries `[L, C, H]` triples; everything downstream — sRGB hex for KDE/GTK/GRUB/Windows, display-p3, native `oklch()` CSS — falls out of those three numbers.
 
-- **High contrast on near-black** — the base is deliberately deep (not pure `#000`, to avoid OLED halation) so the accent can carry the eye without a second competing color
-- **Single hue** — one authoritative decorative color; everything interactive shares it, and depth comes from elevation, not from more hues
-- **No blur pollution** — the accent must tint glass cleanly rather than vibrate on it (saturated colors vibrate on near-black and cause eye strain on OLED/VA panels)
+### Default: sage `#A6C9A6`
 
-### Default: ghost-lime `#A8E635`
+`[variants.sage]` sets the accent to `oklch(0.8000 0.0600 145.00)` → `#A6C9A6`, on the neutral deep near-black base `#07080A`. Two things distinguish it from the lime it replaced:
 
-Lime Glass sets the accent to ghost-lime `#A8E635` (hue `127.71`) on a neutral Raycast-deep near-black base `#07080A`. The base is intentionally *deeper* than the heritage indigo base to **maximize lime contrast** — `13.39:1` against `#07080A` — while staying OLED-safe (not pure black, so no halation) and preserving depth-via-elevation. The base stays neutral, not lime-tinted: the lime lives only in the accent, so a single hue does all the decorative work. `#C1FF58` is the brighter hover shift, `#8BC406` the darker active/decoration shift — the same hue at three lightnesses.
+- **Low chroma on purpose.** Chroma `0.06` where lime ran `0.2049`. The token comment calls the character "pale/muted, not vivid like lime". Contrast against the base is `11.00:1`, down from lime's `13.39:1` — a fill/background ratio, not a text ratio; see the next point.
+- **Fill-only.** Sage is `1.72:1` against `--text`, so it **cannot carry body text**. It sits behind text, never as text. Hover is `#C0E3C0` (`L 0.88`), active/decoration `#89A889` (`L 0.70`) — same hue `145.0`, lightness shifts only.
 
-### Heritage alternative: indigo `#5E6AD2`
+Text stays neutral: `#F8F8F8` / `#6B7280` / `#4B5563`, with no sage tint, because sage is fill-only.
 
-The original Indigo Glass variant uses Linear's brand indigo `#5E6AD2` (hue ~`264`) on the shallower `#0F0F12` base, achieving `12.79:1`. It follows the identical principle — desaturated (unlike Tailwind's `#6366F1`) so it tints glass without vibrating, treated in LCH as the calmer/more authoritative variant, and Apple's visionOS HIG already places `#5E6AD2` in the "brighter zone" it recommends for glass backgrounds. Indigo remains available as a heritage variant; lime is the default.
+### The `positive` nudge
+
+Sage is the only variant whose `positive` hue moved. At the shared `152.51` it sat 7.5° from sage's `145.0` and stopped reading as a distinct *status* colour next to the accent. It was nudged +12.49° to `165.00` (`#3FFABB`), clearing the accent by 20° while staying unambiguously green (teal starts around 170°). The change is scoped to sage only — lime's accent already clears `152.51` by 24.8°, and moving indigo's or lime's `positive` would ripple into hardcoded hex already baked into roughly forty downstream configs.
+
+### Heritage variants
+
+The system is multi-variant, and the other two are still real, still shipped, still one `[meta].default_variant` switch away:
+
+- **`indigo` — "Indigo Glass"** (v1–v2), Linear's brand indigo `#5E6AD2`, hue `275.21`, on the shallower base `#0F0F12` — `12.79:1`.
+- **`lime` — "Lime Glass"** (v3), ghost-lime `#A8E635`, hue `127.71`, `13.39:1` on `#07080A`.
+
+Note what the names preserve: those variants are *called* Glass because that is what they were designed under. They ship today rendered in ink like everything else — the variant chooses a hue, not a material.
 
 ### Why `#FBBF24` amber for warning?
 
-Two-color split (Linear's own pattern):
+Two-colour split (Linear's own pattern):
 
-- **The decorative accent** (lime by default, indigo in heritage) for everything interactive (selection, focus, hover, links)
-- **Warm amber** ONLY for semantic warnings (notifications, pending states, attention)
+- **The decorative accent** (sage by default) for everything interactive — selection, focus, hover, links
+- **Warm amber** ONLY for semantic warnings — notifications, pending states, attention
 
-This preserves orange's cognitive role (warning = warm) without contaminating the visual language with random warm spots.
+This preserves orange's cognitive role (warning = warm) without contaminating the visual language with random warm spots. Amber is shared unchanged across all three variants.
 
-Orange `#FF7B00` (the original KDE Sweet/Breeze accent) failed on three counts as a primary accent:
-
-1. **Optical vibration** on near-black glass surfaces
-2. **Semantic collision** — orange = warning universally, can't also = "primary"
-3. **Aesthetic mismatch** — visionOS, Linear, neumorphism are all cool/neutral; orange fights all three
-
-Amber `#FBBF24` (Tailwind amber-400) keeps the warm signal where it belongs (semantic) without dominating.
+Orange `#FF7B00` (the original KDE Sweet/Breeze accent) failed as a primary accent because orange = warning universally and cannot also mean "primary". That reasoning predates the ink migration and still holds. The other objection recorded at the time — that orange optically vibrated on near-black *glass* — no longer applies, because there is no glass to vibrate on. (Full workings: `research-reports/orange-accent-replacement-dark-ui-2026-04-25.md`.)
 
 ---
 
 ## Typography reasoning
 
-Two families, distinct roles:
+Two families, distinct roles.
 
 ### Carlito for content (humanist with loop-tail g)
 
-- **Double-storey `g`** (3-contour loop-tail) — matches Iosevka mono allograph for visual consistency
-- **High x-height** = readable at 10pt UI
-- **Free, broad weight range** (300-800 + italic axes)
+- **Double-storey `g`** (3-contour loop-tail) — matches the Iosevka mono allograph for visual consistency
+- **High x-height** = readable at the 11pt anchor
+- **Free, broad weight range**
 - **Humanist** — warm for body text, not robotic
-- **Replaced Nunito** which uses single-storey g — broke the loop-tail contract
+- **Replaced Nunito**, which uses a single-storey g and broke the loop-tail contract
 
-### SF Pro Display for chrome (geometric Apple)
+### SF Pro Display for chrome (geometric)
 
 - **Geometric precision** = sharp window titles, menus, toolbars
-- **Apple-system** = visionOS-native feel
 - **Smaller hierarchy** through size, not weight
 
-The contrast between **rounded humanist body** and **sharp geometric chrome** creates structure without needing extra ornament. Linear-style discipline applied through typography family contrast.
+The contrast between **humanist body** and **sharp geometric chrome** creates structure without extra ornament. Linear-style discipline applied through family contrast rather than decoration.
 
-### JetBrainsMono Nerd Font for terminal
+> **Known gap.** The Verge carries its hierarchy on a heavy display face at hero scale (Manuka 900 at up to 107px, line-height 0.80). Sage Ink has no equivalent — the scale tops out at 23pt (`hero_pt`) and the chrome face is SF Pro Display. This is the one part of the reference the system has not adopted, and 107px display type has nowhere to live in a window manager anyway. If it ever lands, it belongs to `web/`, GRUB, SDDM and fastfetch, not Klassy or Konsole.
 
-- Monospace with full Nerd Font glyphs (Powerline, Devicons, Octicons)
-- Free, broadly available
-- Iosevka Custom Condensed is preferred if available, but proprietary/custom
+### Iosevka Custom Condensed for mono
+
+- Preferred where available; `[type.families].mono` falls back through `Iosevka Custom` → `MesloLGS NF` → `JetBrainsMono Nerd Font` → `Cascadia Code` → `Fira Code` → `Consolas`
+- Mono runs at the same 11pt anchor as body
 
 ---
 
@@ -134,32 +144,46 @@ The contrast between **rounded humanist body** and **sharp geometric chrome** cr
 
 ### Single accent
 
-Exactly ONE decorative accent hue per variant (lime `#A8E635` by default; indigo `#5E6AD2` heritage). The hi/alt variations (e.g. lime `#C1FF58` / `#8BC406`, or indigo `#818CF8` / `#A78BFA`) are luminance shifts of that one hue — not different colors.
+Exactly ONE decorative accent hue per variant (sage `#A6C9A6` by default). The `hi`/`alt` variations are lightness shifts of that one hue — not different colours.
 
-### Three text colors max
+### Three text colours max
 
-Primary `#F8F8F8`, muted `#6B7280`, inactive `#6B7280`. No "tertiary text" in 5 different greys.
+Primary `#F8F8F8`, muted `#6B7280`, dim `#4B5563`. No "tertiary text" in five different greys.
 
 ### Three surface levels
 
-Base, surface, surface-elevated. No "surface-50, surface-100, surface-150" cascade.
+Base `#07080A`, surface `#0D0D10`, surface-alt `#121216` (plus sidebar `#0A0A0D`). No "surface-50, surface-100, surface-150" cascade.
 
-### One radius default
+### Two radius steps, and a tag
 
-`8px` everywhere — Klassy CornerRadius matches. Breaking only for: large containers (12px), pills (full).
+`[radius]` is deliberately two-track: **`0` for every material surface**, and **`full` (9999px) for circles and the pill CTA** — the two ends of the ladder, on purpose. `xs = 2` is the single soft step ink permits, for tags and small badges.
 
-### One blur default
+The intermediate 4 / 6 / 12 / 16 ladder from the glass era was **killed, not carried forward**: those steps had no material meaning once glass was gone. `default = 0` is now the canonical Klassy match (it was 8).
 
-`13px` (KWin BlurStrength=13) — same value in Tailwind `--blur-glass`. Stronger only for modals/critical glass surfaces.
+### No blur
+
+There is no `[blur]` table. It was a table of zeros kept alive only because `emit_kwin_blur()` still read `blur.md`, and a table of zeros is an invitation to raise them. Deleted on 2026-08-28, along with the KWin `better-blur-dx` effect itself, which `kwinrc-blur.ini` now switches **off** rather than tuning to zero. Nothing is frosted, and nothing is one config edit away from being frosted again.
+
+### One shadow, and it is hard
+
+`[shadow].ink` is `8px 8px 0 0 #000000` — zero blur radius. `ink_lg` is `14px 14px 0 0` for feature tiles and hero cards. `hairline` (`0 0 0 1px rgba(255,255,255,0.10)`) is the quiet alternative where even ink is too loud. `ink_accent` is the same offset in the active variant's `accent_alt` — a hazard-coloured ink shadow, derived by codegen, never hardcoded per variant.
+
+Those offsets were **doubled on 2026-08-28** (4px → 8px, 7px → 14px). The token comment is explicit that this is a *taste call* — a deliberately chunkier read at normal viewing distance on a 27in 1440p / ~109ppi panel — and **not** a DPI-accuracy correction, which would only have warranted ~1.13x over a 96dpi baseline since the display runs at Plasma scale 1. Do not restate it as a scaling rule.
+
+### The press is mechanical
+
+`[motion.roles].ink_press` is `["instant", "mechanical"]` — 60ms with `steps(2, end)`. The token file's phrase for it: **"a stamp, not a spring"**. The object translates into its own shadow by the shadow's offset while the shadow collapses to `0 0 0 0` (`[shadow].ink_press`).
+
+The old `neu_press` (120ms on a `cubic-bezier(0.34, 1.56, 0.64, 1.0)` overshoot) is deprecated — a soft pillowy push is the wrong feel for a hard-edged ink object. `standard` and `emphasize` easings survive for hover, focus, toggles and panels; only the *press* is mechanical.
 
 ---
 
-## Why "Lime Glass" as a name?
+## Why "Sage Ink" as a name?
 
-- **Lime** = the accent — a single ghost-lime (`#A8E635`) on deep black, the brand signature
-- **Glass** = the material language, the visionOS/brutalist-glass reference
+- **Sage** = the accent — one pale, low-chroma green on deep black, the brand signature
+- **Ink** = the material language: opaque flat fields, hard offset shadow, colour-as-elevation
 - **Together** = a complete design identity, not just "another dark theme"
 
-Naming the system as a *product* (not just "my dotfiles") forces design discipline: every change must answer "is this Lime Glass?" — not "is this what I happen to like today?"
+Naming the system as a *product* (not just "my dotfiles") forces design discipline: every change must answer "is this Sage Ink?" — not "is this what I happen to like today?"
 
-> **Heritage:** the system began as **Indigo Glass** (Linear-indigo `#5E6AD2` accent). That palette still ships as the `indigo` variant (`[variants.indigo]` in the token file) — Lime Glass is the default, Indigo Glass is one `default_variant` switch away.
+> **Heritage:** the system began as **Indigo Glass** (Linear-indigo accent), became **Lime Glass** when the palette went multi-variant, and is **Sage Ink** today. Both earlier palettes still ship as the `indigo` and `lime` variants in `[variants.*]`. The *material* has no such fallback — glass is not a variant, it is a superseded version.
