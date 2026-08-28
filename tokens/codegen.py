@@ -590,6 +590,10 @@ def emit_kwin_blur(t: dict) -> str:
         # compositor pass and still needed the resume watchdog to re-arm it.
         "blurEnabled=false",
         "better_blur_dxEnabled=false",
+        # Background Contrast (blur+contrast under any client-marked region,
+        # e.g. every Plasma popup/panel) is a third, independent translucency
+        # source from the two above - ink is opaque, nothing to contrast.
+        "backgroundcontrastEnabled=false",
         "fadedesktopEnabled=true",
         "truely-maximizedEnabled=true",
         "kwin4_effect_shapecornersEnabled=false",

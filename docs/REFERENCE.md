@@ -133,6 +133,7 @@ The decision has been taken to close this gap by **taking full ownership of both
 | Widget style (Qt) | **Klassy** | `~/.config/kdeglobals [KDE] widgetStyle=Klassy` |
 | LookAndFeel | **org.kde.breezedark.desktop** (neutral) | `~/.config/kdeglobals [KDE] LookAndFeelPackage` |
 | KWin blur engine | **OFF** — `better_blur_dxEnabled=false`, `blurEnabled=false` | `~/.config/kwinrc [Plugins]` |
+| KWin background contrast | **OFF** — `backgroundcontrastEnabled=false`; applies blur+contrast to any client-marked region (every Plasma popup/panel) independent of the theme's own opacity settings | `~/.config/kwinrc [Plugins]` |
 | Window opacity | **100% / 100%** — ink windows are opaque | `[opacity].window_active` / `window_inactive` |
 | Rounded corners | **DISABLED** — radius is 0 anyway | `~/.config/kwinrc [Plugins] kwin4_effect_shapecornersEnabled=false` |
 | Icon theme | **Tela-circle-purple-dark** — third-party, not ink | `~/.config/kdeglobals [Icons] Theme` |
@@ -332,6 +333,7 @@ BorderSizeAuto=false
 [Plugins]
 blurEnabled=false
 better_blur_dxEnabled=false
+backgroundcontrastEnabled=false
 fadedesktopEnabled=true
 truely-maximizedEnabled=true
 kwin4_effect_shapecornersEnabled=false
