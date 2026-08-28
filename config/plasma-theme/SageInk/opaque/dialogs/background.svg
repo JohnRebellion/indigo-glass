@@ -148,9 +148,9 @@
        y="288"
        width="50"
        height="30"
-       fill="url(#linearGradient957)"
+       fill="#000000"
        id="rect23"
-       style="opacity:1" />
+       style="opacity:0" />
     <rect
        transform="rotate(-90)"
        x="-307"
@@ -160,7 +160,7 @@
        fill="none"
        opacity=".5"
        stroke-width=".5164"
-       id="rect25" />
+       id="rect25"  style="opacity:0" />
   </g>
   <g
      id="shadow-bottom"
@@ -170,8 +170,8 @@
        x="-307"
        y="288"
        width="50"
-       height="30"
-       fill="url(#linearGradient957)"
+       height="5"
+       fill="#000000"
        id="rect28"
        style="opacity:1" />
     <rect
@@ -193,8 +193,8 @@
        x="-307"
        y="288"
        width="50"
-       height="30"
-       fill="url(#linearGradient957)"
+       height="5"
+       fill="#000000"
        id="rect33"
        style="opacity:1" />
     <rect
@@ -212,10 +212,10 @@
      id="shadow-topleft"
      transform="matrix(-1.1176 0 0 1.1176 112.82 -122.93)">
     <path
-       d="M 74.997677,101.93975 H 108.99827 V 135.94034 H 74.997677 Z"
-       fill="url(#g)"
+       d="M 74.997677,101.93975 H 79.997677 V 106.93975 H 74.997677 Z"
+       fill="#000000"
        id="path38"
-       style="opacity:1;fill:url(#g);stroke-width:0.894753" />
+       style="opacity:0;fill:#000000;stroke-width:0.894753" />
   </g>
   <g
      id="shadow-top"
@@ -226,9 +226,9 @@
        y="288"
        width="50"
        height="30"
-       fill="url(#linearGradient957)"
+       fill="#000000"
        id="rect43"
-       style="opacity:1" />
+       style="opacity:0" />
     <rect
        transform="rotate(-90)"
        x="-307"
@@ -238,7 +238,7 @@
        fill="none"
        opacity=".5"
        stroke-width=".5164"
-       id="rect45" />
+       id="rect45"  style="opacity:0" />
   </g>
   <g
      id="top"
@@ -259,28 +259,28 @@
      id="shadow-topright"
      transform="matrix(0,-1.1175981,-1.1176,0,222.93,112.81979)">
     <path
-       d="M 74.997677,101.93975 H 108.99827 V 135.94034 H 74.997677 Z"
-       fill="url(#radialGradient904)"
+       d="M 74.997677,101.93975 H 79.997677 V 106.93975 H 74.997677 Z"
+       fill="#000000"
        id="path53"
-       style="opacity:1;fill:url(#radialGradient904);stroke-width:0.894753" />
+       style="opacity:0;fill:#000000;stroke-width:0.894753" />
   </g>
   <g
      id="shadow-bottomright"
      transform="matrix(1.1176 0 0 -1.1176 -12.823 222.93)">
     <path
-       d="M 74.997677,101.93975 H 108.99827 V 135.94034 H 74.997677 Z"
-       fill="url(#radialGradient922)"
+       d="M 74.997677,101.93975 H 79.997677 V 106.93975 H 74.997677 Z"
+       fill="#000000"
        id="path58"
-       style="opacity:1;fill:url(#radialGradient922);stroke-width:0.894753" />
+       style="opacity:1;fill:#000000;stroke-width:0.894753" />
   </g>
   <g
      id="shadow-bottomleft"
      transform="matrix(0 1.1176 1.1176 0 -122.93 -12.823)">
     <path
-       d="M 74.997677,101.93975 H 108.99827 V 135.94034 H 74.997677 Z"
-       fill="url(#radialGradient940)"
+       d="M 74.997677,101.93975 H 79.997677 V 106.93975 H 74.997677 Z"
+       fill="#000000"
        id="path63"
-       style="opacity:1;fill:url(#radialGradient940);stroke-width:0.894753" />
+       style="opacity:0;fill:#000000;stroke-width:0.894753" />
   </g>
   <g
      id="mask-left"
@@ -411,14 +411,14 @@
      id="shadow-hint-left-margin"
      x="-9"
      y="48"
-     width="30"
+     width="0"
      height="4"
      fill="#f99133" />
   <rect
      id="shadow-hint-right-margin"
      x="79"
      y="48"
-     width="30"
+     width="5"
      height="4"
      fill="#f99133" />
   <rect
@@ -426,14 +426,14 @@
      x="48"
      y="-9"
      width="4"
-     height="30"
+     height="0"
      fill="#f99133" />
   <rect
      id="shadow-hint-bottom-margin"
      x="48"
      y="79"
      width="4"
-     height="30"
+     height="5"
      fill="#f99133" />
   <g
      id="topleft"
@@ -512,7 +512,7 @@
   <rect
      y="-9"
      x="53"
-     height="30"
+     height="0"
      width="4"
      id="shadow-hint-top-inset"
      style="fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.23608" />
@@ -520,7 +520,7 @@
      style="fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:2.23606"
      id="shadow-hint-bottom-inset"
      width="4"
-     height="30"
+     height="5"
      x="53"
      y="79" />
   <rect
@@ -528,14 +528,14 @@
      style="fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.41422"
      id="shadow-hint-right-inset"
      width="4"
-     height="30"
+     height="5"
      x="53"
      y="-109" />
   <rect
      transform="rotate(90)"
      y="-21"
      x="53"
-     height="30"
+     height="0"
      width="4"
      id="shadow-hint-left-inset"
      style="fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.41421" />
