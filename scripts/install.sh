@@ -169,11 +169,13 @@ run "rm -rf $HOME/.local/share/plasma/desktoptheme/SageInk"
 run "cp -r '$REPO_DIR/config/plasma-theme/SageInk' '$HOME/.local/share/plasma/desktoptheme/SageInk'"
 
 echo
-echo "▶ Installing icon theme (Tela-circle-purple-dark)..."
-if [ ! -d "$HOME/.local/share/icons/Tela-circle-purple-dark" ]; then
-  run "cd /tmp && rm -rf Tela-circle-icon-theme"
-  run "cd /tmp && git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git"
-  run "cd /tmp/Tela-circle-icon-theme && ./install.sh -a -d $HOME/.local/share/icons"
+echo "▶ Installing icon theme (Papirus-Dark)..."
+# Flat, solid, high-contrast - no gradient/blend, matches the opaque ink
+# material. Was Tela-circle-purple-dark (circle badges over a soft
+# gradient fill); switched 2026-08-28 since Tela's icons blend into dark
+# backgrounds instead of reading as solid opaque colour.
+if ! rpm -q papirus-icon-theme >/dev/null 2>&1; then
+  run "sudo dnf install -y papirus-icon-theme"
 fi
 
 # ─── Copy theme assets ───
@@ -215,7 +217,7 @@ echo "▶ Patching kdeglobals (color scheme + widget style + icons)..."
 run "kwriteconfig6 --file kdeglobals --group 'General' --key 'ColorScheme' 'SageInk'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'widgetStyle' 'Klassy'"
 run "kwriteconfig6 --file kdeglobals --group 'KDE' --key 'LookAndFeelPackage' 'org.kde.breezedark.desktop'"
-run "kwriteconfig6 --file kdeglobals --group 'Icons' --key 'Theme' 'Tela-circle-purple-dark'"
+run "kwriteconfig6 --file kdeglobals --group 'Icons' --key 'Theme' 'Papirus-Dark'"
 run "kwriteconfig6 --file kdeglobals --group 'Appmenu Style' --key 'Style' 'Widget'"
 run "kwriteconfig6 --file plasmarc --group 'Theme' --key 'name' 'SageInk'"
 

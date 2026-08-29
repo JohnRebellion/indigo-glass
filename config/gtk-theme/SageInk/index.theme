@@ -7,6 +7,6 @@ Encoding=UTF-8
 [X-GNOME-Metatheme]
 GtkTheme=SageInk
 MetacityTheme=SageInk
-IconTheme=Tela-circle-purple-dark
+IconTheme=Papirus-Dark
 CursorTheme=Bibata-IndigoGlass
 ButtonLayout=close,minimize,maximize:menu
