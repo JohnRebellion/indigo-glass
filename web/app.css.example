@@ -39,10 +39,10 @@
   /* === Borders & shadows === */
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.10);
-  --shadow-ink-sm: 4px 4px 0 0 rgba(0, 0, 0, 0.9);
-  --shadow-ink: 4px 4px 0 0 rgba(0, 0, 0, 0.9);       /* the default: card, button, terminal */
-  --shadow-ink-lg: 7px 7px 0 0 rgba(0, 0, 0, 0.9);  /* feature tiles, hero cards */
-  --shadow-ink-press: 0 0 0 0 rgba(0, 0, 0, 0.9);     /* active/pressed — shadow collapses as the object travels into it */
+  --shadow-ink-sm: 4px 4px 0 0 #89A889;
+  --shadow-ink: 4px 4px 0 0 #89A889;       /* the default: card, button, terminal */
+  --shadow-ink-lg: 7px 7px 0 0 #89A889;  /* feature tiles, hero cards */
+  --shadow-ink-press: 0 0 0 0 #89A889;     /* active/pressed — shadow collapses as the object travels into it */
 
   /* === Accent glow (focus ring) — a real ring/glow effect, not a material.
      Distinct from the ink shadow above: this is allowed a blur radius
