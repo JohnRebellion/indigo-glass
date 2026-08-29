@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Lime Glass - ChatGPT
+@name           Sage Ink - ChatGPT
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
-@description    Retint chatgpt.com with Lime Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
+@version        0.4.0
+@description    Retint chatgpt.com with Sage Ink palette + Carlito loop-tail. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/chatgpt.user.css
@@ -41,30 +41,41 @@
 
     --text-error: #ED254E !important;
     --text-warning: #FBBF24 !important;
-    --text-success: #71F79F !important;
+    --text-success: #3FFABB !important;
   }
 
-  /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex). */
+  /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).
+   * Sage variant (tokens/indigo-glass.tokens.toml [variants.sage]) - was
+   * indigo/violet hues (275/277/294deg), left over from before the
+   * lime->sage migration. --text-success nudged to sage's positive hue
+   * (165deg, was the pre-nudge shared 152.51deg). */
   @supports (color: oklch(0% 0 0)) {
     :root {
-      --link: oklch(0.6801 0.1583 276.93) !important;
-      --link-hover: oklch(0.7090 0.1592 293.54) !important;
-      --interactive-bg-accent-default: oklch(0.5674 0.1585 275.21) !important;
-      --interactive-bg-accent-hover: oklch(0.6801 0.1583 276.93) !important;
+      --link: oklch(0.8800 0.0600 145.00) !important;
+      --link-hover: oklch(0.7000 0.0570 145.00) !important;
+      --interactive-bg-accent-default: oklch(0.8000 0.0600 145.00) !important;
+      --interactive-bg-accent-hover: oklch(0.8800 0.0600 145.00) !important;
       --text-error: oklch(0.6124 0.2279 17.60) !important;
       --text-warning: oklch(0.8369 0.1644 84.43) !important;
-      --text-success: oklch(0.8792 0.1706 152.51) !important;
+      --text-success: oklch(0.8792 0.1706 165.00) !important;
     }
   }
 
-  /* Squircle corners on message/dialog/menu surfaces (Chromium 139+; fallback). */
-  @supports (corner-shape: superellipse(2)) {
-    [role="dialog"],
-    [role="menu"],
-    [data-message-author-role],
-    [class*="rounded"] {
-      corner-shape: superellipse(2) !important;
-    }
+  /* Sharp ink corners - no squircle (tokens.toml [radius.squircle].enabled=false;
+   * a superellipse is a GLASS-era/Vision-Pro device, ruled out for the
+   * neobrutalist ink direction). Radius applies broadly; border-width only
+   * on dialog/menu - [data-message-author-role]/[class*="rounded"] catch
+   * plenty of elements with no border at all, where forcing one would draw
+   * a line that isn't there today. */
+  [role="dialog"],
+  [role="menu"],
+  [data-message-author-role],
+  [class*="rounded"] {
+    border-radius: 0 !important;
+  }
+  [role="dialog"],
+  [role="menu"] {
+    border-width: 2px !important;
   }
 
   pre, code, kbd, samp, tt,
