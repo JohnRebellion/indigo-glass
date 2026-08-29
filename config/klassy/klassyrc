@@ -87,6 +87,12 @@ PercentMaximizedTopBottomMargins=100
 TitleBarLeftMargin=8
 TitleBarRightMargin=8
 
+# useTitleBarColorForAllBorders=true (below): the window frame/border fill
+# otherwise reads from KDecoration3's ColorRole::Frame, which SageInk.colors
+# never defines explicitly - forcing an undefined-role fallback that showed
+# as a stray dark border around every window regardless of shadow/outline
+# settings (both correctly off). Forcing frame=titlebar colour removes that
+# dependency entirely; titlebar colour is already confirmed correct ink.
 [Windeco]
 BoldButtonIcons=BoldIconsBold
 BoldTitle=false
@@ -99,6 +105,7 @@ MatchTitleBarToApplicationColor=true
 SystemIconSize=SystemIcon12
 TitleAlignment=AlignCenter
 WindowCornerRadius=0
+useTitleBarColorForAllBorders=true
 
 # ShadowColor derived from the active variant's accent_alt (tokens/out/klassy-radius.ini)
 [ShadowStyle]
