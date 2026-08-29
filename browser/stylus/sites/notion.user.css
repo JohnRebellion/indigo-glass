@@ -1,8 +1,8 @@
 /* ==UserStyle==
-@name           Lime Glass - Notion
+@name           Sage Ink - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
-@description    Retint notion.so + notion.site with Lime Glass palette + Carlito loop-tail. OKLCH accents, squircle surfaces.
+@version        0.4.0
+@description    Retint notion.so + notion.site with Sage Ink palette + Carlito loop-tail. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/notion.user.css
@@ -32,7 +32,7 @@
     --notion-red: #ED254E !important;
     --notion-orange: #FBBF24 !important; /* orange banned (PHILOSOPHY.md) -> amber, the single warm accent */
     --notion-yellow: #FBBF24 !important;
-    --notion-green: #71F79F !important;
+    --notion-green: #3FFABB !important;
     --notion-teal: #67E8F9 !important;
 
     --notion-divider: rgba(255, 255, 255, 0.06) !important;
@@ -40,34 +40,43 @@
   }
 
   /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).
-   * Overrides the hex above wherever oklch() is supported - all current
-   * browsers. Matches tokens/out/css-vars.css @supports block. */
+   * Sage variant (tokens/indigo-glass.tokens.toml [variants.sage]) - was
+   * indigo/violet hues (275/277/294deg), left over from before the
+   * lime->sage migration. --notion-green nudged to sage's positive hue
+   * (165deg, was the pre-nudge shared 152.51deg). Overrides the hex above
+   * wherever oklch() is supported - all current browsers. */
   @supports (color: oklch(0% 0 0)) {
     :root {
-      --notion-primary: oklch(0.5674 0.1585 275.21) !important;
-      --notion-primary-hover: oklch(0.6801 0.1583 276.93) !important;
-      --notion-blue: oklch(0.5674 0.1585 275.21) !important;
-      --notion-purple: oklch(0.7090 0.1592 293.54) !important;
+      --notion-primary: oklch(0.8000 0.0600 145.00) !important;
+      --notion-primary-hover: oklch(0.8800 0.0600 145.00) !important;
+      --notion-blue: oklch(0.8000 0.0600 145.00) !important;
+      --notion-purple: oklch(0.7000 0.0570 145.00) !important;
       --notion-orange: oklch(0.8369 0.1644 84.43) !important;
       --notion-yellow: oklch(0.8369 0.1644 84.43) !important;
       --notion-red: oklch(0.6124 0.2279 17.60) !important;
-      --notion-green: oklch(0.8792 0.1706 152.51) !important;
+      --notion-green: oklch(0.8792 0.1706 165.00) !important;
     }
   }
 
-  /* Squircle corners on cards/menus/buttons (Chromium 139+; radius fallback).
-   * Notion class names churn - target stable attribute/role hooks. */
-  @supports (corner-shape: superellipse(2)) {
-    [role="menu"],
-    [role="dialog"],
-    .notion-page-content [contenteditable] [data-block-id],
-    a.notion-collection-item,
-    button {
-      corner-shape: superellipse(2) !important;
-    }
+  /* Sharp ink corners - no squircle (tokens.toml [radius.squircle].enabled=false;
+   * a superellipse is a GLASS-era/Vision-Pro device, ruled out for the
+   * neobrutalist ink direction). Notion class names churn - target stable
+   * attribute/role hooks. Radius only here - unlike menu/dialog, `button`
+   * covers plenty of borderless buttons, so forcing border-width would draw
+   * a border where none exists today. */
+  [role="menu"],
+  [role="dialog"],
+  .notion-page-content [contenteditable] [data-block-id],
+  a.notion-collection-item,
+  button {
+    border-radius: 0 !important;
+  }
+  [role="menu"],
+  [role="dialog"] {
+    border-width: 2px !important;
   }
 
-  /* Notion uses Inter for prose - swap to Lime Glass body chain */
+  /* Notion uses Inter for prose - swap to Sage Ink body chain */
   body, [class*="notion-page"], [contenteditable] {
     font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
   }

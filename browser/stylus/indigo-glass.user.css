@@ -128,7 +128,7 @@
   }
   *::-webkit-scrollbar-thumb {
     background-color: rgba(166, 201, 166, 0.45);
-    border-radius: 5px;
+    border-radius: 9999px; /* pill, matches web/app.css.example scrollbar-thumb convention (was 5px) */
     border: 2px solid transparent;
     background-clip: padding-box;
   }
