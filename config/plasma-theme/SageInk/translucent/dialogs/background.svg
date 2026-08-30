@@ -83,12 +83,12 @@
     <linearGradient
        id="linearGradient1058">
       <stop
-         stop-color="#000000"
+         stop-color="#89A889"
          stop-opacity=".6"
          offset="0"
          id="stop3" />
       <stop
-         stop-color="#000000"
+         stop-color="#89A889"
          stop-opacity=".6"
          offset=".85"
          id="stop5" />
@@ -173,7 +173,7 @@
        height="5"
        fill="#89A889"
        id="rect28"
-       style="opacity:1" />
+       style="opacity:0" />
     <rect
        transform="rotate(-90)"
        x="-307"
@@ -196,7 +196,7 @@
        height="5"
        fill="#89A889"
        id="rect33"
-       style="opacity:1" />
+       style="opacity:0" />
     <rect
        transform="rotate(-90)"
        x="-307"
@@ -246,7 +246,7 @@
     <path
        d="m190 252h50v6.998h-50z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path48"
        style="opacity:1" />
     <path
@@ -271,7 +271,7 @@
        d="M 74.997677,101.93975 H 79.997677 V 106.93975 H 74.997677 Z"
        fill="#89A889"
        id="path58"
-       style="opacity:1;fill:#89A889;stroke-width:0.894753" />
+       style="opacity:0;fill:#89A889;stroke-width:0.894753" />
   </g>
   <g
      id="shadow-bottomleft"
@@ -340,7 +340,7 @@
     <path
        d="m183 259v50l7 1e-5v-50z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path94"
        style="opacity:1" />
   </g>
@@ -350,7 +350,7 @@
     <path
        d="m247 259v50l-7 1e-5v-50z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path97"
        style="opacity:1" />
   </g>
@@ -360,7 +360,7 @@
     <path
        d="m190 252h50v6.9999h-50z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path100"
        style="opacity:1" />
   </g>
@@ -369,7 +369,7 @@
     <path
        d="M71,20.999 H79 V28.999 H71 Z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path103"
        style="opacity:1" />
     <path
@@ -383,7 +383,7 @@
     <path
        d="M29,79 H21 V71 H29 Z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path108"
        style="opacity:1" />
   </g>
@@ -393,7 +393,7 @@
     <path
        d="M3.0005,51.939 V47.9395 H7 V51.939 Z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path111"
        style="opacity:1" />
   </g>
@@ -441,7 +441,7 @@
     <path
        d="M7,47.939 H3 V51.939 H7 Z"
        class="ColorScheme-Background"
-       fill="currentColor"
+       fill="#000000"
        id="path119"
        style="opacity:1" />
     <path

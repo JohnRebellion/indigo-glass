@@ -185,6 +185,7 @@
   <g
      id="top"
      transform="translate(6,10)">
+    <rect x="0" y="0" width="32" height="2" fill="#000000" id="border-top" />
     <rect
        id="rect4152"
        height="6"
@@ -203,6 +204,7 @@
   <g
      id="bottom"
      transform="translate(6,48)">
+    <rect x="0" y="4" width="32" height="2" fill="#000000" id="border-bottom" />
     <rect
        id="rect4148"
        height="6"
@@ -221,6 +223,7 @@
   <g
      id="left"
      transform="translate(0,16)">
+    <rect x="0" y="0" width="2" height="32" fill="#000000" id="border-left" />
     <rect
        id="rect4144"
        height="32"
@@ -239,6 +242,7 @@
   <g
      id="right"
      transform="translate(38,16)">
+    <rect x="4" y="0" width="2" height="32" fill="#000000" id="border-right" />
     <rect
        id="rect4140"
        height="32"
@@ -269,6 +273,8 @@
   <g
      id="topleft"
      transform="translate(0,10)">
+    <rect x="0" y="0" width="6" height="2" fill="#000000" id="border-topleft-top" />
+    <rect x="0" y="0" width="2" height="6" fill="#000000" id="border-topleft-left" />
     <path
        d="M 0,0 H 6 V 6 H 0 Z"
        style="opacity:1;fill:currentColor"
@@ -279,6 +285,8 @@
   <g
      id="topright"
      transform="translate(38,10)">
+    <rect x="0" y="0" width="6" height="2" fill="#000000" id="border-topright-top" />
+    <rect x="4" y="0" width="2" height="6" fill="#000000" id="border-topright-right" />
     <path
        d="M 0,0 H 6 V 6 H 0 Z"
        style="opacity:1;fill:currentColor"
@@ -289,6 +297,8 @@
   <g
      id="bottomleft"
      transform="translate(0,48)">
+    <rect x="0" y="4" width="6" height="2" fill="#000000" id="border-bottomleft-bottom" />
+    <rect x="0" y="0" width="2" height="6" fill="#000000" id="border-bottomleft-left" />
     <path
        d="M 0,0 H 6 V 6 H 0 Z"
        style="opacity:1;fill:currentColor"
@@ -299,6 +309,8 @@
   <g
      id="bottomright"
      transform="translate(38,48)">
+    <rect x="0" y="4" width="6" height="2" fill="#000000" id="border-bottomright-bottom" />
+    <rect x="4" y="0" width="2" height="6" fill="#000000" id="border-bottomright-right" />
     <path
        d="M 0,0 H 6 V 6 H 0 Z"
        style="opacity:1;fill:currentColor"
