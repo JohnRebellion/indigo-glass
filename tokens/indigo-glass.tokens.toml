@@ -3,14 +3,19 @@
 # Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
 # concrete config from this file via tokens/codegen.py.
 #
-# Schema version: 5
-# Last token revision: 2026-08-28 (Sage Ink v5: glass tokens DELETED, not just
-#   deprecated - see the v5 note below. v4, 2026-08-27, dropped the glass
-#   material - see research-reports/magazine-comic-style-design-system-
-#   2026-08-27.md. Was "Lime Glass" v3 multi-variant, "Indigo Glass" v1-2.
-#   No chrome-is-glass carve-out either: every surface is ink now - opaque,
-#   radius 0/2/pill, hard 8px offset shadow, colour-as-elevation (The Verge
-#   DESIGN.md). Shadow was 4px through v4; doubled 2026-08-28, see [shadow].)
+# Schema version: 6
+# Last token revision: 2026-08-30 (v6: [palette.alpha] border/border_strong -
+#   the last literal translucent "glass edge" values in the token source -
+#   replaced with [palette.composite], resolved to opaque hex at emit time.
+#   Added [alpha.exempt] naming the only legitimate remaining alpha uses
+#   (content-highlight, not decoration) - see docs/STATE_GRAMMAR.md and
+#   scripts/check-palette-drift.sh --alpha. v5, 2026-08-28: glass tokens
+#   DELETED, not just deprecated - see the v5 note below. v4, 2026-08-27,
+#   dropped the glass material - see research-reports/magazine-comic-style-
+#   design-system-2026-08-27.md. Was "Lime Glass" v3 multi-variant, "Indigo
+#   Glass" v1-2. No chrome-is-glass carve-out either: every surface is ink
+#   now - opaque, radius 0/2/pill, hard 8px offset shadow, colour-as-elevation
+#   (The Verge DESIGN.md). Shadow was 4px through v4; doubled 2026-08-28.)
 #
 # Edit values here, run codegen, commit results. Do NOT hardcode hex
 # in layer configs anymore.
@@ -31,12 +36,12 @@
 # themes for weeks after v4. See the note where [glass] used to live.
 
 [meta]
-schema_version = 5
+schema_version = 6
 name = "Sage Ink"                   # active brand name (was "Lime Glass", "Indigo Glass")
 description = "neobrutalist ink - opaque, hard-shadow, colour-as-elevation. No glass."
 density = "compact"
 material_style = "flat_ink"         # was glass_style="translucent_backdrop" - no longer accurate, no glass anywhere
-revision = 5
+revision = 6
 color_authoring = "oklch"  # source of truth is [variants.*]; hex is derived
 default_variant = "sage"   # which variant [palette] resolves to + which installs
 # v3: palette is now multi-variant. Shared tokens (spacing/radius/blur/type/
@@ -126,12 +131,26 @@ text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
 text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
 
-# Alpha-channel surfaces (RGBA derived per-variant). [base_key_or_hex, alpha].
-# Shared across variants (white-on-dark borders + base scrim).
+# True alpha surfaces (RGBA derived per-variant). [base_key_or_hex, alpha].
+# Reserved for values that genuinely need to show the backdrop through them -
+# a modal scrim is the only one. Do not add decorative alpha here; that was
+# the "border"/"border_strong" mistake below.
 [palette.alpha]
-overlay       = ["base", 0.80]    # 80% scrim for modals
-border        = ["#FFFFFF", 0.06]  # ~6% white - subtle glass edge
-border_strong = ["#FFFFFF", 0.10]  # ~10% - more visible on hover
+overlay = ["base", 0.80]    # 80% scrim for modals - the backdrop MUST show through
+
+# Opaque composites (v6): "border"/"border_strong" used to ship as literal
+# translucent RGBA (~6%/10% white over nothing in particular) - the last
+# surviving "glass edge" values in the whole system, self-contradicting
+# material_style="flat_ink" above. Same shape [fg, alpha, bg_key] as
+# [palette.alpha] but codegen composites fg-over-bg at emit time and stores
+# the OPAQUE result, so no consumer ever receives a real alpha channel.
+# Blended against `surface`, not `base` - --ig-border sits on panels/widgets
+# living on the surface plane most often. Not exact against every backdrop
+# (sidebar/surface_alt are a few RGB levels off) but at 6-10% white the
+# difference is sub-perceptible; see tokens/codegen.py::_composite_hex.
+[palette.composite]
+border        = ["#FFFFFF", 0.06, "surface"]
+border_strong = ["#FFFFFF", 0.10, "surface"]
 
 # =============================================================================
 # DERIVED ACCENT STEPS (OKLCH lightness shifts - documentation only)
@@ -182,6 +201,21 @@ list_row_gap   = 1  # near-flush rows
 # Sidebar
 sidebar_item_pad_y = 3
 sidebar_item_pad_x = 8
+
+# =============================================================================
+# BORDER - neobrutalism.dev reference audit (2026-08-29): the reference
+# library (ekmas/neobrutalism-components, 46 components) uses `border-2`
+# (2px solid) on every bordered surface with zero exceptions - the border
+# is not decoration, it's the silhouette the hard offset shadow projects
+# from. Sage Ink had drifted to a mix of 1px/2px across app themes (GTK,
+# Spicetify, Vencord, Obsidian, VSCode webview) - this table makes 2px the
+# single canonical value so codegen can enforce it everywhere instead of
+# each layer picking its own.
+# =============================================================================
+
+[border]
+default = 2   # canonical width for any bordered/shadowed surface
+hairline = 1  # quiet dividers only - same tier as shadow.hairline, never paired with shadow.ink*
 
 # =============================================================================
 # RADIUS - 8px default per visionOS, sharper for chips
@@ -328,6 +362,13 @@ window_title_pt  = 11
 heading_pt       = 13
 section_pt       = 16
 
+[type.weight]
+# neobrutalism.dev reference: exactly two weights, base=500/heading=700 -
+# no 400/600 in between. Sage Ink previously had no weight tokens at all
+# (each app theme picked its own); this pins the two-weight discipline.
+base    = 500  # body text, controls, labels
+heading = 700  # headings, card titles, button/badge label emphasis
+
 [type.line_height]
 # Tight for Linear discipline, looser for prose-heavy regions
 tight   = 1.20
@@ -392,3 +433,31 @@ focus_outline_width_px = 2
 # glass survived in the Obsidian/Spicetify/Vencord themes for weeks after the
 # migration. Deleting the tokens removes the option. Git history keeps the
 # values if a glass variant is ever genuinely wanted again.
+
+# =============================================================================
+# ALPHA EXEMPTIONS (v6, 2026-08-30) - see docs/STATE_GRAMMAR.md
+# =============================================================================
+# Sage Ink has no glass: every fill is opaque, every divider is a real color,
+# every clickable on-select state is a solid-color outline, never a
+# translucent wash (that's an outline, not a highlight - see the state
+# grammar doc). The ONE real exception is alpha painted behind running
+# content, where the alpha genuinely IS the medium (you cannot "outline" a
+# highlighted word mid-sentence): editor/terminal selection, find-match and
+# word-occurrence highlighting, diff/merge region backgrounds, drop-target
+# previews, and the modal scrim above. scripts/check-palette-drift.sh
+# --alpha treats any translucent value NOT matching one of these key
+# fragments as drift.
+[alpha.exempt]
+key_fragments = [
+    "selection", "selectionBackground", "selectionHighlight",
+    "findMatch", "wordHighlight", "hoverHighlight", "rangeHighlight",
+    "diffEditor", "merge.", "dropBackground", "editorGroup.dropBackground",
+    "peekViewResult.matchHighlight", "peekViewEditor.matchHighlight",
+    "editorBracketMatch",  # bracket-pair emphasis in running code, same class as word highlight
+    "lineHighlightBackground", "foldBackground", "IndentGuide", "indentGuide",
+    "editorWhitespace",  # continuous document-state renders WITHIN the text
+    # area itself (active line, folded region, indent rule, whitespace dot) -
+    # same class as selection/word-highlight: they paint the document, not a
+    # clickable widget, so there's nothing to "outline" instead.
+    "overlay", "scrim", "modal-background", "app-modal-background",
+]

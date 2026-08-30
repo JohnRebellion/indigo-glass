@@ -125,6 +125,18 @@ def rgba_hex(base_hex: str, alpha: float) -> str:
     return f"{base_hex}{a:02X}"
 
 
+def _composite_hex(fg_hex: str, alpha: float, bg_hex: str) -> str:
+    """Alpha-composite fg_hex over bg_hex at `alpha`, returning an OPAQUE
+    #RRGGBB. Used for tokens that used to ship as translucent RGBA "glass
+    edge" values - Sage Ink has no glass, so any alpha-derived divider must
+    resolve to a real solid color before it reaches a layer config, instead
+    of shipping the alpha channel itself. See [palette.composite]."""
+    fg = [int(fg_hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)]
+    bg = [int(bg_hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)]
+    out = [round(b + (f - b) * alpha) for f, b in zip(fg, bg)]
+    return "#" + "".join(f"{c:02X}" for c in out)
+
+
 def _relative_luminance(hex_color: str) -> float:
     """WCAG relative luminance of an sRGB hex color (0..1)."""
     h = hex_color.lstrip("#")
@@ -208,11 +220,19 @@ def derive_palette(t: dict, variant: str | None = None) -> dict:
             "p3": oklch_to_p3(L, C, H),
             "oklch": oklch_css(L, C, H),
         }
-    # Alpha entries: base can be a palette key or a literal hex.
+    # Alpha entries: base can be a palette key or a literal hex. True alpha -
+    # the result genuinely needs a translucent channel (a modal scrim).
     for key, (base, alpha) in t["palette"]["alpha"].items():
         base_hex = pal[base]["hex"] if base in pal else base
         h = rgba_hex(base_hex, alpha)
         pal[key] = {"hex": h, "p3": h, "oklch": h}  # alpha not gamut-mapped
+    # Composite entries: [fg, alpha, bg_key] resolved to an OPAQUE hex at
+    # emit time - see [palette.composite] and _composite_hex above.
+    for key, (fg, alpha, bg_key) in t["palette"].get("composite", {}).items():
+        fg_hex = pal[fg]["hex"] if fg in pal else fg
+        bg_hex = pal[bg_key]["hex"]
+        h = _composite_hex(fg_hex, alpha, bg_hex)
+        pal[key] = {"hex": h, "p3": h, "oklch": h}
     return pal
 
 
@@ -237,6 +257,10 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
     lines.extend(["", "  /* Spacing */"])
     for k, v in t["spacing"].items():
         lines.append(f"  --ig-{k.replace('_', '-')}: {v}px;")
+
+    lines.extend(["", "  /* Border */"])
+    for k, v in t["border"].items():
+        lines.append(f"  --ig-border-{k.replace('_', '-')}: {v}px;")
 
     lines.extend(["", "  /* Radius */"])
     for k, v in t["radius"].items():
@@ -303,6 +327,10 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
     lines.extend(["", "  /* Type roles (pt) */"])
     for k, v in t["type"]["roles"].items():
         lines.append(f"  --ig-{k.replace('_pt', '').replace('_', '-')}-pt: {v}pt;")
+
+    lines.extend(["", "  /* Font weight */"])
+    for k, v in t["type"]["weight"].items():
+        lines.append(f"  --ig-weight-{k}: {v};")
 
     lines.extend(["", "  /* Line height */"])
     for k, v in t["type"]["line_height"].items():
@@ -442,7 +470,7 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundNegative={hex_to_rgb(p['negative'])}",
         f"ForegroundPositive={hex_to_rgb(p['positive'])}",
         f"ForegroundNeutral={hex_to_rgb(p['amber'])}",
-        f"DecorationFocus={hex_to_rgb(p['indigo'])}",
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - a focus outline on a near-black surface needs a neutral that contrasts, matching --ring: white in the reference's dark mode
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
         "",
         "[Colors:Selection]",
@@ -459,14 +487,14 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundNormal={hex_to_rgb(p['text'])}",
         f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
         f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
-        f"DecorationFocus={hex_to_rgb(p['indigo'])}",
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
         "",
         "[Colors:Button]",
         f"BackgroundNormal={hex_to_rgb(p['surface_alt'])}",
         f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
         f"ForegroundNormal={hex_to_rgb(p['text'])}",
-        f"DecorationFocus={hex_to_rgb(p['indigo_hi'])}",
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
         "",
         "[Colors:Tooltip]",
