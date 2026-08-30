@@ -71,11 +71,36 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 | Mode | Dark |
 | Brightness | 96 |
 | Contrast | 100 |
-| Background | `#07080A` |
+| Background | `#090909` |
 | Text | `#F8F8F8` |
 | Scrollbar | `#A6C9A6` |
 | Selection | `#A6C9A6` |
 | Engine | `dynamicTheme` |
+
+**Background is `#090909`, not Sage Ink's canonical `base` token (`#07080A`)
+— deliberately.** Dark Reader's `dynamicTheme` engine (`getBgPole()` in its
+own source, `src/inject/dynamic-theme/modify-colors.ts`) uses
+`darkSchemeBackgroundColor` as a **pole**: any background it classifies as
+neutral (saturation < 12%) on *any* non-`disabledFor` site gets its hue and
+saturation pulled toward that pole, not toward true grey. `#07080A` measures
+H=220° (blue), S=17.6% in HSL — nowhere near neutral despite reading as
+near-black by eye - so every "already fairly neutral" dark background across
+the whole web was being tinted blue by this one value. `#090909` is the same
+near-black lightness with H=0°/S=0% (verified via `colorsys.rgb_to_hls`) -
+neutralises the pole without changing how dark it reads. This is
+Dark-Reader-specific: nowhere else in Sage Ink does `base`'s value get
+broadcast onto unrelated third-party page elements, so this is the one place
+it needed to diverge from the canonical token.
+
+The same `#090909` also replaces `#181a1b` in the 4 `builtIn` Office/
+SharePoint/Google Docs/OneDrive entries in `customThemes` — Dark Reader's
+own shipped defaults for those sites, not authored here, but `#181a1b`
+carried the same pole bug at a smaller scale (H=200°, S=5.88%, ~3x weaker
+than the bug above) *and* sat at L=10%, notably lighter than Sage Ink's
+near-black depth everywhere else. Darkening these does trade away whatever
+extra headroom Dark Reader's team gave those specific sites for their
+complex embedded canvases (Office Web Apps, the Docs iframe editor) — worth
+watching if either looks washed-out or low-contrast after re-import.
 
 Includes a preset block `Sage Ink` targeting `*` so the palette applies globally. **Re-run the import any time this JSON changes** — Dark Reader does not watch the file, it only reads it at import time.
 

@@ -8,7 +8,7 @@ Custom Monkeytype theme using the canonical Sage Ink palette.
 | main | `#A6C9A6` | typed-correct + brand sage |
 | text | `#F8F8F8` | future text (high contrast) |
 | sub | `#6B7280` | muted hint text |
-| sub alt | `#1F2028` | elevated surface (key blocks, modals) |
+| sub alt | `#121216` | elevated surface (key blocks, modals) |
 | caret | `#C0E3C0` | accent+1 — visible blink against bg |
 | error | `#ED254E` | typed-wrong (Sage Ink negative) |
 | extra error | `#FF5272` | brighter red on top of error |
@@ -33,7 +33,7 @@ localStorage.setItem('customTheme', JSON.stringify({
   bgColor: '#07080A',
   mainColor: '#A6C9A6',
   subColor: '#6B7280',
-  subAltColor: '#1F2028',
+  subAltColor: '#121216',
   textColor: '#F8F8F8',
   errorColor: '#ED254E',
   errorExtraColor: '#FF5272',

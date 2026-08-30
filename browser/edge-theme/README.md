@@ -39,10 +39,16 @@ Pre-2026-08-30 backups of the unmodified wrappers: `~/.local/bin/edge-*.bak-2026
 | `surface_alt`     | `#121216` | `18,18,22`     | frame, toolbar    |
 | `surface`         | `#0D0D10` | `13,13,16`     | frame_inactive    |
 | `sidebar`         | `#0A0A0D` | `10,10,13`     | frame_incognito   |
-| `base`            | `#07080A` | `7,8,10`       | omnibox, NTP bg   |
+| `base`            | `#07080A` | `7,8,10`       | omnibox bg        |
 | `text`            | `#F8F8F8` | `248,248,248`  | all foreground    |
 | `text_muted`      | `#6B7280` | `107,114,128`  | inactive tab text |
-| `accent_hi`       | `#C0E3C0` | `192,227,192`  | NTP links         |
+
+`ntp_background`/`ntp_text`/`ntp_link`/`ntp_background_alignment` deliberately
+omitted (removed 2026-08-31, v1.3.1): setting `ntp_background` forces a flat
+color layer over the New Tab Page and kills Edge's daily Bing photo — no way
+to have both a themed NTP color and the daily image. Frame/toolbar/tab
+theming still applies; NTP is left to Edge's native "Microsoft" background
+source.
 
 `theme.tints.buttons` recolors Edge's own monochrome toolbar-button icons via
 an HSL tint (Edge's theme API only accepts a tint, not a literal color, for
