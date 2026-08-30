@@ -33,10 +33,19 @@
 #                   enforced identically. Sage Ink is opaque: no backdrop
 #                   blur, no grain texture, no soft shadow.
 #
+# v3 (2026-08-30) — added a third dimension, ALPHA: a real (non-shadow)
+#   translucent value outside the [alpha.exempt] allowlist in
+#   tokens/indigo-glass.tokens.toml. This is what the "outline not highlight"
+#   audit found still leaking after the colour+material guards were both
+#   clean: 0.22-alpha on-select washes, translucent chrome dividers, and one
+#   token (`[palette.alpha] border`) that had shipped a literal "glass edge"
+#   since before MATERIAL even existed as a check. See docs/STATE_GRAMMAR.md.
+#
 # Usage:
-#   scripts/check-palette-drift.sh              # colour + material
+#   scripts/check-palette-drift.sh              # colour + material + alpha
 #   scripts/check-palette-drift.sh --colour     # colour only
 #   scripts/check-palette-drift.sh --material   # material only
+#   scripts/check-palette-drift.sh --alpha      # alpha only
 #
 # Escape hatch: append '# drift-allow' to a line to exempt it. Use sparingly
 # and say why on the same line — an unexplained drift-allow is drift with a
@@ -53,6 +62,7 @@ MODE="all"
 case "${1:-}" in
   --colour|--color) MODE="colour" ;;
   --material)       MODE="material" ;;
+  --alpha)          MODE="alpha" ;;
   "")               MODE="all" ;;
   *) echo "unknown flag: $1" >&2; exit 2 ;;
 esac
@@ -238,14 +248,200 @@ PY
   fi
 fi
 
+# ===========================================================================
+# 3. ALPHA — a translucent value outside [alpha.exempt]
+# ===========================================================================
+# Every fill in Sage Ink is opaque and every on-select state is a solid-color
+# outline (docs/STATE_GRAMMAR.md). The one real exception is alpha painted
+# behind running content (selection, find-match, diff/merge, indent guides,
+# drop-target previews, a modal scrim) - named in [alpha.exempt] in
+# tokens/indigo-glass.tokens.toml. Runs over MATERIAL_DIRS (same scope as the
+# material check, simulator included - its own canvas/CSS chrome is a real
+# rendering surface, not just a palette-comparison page like /palettes).
+if [ "$MODE" = "all" ] || [ "$MODE" = "alpha" ]; then
+  echo ""
+  echo "Alpha scan: ${#MATERIAL_DIRS[@]} dirs (opaque fills, outline-not-highlight on-select)"
+
+  alpha_hits="$(python3 - "${MATERIAL_DIRS[@]}" <<'PY'
+import os, re, sys, tomllib
+
+SKIP_DIR = {'node_modules', '.git', 'out', '.svelte-kit', 'test-results',
+            'build', '.work', 'coverage'}
+# Binary/generated formats a grep-shaped scan can't safely read, plus SVG
+# (fills there are checked as material/colour, not here) and font binaries
+# (their compressed tables randomly contain '#xxxxxxxx'-shaped byte runs).
+SKIP_EXT = ('.png', '.jpg', '.jpeg', '.webp', '.woff2', '.woff', '.ttf',
+            '.otf', '.md', '.lock', '.ico', '.svg')
+
+tokens = tomllib.load(open('tokens/indigo-glass.tokens.toml', 'rb'))
+
+def normalize(s: str) -> str:
+    # case- and separator-insensitive: "cm-indent-guide" (CSS selector),
+    # "IndentGuide" (VSCode key) and "indent_guide" all reduce to the same
+    # "indentguide", so one fragment list covers every naming convention in
+    # the repo instead of needing a kebab/camel/snake variant of each.
+    return re.sub(r'[-_]', '', s.lower())
+
+FRAGMENTS = [normalize(f) for f in tokens['alpha']['exempt']['key_fragments']] + ['highlight', 'activeline']
+# 'highlight' added unconditionally: every real hit reviewed while building
+# this list (word-highlight, text-highlight-bg, wordHighlightStrong, ...) was
+# content-highlighting, i.e. Tier A - the word only ever means that here.
+
+RGBA = re.compile(r'rgba\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+\s*,\s*(0?\.\d+|0|1)\s*\)')
+HEX8 = re.compile(r'#[0-9A-Fa-f]{8}\b')
+# color-mix(in <space>, <color> N%, transparent) is functionally identical
+# to rgba(<color>, N/100) - found leaking through undetected in the
+# simulator's own CSS (scrollbar thumbs, chips, on-select tab/file/list rows)
+# despite every rgba/hex8 instance of the same bug already being fixed.
+# Only flagged when the SECOND component is literally 'transparent' -
+# mixing toward another opaque color (e.g. a computed hover shade) is a
+# real solid color at every point, not glass.
+COLORMIX_TRANSPARENT = re.compile(
+    r'color-mix\(\s*in\s+\w+\s*,[^,]+?\s(\d+(?:\.\d+)?)%\s*,\s*transparent\s*\)')
+SHADOW_OR_GLOW = re.compile(r'shadow|glow', re.I)  # any hint of the property,
+# not just box-/drop-/text-shadow literally - catches --ig-shadow-*-glow
+# tokens and named shadow/glow variables too. Shadows are exempt everywhere
+# in this codebase (established at the very start of the session); glow is
+# the same idea (a soft accent halo), not a highlight wash.
+
+def is_exempt(context: str) -> bool:
+    norm = normalize(context)
+    if any(frag in norm for frag in FRAGMENTS):
+        return True
+    # transient, non-scrollbar hover wash - established exception throughout
+    # this codebase (a row/tab/item can preview its own click with a tint;
+    # a persistent on-select state or a scrollbar thumb may not).
+    if 'hover' in context and 'scrollbar' not in context and 'slider' not in context:
+        return True
+    return False
+
+def alpha_of(match: 're.Match') -> float:
+    s = match.group(0)
+    if s.startswith('rgba'):
+        return float(match.group(1))
+    if s.startswith('color-mix'):
+        return float(match.group(1)) / 100.0
+    return int(s[7:9], 16) / 255.0
+
+for root_arg in sys.argv[1:]:
+    for root, dirs, files in os.walk(root_arg):
+        dirs[:] = [d for d in dirs if d not in SKIP_DIR]
+        for fn in files:
+            if fn.endswith(SKIP_EXT):
+                continue
+            p = os.path.join(root, fn)
+            try:
+                raw_lines = open(p, encoding='utf-8', errors='ignore').read().split('\n')
+            except OSError:
+                continue
+            in_shadow_block = False  # a shadow/glow value split across
+            # multiple lines (each comma-separated layer on its own line) -
+            # only the FIRST line carries the property name.
+            in_block_comment = False  # /* opened without a closing */ on
+            # the same line - the rest of the comment body must not be
+            # scanned as if it were live code (it's usually the OLD value
+            # being described, not the current one).
+            # CSS/QML puts the identifying name on the selector/rule line
+            # ("::selection {", ".cm-activeLine {", ".splitter_qlaBag:hover
+            # {"), often one or more lines above the property that actually
+            # carries the color, sometimes as a multi-line selector LIST
+            # (".cm-indent-guide,\n.foo {"), and this repo's whole browser
+            # Stylus files nest every rule inside one outer
+            # "@-moz-document ... {" wrapper - so a flat "depth==0" check
+            # isn't enough; a real stack, one entry per nesting level, is.
+            ctx_stack: list[str] = []
+            pending = ''       # selector text seen since the last brace event
+            pop_count_next = 0  # closes seen on the previous line, applied
+            # now (deferred, so that line's own matching still sees them)
+            for n, raw in enumerate(raw_lines, 1):
+                if 'drift-allow' in raw:
+                    continue
+
+                if pop_count_next:
+                    for _ in range(pop_count_next):
+                        if ctx_stack:
+                            ctx_stack.pop()
+                    pop_count_next = 0
+                    pending = ''
+
+                if in_block_comment:
+                    end = raw.find('*/')
+                    if end == -1:
+                        continue
+                    raw = raw[end + 2:]
+                    in_block_comment = False
+
+                # Strip comments, tracking one that opens but doesn't close
+                # on this line (strip_comments alone would silently leave
+                # the un-terminated comment body exposed to the regexes).
+                line = raw
+                while True:
+                    start = line.find('/*')
+                    if start == -1:
+                        break
+                    end = line.find('*/', start + 2)
+                    if end == -1:
+                        line = line[:start]
+                        in_block_comment = True
+                        break
+                    line = line[:start] + line[end + 2:]
+                line = re.sub(r'(?<!:)//.*$', '', line)  # (?<!:) keeps https://
+
+                if '{' in line:
+                    # First '{' on the line opens a new level - fold in
+                    # BEFORE matching, so a one-liner sees its own :hover.
+                    # (Only the first is handled: this codebase never opens
+                    # two levels on one physical line.)
+                    before = line.split('{', 1)[0]
+                    ctx_stack.append((pending + ' ' + before).strip())
+                    pending = ''
+                else:
+                    pending = (pending + ' ' + line).strip()
+                selector_ctx = ' '.join(ctx_stack)
+                if '}' in line:
+                    pop_count_next += line.count('}')
+
+                low = line.lower()
+                if in_shadow_block:
+                    if ';' in line:
+                        in_shadow_block = False
+                    continue
+                if SHADOW_OR_GLOW.search(selector_ctx) or SHADOW_OR_GLOW.search(low):
+                    if ';' not in line:
+                        in_shadow_block = True
+                    continue
+                for pattern in (RGBA, HEX8, COLORMIX_TRANSPARENT):
+                    m = pattern.search(line)
+                    if not m:
+                        continue
+                    a = alpha_of(m)
+                    if a <= 0 or a >= 1:
+                        continue  # fully transparent or already opaque
+                    if is_exempt(selector_ctx + ' ' + low):
+                        continue
+                    print(f"{p}:{n}:{raw.strip()[:120]}")
+                    break
+PY
+)"
+  if [ -n "$alpha_hits" ]; then
+    FOUND=1
+    echo ""
+    echo "--- translucent value outside [alpha.exempt] (glass edge / highlight wash) ---"
+    echo "$alpha_hits"
+  fi
+fi
+
 echo ""
 if [ "$FOUND" -eq 0 ]; then
-  echo "clean — no colour or material drift"
+  echo "clean — no colour, material, or alpha drift"
   exit 0
 else
   echo "DRIFT FOUND — see file:line above."
   echo "  colour   -> regenerate from tokens/out/* instead of hand-editing"
   echo "  material -> Sage Ink is opaque: drop the blur, flatten the fill,"
   echo "              use --ig-shadow-ink (hard offset) for elevation"
+  echo "  alpha    -> composite to an opaque hex (a real token where"
+  echo "              possible), or outline instead of filling an on-select"
+  echo "              state - see docs/STATE_GRAMMAR.md"
   exit 1
 fi

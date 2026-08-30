@@ -1,11 +1,11 @@
 {
   "meta": {
-    "schema_version": 5,
+    "schema_version": 6,
     "name": "Sage Ink",
     "description": "neobrutalist ink - opaque, hard-shadow, colour-as-elevation. No glass.",
     "density": "compact",
     "material_style": "flat_ink",
-    "revision": 5,
+    "revision": 6,
     "color_authoring": "oklch",
     "default_variant": "sage"
   },
@@ -223,14 +223,18 @@
       "overlay": [
         "base",
         0.8
-      ],
+      ]
+    },
+    "composite": {
       "border": [
         "#FFFFFF",
-        0.06
+        0.06,
+        "surface"
       ],
       "border_strong": [
         "#FFFFFF",
-        0.1
+        0.1,
+        "surface"
       ]
     },
     "derive": {
@@ -260,6 +264,10 @@
     "list_row_gap": 1,
     "sidebar_item_pad_y": 3,
     "sidebar_item_pad_x": 8
+  },
+  "border": {
+    "default": 2,
+    "hairline": 1
   },
   "radius": {
     "none": 0,
@@ -348,6 +356,10 @@
       "heading_pt": 13,
       "section_pt": 16
     },
+    "weight": {
+      "base": 500,
+      "heading": 700
+    },
     "line_height": {
       "tight": 1.2,
       "default": 1.4,
@@ -407,6 +419,35 @@
     "reduce_transparency_opacity": 1.0,
     "reduce_motion_duration_ms": 0,
     "focus_outline_width_px": 2
+  },
+  "alpha": {
+    "exempt": {
+      "key_fragments": [
+        "selection",
+        "selectionBackground",
+        "selectionHighlight",
+        "findMatch",
+        "wordHighlight",
+        "hoverHighlight",
+        "rangeHighlight",
+        "diffEditor",
+        "merge.",
+        "dropBackground",
+        "editorGroup.dropBackground",
+        "peekViewResult.matchHighlight",
+        "peekViewEditor.matchHighlight",
+        "editorBracketMatch",
+        "lineHighlightBackground",
+        "foldBackground",
+        "IndentGuide",
+        "indentGuide",
+        "editorWhitespace",
+        "overlay",
+        "scrim",
+        "modal-background",
+        "app-modal-background"
+      ]
+    }
   },
   "_derived": {
     "default_variant": "sage",
@@ -513,14 +554,14 @@
           "oklch": "#0F0F12CC"
         },
         "border": {
-          "hex": "#FFFFFF0F",
-          "p3": "#FFFFFF0F",
-          "oklch": "#FFFFFF0F"
+          "hex": "#2A2A2E",
+          "p3": "#2A2A2E",
+          "oklch": "#2A2A2E"
         },
         "border_strong": {
-          "hex": "#FFFFFF1A",
-          "p3": "#FFFFFF1A",
-          "oklch": "#FFFFFF1A"
+          "hex": "#333337",
+          "p3": "#333337",
+          "oklch": "#333337"
         }
       },
       "lime": {
@@ -625,14 +666,14 @@
           "oklch": "#07080ACC"
         },
         "border": {
-          "hex": "#FFFFFF0F",
-          "p3": "#FFFFFF0F",
-          "oklch": "#FFFFFF0F"
+          "hex": "#1C1C1E",
+          "p3": "#1C1C1E",
+          "oklch": "#1C1C1E"
         },
         "border_strong": {
-          "hex": "#FFFFFF1A",
-          "p3": "#FFFFFF1A",
-          "oklch": "#FFFFFF1A"
+          "hex": "#252528",
+          "p3": "#252528",
+          "oklch": "#252528"
         }
       },
       "sage": {
@@ -737,14 +778,14 @@
           "oklch": "#07080ACC"
         },
         "border": {
-          "hex": "#FFFFFF0F",
-          "p3": "#FFFFFF0F",
-          "oklch": "#FFFFFF0F"
+          "hex": "#1C1C1E",
+          "p3": "#1C1C1E",
+          "oklch": "#1C1C1E"
         },
         "border_strong": {
-          "hex": "#FFFFFF1A",
-          "p3": "#FFFFFF1A",
-          "oklch": "#FFFFFF1A"
+          "hex": "#252528",
+          "p3": "#252528",
+          "oklch": "#252528"
         }
       }
     },

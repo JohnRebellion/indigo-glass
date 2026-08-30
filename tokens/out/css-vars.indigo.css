@@ -24,8 +24,8 @@
   --ig-text-muted: #6B7280;
   --ig-text-dim: #4B5563;
   --ig-overlay: #0F0F12CC;
-  --ig-border: #FFFFFF0F;
-  --ig-border-strong: #FFFFFF1A;
+  --ig-border: #2A2A2E;
+  --ig-border-strong: #333337;
 
   /* Spacing */
   --ig-pad-xs: 2px;
@@ -48,6 +48,10 @@
   --ig-list-row-gap: 1px;
   --ig-sidebar-item-pad-y: 3px;
   --ig-sidebar-item-pad-x: 8px;
+
+  /* Border */
+  --ig-border-default: 2px;
+  --ig-border-hairline: 1px;
 
   /* Radius */
   --ig-radius-none: 0px;
@@ -95,6 +99,10 @@
   --ig-window-title-pt: 11pt;
   --ig-heading-pt: 13pt;
   --ig-section-pt: 16pt;
+
+  /* Font weight */
+  --ig-weight-base: 500;
+  --ig-weight-heading: 700;
 
   /* Line height */
   --ig-lh-tight: 1.2;
