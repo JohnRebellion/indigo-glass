@@ -1,5 +1,5 @@
 [Unit]
-Description=Lime Glass — reload Better Blur (better_blur_dx) after suspend/resume
+Description=Sage Ink — reload Better Blur (better_blur_dx) after suspend/resume
 # See docs/REFERENCE.md Bug 10: KWin drops the effect across suspend/resume.
 After=graphical-session.target plasma-kwin_wayland.service
 PartOf=graphical-session.target

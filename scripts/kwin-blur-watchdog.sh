@@ -1,5 +1,5 @@
 #!/bin/bash
-# Lime Glass — Better Blur resume watchdog
+# Sage Ink — Better Blur resume watchdog
 #
 # KWin silently drops the better_blur_dx effect across suspend/resume
 # (see docs/REFERENCE.md Bug 10). This watchdog listens on the system bus

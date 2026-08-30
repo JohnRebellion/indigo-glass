@@ -1,9 +1,9 @@
 {
-  "// Lime Glass — recommended settings (paste into ~/.config/Code/User/settings.json)": "",
+  "// Sage Ink — recommended settings (paste into ~/.config/Code/User/settings.json)": "",
 
-  "workbench.colorTheme": "Lime Glass Dark",
-  "workbench.preferredDarkColorTheme": "Lime Glass Dark",
-  "workbench.preferredLightColorTheme": "Lime Glass Light",
+  "workbench.colorTheme": "Sage Ink Dark",
+  "workbench.preferredDarkColorTheme": "Sage Ink Dark",
+  "workbench.preferredLightColorTheme": "Sage Ink Light",
   "window.autoDetectColorScheme": true,
 
   "editor.cursorBlinking": "smooth",
@@ -42,7 +42,7 @@
   "breadcrumbs.enabled": true,
   "breadcrumbs.icons": true,
 
-  "// Match the canonical Lime Glass terminal cursor": "block + smooth",
+  "// Match the canonical Sage Ink terminal cursor": "block + smooth",
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.cursorStyle": "block",
 

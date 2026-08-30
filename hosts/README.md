@@ -1,4 +1,4 @@
-# Lime Glass - Host Profiles
+# Sage Ink - Host Profiles
 
 Per-machine font size overrides. One repo, many displays.
 

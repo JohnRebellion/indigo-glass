@@ -1,11 +1,11 @@
-# Lime Glass — zsh integration
+# Sage Ink — zsh integration
 # Append to ~/.zshrc
 
 # GTK theme env
 export GTK_THEME="WhiteSur-Dark-purple"
 export GTK_USE_PORTAL=1
 
-# Starship prompt — Lime Glass theme
+# Starship prompt — Sage Ink theme
 eval "$(starship init zsh)"
 
 # Fastfetch on shell start (interactive sessions only)

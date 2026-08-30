@@ -1,4 +1,4 @@
-﻿# Lime Glass - Windows 11 master installer
+﻿# Sage Ink - Windows 11 master installer
 #
 # End-to-end: fonts, Windows Terminal scheme, Win11 accent registry,
 # PowerShell profile, Starship config, VSCode Claude Code webview patch.
@@ -233,14 +233,14 @@ if ($Skip -notcontains 'terminal') {
     Skipped "$wtSettings not found"
   }
   elseif ($DryRun) {
-    Write-Host "  [dry-run] inject Lime Glass scheme into $wtSettings"
+    Write-Host "  [dry-run] inject Sage Ink scheme into $wtSettings"
   }
   else {
     $scheme = Get-Content $schemePath -Raw | ConvertFrom-Json
     $settings = Get-Content $wtSettings -Raw | ConvertFrom-Json -Depth 100
 
     if ($settings.schemes) {
-      $settings.schemes = @($settings.schemes | Where-Object { $_.name -ne 'Lime Glass' })
+      $settings.schemes = @($settings.schemes | Where-Object { $_.name -ne 'Sage Ink' })
       $settings.schemes += $scheme
     }
     else {
@@ -248,7 +248,7 @@ if ($Skip -notcontains 'terminal') {
     }
 
     if ($settings.profiles.defaults) {
-      $settings.profiles.defaults | Add-Member -NotePropertyName 'colorScheme' -NotePropertyValue 'Lime Glass' -Force
+      $settings.profiles.defaults | Add-Member -NotePropertyName 'colorScheme' -NotePropertyValue 'Sage Ink' -Force
       if (-not $settings.profiles.defaults.font) {
         $settings.profiles.defaults | Add-Member -NotePropertyName 'font' -NotePropertyValue ([PSCustomObject]@{
           face = 'Iosevka Custom Condensed'
@@ -361,7 +361,7 @@ if ($Skip -notcontains 'vscode') {
 else { Step 'Patch Claude Code webview CSS'; Skipped '-Skip vscode' }
 
 Write-Host ""
-Write-Host "Lime Glass Windows install complete." -ForegroundColor Green
+Write-Host "Sage Ink Windows install complete." -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Cyan
 Write-Host "  - Reload Windows Terminal (close + reopen)"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — install Lime Glass VSCode auto-patch systemd user units
+# install.sh — install Sage Ink VSCode auto-patch systemd user units
 #
 # Watches ~/.vscode-insiders/extensions and ~/.vscode/extensions for
 # changes (extension install/upgrade) and re-runs patch-webview-css.sh.

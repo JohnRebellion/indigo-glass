@@ -8,7 +8,7 @@ exportGlyphNames = false
   [buildPlans.IosevkaCustom.variants]
   inherits = "ss18"
 
-    # Lime Glass typography contract: double-storey allographs.
+    # Sage Ink typography contract: double-storey allographs.
     # ss18 already declares these; pinning explicitly so future
     # `inherits` swaps don't silently regress to single-storey.
     [buildPlans.IosevkaCustom.variants.design]

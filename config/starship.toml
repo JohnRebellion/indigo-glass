@@ -1,4 +1,4 @@
-# Lime Glass — KDE Plasma 6.6 design system (brutalist-glass + Linear + Neumorphism)
+# Sage Ink — KDE Plasma 6.6 design system (neobrutalist ink + Linear + Neumorphism)
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
@@ -21,10 +21,10 @@ $time\
 [ ](fg:#07080A)\
 $line_break$character"""
 
-palette = 'lime_glass'
+palette = 'sage_ink'
 
-# Values from tokens/out/css-vars.lime.css (Lime Glass default variant).
-[palettes.lime_glass]
+# Values from tokens/out/css-vars.sage.css (Sage Ink default variant).
+[palettes.sage_ink]
 accent = '#A6C9A6'
 accent_hi = '#C0E3C0'
 accent_alt = '#89A889'
