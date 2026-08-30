@@ -71,7 +71,7 @@ Universal `@-moz-document regexp("https?://.*")` — applies to every HTTPS/HTTP
 | Mode | Dark |
 | Brightness | 96 |
 | Contrast | 100 |
-| Background | `#0F0F12` |
+| Background | `#07080A` |
 | Text | `#F8F8F8` |
 | Scrollbar | `#A6C9A6` |
 | Selection | `#A6C9A6` |
@@ -81,9 +81,11 @@ Includes a preset block `Sage Ink` targeting `*` so the palette applies globally
 
 ### Native-dark sites — Dark Reader disabled by default
 
-`indigo-glass.json` ships a `siteList`/`disabledFor` list of sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets blended with `#0F0F12` into muddy blue-black). Cleaner to let each site's native dark mode render.
+`indigo-glass.json` ships a `siteList`/`disabledFor` list of sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets flattened into a neutral, hueless black — measured directly off a real screenshot pair: native Facebook dark mode is `#0E1114`, genuinely blue-tinted; with Dark Reader's `dynamicTheme` forcing itself over it, it becomes `#0E0E0E`, perfectly neutral). Cleaner to let each site's native dark mode render.
 
-Currently disabled: github.com, fast.com, mail.google.com, www.google.com, www.instagram.com, www.youtube.com, status.claude.com, docs.google.com, legacy.quran.com.
+This exact Facebook case was cited here as the rationale for years before `facebook.com` itself was ever actually added to the list below (2026-08-30) — the list had drifted out of sync with its own documented reasoning.
+
+Currently disabled: github.com, fast.com, mail.google.com, settings, www.google.com, www.instagram.com, facebook.com, www.facebook.com, m.facebook.com, www.youtube.com, status.claude.com, docs.google.com, legacy.quran.com, linear.app, chatgpt.com, chat.openai.com, notion.so, notion.site, claude.ai.
 
 To add more: Dark Reader popup → click toggle → "**OFF for this site**". Or edit `disabledFor` in the JSON and re-import.
 

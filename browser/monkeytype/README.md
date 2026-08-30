@@ -1,16 +1,16 @@
-# Lime Glass — Monkeytype theme
+# Sage Ink — Monkeytype theme
 
-Custom Monkeytype theme using the canonical Lime Glass palette.
+Custom Monkeytype theme using the canonical Sage Ink palette.
 
 | Slot | Hex | Role |
 |---|---|---|
-| background | `#07080A` | Linear deep base |
-| main | `#A8E635` | typed-correct + brand lime |
+| background | `#07080A` | Raycast-deep base |
+| main | `#A6C9A6` | typed-correct + brand sage |
 | text | `#F8F8F8` | future text (high contrast) |
 | sub | `#6B7280` | muted hint text |
-| sub alt | `#121216` | elevated surface (key blocks, modals) |
-| caret | `#C1FF58` | accent+1 — visible blink against bg |
-| error | `#ED254E` | typed-wrong (Lime Glass negative) |
+| sub alt | `#1F2028` | elevated surface (key blocks, modals) |
+| caret | `#C0E3C0` | accent+1 — visible blink against bg |
+| error | `#ED254E` | typed-wrong (Sage Ink negative) |
 | extra error | `#FF5272` | brighter red on top of error |
 
 ---
@@ -22,7 +22,7 @@ Custom Monkeytype theme using the canonical Lime Glass palette.
 1. Open Monkeytype → ⚙ → **theme**
 2. Set **theme** to `custom`
 3. Type in the hex codes from the table above (matches the screenshot field labels)
-4. Click **save as new** → name it `indigo_glass`
+4. Click **save as new** → name it `sage_ink`
 
 ### Option 2 — import JSON via Stylus / browser console
 
@@ -31,15 +31,15 @@ Monkeytype stores themes in localStorage as `customTheme`. Paste into DevTools c
 ```js
 localStorage.setItem('customTheme', JSON.stringify({
   bgColor: '#07080A',
-  mainColor: '#A8E635',
+  mainColor: '#A6C9A6',
   subColor: '#6B7280',
-  subAltColor: '#121216',
+  subAltColor: '#1F2028',
   textColor: '#F8F8F8',
   errorColor: '#ED254E',
   errorExtraColor: '#FF5272',
   colorfulErrorColor: '#ED254E',
   colorfulErrorExtraColor: '#FF5272',
-  caretColor: '#C1FF58'
+  caretColor: '#C0E3C0'
 }));
 location.reload();
 ```

@@ -29,8 +29,8 @@
 @define-color theme_unfocused_base_color #07080A;
 @define-color theme_unfocused_selected_bg_color #89A889;
 @define-color theme_unfocused_selected_fg_color #07080A;
-@define-color borders #20222A;
-@define-color unfocused_borders #20222A;
+@define-color borders #000000;
+@define-color unfocused_borders #000000;
 @define-color warning_color #FBBF24;
 @define-color error_color #ED254E;
 @define-color success_color #3FFABB;
@@ -44,8 +44,17 @@
 
 * {
   outline-width: 2px;
-  outline-offset: -2px;
-  outline-color: alpha(@accent_color, 0.5);
+  /* Positive offset (was -2px, inset) - the reference's focus ring sits
+     OFF the element (ring-offset-2), not overlapping its own border; an
+     inset outline doubled up with the element's existing border-2 and
+     read as one much thicker band. */
+  outline-offset: 2px;
+  /* White (was @accent_color, then briefly literal black) - the
+     reference's own focus ring adapts to the surface: black in light
+     mode, WHITE in dark mode (--ring: oklch(100% 0 0) in .dark) - never
+     literally black on a near-black theme, where it would be nearly
+     invisible. This is the dark Sage Ink variant, so white. */
+  outline-color: #FFFFFF;
   -gtk-icon-shadow: none;
   text-shadow: none;
   box-shadow: none;
@@ -57,11 +66,14 @@ window, .background {
   color: @theme_fg_color;
 }
 
-/* === Buttons — opaque flat fill, hard offset shadow, sharp corners === */
+/* === Buttons — opaque flat fill, hard offset shadow, sharp corners ===
+ * Border is 2px (neobrutalism.dev reference: border-2 on every shadow-
+ * bearing surface, no exceptions) — was 1px, mismatched against the
+ * shadow it's meant to silhouette. */
 button {
   background-color: #121216;
   color: @theme_fg_color;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   border-radius: 0;
   box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
   padding: 5px 12px;
@@ -194,18 +206,21 @@ notebook > header tab:hover {
   color: @theme_fg_color;
 }
 
-/* === Popovers / menus — opaque flat, hard offset shadow, sharp corners === */
+/* === Popovers / menus — opaque flat, hard offset shadow, sharp corners ===
+ * Border 2px (was 1px) — shadow-bearing surfaces take border-2 per the
+ * neobrutalism.dev reference, so the border reads as the shadow's own
+ * silhouette rather than a thin unrelated outline. */
 popover, popover.background {
   background-color: #121216;
   color: @theme_fg_color;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   border-radius: 0;
   box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
 }
 menu, .menu, .context-menu {
   background-color: #121216;
   color: @theme_fg_color;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   border-radius: 0;
   box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
   padding: 4px;
@@ -215,9 +230,14 @@ menuitem, modelbutton {
   padding: 6px 10px;
   transition: none;
 }
+/* Outline, not a solid accent fill (was background-color: alpha(@accent_color,
+   1) - a menu item's hover IS its on-select state, same as every other
+   on-select fix this session, not a casual list-row hover preview). Inset,
+   not detached: menu items sit flush with no gap. */
 menuitem:hover, modelbutton:hover {
-  background-color: alpha(@accent_color, 1);
-  color: @accent_fg_color;
+  outline: 2px solid #FFFFFF;
+  outline-offset: -2px;
+  color: @theme_text_color;
 }
 
 /* === Lists / rows — flat, accent selection fill, no glow === */
@@ -229,9 +249,13 @@ row, treeview row {
   border-radius: 0;
   transition: none;
 }
+/* Outline, not a solid accent fill (was background-color: @accent_color) -
+   a selected list/tree row is an on-select state, same fix as everywhere
+   else this session. Inset, not detached: rows sit flush with no gap. */
 row:selected, treeview row:selected {
-  background-color: @accent_color;
-  color: @accent_fg_color;
+  outline: 2px solid #FFFFFF;
+  outline-offset: -2px;
+  color: @theme_text_color;
 }
 row:hover:not(:selected), treeview row:hover:not(:selected) {
   background-color: alpha(@theme_fg_color, 0.06);
@@ -275,11 +299,13 @@ scale > slider {
   box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
 }
 
-/* === Tooltips — opaque flat, hard offset shadow (no soft glow) === */
+/* === Tooltips — opaque flat, hard offset shadow (no soft glow) ===
+ * Border 2px (was 1px) — shadow-bearing, same rationale as popover/menu
+ * above. */
 tooltip, tooltip.background {
   background-color: #191c1e;
   color: @theme_fg_color;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   border-radius: 0;
   box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
   padding: 4px 8px;
@@ -300,7 +326,9 @@ dialog, .dialog-vbox, messagedialog {
   border-right: 1px solid @borders;
 }
 
-/* === Frames / cards — opaque flat, hard shadow when it reads as elevated === */
+/* === Frames / cards — opaque flat, hard shadow when it reads as elevated ===
+ * Plain frame stays hairline (no shadow); frame.card steps up to border-2
+ * to match its shadow, per the neobrutalism.dev reference. */
 frame {
   border: 1px solid @borders;
   border-radius: 0;
@@ -308,6 +336,7 @@ frame {
 }
 frame.card {
   background-color: #121216;
+  border-width: 2px;
   box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
 }
 

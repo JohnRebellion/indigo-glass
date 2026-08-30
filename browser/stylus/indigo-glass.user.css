@@ -127,13 +127,13 @@
     background: transparent;
   }
   *::-webkit-scrollbar-thumb {
-    background-color: rgba(166, 201, 166, 0.45);
+    background-color: #89A889; /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
     border-radius: 9999px; /* pill, matches web/app.css.example scrollbar-thumb convention (was 5px) */
     border: 2px solid transparent;
     background-clip: padding-box;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(192, 227, 192, 0.75);
+    background-color: #C0E3C0; /* was rgba(192,227,192,0.75) - accent_hi hover step */
   }
   *::-webkit-scrollbar-corner {
     background: transparent;
@@ -143,14 +143,27 @@
    * are inherited properties and only affect the scrollbar pseudo. */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(166, 201, 166, 0.55) transparent;
+    scrollbar-color: #89A889 transparent; /* was rgba(166,201,166,0.55) - accent_alt; track stays transparent, that's the page bg showing through by design, not a glass edge */
   }
 
-  /* ─── Focus ring — visionOS-style indigo glow ─────────────────────────── */
+  /* ─── Focus ring — solid outline only, no translucent halo (was
+   * #A6C9A6 accent, then before that a visionOS-style glass glow: an
+   * outline plus a soft rgba ring around it). The reference's own focus
+   * ring adapts to the surface - black on light backgrounds, white on
+   * dark ones (--ring: oklch(0% 0 0) / oklch(100% 0 0)) - never one fixed
+   * colour, since a site's own background here is uncontrolled and left
+   * untouched (see the accent-only rewrite above). Default assumes a
+   * light page (most of the web); prefers-color-scheme flips to white for
+   * pages that are actually dark. Best-effort proxy only - a site's own
+   * per-page dark-mode toggle can disagree with the OS preference. */
   *:focus-visible {
-    outline: 2px solid #A6C9A6 !important;
+    outline: 2px solid #000000 !important;
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px rgba(166, 201, 166, 0.18) !important;
+  }
+  @media (prefers-color-scheme: dark) {
+    *:focus-visible {
+      outline-color: #FFFFFF !important;
+    }
   }
 
   /* ─── Density: NOT enforced globally ─────────────────────────────────────

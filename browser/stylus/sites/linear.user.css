@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - Linear
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
+@version        0.5.0
 @description    Refine linear.app with Sage Ink palette. Linear's native dark mode is already close - just shift accents. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -12,24 +12,16 @@
 
 @-moz-document domain("linear.app") {
 
+  /* Accent-only: Linear's own native dark backgrounds, text colours and
+     borders are left untouched (was forcing all of those too, despite this
+     file's own description already claiming "just shift accents" -
+     forcing background AND relying on Dark Reader for the same site meant
+     two extensions repainting the same DOM). Only the accent/semantic
+     hues - the actual "Sage Ink" identity - are retinted. */
   :root {
-    --color-bg-primary: #07080A !important;
-    --color-bg-secondary: #0D0D10 !important;
-    --color-bg-tertiary: #121216 !important;
-    --color-bg-quaternary: #2A2D38 !important;
-    --color-sidebar-bg: #0A0A0D !important;
-
-    --color-text-primary: #F8F8F8 !important;
-    --color-text-secondary: #C9CBD3 !important;
-    --color-text-tertiary: #6B7280 !important;
-    --color-text-quaternary: #4B5563 !important;
-
     --color-accent: #A6C9A6 !important;
     --color-accent-hover: #C0E3C0 !important;
     --color-accent-active: #89A889 !important;
-
-    --color-border-primary: rgba(255, 255, 255, 0.06) !important;
-    --color-border-secondary: rgba(255, 255, 255, 0.10) !important;
 
     --color-error: #ED254E !important;
     --color-warning: #FBBF24 !important;

@@ -1,229 +1,105 @@
 /* Sage Ink — Portfolio Design System
  * Neobrutalist ink: opaque flat surfaces, colour-as-elevation, hard offset
- * shadow (zero blur), mechanical press. No glass, no blur, no neumorphism —
- * both were dropped system-wide (see docs/PHILOSOPHY.md). This file was
- * "Lime Glass" (frosted glass + Linear discipline + Neumorphism 2.0) through
- * 2026-08-27; rewritten to match the current spec 2026-08-28.
- * Mirror of KDE Plasma 6.6 Sage Ink theme (default variant).
- * Colors generated from tokens/indigo-glass.tokens.toml [variants.sage].
- * For the indigo variant, swap the palette block + @supports values for
- * the values in tokens/out/css-vars.indigo.css.
+ * shadow (zero blur), mechanical press. No glass, no blur, no neumorphism.
+ *
+ * Schema: this file follows the neobrutalism.dev customizer output format
+ * (github.com/ekmas/neobrutalism-components) verbatim — same variable names
+ * (--main / --border / --shadow / --background / --secondary-background /
+ * --foreground / --main-foreground / --ring / --overlay / --chart-*), same
+ * @theme inline mapping, same font-weight + boxShadow spacing tokens. Only
+ * the hue is changed: --main is Sage Ink's accent (OKLCH hue 145°) instead
+ * of the customizer's amber (hue ~84°). Colours derive from
+ * tokens/indigo-glass.tokens.toml [variants.sage].
+ *
+ * Dark-only: Sage Ink defines no light variant (tokens.toml has one surface
+ * ladder, opacity.window_active=1.00). :root carries the dark palette
+ * directly rather than shipping an unused light block + .dark override.
+ *
+ * NOTE on --shadow: this file follows the reference schema exactly, so the
+ * shadow is BLACK (var(--border)), matching the customizer. Every other Sage
+ * Ink surface (GTK, Klassy/KWin, VSCode, SDDM) uses a sage accent_alt
+ * (#89A889) shadow per tokens.toml [shadow]. Web deliberately diverges here.
  */
 
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@theme {
-  /* === Base layers (NEUTRAL deep near-black — background stays black) === */
-  --color-base: #07080A;          /* deep dark base */
-  --color-surface: #0D0D10;       /* window/card bg */
-  --color-surface-elevated: #121216; /* panels */
-  --color-sidebar: #0A0A0D;       /* sidebar bg */
+@custom-variant dark (&:is(.dark *));
 
-  /* === Accent — sage (single accent, hue 145°) === */
-  --color-indigo: #A6C9A6;        /* primary — selection, buttons (name kept for API compat) */
-  --color-indigo-light: #C0E3C0;  /* hover, focus, link */
-  --color-violet: #89A889;        /* visited link, decoration (accent-alt) */
-  --color-lime: #A6C9A6;          /* explicit accent alias (name kept for API compat) */
-  --color-lime-hi: #C0E3C0;
+:root {
+  /* Surfaces — Sage Ink's deep near-black ladder (tokens.toml [variants.sage]).
+     --background is the page; --secondary-background is the lifted control /
+     card fill the reference uses for its neutral variant. */
+  --background: oklch(13.40% 0.0051 262.32);            /* #07080A base */
+  --secondary-background: oklch(18.40% 0.0081 285.58);  /* #121216 surface_alt */
+  --foreground: oklch(97.91% 0.0000 89.88);             /* #F8F8F8 text */
+  --main-foreground: oklch(13.40% 0.0051 262.32);       /* #07080A — dark text ON the sage fill */
 
-  /* === Semantic === */
-  --color-amber: #FBBF24;         /* warning, neutral semantic */
-  --color-positive: #3FFABB;      /* success — nudged to 165° hue, see tokens.toml comment (too close to 145° accent at the shared 152.51° value) */
-  --color-negative: #ED254E;      /* error, destructive */
+  /* Accent — sage, hue 145°. Fill-only: sage cannot carry body text
+     (1.72:1 vs --foreground), which is exactly why --main-foreground is the
+     near-black above, matching the reference's dark-text-on-accent pairing. */
+  --main: oklch(80.00% 0.0600 145.00);                  /* #A6C9A6 accent */
 
-  /* === Text (neutral, on deep-black base) === */
-  --color-text: #F8F8F8;          /* primary */
-  --color-text-muted: #6B7280;    /* secondary */
-  --color-text-inactive: #6B7280; /* disabled */
+  --border: oklch(0% 0 0);
+  --ring: oklch(100% 0 0);
+  --overlay: oklch(0% 0 0 / 0.8);
+  --shadow: 4px 4px 0px 0px var(--border);
 
-  /* === Borders & shadows === */
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-strong: rgba(255, 255, 255, 0.10);
-  --shadow-ink-sm: 4px 4px 0 0 #89A889;
-  --shadow-ink: 4px 4px 0 0 #89A889;       /* the default: card, button, terminal */
-  --shadow-ink-lg: 7px 7px 0 0 #89A889;  /* feature tiles, hero cards */
-  --shadow-ink-press: 0 0 0 0 #89A889;     /* active/pressed — shadow collapses as the object travels into it */
-
-  /* === Accent glow (focus ring) — a real ring/glow effect, not a material.
-     Distinct from the ink shadow above: this is allowed a blur radius
-     because it's a focus affordance, not a surface's own elevation. === */
-  --shadow-indigo-glow: 0 0 0 2px rgba(166, 201, 166, 0.3);
-  --shadow-indigo-glow-lg: 0 0 24px rgba(166, 201, 166, 0.4);
-
-  /* === Typography === */
-  --font-sans: "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif;
-  --font-display: "SF Pro Display", "Inter", -apple-system, sans-serif;
-  --font-mono: "Iosevka Custom Condensed", "JetBrainsMono Nerd Font", "Fira Code", monospace;
-
-  /* === Radius tokens — two-track: sharp by default, pill/tag are the only
-     exceptions. The 4/6/12/16/24 ladder from the glass era had no material
-     meaning once glass (and its rounded-corner clip) was gone; killed
-     rather than carried forward unused. === */
-  --radius-none: 0;
-  --radius: 0;            /* default — matches Klassy (was 8, ink is square) */
-  --radius-tag: 2px;       /* small badges/tags — the one "soft" step ink permits */
-  --radius-full: 9999px;   /* circles, pill CTA only */
-
-  /* === Motion (subdued — guides, never flashes) === */
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-emphasize: cubic-bezier(0.2, 0, 0, 1);
-  --ease-mechanical: steps(2, end);   /* ink's press: no easing, no overshoot — a stamp, not a spring */
-  --dur-instant: 60ms;
-  --dur-quick: 120ms;
-  --dur-default: 200ms;
-  --dur-slow: 320ms;
-  /* Semantic interaction roles (2026 micro-interaction band) */
-  --motion-button-hover: var(--dur-quick) var(--ease-standard);
-  --motion-card-hover: var(--dur-default) var(--ease-standard);
-  --motion-panel-open: var(--dur-slow) var(--ease-emphasize);
-  --motion-ink-press: var(--dur-instant) var(--ease-mechanical);
+  /* Charts — sage-family first slot, then hues spaced far enough to stay
+     distinguishable against it. chart-4 uses Sage Ink's own `positive`
+     (hue 165°, nudged off 152.51° so it never reads as the accent). */
+  --chart-1: #A6C9A6;
+  --chart-2: #0099FF;
+  --chart-3: #FF7A05;
+  --chart-4: #3FFABB;
+  --chart-5: #7A83FF;
+  --chart-active-dot: #fff; /* was missing entirely - dark-only, so this matches the reference's .dark value */
 }
 
-/* === OKLCH native palette (perceptually uniform, P3-capable).
-   Overrides the hex @theme above wherever oklch() is supported — which is
-   every current browser. Hex remains the fallback. These round-trip exactly
-   to the canonical Sage Ink hex values. === */
-@supports (color: oklch(0% 0 0)) {
-  :root {
-    --color-base: oklch(0.1340 0.0051 262.32);
-    --color-surface: oklch(0.1605 0.0063 285.67);
-    --color-surface-elevated: oklch(0.1840 0.0081 285.58);
-    --color-sidebar: oklch(0.1462 0.0064 285.58);
-    --color-indigo: oklch(0.8000 0.0600 145.00);
-    --color-indigo-light: oklch(0.8800 0.0600 145.00);
-    --color-violet: oklch(0.7000 0.0570 145.00);
-    --color-lime: oklch(0.8000 0.0600 145.00);
-    --color-lime-hi: oklch(0.8800 0.0600 145.00);
-    --color-amber: oklch(0.8369 0.1644 84.43);
-    --color-positive: oklch(0.8792 0.1706 165.00);
-    --color-negative: oklch(0.6124 0.2279 17.60);
-    --color-text: oklch(0.9791 0.0000 89.88);
-    --color-text-muted: oklch(0.5510 0.0234 264.36);
-  }
+@theme inline {
+  --color-main: var(--main);
+  --color-background: var(--background);
+  --color-secondary-background: var(--secondary-background);
+  --color-foreground: var(--foreground);
+  --color-main-foreground: var(--main-foreground);
+  --color-border: var(--border);
+  --color-overlay: var(--overlay);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --spacing-boxShadowX: 4px;
+  --spacing-boxShadowY: 4px;
+  --spacing-reverseBoxShadowX: -4px;
+  --spacing-reverseBoxShadowY: -4px;
+  --radius-base: 0px;
+  --shadow-shadow: var(--shadow);
+  --font-weight-base: 500;
+  --font-weight-heading: 700;
 }
 
-/* === Base styles === */
 @layer base {
   :root {
     color-scheme: dark;
   }
 
-  html, body {
-    background-color: var(--color-base);
-    color: var(--color-text);
-    font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  body {
+    @apply text-foreground font-base bg-background;
   }
 
-  /* Selection — matches KDE Colors:Selection */
-  ::selection {
-    background: var(--color-indigo);
-    color: #FFFFFF;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
   }
 
-  /* Scrollbar */
-  *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    background: rgba(15, 15, 18, 0.3);
-  }
-  *::-webkit-scrollbar-thumb {
-    background: var(--color-indigo);
-    border-radius: var(--radius-full);
-    border: 2px solid var(--color-base);
-  }
-  *::-webkit-scrollbar-thumb:hover {
-    background: var(--color-indigo-light);
-  }
-
-  /* Focus rings */
+  /* Solid outline only — no translucent glow/halo. Matches the reference's
+     own focus-visible:ring-2 ring-ring/50 pattern in spirit (a ring around
+     the element) but opaque throughout, consistent with border-border and
+     --shadow both being solid, never a tinted wash. */
   *:focus-visible {
-    outline: 2px solid var(--color-indigo-light);
+    outline: 2px solid var(--ring);
     outline-offset: 2px;
-    border-radius: var(--radius-tag);
-  }
-
-  /* Links */
-  a {
-    color: var(--color-indigo-light);
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-  a:hover {
-    color: var(--color-violet);
-  }
-  a:visited {
-    color: var(--color-violet);
-  }
-}
-
-/* === Ink utility classes === */
-@layer utilities {
-  /* Opaque flat surface, hard offset shadow. Was .glass (frosted, blurred,
-     translucent) through 2026-08-27 — renamed along with the material,
-     not just recoloured, per the 2026-08-28 glass→ink naming pass. */
-  .ink {
-    position: relative;
-    background: var(--color-surface-elevated);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-ink);
-    border-radius: var(--radius-none);
-  }
-
-  /* Squircle corners — Chromium 139+; border-radius is the fallback.
-     Ink is sharp by default (see --radius above); a squircle is an opt-in
-     decorative exception, not the norm. */
-  .squircle { border-radius: var(--radius-tag); }
-  @supports (corner-shape: superellipse(2)) {
-    .squircle {
-      corner-shape: superellipse(2);
-      border-radius: var(--radius-tag);
-    }
-  }
-
-  .ink-subtle {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-none);
-  }
-
-  .ink-strong {
-    background: var(--color-surface-elevated);
-    border: 1px solid var(--color-border-strong);
-    box-shadow: var(--shadow-ink-lg);
-    border-radius: var(--radius-none);
-  }
-
-  /* Press state — the object travels into its own shadow (mechanical,
-     not springy). Pair with --motion-ink-press. */
-  .ink:active, .ink-strong:active {
-    transform: translate(4px, 4px);
-    box-shadow: var(--shadow-ink-press);
-  }
-
-  /* Accent focus glow — a ring/glow effect, not a material; distinct from
-     ink's own shadow (see --shadow-indigo-glow above). */
-  .glow-indigo {
-    box-shadow: var(--shadow-indigo-glow);
-  }
-  .glow-indigo-lg {
-    box-shadow: var(--shadow-indigo-glow-lg);
-  }
-
-  /* Linear-style sharp text on dark */
-  .text-display {
-    font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-}
-
-/* === Accessibility: reduced motion kills transitions === */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0ms !important;
-    animation-duration: 0ms !important;
   }
 }

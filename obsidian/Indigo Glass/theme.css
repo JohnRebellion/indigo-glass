@@ -11,15 +11,19 @@
   --background-secondary: #0A0A0D;
   --background-secondary-alt: #121216;
   --background-modifier-hover: rgba(166, 201, 166, 0.10);
-  --background-modifier-active-hover: rgba(166, 201, 166, 0.18);
-  --background-modifier-border: rgba(255, 255, 255, 0.06);
-  --background-modifier-border-hover: rgba(255, 255, 255, 0.10);
+  /* A real outline instead, not a fallback: unlike Vencord's hash-obfuscated
+     Discord DOM, Obsidian's .is-active/.is-selected are stable, documented
+     state classes any theme can target directly - see the explicit rule
+     below, which now carries the on-select signal instead of this variable. */
+  --background-modifier-active-hover: transparent;
+  --background-modifier-border: #1C1C1E;  /* was rgba(255,255,255,0.06) - opaque hairline over --background-primary-alt, no translucent glass edge */
+  --background-modifier-border-hover: #252528;  /* was rgba(255,255,255,0.10) */
   --background-modifier-border-focus: #A6C9A6;
   --background-modifier-form-field: #0D0D10;
-  --background-modifier-success: rgba(113, 247, 159, 0.12);
-  --background-modifier-error: rgba(237, 37, 78, 0.12);
+  --background-modifier-success: #132925;  /* was rgba(113,247,159,0.12) - opaque, composited over --background-primary-alt. Also fixes a stale literal: 113,247,159 was the pre-v5 positive hex (#71F79F); current sage positive is #3FFABB */
+  --background-modifier-error: #281017;  /* was rgba(237,37,78,0.12) - opaque, composited over --background-primary-alt */
   --background-modifier-error-rgb: 237, 37, 78;
-  --background-modifier-error-hover: rgba(237, 37, 78, 0.20);
+  --background-modifier-error-hover: #3A121C;  /* was rgba(237,37,78,0.20) */
 
   /* Text */
   --text-normal: #F8F8F8;
@@ -43,8 +47,8 @@
 
   /* Tags + chips */
   --tag-color: #89A889;
-  --tag-background: rgba(139, 196, 6, 0.12);
-  --tag-color-hover: #C8B5FF;
+  --tag-background: #1F2422; /* was rgba(166,201,166,0.12), before that rgba(139,196,6,...) lime - opaque pale-sage chip fill, composited over --background-primary-alt */
+  --tag-color-hover: #C0E3C0; /* was #C8B5FF (violet) - hover should stay on the same sage hue, not jump to an unrelated one */
 
   /* Code (mono) */
   --code-normal: #F8F8F8;
@@ -80,8 +84,8 @@
 
   /* Scrollbar */
   --scrollbar-bg: transparent;
-  --scrollbar-thumb-bg: rgba(166, 201, 166, 0.45);
-  --scrollbar-active-thumb-bg: rgba(192, 227, 192, 0.75);
+  --scrollbar-thumb-bg: #89A889;  /* was rgba(166,201,166,0.45) - accent_alt, the same real rest-state step used everywhere else, not a computed blend */
+  --scrollbar-active-thumb-bg: #C0E3C0;  /* was rgba(192,227,192,0.75) - accent_hi hover step */
 }
 
 /* Typography */
@@ -104,7 +108,7 @@ body {
 .nav-file-title,
 .nav-folder-title {
   padding: 3px 8px !important;
-  border-radius: 4px;
+  border-radius: 0; /* was 4px, off the 0/2/9999 ink radius ladder */
 }
 .suggestion-item,
 .menu-item {
@@ -115,7 +119,7 @@ button,
 .mod-cta,
 .clickable-icon {
   padding: 4px 10px !important;
-  border-radius: 6px;
+  border-radius: 0; /* was 6px, off the 0/2/9999 ink radius ladder */
 }
 input,
 textarea,
@@ -134,10 +138,19 @@ textarea,
   border: 1px solid var(--background-modifier-border);
 }
 
-/* Floating/elevated surfaces get a hard offset shadow (colour-as-elevation) */
+/* Floating/elevated surfaces get a hard offset shadow (colour-as-elevation).
+   Border steps up to 2px here (was 1px, shared with the non-shadow block
+   above) - shadow-bearing surfaces take border-2 per the neobrutalism.dev
+   reference audit; structural chrome (sidebar/status bar/tab header) stays
+   hairline since it never carries a shadow. */
 .modal,
 .popover,
 .menu {
+  border-width: 2px;
+  /* Solid black, not --background-modifier-border (Obsidian's own native
+     divider variable, used app-wide - overriding it would blacken every
+     hairline in the whole interface, not just these shadow-bearing ones). */
+  border-color: #000000;
   box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
 }
 
@@ -147,11 +160,25 @@ textarea,
   background-color: var(--text-selection) !important;
 }
 
-/* Focus ring */
+/* Focus ring - white outline (was accent, then briefly literal black -
+   but this is a dark theme, and the reference's own focus ring is white
+   in dark mode, black in light). */
 *:focus-visible {
-  outline: 2px solid #A6C9A6 !important;
+  outline: 2px solid #FFFFFF !important;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(166, 201, 166, 0.18) !important;
+}
+
+/* On-select outline, not a filled highlight - .is-active/.is-selected are
+   Obsidian's own stable, documented state classes (unlike Vencord's
+   hash-obfuscated Discord DOM, safe to target directly). Inset, not
+   detached: nav-tree rows and suggestion/menu items sit flush, no gap. */
+.nav-file-title.is-active,
+.nav-folder-title.is-active,
+.suggestion-item.is-selected,
+.menu-item.is-selected {
+  background-color: transparent !important;
+  outline: 2px solid #FFFFFF;
+  outline-offset: -2px;
 }
 
 /* Active line - subtle */

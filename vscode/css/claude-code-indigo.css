@@ -262,12 +262,12 @@ html body :is(
 
 .checkbox_UxGN1Q,
 .checkboxChecked_UxGN1Q {
-  background: #A6C9A61a !important;
+  background: #1D201F !important; /* was #A6C9A61a (10% alpha) - opaque, composited over --ig-surface */
   border-color: #A6C9A6 !important;
 }
 
 .suggestionBullet_UxGN1Q {
-  background: #A6C9A6cc !important;
+  background: #A6C9A6 !important; /* was #A6C9A6cc (80% alpha) - fully opaque, no reason for a bullet dot to be translucent */
   border-color: #A6C9A6 !important;
 }
 
@@ -290,7 +290,7 @@ html body :is(
 
 [class*="mentionChip"],
 [class*="mention_chip"] {
-  background-color: #A6C9A630 !important;
+  background-color: #2A302C !important; /* was #A6C9A630 (19% alpha) - opaque badge fill, composited over --ig-surface */
   color: #F8F8F8 !important;
   border-radius: 0 !important;
 }
@@ -308,7 +308,9 @@ html body :is(
 }
 
 *:focus-visible {
-  outline-color: #C0E3C0 !important;
+  /* White, not black - this is a dark webview retint, and the reference's
+     own focus ring is white on dark surfaces (black is for light mode). */
+  outline-color: #FFFFFF !important;
 }
 
 /* ─── Hover polish ───────────────────────────────────────────────────────── */
