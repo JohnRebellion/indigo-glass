@@ -53,15 +53,18 @@ Rectangle {
             y: 8
             width: panel.width
             height: panel.height
-            color: Qt.rgba(0, 0, 0, 0.9)
+            color: Qt.rgba(0, 0, 0, 0.9) // drift-allow: the ink drop-shadow rectangle itself (see comment above), not a fill
         }
 
         Rectangle {
             id: panel
             anchors.fill: parent
             color: Qt.rgba(0.12, 0.13, 0.16, 1.0)
-            border.width: 1
-            border.color: Qt.rgba(1, 1, 1, 0.06)
+            // Border 2px solid black (was 1px translucent white) -
+            // shadow-bearing surfaces take border-2 in solid black per the
+            // neobrutalism.dev reference audit.
+            border.width: 2
+            border.color: Qt.rgba(0, 0, 0, 1.0)
             radius: 0
             implicitHeight: layout.implicitHeight + 32
 
@@ -81,7 +84,7 @@ Rectangle {
                         color: accent
                     }
                     Text {
-                        text: "Lime Glass"
+                        text: "Sage Ink"
                         font.family: "Carlito"
                         font.pixelSize: 14
                         font.weight: Font.Bold
@@ -101,8 +104,8 @@ Rectangle {
                     background: Rectangle {
                         color: surfaceAlt
                         border.width: 1
-                        border.color: userInput.activeFocus ? accent : Qt.rgba(1,1,1,0.06)
-                        radius: 4
+                        border.color: userInput.activeFocus ? accent : "#2C2D35" // was Qt.rgba(1,1,1,0.06) - opaque hairline over surfaceAlt
+                        radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     contentItem: Text {
                         text: userInput.currentText
@@ -129,8 +132,8 @@ Rectangle {
                     background: Rectangle {
                         color: surfaceAlt
                         border.width: 1
-                        border.color: passwordInput.activeFocus ? accent : Qt.rgba(1,1,1,0.06)
-                        radius: 4
+                        border.color: passwordInput.activeFocus ? accent : "#2C2D35" // was Qt.rgba(1,1,1,0.06) - opaque hairline over surfaceAlt
+                        radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     Keys.onReturnPressed: loginButton.clicked()
                 }
@@ -144,7 +147,7 @@ Rectangle {
 
                     background: Rectangle {
                         color: loginButton.pressed ? accentHi : accent
-                        radius: 4
+                        radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     contentItem: Text {
                         text: loginButton.text
@@ -170,8 +173,8 @@ Rectangle {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Qt.rgba(1,1,1,0.06)
-                        radius: 4
+                        border.color: "#2C2D35" // was Qt.rgba(1,1,1,0.06) - opaque hairline (session selector sits on a transparent background, closest reference is surfaceAlt)
+                        radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     contentItem: Text {
                         text: sessionInput.currentText

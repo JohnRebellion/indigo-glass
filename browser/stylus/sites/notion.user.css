@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Sage Ink - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
-@description    Retint notion.so + notion.site with Sage Ink palette + Carlito loop-tail. OKLCH accents, sharp ink corners (no squircle).
+@version        0.5.1
+@description    Retint notion.so + notion.site accents with Sage Ink + Carlito loop-tail. Native dark backgrounds/text left untouched. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/notion.user.css
@@ -12,17 +12,14 @@
 
 @-moz-document domain("notion.so"), domain("notion.site") {
 
+  /* Accent-only: Notion's own native dark backgrounds and text colours are
+     left untouched (was forcing all of those too - two extensions, Stylus
+     here and Dark Reader site-wide, repainting the same DOM). Only the
+     accent/semantic swatches - the actual "Sage Ink" identity - are
+     retinted. --notion-divider dropped with the backgrounds (it was tuned
+     for the forced near-black, not Notion's own surface); the selection
+     tint stays, it's an accent wash, not a structural colour. */
   :root {
-    --notion-app-background: #07080A !important;
-    --notion-app-background-secondary: #0D0D10 !important;
-    --notion-default-background: #07080A !important;
-    --notion-gray-background: #121216 !important;
-    --notion-sidebar-background: #0A0A0D !important;
-
-    --notion-text: #F8F8F8 !important;
-    --notion-text-secondary: #C9CBD3 !important;
-    --notion-text-faint: #6B7280 !important;
-
     --notion-primary: #A6C9A6 !important;
     --notion-primary-hover: #C0E3C0 !important;
 
@@ -35,8 +32,14 @@
     --notion-green: #3FFABB !important;
     --notion-teal: #67E8F9 !important;
 
-    --notion-divider: rgba(255, 255, 255, 0.06) !important;
-    --notion-selected-block: rgba(166, 201, 166, 0.22) !important;
+    /* On-select block wash - reduced from 0.22, not made opaque like every
+       other on-select fix this session: this file deliberately stopped
+       forcing Notion's background (native light/dark now shows through
+       unmodified), so there's no single fixed backdrop to pre-composite
+       this against without reintroducing a forced-background override.
+       Kept as a genuine, deliberately backdrop-agnostic alpha - same
+       exception class as a modal scrim, not a glass edge. */
+    --notion-selected-block: rgba(166, 201, 166, 0.10) !important; /* drift-allow: deliberate, backdrop-agnostic - see the comment block above */
   }
 
   /* OKLCH accent upgrade (perceptually uniform; round-trips to the same hex).

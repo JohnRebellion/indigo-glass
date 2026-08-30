@@ -13,19 +13,20 @@
   background: rgba(166, 201, 166, 0.45) !important;
 }
 
-/* Buttons - compact, indigo */
+/* Buttons - compact, indigo. Radius 0 (was 6px, off the 0/2/9999 ink ladder -
+   see tokens/indigo-glass.tokens.toml [radius]). */
 button.main-buttons-button,
 .Button-md-encore-light,
 .Button-sm-encore-light {
   padding: 4px 12px !important;
-  border-radius: 6px !important;
+  border-radius: 0 !important;
 }
 
 /* Now-playing bar - opaque ink */
 .Root__now-playing-bar,
 .main-nowPlayingBar-nowPlayingBar {
   background-color: #121216 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-top: 1px solid #1C1C1E !important;  /* was rgba(255,255,255,0.06) - opaque hairline over surface, no translucent glass edge */
 }
 
 /* Sidebar */
@@ -37,10 +38,13 @@ button.main-buttons-button,
   padding: 3px 8px !important;
 }
 
-/* Cards (album/playlist tiles) - elevated ink tile, hard shadow instead of blur */
+/* Cards (album/playlist tiles) - elevated ink tile, hard shadow instead of blur.
+   Border 2px solid black (was 1px translucent white) - shadow-bearing
+   surfaces take border-2 in solid black per the neobrutalism.dev reference
+   audit; the border reads as the shadow's own silhouette. */
 .main-card-card {
   background-color: #121216 !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border: 2px solid #000000 !important;
   border-radius: 0 !important;
   box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9) !important;
 }
@@ -56,9 +60,17 @@ button.main-buttons-button,
 .main-trackList-trackListRow:hover {
   background-color: rgba(166, 201, 166, 0.10) !important;
 }
+/* On-select row: white outline, no fill wash (was a translucent
+   rgba(166,201,166,0.22) highlight). This is a dark surface, so white -
+   matches the reference's own focus/decoration convention (black on
+   light, white on dark), not a filled accent tint. Inset (-2px), not the
+   usual detached +2px - rows sit only 1px apart (list_row_gap), so a
+   detached outline would overlap the next row; inset stays inside this
+   row's own bounds. */
 .main-trackList-trackListRow.main-trackList-selected,
 .main-trackList-trackListRow[aria-selected="true"] {
-  background-color: rgba(166, 201, 166, 0.22) !important;
+  outline: 2px solid #FFFFFF !important;
+  outline-offset: -2px;
 }
 
 /* Active track highlight */
@@ -73,14 +85,15 @@ button.main-buttons-button,
   background-color: #A6C9A6 !important;
 }
 .progress-bar__bg {
-  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-color: #252528 !important;  /* was rgba(255,255,255,0.10) - opaque track fill over surface */
 }
 
-/* Focus ring */
+/* Focus ring - white outline (was accent, then briefly literal black -
+   but this is a dark theme, and the reference's own focus ring is white
+   in dark mode, black in light). */
 *:focus-visible {
-  outline: 2px solid #A6C9A6 !important;
+  outline: 2px solid #FFFFFF !important;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(166, 201, 166, 0.18) !important;
 }
 
 /* Scrollbar */
@@ -89,11 +102,11 @@ button.main-buttons-button,
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(166, 201, 166, 0.45);
-  border-radius: 4px;
+  background-color: #89A889;  /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+  border-radius: 9999px; /* pill, matches web/app.css.example scrollbar-thumb convention (was 4px) */
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(192, 227, 192, 0.75);
+  background-color: #C0E3C0;  /* was rgba(192,227,192,0.75) - accent_hi hover step */
 }
 
 /* Typography */

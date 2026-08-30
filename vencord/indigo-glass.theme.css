@@ -33,10 +33,23 @@
   --background-floating: var(--ig-surface-alt) !important;
   --background-mobile-primary: var(--ig-base) !important;
   --background-mobile-secondary: var(--ig-surface) !important;
+  /* --background-modifier-active/selected are Discord's own "on-select
+     clickable item" variables (a filled highlight wash), same class of
+     issue fixed everywhere else this session - but Vencord can only
+     override the VALUE of a variable Discord's own compiled stylesheet
+     already reads as background-color; there's no stable, real selector
+     to attach a genuine outline to (Discord's own DOM classes are
+     hash-obfuscated and change on every release), unlike Spicetify/GTK/
+     VSCode where a real selector or theme key exists. Reduced toward
+     barely-there rather than left as a bold highlight - the closest
+     approximation available within Vencord's override model. Made opaque
+     (composited over --ig-surface) too: Sage Ink has no translucent glass
+     edge anywhere, this variable shouldn't ship one either just because
+     its value can't be a real outline. */
   --background-modifier-hover: rgba(166, 201, 166, 0.10) !important;
-  --background-modifier-active: rgba(166, 201, 166, 0.18) !important;
-  --background-modifier-selected: rgba(166, 201, 166, 0.22) !important;
-  --background-modifier-accent: rgba(255, 255, 255, 0.06) !important;
+  --background-modifier-active: #161819 !important;
+  --background-modifier-selected: #191C1C !important;
+  --background-modifier-accent: #1C1C1E !important;
 
   --text-normal: var(--ig-text) !important;
   --text-muted: var(--ig-text-muted) !important;
@@ -60,8 +73,8 @@
   --activity-card-background: var(--ig-surface-alt) !important;
   --modal-background: var(--ig-base) !important;
   --modal-footer-background: var(--ig-surface) !important;
-  --scrollbar-thin-thumb: rgba(166, 201, 166, 0.45) !important;
-  --scrollbar-auto-thumb: rgba(166, 201, 166, 0.45) !important;
+  --scrollbar-thin-thumb: #89A889 !important;  /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+  --scrollbar-auto-thumb: #89A889 !important;
   --scrollbar-auto-track: transparent !important;
 
   --brand-experiment: var(--ig-indigo) !important;
@@ -88,18 +101,19 @@
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(166, 201, 166, 0.45) !important;
-  border-radius: 4px;
+  background-color: #89A889 !important; /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+  border-radius: 9999px; /* pill, matches web/app.css.example scrollbar-thumb convention (was 4px) */
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(192, 227, 192, 0.75) !important;
+  background-color: #C0E3C0 !important; /* was rgba(192,227,192,0.75) - accent_hi hover step */
 }
 
-/* Focus ring */
+/* Focus ring - white outline (was accent, then briefly literal black -
+   but this is a dark theme, and the reference's own focus ring is white
+   in dark mode, black in light). */
 *:focus-visible {
-  outline: 2px solid var(--ig-indigo) !important;
+  outline: 2px solid #FFFFFF !important;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(166, 201, 166, 0.18) !important;
 }
 
 /* Compact channel list */
@@ -130,7 +144,7 @@ body, [class*="markup"], [class*="message"], [class*="title"] {
 
 /* Mentions */
 [class*="mentioned"] {
-  background-color: rgba(166, 201, 166, 0.18) !important;
+  background-color: #292F2B !important;  /* was rgba(166,201,166,0.18) - opaque pale-sage badge fill, composited over --ig-surface. A persistent status indicator (this message mentions you), not a transient state - stays a fill, just opaque now. */
 }
 
 /* Sage Ink: popouts/tooltips/modals are opaque + hard-shadow elevated, no blur (was previously only disabled under prefers-reduced-transparency; Sage Ink drops blur unconditionally, not just as an accessibility fallback) */

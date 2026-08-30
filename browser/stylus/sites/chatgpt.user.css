@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Sage Ink - ChatGPT
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
-@description    Retint chatgpt.com with Sage Ink palette + Carlito loop-tail. OKLCH accents, sharp ink corners (no squircle).
+@version        0.5.0
+@description    Retint chatgpt.com accents with Sage Ink + Carlito loop-tail. Native dark backgrounds/text/borders left untouched. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/chatgpt.user.css
@@ -12,32 +12,17 @@
 
 @-moz-document domain("chatgpt.com"), domain("chat.openai.com") {
 
+  /* Accent-only: ChatGPT's own native dark backgrounds, text colours and
+     borders are left untouched (was forcing all of those too - two
+     extensions, Stylus here and Dark Reader site-wide, repainting the same
+     DOM). Only the accent/semantic hues - the actual "Sage Ink" identity -
+     are retinted. */
   :root {
-    --main-surface-primary: #07080A !important;
-    --main-surface-secondary: #0D0D10 !important;
-    --main-surface-tertiary: #121216 !important;
-    --sidebar-surface-primary: #0A0A0D !important;
-    --sidebar-surface-secondary: #121216 !important;
-    --sidebar-surface-tertiary: #2A2D38 !important;
-    --surface-primary: #07080A !important;
-    --surface-secondary: #0D0D10 !important;
-    --surface-tertiary: #121216 !important;
-    --surface-quaternary: #2A2D38 !important;
-
-    --text-primary: #F8F8F8 !important;
-    --text-secondary: #C9CBD3 !important;
-    --text-tertiary: #6B7280 !important;
-    --text-quaternary: #4B5563 !important;
-
     --link: #C0E3C0 !important;
     --link-hover: #89A889 !important;
 
     --interactive-bg-accent-default: #A6C9A6 !important;
     --interactive-bg-accent-hover: #C0E3C0 !important;
-
-    --border-default: rgba(255, 255, 255, 0.10) !important;
-    --border-light: rgba(255, 255, 255, 0.06) !important;
-    --border-heavy: rgba(255, 255, 255, 0.14) !important;
 
     --text-error: #ED254E !important;
     --text-warning: #FBBF24 !important;

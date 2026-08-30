@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Sage Ink - Claude.ai
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
-@description    Retint claude.ai with Sage Ink palette + Carlito loop-tail allograph. OKLCH accents, sharp ink corners (no squircle). Pairs with the universal Sage Ink Stylus style.
+@version        0.5.0
+@description    Retint claude.ai accents with Sage Ink + Carlito loop-tail allograph. Native dark backgrounds/text/borders left untouched. OKLCH accents, sharp ink corners (no squircle). Pairs with the universal Sage Ink Stylus style.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/claude-ai.user.css
@@ -12,27 +12,17 @@
 
 @-moz-document domain("claude.ai") {
 
+  /* Accent-only: claude.ai's own native dark backgrounds, text colours and
+     borders are left untouched (was forcing all of those too - two
+     extensions, Stylus here and Dark Reader site-wide, repainting the same
+     DOM). Only the accent/semantic hues - the actual "Sage Ink" identity -
+     are retinted. */
   :root {
-    --bg-000: #07080A !important;
-    --bg-100: #0D0D10 !important;
-    --bg-200: #121216 !important;
-    --bg-300: #2A2D38 !important;
-    --bg-400: #2A2D38 !important;
-    --bg-500: #121216 !important;
-    --text-000: #F8F8F8 !important;
-    --text-100: #F8F8F8 !important;
-    --text-200: #C9CBD3 !important;
-    --text-300: #9CA0AB !important;
-    --text-400: #6B7280 !important;
-    --text-500: #4B5563 !important;
     --accent-main-000: #A6C9A6 !important;
     --accent-main-100: #C0E3C0 !important;
     --accent-main-200: #89A889 !important;
     --accent-secondary-000: #89A889 !important;
     --accent-secondary-100: #C8B5FF !important;
-    --border-100: rgba(255, 255, 255, 0.06) !important;
-    --border-200: rgba(255, 255, 255, 0.10) !important;
-    --border-300: rgba(255, 255, 255, 0.14) !important;
     --danger-000: #ED254E !important;
     --danger-100: #FF5272 !important;
     --success-000: #3FFABB !important;
