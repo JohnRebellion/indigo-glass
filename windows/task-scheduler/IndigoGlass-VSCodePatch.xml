@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>Lime Glass - auto re-apply Claude Code webview CSS patch after extension updates. Win11 mirror of Linux systemd.path unit.</Description>
+    <Description>Sage Ink - auto re-apply Claude Code webview CSS patch after extension updates. Win11 mirror of Linux systemd.path unit.</Description>
     <URI>\IndigoGlass\IndigoGlass-VSCodePatch</URI>
   </RegistrationInfo>
   <Triggers>

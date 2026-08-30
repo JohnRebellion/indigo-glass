@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Lime Glass - token codegen.
+Sage Ink - token codegen.
 
 Reads tokens/indigo-glass.tokens.toml (OKLCH-authored, schema v3) and emits
 derived per-layer artifacts. Each is written three ways: the active-variant

@@ -1,4 +1,4 @@
-# Lime Glass — login shell env
+# Sage Ink — login shell env
 # Append to ~/.profile (or ~/.bash_profile / ~/.zprofile)
 
 export GTK_THEME="WhiteSur-Dark-purple"

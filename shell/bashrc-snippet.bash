@@ -1,4 +1,4 @@
-# Lime Glass — bash integration
+# Sage Ink — bash integration
 # Append to ~/.bashrc
 
 export GTK_THEME="WhiteSur-Dark-purple"

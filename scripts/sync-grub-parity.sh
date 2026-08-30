@@ -134,7 +134,7 @@ regen_grub_cfg() {
   echo "  ✓ grub.cfg updated (backup: $bak)"
 }
 
-echo "▶ Lime Glass GRUB parity sync"
+echo "▶ Sage Ink GRUB parity sync"
 echo "  source (truth): $SRC"
 [ "$DRY_RUN" = true ] && echo "  ⚠ DRY RUN"
 echo

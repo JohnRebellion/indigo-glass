@@ -1,9 +1,9 @@
 #!/bin/bash
-# sync-browser-theme.sh — Lime Glass browser theme parity
+# sync-browser-theme.sh — Sage Ink browser theme parity
 #
 # Clones the "perfect" Personal Edge profile's extension settings
 # (Stylus + Dark Reader) into the MTUSA, SIDA4, and Tyremax profiles
-# so all four render the identical Lime Glass browser layer.
+# so all four render the identical Sage Ink browser layer.
 #
 # Personal is the SOURCE OF TRUTH and is never written to.
 #
@@ -91,7 +91,7 @@ sync_ext() {
   fi
 }
 
-log "=== Lime Glass browser theme sync ==="
+log "=== Sage Ink browser theme sync ==="
 log "Source: $SRC_DIR (Personal — read only)"
 [[ $APPLY -eq 1 ]] && log "MODE: APPLY" || log "MODE: DRY-RUN (pass --apply to execute)"
 log ""
