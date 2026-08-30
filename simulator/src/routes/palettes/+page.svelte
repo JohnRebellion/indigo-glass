@@ -209,9 +209,12 @@
     inset: -6% -6% 40%;
     z-index: 0;
     pointer-events: none;
+    /* Page-wide decorative ambient glow (class name literally "pal-amb"),
+       not a component fill - same carve-out as the grub simulator's own
+       CRT-bezel chrome. */
     background-image:
-      radial-gradient(circle at 22% 20%, color-mix(in oklab, var(--ig-accent) 9%, transparent) 0%, transparent 58%),
-      radial-gradient(circle at 80% 60%, color-mix(in oklab, var(--ig-accent-alt) 6%, transparent) 0%, transparent 58%);
+      radial-gradient(circle at 22% 20%, color-mix(in oklab, var(--ig-accent) 9%, transparent) 0%, transparent 58%), /* drift-allow: see comment above */
+      radial-gradient(circle at 80% 60%, color-mix(in oklab, var(--ig-accent-alt) 6%, transparent) 0%, transparent 58%); /* drift-allow: see comment above */
   }
   .pal > *:not(.pal-amb) { position: relative; z-index: 1; }
 
@@ -255,8 +258,8 @@
     gap: 8px;
     padding: 7px 12px 7px 9px;
     background: var(--ig-surface);
-    border: 1px solid var(--ig-border-strong);
-    border-radius: 2px;
+    border: var(--ig-border-default) solid var(--ig-border-strong);
+    border-radius: var(--ig-radius-xs);
     cursor: pointer;
     color: var(--ig-text-muted);
     font-family: inherit;
@@ -269,7 +272,7 @@
     border-color: var(--chip);
     box-shadow: 3px 3px 0 0 var(--chip);
   }
-  .pal-chip:focus-visible { outline: 2px solid var(--chip); outline-offset: 2px; }
+  .pal-chip:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
   .pal-chip-dot {
     width: 12px;
     height: 12px;
@@ -295,8 +298,8 @@
 
   .pal-meta {
     background: var(--ig-surface);
-    border: 1px solid var(--ig-border-strong);
-    box-shadow: 4px 4px 0 0 #000;
+    border: var(--ig-border-default) solid var(--ig-border-strong);
+    box-shadow: 4px 4px 0 0 #000; /* NOTE: black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
     padding: 18px;
     display: flex;
     flex-direction: column;
@@ -348,14 +351,14 @@
 
   /* ---- preview window (ink only — no material toggle, glass was retired) ---- */
   .pw {
-    border: 1px solid var(--ig-border);
+    border: var(--ig-border-default) solid var(--ig-border);
     border-radius: 0;
     overflow: hidden;
     min-height: 470px;
     display: flex;
     flex-direction: column;
     background: var(--ig-surface);
-    box-shadow: 8px 8px 0 0 #000;
+    box-shadow: 8px 8px 0 0 #000; /* NOTE: black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
     container-type: inline-size;
   }
   .pw-title {
@@ -396,7 +399,9 @@
     color: var(--ig-text-muted);
   }
   .pw-side-item.active {
-    background: var(--ig-surface-alt);
+    /* No background fill (was var(--ig-surface-alt)) - matches its own
+       siblings on this page (.pal-chip.active, .pw-tab.active), neither of
+       which fill either; the accent bar alone carries the on-select signal. */
     color: var(--ig-text);
     box-shadow: inset 2px 0 0 0 var(--ig-accent);
   }
@@ -437,11 +442,11 @@
     color: var(--ig-accent);
     margin-bottom: 7px;
   }
-  .pw-kicker-on-fill { color: rgba(7, 8, 10, 0.62); }
+  .pw-kicker-on-fill { color: rgba(7, 8, 10, 0.62); } /* drift-allow: deliberate muted-foreground-on-fill text opacity (paired with the fully-opaque .pw-kicker above), not a glass fill or border - same convention as e.g. Tailwind's text-foreground/60 */
   .pw-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .pw-card {
     background: var(--ig-surface-alt);
-    border: 1px solid var(--ig-border-strong);
+    border: var(--ig-border-default) solid var(--ig-border-strong);
     box-shadow: 4px 4px 0 0 var(--ig-accent-alt);
     padding: 13px 15px;
   }
@@ -470,17 +475,18 @@
   .pw-btn.primary {
     background: var(--ig-accent);
     color: var(--ig-base);
-    border: 1px solid var(--ig-accent);
-    box-shadow: 4px 4px 0 0 #000;
+    border: var(--ig-border-default) solid var(--ig-accent);
+    box-shadow: 4px 4px 0 0 #000; /* NOTE: black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
   }
   .pw-btn.ghost {
     background: transparent;
     color: var(--ig-accent);
-    border: 1px solid var(--ig-accent);
+    border: var(--ig-border-default) solid var(--ig-accent);
     box-shadow: 4px 4px 0 0 var(--ig-accent-alt);
   }
-  .pw-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #000; }
-  .pw-btn:focus-visible { outline: 2px solid var(--ig-accent-hi); outline-offset: 2px; }
+  /* Press travels on :hover per the neobrutalism.dev reference - was :active. */
+  .pw-btn:hover { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #000; }
+  .pw-btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
   .pw-badge {
     font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;
     font-size: 9.5px;
@@ -490,7 +496,7 @@
     border: 1px solid var(--ig-border-strong);
     color: var(--ig-text-muted);
   }
-  .pw-badge.alt { border-color: rgba(94, 106, 210, 0.5); color: #7C87E8; }
+  .pw-badge.alt { border-color: rgba(94, 106, 210, 0.5); color: #7C87E8; } /* drift-allow: this route legitimately shows other variants' hues side by side (see check-palette-drift.sh's own colour-check exclusion for simulator/); a comparison swatch, not a live theme surface */
   .pw-term {
     margin: auto 0 0;
     padding: 12px 14px;
@@ -499,8 +505,8 @@
     line-height: 1.65;
     color: var(--ig-text);
     background: var(--ig-base);
-    border: 1px solid var(--ig-border);
-    box-shadow: 4px 4px 0 0 #000;
+    border: var(--ig-border-default) solid var(--ig-border);
+    box-shadow: 4px 4px 0 0 #000; /* NOTE: black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
     overflow-x: auto;
   }
   .pw-term .p { color: var(--ig-accent); }
@@ -512,7 +518,7 @@
     .pw-side { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pw-btn:active { transform: none; }
+    .pw-btn:hover { transform: none; }
   }
 
   /* ---- strip ---- */
@@ -546,7 +552,7 @@
     font-family: inherit;
   }
   .pal-sw.active { border-color: var(--ig-accent); }
-  .pal-sw:focus-visible { outline: 2px solid var(--ig-accent); outline-offset: 2px; }
+  .pal-sw:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
   .pal-sw-chip { display: block; height: 34px; }
   .pal-sw-name { font-size: 12px; color: var(--ig-text); }
   .pal-sw-c {

@@ -137,8 +137,17 @@
     color: var(--ig-text);
     text-decoration: none;
   }
-  .sidebar-list a:hover {
-    background: color-mix(in srgb, var(--ig-indigo) 10%, transparent);
+  /* Outline on focus/hover, not a filled highlight (neobrutalism.dev
+     convention - a clickable row's "you're on this one" state is a stroke,
+     not a translucent wash; was color-mix(...,10%,transparent), the same
+     glass-era pattern fixed everywhere else in this codebase). Inset -2px,
+     not the usual detached +2px: rows sit flush against each other (no
+     gap, just a 1px border), so a detached outline would overlap the
+     neighbouring row - same exception as the Spicetify track-row fix. */
+  .sidebar-list a:hover,
+  .sidebar-list a:focus-visible {
+    outline: 2px solid var(--ig-text);
+    outline-offset: -2px;
   }
 
   /* Bare form */
@@ -201,7 +210,7 @@
   /* Chips */
   .chips { display: flex; flex-wrap: wrap; gap: 4px; }
   .chip {
-    background: color-mix(in srgb, var(--ig-indigo) 18%, transparent);
+    background: var(--ig-surface-alt); /* was color-mix(...,18%,transparent) - opaque badge fill, real token not a blend */
     color: var(--ig-indigo-hi);
     padding: 1px 8px;
     border-radius: 9999px;

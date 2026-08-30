@@ -86,9 +86,9 @@
     margin: 0 auto;
     background: var(--ig-surface);
     border-radius: var(--ig-radius-default);
-    border: 1px solid var(--ig-border);
+    border: var(--ig-border-default) solid var(--ig-border);
     overflow: hidden;
-    box-shadow: var(--ig-shadow-glass);
+    box-shadow: var(--ig-shadow-ink-lg); /* was --ig-shadow-glass, a token deleted in tokens v5 - resolved to nothing */
   }
   .window-chrome {
     display: flex;
@@ -174,14 +174,14 @@
     gap: 4px;
   }
   .chip {
-    background: color-mix(in srgb, var(--ig-indigo) 18%, transparent);
+    background: var(--ig-surface-alt); /* was color-mix(...,18%,transparent) - opaque badge fill, real token not a blend */
     color: var(--ig-indigo-hi);
     padding: 1px 6px;
     border-radius: 9999px;
     font-size: 8pt;
   }
   .chip-violet {
-    background: color-mix(in srgb, var(--ig-violet) 18%, transparent);
+    background: var(--ig-surface-alt); /* was color-mix(...,18%,transparent) - opaque badge fill */
     color: var(--ig-violet);
   }
 
@@ -192,13 +192,17 @@
   }
   .card {
     background: var(--ig-surface-alt);
-    border: 1px solid var(--ig-border);
-    border-radius: var(--ig-radius-sm);
+    border: var(--ig-border-default) solid var(--ig-border);
+    border-radius: var(--ig-radius-default); /* was --ig-radius-sm, a token that doesn't exist */
+    box-shadow: var(--ig-shadow-ink);
     overflow: hidden;
-    transition: border-color var(--ig-dur-quick);
+    transition: border-color var(--ig-dur-quick), transform var(--ig-motion-ink-press, 80ms steps(2, end)), box-shadow var(--ig-motion-ink-press, 80ms steps(2, end));
   }
+  /* Press travels on :hover per the neobrutalism.dev reference. */
   .card:hover {
     border-color: var(--ig-indigo);
+    transform: translate(4px, 4px);
+    box-shadow: var(--ig-shadow-none);
   }
   .card-img {
     aspect-ratio: 1;

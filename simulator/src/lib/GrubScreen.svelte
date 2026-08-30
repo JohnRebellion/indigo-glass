@@ -10,20 +10,12 @@
   import { drawInkPanel } from './theme/inkPanel';
   import type { PFF2Font, PFF2Glyph } from './theme/pff2';
 
-  interface InkOverrides {
-    /** Pills are the deliberate rounded exception in an otherwise sharp-
-     * cornered ink system — the only override still meaningful now that
-     * the panel/blur/tint/specular glass controls are gone. */
-    pillRadius?: number;
-  }
-
   interface Props {
     preset: LoadedPreset;
     cfg: GrubCfg;
     selected?: number;
     width?: number;
     height?: number;
-    inkOverrides?: InkOverrides;
   }
 
   let {
@@ -31,8 +23,7 @@
     cfg,
     selected = 0,
     width = 2560,
-    height = 1440,
-    inkOverrides = {}
+    height = 1440
   }: Props = $props();
 
   let canvas: HTMLCanvasElement;
@@ -58,15 +49,6 @@
     }
   }
 
-  function pillTintFor(id: string): [number, number, number, number] {
-    switch (id) {
-      case 'amber':  return [251, 146, 60, 0.45];
-      case 'blue':   return [59, 130, 246, 0.45];
-      case 'green':  return [16, 185, 129, 0.45];
-      default:       return [166, 201, 166, 0.5]; // Sage accent #a6c9a6
-    }
-  }
-
   function drawKeyChip(
     c: CanvasRenderingContext2D,
     x: number,
@@ -76,27 +58,17 @@
     kind: 'enter' | 'esc'
   ): void {
     c.save();
-    // Pill bg — subtle white tint
-    c.fillStyle = 'rgba(255,255,255,0.10)';
-    const r = h / 2;
-    c.beginPath();
-    c.moveTo(x + r, y);
-    c.lineTo(x + w - r, y);
-    c.arcTo(x + w, y, x + w, y + r, r);
-    c.lineTo(x + w, y + h - r);
-    c.arcTo(x + w, y + h, x + w - r, y + h, r);
-    c.lineTo(x + r, y + h);
-    c.arcTo(x, y + h, x, y + h - r, r);
-    c.lineTo(x, y + r);
-    c.arcTo(x, y, x + r, y, r);
-    c.closePath();
-    c.fill();
-    // Border
-    c.strokeStyle = 'rgba(255,255,255,0.15)';
-    c.lineWidth = 1;
-    c.stroke();
+    // Sharp rect, opaque fill, border-2 solid black — was a fully rounded
+    // pill (r = h/2) with a translucent white tint fill and border; no pill
+    // step exists in the neobrutalism.dev reference, and badge/chip fills
+    // are always opaque, never a translucent tint.
+    c.fillStyle = '#121216';
+    c.fillRect(x + 1, y + 1, w - 2, h - 2);
+    c.lineWidth = 2;
+    c.strokeStyle = '#000000';
+    c.strokeRect(x + 1, y + 1, w - 2, h - 2);
     // Text (manually draw arrow + ENTER glyphs since PFF2 glyphs needed)
-    c.fillStyle = 'rgba(255,255,255,0.85)';
+    c.fillStyle = '#F8F8F8'; // was rgba(255,255,255,0.85) - opaque text, no reason for a key-chip label to be translucent
     c.font = '600 18px ui-monospace, monospace';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
@@ -111,15 +83,6 @@
       case 'blue':   return '#60a5fa';
       case 'green':  return '#34d399';
       default:       return '#89a889';
-    }
-  }
-
-  function pillBorderBottomFor(id: string): string {
-    switch (id) {
-      case 'amber':  return 'rgba(120,53,15,0.75)';
-      case 'blue':   return 'rgba(30,58,138,0.75)';
-      case 'green':  return 'rgba(6,78,59,0.75)';
-      default:       return 'rgba(30,32,80,0.75)'; // dark side of Plasma selection
     }
   }
 
@@ -336,7 +299,7 @@
       ctx.save();
       ctx.translate(tx, ty);
       ctx.rotate(angle + Math.PI / 2);
-      ctx.fillStyle = isOn ? 'rgba(139,196,6,1)' : 'rgba(255,255,255,0.12)';
+      ctx.fillStyle = isOn ? '#A6C9A6' : '#202024'; // was lime rgba(139,196,6,1) (stale Lime Glass accent) / translucent white 12% - both now opaque sage tokens
       ctx.fillRect(-1.5, -4, 3, 8);
       ctx.restore();
     }
@@ -351,10 +314,10 @@
   ): void {
     // Simple flat progress bar (Apple-style indeterminate slim line)
     const bgY = top + height / 2 - 1;
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillStyle = '#161719'; // was rgba(255,255,255,0.08) - opaque track
     ctx.fillRect(left, bgY, width, Math.max(2, height));
     const progress = 0.7;
-    ctx.fillStyle = 'rgba(139,196,6,0.85)';
+    ctx.fillStyle = '#A6C9A6'; // was lime rgba(139,196,6,0.85) - stale Lime Glass accent, now opaque sage
     ctx.fillRect(left, bgY, width * progress, Math.max(2, height));
   }
 
@@ -381,9 +344,8 @@
       drawInkPanel(ctx, left, top, width, height, {
         radius: 0,
         fill: [panelTint[0], panelTint[1], panelTint[2]],
-        borderTopColor: 'rgba(192,227,192,0.45)',
-        borderBottomColor: 'rgba(0,0,0,0.75)',
-        borderWidth: 1.5,
+        borderColor: '#000000',
+        borderWidth: 2,
         shadow: true
       });
     }
@@ -405,33 +367,26 @@
       const isSelected = i === selected;
 
       if (isSelected) {
-        const pillTint = pillTintFor(preset.id);
-        drawInkPanel(ctx, innerX, itemY, innerW, itemHeight, {
-          radius: inkOverrides.pillRadius ?? 12,
-          fill: [pillTint[0], pillTint[1], pillTint[2]],
-          borderWidth: 0,
-          shadow: false
-        });
-        // Linear-style 4px accent left-bar (rounded)
+        // Keyboard-focused row: a solid outline only, no fill/highlight
+        // wash and no shadow — the same focus-visible rule used everywhere
+        // else in this system (an outline, never a translucent or solid
+        // highlight). Was a solid sage fill + black border + hard shadow
+        // (a "selected/active" treatment), then before that a rounded
+        // borderless "Linear-style" pill - this row IS the arrow-key focus
+        // position, not a confirmed selection, so it gets the focus rule.
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = accentColorFor(preset.id);
+        ctx.strokeRect(innerX + 1, itemY + 1, innerW - 2, itemHeight - 2);
+        ctx.restore();
+        // Accent left-bar, sharp corners (was a rounded "Linear-style" bar).
         ctx.save();
         ctx.fillStyle = accentColorFor(preset.id);
         const barW = 5;
         const barH = itemHeight * 0.55;
         const barX = innerX + 6;
         const barY = itemY + (itemHeight - barH) / 2;
-        const br = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(barX + br, barY);
-        ctx.lineTo(barX + barW - br, barY);
-        ctx.arcTo(barX + barW, barY, barX + barW, barY + br, br);
-        ctx.lineTo(barX + barW, barY + barH - br);
-        ctx.arcTo(barX + barW, barY + barH, barX + barW - br, barY + barH, br);
-        ctx.lineTo(barX + br, barY + barH);
-        ctx.arcTo(barX, barY + barH, barX, barY + barH - br, br);
-        ctx.lineTo(barX, barY + br);
-        ctx.arcTo(barX, barY, barX + br, barY, br);
-        ctx.closePath();
-        ctx.fill();
+        ctx.fillRect(barX, barY, barW, barH);
         ctx.restore();
 
         // Linear-style keyboard hint chip on right (↵ Enter)

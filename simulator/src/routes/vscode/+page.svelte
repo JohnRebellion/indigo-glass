@@ -253,7 +253,11 @@ actions   = "#121216"</pre>
   }
   .file:hover { background: color-mix(in srgb, var(--ig-indigo) 10%, transparent); }
   .file.active {
-    background: color-mix(in srgb, var(--ig-indigo) 22%, transparent);
+    /* Outline, not a filled highlight (was color-mix(...,22%,transparent)) -
+       the active file-explorer row is an on-select state, same fix already
+       made in the real theme this page previews (list.activeSelectionBackground). */
+    outline: 2px solid var(--ig-text);
+    outline-offset: -2px;
     color: var(--ig-text);
   }
   .file-icon {
@@ -427,7 +431,7 @@ actions   = "#121216"</pre>
   .chat-msg p { margin: 0 0 4px; }
   .chat-msg p:last-child { margin-bottom: 0; }
   .chat-msg-user {
-    background: color-mix(in srgb, var(--ig-indigo) 12%, transparent);
+    background: var(--ig-surface-alt); /* was color-mix(...,12%,transparent) - opaque bubble fill, real token not a blend */
     border: 1px solid var(--ig-border);
     align-self: flex-end;
     max-width: 85%;
@@ -494,9 +498,9 @@ actions   = "#121216"</pre>
   .palette {
     width: 560px;
     background: var(--ig-surface);  /* flat mode: same tone as editor variants */
-    border: 1px solid var(--ig-border);
+    border: var(--ig-border-default) solid var(--ig-border);
     border-radius: 0;
-    box-shadow: 14px 14px 0 0 rgba(0,0,0,0.9);
+    box-shadow: 14px 14px 0 0 rgba(0,0,0,0.9); /* NOTE: still the black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
     overflow: hidden;
     font-size: 9pt;
   }
@@ -540,11 +544,16 @@ actions   = "#121216"</pre>
     border-radius: 3px;
     padding: 1px 5px;
   }
+  /* Neutral opaque fallback, not an accent-tinted highlight (was
+     color-mix(...,22-28%,transparent)) - mirrors the real theme's
+     quickInputList.focusBackground fix: VSCode has no dedicated outline key
+     for a focused command-palette row, so the closest compliant treatment
+     is reducing the fill toward neutral, same as the actual .json themes. */
   .palette-active {
-    background: color-mix(in srgb, var(--ig-indigo) 22%, transparent);
+    background: #202023;
   }
   .vscode.layered .palette-active {
-    background: color-mix(in srgb, var(--ig-indigo) 28%, transparent);
+    background: #252528;
   }
 
   /* Reposition palette so its overlay works — need relative on .vscode */

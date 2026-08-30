@@ -80,15 +80,15 @@ a:hover {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--ig-indigo) 45%, transparent);
-  border-radius: 4px;
+  background: var(--ig-accent-alt); /* was color-mix(...,45%,transparent) - real token, not a computed blend, matches every other scrollbar-thumb fix in this codebase */
+  border-radius: 9999px; /* pill, matches web/app.css.example scrollbar-thumb convention (was 4px) */
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--ig-indigo-hi) 75%, transparent);
+  background: var(--ig-accent-hi); /* was color-mix(...,75%,transparent) */
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--ig-indigo) 55%, transparent) transparent;
+  scrollbar-color: var(--ig-accent-alt) transparent; /* was color-mix(...,55%,transparent) */
 }
 
 /* Sage Ink mixin classes for sim use — opaque, zero blur, hard offset elevation */
@@ -100,18 +100,25 @@ a:hover {
   isolation: isolate;
 }
 
+/* Shadow-bearing ink surface: border-2 + hard offset shadow + hover-travel,
+   per the neobrutalism.dev reference audit. Was border:none with no shadow
+   at all - a colour swap, not an ink button. */
 .ig-button {
   background: var(--ig-indigo);
-  color: white;
-  border: none;
+  color: var(--ig-base);
+  font-weight: var(--ig-weight-heading);
+  border: var(--ig-border-default) solid var(--ig-border-strong);
   padding: var(--ig-density-button-pad-y, 4px) var(--ig-density-button-pad-x, 10px);
-  border-radius: var(--ig-radius-sm);
+  border-radius: var(--ig-radius-default);
+  box-shadow: var(--ig-shadow-ink);
   font-family: inherit;
   cursor: pointer;
   transition: background var(--ig-dur-quick) var(--ig-ease-standard);
 }
 .ig-button:hover {
   background: var(--ig-indigo-hi);
+  transform: translate(4px, 4px);
+  box-shadow: var(--ig-shadow-ink-press);
 }
 .ig-button-secondary {
   background: var(--ig-surface-alt);
@@ -127,19 +134,26 @@ a:hover {
   border: 1px solid var(--ig-border);
   border-bottom: 1px solid var(--ig-border-strong);
   padding: var(--ig-density-input-pad-y, 4px) var(--ig-density-input-pad-x, 8px);
-  border-radius: var(--ig-radius-sm);
+  border-radius: var(--ig-radius-default); /* was --ig-radius-sm (broken ref), then --ig-radius-xs - inputs use the default ink radius, not the tag-step */
   font-family: inherit;
 }
+/* White outline (was accent, then briefly literal black - but this is a
+   dark surface, and the reference's own focus ring is white in dark mode,
+   black in light: --ring: oklch(100% 0 0) in .dark). Offset bumped
+   1px -> 2px to match ring-offset-2 (a detached gap, not flush against
+   the input). */
 .ig-input:focus {
-  outline: none;
-  border-color: var(--ig-indigo);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ig-indigo) 18%, transparent);
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+  border-color: #FFFFFF;
 }
 
+/* White outline only - no translucent halo (was accent, then briefly
+   literal black; dark surface, so white per the reference's own
+   dark-mode --ring). */
 *:focus-visible {
-  outline: 2px solid var(--ig-indigo);
+  outline: 2px solid #FFFFFF;
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ig-indigo) 18%, transparent);
 }
 
 /* Reduced motion */

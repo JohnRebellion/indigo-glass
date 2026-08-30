@@ -186,7 +186,7 @@
     margin: 0;
     padding: 4px 6px;
     background: var(--ig-base);
-    border-radius: var(--ig-radius-sm);
+    border-radius: var(--ig-radius-xs); /* was --ig-radius-sm, a token that doesn't exist */
     font-family: "Iosevka Custom Condensed", "MesloLGS NF", monospace;
     font-size: 9pt;
     line-height: 1.4;

@@ -94,7 +94,7 @@
     color: var(--ig-text-muted);
     text-decoration: none;
     padding: 3px 10px;
-    border-radius: 4px;
+    border-radius: var(--ig-radius-default); /* was 4px, off the 0/2/9999 ink ladder */
     font-family: var(--ig-font-chrome, "SF Pro Display", system-ui, sans-serif);
     font-size: 10pt;
     transition: background var(--ig-dur-quick) var(--ig-ease-standard), color var(--ig-dur-quick);
@@ -104,7 +104,12 @@
     color: var(--ig-text);
   }
   .ig-tab.active {
-    background: color-mix(in srgb, var(--ig-indigo) 18%, transparent);
+    /* Outline, not a filled highlight (was color-mix(...,18%,transparent)) -
+       the active nav tab is an on-select state, same class fixed everywhere
+       else this session (VSCode's activityBar.activeBorder etc.). Detached
+       +2px, not inset: tabs sit 2px apart (.ig-tabs gap), so there's room. */
+    outline: 2px solid var(--ig-text);
+    outline-offset: 2px;
     color: var(--ig-text);
   }
   .ig-shell-main {
