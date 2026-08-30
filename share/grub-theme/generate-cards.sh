@@ -78,23 +78,23 @@ echo "CPU:      $CPU_SHORT"
 echo "GPU:      $GPU_SHORT"
 
 # --- Card baking helper ---
+# Sharp corners, opaque fill, opaque border (was a rounded 8px card baked
+# through a rounded alpha mask, with a 0.75-alpha canvas and a 20%-alpha
+# border stroke - three separate leftovers from before the ink migration:
+# no rounding outside the pill/circle exception, and no translucent fill or
+# border anywhere. Sharp corners mean the mask/composite step is no longer
+# needed at all - draw once, straight to $out.
 make_card() {
   local out="$1" label="$2" big="$3" sub="$4" big_size="${5:-36}"
-  magick -size 360x140 xc:'rgba(31,32,40,0.75)' \
-    -fill '#A6C9A6' -draw "roundrectangle 20,14 80,18 2,2" \
-    -fill none -stroke 'rgba(192,227,192,0.20)' -strokewidth 1 \
-    -draw "roundrectangle 0,0 359,139 8,8" \
+  magick -size 360x140 xc:'#1F2029' \
+    -fill '#A6C9A6' -draw "rectangle 20,14 80,18" \
+    -fill none -stroke '#89A889' -strokewidth 2 \
+    -draw "rectangle 0,0 359,139" \
     -fill '#C0E3C0' -font "$SF_PRO" -pointsize 18 -gravity northwest \
     -annotate +20+32 "$label" \
     -fill '#F8F8F8' -pointsize "$big_size" -annotate +20+50 "$big" \
     -fill '#6B7280' -pointsize 16 -annotate +20+108 "$sub" \
-    PNG32:"$OUT_DIR/_raw.png"
-  magick -size 360x140 xc:none -fill white \
-    -draw "roundrectangle 0,0 359,139 8,8" \
-    PNG32:"$OUT_DIR/_mask.png"
-  magick "$OUT_DIR/_raw.png" "$OUT_DIR/_mask.png" \
-    -alpha off -compose CopyOpacity -composite PNG32:"$out"
-  rm -f "$OUT_DIR/_raw.png" "$OUT_DIR/_mask.png"
+    PNG32:"$out"
 }
 
 # --- Bake cards ---

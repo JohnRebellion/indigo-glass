@@ -105,16 +105,16 @@
     padding: 8px 12px;
     border-radius: var(--ig-radius-default);
     background: var(--ig-surface-alt);
-    border: 1px solid var(--ig-border-strong);
+    border: var(--ig-border-default) solid var(--ig-border-strong);
     box-shadow: var(--ig-shadow-ink);
     text-decoration: none;
     color: var(--ig-text);
     transition: transform var(--ig-motion-ink-press, 80ms steps(2, end)), box-shadow var(--ig-motion-ink-press, 80ms steps(2, end));
   }
+  /* Press travels on :hover, not :active, per the neobrutalism.dev
+     reference - the card lands in its own shadow on pointer arrival. */
   .ig-card:hover {
     border-color: var(--ig-accent);
-  }
-  .ig-card:active {
     transform: translate(4px, 4px);
     box-shadow: var(--ig-shadow-none);
   }
@@ -137,7 +137,7 @@
     gap: 8px;
     padding: 4px;
     background: var(--ig-surface);
-    border-radius: var(--ig-radius-sm);
+    border-radius: var(--ig-radius-xs); /* was --ig-radius-sm, a token that doesn't exist */
     border: 1px solid var(--ig-border);
   }
   .ig-swatch-chip {

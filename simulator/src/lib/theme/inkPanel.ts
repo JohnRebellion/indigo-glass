@@ -11,8 +11,11 @@ export interface InkPanelOpts {
    * rather than simulated, matching "colour communicates state, not
    * translucency" elsewhere in this system. */
   fill?: [number, number, number];
-  borderTopColor?: string;
-  borderBottomColor?: string;
+  /** Uniform 4-side border colour. Was borderTopColor/borderBottomColor (a
+   * two-tone bevel simulating a light source) — a skeuomorphic/glass
+   * technique, not the neobrutalism.dev reference's border-border, which is
+   * pure black on every side regardless of the panel's own fill colour. */
+  borderColor?: string;
   borderWidth?: number;
   /** Hard offset shadow (8px, zero blur) — matches --ig-shadow-ink. Was
    * `outerShadow`, a soft drop shadow. */
@@ -22,9 +25,8 @@ export interface InkPanelOpts {
 const DEFAULTS: Required<InkPanelOpts> = {
   radius: 0,
   fill: [18, 18, 22],
-  borderTopColor: 'rgba(255,255,255,0.10)',
-  borderBottomColor: 'rgba(0,0,0,0.55)',
-  borderWidth: 1,
+  borderColor: '#000000',
+  borderWidth: 2,
   shadow: true
 };
 
@@ -79,18 +81,9 @@ export function drawInkPanel(
 
   if (o.borderWidth > 0) {
     ctx.save();
-    roundRectPath(ctx, x, y, w, h, o.radius);
-    ctx.clip();
+    roundRectPath(ctx, x + o.borderWidth / 2, y + o.borderWidth / 2, w - o.borderWidth, h - o.borderWidth, o.radius);
     ctx.lineWidth = o.borderWidth;
-    ctx.strokeStyle = o.borderTopColor;
-    ctx.beginPath();
-    ctx.moveTo(x, y + o.borderWidth / 2);
-    ctx.lineTo(x + w, y + o.borderWidth / 2);
-    ctx.stroke();
-    ctx.strokeStyle = o.borderBottomColor;
-    ctx.beginPath();
-    ctx.moveTo(x, y + h - o.borderWidth / 2);
-    ctx.lineTo(x + w, y + h - o.borderWidth / 2);
+    ctx.strokeStyle = o.borderColor;
     ctx.stroke();
     ctx.restore();
   }

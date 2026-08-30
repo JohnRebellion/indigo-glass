@@ -32,10 +32,6 @@
   let editingTheme = $state<string>('');
   let viewWidth = $state(1100);
 
-  // Pill radius is the one tunable ink param left — panel blur/tint/
-  // specular and pill blur/tint controlled a glass material that no longer
-  // exists (see GrubScreen.svelte's InkOverrides).
-  let pillRadius = $state(10);
 
   onMount(async () => {
     const idx = await fetch(`${base}/presets/index.json`).then((r) => r.json());
@@ -91,7 +87,6 @@
     URL.revokeObjectURL(url);
   }
 
-  let inkOverrides = $derived({ pillRadius });
 </script>
 
 <div class="layout">
@@ -119,18 +114,6 @@
           </button>
         {/each}
       </div>
-    </section>
-
-    <section>
-      <h2>Ink</h2>
-      <!-- Panel blur/tint/specular and pill blur/tint controlled a glass
-           material that no longer exists — the panel is now a fixed opaque
-           flat fill (radius 0, hard offset shadow). Pill radius is the one
-           control that still means something: pills are the deliberate
-           rounded exception in an otherwise sharp-cornered ink system. -->
-      <label>Pill radius <span class="val">{pillRadius}px</span>
-        <input type="range" min="0" max="48" bind:value={pillRadius} />
-      </label>
     </section>
 
     <section>
@@ -178,7 +161,6 @@
               {selected}
               width={viewWidth}
               height={Math.round(viewWidth * 9 / 16)}
-              {inkOverrides}
             />
           {:else}
             <p style="color:#888;padding:2rem">Loading preset…</p>
@@ -208,11 +190,15 @@
     color: #e0e7ff;
     font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
   }
+  /* Sidebar + controls rewritten to Sage Ink (was hardcoded lime/violet -
+     #A8E635/#C1FF58/#8BC406 and #5b21b6/#6d28d9/#8b4ff5 gradients, never
+     migrated). Sharp ink corners, border-2 on shadow-bearing surfaces,
+     hover-travel press per the neobrutalism.dev reference audit. */
   aside {
     overflow-y: auto;
     padding: 1.25rem;
-    border-right: 1px solid rgba(255,255,255,0.06);
-    background: linear-gradient(180deg, #11112a 0%, #0a0a1a 100%);
+    border-right: 1px solid #202024; /* was rgba(255,255,255,0.06) - opaque hairline over the aside gradient */
+    background: linear-gradient(180deg, #121216 0%, #0A0A0D 100%);
   }
   .brand {
     display: flex;
@@ -221,15 +207,16 @@
     margin-bottom: 1.5rem;
   }
   .brand h1 { font-size: 1rem; margin: 0; letter-spacing: 0.01em; }
-  .brand p  { font-size: 0.72rem; color: #C1FF58; margin: 0; }
+  .brand p  { font-size: 0.72rem; color: #C0E3C0; margin: 0; }
   .logo {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: linear-gradient(135deg, #A8E635, #8BC406);
-    box-shadow: 4px 4px 0 0 rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.4);
+    width: 32px; height: 32px; border-radius: 0;
+    background: #A6C9A6;
+    border: 2px solid #89A889;
+    box-shadow: 4px 4px 0 0 #89A889;
   }
   h2 {
     font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
-    color: #C1FF58; margin: 1.25rem 0 0.6rem;
+    color: #C0E3C0; margin: 1.25rem 0 0.6rem;
   }
   section { margin-bottom: 1.25rem; }
 
@@ -240,14 +227,15 @@
   }
   .preset-card {
     position: relative;
-    padding: 0; border: 0;
-    border-radius: 10px;
+    padding: 0;
+    border: 2px solid #1C1C1F; /* was #FFFFFF10 - opaque hairline over card bg */
+    border-radius: 0;
     overflow: hidden;
     cursor: pointer;
-    background: #1a1a2e;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.03), 4px 4px 0 0 rgba(0,0,0,0.9);
+    background: #0D0D10;
+    box-shadow: 4px 4px 0 0 #89A889;
     outline: 2px solid transparent;
-    transition: outline-color 120ms;
+    transition: outline-color 120ms, transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
   }
   .preset-card img {
     display: block; width: 100%; height: 80px; object-fit: cover;
@@ -257,21 +245,22 @@
     padding: 0.4rem 0.55rem;
     font-size: 0.72rem;
     text-align: left;
-    color: #e0e7ff;
-    background: rgba(0,0,0,0.55);
+    color: #F8F8F8;
+    background: rgba(0,0,0,0.55); /* drift-allow: a caption legibility scrim over an arbitrary preset screenshot, not a fixed surface - can't be pre-composited to one opaque value like a modal scrim can't either */
   }
-  .preset-card.active { outline-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 4px 16px rgba(0,0,0,0.5); }
-  .preset-card:hover { outline-color: rgba(255,255,255,0.18); }
+  .preset-card.active { outline-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 4px 4px 0 0 #89A889; }
+  /* Press travels on :hover, not :active, per the neobrutalism.dev reference. */
+  .preset-card:hover { outline-color: rgba(255,255,255,0.18); transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
 
   label {
-    display: block; font-size: 0.72rem; color: #c7d2fe;
+    display: block; font-size: 0.72rem; color: #C9CBD3;
     margin: 0.55rem 0;
   }
-  label .val { float: right; color: #C1FF58; }
-  input[type='range'] { width: 100%; accent-color: #8BC406; }
+  label .val { float: right; color: #C0E3C0; }
+  input[type='range'] { width: 100%; accent-color: #A6C9A6; }
   input[type='text'], textarea {
-    background: #15152a; border: 1px solid #2a2a4a; color: #e0e7ff;
-    padding: 0.4rem; border-radius: 4px; font: 11px monospace; width: 100%;
+    background: #07080A; border: 1px solid #1A1B1D; color: #F8F8F8; /* border was #FFFFFF14, now opaque over #07080A */
+    padding: 0.4rem; border-radius: 0; font: 11px monospace; width: 100%;
     box-sizing: border-box;
   }
   textarea { resize: vertical; font-size: 10.5px; }
@@ -282,35 +271,42 @@
     gap: 0.3rem;
     margin-bottom: 0.3rem;
   }
-  .entry-row.active > input { border-color: #8BC406; box-shadow: 0 0 0 1px rgba(139,196,6,0.4); }
-  .x { background: #2a1a1a; color: #fca5a5; }
-  .x:hover { background: #7f1d1d; color: #fff; }
+  .entry-row.active > input { border-color: #A6C9A6; box-shadow: 0 0 0 1px rgba(166,201,166,0.4); }
+  .x { background: #2a1616; color: #ED254E; }
+  .x:hover { background: #4d1418; color: #fff; }
   .add { width: 100%; margin-top: 0.3rem; }
 
   .actions { display: flex; gap: 0.5rem; margin-top: 0.4rem; }
   .actions button { flex: 1; }
   button {
-    background: #2a2a4a; color: #e0e7ff; border: 0;
-    padding: 0.5rem 0.85rem; border-radius: 5px; cursor: pointer;
-    font-size: 0.78rem;
-    transition: background 100ms;
+    background: #121216; color: #F8F8F8; border: 2px solid #212125; /* was #FFFFFF10, now opaque over #121216 */
+    padding: 0.5rem 0.85rem; border-radius: 0; cursor: pointer;
+    font-size: 0.78rem; font-weight: 700;
+    box-shadow: 4px 4px 0 0 #89A889;
+    transition: background 100ms, transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
   }
-  button:hover { background: #3a3a5a; }
+  /* Press travels on :hover per the neobrutalism.dev reference. */
+  button:hover { background: #191c1e; transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
   button.primary {
-    background: linear-gradient(180deg, #A8E635, #5b21b6);
-    color: #fff;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 4px 4px 0 0 rgba(0,0,0,0.9);
+    background: #A6C9A6;
+    color: #07080A;
+    border-color: #A6C9A6;
+    box-shadow: 4px 4px 0 0 #89A889;
   }
-  button.primary:hover { background: linear-gradient(180deg, #8b4ff5, #6d28d9); }
+  button.primary:hover { background: #C0E3C0; }
 
   main {
     padding: 2rem;
     overflow: auto;
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
+    /* This route's own CRT-monitor mockup chrome around the theme preview -
+       a deliberately separate meta-aesthetic from the Sage Ink surface it's
+       previewing, not a migration miss (see .bezel just below, same zone,
+       same reasoning). */
     background:
-      radial-gradient(ellipse at top left, rgba(124,58,237,0.08), transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(59,130,246,0.06), transparent 50%),
+      radial-gradient(ellipse at top left, rgba(124,58,237,0.08), transparent 50%), /* drift-allow: see comment above */
+      radial-gradient(ellipse at bottom right, rgba(59,130,246,0.06), transparent 50%), /* drift-allow: see comment above */
       #07070f;
   }
   .monitor { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
