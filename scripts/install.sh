@@ -6,21 +6,25 @@
 # Should work on: any Plasma 6.6+ distro with kf6/qt6 dev packages
 #
 # Usage:
-#   bash install.sh           # full install
-#   bash install.sh --themes-only   # skip Klassy/blur builds, install themes + configs only
-#   bash install.sh --dry-run       # show what would be done
+#   bash install.sh                    # full install
+#   bash install.sh --themes-only      # skip Klassy/blur builds, install themes + configs only
+#   bash install.sh --dry-run          # show what would be done
+#   bash install.sh --rollback=<file>  # restore a kwinrc/klassyrc snapshot written under
+#                                       # ~/.cache/sage-ink/backups by a prior KWin/Klassy install step
 
 set -e
 
 DRY_RUN=false
 THEMES_ONLY=false
 WITH_GRUB=false
+ROLLBACK=""
 
 for arg in "$@"; do
   case $arg in
     --dry-run) DRY_RUN=true ;;
     --themes-only) THEMES_ONLY=true ;;
     --with-grub) WITH_GRUB=true ;;
+    --rollback=*) ROLLBACK="${arg#--rollback=}" ;;
   esac
 done
 
@@ -39,9 +43,40 @@ run() {
   fi
 }
 
+# Resolve a kwriteconfig6 --file argument (bare name or path) to an actual
+# filesystem path, for snapshot/rollback bookkeeping only - kwriteconfig6
+# and kreadconfig6 do their own QStandardPaths resolution internally and are
+# unaffected by this; it exists only so we know which file to name the
+# backup after.
+_resolve_kde_config_path() {
+  case "$1" in
+    */*) echo "$1" ;;                    # already a path (e.g. full klassyrc path)
+    *)   echo "$HOME/.config/$1" ;;       # bare name (e.g. "kwinrc")
+  esac
+}
+
 # Apply a generated INI partial (tokens/out/*.ini) to a KDE config via
-# kwriteconfig6, key by key. Keeps the token file as the single source of
-# truth instead of duplicating values inline. Skips comments + blank lines.
+# kwriteconfig6, key by key, atomically. kwriteconfig6 itself guarantees
+# valid KConfig syntax per write - the gap this closes is PARTIAL
+# APPLICATION: an interrupted or partially-failing loop previously left a
+# live config with SOME keys updated and others stale, a mixed state no one
+# asked for and the drift guard has no way to see (it isn't a colour/
+# material/alpha/parity violation, it's an inconsistent KWin/Klassy config
+# that can misrender or misbehave). Added 2026-09-01 per a cross-model
+# audit's severity ranking: both reviewers independently rated "a KWin/
+# Klassy reload applies an invalid or half-applied setting" above colour
+# drift, since it can visibly break the desktop rather than just look wrong.
+#
+# Three steps: (1) validate every line in the ini BEFORE any live write: a
+# malformed line aborts here, live config untouched. (2) snapshot the
+# CURRENT value of every key about to be touched. (3) write for real; on the
+# first failed write, roll back every key already written this call using
+# the snapshot, so a partial run never lands.
+#
+# Snapshot: $SAGE_INK_BACKUP_DIR/<cfg-basename>.<timestamp>.bak (default
+# ~/.cache/sage-ink/backups). Restore any snapshot standalone with:
+#   scripts/install.sh --rollback=<snapshot-file>
+#
 # Usage: apply_ini_to_config <ini-path> <kde-config-file>
 apply_ini_to_config() {
   local ini="$1" cfg="$2" group=""
@@ -49,17 +84,104 @@ apply_ini_to_config() {
     echo "  ⚠ generated $ini missing — run: python3 tokens/codegen.py"
     return 0
   fi
+
+  # Pass 1: validate. Every non-blank, non-comment line must be a [group]
+  # header or a key=value pair, or we abort before touching anything live.
+  local lineno=0 bad=0
+  while IFS= read -r line; do
+    lineno=$((lineno + 1))
+    case "$line" in
+      ''|\#*) continue ;;
+      \[*\]) continue ;;
+      *=*) continue ;;
+      *)
+        echo "  ✗ $ini:$lineno malformed — not blank/comment/[group]/key=val: $line" >&2
+        bad=1
+        ;;
+    esac
+  done < "$ini"
+  if [ "$bad" = 1 ]; then
+    echo "  ⚠ $ini failed validation — aborting before any live write" >&2
+    return 1
+  fi
+
+  # Pass 2: snapshot the pre-write value of every key this ini touches.
+  local backup_dir="${SAGE_INK_BACKUP_DIR:-$HOME/.cache/sage-ink/backups}"
+  local cfg_path snapshot
+  cfg_path="$(_resolve_kde_config_path "$cfg")"
+  if [ "$DRY_RUN" = false ]; then
+    mkdir -p "$backup_dir"
+    snapshot="$backup_dir/$(basename "$cfg_path").$(date +%Y%m%d%H%M%S).bak"
+    # Header records the ORIGINAL --file argument (bare name or full path) -
+    # this repo has both forms for klassyrc at different call sites (a known
+    # pre-existing quirk, not touched here), so the snapshot's own filename
+    # is not enough to know which one to write back to on a standalone
+    # `--rollback=` invocation.
+    printf '#CFG\t%s\n' "$cfg" > "$snapshot"
+    while IFS= read -r line; do
+      case "$line" in
+        ''|\#*) continue ;;
+        \[*\]) group="${line#[}"; group="${group%]}" ;;
+        *=*)
+          local key="${line%%=*}" old
+          old="$(kreadconfig6 --file "$cfg" --group "$group" --key "$key" 2>/dev/null || true)"
+          printf '%s\t%s\t%s\n' "$group" "$key" "$old" >> "$snapshot"
+          ;;
+      esac
+    done < "$ini"
+    echo "  ↺ snapshot: $snapshot"
+  fi
+
+  # Pass 3: write for real. Roll back everything this call already wrote on
+  # the first failure instead of leaving the config half-updated.
+  group=""
   while IFS= read -r line; do
     case "$line" in
-      ''|\#*) continue ;;                       # blank / comment
+      ''|\#*) continue ;;
       \[*\]) group="${line#[}"; group="${group%]}" ;;
       *=*)
         local key="${line%%=*}" val="${line#*=}"
-        run "kwriteconfig6 --file '$cfg' --group '$group' --key '$key' '$val'"
+        if ! run "kwriteconfig6 --file '$cfg' --group '$group' --key '$key' '$val'"; then
+          echo "  ✗ write failed on [$group] $key — rolling back to $snapshot" >&2
+          [ -n "${snapshot:-}" ] && rollback_ini_config "$snapshot"
+          return 1
+        fi
         ;;
     esac
   done < "$ini"
 }
+
+# Restore every (group, key) recorded in a snapshot to its pre-install
+# value. Deletes the key entirely if the snapshot recorded it as absent
+# (i.e. this install created it rather than changing it). The target
+# --file argument is read from the snapshot's own #CFG header, so this is
+# fully standalone: `scripts/install.sh --rollback=<snapshot-file>`.
+# Usage: rollback_ini_config <snapshot-file>
+rollback_ini_config() {
+  local snapshot="$1" cfg=""
+  if [ ! -f "$snapshot" ]; then
+    echo "  ✗ no such snapshot: $snapshot" >&2
+    return 1
+  fi
+  while IFS=$'\t' read -r a b c; do
+    if [ "$a" = "#CFG" ]; then
+      cfg="$b"
+      continue
+    fi
+    local group="$a" key="$b" old="$c"
+    if [ -z "$old" ]; then
+      run "kwriteconfig6 --file '$cfg' --group '$group' --key '$key' --delete"
+    else
+      run "kwriteconfig6 --file '$cfg' --group '$group' --key '$key' '$old'"
+    fi
+  done < "$snapshot"
+  echo "  ✓ rolled back $cfg from $snapshot"
+}
+
+if [ -n "$ROLLBACK" ]; then
+  rollback_ini_config "$ROLLBACK"
+  exit $?
+fi
 
 # ─── Detect distro ───
 if [ -f /etc/os-release ]; then
