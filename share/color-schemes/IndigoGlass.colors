@@ -19,9 +19,9 @@ IntensityAmount=0
 IntensityEffect=0
 
 [Colors:Button]
-BackgroundAlternate=42,46,58
+BackgroundAlternate=28,28,33
 BackgroundNormal=31,32,40
-DecorationFocus=129,140,248
+DecorationFocus=248,248,248
 DecorationHover=129,140,248
 ForegroundActive=129,140,248
 ForegroundInactive=107,114,128
@@ -65,7 +65,7 @@ BackgroundAlternate=129,140,248
 BackgroundNormal=94,106,210
 DecorationFocus=129,140,248
 DecorationHover=129,140,248
-ForegroundActive=252,252,252
+ForegroundActive=255,255,255
 ForegroundInactive=211,218,227
 ForegroundLink=167,139,250
 ForegroundNegative=237,37,78
@@ -84,14 +84,14 @@ ForegroundInactive=107,114,128
 ForegroundLink=167,139,250
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
-ForegroundNormal=211,218,227
+ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
 ForegroundVisited=130,153,255
 
 [Colors:View]
 BackgroundAlternate=28,28,33
 BackgroundNormal=15,15,18
-DecorationFocus=129,140,248
+DecorationFocus=248,248,248
 DecorationHover=129,140,248
 ForegroundActive=129,140,248
 ForegroundInactive=107,114,128
@@ -103,16 +103,16 @@ ForegroundPositive=113,247,159
 ForegroundVisited=167,139,250
 
 [Colors:Window]
-BackgroundAlternate=42,46,58
+BackgroundAlternate=31,32,40
 BackgroundNormal=28,28,33
-DecorationFocus=129,140,248
+DecorationFocus=248,248,248
 DecorationHover=129,140,248
 ForegroundActive=129,140,248
 ForegroundInactive=107,114,128
-ForegroundLink=167,139,250
+ForegroundLink=129,140,248
 ForegroundNegative=237,37,78
 ForegroundNeutral=251,191,36
-ForegroundNormal=211,218,227
+ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
 ForegroundVisited=167,139,250
 
@@ -126,10 +126,10 @@ contrast=4
 frameContrast=0.2
 
 [WM]
-activeBackground=31,32,40
-activeBlend=31,32,40
+activeBackground=28,28,33
+activeBlend=94,106,210
 activeFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=248,248,248
-inactiveBackground=28,28,33
-inactiveBlend=28,28,33
+inactiveBackground=24,24,28
+inactiveBlend=75,85,99
 inactiveForeground=107,114,128

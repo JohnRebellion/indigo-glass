@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Sage Ink pre-commit: block a commit that introduces palette/material/alpha/
+# parity drift. Added 2026-09-01 after a cross-model audit found the drift
+# guard was accurate but purely manual — it only ever caught what someone
+# remembered to run it against.
+#
+# Fast (sub-second on this repo's size); does not scan the whole tree, only
+# whatever check-palette-drift.sh already scans by design.
+#
+# Bypass for emergency/WIP commits: git commit --no-verify
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+"$REPO_ROOT/scripts/check-palette-drift.sh" || {
+  echo "" >&2
+  echo "[pre-commit] drift guard failed — commit blocked." >&2
+  echo "  Fix the drift above, or bypass with: git commit --no-verify" >&2
+  exit 1
+}
