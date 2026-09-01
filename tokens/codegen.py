@@ -48,6 +48,22 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 TOKENS_FILE = REPO_ROOT / "tokens" / "indigo-glass.tokens.toml"
 OUT_DIR = REPO_ROOT / "tokens" / "out"
 
+# Deployables that ship FULLY generated - no hand-merge step, no partial.
+# Written from the exact same build_outputs() content as tokens/out/*, so
+# there is exactly one code path producing each byte. Added 2026-09-01 after
+# a cross-model audit found 20 stale hand-typed occurrences of a value that
+# had already changed in tokens.toml and in every tokens/out/* artefact -
+# the two-step "generate a partial, hand-merge the rest" workflow was the
+# root cause, not a scanning gap. See emit_kde_colors' docstring.
+SHIPPED_KDE_SCHEMES = {
+    "sage": REPO_ROOT / "share" / "color-schemes" / "SageInk.colors",
+    "indigo": REPO_ROOT / "share" / "color-schemes" / "IndigoGlass.colors",
+}
+# Legacy filename (repo predates the sage rename) - ships the ACTIVE variant,
+# not "indigo". install.ps1 logs "Injected Sage Ink scheme" and the file's
+# own "name" field says "Sage Ink", not "Indigo Glass".
+SHIPPED_WT_SCHEME = REPO_ROOT / "windows" / "terminal" / "indigo-glass.scheme.json"
+
 
 # =============================================================================
 # Color conversion - OKLCH <-> sRGB <-> Display-P3 (dependency-free)
@@ -443,21 +459,181 @@ def emit_json(t: dict) -> str:
     return json.dumps(out, indent=2) + "\n"
 
 
+# KDE decoration-effect settings. Not palette data - these three sections
+# never varied by variant (verified 2026-09-01: byte-identical across the
+# sage and indigo shipped files before this function generated them) - so
+# they're fixed constants here rather than invented TOML tokens for values
+# that were never meant to vary.
+_KDE_INVARIANT_SECTIONS = """
+[ColorEffects:Disabled]
+Color=56,56,56
+ColorAmount=0
+ColorEffect=0
+ContrastAmount=0.65
+ContrastEffect=1
+IntensityAmount=0.1
+IntensityEffect=2
+
+[ColorEffects:Inactive]
+ChangeSelectionColor=true
+Color=112,111,110
+ColorAmount=0.025
+ColorEffect=2
+ContrastAmount=0.1
+ContrastEffect=2
+Enable=false
+IntensityAmount=0
+IntensityEffect=0
+
+[KDE]
+contrast=4
+frameContrast=0.2
+""".strip("\n")
+
+
 def emit_kde_colors(t: dict, variant: str | None = None) -> str:
-    """KDE color scheme partial. Merge into the .colors scheme.
-    KDE cannot parse oklch() - uses derived RGB."""
+    """Complete, installable KDE colour scheme - not a partial. Previously
+    emitted only [General]/[Colors:Window]/[Colors:Selection]/[Colors:View]/
+    [Colors:Button]/[Colors:Tooltip]/[WM] and relied on share/color-schemes/*
+    to hand-merge the rest ([Colors:Complementary], [Colors:Header],
+    [ColorEffects:*], [KDE]) - which is exactly the drift class a 2026-09-01
+    cross-model audit found live (20 stale occurrences of a since-changed
+    `positive` value, and IndigoGlass.colors frozen at its initial-release
+    commit, missing a whole later accessibility fix). This now emits every
+    section install.sh deploys, so share/color-schemes/*.colors becomes a
+    build artefact (see build_outputs' SHIPPED_KDE_SCHEMES) instead of a
+    hand-maintained file with a comment asking someone to keep it in sync.
+
+    KDE cannot parse oklch() - uses derived RGB throughout.
+    """
     pal = derive_palette(t, variant or active_variant(t))
     p = {k: v["hex"] for k, v in pal.items()}
 
     vname = t["variants"][variant or active_variant(t)]["name"]
-    scheme_id = vname.replace(" ", "")  # e.g. "LimeGlass"
+    scheme_id = vname.replace(" ", "")  # e.g. "SageInk"
+
+    # [Colors:Complementary] and [Colors:Header] are identical to each other
+    # and distinct from [Colors:Window]/[Colors:View] in exactly one way,
+    # confirmed against BOTH shipped variants before encoding this: they use
+    # the same accent (accent_alt / p['violet']) for ForegroundLink AND
+    # ForegroundVisited, where Window/View distinguish the two
+    # (accent_hi for Link, accent_alt for Visited). DecorationFocus is
+    # neutral (p['text']), matching the post-outline-sweep intent Window
+    # already carries - IndigoGlass.colors had NOT been brought forward to
+    # this fix in either section before this function started generating it.
+    complementary_header = "\n".join([
+        f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
+        f"BackgroundNormal={hex_to_rgb(p['base'])}",
+        f"DecorationFocus={hex_to_rgb(p['text'])}",
+        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
+        f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
+        f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
+        f"ForegroundLink={hex_to_rgb(p['violet'])}",
+        f"ForegroundNegative={hex_to_rgb(p['negative'])}",
+        f"ForegroundNeutral={hex_to_rgb(p['amber'])}",
+        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        f"ForegroundPositive={hex_to_rgb(p['positive'])}",
+        f"ForegroundVisited={hex_to_rgb(p['violet'])}",
+    ])
+
+    # Foreground{Negative,Neutral,Positive} are the semantic error/warning/
+    # success colours - confirmed identical (mapped straight from
+    # negative/amber/positive) in EVERY section of BOTH shipped variants
+    # before this pass, so safe to derive everywhere.
+    semantic_negative_neutral_positive = "\n".join([
+        f"ForegroundNegative={hex_to_rgb(p['negative'])}",
+        f"ForegroundNeutral={hex_to_rgb(p['amber'])}",
+        f"ForegroundPositive={hex_to_rgb(p['positive'])}",
+    ])
+
+    # ForegroundVisited=130,153,255 (Button, Tooltip) and =189,195,199
+    # (Selection) do not correspond to ANY current semantic token - checked
+    # against accent/accent_hi/accent_alt/text/text_muted/negative/amber/
+    # positive for both shipped variants (2026-09-01). Both are byte-
+    # identical across sage AND indigo despite every other accent-derived
+    # value differing between them, which is the signature of an
+    # uncustomized default inherited from whatever base KDE scheme this was
+    # originally exported from, not a deliberate design choice under this
+    # token system. Preserved as literals rather than invented a mapping -
+    # changing what a value like this SHOULD be is a design decision, not a
+    # drift fix, and out of scope here.
+    _VISITED_UNMAPPED_LINK = "130,153,255"
+    _VISITED_UNMAPPED_SELECTION = "189,195,199"
+
+    # Window's accent_hi/accent_alt split for Link/Visited was cross-checked
+    # against every OTHER section in both variants (2026-09-01): sage is
+    # consistent everywhere (Window+View -> accent_hi, Button+Tooltip ->
+    # accent_alt); indigo's View was the ONE section that broke its own
+    # pattern (accent_alt where Window/Button/Tooltip all use accent_hi).
+    # Standardised on Window's mapping - the section parity has already
+    # verified as correct - since indigo's View is already established as
+    # the stale/frozen file in this codebase (see the DecorationFocus and
+    # ForegroundPositive fixes above), not a deliberately-forked design.
+
     lines = [
-        f"# {vname} - KDE color scheme partial",
-        f"# Generated by tokens/codegen.py - merge into {scheme_id}.colors",
+        f"# {vname} - KDE color scheme",
+        f"# Generated in full by tokens/codegen.py - do not hand-edit.",
         "",
         "[General]",
-        f"Name={scheme_id}",
+        f"ColorScheme={scheme_id}",
+        f"Name={vname}",
         "shadeSortColumn=true",
+        "",
+        "[Colors:Button]",
+        f"BackgroundNormal={hex_to_rgb(p['surface_alt'])}",
+        f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
+        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
+        f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
+        f"ForegroundLink={hex_to_rgb(p['violet'])}",
+        f"ForegroundVisited={_VISITED_UNMAPPED_LINK}",
+        semantic_negative_neutral_positive,
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - a focus outline on a near-black surface needs a neutral that contrasts, matching --ring: white in the reference's dark mode
+        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
+        "",
+        "[Colors:Complementary]",
+        complementary_header,
+        "",
+        "[Colors:Header]",
+        complementary_header,
+        "",
+        "[Colors:Selection]",
+        f"BackgroundNormal={hex_to_rgb(p['indigo'])}",
+        f"BackgroundAlternate={hex_to_rgb(p['indigo_hi'])}",
+        # Foreground picked by WCAG contrast against the selection accent:
+        # white on a dark accent (indigo), near-black on a light one (lime).
+        f"ForegroundNormal={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
+        f"ForegroundActive={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
+        f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
+        f"ForegroundLink={hex_to_rgb(p['violet'])}",
+        f"ForegroundVisited={_VISITED_UNMAPPED_SELECTION}",
+        semantic_negative_neutral_positive,
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
+        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
+        "",
+        "[Colors:Tooltip]",
+        f"BackgroundNormal={hex_to_rgb(p['surface_alt'])}",
+        f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
+        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
+        f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
+        f"ForegroundLink={hex_to_rgb(p['violet'])}",
+        f"ForegroundVisited={_VISITED_UNMAPPED_LINK}",
+        semantic_negative_neutral_positive,
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
+        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
+        "",
+        "[Colors:View]",
+        f"BackgroundNormal={hex_to_rgb(p['base'])}",
+        f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
+        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
+        f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
+        f"ForegroundLink={hex_to_rgb(p['indigo_hi'])}",  # standardised on Window's mapping - see note above
+        f"ForegroundVisited={hex_to_rgb(p['violet'])}",
+        semantic_negative_neutral_positive,
+        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
+        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
         "",
         "[Colors:Window]",
         f"BackgroundNormal={hex_to_rgb(p['surface'])}",
@@ -470,36 +646,10 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundNegative={hex_to_rgb(p['negative'])}",
         f"ForegroundPositive={hex_to_rgb(p['positive'])}",
         f"ForegroundNeutral={hex_to_rgb(p['amber'])}",
-        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - a focus outline on a near-black surface needs a neutral that contrasts, matching --ring: white in the reference's dark mode
-        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
-        "",
-        "[Colors:Selection]",
-        f"BackgroundNormal={hex_to_rgb(p['indigo'])}",
-        f"BackgroundAlternate={hex_to_rgb(p['indigo_hi'])}",
-        # Foreground picked by WCAG contrast against the selection accent:
-        # white on a dark accent (indigo), near-black on a light one (lime).
-        f"ForegroundNormal={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
-        f"ForegroundActive={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
-        "",
-        "[Colors:View]",
-        f"BackgroundNormal={hex_to_rgb(p['base'])}",
-        f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
-        f"ForegroundNormal={hex_to_rgb(p['text'])}",
-        f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
-        f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
         f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
         "",
-        "[Colors:Button]",
-        f"BackgroundNormal={hex_to_rgb(p['surface_alt'])}",
-        f"BackgroundAlternate={hex_to_rgb(p['surface'])}",
-        f"ForegroundNormal={hex_to_rgb(p['text'])}",
-        f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
-        f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
-        "",
-        "[Colors:Tooltip]",
-        f"BackgroundNormal={hex_to_rgb(p['surface_alt'])}",
-        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        _KDE_INVARIANT_SECTIONS,
         "",
         "[WM]",
         f"activeBackground={hex_to_rgb(p['surface'])}",
@@ -508,6 +658,12 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"inactiveForeground={hex_to_rgb(p['text_muted'])}",
         f"activeBlend={hex_to_rgb(p['indigo'])}",
         f"inactiveBlend={hex_to_rgb(p['text_dim'])}",
+        # Titlebar font - byte-identical across both shipped variants, so a
+        # genuine invariant, not palette data. Dropped entirely by an
+        # earlier version of this function (2026-09-01) before the omission
+        # was caught by diffing against the pre-generation file - see
+        # SHIPPED_KDE_SCHEMES.
+        "activeFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
         "",
     ]
     return "\n".join(lines)
@@ -750,10 +906,19 @@ def main():
 
     t = load_tokens()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    outputs = build_outputs(t)
+
+    # {target path: content} — tokens/out/* plus every fully-generated
+    # shipped deployable, all resolved from the same `outputs` dict so a
+    # shipped file and its tokens/out/ counterpart can never disagree.
+    targets: dict[Path, str] = {OUT_DIR / fname: content
+                                 for fname, content in outputs.items()}
+    for variant, path in SHIPPED_KDE_SCHEMES.items():
+        targets[path] = outputs[f"kde-palette.{variant}.colors"]
+    targets[SHIPPED_WT_SCHEME] = outputs["wt-scheme.json"]
 
     rc = 0
-    for fname, new in build_outputs(t).items():
-        target = OUT_DIR / fname
+    for target, new in targets.items():
         if args.check:
             if not target.exists() or target.read_text() != new:
                 print(f"OUT-OF-DATE: {target}")

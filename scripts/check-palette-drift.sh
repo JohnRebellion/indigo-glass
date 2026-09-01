@@ -52,20 +52,17 @@
 #   commit. COLOUR only hunts *forbidden* old-variant accents; it has no
 #   notion of "this deployed value should equal that generated value" and so
 #   had nothing to say about a token that changed value without changing
-#   variant. PARITY closes that gap for the two surfaces with a byte-
-#   comparable generated counterpart today (KDE .colors, Windows Terminal
-#   JSON) — see KNOWN_PAIRS below for exactly which shipped files are
-#   checked and why.
+#   variant. PARITY closed that gap for the two surfaces with a byte-
+#   comparable generated counterpart (KDE .colors, Windows Terminal JSON).
 #
-#   KNOWN GAP: codegen only emits a subset of keys per section (e.g.
-#   ForegroundPositive only under [Colors:Window]), while the shipped KDE
-#   .colors files correctly repeat the same semantic colour across 7
-#   sections. PARITY can only verify the ~1 key codegen actually emits per
-#   semantic colour — the other 6 hand-typed copies in the same file are
-#   invisible to it. Direct generate-and-consume (extending the
-#   tokens/out/*.ini -> apply_ini_to_config path already used for
-#   kwinrc/klassy to emit the FULL .colors file, not a partial) removes this
-#   gap entirely; PARITY is the detection floor until that lands.
+#   Second pass, same day: the KV/JSON key-overlap differ this comment
+#   originally described had a real gap of its own — codegen only emitted a
+#   subset of keys per section, so most hand-typed duplicates of the same
+#   semantic colour were invisible to it. Closed by extending
+#   emit_kde_colors() to generate every section install.sh deploys (see
+#   tokens/codegen.py's SHIPPED_KDE_SCHEMES), so PARITY now just runs
+#   `tokens/codegen.py --check` — simpler and strictly more thorough than the
+#   differ it replaced, since it's a full-file comparison, not a key overlap.
 #
 # Usage:
 #   scripts/check-palette-drift.sh              # colour + material + alpha + parity
@@ -462,90 +459,28 @@ fi
 # ===========================================================================
 # 4. PARITY — a shipped deployable disagrees with its own generated source
 # ===========================================================================
-# COLOUR hunts forbidden old-variant accents. It has no notion of "this
-# deployed value should equal that generated value" and so cannot catch a
-# token whose value changed WITHOUT the variant changing (see v4 note above).
-# PARITY does a direct equality diff, generated vs shipped, key by key.
-#
-# Only wired for the surfaces that have an actual generated counterpart to
-# diff against today. Extending this list means extending codegen.py first,
-# not adding a shipped file's guessed structure here.
+# 2026-09-01, second pass: PARITY originally ran its own key-by-key KV/JSON
+# differ here, documenting a real gap - codegen only emitted a SUBSET of keys
+# per section (e.g. ForegroundPositive only under [Colors:Window]), so most
+# of a shipped file's hand-typed duplicates of the same semantic colour were
+# structurally invisible to it. That gap is closed now: emit_kde_colors
+# generates every section install.sh deploys (see its docstring and
+# SHIPPED_KDE_SCHEMES in tokens/codegen.py), so share/color-schemes/*.colors
+# and windows/terminal/indigo-glass.scheme.json are fully generated
+# deployables, not hand-merged partials. A full-file check is therefore both
+# simpler AND strictly more thorough than the old key-overlap differ -
+# delegate to it rather than maintain two ways of asking the same question.
 if [ "$MODE" = "all" ] || [ "$MODE" = "parity" ]; then
   echo ""
-  echo "Parity scan: shipped deployables vs their generated source"
+  echo "Parity scan: tokens/codegen.py --check (shipped deployables vs generated)"
 
-  parity_hits="$(python3 - <<'PY'
-import json, re
-
-FOUND = []
-
-def kv_sections(path):
-    """Parse a KDE-style .colors/.ini file into {(section, key): value}."""
-    out, cur = {}, None
-    for line in open(path, encoding='utf-8').read().splitlines():
-        line = line.strip()
-        if not line or line.startswith('#'):
-            continue
-        if line.startswith('['):
-            cur = line
-        elif '=' in line and cur:
-            k, v = line.split('=', 1)
-            out[(cur, k)] = v
-    return out
-
-# [General] carries codegen's internal slug (Name=SageInk) vs the shipped
-# file's human-readable display name (Name=Sage Ink) plus a ColorScheme= id
-# codegen never emits at all — a real schema difference, not palette drift.
-SKIP_SECTIONS = {'[General]'}
-
-def check_kv_pair(generated, shipped, label):
-    g, s = kv_sections(generated), kv_sections(shipped)
-    for key in sorted(set(g) & set(s)):
-        if key[0] in SKIP_SECTIONS:
-            continue
-        if g[key] != s[key]:
-            FOUND.append(
-                f"{shipped}: [{key[0].strip('[]')}] {key[1]} = {s[key]}  "
-                f"(generated {label} says {g[key]})")
-
-def check_json_pair(generated, shipped, label):
-    g = json.load(open(generated))
-    s = json.load(open(shipped))
-    for key in sorted(set(g) & set(s)):
-        if g[key] != s[key]:
-            FOUND.append(
-                f"{shipped}: \"{key}\" = {s[key]!r}  "
-                f"(generated {label} says {g[key]!r})")
-
-# KNOWN_PAIRS: (generated file, shipped deployable, human label for the
-# message). The shipped file's own header/install.sh usage decides which
-# generated variant it must match — see the file for the reasoning.
-try:
-    check_kv_pair('tokens/out/kde-palette.sage.colors',
-                  'share/color-schemes/SageInk.colors', 'sage')
-    check_kv_pair('tokens/out/kde-palette.indigo.colors',
-                  'share/color-schemes/IndigoGlass.colors', 'indigo')
-    # windows/terminal/indigo-glass.scheme.json ships the ACTIVE variant
-    # (sage) under a legacy filename — install.ps1 logs "Injected Sage Ink
-    # scheme" and its own content is named "Sage Ink", not "Indigo Glass".
-    check_json_pair('tokens/out/wt-scheme.json',
-                    'windows/terminal/indigo-glass.scheme.json',
-                    'active/sage default')
-except FileNotFoundError as e:
-    print(f"PARITY_SKIP: {e}")
-
-for line in FOUND:
-    print(line)
-PY
-)"
-  skip_lines="$(echo "$parity_hits" | grep '^PARITY_SKIP:' || true)"
-  [ -n "$skip_lines" ] && echo "$skip_lines" >&2
-  parity_hits="$(echo "$parity_hits" | grep -v '^PARITY_SKIP:' || true)"
+  parity_hits="$(python3 tokens/codegen.py --check 2>&1 || true)"
   if [ -n "$parity_hits" ]; then
     FOUND=1
     echo ""
     echo "--- shipped file disagrees with its own generated source ---"
     echo "$parity_hits"
+    echo "  -> run: python3 tokens/codegen.py"
   fi
 fi
 
