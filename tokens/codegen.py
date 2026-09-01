@@ -56,8 +56,18 @@ OUT_DIR = REPO_ROOT / "tokens" / "out"
 # the two-step "generate a partial, hand-merge the rest" workflow was the
 # root cause, not a scanning gap. See emit_kde_colors' docstring.
 SHIPPED_KDE_SCHEMES = {
-    "sage": REPO_ROOT / "share" / "color-schemes" / "SageInk.colors",
-    "indigo": REPO_ROOT / "share" / "color-schemes" / "IndigoGlass.colors",
+    "sage": [
+        REPO_ROOT / "share" / "color-schemes" / "SageInk.colors",
+        # Same 12-section schema, confirmed value-identical to the file
+        # above before this was wired (2026-09-01) - a second copy living
+        # inside the plasma-theme package, sage-locked by its own directory
+        # name (not a user-selectable option like share/color-schemes/*).
+        # Documented as "live-deployed" and independently hand-patched once
+        # already (docs/OUTLINE-SWEEP-2026-08-30.md) - a second instance of
+        # exactly the bug class this generation path exists to remove.
+        REPO_ROOT / "config" / "plasma-theme" / "SageInk" / "colors",
+    ],
+    "indigo": [REPO_ROOT / "share" / "color-schemes" / "IndigoGlass.colors"],
 }
 # Legacy filename (repo predates the sage rename) - ships the ACTIVE variant,
 # not "indigo". install.ps1 logs "Injected Sage Ink scheme" and the file's
@@ -913,8 +923,9 @@ def main():
     # shipped file and its tokens/out/ counterpart can never disagree.
     targets: dict[Path, str] = {OUT_DIR / fname: content
                                  for fname, content in outputs.items()}
-    for variant, path in SHIPPED_KDE_SCHEMES.items():
-        targets[path] = outputs[f"kde-palette.{variant}.colors"]
+    for variant, paths in SHIPPED_KDE_SCHEMES.items():
+        for path in paths:
+            targets[path] = outputs[f"kde-palette.{variant}.colors"]
     targets[SHIPPED_WT_SCHEME] = outputs["wt-scheme.json"]
 
     rc = 0
