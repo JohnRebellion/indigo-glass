@@ -39,7 +39,7 @@
         "editorBracketMatch.border": "#C0E3C080",
         "editorBracketHighlight.foreground1": "#C0E3C0",
         "editorBracketHighlight.foreground2": "#89A889",
-        "editorBracketHighlight.foreground3": "#71F79F",
+        "editorBracketHighlight.foreground3": "#3FFABB",
         "editorBracketHighlight.foreground4": "#FBBF24",
         "editorBracketHighlight.foreground5": "#A6C9A6",
         "editorBracketHighlight.foreground6": "#ED254E",
@@ -49,12 +49,12 @@
         "editorInfo.foreground": "#C0E3C0",
         "editorHint.foreground": "#89A889",
         "editorGutter.modifiedBackground": "#C0E3C0",
-        "editorGutter.addedBackground": "#71F79F",
+        "editorGutter.addedBackground": "#3FFABB",
         "editorGutter.deletedBackground": "#ED254E",
         "editorGutter.foldingControlForeground": "#6B7280",
-        "diffEditor.insertedTextBackground": "#71F79F18",
+        "diffEditor.insertedTextBackground": "#3FFABB18",
         "diffEditor.removedTextBackground": "#ED254E18",
-        "diffEditor.insertedLineBackground": "#71F79F10",
+        "diffEditor.insertedLineBackground": "#3FFABB10",
         "diffEditor.removedLineBackground": "#ED254E10",
         "diffEditor.diagonalFill": "#FFFFFF0A",
         "editorOverviewRuler.border": "#00000000",
@@ -63,7 +63,7 @@
         "editorOverviewRuler.warningForeground": "#FBBF24",
         "editorOverviewRuler.infoForeground": "#C0E3C0",
         "editorOverviewRuler.modifiedForeground": "#C0E3C0",
-        "editorOverviewRuler.addedForeground": "#71F79F",
+        "editorOverviewRuler.addedForeground": "#3FFABB",
         "editorOverviewRuler.deletedForeground": "#ED254E",
         "editorGroup.border": "#161619",
         "editorGroup.dropBackground": "#A6C9A620",
@@ -203,7 +203,7 @@
         "terminal.tab.activeBorder": "#FFFFFF",
         "terminal.ansiBlack": "#3A3D47",
         "terminal.ansiRed": "#ED254E",
-        "terminal.ansiGreen": "#71F79F",
+        "terminal.ansiGreen": "#3FFABB",
         "terminal.ansiYellow": "#FBBF24",
         "terminal.ansiBlue": "#C0E3C0",
         "terminal.ansiMagenta": "#89A889",
@@ -253,7 +253,7 @@
         "extensionBadge.remoteBackground": "#A6C9A6",
         "extensionBadge.remoteForeground": "#FFFFFF",
         "extensionIcon.starForeground": "#FBBF24",
-        "extensionIcon.verifiedForeground": "#71F79F",
+        "extensionIcon.verifiedForeground": "#3FFABB",
         "extensionIcon.preReleaseForeground": "#89A889",
         "quickInput.background": "#121216",
         "quickInput.foreground": "#F8F8F8",
@@ -269,11 +269,11 @@
         "breadcrumbPicker.background": "#121216",
         "gitDecoration.modifiedResourceForeground": "#FBBF24",
         "gitDecoration.deletedResourceForeground": "#ED254E",
-        "gitDecoration.untrackedResourceForeground": "#71F79F",
+        "gitDecoration.untrackedResourceForeground": "#3FFABB",
         "gitDecoration.ignoredResourceForeground": "#6B7280",
         "gitDecoration.conflictingResourceForeground": "#89A889",
         "gitDecoration.submoduleResourceForeground": "#C0E3C0",
-        "gitDecoration.addedResourceForeground": "#71F79F",
+        "gitDecoration.addedResourceForeground": "#3FFABB",
         "gitDecoration.renamedResourceForeground": "#C0E3C0",
         "gitDecoration.stageModifiedResourceForeground": "#C0E3C0",
         "gitDecoration.stageDeletedResourceForeground": "#FF5272",
@@ -287,14 +287,14 @@
         "debugToolBar.border": "#000000",
         "debugIcon.breakpointForeground": "#ED254E",
         "debugIcon.breakpointDisabledForeground": "#6B7280",
-        "debugIcon.startForeground": "#71F79F",
+        "debugIcon.startForeground": "#3FFABB",
         "debugIcon.pauseForeground": "#FBBF24",
         "debugIcon.stopForeground": "#ED254E",
-        "debugIcon.continueForeground": "#71F79F",
+        "debugIcon.continueForeground": "#3FFABB",
         "debugIcon.stepOverForeground": "#C0E3C0",
         "debugIcon.stepIntoForeground": "#C0E3C0",
         "debugIcon.stepOutForeground": "#C0E3C0",
-        "debugIcon.restartForeground": "#71F79F",
+        "debugIcon.restartForeground": "#3FFABB",
         "debugIcon.disconnectForeground": "#ED254E",
         "debugConsole.infoForeground": "#C0E3C0",
         "debugConsole.warningForeground": "#FBBF24",
@@ -340,7 +340,7 @@
         "charts.blue": "#C0E3C0",
         "charts.yellow": "#FBBF24",
         "charts.orange": "#FB923C",
-        "charts.green": "#71F79F",
+        "charts.green": "#3FFABB",
         "charts.purple": "#89A889"
     },
     "tokenColors": [
@@ -408,7 +408,7 @@
                 "string.quoted"
             ],
             "settings": {
-                "foreground": "#71F79F"
+                "foreground": "#3FFABB"
             }
         },
         {
@@ -622,7 +622,7 @@
                 "markup.fenced_code"
             ],
             "settings": {
-                "foreground": "#71F79F"
+                "foreground": "#3FFABB"
             }
         },
         {
@@ -641,7 +641,7 @@
                 "markup.inserted"
             ],
             "settings": {
-                "foreground": "#71F79F"
+                "foreground": "#3FFABB"
             }
         },
         {
@@ -726,7 +726,7 @@
             "foreground": "#6B7280",
             "fontStyle": "italic"
         },
-        "string": "#71F79F",
+        "string": "#3FFABB",
         "number": "#89A889",
         "regexp": "#FBBF24",
         "operator": "#A2B0FF",

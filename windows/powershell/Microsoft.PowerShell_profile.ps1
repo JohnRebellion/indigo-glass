@@ -28,7 +28,7 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
   Set-PSReadLineOption -Colors @{
     Command            = '#C0E3C0'  # accent_hi
     Parameter          = '#89A889'  # accent_alt
-    String             = '#71F79F'  # positive
+    String             = '#3FFABB'  # positive
     Number             = '#89A889'
     Variable           = '#F8F8F8'
     Keyword            = '#A6C9A6'  # accent primary
