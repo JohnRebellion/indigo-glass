@@ -270,7 +270,9 @@
   .pal-chip.active {
     color: var(--ig-text);
     border-color: var(--chip);
-    box-shadow: 3px 3px 0 0 var(--chip);
+    /* 2px, the half-step the token ladder allows for small controls;
+         3px was on no ladder at all. */
+      box-shadow: 2px 2px 0 0 var(--chip);
   }
   .pal-chip:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
   .pal-chip-dot {
@@ -358,7 +360,10 @@
     display: flex;
     flex-direction: column;
     background: var(--ig-surface);
-    box-shadow: 8px 8px 0 0 #000; /* NOTE: black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
+    /* [shadow].ink offset, sage tone: the fill is --ig-surface (dark), and
+       black on it measured 1.07:1. Second half of the leftover in
+       docs/SAGE_INK_AUDIT.md #7. */
+    box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
     container-type: inline-size;
   }
   .pw-title {
@@ -484,8 +489,12 @@
     border: var(--ig-border-default) solid var(--ig-accent);
     box-shadow: 4px 4px 0 0 var(--ig-accent-alt);
   }
-  /* Press travels on :hover per the neobrutalism.dev reference - was :active. */
-  .pw-btn:hover { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #000; }
+  /* Press travels on :active, not :hover — adjudicated 2026-09-02 by
+     cross-model audit. Travelling into the shadow is a press metaphor; firing
+     it on pointer arrival announces an action that has not happened, and is
+     pointer-only so keyboard and touch users never see it. Deliberate
+     divergence from neobrutalism.dev, which uses :hover. */
+  .pw-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #000; }
   .pw-btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
   .pw-badge {
     font-family: 'Iosevka Custom Condensed', 'JetBrains Mono', monospace;

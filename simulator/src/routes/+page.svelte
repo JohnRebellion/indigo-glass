@@ -111,9 +111,15 @@
     color: var(--ig-text);
     transition: transform var(--ig-motion-ink-press, 80ms steps(2, end)), box-shadow var(--ig-motion-ink-press, 80ms steps(2, end));
   }
-  /* Press travels on :hover, not :active, per the neobrutalism.dev
-     reference - the card lands in its own shadow on pointer arrival. */
+  /* Press travels on :active, not :hover — adjudicated 2026-09-02 by
+     cross-model audit. Travelling into the shadow is a press metaphor; firing
+     it on pointer arrival announces an action that has not happened, and is
+     pointer-only so keyboard and touch users never see it. Deliberate
+     divergence from neobrutalism.dev, which uses :hover. */
   .ig-card:hover {
+    border-color: var(--ig-accent);
+  }
+  .ig-card:active {
     border-color: var(--ig-accent);
     transform: translate(4px, 4px);
     box-shadow: var(--ig-shadow-none);
