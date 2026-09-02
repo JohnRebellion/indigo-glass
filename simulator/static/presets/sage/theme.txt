@@ -1,4 +1,4 @@
-# Lime Glass — GRUB Theme v12 (1440p native, static cards, capability captions)
+# Sage Ink — GRUB Theme v12 (1440p native, static cards, capability captions)
 # 5 stat cards: CPU / MEMORY / GPU / DISK / BOARD. ASCII labels.
 # No brand bar (OS/kernel naming lives only in boot entries).
 # No pill glyphs (removed B550/RDNA pills that duplicated the headline text).
