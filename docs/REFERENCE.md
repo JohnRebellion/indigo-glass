@@ -923,10 +923,10 @@ SvelteKit + Tailwind v4 portfolio inherits the same design tokens via an `@theme
   --radius: 0;                              /* every surface — matches Klassy */
   --radius-xs: 2px;                         /* tags, small badges */
   --radius-full: 9999px;                    /* circles, pill CTA */
-  --shadow-ink: 8px 8px 0 0 #000000;
-  --shadow-ink-lg: 14px 14px 0 0 #000000;
-  --shadow-ink-press: 0 0 0 0 #000000;
-  --shadow-ink-accent: 8px 8px 0 0 #89A889;
+  --shadow-ink: 4px 4px 0 0 #89A889;        /* accent_alt, resolved per variant */
+  --shadow-ink-lg: 7px 7px 0 0 #89A889;
+  --shadow-ink-press: 0 0 0 0 #89A889;
+  --shadow-ink-accent: 4px 4px 0 0 #89A889;
   --shadow-hairline: 0 0 0 1px rgba(255,255,255,0.10);
 
   /* Motion */
@@ -962,7 +962,7 @@ There is no `--blur-glass`, no `--shadow-glass*`, and no `--shadow-neu-*`. Those
 
 - **Elevation is fill colour first.** Reach for `surface` → `surface-elevated` before reaching for a shadow. The shadow is the second cue, not the first.
 - **The shadow is hard.** `box-shadow` with a non-zero blur radius fails `scripts/check-palette-drift.sh --material`.
-- **The press is mechanical.** On `:active`, translate the element by the shadow's offset (`translate(8px, 8px)`) and collapse the shadow to `shadow-ink-press`. 60ms, `steps(2, end)` — a stamp, not a spring. No overshoot easing.
+- **The press is mechanical.** On `:active` — never `:hover`, which is where neobrutalism.dev puts it — translate the element by the shadow's offset (`translate(4px, 4px)`) and collapse the shadow to `shadow-ink-press`. 60ms, `steps(2, end)` — a stamp, not a spring. No overshoot easing.
 - **Reserve clearance.** The shadow lives outside the box, down and to the right. See [DENSITY.md](DENSITY.md#how-density-interacts-with-ink).
 - **Single accent, fill-only.** `bg-accent` for primary, `text-amber` for warnings only. Sage is `1.72:1` against `--color-text` — never use it as a text colour.
 
@@ -977,4 +977,4 @@ bun run dev      # verify ink surfaces render correctly in browser
 bash scripts/check-palette-drift.sh   # colour + material drift, exit 1 on any hit
 ```
 
-> **Known drift.** `web/app.css.example` in this repo is still the glass-era file: it carries `--shadow-glass*`, `--shadow-neu-*`, `--blur-glass`, the 4/6/8/12/16/24px radius ladder, and `--color-positive: #71F79F` (the shared value, not sage's `#3FFABB`). Its accent hexes were migrated to sage but its material was not — the exact asymmetry described in [PHILOSOPHY.md](PHILOSOPHY.md#material-is-a-constraint-not-a-preference). Do not copy it as a starting point until it is regenerated.
+> **Status, 2026-09-02.** `web/app.css.example` is current. The note that previously stood here described it as "still the glass-era file", carrying `--shadow-glass*`, `--shadow-neu-*`, `--blur-glass`, a 4/6/8/12/16/24px radius ladder and the pre-nudge `#71F79F`. **None of those are in the file** — it had already been rewritten to the neobrutalism.dev schema and the note was never updated. It now also carries the settled border and shadow tone rules: `--border` is `border_strong` (black measured 1.08:1 on this page and was not visible), and `--shadow` follows the element's own fill — sage for dark fills, the page colour for light ones.
