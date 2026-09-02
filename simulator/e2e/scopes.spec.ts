@@ -48,6 +48,12 @@ const HEX = {
   base: 'rgb(7, 8, 10)',          // #07080A Raycast-deep
   text: 'rgb(248, 248, 248)',     // #F8F8F8
   indigo: 'rgb(166, 201, 166)',   // #A6C9A6 sage accent
+  // The focus ring is NOT the accent. docs/STATE_GRAMMAR.md Tier C: an
+  // on-select state is a solid outline whose colour is adaptive — black on
+  // light surfaces, near-white on dark ones — matching the reference's own
+  // --ring token, which is oklch(0% 0 0) in light mode and oklch(100% 0 0)
+  // in dark. Sage Ink is dark-only, so the ring is white.
+  ring: 'rgb(255, 255, 255)',
   indigoHi: 'rgb(192, 227, 192)', // #C0E3C0 sage hover
   positive: 'rgb(63, 250, 187)',  // #3FFABB (nudged +12.5deg off sage's hue)
   surfaceAlt: 'rgb(18, 18, 22)'   // #121216
@@ -113,15 +119,18 @@ test.describe('typography propagation', () => {
 });
 
 test.describe('focus ring', () => {
-  test('focus-visible outline is indigo', async ({ page }) => {
+  test('focus-visible outline is the white --ring, not the accent', async ({ page }) => {
     await page.goto('/density-test/');
     await page.getByTestId('input-email').focus();
     const outline = await page.getByTestId('input-email').evaluate((el) => {
       const s = getComputedStyle(el as Element);
       return { color: s.outlineColor, width: s.outlineWidth };
     });
-    // Outline color via focus-visible global rule (normalize oklch -> rgb)
-    expect(await resolveColor(page, outline.color)).toBe(HEX.indigo);
+    // Outline colour via the focus-visible global rule (normalise oklch -> rgb).
+    // This asserted HEX.indigo until 2026-09-02 and had been failing since the
+    // ring moved to white — the test was stale, not the implementation.
+    expect(await resolveColor(page, outline.color)).toBe(HEX.ring);
+    expect(outline.width).toBe('2px');
   });
 });
 
