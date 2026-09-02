@@ -75,7 +75,7 @@ button {
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
   padding: 5px 12px;
   transition: none; /* mechanical: no eased hover fade */
 }
@@ -85,13 +85,19 @@ button:hover {
 }
 button:active, button:checked {
   box-shadow: 0 0 0 0 rgba(137, 168, 137, 0.9);
-  margin: 8px 0 0 8px; /* travels into its own shadow */
+  margin: 4px 0 0 4px; /* travels into its own shadow */
 }
 button:disabled {
   opacity: 0.4;
   box-shadow: none;
 }
+
+/* Accent-filled widgets cast the PAGE colour, not sage. A shadow reads as a
+   displaced copy of the object casting it, so it has to separate from that
+   object first: sage on the sage fill measures 1.44:1, the base colour
+   11.00:1. Settled 2026-09-02 — see docs/PHILOSOPHY.md "Tone context". */
 button.suggested-action {
+  box-shadow: 4px 4px 0 0 rgba(7, 8, 10, 0.9);
   background-color: @accent_color;
   color: @accent_fg_color;
   border-color: @accent_color;
@@ -215,14 +221,14 @@ popover, popover.background {
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
 }
 menu, .menu, .context-menu {
   background-color: #121216;
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
   padding: 4px;
 }
 menuitem, modelbutton {
@@ -337,7 +343,7 @@ frame {
 frame.card {
   background-color: #121216;
   border-width: 2px;
-  box-shadow: 8px 8px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
 }
 
 /* === Selection / text === */
