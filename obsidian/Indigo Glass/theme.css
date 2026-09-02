@@ -17,7 +17,7 @@
      below, which now carries the on-select signal instead of this variable. */
   --background-modifier-active-hover: transparent;
   --background-modifier-border: #1C1C1E;  /* was rgba(255,255,255,0.06) - opaque hairline over --background-primary-alt, no translucent glass edge */
-  --background-modifier-border-hover: #252528;  /* was rgba(255,255,255,0.10) */
+  --background-modifier-border-hover: #5E5E60;  /* border_strong. Was rgba(255,255,255,0.10), then #252528 until 2026-09-02, when border_strong was raised 0.10 -> 0.335 alpha: at 1.31:1 the stroke was not visible. Now 3.10:1 against the page. */
   --background-modifier-border-focus: #A6C9A6;
   --background-modifier-form-field: #0D0D10;
   --background-modifier-success: #132925;  /* was rgba(113,247,159,0.12) - opaque, composited over --background-primary-alt. Also fixes a stale literal: 113,247,159 was the pre-v5 positive hex (#71F79F); current sage positive is #3FFABB */
@@ -151,7 +151,7 @@ textarea,
      divider variable, used app-wide - overriding it would blacken every
      hairline in the whole interface, not just these shadow-bearing ones). */
   border-color: #000000;
-  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9);
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9);
 }
 
 /* Selection */

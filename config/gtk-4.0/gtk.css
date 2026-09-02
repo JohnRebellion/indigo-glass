@@ -64,13 +64,13 @@
 /* ─── Ink material: hard offset shadow on cards ──────────────────────────────
  * Sage Ink replaces the old grain-texture/frosted-glass card treatment with
  * colour-as-elevation + a real hard offset shadow (no blur), matching the
- * web/Qt [shadow].ink token (8px 8px 0 0, doubled 2026-08-28). GTK4 has no
+ * web/Qt [shadow].ink token (4px 4px 0 0, doubled 2026-08-28). GTK4 has no
  * direct box-shadow-on-native-widgets equivalent via colour vars alone, so
  * this is applied as a literal CSS rule rather than a @define-color. */
 card,
 popover > contents {
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(137,168,137,0.9);
+  box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
 }
 
 /* ─── Buttons, entries, switches, checks, tabs, lists, scrollbars, tooltip ───
@@ -91,17 +91,23 @@ popover > contents {
 
 button {
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(137,168,137,0.9);
+  box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
   transition: none;
 }
 button:active, button:checked {
   box-shadow: 0 0 0 0 rgba(137,168,137,0.9);
-  margin: 8px 0 0 8px;
+  margin: 4px 0 0 4px;
 }
 button.circular, button.flat {
   box-shadow: none;
 }
+
+/* Accent-filled widgets cast the PAGE colour, not sage. A shadow reads as a
+   displaced copy of the object casting it, so it has to separate from that
+   object first: sage on the sage fill measures 1.44:1, the base colour
+   11.00:1. Settled 2026-09-02 — see docs/PHILOSOPHY.md "Tone context". */
 button.suggested-action {
+  box-shadow: 4px 4px 0 0 rgba(7,8,10,0.9);
   background-color: @accent_bg_color;
   color: @accent_fg_color;
 }
@@ -169,5 +175,5 @@ tooltip {
 
 menu, popover.menu > contents {
   border-radius: 0;
-  box-shadow: 8px 8px 0 0 rgba(137,168,137,0.9);
+  box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
 }

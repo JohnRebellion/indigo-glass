@@ -46,7 +46,7 @@ button.main-buttons-button,
   background-color: #121216 !important;
   border: 2px solid #000000 !important;
   border-radius: 0 !important;
-  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.9) !important;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9) !important;
 }
 .main-card-card:hover {
   background-color: #1F2028 !important;
@@ -85,7 +85,11 @@ button.main-buttons-button,
   background-color: #A6C9A6 !important;
 }
 .progress-bar__bg {
-  background-color: #252528 !important;  /* was rgba(255,255,255,0.10) - opaque track fill over surface */
+  /* border (hairline) composite, NOT border_strong: this is a recessed track
+     FILL, not a stroke, so it deliberately did not rise when border_strong
+     went 0.10 -> 0.335 on 2026-09-02. Repointed from the orphaned #252528,
+     which after that change matched no token at all. */
+  background-color: #1C1C1E !important;
 }
 
 /* Focus ring - white outline (was accent, then briefly literal black -

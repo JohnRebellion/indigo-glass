@@ -15,10 +15,25 @@
  * ladder, opacity.window_active=1.00). :root carries the dark palette
  * directly rather than shipping an unused light block + .dark override.
  *
- * NOTE on --shadow: this file follows the reference schema exactly, so the
- * shadow is BLACK (var(--border)), matching the customizer. Every other Sage
- * Ink surface (GTK, Klassy/KWin, VSCode, SDDM) uses a sage accent_alt
- * (#89A889) shadow per tokens.toml [shadow]. Web deliberately diverges here.
+ * NOTE on --border and --shadow (rewritten 2026-09-02): this file used to
+ * follow the reference schema literally — both pure black — on the grounds
+ * that matching the customizer was the point. Measured, that was not a
+ * divergence but a non-implementation: on #07080A a black stroke scores
+ * 1.08:1 and a black shadow 1.05:1. Neither is visible.
+ *
+ * The rules, settled by cross-model audit (see
+ * research-reports/neobrutalism-page-audit-2026-09-02/):
+ *
+ *   --border  must survive against BOTH the fill it encloses and the backdrop
+ *             behind it. On dark: the lifted neutral. Black only where fill
+ *             AND backdrop are light.
+ *   --shadow  is the inverse tone of the element's OWN fill, because a shadow
+ *             reads as a displaced copy of the object casting it. Dark fill ->
+ *             sage. Light fill (bg-main, amber, positive) -> the page colour.
+ *
+ * This is why the reference gets away with one colour: every fill in
+ * neobrutalism.dev is light, so black always contrasts. Sage Ink has fills on
+ * both sides of the threshold and needs both tones.
  */
 
 @import "tailwindcss";
@@ -40,10 +55,17 @@
      near-black above, matching the reference's dark-text-on-accent pairing. */
   --main: oklch(80.00% 0.0600 145.00);                  /* #A6C9A6 accent */
 
-  --border: oklch(0% 0 0);
+  /* border_strong, white at 0.335 over surface. 3.10:1 against the page —
+     black measured 1.08:1 and simply was not there. */
+  --border: #5E5E60;
   --ring: oklch(100% 0 0);
   --overlay: oklch(0% 0 0 / 0.8);
-  --shadow: 4px 4px 0px 0px var(--border);
+
+  /* Default shadow is for DARK fills, which is most of them: sage accent_alt,
+     7.66:1 against the page. Light fills override it below. */
+  --shadow: 4px 4px 0px 0px #89A889;
+  --shadow-on-light: 4px 4px 0px 0px var(--background);
+  --border-on-light: #000000;
 
   /* Charts — sage-family first slot, then hues spaced far enough to stay
      distinguishable against it. chart-4 uses Sage Ink's own `positive`
@@ -77,6 +99,7 @@
   --spacing-reverseBoxShadowY: -4px;
   --radius-base: 0px;
   --shadow-shadow: var(--shadow);
+  --shadow-onLight: var(--shadow-on-light);
   --font-weight-base: 500;
   --font-weight-heading: 700;
 }
@@ -92,6 +115,20 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
+  }
+
+  /* Tone context. A light-filled element casts the page colour, not sage:
+     sage on the accent fill measures 1.44:1, the page colour 11.00:1. Set on
+     the element itself — it declares the shadow IT casts — so unfilled
+     children inherit the right tone from their effective fill. */
+  .bg-main, .bg-amber, .bg-positive {
+    --shadow: var(--shadow-on-light);
+  }
+  /* Black border only where the fill AND what is behind it are both light —
+     the reference's own `focus:border-border` on `bg-main`. On the dark page
+     a light fill keeps the neutral (3.00:1, against black's 1.08:1). */
+  :is(.bg-main, .bg-amber, .bg-positive) :is(.bg-main, .bg-amber, .bg-positive) {
+    --border: var(--border-on-light);
   }
 
   /* Solid outline only — no translucent glow/halo. Matches the reference's
