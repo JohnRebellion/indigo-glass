@@ -1,0 +1,134 @@
+## computed styles
+selector	background-color	color	border-top-width	border-top-style	border-top-color	border-top-left-radius	box-shadow	outline	font-size	font-weight	font-family	padding	height	width	opacity	transition-duration	transition-timing-function
+.nb-accordion	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	228.797px	718px	1	0s	ease
+.nb-accordion-chevron	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	700	Carlito	0px	18px	7px	1	0.32s	cubic-bezier(0.2, 0, 0, 1)
+.nb-accordion-content	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	16px	48.7969px	714px	1	0s	ease
+.nb-accordion-item	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	104.797px	718px	1	0s	ease
+.nb-accordion-trigger	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	700	Carlito	16px	52px	714px	1	0s	ease
+.nb-alert	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	12px 16px	63.5938px	718px	1	0s	ease
+.nb-alert--default	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	12px 16px	63.5938px	718px	1	0s	ease
+.nb-alert--destructive	oklch(0.6124 0.2279 17.6)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	12px 16px	63.5938px	718px	1	0s	ease
+.nb-alert--positive	oklch(0.8792 0.1706 165)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	12px 16px	63.5938px	718px	1	0s	ease
+.nb-alert--warning	oklch(0.8369 0.1644 84.43)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	12px 16px	63.5938px	718px	1	0s	ease
+.nb-alert-description	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	0px	16.7969px	654px	1	0s	ease
+.nb-alert-icon	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	0px	12px	16px	1	0s	ease
+.nb-alert-title	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	700	Carlito	0px	16.7969px	654px	1	0s	ease
+.nb-avatar	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	9999px	none	rgb(94, 94, 96) solid 2px	14.6667px	500	Carlito	0px	40px	40px	1	0s	ease
+.nb-badge	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	10.6667px	500	Carlito	2px 10px	22.9375px	51px	1	0s	ease
+.nb-badge--default	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	10.6667px	500	Carlito	2px 10px	22.9375px	51px	1	0s	ease
+.nb-badge--neutral	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	10.6667px	500	Carlito	2px 10px	22.9375px	57px	1	0s	ease
+.nb-badge--tag	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	2px	none	oklch(0.9791 0 89.88) none 3px	10.6667px	500	Carlito	2px 10px	22.9375px	38px	1	0s	ease
+.nb-breadcrumb	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	16.7969px	161px	1	0s	ease
+.nb-breadcrumb-sep	rgba(0, 0, 0, 0)	oklch(0.4461 0.0263 256.8)	0px	none	oklch(0.4461 0.0263 256.8)	0px	none	oklch(0.4461 0.0263 256.8) none 3px	12px	500	Carlito	0px	16.7969px	5px	1	0s	ease
+.nb-button	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	8px 16px	40px	93px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--default	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	8px 16px	40px	93px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--icon	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	0px	40px	40px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--lg	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	10px 32px	44px	78px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--neutral	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	8px 16px	40px	79px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--noShadow	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	8px 16px	40px	79px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--reverse	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	8px 16px	40px	79px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-button--sm	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	6px 12px	36px	46px	1	0.06s, 0.06s, 0.12s	steps(2), steps(2), cubic-bezier(0.4, 0, 0.2, 1)
+.nb-calendar	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	10px	258.938px	262px	1	0s	ease
+.nb-calendar-caption	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	700	Carlito	0px	16.7969px	81px	1	0s	ease
+.nb-calendar-day	rgba(0, 0, 0, 0)	oklch(0.4461 0.0263 256.8)	2px	solid	rgba(0, 0, 0, 0)	0px	none	oklch(0.4461 0.0263 256.8) none 3px	10.6667px	500	Carlito	0px	32px	32px	1	0s	ease
+.nb-calendar-day--outside	rgba(0, 0, 0, 0)	oklch(0.4461 0.0263 256.8)	2px	solid	rgba(0, 0, 0, 0)	0px	none	oklch(0.4461 0.0263 256.8) none 3px	10.6667px	500	Carlito	0px	32px	32px	1	0s	ease
+.nb-calendar-day--selected	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	10.6667px	500	Carlito	0px	32px	32px	1	0s	ease
+.nb-calendar-day--today	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	2px	solid	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	10.6667px	500	Carlito	0px	32px	32px	1	0s	ease
+.nb-calendar-grid	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	rgb(128, 128, 128)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	188.938px	238px	1	0s	ease
+.nb-calendar-nav	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px 4px 6px	46px	238px	1	0s	ease
+.nb-card	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	20px 0px	198.531px	260px	1	0s	ease
+.nb-card-content	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px 20px	41.0625px	256px	1	0s	ease
+.nb-card-description	rgba(0, 0, 0, 0)	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36) none 3px	12px	500	Carlito	0px	16.7969px	216px	1	0s	ease
+.nb-card-footer	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px 20px	36px	256px	1	0s	ease
+.nb-card-header	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px 20px	37.4688px	256px	1	0s	ease
+.nb-card-title	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	700	Carlito	0px	14.6719px	216px	1	0s	ease
+.nb-carousel	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	120px	718px	1	0s	ease
+.nb-carousel-slide	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	21.3333px	700	Carlito	0px	120px	120px	1	0s	ease
+.nb-carousel-viewport	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	120px	614px	1	0s	ease
+.nb-chart	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	16px	184.469px	718px	1	0s	ease
+.nb-chart-key	rgb(166, 201, 166)	oklch(0.9791 0 89.88)	1px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	10.6667px	500	Carlito	0px	10px	10px	1	0s	ease
+.nb-chart-legend	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	10.6667px	500	Carlito	0px	14.9375px	682px	1	0s	ease
+.nb-checkbox	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	rgb(94, 94, 96) solid 2px	12px	500	Carlito	0px	16px	16px	1	0s	ease
+.nb-command	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	185.328px	260px	1	0s	ease
+.nb-command-group-heading	rgba(0, 0, 0, 0)	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36) none 3px	10.6667px	700	Carlito	8px 16px 4px	26.9375px	256px	1	0s	ease
+.nb-command-input	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	400	Carlito	0px 16px	44px	256px	1	0s	ease
+.nb-command-item	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	8px 16px	36.7969px	256px	1	0s	ease
+.nb-dialog	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	24px	237.047px	420px	1	0s	ease
+.nb-dialog-description	rgba(0, 0, 0, 0)	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36) none 3px	12px	500	Carlito	0px	16.7969px	368px	1	0s	ease
+.nb-dialog-footer	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	40px	368px	1	0s	ease
+.nb-dialog-title	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	17.3333px	700	Carlito	0px	24.25px	368px	1	0s	ease
+.nb-drawer-handle	rgb(94, 94, 96)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	9999px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	6px	100px	1	0s	ease
+.nb-hovercard	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	16px	77.0625px	256px	1	0s	ease
+.nb-image-card	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	0px	229.031px	250px	1	0s	ease
+.nb-image-card-caption	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	700	Carlito	10px 16px	40.5312px	246px	1	0s	ease
+.nb-image-card-media	oklch(0.1605 0.0063 285.67)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	0px	184.5px	246px	1	0s	ease
+.nb-input	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	8px 12px	40px	204px	1	0s	ease
+.nb-label	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	700	Carlito	0px	12px	28px	1	0s	ease
+.nb-marquee	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	44.5312px	718px	1	0s	ease
+.nb-marquee-track	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	10px 0px	40.5312px	605px	1	0s	ease
+.nb-menu	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	4px	152.188px	220px	1	0s	ease
+.nb-menu-item	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	2px	solid	rgba(0, 0, 0, 0)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	6px 8px	32.7969px	208px	1	0s	ease
+.nb-menu-item--inset	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	2px	solid	rgba(0, 0, 0, 0)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	6px 8px 6px 32px	32.7969px	208px	1	0s	ease
+.nb-menu-label	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	700	Carlito	6px 8px	28.7969px	208px	1	0s	ease
+.nb-menu-separator	rgb(94, 94, 96)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	1px	722px	1	0s	ease
+.nb-menu-shortcut	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	10.6667px	500	Iosevka Custom Condensed	0px	14.9375px	12px	0.7	0s	ease
+.nb-menubar	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	4px	38px	235px	1	0s	ease
+.nb-menubar-trigger	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	700	Carlito	4px 12px	26px	46px	1	0s	ease
+.nb-navmenu	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	36.7969px	230px	1	0s	ease
+.nb-navmenu-trigger	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	700	Carlito	8px 16px	34px	80px	1	0s	ease
+.nb-navmenu-viewport	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	10px	103.469px	420px	1	0s	ease
+.nb-otp	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	40px	240px	1	0s	ease
+.nb-otp-caret	oklch(0.9791 0 89.88)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	18px	1px	0	0s	ease
+.nb-otp-slot	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	40px	40px	1	0s	ease
+.nb-overlay-scrim	rgba(7, 8, 10, 0.8)	oklch(0.9791 0 89.88)	1px	solid	rgb(28, 28, 30)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	16px	271.047px	718px	1	0s	ease
+.nb-page	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	16px	400	Carlito	20px 16px 64px	12074.3px	1560px	1	0s	ease
+.nb-pagination	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	40px	344px	1	0s	ease
+.nb-pagination-ellipsis	rgba(0, 0, 0, 0)	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36) none 3px	14.6667px	500	Carlito	0px	40px	40px	1	0s	ease
+.nb-pagination-link	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px 12px	40px	69px	1	0s	ease
+.nb-popover	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	16px	179.328px	288px	1	0s	ease
+.nb-progress	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	16px	718px	1	0s	ease
+.nb-progress-indicator	oklch(0.8 0.06 145)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	12px	128.516px	1	0.32s	cubic-bezier(0.2, 0, 0, 1)
+.nb-radio	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	9999px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	16px	16px	1	0s	ease
+.nb-radio-dot	oklch(0.9791 0 89.88)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	9999px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	8px	8px	1	0s	ease
+.nb-resizable	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	140px	334px	1	0s	ease
+.nb-resizable-handle	rgb(94, 94, 96)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	136px	2px	1	0s	ease
+.nb-resizable-panel	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	136px	164px	1	0s	ease
+.nb-root	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	2487.31px	1528px	1	0s	ease
+.nb-scroll-area	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	16px	160px	290px	1	0s	ease
+.nb-select-content	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	4px	195.922px	220px	1	0s	ease
+.nb-select-item	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	6px 32px 6px 8px	36.5312px	208px	1	0s	ease
+.nb-select-label	rgba(0, 0, 0, 0)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	6px 8px	28.7969px	208px	0.8	0s	ease
+.nb-select-separator	rgb(94, 94, 96)	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	0px	1px	216px	1	0s	ease
+.nb-select-trigger	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	14.6667px	500	Carlito	8px 12px	40px	220px	1	0s	ease
+.nb-separator	rgb(94, 94, 96)	rgb(128, 128, 128)	0px	none	rgb(128, 128, 128)	0px	none	rgb(128, 128, 128) none 3px	14.6667px	500	Carlito	0px	2px	334px	1	0s	ease
+.nb-separator--hairline	rgb(28, 28, 30)	rgb(128, 128, 128)	0px	none	rgb(128, 128, 128)	0px	none	rgb(128, 128, 128) none 3px	14.6667px	500	Carlito	0px	1px	334px	1	0s	ease
+.nb-sheet	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	16px	221.047px	260px	1	0s	ease
+.nb-sidebar	oklch(0.1462 0.0064 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	274.922px	220px	1	0s	ease
+.nb-sidebar-footer	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	1px	solid	rgb(28, 28, 30)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	10px 16px	41.5312px	216px	1	0s	ease
+.nb-sidebar-group-label	rgba(0, 0, 0, 0)	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36)	0px	none	oklch(0.551 0.0234 264.36) none 3px	10.6667px	700	Carlito	6px 16px	26.9375px	216px	1	0s	ease
+.nb-sidebar-header	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	10px 16px	41.5312px	216px	1	0s	ease
+.nb-sidebar-item	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	2px	solid	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	3px 8px	26.7969px	204px	1	0s	ease
+.nb-skeleton	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	9999px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	40px	40px	0.708604	0s	ease
+.nb-slider	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	12px	334px	1	0s	ease
+.nb-slider-range	oklch(0.8 0.06 145)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	8px	204.594px	1	0s	ease
+.nb-slider-thumb	oklch(0.9791 0 89.88)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	9999px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	20px	20px	1	0s	ease
+.nb-slider-track	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	12px	334px	1	0s	ease
+.nb-switch	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	9999px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	24px	48px	1	0.2s	cubic-bezier(0.4, 0, 0.2, 1)
+.nb-switch-thumb	oklch(0.9791 0 89.88)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	9999px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	16px	16px	1	0.2s	cubic-bezier(0.4, 0, 0.2, 1)
+.nb-table	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	12px	500	Carlito	0px	229.984px	1486px	1	0s	ease
+.nb-tabs-content	rgba(0, 0, 0, 0)	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	0px	20.5312px	216px	1	0s	ease
+.nb-tabs-list	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	4px	48px	216px	1	0s	ease
+.nb-tabs-trigger	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	700	Carlito	4px 12px	26px	67px	1	0s	ease
+.nb-textarea	oklch(0.184 0.0081 285.58)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.9791 0 89.88) none 3px	14.6667px	500	Carlito	8px 12px	80px	334px	1	0s	ease
+.nb-toast	oklch(0.134 0.0051 262.32)	oklch(0.9791 0 89.88)	2px	solid	rgb(94, 94, 96)	0px	rgb(137, 168, 137) 4px 4px 0px 0px	oklch(0.9791 0 89.88) none 3px	12px	700	Carlito	16px	72px	356px	1	0s	ease
+.nb-tooltip	oklch(0.8 0.06 145)	oklch(0.134 0.0051 262.32)	2px	solid	rgb(94, 94, 96)	0px	none	oklch(0.134 0.0051 262.32) none 3px	12px	500	Carlito	6px 12px	32.7969px	94px	1	0s	ease
+
+## contrast (as rendered)
+--background	oklch(.134 .0051 262.32)	#07080A	oklch(29.12% .0633 270.86)	Page fill	18.87:1 AAA foreground on background
+--secondary-background	oklch(.184 .0081 285.58)	#121216	oklch(23.93% 0 0)	Lifted control / input fill	17.59:1 AAA foreground on secondary-background
+--foreground	oklch(.9791 0 89.88)	#F8F8F8	oklch(92.49% 0 0)	Body text	18.87:1 AAA foreground on background
+--main	oklch(.8 .06 145)	#A6C9A6	oklch(67.47% .1725 259.61)	The one accent — fill only	11.00:1 AAA main-foreground on main
+--main-foreground	oklch(.134 .0051 262.32)	#07080A	oklch(0% 0 0)	Text ON the accent fill	11.00:1 AAA main-foreground on main
+--border	#5E5E60	#5E5E60	oklch(0% 0 0)	Every 2px stroke	3.10:1 AA-lg border on background
+--ring	oklch(.9791 0 89.88)	#F8F8F8	oklch(100% 0 0)	Focus outline	18.87:1 AAA ring on background
+--overlay	#07080ACC	#07080ACC	oklch(0% 0 0 / .8)	Modal scrim (Tier A alpha)	n/a — alpha
