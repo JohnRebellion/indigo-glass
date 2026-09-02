@@ -341,6 +341,13 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
         elif k == "ink_press":
             v = ink_press
         lines.append(f"  --ig-shadow-{k.replace('_', '-')}: {v};")
+    # On-light constants: the reference's own black border/shadow, correct
+    # only where the backdrop (and, for the border, the fill too) is light.
+    # Emitted verbatim - unlike ink/ink_lg above these are NOT variant-derived,
+    # because black is black regardless of which accent is active.
+    for k, v in t.get("on_light", {}).items():
+        lines.append(f"  --ig-on-light-{k.replace('_', '-')}: {v};")
+
     # Legacy aliases (kept so consumers referencing indigo-glow keep working).
     lines.append(f"  --ig-shadow-indigo-glow: {accent_glow};")
     lines.append(f"  --ig-shadow-indigo-glow-lg: {accent_glow_lg};")

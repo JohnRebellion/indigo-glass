@@ -233,7 +233,7 @@
       ],
       "border_strong": [
         "#FFFFFF",
-        0.1,
+        0.335,
         "surface"
       ]
     },
@@ -301,6 +301,11 @@
       "strength": 255,
       "color": "0, 0, 0"
     }
+  },
+  "on_light": {
+    "border": "#000000",
+    "ink": "4px 4px 0 0 #000000",
+    "ink_lg": "7px 7px 0 0 #000000"
   },
   "type": {
     "families": {
@@ -559,9 +564,9 @@
           "oklch": "#2A2A2E"
         },
         "border_strong": {
-          "hex": "#333337",
-          "p3": "#333337",
-          "oklch": "#333337"
+          "hex": "#68686B",
+          "p3": "#68686B",
+          "oklch": "#68686B"
         }
       },
       "lime": {
@@ -671,9 +676,9 @@
           "oklch": "#1C1C1E"
         },
         "border_strong": {
-          "hex": "#252528",
-          "p3": "#252528",
-          "oklch": "#252528"
+          "hex": "#5E5E60",
+          "p3": "#5E5E60",
+          "oklch": "#5E5E60"
         }
       },
       "sage": {
@@ -783,9 +788,9 @@
           "oklch": "#1C1C1E"
         },
         "border_strong": {
-          "hex": "#252528",
-          "p3": "#252528",
-          "oklch": "#252528"
+          "hex": "#5E5E60",
+          "p3": "#5E5E60",
+          "oklch": "#5E5E60"
         }
       }
     },

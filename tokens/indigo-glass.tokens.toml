@@ -150,7 +150,24 @@ overlay = ["base", 0.80]    # 80% scrim for modals - the backdrop MUST show thro
 # difference is sub-perceptible; see tokens/codegen.py::_composite_hex.
 [palette.composite]
 border        = ["#FFFFFF", 0.06, "surface"]
-border_strong = ["#FFFFFF", 0.10, "surface"]
+# v7, 2026-09-02: border_strong raised 0.10 -> 0.335 after the cross-model
+# audit (research-reports/neobrutalism-page-audit-2026-09-02/). At 0.10 it
+# composited to #252528, which measured 1.31:1 against the page, and
+# simulator/scripts/measure-edges.mjs found 23 of 42 shadowless bordered
+# components with NO perceptible edge - every neutral surface in the system
+# relied on a stroke nobody could see, leaving the accent_alt shadow to carry
+# both silhouette and elevation. A 2px stroke that does not separate from its
+# own fill is decoration, not structure.
+#   sage/lime -> #5E5E60   3.10:1 vs base   3.00:1 vs surface   2.89:1 vs surface_alt
+# Clears the WCAG 2.1 SC 1.4.11 3:1 non-text threshold on base and surface;
+# surface_alt at 2.89:1 is the honest shortfall.
+# KNOWN REGRESSION, heritage only: the indigo variant composites to #68686B,
+# which is 1.18:1 against ITS accent (a mid-dark blue) - down from 2.68:1. No
+# single alpha satisfies both a near-black-accent and a mid-blue-accent
+# variant; sage is the shipped default (3.55:1 vs accent) and indigo is
+# heritage, so this is accepted rather than solved. Fixing it properly means
+# deriving the border per-variant instead of compositing one alpha globally.
+border_strong = ["#FFFFFF", 0.335, "surface"]
 
 # =============================================================================
 # DERIVED ACCENT STEPS (OKLCH lightness shifts - documentation only)
@@ -297,6 +314,39 @@ accent_glow_lg = "0 0 24px rgba(0,0,0,0.40)"
 # consumed --ig-shadow-glass - so "deprecated" meant nothing in practice.
 # A soft shadow is the glass material's depth cue; ink has exactly one depth
 # cue (hard offset + colour) and now exactly one set of shadow tokens.
+
+# =============================================================================
+# ON-LIGHT CONSTANTS - the reference's own values, for light backdrops only
+# =============================================================================
+# neobrutalism.dev paints border and shadow PURE BLACK in both its modes,
+# because its canvas is light (oklch 93%). Sage Ink is dark, so it lifts both:
+# border_strong #5E5E60, shadow in the variant's accent_alt. Measured against
+# the page that is correct - black scores 1.08:1 there and simply is not
+# visible.
+#
+# But Sage Ink has light surfaces too: anything filled with the accent, amber
+# or positive. ON those, the lifted values are the ones that fail and the
+# reference's black is right. Measured 2026-09-02:
+#
+#   shadow on the accent fill   sage #89A889  1.44:1     black  11.53:1
+#   shadow on amber                           1.57:1     black  12.58:1
+#   shadow on positive                        1.94:1     black  15.60:1
+#   border, light fill on light backdrop      3.55:1     black  11.53:1
+#
+# The two flip under DIFFERENT conditions, which is why they are separate
+# keys and separate CSS rules:
+#   - a shadow is painted on the BACKDROP only, so it flips whenever the
+#     backdrop is light;
+#   - a border is painted at the element's own edge, between its fill and the
+#     backdrop, so it must survive BOTH and flips only when both are light.
+#     A light fill on the dark page keeps the neutral (3.00:1 vs black 1.08:1).
+#
+# Threshold is relative luminance 0.179 - the point where black and white
+# contrast equally, i.e. the solution of (L+0.05)^2 = 0.05 * 1.05.
+[on_light]
+border = "#000000"
+ink    = "4px 4px 0 0 #000000"
+ink_lg = "7px 7px 0 0 #000000"
 
 # --- Klassy / KWin native window shadow ---
 # NOT a CSS shadow - the stock Klassy window-decoration shadow only exposed
