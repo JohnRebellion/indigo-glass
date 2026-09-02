@@ -13,6 +13,7 @@
     { href: '/vscode/',           label: 'VSCode',       id: 'vscode' },
     { href: '/vscode/claude-code/', label: 'Claude Code', id: 'claude-code' },
     { href: '/grub/',             label: 'GRUB',         id: 'grub' },
+    { href: '/neobrutalism/',     label: 'Neobrutalism', id: 'neobrutalism' },
     { href: '/density-test/',     label: 'Density',      id: 'density' },
     { href: '/palettes/',         label: 'Palettes',     id: 'palettes' }
   ];

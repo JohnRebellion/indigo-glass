@@ -5,3 +5,6 @@ build
 *.log
 test-results
 playwright-report
+
+# Review artefacts — regenerate with `node scripts/shoot-neobrutalism.mjs`
+screenshots

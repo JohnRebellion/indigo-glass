@@ -1,0 +1,530 @@
+/* Sage Ink x neobrutalism.dev — primitive layer under review
+ * ===========================================================================
+ * This file is the ONLY place the neobrutalism.dev component styling is
+ * expressed for the simulator. Every specimen on /neobrutalism/ is markup
+ * over these classes, so a reviewer reads one stylesheet, not 52 of them.
+ *
+ * Variable names below are copied verbatim from the reference's own
+ * src/styling/globals.css (ekmas/neobrutalism-components, v4 registry) so a
+ * cross-model reviewer can diff schema-to-schema. Only the VALUES are bound
+ * to Sage Ink tokens (tokens/out/css-vars.css). Every value that is not a
+ * straight re-point of the reference carries a `DIVERGENCE:` comment, and
+ * each of those is restated in the on-page divergence ledger.
+ *
+ * Class names mirror the reference's component + data-slot names
+ * (nb-button, nb-card-header, nb-select-trigger, ...) for the same reason.
+ *
+ * Constraints this file must respect (scripts/check-palette-drift.sh scans
+ * simulator/ for --material and --alpha, though not --colour):
+ *   - no backdrop filter, no frosted material of any kind
+ *   - no box-shadow with a non-zero blur radius
+ *   - no rgba(a<1) / #RRGGBBAA / color-mix(..., transparent) outside Tier A
+ * Disabled states therefore use `opacity:`, and every wash is a real token.
+ */
+
+.nb-root {
+  /* --- reference schema, Sage Ink values ---------------------------------- */
+
+  /* DIVERGENCE: reference --border-radius is 5px. Sage Ink's [radius].default
+     is 0 (canonical Klassy match); `full` and `xs` are the only other steps. */
+  --border-radius: var(--ig-radius-default);
+
+  --box-shadow-x: 4px;
+  --box-shadow-y: 4px;
+  --reverse-box-shadow-x: -4px;
+  --reverse-box-shadow-y: -4px;
+
+  --heading-font-weight: var(--ig-weight-heading);   /* 700, matches reference */
+  --base-font-weight: var(--ig-weight-base);         /* 500, matches reference */
+
+  /* Reference is light-first with a .dark override; Sage Ink is dark-only, so
+     :root carries what the reference's .dark block carries. */
+  --background: var(--ig-base);                  /* #07080A */
+  --secondary-background: var(--ig-surface-alt); /* #121216 */
+  --foreground: var(--ig-text);                  /* #F8F8F8 */
+  --main-foreground: var(--ig-base);             /* dark text ON the accent fill */
+  --main: var(--ig-accent);                      /* #A6C9A6 sage, fill-only */
+
+  /* DIVERGENCE: reference --border is oklch(0% 0 0) — pure black — in BOTH
+     modes. On Sage Ink's #07080A page a black border is invisible, so the
+     border is lifted to the [palette.composite] border_strong step.
+
+     That step was raised 0.10 -> 0.335 alpha on 2026-09-02 after this page's
+     own self-audit found 23 of 42 shadowless bordered components with no
+     perceptible edge at 1.31:1. It now composites to #5E5E60 — 3.10:1 against
+     the page — and the same measurement reports 0 of 42. This consumes the
+     token rather than overriding it, so the page cannot drift from it. */
+  --border: var(--ig-border-strong);             /* #5E5E60 */
+
+  /* Matches reference .dark: --ring: oklch(100% 0 0). Sage Ink has no pure
+     white token, so this is `text` (#F8F8F8). */
+  --ring: var(--ig-text);
+
+  --overlay: var(--ig-overlay);                  /* Tier A scrim, alpha by design */
+
+  /* DIVERGENCE: reference --shadow is `4px 4px 0 0 var(--border)` i.e. BLACK.
+     Sage Ink's [shadow].ink resolves to the active variant's accent_alt
+     (#89A889) at codegen time, so the drop shadow is sage, not black. Same
+     geometry, different colour. web/app.css.example deliberately keeps the
+     reference's black — the two disagree on purpose; see the ledger. */
+  --shadow: var(--ig-shadow-ink);                /* 4px 4px 0 0 #89A889 */
+  --shadow-lg: var(--ig-shadow-ink-lg);          /* 7px 7px 0 0 #89A889 */
+  --shadow-none: var(--ig-shadow-ink-press);     /* 0 0 0 0 — collapse on press */
+
+  /* Charts — same five slots as the reference, re-hued so slot 1 is the
+     accent and slot 4 is Sage Ink's own `positive` (hue nudged to 165). */
+  --chart-1: #A6C9A6;
+  --chart-2: #0099FF;
+  --chart-3: #FF7A05;
+  --chart-4: #3FFABB;
+  --chart-5: #7A83FF;
+  --chart-active-dot: #F8F8F8;
+
+  /* Fonts — the reference ships no font tokens (inherits the docs site's
+     sans). Sage Ink pins three families per [type.families]. */
+  --nb-font-prose: "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif;
+  --nb-font-chrome: "SF Pro Display", -apple-system, "Inter", system-ui, sans-serif;
+  --nb-font-mono: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace;
+
+  font-family: var(--nb-font-prose);
+  font-weight: var(--base-font-weight);
+  font-size: var(--ig-body-pt);
+  line-height: var(--ig-lh-default);
+  color: var(--foreground);
+}
+
+/* Reference: `h1..h6 { @apply font-heading }` */
+.nb-root :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: var(--heading-font-weight);
+  line-height: var(--ig-lh-tight);
+  margin: 0;
+}
+
+/* ===========================================================================
+ * BUTTON — cva base + 4 variants + 4 sizes
+ * ======================================================================== */
+.nb-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: var(--ig-gap-md);
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  font-family: inherit;
+  font-size: var(--ig-body-pt);
+  font-weight: var(--base-font-weight);
+  height: 40px;
+  padding: 8px 16px;
+  cursor: pointer;
+  /* `transition-all` in the reference; here the two properties that actually
+     move, at the ink-press duration rather than Tailwind's default 150ms. */
+  transition: transform var(--ig-motion-ink-press), box-shadow var(--ig-motion-ink-press),
+              background var(--ig-motion-button-hover);
+}
+.nb-button--sm   { height: 36px; padding: 6px 12px; }
+.nb-button--lg   { height: 44px; padding: 10px 32px; }
+.nb-button--icon { height: 40px; width: 40px; padding: 0; }
+
+.nb-button--default {
+  color: var(--main-foreground);
+  background: var(--main);
+  box-shadow: var(--shadow);
+}
+.nb-button--noShadow {
+  color: var(--main-foreground);
+  background: var(--main);
+  box-shadow: none;
+}
+.nb-button--neutral {
+  color: var(--foreground);
+  background: var(--secondary-background);
+  box-shadow: var(--shadow);
+}
+/* `reverse` starts flat and GAINS the shadow on press, travelling up-left. */
+.nb-button--reverse {
+  color: var(--main-foreground);
+  background: var(--main);
+  box-shadow: none;
+}
+
+/* ADJUDICATED 2026-09-02 (cross-model audit, GPT + Gemini agreeing
+   independently): the reference translates the object into its own shadow on
+   :HOVER. Sage Ink does it on :ACTIVE only.
+
+   Travelling into the shadow is a press metaphor. Firing it on pointer
+   arrival announces an action that has not happened, strips a control of its
+   elevation while it is merely being targeted, and gives pointer users a
+   signal that keyboard and touch users never receive. Hover still responds —
+   it changes fill, never geometry.
+
+   This is a deliberate divergence from the reference and is recorded in the
+   ledger, not a fidelity gap. */
+.nb-button--default:hover,
+.nb-button--noShadow:hover,
+.nb-button--reverse:hover { background: var(--ig-accent-hi); }
+.nb-button--neutral:hover { background: var(--ig-surface); }
+
+.nb-button--default:active,
+.nb-button--neutral:active {
+  transform: translate(var(--box-shadow-x), var(--box-shadow-y));
+  box-shadow: var(--shadow-none);
+}
+/* `reverse` still inverts: it starts flat and GAINS the shadow, travelling
+   up-left — but on press, not on arrival. */
+.nb-button--reverse:active {
+  transform: translate(var(--reverse-box-shadow-x), var(--reverse-box-shadow-y));
+  box-shadow: var(--shadow);
+}
+
+.nb-button[disabled] {
+  pointer-events: none;
+  opacity: var(--ig-opacity-disabled);
+}
+
+/* Reference: focus-visible:ring-2 ring-black ring-offset-2. Sage Ink uses the
+   dark-mode --ring (near-white) since the surface is near-black. */
+.nb-root :is(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: var(--ig-border-default) solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ===========================================================================
+ * CARD / IMAGE CARD
+ * ======================================================================== */
+.nb-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ig-gap-xl);
+  padding: 20px 0;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  /* Reference uses bg-background here, NOT secondary-background — the card
+     is the same fill as the page and reads only via border + shadow. */
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: var(--shadow);
+}
+.nb-card-header { display: grid; gap: 6px; padding: 0 20px; }
+.nb-card-title { font-weight: var(--heading-font-weight); line-height: 1; }
+.nb-card-description { font-size: var(--ig-caption-pt); color: var(--ig-text-muted); }
+.nb-card-content { padding: 0 20px; }
+.nb-card-footer { display: flex; align-items: center; gap: var(--ig-gap-md); padding: 0 20px; }
+
+.nb-image-card {
+  width: 250px;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  box-shadow: var(--shadow);
+}
+.nb-image-card-media {
+  aspect-ratio: 4 / 3;
+  border-bottom: var(--ig-border-default) solid var(--border);
+  background: var(--ig-surface);
+  display: grid;
+  place-items: center;
+}
+.nb-image-card-caption { padding: var(--ig-pad-lg) var(--ig-pad-xl); font-weight: var(--heading-font-weight); }
+
+/* ===========================================================================
+ * BADGE / AVATAR / LABEL / SKELETON
+ * ======================================================================== */
+.nb-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ig-gap-sm);
+  width: fit-content;
+  white-space: nowrap;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  padding: 2px 10px;
+  font-size: var(--ig-type-xs-pt);
+  font-weight: var(--base-font-weight);
+}
+.nb-badge--default { background: var(--main); color: var(--main-foreground); }
+.nb-badge--neutral { background: var(--secondary-background); color: var(--foreground); }
+/* Not in the reference — Sage Ink's [radius].xs exists for exactly this.
+   A MODIFIER, not a variant: it changes only the corner, and must be combined
+   with --default or --neutral. On its own it would render an unfilled badge,
+   which is precisely the Tier D violation this page documents. */
+.nb-badge--tag { border-radius: var(--ig-radius-xs); }
+
+.nb-avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--ig-radius-full);
+  outline: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  color: var(--foreground);
+  font-weight: var(--base-font-weight);
+}
+
+.nb-label {
+  font-size: var(--ig-caption-pt);
+  font-weight: var(--heading-font-weight);
+  line-height: 1;
+}
+
+.nb-skeleton {
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  animation: nb-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes nb-pulse { 50% { opacity: 0.5; } }
+
+/* ===========================================================================
+ * INPUT / TEXTAREA / OTP / SELECT
+ * ======================================================================== */
+.nb-input,
+.nb-textarea {
+  display: flex;
+  width: 100%;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  color: var(--foreground);
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: var(--ig-body-pt);
+  font-weight: var(--base-font-weight);
+}
+.nb-input { height: 40px; }
+.nb-textarea { min-height: 80px; resize: vertical; }
+/* DIVERGENCE: reference is `placeholder:text-foreground/50` (an alpha wash).
+   Sage Ink resolves it to the real `text_muted` token — the --alpha guard
+   rejects computed translucent fills outside Tier A. */
+.nb-input::placeholder,
+.nb-textarea::placeholder { color: var(--ig-text-muted); }
+.nb-input[disabled],
+.nb-textarea[disabled] { opacity: var(--ig-opacity-disabled); cursor: not-allowed; }
+.nb-input::selection,
+.nb-textarea::selection { background: var(--main); color: var(--main-foreground); }
+
+.nb-otp { display: flex; }
+.nb-otp-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: var(--ig-border-default) solid var(--border);
+  border-left-width: 0;
+  background: var(--secondary-background);
+  color: var(--foreground);
+  font-size: var(--ig-body-pt);
+}
+.nb-otp-slot:first-child { border-left-width: var(--ig-border-default); }
+.nb-otp-caret { width: 1px; height: 18px; background: var(--foreground); animation: nb-caret 1s steps(2, end) infinite; }
+@keyframes nb-caret { 50% { opacity: 0; } }
+
+.nb-select-trigger {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ig-gap-md);
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  /* Reference fills the SELECT trigger with the accent — unlike input. */
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: var(--ig-body-pt);
+  font-weight: var(--base-font-weight);
+}
+.nb-select-content {
+  min-width: 8rem;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: 4px;
+}
+.nb-select-label { padding: 6px 8px; font-size: var(--ig-caption-pt); color: var(--main-foreground); opacity: 0.8; }
+.nb-select-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--ig-gap-md);
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid transparent;
+  padding: 6px 32px 6px 8px;
+  font-size: var(--ig-body-pt);
+  cursor: default;
+}
+/* The reference's whole menu grammar: the selected/focused row gets a BORDER,
+   never a fill. This is also Sage Ink's Tier C rule, independently derived. */
+.nb-select-item[data-highlighted] { border-color: var(--border); }
+.nb-select-separator { height: 1px; margin: 4px -4px; background: var(--border); }
+
+/* ===========================================================================
+ * CHECKBOX / RADIO / SWITCH / SLIDER / PROGRESS
+ * ======================================================================== */
+.nb-checkbox {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  outline: var(--ig-border-default) solid var(--border);
+  background: transparent;
+  color: var(--main-foreground);
+}
+.nb-checkbox[data-state="checked"] { background: var(--main); }
+.nb-checkbox[data-state="indeterminate"] { background: var(--main); }
+
+.nb-radio {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1;
+  border-radius: var(--ig-radius-full);
+  border: var(--ig-border-default) solid var(--border);
+  color: var(--foreground);
+}
+.nb-radio-dot { width: 8px; height: 8px; border-radius: var(--ig-radius-full); background: currentColor; }
+
+.nb-switch {
+  display: inline-flex;
+  align-items: center;
+  width: 48px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: var(--ig-radius-full);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  cursor: pointer;
+  transition: background var(--ig-motion-toggle);
+}
+.nb-switch[data-state="checked"] { background: var(--main); }
+.nb-switch-thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--ig-radius-full);
+  border: var(--ig-border-default) solid var(--border);
+  /* DIVERGENCE: reference thumb is `bg-white`. Sage Ink has no pure-white
+     token; `text` (#F8F8F8) is the nearest real one. */
+  background: var(--foreground);
+  transform: translateX(2px);
+  transition: transform var(--ig-motion-toggle);
+}
+.nb-switch[data-state="checked"] .nb-switch-thumb { transform: translateX(24px); }
+
+.nb-slider { position: relative; display: flex; align-items: center; width: 100%; touch-action: none; }
+.nb-slider-track {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+}
+.nb-slider-range { position: absolute; inset: 0 auto 0 0; height: 100%; background: var(--main); }
+.nb-slider-thumb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--ig-radius-full);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--foreground);
+}
+
+.nb-progress {
+  position: relative;
+  height: 16px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+}
+.nb-progress-indicator {
+  height: 100%;
+  border-right: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  transition: width var(--ig-motion-panel-open);
+}
+
+/* ===========================================================================
+ * ALERT / ACCORDION / COLLAPSIBLE / TABLE
+ * ======================================================================== */
+.nb-alert {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: start;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  padding: 12px 16px;
+  font-size: var(--ig-caption-pt);
+  box-shadow: var(--shadow);
+}
+.nb-alert--default { background: var(--main); color: var(--main-foreground); }
+/* DIVERGENCE: reference `destructive` is literally `bg-black text-white` —
+   invisible on Sage Ink's near-black page, so it is bound to the `negative`
+   semantic token. The reference has no semantic colour scale at all. */
+.nb-alert--destructive { background: var(--ig-negative); color: var(--ig-text); }
+.nb-alert--warning { background: var(--ig-amber); color: var(--ig-base); }
+.nb-alert--positive { background: var(--ig-positive); color: var(--ig-base); }
+.nb-alert-icon { grid-column: 1; line-height: 1; }
+.nb-alert-title { grid-column: 2; font-weight: var(--heading-font-weight); letter-spacing: -0.01em; }
+.nb-alert-description { grid-column: 2; font-size: var(--ig-caption-pt); }
+
+.nb-accordion { display: grid; gap: var(--ig-gap-md); }
+.nb-accordion-item {
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  box-shadow: var(--shadow);
+}
+.nb-accordion-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ig-gap-md);
+  border: 0;
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: var(--ig-pad-xl);
+  font-family: inherit;
+  font-size: var(--ig-body-pt);
+  font-weight: var(--heading-font-weight);
+  text-align: left;
+  cursor: pointer;
+}
+.nb-accordion-item[data-state="open"] .nb-accordion-trigger { border-bottom: var(--ig-border-default) solid var(--border); }
+.nb-accordion-item[data-state="open"] .nb-accordion-chevron { transform: rotate(180deg); }
+.nb-accordion-chevron { transition: transform var(--ig-motion-panel-open); }
+.nb-accordion-content { background: var(--secondary-background); padding: var(--ig-pad-xl); font-size: var(--ig-caption-pt); }
+
+.nb-table { width: 100%; border-collapse: collapse; border: var(--ig-border-default) solid var(--border); font-size: var(--ig-caption-pt); }
+/* Reference table rows are accent-filled end to end (bg-main on <tr>), which
+   is the loudest single move in the whole library. Reproduced faithfully. */
+.nb-table tr { border-bottom: var(--ig-border-default) solid var(--border); background: var(--main); color: var(--main-foreground); }
+.nb-table tbody tr:last-child { border-bottom: 0; }
+.nb-table th { height: 40px; padding: 0 var(--ig-pad-xl); text-align: left; vertical-align: middle; font-weight: var(--heading-font-weight); }
+.nb-table td { padding: var(--ig-pad-lg) var(--ig-pad-xl); vertical-align: middle; }
+.nb-table tbody tr[data-state="selected"] { background: var(--secondary-background); color: var(--foreground); }
+.nb-table tfoot tr { border-top: var(--ig-border-default) solid var(--border); border-bottom: 0; }
+.nb-table caption { margin-top: var(--ig-pad-xl); font-size: var(--ig-caption-pt); color: var(--ig-text-muted); caption-side: bottom; }
