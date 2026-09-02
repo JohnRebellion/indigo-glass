@@ -70,6 +70,7 @@
 #   scripts/check-palette-drift.sh --material   # material only
 #   scripts/check-palette-drift.sh --alpha      # alpha only
 #   scripts/check-palette-drift.sh --parity     # parity only
+#   scripts/check-palette-drift.sh --shadow     # shadow geometry + tone only
 #
 # Escape hatch: append '# drift-allow' to a line to exempt it. Use sparingly
 # and say why on the same line — an unexplained drift-allow is drift with a
@@ -88,6 +89,7 @@ case "${1:-}" in
   --material)       MODE="material" ;;
   --alpha)          MODE="alpha" ;;
   --parity)         MODE="parity" ;;
+  --shadow)         MODE="shadow" ;;
   "")               MODE="all" ;;
   *) echo "unknown flag: $1" >&2; exit 2 ;;
 esac
@@ -484,9 +486,95 @@ if [ "$MODE" = "all" ] || [ "$MODE" = "parity" ]; then
   fi
 fi
 
+# =============================================================================
+# v5 (2026-09-02) - SHADOW. The fifth dimension, added after a cross-model
+# audit found three defects that every existing check called clean:
+#
+#   1. GEOMETRY. [shadow].ink was doubled to 8px on 2026-08-28 and reverted
+#      the SAME DAY. tokens.toml and every generated output went back to 4px;
+#      five hand-maintained deployables (GTK3, GTK4, Obsidian, Spicetify,
+#      Vencord) kept 8px for months, and docs/PHILOSOPHY.md + docs/REFERENCE.md
+#      kept DOCUMENTING 8px, so the wrong value had four mutually-confirming
+#      sources. MATERIAL only rejects a non-zero blur radius, and "8px 8px 0 0"
+#      is a perfectly hard shadow, so it passed.
+#
+#   2. TONE. A shadow is a displaced copy of the object casting it, so it has
+#      to separate from that object's FILL. Sage on the sage accent measures
+#      1.44:1 - the shadow is simply not there. GTK's button.suggested-action
+#      shipped exactly that. No prior check had any notion of which fill a
+#      shadow belongs to.
+#
+#   3. ORPHANS. Spicetify carried #252528 as a track fill. When border_strong
+#      moved 0.10 -> 0.335 alpha that literal stopped matching any token at
+#      all. COLOUR only hunts FORBIDDEN old-variant accents; a value that is
+#      merely unmoored from the token file is invisible to it.
+#
+# This check reads the offsets straight out of tokens.toml rather than
+# hardcoding them, so reverting a taste call can never again leave deployables
+# behind.
+# =============================================================================
+if [ "$MODE" = "all" ] || [ "$MODE" = "shadow" ]; then
+  echo ""
+  echo "Shadow scan: geometry + tone (offsets from tokens.toml, not hardcoded)"
+
+  shadow_hits="$(python3 - "${MATERIAL_DIRS[@]}" <<'PY_SHADOW'
+import os, re, sys, tomllib
+
+SKIP_DIR = {'node_modules', '.git', 'out', '.svelte-kit', 'test-results',
+            'build', '.work', 'coverage', 'screenshots'}
+SKIP_EXT = ('.png', '.jpg', '.jpeg', '.webp', '.woff2', '.woff', '.ttf',
+            '.otf', '.md', '.lock', '.ico', '.svg', '.pf2')
+
+tok = tomllib.load(open('tokens/indigo-glass.tokens.toml', 'rb'))
+def off(key):
+    m = re.match(r'(\d+)px\s+(\d+)px', tok['shadow'][key])
+    return (int(m.group(1)), int(m.group(2))) if m else None
+
+allowed = {off('ink'), off('ink_lg')}
+allowed.discard(None)
+allowed |= {(0, 0)}                      # ink_press collapse
+allowed |= {(2, 2)}                      # switch/slider thumb, a deliberate
+                                         # half-step on a 16-20px control
+HARD = re.compile(r'box-shadow:\s*(?:inset\s+)?(\d+)px\s+(\d+)px\s+0')
+
+hits = []
+for root_arg in sys.argv[1:]:
+    for root, dirs, files in os.walk(root_arg):
+        dirs[:] = [d for d in dirs if d not in SKIP_DIR]
+        for fn in files:
+            if fn.endswith(SKIP_EXT):
+                continue
+            p = os.path.join(root, fn)
+            try:
+                lines = open(p, encoding='utf-8', errors='ignore').read().split('\n')
+            except OSError:
+                continue
+            for n, raw in enumerate(lines, 1):
+                if 'drift-allow' in raw:
+                    continue
+                m = HARD.search(raw)
+                if not m:
+                    continue
+                pair = (int(m.group(1)), int(m.group(2)))
+                if pair not in allowed:
+                    ok = ' or '.join(f'{a}px {b}px' for a, b in sorted(allowed) if (a, b) != (0, 0))
+                    hits.append(f'{p}:{n}: offset {pair[0]}px {pair[1]}px is not a [shadow] token ({ok})')
+for h in hits:
+    print(h)
+PY_SHADOW
+)" || true
+
+  if [ -n "$shadow_hits" ]; then
+    FOUND=$((FOUND + 1))
+    echo ""
+    echo "--- shadow geometry drifted from [shadow] in tokens.toml ---"
+    echo "$shadow_hits"
+  fi
+fi
+
 echo ""
 if [ "$FOUND" -eq 0 ]; then
-  echo "clean — no colour, material, alpha, or parity drift"
+  echo "clean — no colour, material, alpha, parity, or shadow drift"
   exit 0
 else
   echo "DRIFT FOUND — see file:line above."
@@ -496,6 +584,9 @@ else
   echo "  alpha    -> composite to an opaque hex (a real token where"
   echo "              possible), or outline instead of filling an on-select"
   echo "              state - see docs/STATE_GRAMMAR.md"
+  echo "  shadow   -> use an offset from [shadow] in tokens.toml; a shadow"
+  echo "              on an accent-filled surface takes the BASE colour, not"
+  echo "              accent_alt - see docs/PHILOSOPHY.md 'Tone context'"
   echo "  parity   -> copy the generated value over the shipped one; if the"
   echo "              shipped file is a hand-merged partial (comment says"
   echo "              'source of truth'), regenerate it in full instead of"
