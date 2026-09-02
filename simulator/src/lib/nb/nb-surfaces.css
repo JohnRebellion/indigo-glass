@@ -1,0 +1,474 @@
+/* Sage Ink x neobrutalism.dev — surface & navigation primitives
+ * ===========================================================================
+ * Continuation of nb-core.css (same conventions, same constraints). Split
+ * only for file size: core carries the token bridge + controls, this file
+ * carries every composed surface (overlays, menus, navigation, chart).
+ */
+
+
+/* ===========================================================================
+ * OVERLAY SURFACES — dialog / sheet / drawer / popover / tooltip / hovercard
+ * Rendered in-flow on this page (never `position: fixed`) so a full-page
+ * screenshot captures the open state of every one of them at once.
+ * ======================================================================== */
+.nb-overlay-scrim {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: var(--ig-pad-xl);
+  background: var(--overlay);          /* Tier A: a scrim is alpha by definition */
+  border: var(--ig-border-hairline) solid var(--ig-border);
+}
+.nb-dialog {
+  width: 100%;
+  max-width: 420px;
+  display: grid;
+  gap: var(--ig-gap-xl);
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.nb-dialog-title { font-size: var(--ig-heading-pt); font-weight: var(--heading-font-weight); letter-spacing: -0.01em; }
+.nb-dialog-description { font-size: var(--ig-caption-pt); color: var(--ig-text-muted); }
+.nb-dialog-footer { display: flex; justify-content: flex-end; gap: var(--ig-gap-md); }
+
+.nb-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ig-gap-xl);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  padding: var(--ig-pad-xl);
+}
+.nb-drawer-handle {
+  width: 100px;
+  height: 6px;
+  margin: 0 auto var(--ig-gap-lg);
+  border-radius: var(--ig-radius-full);
+  background: var(--border);
+}
+.nb-popover {
+  width: 18rem;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: var(--ig-pad-xl);
+}
+.nb-tooltip {
+  display: inline-block;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: 6px 12px;
+  font-size: var(--ig-caption-pt);
+}
+.nb-hovercard {
+  width: 16rem;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: var(--ig-pad-xl);
+}
+.nb-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 356px;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  padding: var(--ig-pad-xl);
+  font-weight: var(--heading-font-weight);
+  font-size: var(--ig-caption-pt);
+  box-shadow: var(--shadow);
+}
+
+/* ===========================================================================
+ * MENU SURFACES — dropdown / context / menubar / navigation / command
+ * ======================================================================== */
+.nb-menu {
+  min-width: 8rem;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: 4px;
+  font-size: var(--ig-caption-pt);
+}
+.nb-menu-label { padding: 6px 8px; font-weight: var(--heading-font-weight); }
+.nb-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ig-gap-md);
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid transparent;
+  padding: 6px 8px;
+  cursor: default;
+}
+.nb-menu-item--inset { padding-left: 32px; }
+.nb-menu-item[data-highlighted] { border-color: var(--border); }
+.nb-menu-item[data-disabled] { opacity: var(--ig-opacity-disabled); }
+.nb-menu-separator { height: 1px; margin: 4px -4px; background: var(--border); }
+.nb-menu-shortcut { margin-left: auto; font-family: var(--nb-font-mono); font-size: var(--ig-type-xs-pt); opacity: 0.7; }
+
+.nb-menubar {
+  display: flex;
+  align-items: center;
+  gap: var(--ig-gap-sm);
+  width: fit-content;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  padding: 4px;
+}
+.nb-menubar-trigger {
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid transparent;
+  background: transparent;
+  color: var(--foreground);
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: var(--ig-caption-pt);
+  font-weight: var(--heading-font-weight);
+  cursor: pointer;
+}
+.nb-menubar-trigger[data-state="open"] { background: var(--main); color: var(--main-foreground); border-color: var(--border); }
+
+.nb-command {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  box-shadow: var(--shadow);
+}
+.nb-command-input {
+  display: flex;
+  width: 100%;
+  height: 44px;
+  align-items: center;
+  gap: var(--ig-gap-md);
+  border: 0;
+  border-bottom: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0 var(--ig-pad-xl);
+  font-family: inherit;
+  font-size: var(--ig-body-pt);
+}
+.nb-command-group-heading { padding: 8px var(--ig-pad-xl) 4px; font-size: var(--ig-type-xs-pt); font-weight: var(--heading-font-weight); color: var(--ig-text-muted); }
+.nb-command-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ig-gap-md);
+  border: var(--ig-border-default) solid transparent;
+  padding: 8px var(--ig-pad-xl);
+  font-size: var(--ig-caption-pt);
+}
+.nb-command-item[data-selected] { border-color: var(--border); background: var(--main); color: var(--main-foreground); }
+
+/* ===========================================================================
+ * NAVIGATION — tabs / breadcrumb / pagination / navmenu / sidebar
+ * ======================================================================== */
+.nb-tabs-list {
+  display: inline-flex;
+  height: 48px;
+  align-items: center;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  padding: 4px;
+  color: var(--foreground);
+}
+.nb-tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid transparent;
+  background: transparent;
+  color: inherit;
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: var(--ig-caption-pt);
+  font-weight: var(--heading-font-weight);
+  cursor: pointer;
+}
+/* NOTE: the reference FILLS the active tab (data-[state=active]:bg-main).
+   Sage Ink's Tier C rule says an on-select state must be an outline, not a
+   fill. The reference wins here because the fill IS the component identity
+   in this library — flagged in the ledger, not silently changed. */
+.nb-tabs-trigger[data-state="active"] { background: var(--main); color: var(--main-foreground); border-color: var(--border); }
+.nb-tabs-content { margin-top: var(--ig-gap-md); }
+
+.nb-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ig-gap-md); font-size: var(--ig-caption-pt); }
+.nb-breadcrumb a { color: var(--ig-text-muted); }
+.nb-breadcrumb [aria-current="page"] { color: var(--foreground); font-weight: var(--heading-font-weight); }
+.nb-breadcrumb-sep { color: var(--ig-text-dim); }
+
+.nb-pagination { display: flex; align-items: center; gap: var(--ig-gap-sm); }
+.nb-pagination-link {
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  color: var(--foreground);
+  padding: 0 12px;
+  font-size: var(--ig-caption-pt);
+}
+.nb-pagination-link[aria-current="page"] { background: var(--main); color: var(--main-foreground); box-shadow: var(--shadow); }
+.nb-pagination-ellipsis { display: inline-grid; place-items: center; min-width: 40px; height: 40px; color: var(--ig-text-muted); }
+
+.nb-navmenu { display: flex; align-items: center; gap: var(--ig-gap-sm); }
+.nb-navmenu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: var(--ig-caption-pt);
+  font-weight: var(--heading-font-weight);
+  cursor: pointer;
+}
+.nb-navmenu-viewport {
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  padding: var(--ig-pad-lg);
+  box-shadow: var(--shadow);
+}
+
+.nb-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--ig-sidebar);
+}
+.nb-sidebar-header,
+.nb-sidebar-footer { padding: var(--ig-pad-lg) var(--ig-pad-xl); border-bottom: var(--ig-border-hairline) solid var(--ig-border); }
+.nb-sidebar-footer { border-bottom: 0; border-top: var(--ig-border-hairline) solid var(--ig-border); margin-top: auto; }
+.nb-sidebar-group-label { padding: var(--ig-pad-md) var(--ig-pad-xl); font-size: var(--ig-type-xs-pt); font-weight: var(--heading-font-weight); color: var(--ig-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.nb-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ig-gap-md);
+  border: var(--ig-border-default) solid transparent;
+  padding: var(--ig-sidebar-item-pad-y) var(--ig-sidebar-item-pad-x);
+  margin: 0 var(--ig-pad-md);
+  font-size: var(--ig-caption-pt);
+  color: var(--ig-text-muted);
+}
+/* Tier C in Sage Ink's own grammar: outline, no fill. */
+.nb-sidebar-item[data-active] { border-color: var(--ring); color: var(--foreground); }
+
+/* ===========================================================================
+ * MISC — marquee / scroll area / resizable / separator / carousel / calendar
+ * ======================================================================== */
+.nb-marquee {
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+  border-top: var(--ig-border-default) solid var(--border);
+  border-bottom: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  color: var(--foreground);
+}
+.nb-marquee-track { display: flex; gap: var(--ig-gap-xl); white-space: nowrap; padding: var(--ig-pad-lg) 0; animation: nb-marquee 12s linear infinite; }
+@keyframes nb-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+.nb-scroll-area {
+  height: 160px;
+  overflow: auto;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  padding: var(--ig-pad-xl);
+  font-size: var(--ig-caption-pt);
+}
+
+.nb-resizable { display: flex; height: 140px; border-radius: var(--border-radius); border: var(--ig-border-default) solid var(--border); overflow: hidden; }
+.nb-resizable-panel { display: grid; place-items: center; flex: 1; background: var(--secondary-background); font-size: var(--ig-caption-pt); }
+.nb-resizable-handle { width: var(--ig-border-default); background: var(--border); position: relative; }
+.nb-resizable-handle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+}
+
+.nb-separator { height: var(--ig-border-default); width: 100%; background: var(--border); border: 0; }
+.nb-separator--hairline { height: 1px; background: var(--ig-border); }
+
+.nb-carousel { display: flex; align-items: center; gap: var(--ig-gap-lg); }
+.nb-carousel-viewport { display: flex; gap: var(--ig-gap-lg); overflow: hidden; flex: 1; }
+.nb-carousel-slide {
+  display: grid;
+  place-items: center;
+  min-width: 120px;
+  height: 120px;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--main);
+  color: var(--main-foreground);
+  font-size: var(--ig-section-pt);
+  font-weight: var(--heading-font-weight);
+  box-shadow: var(--shadow);
+}
+
+.nb-calendar {
+  width: fit-content;
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--background);
+  padding: var(--ig-pad-lg);
+  box-shadow: var(--shadow);
+}
+.nb-calendar-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--ig-gap-md); padding: 0 var(--ig-pad-sm) var(--ig-pad-md); }
+.nb-calendar-caption { font-size: var(--ig-caption-pt); font-weight: var(--heading-font-weight); }
+.nb-calendar-grid { border-collapse: collapse; }
+.nb-calendar-grid th { width: 32px; padding: 2px 0; font-size: var(--ig-type-xs-pt); font-weight: var(--base-font-weight); color: var(--ig-text-muted); }
+.nb-calendar-day {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: var(--ig-border-default) solid transparent;
+  font-size: var(--ig-type-xs-pt);
+}
+.nb-calendar-day--outside { color: var(--ig-text-dim); }
+.nb-calendar-day--today { border-color: var(--ring); }
+.nb-calendar-day--selected { background: var(--main); color: var(--main-foreground); border-color: var(--border); }
+
+/* ===========================================================================
+ * CHART — the reference ships a Recharts wrapper; this is a static SVG
+ * specimen using the same five chart slots + the active-dot colour.
+ * ======================================================================== */
+.nb-chart {
+  border-radius: var(--border-radius);
+  border: var(--ig-border-default) solid var(--border);
+  background: var(--secondary-background);
+  padding: var(--ig-pad-xl);
+}
+.nb-chart-legend { display: flex; flex-wrap: wrap; gap: var(--ig-gap-lg); margin-top: var(--ig-gap-md); font-size: var(--ig-type-xs-pt); }
+.nb-chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.nb-chart-key { width: 10px; height: 10px; border: var(--ig-border-hairline) solid var(--border); }
+
+/* ===========================================================================
+ * TONE CONTEXT — black border and shadow on light surfaces
+ * ===========================================================================
+ * neobrutalism.dev paints border and shadow pure black because its canvas is
+ * light. Sage Ink lifts both because its canvas is not. On Sage Ink's OWN
+ * light surfaces — anything filled with the accent, amber or positive — the
+ * reference is right again and the lifted values are the ones that fail.
+ *
+ * Shadow and border flip under DIFFERENT conditions, so this is two rules:
+ *
+ *   a shadow is painted on the element's BACKDROP only
+ *     -> flips whenever the backdrop is light
+ *   a border is painted at the element's own edge, between its fill and that
+ *   backdrop, and has to survive BOTH
+ *     -> flips only when fill AND backdrop are light
+ *
+ * Measured 2026-09-02, worst-case contrast:
+ *   shadow on accent fill        sage 1.44:1   black 11.53:1   -> black
+ *   border, light fill on light  neut 3.55:1   black 11.53:1   -> black
+ *   border, light fill on DARK   neut 3.00:1   black  1.08:1   -> neutral
+ *   border, dark  fill on dark   neut 2.89:1   black  1.08:1   -> neutral
+ *
+ * Light threshold is relative luminance 0.179 — where black and white
+ * contrast equally. A hand-maintained selector list goes stale, so
+ * e2e/tone.spec.ts re-derives the right answer per element and fails if the
+ * painted value is not the higher-contrast one.
+ */
+
+/* SHADOW — the tone is the inverse of the element's OWN FILL, not of the
+   backdrop. A shadow's job is to read as a displaced copy of the object it
+   belongs to, so it has to separate from that object first.
+
+   This is also why the reference can use one colour everywhere: every fill in
+   neobrutalism.dev is light, so black always contrasts. Sage Ink has fills on
+   both sides of the threshold, so it needs both tones.
+
+   Measured against each fill:
+       fill                     sage      page
+       accent  #A6C9A6          1.44      11.00
+       amber                    1.57      12.00
+       positive                 1.94      14.89
+       secondary-background     7.14       1.07
+       background               7.66       1.00
+
+   Set on the element itself, not `> *`: an element declares the shadow IT
+   casts. Children with no fill of their own inherit it, which is correct —
+   their effective fill is the parent's. */
+:is(.nb-button--default, .nb-button--noShadow, .nb-button--reverse,
+    .nb-badge--default, .nb-select-trigger, .nb-select-content, .nb-menu,
+    .nb-popover, .nb-tooltip, .nb-hovercard, .nb-navmenu-trigger,
+    .nb-navmenu-viewport, .nb-menubar-trigger, .nb-accordion-trigger,
+    .nb-image-card, .nb-carousel-slide, .nb-command-item,
+    .nb-calendar-day--selected, .nb-alert--default, .nb-alert--warning,
+    .nb-alert--positive, .nb-alert--destructive, .nb-progress-indicator,
+    .nb-slider-range),
+/* Kept out of the :is() list: both are compound selectors, and :is() adopts
+   its most specific argument — folding them in would lift the whole rule from
+   (0,1,0) to (0,1,1) and let it quietly outrank later single-class rules. */
+.nb-table tr,
+.nb-pagination-link[aria-current='page'] {
+  --shadow: var(--box-shadow-x) var(--box-shadow-y) 0 0 var(--background);
+  --shadow-lg: 7px 7px 0 0 var(--background);
+}
+
+/* Dark fills declare the sage shadow, and reset it for anything nested
+   inside a light surface. */
+:is(.nb-card, .nb-dialog, .nb-sheet, .nb-command, .nb-toast, .nb-calendar,
+    .nb-tabs-list, .nb-menubar, .nb-sidebar, .nb-input, .nb-textarea,
+    .nb-scroll-area, .nb-chart, .nb-skeleton, .nb-progress, .nb-slider-track,
+    .nb-switch, .nb-image-card-media, .nb-accordion-content,
+    .nb-button--neutral, .nb-badge--neutral, .nb-pagination-link) {
+  --shadow: var(--ig-shadow-ink);
+  --shadow-lg: var(--ig-shadow-ink-lg);
+}
+
+/* BORDER — set on the element itself, not its children, and only where the
+   fill is light AND the surface around it is light. Today that is exactly
+   the menu and select rows, which are the reference's own
+   `focus:border-border` on `bg-main` — so these three now match it verbatim. */
+:is(.nb-popover, .nb-menu, .nb-select-content, .nb-hovercard,
+    .nb-navmenu-viewport, .nb-alert, .nb-image-card, .nb-carousel-slide,
+    .nb-accordion-trigger)
+  :is(.nb-select-item, .nb-menu-item, .nb-command-item, .nb-button--default,
+      .nb-button--noShadow, .nb-button--reverse, .nb-badge--default,
+      .nb-select-trigger, .nb-checkbox, .nb-radio, .nb-switch, .nb-avatar) {
+  --border: var(--ig-on-light-border);
+}
+/* Kept separate on purpose: `.nb-table tr` is a compound selector, and :is()
+   adopts the specificity of its most specific argument — folding it into the
+   lists above would lift them from (0,1,0) to (0,1,1) and let them quietly
+   outrank later single-class rules. */
+.nb-table tr :is(.nb-checkbox, .nb-badge--default, .nb-button--default) {
+  --border: var(--ig-on-light-border);
+}
