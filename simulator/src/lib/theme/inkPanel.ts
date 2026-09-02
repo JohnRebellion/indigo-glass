@@ -25,10 +25,26 @@ export interface InkPanelOpts {
 const DEFAULTS: Required<InkPanelOpts> = {
   radius: 0,
   fill: [18, 18, 22],
-  borderColor: '#000000',
+  // border_strong. Was '#000000', which is 1.08:1 on this page and not
+  // visible — the same non-implementation corrected across every other layer
+  // on 2026-09-02.
+  borderColor: '#5E5E60',
   borderWidth: 2,
   shadow: true
 };
+
+/** [shadow].ink offset. Was 8 — the 2026-08-28 doubling, reverted the same
+ *  day everywhere except the hand-maintained layers. */
+const INK_OFFSET = 4;
+
+/** Relative luminance of an sRGB triple, for choosing the shadow tone. */
+function luminance([r, g, b]: readonly [number, number, number]): number {
+  const f = (c: number) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
 
 function roundRectPath(
   ctx: CanvasRenderingContext2D,
@@ -69,8 +85,12 @@ export function drawInkPanel(
   ctx.save();
 
   if (o.shadow) {
-    ctx.fillStyle = 'rgba(0,0,0,0.9)';
-    roundRectPath(ctx, x + 8, y + 8, w, h, o.radius);
+    // Light fill -> base-coloured shadow; dark fill -> sage. Black on a dark
+    // panel measured 1.05:1 and was doing nothing. 0.179 is the luminance at
+    // which black and white contrast equally.
+    const fillIsLight = luminance(o.fill as readonly [number, number, number]) > 0.179;
+    ctx.fillStyle = fillIsLight ? 'rgba(7,8,10,0.9)' : 'rgba(137,168,137,0.9)';
+    roundRectPath(ctx, x + INK_OFFSET, y + INK_OFFSET, w, h, o.radius);
     ctx.fill();
   }
 
