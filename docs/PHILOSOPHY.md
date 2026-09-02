@@ -160,19 +160,57 @@ Base `#07080A`, surface `#0D0D10`, surface-alt `#121216` (plus sidebar `#0A0A0D`
 
 The intermediate 4 / 6 / 12 / 16 ladder from the glass era was **killed, not carried forward**: those steps had no material meaning once glass was gone. `default = 0` is now the canonical Klassy match (it was 8).
 
+### The stroke has to be visible
+
+`[palette.composite].border_strong` is white at **0.335** over `surface` — `#5E5E60` for sage, 3.10:1 against the page.
+
+It was `0.10` (`#252528`, 1.31:1) until 2026-09-02, when the simulator's own self-audit measured **23 of 42** shadowless bordered components with no perceptible edge: every neutral surface in the system — input, table, switch, tabs, sheet, sidebar, checkbox — relied on a stroke nobody could see, leaving the shadow to carry both silhouette and elevation. A 2px stroke that does not separate from its own fill is decoration, not structure. After the raise: **0 of 42**. Re-measure with `simulator/scripts/measure-edges.mjs`.
+
+The `indigo` heritage variant regresses here (`#68686B` is 1.18:1 against its mid-blue accent, down from 2.68:1). No single alpha satisfies both a near-black-accent and a mid-blue-accent variant; sage ships, indigo does not, so this is accepted rather than solved.
+
+### Tone context: the reference's black is right on light surfaces
+
+Border and shadow are lifted off black because Sage Ink's canvas is dark. On Sage Ink's *own* light surfaces — anything filled with the accent, amber or positive — that reasoning inverts and neobrutalism.dev's black is correct.
+
+The two flip on **different** conditions, because they are painted in different places:
+
+| | painted on | flips to black when |
+| :--- | :--- | :--- |
+| shadow | the backdrop only | the backdrop is light |
+| border | the element's own edge, between fill and backdrop | fill **and** backdrop are light |
+
+Measured 2026-09-02 (worst case, `simulator/e2e/tone.spec.ts`):
+
+```
+shadow on the accent fill          sage 1.44:1     black 11.53:1
+shadow on the page                 sage 7.66:1     black  1.05:1
+border, light fill on light        neut 3.55:1     black 11.53:1
+border, light fill on dark page    neut 3.00:1     black  1.08:1
+```
+
+Threshold is relative luminance **0.179** — where black and white contrast equally, i.e. the solution of `(L + 0.05)² = 0.05 × 1.05`. Not a taste call.
+
+Values live in `[on_light]` in the token file. The CSS lists are hand-maintained and therefore guarded: `e2e/tone.spec.ts` re-derives the correct tone per element and fails if the painted value is not the higher-contrast one.
+
 ### No blur
 
 There is no `[blur]` table. It was a table of zeros kept alive only because `emit_kwin_blur()` still read `blur.md`, and a table of zeros is an invitation to raise them. Deleted on 2026-08-28, along with the KWin `better-blur-dx` effect itself, which `kwinrc-blur.ini` now switches **off** rather than tuning to zero. Nothing is frosted, and nothing is one config edit away from being frosted again.
 
 ### One shadow, and it is hard
 
-`[shadow].ink` is `8px 8px 0 0 #000000` — zero blur radius. `ink_lg` is `14px 14px 0 0` for feature tiles and hero cards. `hairline` (`0 0 0 1px rgba(255,255,255,0.10)`) is the quiet alternative where even ink is too loud. `ink_accent` is the same offset in the active variant's `accent_alt` — a hazard-coloured ink shadow, derived by codegen, never hardcoded per variant.
+`[shadow].ink` is `4px 4px 0 0` — zero blur radius — and the colour is **not** black: codegen resolves it per-variant to that variant's `accent_alt` (`#89A889` for sage), so the drop shadow carries the brand hue. `ink_lg` is `7px 7px 0 0` for feature tiles and hero cards. `hairline` (`0 0 0 1px rgba(255,255,255,0.10)`) is the quiet alternative where even ink is too loud. `ink_accent` is the same offset in the active variant's `accent_alt` — a hazard-coloured ink shadow, derived by codegen, never hardcoded per variant.
 
-Those offsets were **doubled on 2026-08-28** (4px → 8px, 7px → 14px). The token comment is explicit that this is a *taste call* — a deliberately chunkier read at normal viewing distance on a 27in 1440p / ~109ppi panel — and **not** a DPI-accuracy correction, which would only have warranted ~1.13x over a 96dpi baseline since the display runs at Plasma scale 1. Do not restate it as a scaling rule.
+> **Corrected 2026-09-02.** This section previously documented the offsets as `8px`/`14px` black, describing a doubling applied on 2026-08-28. That doubling was reverted and the colour was moved to `accent_alt`; no generated output has carried `8px 8px 0 0 #000000` since. `docs/REFERENCE.md` carried the same stale values. The measured, shipping values are the ones above — always read `tokens/indigo-glass.tokens.toml` over prose.
 
-### The press is mechanical
+### The press is mechanical, and it fires on `:active`
 
 `[motion.roles].ink_press` is `["instant", "mechanical"]` — 60ms with `steps(2, end)`. The token file's phrase for it: **"a stamp, not a spring"**. The object translates into its own shadow by the shadow's offset while the shadow collapses to `0 0 0 0` (`[shadow].ink_press`).
+
+**It fires on `:active`, never on `:hover`** — and this is a deliberate divergence from neobrutalism.dev, which travels on pointer arrival. State it explicitly, because the code drifted back to `:hover` in six places by copying the reference, and three of those carried a comment citing the reference as justification.
+
+Travelling into the shadow is a *press* metaphor. Firing it on hover announces an action that has not happened, strips a control of its elevation while it is only being aimed at, and is pointer-only — keyboard and touch users never receive the feedback at all. Hover moves **fill** (`accent_hi`); it never moves geometry.
+
+Adjudicated 2026-09-02 by [cross-model audit](../research-reports/neobrutalism-page-audit-2026-09-02/); GPT and Gemini reached it independently.
 
 The old `neu_press` (120ms on a `cubic-bezier(0.34, 1.56, 0.64, 1.0)` overshoot) is deprecated — a soft pillowy push is the wrong feel for a hard-edged ink object. `standard` and `emphasize` easings survive for hover, focus, toggles and panels; only the *press* is mechanical.
 
