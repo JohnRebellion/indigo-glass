@@ -500,7 +500,11 @@ actions   = "#121216"</pre>
     background: var(--ig-surface);  /* flat mode: same tone as editor variants */
     border: var(--ig-border-default) solid var(--ig-border);
     border-radius: 0;
-    box-shadow: 14px 14px 0 0 rgba(0,0,0,0.9); /* NOTE: still the black shadow leftover pattern (see docs/SAGE_INK_AUDIT.md #7) - out of scope for this border-width pass */
+    /* [shadow].ink_lg — a command palette is a feature surface. Was
+       14px 14px black, the leftover flagged in docs/SAGE_INK_AUDIT.md #7:
+       the offset was the reverted doubling and the fill here is
+       --ig-surface, so the shadow takes sage, not black. */
+    box-shadow: 7px 7px 0 0 rgba(137,168,137,0.9);
     overflow: hidden;
     font-size: 9pt;
   }

@@ -115,8 +115,16 @@ a:hover {
   cursor: pointer;
   transition: background var(--ig-dur-quick) var(--ig-ease-standard);
 }
+/* Hover moves fill only. Geometry belongs to :active — see below. */
 .ig-button:hover {
   background: var(--ig-indigo-hi);
+}
+/* Press travels on :active, not :hover — adjudicated 2026-09-02 by
+   cross-model audit. Travelling into the shadow is a press metaphor;
+   firing it on pointer arrival announces an action that has not
+   happened, and is pointer-only so keyboard and touch never see it.
+   Diverges from neobrutalism.dev, which uses :hover. */
+.ig-button:active {
   transform: translate(4px, 4px);
   box-shadow: var(--ig-shadow-ink-press);
 }

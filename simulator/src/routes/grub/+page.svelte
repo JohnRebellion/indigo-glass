@@ -249,8 +249,13 @@
     background: rgba(0,0,0,0.55); /* drift-allow: a caption legibility scrim over an arbitrary preset screenshot, not a fixed surface - can't be pre-composited to one opaque value like a modal scrim can't either */
   }
   .preset-card.active { outline-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 4px 4px 0 0 #89A889; }
-  /* Press travels on :hover, not :active, per the neobrutalism.dev reference. */
-  .preset-card:hover { outline-color: rgba(255,255,255,0.18); transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
+  /* Press travels on :active, not :hover — adjudicated 2026-09-02 by
+     cross-model audit. Travelling into the shadow is a press metaphor; firing
+     it on pointer arrival announces an action that has not happened, and is
+     pointer-only so keyboard and touch users never see it. Deliberate
+     divergence from neobrutalism.dev, which uses :hover. */
+  .preset-card:hover { outline-color: rgba(255,255,255,0.18); }
+  .preset-card:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
 
   label {
     display: block; font-size: 0.72rem; color: #C9CBD3;
@@ -285,8 +290,8 @@
     box-shadow: 4px 4px 0 0 #89A889;
     transition: background 100ms, transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
   }
-  /* Press travels on :hover per the neobrutalism.dev reference. */
-  button:hover { background: #191c1e; transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
+  button:hover { background: #191c1e; }
+  button:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
   button.primary {
     background: #A6C9A6;
     color: #07080A;
@@ -333,7 +338,10 @@
     background: linear-gradient(180deg, #2a2a44, #18182c);
     border-radius: 0 0 12px 12px;
     margin: 14px auto -22px;
-    box-shadow: 8px 8px 0 0 rgba(0,0,0,0.9);
+    /* Dark fill -> sage shadow, at the [shadow].ink offset. Was
+       8px 8px black: the offset was the abandoned 2026-08-28 doubling and
+       black on this surface measured 1.05:1. */
+    box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
   }
   .size-control {
     margin-top: 30px;
