@@ -459,6 +459,142 @@ PY
 fi
 
 # ===========================================================================
+# 3b. TIER C FILL — an on-select selector painted with an OPAQUE fill
+# ===========================================================================
+# 2026-09-04: the GTK file-chooser on-select bug (docs/STATE_GRAMMAR.md
+# Tier C) was an opaque accent fill, not a translucent one - `alpha_of()`
+# above only fires on values with 0 < alpha < 1, so a solid
+# `background-color: @theme_selected_bg_color` on `row:selected` sailed
+# through every prior scan clean. This closes that half of Tier C: a real
+# on-select noun (row/treeview/list/placessidebar/nav, or the documented
+# menuitem-hover-is-select case) paired with a non-transparent background
+# is flagged, unless it also matches a Tier D identity-fill allowlist
+# fragment (checkbox/radio/switch/button/badge/tag/chip/scrollbar) - those
+# keep their fill deliberately, per STATE_GRAMMAR's own Tier D examples.
+if [ "$MODE" = "all" ] || [ "$MODE" = "alpha" ]; then
+  echo ""
+  echo "Tier C scan: ${#MATERIAL_DIRS[@]} dirs (on-select noun + opaque fill)"
+
+  tierc_hits="$(python3 - "${MATERIAL_DIRS[@]}" <<'PY'
+import os, re, sys
+
+SKIP_DIR = {'node_modules', '.git', 'out', '.svelte-kit', 'test-results',
+            'build', '.work', 'coverage'}
+SKIP_EXT = ('.png', '.jpg', '.jpeg', '.webp', '.woff2', '.woff', '.ttf',
+            '.otf', '.md', '.lock', '.ico', '.svg')
+
+def normalize(s: str) -> str:
+    return re.sub(r'[-_]', '', s.lower())
+
+# Tier D identity-fill nouns (docs/STATE_GRAMMAR.md): these keep a fill on
+# purpose - a checkbox/switch/radio/button IS in that state, a badge/tag/
+# chip/scrollbar-thumb is identity, not "what's happening right now".
+ALLOW_FRAGMENTS = ['checkbutton', 'checkbox', 'radiobutton', 'radio',
+                   'switch', 'button', 'badge', 'tag', 'chip', 'scrollbar',
+                   'slider', 'progress']
+
+# Tier C on-select nouns named explicitly in STATE_GRAMMAR.md: "a clickable
+# list row / tab / menu item / nav entry". `:selected` covers the row/list/
+# nav case; `menuitem:hover` / `modelbutton:hover` is this codebase's own
+# documented on-select-via-hover case for menu items (a menu item's hover
+# IS its on-select state - there's no separate :selected pseudo-class for
+# them in GTK). Tab is excluded: both toolkits already render it as a thin
+# accent indicator strip, not a fill, so it never lands here regardless.
+#
+# `:selected` alone over-matches two ways, both real false positives hit on
+# the first run of this scan (2026-09-04):
+#   - `:not(:selected)` (the documented hover-preview exception, e.g.
+#     `row:hover:not(:selected)`) contains the literal substring `:selected`
+#     - stripped out before matching.
+#   - bare `*:selected` / `selection` (generic CSS text selection - Tier A,
+#     permanently exempt, genuinely needs a real fill) isn't row/list/nav-
+#     specific - a Tier C noun must ALSO be present in the same selector.
+NOT_SELECTED = re.compile(r'not\(\s*:selected\s*\)')
+TIERC_NOUN = re.compile(r'\b(row|treeview|list|placessidebar|sidebar|nav)\b')
+TIERC_HOVER_AS_SELECT = re.compile(r'\b(menuitem|modelbutton)\s*:\s*hover\b')
+BG_PROP = re.compile(r'\bbackground(?:-color)?\s*:\s*([^;]+);')
+TRANSPARENT_VALUES = {'transparent', 'none', 'inherit', 'initial', 'unset'}
+
+for root_arg in sys.argv[1:]:
+    for root, dirs, files in os.walk(root_arg):
+        dirs[:] = [d for d in dirs if d not in SKIP_DIR]
+        for fn in files:
+            if fn.endswith(SKIP_EXT):
+                continue
+            p = os.path.join(root, fn)
+            try:
+                raw_lines = open(p, encoding='utf-8', errors='ignore').read().split('\n')
+            except OSError:
+                continue
+            in_block_comment = False
+            ctx_stack: list[str] = []
+            pending = ''
+            pop_count_next = 0
+            for n, raw in enumerate(raw_lines, 1):
+                if 'drift-allow' in raw:
+                    continue
+                if pop_count_next:
+                    for _ in range(pop_count_next):
+                        if ctx_stack:
+                            ctx_stack.pop()
+                    pop_count_next = 0
+                    pending = ''
+                if in_block_comment:
+                    end = raw.find('*/')
+                    if end == -1:
+                        continue
+                    raw = raw[end + 2:]
+                    in_block_comment = False
+                line = raw
+                while True:
+                    start = line.find('/*')
+                    if start == -1:
+                        break
+                    end = line.find('*/', start + 2)
+                    if end == -1:
+                        line = line[:start]
+                        in_block_comment = True
+                        break
+                    line = line[:start] + line[end + 2:]
+                line = re.sub(r'(?<!:)//.*$', '', line)
+
+                if '{' in line:
+                    before = line.split('{', 1)[0]
+                    ctx_stack.append((pending + ' ' + before).strip())
+                    pending = ''
+                else:
+                    pending = (pending + ' ' + line).strip()
+                selector_ctx = ' '.join(ctx_stack)
+                if '}' in line:
+                    pop_count_next += line.count('}')
+
+                ctx_sans_negation = NOT_SELECTED.sub('', selector_ctx)
+                has_selected = ':selected' in ctx_sans_negation and bool(TIERC_NOUN.search(selector_ctx))
+                is_tierc = has_selected or bool(TIERC_HOVER_AS_SELECT.search(selector_ctx))
+                if not is_tierc:
+                    continue
+                norm_ctx = normalize(selector_ctx)
+                if any(frag in norm_ctx for frag in ALLOW_FRAGMENTS):
+                    continue
+                m = BG_PROP.search(line)
+                if not m:
+                    continue
+                value = m.group(1).strip().strip('"\'').lower()
+                if value in TRANSPARENT_VALUES or value.startswith('rgba(') or value.endswith(', 0)'):
+                    continue  # transparent, or already caught as alpha above
+                print(f"{p}:{n}:{raw.strip()[:120]}")
+PY
+)" || true
+
+  if [ -n "$tierc_hits" ]; then
+    FOUND=1
+    echo ""
+    echo "--- opaque fill on a Tier C on-select selector (outline, not fill) ---"
+    echo "$tierc_hits"
+  fi
+fi
+
+# ===========================================================================
 # 4. PARITY — a shipped deployable disagrees with its own generated source
 # ===========================================================================
 # 2026-09-01, second pass: PARITY originally ran its own key-by-key KV/JSON
