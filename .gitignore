@@ -31,3 +31,12 @@ browser/edge-theme/**/Cached Theme.pak
 # Python bytecode cache (tokens/codegen.py)
 __pycache__/
 *.pyc
+
+# Session scratch — machine-local resume notes, not repo state
+.session-state/
+
+# Live-audit capture output. shoot-ours.mjs / shoot-reference.mjs regenerate
+# these on demand (46 reference crops from neobrutalism.dev + 52 of ours,
+# plus the per-section montages), so ~5MB per run does not belong in history.
+# The findings live in the synthesis docs and in docs/OUTLINE-SWEEP-*.md.
+research-reports/neobrutalism-live-audit-*/
