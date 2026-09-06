@@ -222,6 +222,8 @@ sudo make install
 
 **Before `make`: apply the ink-shadow patch.** Edit `~/src/klassy/kdecoration/breezedecoration.cpp` so that `s_shadowParams[1]` (the `"Small"` preset) renders a single hard `offset(8, 8)` / `radius(0)` / `opacity(1.0)` layer, with the second layer zeroed. Stock Klassy has no shadow-offset setting, so this is the only route to the ink shadow — see [`~/.config/klassyrc`](#configklassyrc) below for the full explanation. Leave `s_shadowParams[0]` (`ShadowNone`) alone.
 
+`scripts/install.sh` applies this and two further patches automatically (`git apply`, with an `apply --check` guard that refuses the build rather than silently shipping unpatched Klassy if upstream has drifted): `config/klassy/tierc-outline.patch` (Tier C selection outline, `docs/STATE_GRAMMAR.md`) and `config/klassy/menu-tooltip-ink.patch` (QMenu/QComboBox popup + QTipLabel tooltip frames — stock Klassy renders these rounded whenever the compositor supports alpha, which Wayland always does, with a low-contrast blended border and no ink shadow; patched to sharp corners, a literal black 2px border, and the same hard-offset shadow technique via `kstyle/breezeshadowhelper.cpp`'s own copy of `s_shadowParams`). As of 2026-09-04, `ink-shadow.patch` itself no longer applies cleanly to upstream Klassy's current `plasma6.6` HEAD (context mismatch at `kdecoration/breezedecoration.cpp:90` — upstream has since added its own shadow customisation around the `None` preset) — a fresh `install.sh` run will stop at that guard until the patch is re-derived. Not yet fixed; flagged here rather than worked around.
+
 Verify:
 ```bash
 ls /usr/lib64/qt6/plugins/org.kde.kdecoration3/ | grep klassy
@@ -600,7 +602,22 @@ kreadconfig6 --file kwinrc --group Plugins --key blurEnabled
 
 # Verify no layer has drifted from the tokens (colour + material)
 bash scripts/check-palette-drift.sh
+
+# Verify the themes are actually IN USE, not merely correct on disk
+bash scripts/check-deployment.sh
 ```
+
+The two guards answer different questions and neither substitutes for the
+other. `check-palette-drift.sh` asks *"is the shipped file correct?"*;
+`check-deployment.sh` asks *"was it ever installed, and is the host
+application pointed at it?"*. A live audit on 2026-09-06 found both GTK
+`settings.ini` files correct while `gsettings` still named an unrelated theme
+(GTK4/libadwaita read gsettings, not `settings.ini`), and the Edge theme
+manifest byte-perfect but never loaded — every drift scan was green for both.
+
+`check-deployment.sh` reports three states per layer. Only **UNDEPLOYED** is a
+failure: the host app is installed but is not using our artefact. **absent**
+means the host app is not on this machine, which is not an error.
 
 ---
 
@@ -872,6 +889,7 @@ edge://flags/:
 8. bash scripts/check-palette-drift.sh — must exit 0
 9. Logout/login for env propagation
 10. In Edge: configure flags + theme picker
+11. bash scripts/check-deployment.sh — must exit 0 (catches step 10 being skipped)
 ```
 
 Step 4 before step 5 is not optional: every concrete value in Phase 4 is meant to be derived, and hand-typing hex or a shadow string is exactly how the migrations described in [PHILOSOPHY.md](PHILOSOPHY.md#material-is-a-constraint-not-a-preference) went wrong.
