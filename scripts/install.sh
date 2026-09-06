@@ -254,6 +254,102 @@ if [ "$THEMES_ONLY" = false ]; then
   echo "▶ Building Klassy v6.5.3 from source..."
   run "mkdir -p $HOME/src && cd $HOME/src && rm -rf klassy"
   run "cd $HOME/src && git clone --depth 1 https://github.com/paulmcauley/klassy.git"
+
+    # ─── Apply the ink-shadow patch BEFORE building ───
+    # Stock Klassy has no shadow-offset setting at all: ShadowSize picks
+    # between soft blurred presets and nothing else. The hard offset shadow
+    # exists only because s_shadowParams[1] ("Small") is rewritten to a single
+    # opaque zero-radius layer displaced by QPoint(8, 8).
+    #
+    # This used to be a MANUAL step in docs/REFERENCE.md, which meant every run
+    # of this script silently reverted the window shadow: the `rm -rf klassy`
+    # above deletes the patched tree, the clone restores stock, and
+    # `sudo make install` overwrites the patched decoration. That is exactly
+    # what happened on 2026-09-02. Automated now, with the patch a real
+    # artefact in the repo rather than prose to be retyped.
+    #
+    # --check first, so a Klassy upgrade that moves the anchor fails loudly
+    # here instead of quietly producing an unpatched build.
+    echo "▶ Applying the ink-shadow patch to Klassy..."
+    if [ "$DRY_RUN" = false ]; then
+      if ! git -C "$HOME/src/klassy" apply --check "$REPO_DIR/config/klassy/ink-shadow.patch" 2>/dev/null; then
+        echo "  ✗ ink-shadow.patch does not apply — Klassy upstream has changed."
+        echo "    Re-derive against kdecoration/breezedecoration.cpp s_shadowParams[1]"
+        echo "    and update config/klassy/ink-shadow.patch. Refusing to build an"
+        echo "    unpatched decoration, which would silently drop the window shadow."
+        exit 1
+      fi
+      git -C "$HOME/src/klassy" apply "$REPO_DIR/config/klassy/ink-shadow.patch"
+      echo "  ✓ ink-shadow.patch applied"
+    else
+      echo "  [dry-run] would apply config/klassy/ink-shadow.patch"
+    fi
+
+    # ─── Apply the Tier C outline patch (docs/STATE_GRAMMAR.md) ───
+    # Stock Klassy (a Breeze fork) fills selected list/tree rows and
+    # highlighted menu items with a translucent/lightened Highlight colour -
+    # exactly the fill this design system's Tier C rule forbids ("on-select
+    # is outline, not fill"), and the mouseOver+selected case additionally
+    # over-lightens an already-pale accent toward white (the low-contrast bug
+    # this patch was written to fix, 2026-09-04). Converts both
+    # drawPanelItemViewItemPrimitive (list/tree/combo selection) and
+    # drawMenuItemControl (menu item highlight) to a 2px white outline with
+    # no fill, and remaps QAbstractItemView's HighlightedText role to Text in
+    # polish() so selected item text stays legible once the fill is gone -
+    # done per-widget-type, not globally, so genuinely-filled Tier A text
+    # selection (QLineEdit/QTextEdit) keeps its own dark-on-sage contrast.
+    # Dolphin's own file list needs neither half of this: it isn't a
+    # QAbstractItemView (KItemListView, a private KIO widget) and already
+    # uses plain Text colour on selection, independent of this patch.
+    echo "▶ Applying the Tier C outline patch to Klassy..."
+    if [ "$DRY_RUN" = false ]; then
+      if ! git -C "$HOME/src/klassy" apply --check "$REPO_DIR/config/klassy/tierc-outline.patch" 2>/dev/null; then
+        echo "  ✗ tierc-outline.patch does not apply — Klassy upstream has changed."
+        echo "    Re-derive against kstyle/breezestyle.cpp drawPanelItemViewItemPrimitive"
+        echo "    / drawMenuItemControl / polish(QWidget*) and update"
+        echo "    config/klassy/tierc-outline.patch. Refusing to build an unpatched"
+        echo "    style, which would silently bring back the fill-based selection."
+        exit 1
+      fi
+      git -C "$HOME/src/klassy" apply "$REPO_DIR/config/klassy/tierc-outline.patch"
+      echo "  ✓ tierc-outline.patch applied"
+    else
+      echo "  [dry-run] would apply config/klassy/tierc-outline.patch"
+    fi
+
+    # ─── Apply the menu/tooltip ink patch ───
+    # Stock Klassy's QMenu/QComboBox popup and QTipLabel tooltip frames
+    # (drawPanelMenuPrimitive/drawPanelTipLabelPrimitive in breezestyle.cpp)
+    # pass hasAlphaChannel() into renderMenuFrame()'s roundCorners parameter -
+    # so they render rounded whenever the compositor supports alpha (always,
+    # under Wayland/KWin), with a low-contrast KColorUtils::mix() border and
+    # no shadow lookup wired to the ink-shadow colour. That is Breeze's
+    # default popup material, not Sage Ink's sharp-corner/2px-border/hard-
+    # offset-shadow one - confirmed live via a Qt tooltip screenshot,
+    # 2026-09-04. Forces roundCorners=false and a literal black 2px border
+    # (renderMenuFrame in breezehelper.cpp) for both draw functions, and
+    # ports the ink-shadow.patch hard-offset technique into
+    # breezeshadowhelper.cpp's own, separate s_shadowParams table + TileSet
+    # renderer - the kstyle ShadowHelper that actually paints these popups'
+    # shadow, independent of kdecoration's copy of the same preset array.
+    echo "▶ Applying the menu/tooltip ink patch to Klassy..."
+    if [ "$DRY_RUN" = false ]; then
+      if ! git -C "$HOME/src/klassy" apply --check "$REPO_DIR/config/klassy/menu-tooltip-ink.patch" 2>/dev/null; then
+        echo "  ✗ menu-tooltip-ink.patch does not apply — Klassy upstream has changed."
+        echo "    Re-derive against kstyle/breezestyle.cpp drawPanelMenuPrimitive"
+        echo "    / drawPanelTipLabelPrimitive, kstyle/breezehelper.cpp"
+        echo "    renderMenuFrame, and kstyle/breezeshadowhelper.cpp"
+        echo "    s_shadowParams/shadowTiles, then update"
+        echo "    config/klassy/menu-tooltip-ink.patch. Refusing to build an"
+        echo "    unpatched style, which would silently bring back rounded,"
+        echo "    shadowless Breeze-style menus and tooltips."
+        exit 1
+      fi
+      git -C "$HOME/src/klassy" apply "$REPO_DIR/config/klassy/menu-tooltip-ink.patch"
+      echo "  ✓ menu-tooltip-ink.patch applied"
+    else
+      echo "  [dry-run] would apply config/klassy/menu-tooltip-ink.patch"
+    fi
   run "cd $HOME/src/klassy && mkdir -p build && cd build && cmake .. \
     -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=OFF -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
@@ -333,6 +429,23 @@ run "cp '$REPO_DIR/config/gtk-4.0/settings.ini' '$HOME/.config/gtk-4.0/settings.
 run "cp '$REPO_DIR/config/gtk-4.0/gtk.css' '$HOME/.config/gtk-4.0/gtk.css'"
 run "cp '$REPO_DIR/config/plasma-workspace/env/gtk.sh' '$HOME/.config/plasma-workspace/env/gtk.sh'"
 run "chmod +x $HOME/.config/plasma-workspace/env/gtk.sh"
+
+# GSettings/XSettings is a THIRD source of truth for the GTK theme, alongside
+# the two settings.ini files above. libadwaita and GTK4 apps, plus anything
+# going through xdg-desktop-portal, read org.gnome.desktop.interface and
+# ignore settings.ini entirely — so leaving this unset lets a previously
+# selected theme keep rendering long after SageInk is "installed". Found
+# 2026-09-06 during a live audit: both settings.ini files read SageInk while
+# gsettings still reported WhiteSur-Dark-purple.
+if command -v gsettings >/dev/null 2>&1; then
+  run "gsettings set org.gnome.desktop.interface gtk-theme 'SageInk'"
+  run "gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'"
+  run "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
+  run "gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-IndigoGlass'"
+  run "gsettings set org.gnome.desktop.interface font-name 'Carlito 11'"
+else
+  echo "  ! gsettings not found — GTK4/libadwaita apps may keep a stale theme."
+fi
 
 echo
 echo "▶ Patching kdeglobals (color scheme + widget style + icons)..."
