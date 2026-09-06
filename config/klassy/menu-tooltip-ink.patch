@@ -1,0 +1,155 @@
+diff --git a/kstyle/breezestyle.cpp b/kstyle/breezestyle.cpp
+index a08fd6e..eff3028 100644
+--- a/kstyle/breezestyle.cpp
++++ b/kstyle/breezestyle.cpp
+@@ -4990,14 +5009,18 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
+     if (widget && !widget->isWindow()) {
+         return true;
+     }
+ 
+     const auto &palette(option->palette);
+-    const bool hasAlpha(_helper->hasAlphaChannel(widget));
+     const auto seamlessEdges = _helper->menuSeamlessEdges(widget);
+     auto background(_helper->frameBackgroundColor(palette));
+-    auto outline(_helper->frameOutlineColor(palette));
++    // Sage Ink: literal black, not frameOutlineColor()'s Window/WindowText
++    // blend - matches the 2px @borders black used for this same popup
++    // surface in GTK (gtk-dark.css) and the Plasma FrameSVG dialog/tooltip
++    // border tiles (border-top/-bottom/-left/-right in widgets/tooltip.svg,
++    // dialogs/background.svg).
++    auto outline(QColor(0, 0, 0));
+ 
+     painter->save();
+ 
+     if (StyleConfigData::menuOpacity() < 100) {
+         if (widget && widget->isWindow()) {
+@@ -5005,11 +5028,14 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
+         }
+         background.setAlphaF(StyleConfigData::menuOpacity() / 100.0);
+         outline = _helper->alphaColor(palette.color(QPalette::WindowText), 0.25);
+     }
+ 
+-    _helper->renderMenuFrame(painter, option->rect, background, outline, hasAlpha, seamlessEdges);
++    // Sage Ink: sharp corners, not roundCorners=hasAlpha (stock Klassy rounds
++    // whenever the popup window supports an alpha channel, which is true
++    // under any compositor - see renderMenuFrame in breezehelper.cpp).
++    _helper->renderMenuFrame(painter, option->rect, background, outline, false, seamlessEdges);
+ 
+     painter->restore();
+ 
+     return true;
+ }
+@@ -5022,14 +5048,20 @@ bool Style::drawPanelTipLabelPrimitive(const QStyleOption *option, QPainter *pai
+         _shadowHelper->registerWidget(widget->window(), true);
+     }
+ 
+     const auto &palette(option->palette);
+     const auto &background = palette.color(QPalette::ToolTipBase);
+-    const auto outline(KColorUtils::mix(palette.color(QPalette::ToolTipBase), palette.color(QPalette::ToolTipText), _helper->frameIntensityBias()));
+-    const bool hasAlpha(_helper->hasAlphaChannel(widget));
+-
+-    _helper->renderMenuFrame(painter, option->rect, background, outline, hasAlpha);
++    // Sage Ink: literal black, not a ToolTipBase/ToolTipText blend - matches
++    // the 2px @borders black used for this same surface in GTK
++    // (gtk-dark.css) and the Plasma FrameSVG tooltip border tiles
++    // (widgets/tooltip.svg border-top/-bottom/-left/-right).
++    const auto outline(QColor(0, 0, 0));
++
++    // Sage Ink: sharp corners, not roundCorners=hasAlpha (stock Klassy rounds
++    // whenever the tooltip window supports an alpha channel, which is true
++    // under any compositor - see renderMenuFrame in breezehelper.cpp).
++    _helper->renderMenuFrame(painter, option->rect, background, outline, false);
+     return true;
+ }
+ 
+ //___________________________________________________________________________________
+ bool Style::drawPanelItemViewItemPrimitive(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+diff --git a/kstyle/breezehelper.cpp b/kstyle/breezehelper.cpp
+index 849421e..4eae1ef 100644
+--- a/kstyle/breezehelper.cpp
++++ b/kstyle/breezehelper.cpp
+@@ -651,8 +651,14 @@ void Helper::renderMenuFrame(QPainter *painter, const QRectF &rect, const QColor
+             seamlessEdges.testFlag(Qt::BottomEdge) ? -1 : 0);
+ 
+         if (outline.isValid()) {
+-            painter->setPen(outline);
+-            frameRect.adjust(0, 0, -1, -1);
++            // Sage Ink: 2px, not the cosmetic 1px default - this branch is
++            // only reached with roundCorners explicitly false, which today
++            // means the ink-styled QMenu/QComboBox popup and QTipLabel
++            // tooltip frames (see drawPanelMenuPrimitive/
++            // drawPanelTipLabelPrimitive), matching the 2px border used for
++            // the same surfaces in GTK and the Plasma FrameSVG tooltip.
++            painter->setPen(QPen(outline, 2));
++            frameRect.adjust(1, 1, -1, -1);
+ 
+         } else {
+             painter->setPen(Qt::NoPen);
+diff --git a/kstyle/breezeshadowhelper.cpp b/kstyle/breezeshadowhelper.cpp
+index 25b02f6..692a92e 100644
+--- a/kstyle/breezeshadowhelper.cpp
++++ b/kstyle/breezeshadowhelper.cpp
+@@ -33,8 +33,13 @@ using Breeze::ShadowParams;
+ const CompositeShadowParams s_shadowParams[] = {
+     // None
+     CompositeShadowParams(),
+-    // Small
+-    CompositeShadowParams(QPoint(0, 3), ShadowParams(QPoint(0, 0), 12, 0.26), ShadowParams(QPoint(0, -2), 6, 0.16)),
++    // Small — PATCHED: Sage Ink hard-offset shadow, same technique as
++    // kdecoration/breezedecoration.cpp's s_shadowParams[1] (see
++    // config/klassy/ink-shadow.patch in indigo-glass for the full derivation).
++    // This table drives QMenu/QComboBox popups and QTipLabel tooltips
++    // (ShadowHelper::acceptWidget), not window decorations - a separate,
++    // previously-unpatched copy of the same preset array.
++    CompositeShadowParams(QPoint(4, 4), ShadowParams(QPoint(0, 0), 5, 1), ShadowParams(QPoint(0, 0), 0, 0)),
+     // Medium
+     CompositeShadowParams(QPoint(0, 4), ShadowParams(QPoint(0, 0), 16, 0.24), ShadowParams(QPoint(0, -2), 8, 0.14)),
+     // Large
+@@ -216,24 +221,44 @@ TileSet ShadowHelper::shadowTiles(QWidget *widget)
+ 
+     QImage shadowTexture = shadowRenderer.render();
+ 
++    // ─── Sage Ink: solid, opaque, zero-blur shadow ──────────────────────────
++    // Mirrors kdecoration/breezedecoration.cpp's createShadowObject (see
++    // config/klassy/ink-shadow.patch in indigo-glass) - BoxShadowRenderer
++    // floors blur at 2px, so its output is discarded and replaced with a
++    // hard-edged displaced copy of the popup's own box. The renderer above
++    // still runs because boxSize/margins math below derives from its
++    // texture geometry.
++    QColor inkColor = color;
++    inkColor.setAlpha(255);
++    shadowTexture.fill(Qt::transparent);
++
+     const QRect outerRect(QPoint(0, 0), shadowTexture.size());
+ 
+     QRect boxRect(QPoint(0, 0), boxSize);
+     boxRect.moveCenter(outerRect.center());
+ 
+-    // Mask out inner rect.
+     QPainter painter(&shadowTexture);
+-    painter.setRenderHint(QPainter::Antialiasing);
++    // Antialiasing OFF: the mask edge IS the shadow edge, and it must be a
++    // hard pixel boundary, not a feathered one.
++    painter.setRenderHint(QPainter::Antialiasing, false);
+ 
+     const QMargins margins = QMargins(boxRect.left() - outerRect.left() - Metrics::Shadow_Overlap - params.offset.x(),
+                                       boxRect.top() - outerRect.top() - Metrics::Shadow_Overlap - params.offset.y(),
+                                       outerRect.right() - boxRect.right() - Metrics::Shadow_Overlap + params.offset.x(),
+                                       outerRect.bottom() - boxRect.bottom() - Metrics::Shadow_Overlap + params.offset.y());
+ 
++    const QRect innerRect = outerRect - margins;
++
++    // Displaced solid copy, then punch out the box itself - leaves only the
++    // offset silhouette visible, same two-pass technique as the decoration.
+     painter.setPen(Qt::NoPen);
++    painter.setBrush(inkColor);
++    painter.setCompositionMode(QPainter::CompositionMode_Source);
++    painter.drawRect(innerRect.translated(params.offset.x(), params.offset.y()));
++
+     painter.setBrush(Qt::black);
+     painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+-    painter.drawRoundedRect(outerRect - margins, frameRadius, frameRadius);
++    painter.drawRect(innerRect);
+ 
+     // We're done.
+     painter.end();

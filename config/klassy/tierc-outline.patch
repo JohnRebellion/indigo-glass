@@ -1,0 +1,180 @@
+diff --git a/kstyle/breezestyle.cpp b/kstyle/breezestyle.cpp
+index a08fd6e..639f40b 100644
+--- a/kstyle/breezestyle.cpp
++++ b/kstyle/breezestyle.cpp
+@@ -365,12 +365,31 @@ void Style::polish(QWidget *widget)
+     polishScrollArea(qobject_cast<QAbstractScrollArea *>(widget));
+ 
+     if (auto itemView = qobject_cast<QAbstractItemView *>(widget)) {
+         // enable mouse over effects in the viewport of the itemview
+         itemView->viewport()->setAttribute(Qt::WA_Hover);
+ 
++        // Sage Ink: selected rows no longer paint a Highlight fill
++        // (drawPanelItemViewItemPrimitive, Tier C outline instead of fill),
++        // but QStyledItemDelegate still draws selected text in
++        // QPalette::HighlightedText unconditionally - that role stays dark
++        // ink system-wide because genuinely-filled Tier A widgets (QLineEdit/
++        // QTextEdit text selection) still need it there for contrast against
++        // their own real sage fill. Remapping it globally would make THOSE
++        // unreadable instead. Per-widget-type remap via polish() is the
++        // correct fix: only QAbstractItemView's own HighlightedText becomes
++        // the same as its Text role, so selected item text stays legible
++        // against the item's now-unfilled background. 2026-09-04. Dolphin's
++        // own file list is unaffected either way - KStandardItemListWidget
++        // is not a QAbstractItemView and already uses its own textColor()
++        // logic, independent of this palette role.
++        QPalette itemViewPalette = itemView->palette();
++        itemViewPalette.setColor(QPalette::Active, QPalette::HighlightedText, itemViewPalette.color(QPalette::Active, QPalette::Text));
++        itemViewPalette.setColor(QPalette::Inactive, QPalette::HighlightedText, itemViewPalette.color(QPalette::Inactive, QPalette::Text));
++        itemView->setPalette(itemViewPalette);
++
+     } else if (auto groupBox = qobject_cast<QGroupBox *>(widget)) {
+         // checkable group boxes
+         if (groupBox->isCheckable()) {
+             groupBox->setAttribute(Qt::WA_Hover);
+         }
+ 
+@@ -4392,18 +4411,26 @@ bool Style::drawFrameFocusRectPrimitive(const QStyleOption *option, QPainter *pa
+     const State &state(option->state);
+     if (!(state & State_HasFocus)) {
+         return true;
+     }
+ 
+     const auto &palette(option->palette);
+-    auto outlineColor(palette.color(HighlightColor));
++    // Sage Ink: Tier C (docs/STATE_GRAMMAR.md) says the on-select ring is the
++    // --ring token (near-white), not an accent derivative. Stock Breeze took
++    // HighlightColor and applied lighter(Focus_LightenColorValue=110), which
++    // on the sage palette produced #B7DDB7 - an off-token value that exists
++    // nowhere in tokens.toml and that the alpha/colour drift scans cannot see
++    // because it is computed at paint time. Measured live 2026-09-06 on
++    // Dolphin's file list, which reaches this via the QGraphicsWidget branch
++    // below. Matches the fixed white already used by
++    // drawPanelItemViewItemPrimitive for the QStyle item-view ring.
++    auto outlineColor = QColor(Qt::white);
+     const auto focusRectOption = qstyleoption_cast<const QStyleOptionFocusRect *>(option);
+     if (focusRectOption && focusRectOption->backgroundColor.isValid()) {
+-        outlineColor = focusRectOption->backgroundColor;
++        outlineColor = focusRectOption->backgroundColor.lighter(Metrics::Focus_LightenColorValue);
+     }
+-    outlineColor = outlineColor.lighter(Metrics::Focus_LightenColorValue);
+ 
+     auto drawItemViewFocus = [option, painter, widget, outlineColor, this]() {
+         auto rect(option->rect);
+ 
+         QStyleOptionViewItem viewItemOption;
+         if (widget) {
+@@ -5154,34 +5194,46 @@ bool Style::drawPanelItemViewItemPrimitive(const QStyleOption *option, QPainter
+         color = viewItemOption->backgroundBrush.color();
+     } else {
+         color = palette.color(colorGroup, QPalette::Highlight);
+     }
+ 
+     // change color to implement mouse over
+-    if (mouseOver && !hasCustomBackground) {
+-        if (!selected) {
+-            color.setAlphaF(Metrics::Blend_Value);
+-        } else {
+-            color = color.lighter(Metrics::Focus_LightenColorValue);
+-        }
++    // Sage Ink: only the hover-only case stays a translucent preview tint -
++    // permitted by docs/STATE_GRAMMAR.md's own "transient, non-scrollbar
++    // hover wash" exception. `selected` is handled entirely below now: the
++    // old `color.lighter(Focus_LightenColorValue)` step for hover+selected
++    // is gone, since that step (over-lightening the already-pale sage accent
++    // toward white on a hovered, already-selected row) WAS the low-contrast
++    // bug this patch exists to fix.
++    if (mouseOver && !hasCustomBackground && !selected) {
++        color.setAlphaF(Metrics::Blend_Value);
+     }
+ 
+     // Focus decoration
+     QColor focusColor = color;
+-    if (!hasCustomBackground) {
++
++    QBrush fillBrush = color;
++    if (selected && !hasCustomBackground) {
++        // Tier C (docs/STATE_GRAMMAR.md): on-select is a 2px outline, not a
++        // fill. Klassy is a dark-only style in this design system, so the
++        // outline is a fixed white - the same convention already used for
++        // GTK's Tier C rules (box-shadow: inset 0 0 0 2px #FFFFFF). 2026-09-04.
++        fillBrush = Qt::NoBrush;
++        focusColor = Qt::white;
++        focusColor.setAlphaF(1.0);
++    } else if (!hasCustomBackground) {
+         focusColor.setAlphaF(selected ? 1.0 : 0.8);
+     }
+ 
+     // render
+-    painter->setBrush(color);
+     const auto isTable = qobject_cast<const QTableView *>(viewItemOption->widget);
+     // We want table cells to not be rounded
+     if (isTable) {
+-        _helper->renderViewItemPosition(painter, QStyleOptionViewItem::ViewItemPosition::Invalid, viewItemOption->direction, rect, color, focusColor);
++        _helper->renderViewItemPosition(painter, QStyleOptionViewItem::ViewItemPosition::Invalid, viewItemOption->direction, rect, fillBrush, focusColor);
+     } else {
+-        _helper->renderViewItemPosition(painter, viewItemPosition, viewItemOption->direction, rect, color, focusColor);
++        _helper->renderViewItemPosition(painter, viewItemPosition, viewItemOption->direction, rect, fillBrush, focusColor);
+     }
+ 
+     return true;
+ }
+ 
+ //___________________________________________________________________________________
+@@ -6289,20 +6341,20 @@ bool Style::drawMenuItemControl(const QStyleOption *option, QPainter *painter, c
+         _helper->renderSeparator(painter, contentsRect, separatorColor);
+         return true;
+     }
+ 
+     // render hover and focus
+     if (useStrongFocus && (selected || sunken)) {
+-        auto color = _helper->focusColor(palette);
+-        // When clicking, use the same background color
+-        auto outlineColor = color;
+-        if (!sunken) {
+-            // If not clicking, use the alphaColor
+-            color = _helper->alphaColor(color, Metrics::Blend_Value);
+-            outlineColor = _helper->focusOutlineColor(palette);
+-        }
++        // Tier C (docs/STATE_GRAMMAR.md): a highlighted/selected menu item is
++        // named explicitly as on-select state, same as the list-row fix
++        // above - outline, not a translucent accent fill. Was
++        // alphaColor(focusColor, Blend_Value) (hover/selected) or a solid
++        // focusColor fill (sunken/clicking); both are Tier C fills.
++        // 2026-09-04.
++        QColor color = Qt::transparent;
++        auto outlineColor = Qt::white;
+ 
+         Sides sides;
+         if (!menuItemOption->menuRect.isNull()) {
+             const auto seamlessEdges = _helper->menuSeamlessEdges(widget);
+ 
+             if (rect.top() <= menuItemOption->menuRect.top() && !seamlessEdges.testFlag(Qt::TopEdge)) {
+diff --git a/kstyle/breezehelper.cpp b/kstyle/breezehelper.cpp
+index 849421e..67554bf 100644
+--- a/kstyle/breezehelper.cpp
++++ b/kstyle/breezehelper.cpp
+@@ -447,13 +447,22 @@ void Helper::renderFocusRect(QPainter *painter, const QRectF &rect, const QBrush
+             copy.adjust(-radius, 0, 0, 0);
+         }
+         if (!(sides & SideRight)) {
+             copy.adjust(0, 0, radius, 0);
+         }
+ 
+-        painter->setPen(outline);
++        // Sage Ink: 2px, not the cosmetic 1px default. This is the stroke
++        // that draws the Tier C on-select ring for every QStyle item view -
++        // including Dolphin's file list, which reaches it via
++        // PE_PanelItemViewItem (kitemlistwidget.cpp only hard-codes its own
++        // painting inside a `style()->name() == "breeze"` branch, and this
++        // style reports "klassy"). drawPanelItemViewItemPrimitive sets the
++        // outline COLOUR for that ring but had no way to set its width, so
++        // the ring shipped at 1px against a grammar that specifies 2px -
++        // measured live 2026-09-06. Same idiom as renderMenuFrame above.
++        painter->setPen(QPen(outline, 2));
+         // painter->setBrush( Qt::NoBrush );
+         painter->drawRoundedRect(copy, radius, radius);
+     }
+ 
+     painter->restore();
+ }

@@ -1,0 +1,73 @@
+diff --git a/kdecoration/breezedecoration.cpp b/kdecoration/breezedecoration.cpp
+index 17f16d1..fccbcbc 100644
+--- a/kdecoration/breezedecoration.cpp
++++ b/kdecoration/breezedecoration.cpp
+@@ -93,8 +93,34 @@ const CompositeShadowParams s_shadowParams[] = {
+         QPoint(0, 4),
+         ShadowParams(QPoint(0, 0), 16, 0),
+         ShadowParams(QPoint(0, -2), 8, 0)),
+-    // Small
+-    CompositeShadowParams(QPoint(0, 4), ShadowParams(QPoint(0, 0), 16, 1), ShadowParams(QPoint(0, -2), 8, 0.4)),
++    // Small — PATCHED: Sage Ink's solid, opaque, ZERO-blur offset shadow.
++    //
++    // What each number does here is NOT what it does in stock Klassy:
++    //
++    //   composite offset (4, 4) — the real lever. createShadow() derives
++    //     padding from it as  margin -/+ overlap -/+ offset, and padding is
++    //     what KWin uses to decide how far the shadow reaches on each side.
++    //     offset == margin - overlap gives padding (0, 0, 2*offset, 2*offset):
++    //     a PURE offset shadow, nothing on top or left. Here 7 - 3 = 4, so the
++    //     shadow is exactly 8px down and right.
++    //
++    //   shadow1.radius 5 — NOT a blur. The texture is overpainted as a hard
++    //     block right after render() (see createShadowObject). radius survives
++    //     only to size the canvas: it sets blurExtent 7, hence margin 7, which
++    //     is what makes the 8px padding above reachable. The achievable pure
++    //     offsets are quantised by this: radius 3 -> 2px, 4 -> 6px, 5 -> 8px.
++    //
++    //   shadow1.offset (0, 0) — the block is positioned by the mask, not by
++    //     this. Putting the displacement here instead moves the block inside
++    //     the texture and it gets clipped or masked away.
++    //
++    //   shadow2 zeroed — nothing composites over the block.
++    //
++    // Requires ShadowSizeActive=ShadowSmall in klassyrc. That key is
++    // PARAMETERISED; a bare "ShadowSize" is silently ignored and Klassy falls
++    // back to ShadowLarge (s_shadowParams[3]), so this entry is never reached
++    // and the patch looks inert however correct it is.
++    CompositeShadowParams(QPoint(4, 4), ShadowParams(QPoint(0, 0), 5, 1), ShadowParams(QPoint(0, 0), 0, 0)),
+     // Medium
+     CompositeShadowParams(QPoint(0, 8), ShadowParams(QPoint(0, 0), 32, 0.9), ShadowParams(QPoint(0, -4), 16, 0.3)),
+     // Large
+@@ -1810,8 +1836,31 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
+
+     QImage shadowTexture = shadowRenderer.render();
+
++    // ─── Sage Ink: solid, opaque, zero-blur shadow ──────────────────────────
++    // BoxShadowRenderer is a Gaussian blur renderer whose radius is floored at
++    // 2px by calculateBlurRadius(), so no choice of preset parameters yields a
++    // hard edge. Neobrutalism's shadow is a flat opaque block, so the blurred
++    // output is discarded and the whole texture is filled solid.
++    //
++    // Filling ENTIRELY is deliberate: the inner-rect mask below carves the
++    // window out of it, and what remains is precisely the padding band — a
++    // clean 8px L on the bottom and right. Painting a smaller block instead
++    // leaves it mostly inside the masked region, which shows up as a lone
++    // corner speck.
++    //
++    // The renderer still runs because boxRect, outerRect, the padding maths,
++    // the mask and the window outline are all derived from the texture's
++    // geometry. Only the pixels are replaced.
++    {
++        QColor inkColor = shadowColor;
++        inkColor.setAlpha(255);
++        shadowTexture.fill(inkColor);
++    }
++
+     QPainter painter(&shadowTexture);
+-    painter.setRenderHint(QPainter::Antialiasing);
++    // Antialiasing OFF: the mask edge IS the shadow edge, and it must be a
++    // hard pixel boundary, not a feathered one.
++    painter.setRenderHint(QPainter::Antialiasing, false);
+
+     const QRect outerRect = shadowTexture.rect();
