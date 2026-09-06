@@ -839,11 +839,13 @@ def emit_klassy_radius(t: dict) -> str:
     Stock Klassy's window shadow had no offset control at all (soft blurred
     presets only), so this pairs with a source patch to
     ~/src/klassy/kdecoration/breezedecoration.cpp's s_shadowParams[1]
-    ("Small") that renders a hard-ish offset(4,4)/radius(0)/opacity(1.0)
-    layer instead - as close to the CSS ink shadow as a KWin decoration
-    shadow can get. Requires that patched org.kde.klassy.so to be built +
-    installed; this ini alone only selects/colours the preset. Merge into
-    ~/.config/klassyrc."""
+    ("Small") that renders a hard offset(8,8)/radius(0)/opacity(1.0) layer
+    instead - as close to the CSS ink shadow as a KWin decoration shadow can
+    get (calculateBlurRadius clamps to a 2px floor). The patch lives at
+    config/klassy/ink-shadow.patch and is applied by install.sh; this ini
+    alone only selects and colours the preset, so BOTH are required.
+    Merge into ~/.config/klassyrc AND ~/.config/klassy/klassyrc - Klassy 6.5+
+    reads the latter."""
     radius = t["radius"]["default"]
     sh = t["shadow"]["klassy"]
     # ShadowColor is DERIVED from the active variant's accent_alt, same
@@ -864,9 +866,22 @@ def emit_klassy_radius(t: dict) -> str:
         f"WindowCornerRadius={radius}",
         "",
         "[ShadowStyle]",
-        f"ShadowSize={sh['size']}",
-        f"ShadowStrength={sh['strength']}",
-        f"ShadowColor={shadow_color}",
+        # PARAMETERISED KEYS. Klassy's kcfg declares these as
+        # ShadowSize$(ShadowSizeActive) etc., so the real key names are
+        # ShadowSizeActive / ShadowSizeInactive -- there is no bare
+        # "ShadowSize" key at all. Writing the bare names (as this emitter did
+        # until 2026-09-02) means Klassy finds nothing and silently falls back
+        # to its own defaults: ShadowSize=ShadowLarge and ShadowColor=0,0,0.
+        # That routes the decoration to s_shadowParams[3] (the soft blurred
+        # Large preset) instead of the patched [1] "Small", and paints it black
+        # at 1.05:1 on this palette -- i.e. no visible shadow, and a source
+        # patch that appears to do nothing however correct it is.
+        f"ShadowSizeActive={sh['size']}",
+        f"ShadowSizeInactive={sh['size']}",
+        f"ShadowStrengthActive={sh['strength']}",
+        f"ShadowStrengthInactive={sh['strength']}",
+        f"ShadowColorActive={shadow_color}",
+        f"ShadowColorInactive={shadow_color}",
         "",
     ]
     return "\n".join(lines)
