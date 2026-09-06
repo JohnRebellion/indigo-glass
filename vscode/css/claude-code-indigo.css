@@ -314,10 +314,25 @@ html body :is(
 }
 
 /* ─── Hover polish ───────────────────────────────────────────────────────── */
+/* Ink press contract (adjudicated 2026-09-02, see indigo-glass docs/
+   Ledger.svelte "press trigger"): the shadow is a RESTING property, hover
+   only ever changes fill, and geometry (the button travelling into its own
+   shadow) fires on :active alone. This file predates that ruling — hover
+   was the only state that ever painted a shadow, from none, which reports
+   an action before the pointer has actually pressed anything. */
+.primaryButton_f3sAzg,
+.button_qlaBag.primary_qlaBag {
+  box-shadow: 4px 4px 0 0 #89A889 !important;
+  transition: transform 60ms steps(2, end), box-shadow 60ms steps(2, end) !important;
+}
 .primaryButton_f3sAzg:hover,
 .button_qlaBag.primary_qlaBag:hover {
   background-color: #C0E3C0 !important;
-  box-shadow: 4px 4px 0 0 #89A889 !important;
+}
+.primaryButton_f3sAzg:active,
+.button_qlaBag.primary_qlaBag:active {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0 0 0 0 #89A889 !important;
 }
 
 .app_root {
