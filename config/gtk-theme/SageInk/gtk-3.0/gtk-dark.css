@@ -255,13 +255,15 @@ row, treeview row {
   border-radius: 0;
   transition: none;
 }
-/* Outline, not a solid accent fill (was background-color: @accent_color) -
-   a selected list/tree row is an on-select state, same fix as everywhere
-   else this session. Inset, not detached: rows sit flush with no gap. */
+/* Tier C outline via box-shadow, not the `outline` property — see the file
+   list rule above for why. The ring reuses @theme_text_color rather than a
+   literal #FFFFFF: the reference schema's --ring is oklch(100% 0 0), which
+   Sage Ink resolves to the `text` token (#F8F8F8, near-white) everywhere
+   else — this file had it as pure white with no token behind it. */
 row:selected, treeview row:selected {
-  outline: 2px solid #FFFFFF;
-  outline-offset: -2px;
+  background-color: transparent;
   color: @theme_text_color;
+  box-shadow: inset 0 0 0 2px @theme_text_color;
 }
 row:hover:not(:selected), treeview row:hover:not(:selected) {
   background-color: alpha(@theme_fg_color, 0.06);
@@ -309,7 +311,10 @@ scale > slider {
  * Border 2px (was 1px) — shadow-bearing, same rationale as popover/menu
  * above. */
 tooltip, tooltip.background {
-  background-color: #191c1e;
+  /* #121216, not #191c1e — Qt/Klassy tooltips and the Plasma QML tooltip
+     (widgets/tooltip.svg, fill: currentColor) both render the tooltip on
+     surface-alt. GTK was the only surface using a lighter fill. */
+  background-color: #121216;
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
@@ -350,4 +355,108 @@ frame.card {
 selection, *:selected {
   background-color: @accent_color;
   color: @accent_fg_color;
+}
+
+/* === GTK3 file chooser — the portal's Open/Save dialog =====================
+ * xdg-desktop-portal-gtk links libgtk-3 (no libadwaita), so this dialog is
+ * the one GTK surface in the system that IS fully themeable — it is what
+ * MS Edge gets, since FileChooser is routed to the gtk backend deliberately
+ * (KDE's picker sorts listings wrongly for Edge).
+ *
+ * GTK3's file list and places sidebar are GtkTreeViews, whose rows are `.view`
+ * cells — NOT the `row` nodes GtkListBox uses. The generic `row:selected` rule
+ * above therefore never matched here, and selection fell through to GTK's
+ * default fill: theme_selected_bg_color (pale sage) under white text, ~1.9:1.
+ * That is the "no contrast" this section fixes. */
+
+.view,
+treeview.view {
+  background-color: @theme_base_color;
+  color: @theme_text_color;
+}
+
+/* Tier C (docs/STATE_GRAMMAR.md): on-select is outline, not fill. `outline`
+   itself does not render here — verified empirically (offscreen, with
+   SELECTED|FOCUSED forced directly): zero white pixels on both GtkListBox
+   rows and GtkTreeView cells. `box-shadow: inset` is the real mechanism and
+   is the standard workaround other GTK3 themes use for this exact gap;
+   verified rendering on both widget types. A fill was tried and reverted
+   2026-09-04 — Dolphin's own selection reads as low-contrast in practice
+   (KItemListView blends Highlight with alpha rather than using the flat
+   11.0:1 [Colors:Selection] pair), so fill is not actually the safer choice
+   either; outline is correct on both counts. */
+.view:selected,
+.view:selected:focus,
+.view:selected:hover,
+treeview.view:selected,
+treeview.view:selected:focus,
+treeview.view:selected:hover {
+  background-color: transparent;
+  background-image: none;
+  color: @theme_text_color;
+  box-shadow: inset 0 0 0 2px @theme_text_color;
+}
+
+treeview.view:hover:not(:selected) {
+  background-color: alpha(@theme_fg_color, 0.06);
+}
+
+/* Column headers — flat, sharp, hard hairline under the row */
+treeview.view header button {
+  background-color: #121216;
+  color: @theme_fg_color;
+  border: none;
+  border-bottom: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 6px 10px;
+}
+treeview.view header button:hover {
+  background-color: #191c1e;
+  color: @accent_color;
+}
+
+/* Places sidebar — structural chrome, same ink as the pane behind it */
+placessidebar,
+placessidebar .view,
+placessidebar treeview.view {
+  background-color: #0A0A0D;
+  color: @theme_fg_color;
+}
+/* Same on-select language as the file list. */
+placessidebar .view:selected,
+placessidebar treeview.view:selected,
+placessidebar list row:selected,
+placessidebar row:selected {
+  background-color: transparent;
+  background-image: none;
+  color: @theme_text_color;
+  box-shadow: inset 0 0 0 2px @theme_text_color;
+}
+
+/* Path bar — the breadcrumb buttons carry no shadow; they are chrome inside
+   the dialog, not elevated surfaces sitting on top of it. */
+.path-bar button,
+pathbar button {
+  background-color: #121216;
+  border: 1px solid @borders;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 4px 10px;
+}
+.path-bar button:checked,
+pathbar button:checked {
+  background-color: #191c1e;
+  border-color: @accent_color;
+  color: @theme_fg_color;
+}
+
+/* The dialog's own surfaces */
+filechooser,
+filechooser .view,
+filechooser stack {
+  background-color: @theme_base_color;
+}
+filechooser paned > separator {
+  background-color: @borders;
 }

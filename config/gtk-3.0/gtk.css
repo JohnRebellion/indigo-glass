@@ -1,15 +1,18 @@
 @import 'colors.css';
 
 /* Sage Ink — GTK3 accent override.
-   GTK3 apps still render on the base theme's own material (WhiteSur-Dark-
-   purple, third-party) - this only tints accent colours on top, same as it
-   always has. No ink-material rewrite here: GTK3/WhiteSur's actual widget
-   shadows/corners/vibrancy are outside indigo-glass, unlike gtk-4.0/gtk.css
-   which authors real card/popover rules directly. */
+   The base theme is SageInk (~/.themes/SageInk), not WhiteSur — that stale
+   claim predated the GTK3 theme existing, and the file chooser rules now live
+   in the theme's own gtk-dark.css. This file only tints accent colours on top. */
 @define-color theme_selected_bg_color #A6C9A6;
-@define-color theme_selected_fg_color #FFFFFF;
+/* Was #FFFFFF - white on the pale sage accent (L 0.80) measures ~1.9:1, and
+   showed up as the unreadable selected row in the portal's file dialog.
+   #07080A is the `base` token, the same ink [Colors:Selection] pairs with
+   sage for Dolphin (11.0:1). Briefly #141617 on 2026-09-04 - that value had
+   no token behind it and existed only in these two GTK files. */
+@define-color theme_selected_fg_color #07080A;
 @define-color accent_color #C0E3C0;
 @define-color accent_bg_color #A6C9A6;
-@define-color accent_fg_color #FFFFFF;
+@define-color accent_fg_color #07080A;
 @define-color link_color #C0E3C0;
 @define-color link_visited_color #89A889;

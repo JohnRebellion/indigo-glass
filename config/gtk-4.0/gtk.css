@@ -8,10 +8,11 @@
 @define-color accent_color #C0E3C0;
 @define-color accent_bg_color #A6C9A6;
 /* Was #FFFFFF - white on the light sage accent (L 0.80) fails contrast badly.
-   Every other surface in this system pairs sage with dark ink text (#141617,
-   9.98:1) for exactly this reason - this was the one place that never got
-   the memo. */
-@define-color accent_fg_color #141617;
+   Every other surface pairs sage with dark ink for exactly this reason.
+   #07080A is the `base` token, matching [Colors:Selection] in the KDE colour
+   scheme (11.0:1); was #141617 until 2026-09-04, a value with no token
+   behind it that existed only in the two GTK CSS files. */
+@define-color accent_fg_color #07080A;
 
 @define-color destructive_color #ED254E;
 @define-color destructive_bg_color #ED254E;
@@ -155,9 +156,21 @@ row {
   border-radius: 0;
   transition: none;
 }
+/* Tier C (docs/STATE_GRAMMAR.md): on-select is outline, not fill - same
+   fix as the GTK3 theme's row:selected. Using box-shadow: inset, not
+   `outline` - that's the mechanism verified working on GTK3 GtkListBox/
+   GtkTreeView rows this session (outline rendered nothing there, even with
+   SELECTED|FOCUSED forced directly). GTK4's own outline behaviour on rows
+   was NOT independently verified (no working headless GTK4 render harness
+   in this environment) - box-shadow is used here for a proven mechanism
+   over an unverified one, not because outline is known to fail here too.
+   2026-09-04. The ring reuses @window_fg_color (#F8F8F8, the `text` token)
+   rather than a literal #FFFFFF — same fix as GTK3's row:selected, matching
+   the reference schema's --ring: oklch(100% 0 0). */
 row:selected {
-  background-color: @accent_bg_color;
-  color: @accent_fg_color;
+  background-color: transparent;
+  color: @window_fg_color;
+  box-shadow: inset 0 0 0 2px @window_fg_color;
 }
 
 scrollbar slider {
