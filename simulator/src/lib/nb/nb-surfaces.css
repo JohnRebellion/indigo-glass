@@ -217,9 +217,16 @@
 .nb-breadcrumb-sep { color: var(--ig-text-dim); }
 
 .nb-pagination { display: flex; align-items: center; gap: var(--ig-gap-sm); }
+/* inline-grid with no explicit columns puts every child — including the
+   anonymous box a bare text node next to an icon <span> becomes — on its
+   own implicit row, which stacked the Previous/Next chevron above its
+   label instead of beside it. inline-flex is what nb-button and
+   nb-navmenu-trigger already use for the same icon+text shape. */
 .nb-pagination-link {
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   min-width: 40px;
   height: 40px;
   border-radius: var(--border-radius);
@@ -228,6 +235,7 @@
   color: var(--foreground);
   padding: 0 12px;
   font-size: var(--ig-caption-pt);
+  white-space: nowrap;
 }
 .nb-pagination-link[aria-current="page"] { background: var(--main); color: var(--main-foreground); box-shadow: var(--shadow); }
 .nb-pagination-ellipsis { display: inline-grid; place-items: center; min-width: 40px; height: 40px; color: var(--ig-text-muted); }
@@ -293,7 +301,11 @@
   background: var(--secondary-background);
   color: var(--foreground);
 }
-.nb-marquee-track { display: flex; gap: var(--ig-gap-xl); white-space: nowrap; padding: var(--ig-pad-lg) 0; animation: nb-marquee 12s linear infinite; }
+/* DIVERGENCE: reference items are text-4xl (36px) — a display size, not a
+   caption. The track had no font-size at all and was inheriting the
+   surrounding caption text, which is not a value decision, it's an
+   omission. --ig-type-hero-pt is the closest step on the pt scale. */
+.nb-marquee-track { display: flex; gap: var(--ig-gap-xl); white-space: nowrap; padding: var(--ig-pad-lg) 0; font-size: var(--ig-type-hero-pt); animation: nb-marquee 12s linear infinite; }
 @keyframes nb-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
 .nb-scroll-area {

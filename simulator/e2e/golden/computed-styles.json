@@ -971,7 +971,7 @@
   "font-weight": "500",
   "padding-top": "0px",
   "padding-left": "0px",
-  "height": "44.5312px",
+  "height": "66.9375px",
   "opacity": "1"
  },
  "nb-marquee-track": {
@@ -982,11 +982,11 @@
   "border-top-color": "oklch(0.9791 0 89.88)",
   "border-top-left-radius": "0px",
   "box-shadow": "none",
-  "font-size": "14.6667px",
+  "font-size": "30.6667px",
   "font-weight": "500",
   "padding-top": "10px",
   "padding-left": "0px",
-  "height": "40.5312px",
+  "height": "62.9375px",
   "opacity": "1"
  },
  "nb-menu": {

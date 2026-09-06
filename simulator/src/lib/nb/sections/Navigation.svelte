@@ -30,11 +30,11 @@
   <Specimen name="breadcrumb">
     <nav class="nb-breadcrumb" aria-label="Breadcrumb">
       <a href="#navigation">Home</a>
-      <span class="nb-breadcrumb-sep" aria-hidden="true">/</span>
+      <span class="nb-breadcrumb-sep" aria-hidden="true">&#8250;</span>
       <a href="#navigation">Tokens</a>
-      <span class="nb-breadcrumb-sep" aria-hidden="true">/</span>
+      <span class="nb-breadcrumb-sep" aria-hidden="true">&#8250;</span>
       <span class="nb-breadcrumb-sep" aria-hidden="true">&#8943;</span>
-      <span class="nb-breadcrumb-sep" aria-hidden="true">/</span>
+      <span class="nb-breadcrumb-sep" aria-hidden="true">&#8250;</span>
       <span aria-current="page">Sage</span>
     </nav>
   </Specimen>
@@ -42,13 +42,13 @@
   <Specimen name="pagination" span={2}
     note="Only the current page keeps the ink shadow; the rest are flat neutral cells. Elevation marks the current position rather than a fill alone.">
     <nav class="nb-pagination" aria-label="Pagination">
-      <a class="nb-pagination-link" href="#navigation">Previous</a>
+      <a class="nb-pagination-link" href="#navigation"><span aria-hidden="true">&#8249;</span> Previous</a>
       <a class="nb-pagination-link" href="#navigation">1</a>
       <a class="nb-pagination-link" href="#navigation" aria-current="page">2</a>
       <a class="nb-pagination-link" href="#navigation">3</a>
       <span class="nb-pagination-ellipsis" aria-hidden="true">&#8943;</span>
       <a class="nb-pagination-link" href="#navigation">9</a>
-      <a class="nb-pagination-link" href="#navigation">Next</a>
+      <a class="nb-pagination-link" href="#navigation">Next <span aria-hidden="true">&#8250;</span></a>
     </nav>
   </Specimen>
 
