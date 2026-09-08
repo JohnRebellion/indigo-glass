@@ -1,0 +1,23 @@
+{
+  "name": "Orchid Ink Light",
+  "background": "#FAFAFC",
+  "foreground": "#23262C",
+  "cursorColor": "#692E80",
+  "selectionBackground": "#7F4995",
+  "black": "#F5F5F7",
+  "red": "#C1133B",
+  "green": "#008154",
+  "yellow": "#986C00",
+  "blue": "#7F4995",
+  "purple": "#9563AB",
+  "cyan": "#67E8F9",
+  "white": "#23262C",
+  "brightBlack": "#5A5E66",
+  "brightRed": "#FF5272",
+  "brightGreen": "#8CFFB4",
+  "brightYellow": "#FFD250",
+  "brightBlue": "#692E80",
+  "brightPurple": "#C8B5FF",
+  "brightCyan": "#A5F3FC",
+  "brightWhite": "#FFFFFF"
+}

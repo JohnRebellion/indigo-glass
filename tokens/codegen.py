@@ -254,7 +254,24 @@ def derive_palette(t: dict, variant: str | None = None) -> dict:
         pal[key] = {"hex": h, "p3": h, "oklch": h}  # alpha not gamut-mapped
     # Composite entries: [fg, alpha, bg_key] resolved to an OPAQUE hex at
     # emit time - see [palette.composite] and _composite_hex above.
+    #
+    # A variant may declare any of these keys itself as an OKLCH triple, in
+    # which case the variant wins and no compositing happens. Needed because
+    # the global composite builds border/border_strong as white over `surface`:
+    # on a dark surface that is a lift, but on a light variant surface IS
+    # #FFFFFF, so both composite to white and measure 1.00:1. The token file
+    # had already identified per-variant derivation as the correct fix.
+    variant_keys = t["variants"][variant]
     for key, (fg, alpha, bg_key) in t["palette"].get("composite", {}).items():
+        override = variant_keys.get(key)
+        if isinstance(override, list) and len(override) == 3:
+            L, C, H = override
+            pal[key] = {
+                "hex": oklch_to_hex(L, C, H),
+                "p3": oklch_to_p3(L, C, H),
+                "oklch": oklch_css(L, C, H),
+            }
+            continue
         fg_hex = pal[fg]["hex"] if fg in pal else fg
         bg_hex = pal[bg_key]["hex"]
         h = _composite_hex(fg_hex, alpha, bg_hex)
