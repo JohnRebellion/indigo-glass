@@ -112,6 +112,31 @@
   --ig-lh-default: 1.4;
   --ig-lh-prose: 1.55;
 
+  /* Prose - long-form reading */
+  --ig-prose-ratio: 1.25;
+  --ig-prose-anchor: 1.125rem;
+  --ig-prose-measure: 66ch;
+  --ig-prose-measure-min: 45ch;
+  --ig-prose-measure-max: 75ch;
+  --ig-prose-caption: 0.72rem;
+  --ig-prose-small: 0.9rem;
+  --ig-prose-body: 1.125rem;
+  --ig-prose-h3: 1.406rem;
+  --ig-prose-h2: 1.758rem;
+  --ig-prose-h1: 2.197rem;
+  --ig-prose-lh-body: 1.55;
+  --ig-prose-lh-heading: 1.15;
+  --ig-prose-lh-code: 1.6;
+  --ig-prose-lh-blockquote: 1.55;
+  --ig-prose-paragraph-bottom: 1.5em;
+  --ig-prose-heading-top: 2.5em;
+  --ig-prose-heading-bottom: 0.5em;
+  --ig-prose-list-indent: 1.5em;
+  --ig-prose-list-item-gap: 0.5em;
+  --ig-prose-nested-list-top: 0.5em;
+  --ig-prose-block-bottom: 1.5em;
+  --ig-prose-scroll-margin-top: 4.0rem;
+
   /* Motion */
   --ig-dur-instant: 60ms;
   --ig-dur-quick: 120ms;

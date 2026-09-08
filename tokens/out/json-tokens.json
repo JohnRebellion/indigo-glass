@@ -216,6 +216,144 @@
         0.0263,
         256.8
       ]
+    },
+    "rust": {
+      "name": "Rust Ink",
+      "brand_hue": "rust",
+      "base": [
+        0.134,
+        0.0051,
+        262.32
+      ],
+      "surface": [
+        0.1605,
+        0.0063,
+        285.67
+      ],
+      "surface_alt": [
+        0.184,
+        0.0081,
+        285.58
+      ],
+      "sidebar": [
+        0.1462,
+        0.0064,
+        285.58
+      ],
+      "accent": [
+        0.8,
+        0.15,
+        35.0
+      ],
+      "accent_hi": [
+        0.88,
+        0.15,
+        35.0
+      ],
+      "accent_alt": [
+        0.7,
+        0.14,
+        35.0
+      ],
+      "amber": [
+        0.8369,
+        0.1644,
+        84.43
+      ],
+      "positive": [
+        0.8792,
+        0.1706,
+        152.51
+      ],
+      "negative": [
+        0.6124,
+        0.2279,
+        17.6
+      ],
+      "text": [
+        0.9791,
+        0.0,
+        89.88
+      ],
+      "text_muted": [
+        0.551,
+        0.0234,
+        264.36
+      ],
+      "text_dim": [
+        0.4461,
+        0.0263,
+        256.8
+      ]
+    },
+    "orchid": {
+      "name": "Orchid Ink",
+      "brand_hue": "orchid",
+      "base": [
+        0.134,
+        0.0051,
+        262.32
+      ],
+      "surface": [
+        0.1605,
+        0.0063,
+        285.67
+      ],
+      "surface_alt": [
+        0.184,
+        0.0081,
+        285.58
+      ],
+      "sidebar": [
+        0.1462,
+        0.0064,
+        285.58
+      ],
+      "accent": [
+        0.8,
+        0.09,
+        315.0
+      ],
+      "accent_hi": [
+        0.88,
+        0.09,
+        315.0
+      ],
+      "accent_alt": [
+        0.7,
+        0.085,
+        315.0
+      ],
+      "amber": [
+        0.8369,
+        0.1644,
+        84.43
+      ],
+      "positive": [
+        0.8792,
+        0.1706,
+        165.0
+      ],
+      "negative": [
+        0.6124,
+        0.2279,
+        17.6
+      ],
+      "text": [
+        0.93,
+        0.0,
+        89.88
+      ],
+      "text_muted": [
+        0.65,
+        0.0234,
+        264.36
+      ],
+      "text_dim": [
+        0.55,
+        0.0263,
+        256.8
+      ]
     }
   },
   "palette": {
@@ -418,6 +556,39 @@
         "quick",
         "spring"
       ]
+    }
+  },
+  "prose": {
+    "ratio": 1.25,
+    "anchor_rem": 1.125,
+    "measure_ch": 66,
+    "measure_min_ch": 45,
+    "measure_max_ch": 75,
+    "scale_rem": {
+      "caption": 0.72,
+      "small": 0.9,
+      "body": 1.125,
+      "h3": 1.406,
+      "h2": 1.758,
+      "h1": 2.197
+    },
+    "line_height": {
+      "body": 1.55,
+      "heading": 1.15,
+      "code": 1.6,
+      "blockquote": 1.55
+    },
+    "rhythm_em": {
+      "paragraph_bottom": 1.5,
+      "heading_top": 2.5,
+      "heading_bottom": 0.5,
+      "list_indent": 1.5,
+      "list_item_gap": 0.5,
+      "nested_list_top": 0.5,
+      "block_bottom": 1.5
+    },
+    "scroll": {
+      "margin_top_rem": 4.0
     }
   },
   "a11y": {
@@ -776,6 +947,230 @@
           "hex": "#4B5563",
           "p3": "color(display-p3 0.3015 0.3321 0.3831)",
           "oklch": "oklch(0.4461 0.0263 256.80)"
+        },
+        "overlay": {
+          "hex": "#07080ACC",
+          "p3": "#07080ACC",
+          "oklch": "#07080ACC"
+        },
+        "border": {
+          "hex": "#1C1C1E",
+          "p3": "#1C1C1E",
+          "oklch": "#1C1C1E"
+        },
+        "border_strong": {
+          "hex": "#5E5E60",
+          "p3": "#5E5E60",
+          "oklch": "#5E5E60"
+        }
+      },
+      "rust": {
+        "base": {
+          "hex": "#07080A",
+          "p3": "color(display-p3 0.0282 0.0312 0.0384)",
+          "oklch": "oklch(0.1340 0.0051 262.32)"
+        },
+        "surface": {
+          "hex": "#0D0D10",
+          "p3": "color(display-p3 0.0510 0.0510 0.0618)",
+          "oklch": "oklch(0.1605 0.0063 285.67)"
+        },
+        "surface_alt": {
+          "hex": "#121216",
+          "p3": "color(display-p3 0.0706 0.0706 0.0849)",
+          "oklch": "oklch(0.1840 0.0081 285.58)"
+        },
+        "sidebar": {
+          "hex": "#0A0A0D",
+          "p3": "color(display-p3 0.0392 0.0392 0.0499)",
+          "oklch": "oklch(0.1462 0.0064 285.58)"
+        },
+        "accent": {
+          "hex": "#FF987A",
+          "p3": "color(display-p3 1.0000 0.6180 0.5047)",
+          "oklch": "oklch(0.8000 0.1500 35.00)"
+        },
+        "indigo": {
+          "hex": "#FF987A",
+          "p3": "color(display-p3 1.0000 0.6180 0.5047)",
+          "oklch": "oklch(0.8000 0.1500 35.00)"
+        },
+        "lime": {
+          "hex": "#FF987A",
+          "p3": "color(display-p3 1.0000 0.6180 0.5047)",
+          "oklch": "oklch(0.8000 0.1500 35.00)"
+        },
+        "accent_hi": {
+          "hex": "#FFB193",
+          "p3": "color(display-p3 1.0000 0.7190 0.6020)",
+          "oklch": "oklch(0.8800 0.1500 35.00)"
+        },
+        "indigo_hi": {
+          "hex": "#FFB193",
+          "p3": "color(display-p3 1.0000 0.7190 0.6020)",
+          "oklch": "oklch(0.8800 0.1500 35.00)"
+        },
+        "lime_hi": {
+          "hex": "#FFB193",
+          "p3": "color(display-p3 1.0000 0.7190 0.6020)",
+          "oklch": "oklch(0.8800 0.1500 35.00)"
+        },
+        "accent_alt": {
+          "hex": "#E77B60",
+          "p3": "color(display-p3 0.8520 0.5054 0.4037)",
+          "oklch": "oklch(0.7000 0.1400 35.00)"
+        },
+        "violet": {
+          "hex": "#E77B60",
+          "p3": "color(display-p3 0.8520 0.5054 0.4037)",
+          "oklch": "oklch(0.7000 0.1400 35.00)"
+        },
+        "lime_alt": {
+          "hex": "#E77B60",
+          "p3": "color(display-p3 0.8520 0.5054 0.4037)",
+          "oklch": "oklch(0.7000 0.1400 35.00)"
+        },
+        "amber": {
+          "hex": "#FBBF24",
+          "p3": "color(display-p3 0.9481 0.7585 0.2941)",
+          "oklch": "oklch(0.8369 0.1644 84.43)"
+        },
+        "positive": {
+          "hex": "#71F79F",
+          "p3": "color(display-p3 0.5846 0.9569 0.6544)",
+          "oklch": "oklch(0.8792 0.1706 152.51)"
+        },
+        "negative": {
+          "hex": "#ED254E",
+          "p3": "color(display-p3 0.8543 0.2375 0.3230)",
+          "oklch": "oklch(0.6124 0.2279 17.60)"
+        },
+        "text": {
+          "hex": "#F8F8F8",
+          "p3": "color(display-p3 0.9725 0.9725 0.9725)",
+          "oklch": "oklch(0.9791 0.0000 89.88)"
+        },
+        "text_muted": {
+          "hex": "#6B7280",
+          "p3": "color(display-p3 0.4246 0.4462 0.4970)",
+          "oklch": "oklch(0.5510 0.0234 264.36)"
+        },
+        "text_dim": {
+          "hex": "#4B5563",
+          "p3": "color(display-p3 0.3015 0.3321 0.3831)",
+          "oklch": "oklch(0.4461 0.0263 256.80)"
+        },
+        "overlay": {
+          "hex": "#07080ACC",
+          "p3": "#07080ACC",
+          "oklch": "#07080ACC"
+        },
+        "border": {
+          "hex": "#1C1C1E",
+          "p3": "#1C1C1E",
+          "oklch": "#1C1C1E"
+        },
+        "border_strong": {
+          "hex": "#5E5E60",
+          "p3": "#5E5E60",
+          "oklch": "#5E5E60"
+        }
+      },
+      "orchid": {
+        "base": {
+          "hex": "#07080A",
+          "p3": "color(display-p3 0.0282 0.0312 0.0384)",
+          "oklch": "oklch(0.1340 0.0051 262.32)"
+        },
+        "surface": {
+          "hex": "#0D0D10",
+          "p3": "color(display-p3 0.0510 0.0510 0.0618)",
+          "oklch": "oklch(0.1605 0.0063 285.67)"
+        },
+        "surface_alt": {
+          "hex": "#121216",
+          "p3": "color(display-p3 0.0706 0.0706 0.0849)",
+          "oklch": "oklch(0.1840 0.0081 285.58)"
+        },
+        "sidebar": {
+          "hex": "#0A0A0D",
+          "p3": "color(display-p3 0.0392 0.0392 0.0499)",
+          "oklch": "oklch(0.1462 0.0064 285.58)"
+        },
+        "accent": {
+          "hex": "#D4ADE6",
+          "p3": "color(display-p3 0.8062 0.6824 0.8868)",
+          "oklch": "oklch(0.8000 0.0900 315.00)"
+        },
+        "indigo": {
+          "hex": "#D4ADE6",
+          "p3": "color(display-p3 0.8062 0.6824 0.8868)",
+          "oklch": "oklch(0.8000 0.0900 315.00)"
+        },
+        "lime": {
+          "hex": "#D4ADE6",
+          "p3": "color(display-p3 0.8062 0.6824 0.8868)",
+          "oklch": "oklch(0.8000 0.0900 315.00)"
+        },
+        "accent_hi": {
+          "hex": "#EEC6FF",
+          "p3": "color(display-p3 0.9088 0.7826 0.9916)",
+          "oklch": "oklch(0.8800 0.0900 315.00)"
+        },
+        "indigo_hi": {
+          "hex": "#EEC6FF",
+          "p3": "color(display-p3 0.9088 0.7826 0.9916)",
+          "oklch": "oklch(0.8800 0.0900 315.00)"
+        },
+        "lime_hi": {
+          "hex": "#EEC6FF",
+          "p3": "color(display-p3 0.9088 0.7826 0.9916)",
+          "oklch": "oklch(0.8800 0.0900 315.00)"
+        },
+        "accent_alt": {
+          "hex": "#B38FC3",
+          "p3": "color(display-p3 0.6779 0.5644 0.7514)",
+          "oklch": "oklch(0.7000 0.0850 315.00)"
+        },
+        "violet": {
+          "hex": "#B38FC3",
+          "p3": "color(display-p3 0.6779 0.5644 0.7514)",
+          "oklch": "oklch(0.7000 0.0850 315.00)"
+        },
+        "lime_alt": {
+          "hex": "#B38FC3",
+          "p3": "color(display-p3 0.6779 0.5644 0.7514)",
+          "oklch": "oklch(0.7000 0.0850 315.00)"
+        },
+        "amber": {
+          "hex": "#FBBF24",
+          "p3": "color(display-p3 0.9481 0.7585 0.2941)",
+          "oklch": "oklch(0.8369 0.1644 84.43)"
+        },
+        "positive": {
+          "hex": "#3FFABB",
+          "p3": "color(display-p3 0.4961 0.9663 0.7497)",
+          "oklch": "oklch(0.8792 0.1706 165.00)"
+        },
+        "negative": {
+          "hex": "#ED254E",
+          "p3": "color(display-p3 0.8543 0.2375 0.3230)",
+          "oklch": "oklch(0.6124 0.2279 17.60)"
+        },
+        "text": {
+          "hex": "#E8E8E8",
+          "p3": "color(display-p3 0.9085 0.9085 0.9085)",
+          "oklch": "oklch(0.9300 0.0000 89.88)"
+        },
+        "text_muted": {
+          "hex": "#888F9E",
+          "p3": "color(display-p3 0.5386 0.5612 0.6142)",
+          "oklch": "oklch(0.6500 0.0234 264.36)"
+        },
+        "text_dim": {
+          "hex": "#687281",
+          "p3": "color(display-p3 0.4152 0.4475 0.5013)",
+          "oklch": "oklch(0.5500 0.0263 256.80)"
         },
         "overlay": {
           "hex": "#07080ACC",

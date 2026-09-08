@@ -131,6 +131,88 @@ text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
 text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
 
+[variants.rust]
+name        = "Rust Ink"
+brand_hue   = "rust"
+# Surfaces: identical neutral near-black ladder to sage/lime. Only the accent
+# triple differs - that is the whole point of a variant.
+base        = [0.1340, 0.0051, 262.32]   # #07080A
+surface     = [0.1605, 0.0063, 285.67]   # #0D0D10
+surface_alt = [0.1840, 0.0081, 285.58]   # #121216
+sidebar     = [0.1462, 0.0064, 285.58]   # #0A0A0D
+# Brand (rust / rust_hi / rust_alt) - single hue 35.0 (copper/oxide), chroma
+# 0.15: HIGHER than sage's 0.06 on purpose. Sage is a deliberately pale
+# fill-only accent; rust is the research-reports identity and reads as a real
+# metal oxide, which needs the chroma. Measured 2026-09-06 against base:
+# accent 9.54:1, accent_hi 11.44:1, accent_alt 7.09:1 - all far clear of the
+# 3:1 non-text floor, so the extra chroma costs ~1 point vs a 0.06 version
+# (10.50:1) and buys the hue identity. Fill-only like sage: 1.98:1 against
+# --text means it cannot carry body copy.
+accent      = [0.8000, 0.1500, 35.00]
+accent_hi   = [0.8800, 0.1500, 35.00]
+accent_alt  = [0.7000, 0.1400, 35.00]
+# Semantic - amber sits at 84.43 and positive at 152.51, i.e. 49deg and 118deg
+# off the rust accent. No collision of the kind that forced sage's positive to
+# be nudged to 165, so both stay at their shared cross-variant values.
+amber       = [0.8369, 0.1644, 84.43]
+positive    = [0.8792, 0.1706, 152.51]
+negative    = [0.6124, 0.2279, 17.60]
+# Text: neutral. Rust is fill-only; no rust tint in the text ladder.
+text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
+text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
+text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
+
+[variants.orchid]
+name        = "Orchid Ink"
+brand_hue   = "orchid"
+# READING VARIANT. Same ink material as every sibling - opaque, hard offset
+# shadow, radius 0. What differs is that this one is tuned for sustained
+# long-form reading rather than dense chrome, and the deviations below are
+# evidence-led, not taste. Research 2026-09-06 (see
+# research-reports/reading-variant-research-2026-09-06.md):
+#   - Pure-white-on-black measurably blooms/halates and raises fatigue over
+#     long sessions; slight softening is the documented fix. Fatigue is
+#     lowest around 0.969 luminance contrast but users PREFER 0.868-0.855.
+#   - NN/g explicitly recommends offering dark mode for long-form reading.
+# Surfaces: identical neutral ladder to sage/rust. Not touched - the page is
+# already correct; it is the TEXT ladder that needed the work.
+base        = [0.1340, 0.0051, 262.32]   # #07080A
+surface     = [0.1605, 0.0063, 285.67]   # #0D0D10
+surface_alt = [0.1840, 0.0081, 285.58]   # #121216
+sidebar     = [0.1462, 0.0064, 285.58]   # #0A0A0D
+# Brand (orchid / orchid_hi / orchid_alt) - hue 315.0 (cool magenta), chroma
+# 0.09. Cool-but-soft on purpose: the accent should recede behind running
+# prose rather than compete with it, while reading as considered rather than
+# clinical. Chosen from a full 15deg sweep of the hue circle measured
+# 2026-09-06: 315 clears indigo (275.21) by 40deg, negative (17.6) by 63deg
+# and rust (35) by 80deg - one of only five slots on the whole circle with
+# >=25deg clearance from every taken and semantic hue. Teal 195 was built
+# first and rejected: it sat only 30deg from the shared `positive` semantic
+# (165) and read as near-success-green at a glance.
+# Fill-only like every ink accent - 1.56:1 against --text means it cannot
+# carry body copy - but at 10.05:1 on surface it is a valid INLINE LINK
+# colour, which this variant needs and the dense variants do not.
+accent      = [0.8000, 0.0900, 315.00]   # #D4ADE6
+accent_hi   = [0.8800, 0.0900, 315.00]   # #EEC6FF
+accent_alt  = [0.7000, 0.0850, 315.00]   # #B38FC3
+# Semantic - 315 accent clears amber (84), positive (165) and negative (17.6)
+# by 63deg or more, so unlike sage no nudge is needed. Shared values stand.
+amber       = [0.8369, 0.1644, 84.43]
+positive    = [0.8792, 0.1706, 165.00]
+negative    = [0.6124, 0.2279, 17.60]
+# TEXT LADDER - the actual reason this variant exists.
+# text: softened from the shared 0.9791 (#F8F8F8, 18.86:1) to 0.93 (#E8E8E8,
+#   16.30:1). Still far above the 4.5 floor, but off the halation-prone
+#   pure-white end. This is the single most load-bearing change here.
+# text_muted: raised from the shared 0.5510 (4.01:1 - FAILS SC 1.4.3 for body
+#   copy, the defect the research-reports audit measured) to 0.65 (6.00:1).
+#   A reading variant cannot ship a muted role that fails as running prose.
+# text_dim: raised from 0.4461 (2.57:1) to 0.55 (4.01:1) so even the quietest
+#   tier stays legible; it is for captions and metadata, not decoration.
+text        = [0.9300, 0.0000, 89.88]    # #E8E8E8  16.30:1 on base
+text_muted  = [0.6500, 0.0234, 264.36]   # #888F9E   6.00:1 on surface
+text_dim    = [0.5500, 0.0263, 256.80]   # #6E7686   4.01:1 on surface
+
 # True alpha surfaces (RGBA derived per-variant). [base_key_or_hex, alpha].
 # Reserved for values that genuinely need to show the backdrop through them -
 # a modal scrim is the only one. Do not add decorative alpha here; that was
@@ -461,6 +543,68 @@ state_draw    = ["hero", "emphasize"]    # 500ms - success/error draw
 ink_press     = ["instant", "mechanical"]
 # --- deprecated (v3 glass/neumorphism era) ---
 neu_press     = ["quick", "spring"]      # 120ms - pillowy push (overshoot)
+
+# =============================================================================
+# PROSE - long-form reading layer (v8, 2026-09-06)
+# =============================================================================
+# A SECOND type scale, deliberately not a replacement for [type.scale] above.
+# That scale is pt-anchored at 11pt on a 1.2 minor third and is correct for
+# what it was built for: window chrome, menus, toolbars, dense data tables -
+# places where 11pt body vs 13pt heading is a legitimate distinction.
+#
+# It cannot carry a document. Measured 2026-09-06:
+#   chrome  body 14.7px -> heading 17.6px = 1.20x step
+#   prose   body 18px   -> h2 28px        = 1.56x step
+# A 1.2 ratio gives document headings almost no hierarchy, and 14.7px body is
+# below every long-form recommendation found.
+#
+# Research (research-reports/reading-variant-research-2026-09-06.md):
+#   - body 16-18px, long-form editorial favours 17-18px
+#   - measure 45-75 characters, 66 optimal (Bringhurst; Dyson & Haselgrove
+#     found ~55 CPL effective at both normal and fast reading speeds)
+#   - body line-height 1.5-1.7; headings tighter, past 1.3 large headings
+#     "feel loose and disconnected"
+# Values below sit inside those ranges. rem-based, not pt: prose must honour
+# the reader's browser font-size setting, which a pt scale silently overrides.
+[prose]
+ratio      = 1.25   # major third - lands within 2.3% of researched h2/h3 targets
+anchor_rem = 1.125  # 18px at a 16px root
+measure_ch = 66     # Bringhurst optimum; clamp between min/max below
+measure_min_ch = 45
+measure_max_ch = 75
+
+[prose.scale_rem]
+caption = 0.720   # 11.5px - captions, footnotes, table notes
+small   = 0.900   # 14.4px - metadata, source lines
+body    = 1.125   # 18px   - running prose, and h4
+h3      = 1.406   # 22.5px
+h2      = 1.758   # 28.1px
+h1      = 2.197   # 35.2px - document title
+
+[prose.line_height]
+# body uses [type.line_height].prose (1.55), already defined and until now
+# unused. Repeated here as `body` for a single lookup site.
+body       = 1.55
+heading    = 1.15   # tight - large headings disconnect past ~1.3
+code       = 1.60   # tighter than prose, looser than headings
+blockquote = 1.55
+
+[prose.rhythm_em]
+# Vertical rhythm, em-relative so it scales with each element's own size.
+# Headings are asymmetric on purpose: a large gap ABOVE separates sections,
+# a small gap BELOW keeps the heading attached to the text it introduces.
+paragraph_bottom = 1.50
+heading_top      = 2.50
+heading_bottom   = 0.50
+list_indent      = 1.50
+list_item_gap    = 0.50
+nested_list_top  = 0.50
+block_bottom     = 1.50   # code blocks, blockquotes, tables, figures
+
+[prose.scroll]
+# Sticky chrome must not hide the heading a deep link targets. The app shell
+# owns the actual offset; this is the token it should feed.
+margin_top_rem = 4.0
 
 # =============================================================================
 # ACCESSIBILITY

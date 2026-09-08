@@ -369,6 +369,28 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
     for k, v in t["type"]["line_height"].items():
         lines.append(f"  --ig-lh-{k}: {v};")
 
+    # Prose / long-form reading layer. A SECOND scale beside [type.scale];
+    # see the [prose] comment in the token file for why the chrome scale
+    # cannot carry a document. .get() so older token files still emit.
+    prose = t.get("prose")
+    if prose:
+        lines.extend(["", "  /* Prose - long-form reading */"])
+        lines.append(f"  --ig-prose-ratio: {prose['ratio']};")
+        lines.append(f"  --ig-prose-anchor: {prose['anchor_rem']}rem;")
+        lines.append(f"  --ig-prose-measure: {prose['measure_ch']}ch;")
+        lines.append(f"  --ig-prose-measure-min: {prose['measure_min_ch']}ch;")
+        lines.append(f"  --ig-prose-measure-max: {prose['measure_max_ch']}ch;")
+        for k, v in prose.get("scale_rem", {}).items():
+            lines.append(f"  --ig-prose-{k}: {v}rem;")
+        for k, v in prose.get("line_height", {}).items():
+            lines.append(f"  --ig-prose-lh-{k}: {v};")
+        for k, v in prose.get("rhythm_em", {}).items():
+            lines.append(f"  --ig-prose-{k.replace('_', '-')}: {v}em;")
+        for k, v in prose.get("scroll", {}).items():
+            unit = "rem" if k.endswith("_rem") else ""
+            key = k.replace("_rem", "").replace("_", "-")
+            lines.append(f"  --ig-prose-scroll-{key}: {v}{unit};")
+
     lines.extend(["", "  /* Motion */"])
     for k, v in t["motion"]["duration_ms"].items():
         lines.append(f"  --ig-dur-{k}: {v}ms;")

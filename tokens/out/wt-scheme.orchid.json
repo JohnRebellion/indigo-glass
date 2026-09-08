@@ -1,0 +1,23 @@
+{
+  "name": "Orchid Ink",
+  "background": "#07080A",
+  "foreground": "#E8E8E8",
+  "cursorColor": "#EEC6FF",
+  "selectionBackground": "#D4ADE6",
+  "black": "#0A0A0D",
+  "red": "#ED254E",
+  "green": "#3FFABB",
+  "yellow": "#FBBF24",
+  "blue": "#D4ADE6",
+  "purple": "#B38FC3",
+  "cyan": "#67E8F9",
+  "white": "#E8E8E8",
+  "brightBlack": "#888F9E",
+  "brightRed": "#FF5272",
+  "brightGreen": "#8CFFB4",
+  "brightYellow": "#FFD250",
+  "brightBlue": "#EEC6FF",
+  "brightPurple": "#C8B5FF",
+  "brightCyan": "#A5F3FC",
+  "brightWhite": "#FFFFFF"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Rust Ink",
+  "background": "#07080A",
+  "foreground": "#F8F8F8",
+  "cursorColor": "#FFB193",
+  "selectionBackground": "#FF987A",
+  "black": "#0A0A0D",
+  "red": "#ED254E",
+  "green": "#71F79F",
+  "yellow": "#FBBF24",
+  "blue": "#FF987A",
+  "purple": "#E77B60",
+  "cyan": "#67E8F9",
+  "white": "#F8F8F8",
+  "brightBlack": "#6B7280",
+  "brightRed": "#FF5272",
+  "brightGreen": "#8CFFB4",
+  "brightYellow": "#FFD250",
+  "brightBlue": "#FFB193",
+  "brightPurple": "#C8B5FF",
+  "brightCyan": "#A5F3FC",
+  "brightWhite": "#FFFFFF"
+}
