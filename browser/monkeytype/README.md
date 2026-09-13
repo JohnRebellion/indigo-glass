@@ -52,6 +52,18 @@ Monkeytype encodes custom themes into shareable URLs. After saving the theme loc
 
 ---
 
+### Option 4 — import full settings JSON
+
+`settings.sage-ink.json` is a complete Monkeytype settings export with the Sage Ink
+custom theme plus the matching settings below already applied (block caret, word
+highlight, Iosevka Custom Condensed, `customTheme: true`).
+
+Settings → **import settings** → paste the file contents. This overwrites *all*
+Monkeytype settings, not just colors — export your current ones first if you care
+about them.
+
+---
+
 ## Recommended Monkeytype settings to match
 
 Optional, beyond colors:
