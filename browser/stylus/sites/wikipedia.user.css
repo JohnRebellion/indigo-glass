@@ -1,0 +1,165 @@
+/* ==UserStyle==
+@name           Sage Ink — Wikipedia
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.1.0
+@description    Wikipedia (Vector 2022) on Sage Ink structure with its own link hue. Codex surface tokens collapsed to two ink steps, radii zeroed, link blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/wikipedia.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+/* Every Wikimedia wiki — Wikipedia, Commons, Wiktionary, Wikidata — ships the
+ * same Codex token layer, so one rule covers the family. */
+@-moz-document domain("wikipedia.org"), domain("wikimedia.org"), domain("wiktionary.org"), domain("wikidata.org") {
+
+  /* Requires Wikipedia's own dark mode (Appearance -> Colour -> Dark, or the
+   * automatic setting with a dark OS theme). Dark Reader off.
+   *
+   * HUE: Wikipedia's link blue (262.3deg) re-cut on the ink lightness ladder,
+   * L 0.82/0.74/0.66 at C 0.11, rather than raw #3366cc. */
+  :root,
+  html.skin-theme-clientpref-night,
+  html.skin-theme-clientpref-os {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. Raised in review: these are invisible
+     * to a computed-style audit because they have no DOM to measure. Set only
+     * in the files that force a dark surface stack; on an accent-only retint
+     * the site's own color-scheme is already correct. */
+    color-scheme: dark;
+    /* Surfaces — base / interactive-subtle / neutral / interactive onto two
+     * ink steps plus a border. */
+    --background-color-base: #07080A !important;
+    --background-color-neutral-subtle: #0D0D10 !important;
+    --background-color-neutral: #0D0D10 !important;
+    --background-color-interactive-subtle: #0D0D10 !important;
+    --background-color-interactive: #121216 !important;
+    --background-color-interactive--hover: #121216 !important;
+    --background-color-interactive--active: #1C1C1E !important;
+    --background-color-interactive-subtle--hover: #121216 !important;
+    --background-color-interactive-subtle--active: #1C1C1E !important;
+
+    /* Text */
+    --color-base: #F8F8F8 !important;
+    --color-base--hover: #FFFFFF !important;
+    --color-base--subtle: #6B7280 !important;
+    --color-emphasized: #F8F8F8 !important;
+    --color-subtle: #6B7280 !important;
+
+    /* Links — the one hue Wikipedia is identified by, plus its visited purple
+     * pulled onto the same ladder so the pair still reads as a pair. */
+    --color-progressive: #85ABF1 !important;
+    --color-progressive--hover: #9DC4FF !important;
+    --color-progressive--active: #9DC4FF !important;
+    --color-progressive--focus: #6D92D6 !important;
+    --color-visited: #B79BE0 !important;
+    --color-destructive: #ED254E !important;
+
+    /* Edges */
+    --border-color-base: #1C1C1E !important;
+    --border-color-subtle: #1C1C1E !important;
+    --border-color-muted: #1C1C1E !important;
+    --border-color-interactive: #6D92D6 !important;
+    --border-color-progressive: #6D92D6 !important;
+
+    /* Radius + elevation */
+    --border-radius-base: 0 !important;
+    --border-radius-sharp: 0 !important;
+    --border-radius-pill: 9999px !important;
+    --box-shadow-drop-small: none !important;
+    --box-shadow-drop-medium: none !important;
+    --box-shadow-drop-xx-large: none !important;
+  }
+
+  /* ─── Vector's night mode does not go through the tokens ──────────────
+   * Verified on a live article: --color-progressive computes to #88a3e8 yet
+   * links render #80B0E7, and .mw-page-container paints #191D24 with no token
+   * in sight. Vector 2022's night-mode stylesheet hardcodes both, so the
+   * variable remap above has to be backed by direct rules. (Those stylesheets
+   * are served cross-origin, so they cannot be enumerated through CSSOM —
+   * the values here were measured off computed styles.) */
+  .mw-page-container,
+  .vector-header,
+  .vector-header-container,
+  .vector-main-menu,
+  .vector-page-toolbar,
+  .vector-sticky-header,
+  .mw-body,
+  body {
+    background-color: #07080A !important;
+  }
+  .vector-dropdown-content,
+  .vector-menu-content,
+  .cdx-menu,
+  .vector-settings {
+    background-color: #0D0D10 !important;
+    border-color: #1C1C1E !important;
+  }
+  .vector-pinnable-header-toggle-button,
+  .cdx-button,
+  .cdx-text-input__input,
+  .vector-search-box-input {
+    background-color: #121216 !important;
+    border-color: #1C1C1E !important;
+    color: #F8F8F8 !important;
+  }
+
+  /* Links: blue for existing pages, purple for visited, the system's negative
+   * for redlinks — all on the ink ladder. */
+  a,
+  .mw-parser-output a,
+  .vector-toc a,
+  .mw-body a {
+    color: #85ABF1 !important;
+  }
+  a:visited,
+  .mw-parser-output a:visited {
+    color: #B79BE0 !important;
+  }
+  a.new,
+  .mw-parser-output a.new {
+    color: #ED254E !important;
+  }
+
+  /* Infoboxes, navboxes and the table styles predate Codex and carry their
+   * own greys and corners in the article stylesheet. */
+  .infobox,
+  .navbox,
+  .wikitable,
+  .mw-parser-output table,
+  .vector-toc,
+  .mw-portlet,
+  .cdx-button,
+  .cdx-text-input__input,
+  .cdx-search-input__input-wrapper {
+    background-color: transparent !important;
+    border-color: #1C1C1E !important;
+    border-radius: 0 !important;
+  }
+  .wikitable > * > tr > th,
+  .infobox-above,
+  .navbox-title {
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+
+  @supports (color: oklch(0% 0 0)) {
+    :root,
+    html.skin-theme-clientpref-night,
+    html.skin-theme-clientpref-os {
+      --background-color-base: oklch(0.1340 0.0051 262.32) !important;
+      --background-color-neutral: oklch(0.1605 0.0063 285.67) !important;
+      --background-color-neutral-subtle: oklch(0.1605 0.0063 285.67) !important;
+      --background-color-interactive: oklch(0.1840 0.0081 285.58) !important;
+      --color-base: oklch(0.9791 0.0000 89.88) !important;
+      --color-base--subtle: oklch(0.5510 0.0234 264.36) !important;
+      --color-progressive: oklch(0.7400 0.1100 262.29) !important;
+      --color-progressive--hover: oklch(0.8200 0.1100 262.29) !important;
+      --color-progressive--focus: oklch(0.6600 0.1100 262.29) !important;
+      --color-destructive: oklch(0.6124 0.2279 17.60) !important;
+    }
+  }
+}

@@ -1,0 +1,262 @@
+/* ==UserStyle==
+@name           Sage Ink — YouTube
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.2.0
+@description    YouTube on Sage Ink structure with YouTube's own hue. Six greys collapsed to two ink steps, every rounded corner squared, the translucent masthead made opaque, and the brand red re-cut on the ink lightness ladder. Fixes verified against a live render (scripts/style-check).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/youtube.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document domain("youtube.com"), domain("music.youtube.com") {
+
+  /* YouTube's components read their colours through --yt-spec-* custom
+   * properties WITH built-in fallbacks — the properties are not declared on
+   * :root at all (verified: every one computes to the empty string on a stock
+   * page). Declaring them here is what supplies the value, and it inherits
+   * into the Polymer shadow trees, so this remains a variable remap with no
+   * specificity war.
+   *
+   * HUE: this file does not paint YouTube sage. YouTube's identity is its red
+   * and it stays red — re-cut on the ink lightness ladder (hue 29.2deg at
+   * L 0.82/0.74/0.66, C 0.11) instead of #FF0000's raw L 0.63 / C 0.26. The
+   * Facebook and Google files do the same thing with their own hues.
+   *
+   * Run YouTube on its own dark theme (avatar -> Appearance -> Dark) with
+   * Dark Reader OFF for youtube.com. */
+  html,
+  html[dark],
+  html[system-icons] {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. Raised in review: these are invisible
+     * to a computed-style audit because they have no DOM to measure. Set only
+     * in the files that force a dark surface stack; on an accent-only retint
+     * the site's own color-scheme is already correct. */
+    color-scheme: dark;
+    /* Surfaces — base/raised/menu/general-a-b-c collapsed to two steps. */
+    --yt-spec-base-background: #07080A !important;
+    --yt-spec-raised-background: #0D0D10 !important;
+    --yt-spec-menu-background: #0D0D10 !important;
+    --yt-spec-inverted-background: #F8F8F8 !important;
+    --yt-spec-additive-background: #121216 !important;
+    --yt-spec-general-background-a: #07080A !important;
+    --yt-spec-general-background-b: #07080A !important;
+    --yt-spec-general-background-c: #0D0D10 !important;
+    --yt-spec-badge-chip-background: #121216 !important;
+    --yt-spec-verified-badge-background: #121216 !important;
+    --yt-spec-button-chip-background-hover: #121216 !important;
+    --yt-spec-brand-background-primary: #07080A !important;
+    --yt-spec-brand-background-secondary: #0D0D10 !important;
+    --yt-spec-paper-dialog-background: #0D0D10 !important;
+    --yt-spec-snackbar-background: #121216 !important;
+
+    /* Text */
+    --yt-spec-text-primary: #F8F8F8 !important;
+    --yt-spec-text-secondary: #6B7280 !important;
+    --yt-spec-text-disabled: #4B5563 !important;
+    --yt-spec-text-primary-inverse: #07080A !important;
+
+    /* Brand hue on the ink ladder. --filled-button-text and
+     * --text-primary-inverse are the labels that sit ON the accent fill, so
+     * they go ink black: white on #CD776A is 3.1:1, black is 7.4:1. */
+    --yt-spec-call-to-action: #E89082 !important;
+    --yt-spec-call-to-action-inverse: #CD776A !important;
+    --yt-spec-themed-blue: #E89082 !important;
+    --yt-spec-brand-link-text: #FFA99B !important;
+    --yt-spec-text-link: #FFA99B !important;
+    --yt-spec-brand-button-background: #CD776A !important;
+    --yt-spec-filled-button-text: #07080A !important;
+    --yt-spec-icon-active-other: #E89082 !important;
+    --yt-spec-icon-inactive: #6B7280 !important;
+    --yt-spec-suggested-action: #121216 !important;
+    --yt-spec-selected-nav-text: #E89082 !important;
+
+    /* Semantics — the live badge and error states keep the system red. */
+    --yt-spec-error-indicator: #ED254E !important;
+    --yt-spec-static-brand-red: #ED254E !important;
+    --yt-spec-static-brand-white: #F8F8F8 !important;
+
+    /* Dividers, overlays, elevation */
+    --yt-spec-10-percent-layer: #1C1C1E !important;
+    --yt-spec-outline: #1C1C1E !important;
+    --yt-spec-shadow: none !important;
+    --yt-spec-touch-response: #121216 !important;
+  }
+
+  /* ─── Opaque masthead ──────────────────────────────────────────────────
+   * The masthead paints rgba(15, 15, 15, 0.8) — a translucent bar the feed
+   * scrolls under. Sage Ink deleted the glass material in tokens v5; every
+   * surface is opaque. */
+  #background.ytd-masthead,
+  ytd-masthead #background,
+  #masthead-container.ytd-app {
+    background-color: #07080A !important;
+    backdrop-filter: none !important;
+  }
+
+  /* ─── Edges, not tints ─────────────────────────────────────────────── */
+  ytd-app tp-yt-app-drawer #contentContainer,
+  ytd-mini-guide-renderer {
+    border-right: 1px solid #1C1C1E !important;
+  }
+  #masthead-container,
+  ytd-masthead {
+    border-bottom: 1px solid #1C1C1E !important;
+  }
+
+  /* ─── Ink corners ──────────────────────────────────────────────────────
+   * Element names are Polymer custom elements, not class hashes. The last
+   * four entries are the ones a live audit caught still rounded after v0.1.0:
+   * the mini-guide rail entries (10px), the skip-navigation pill (18px) and
+   * the feed-nudge card (12px). */
+  ytd-thumbnail,
+  ytd-thumbnail img,
+  ytd-playlist-thumbnail,
+  yt-img-shadow,
+  yt-img-shadow img,
+  #thumbnail,
+  ytd-rich-item-renderer,
+  ytd-video-renderer,
+  yt-chip-cloud-chip-renderer,
+  ytd-button-renderer button,
+  yt-button-shape button,
+  tp-yt-paper-dialog,
+  ytd-menu-popup-renderer,
+  #search-form,
+  #container.ytd-searchbox,
+  .ytSearchboxComponentInputBox,
+  ytd-mini-guide-entry-renderer,
+  ytd-guide-entry-renderer,
+  #skip-navigation.ytd-masthead,
+  ytd-feed-nudge-renderer,
+  #dismissible.ytd-feed-nudge-renderer,
+  #content-wrapper.ytd-feed-nudge-renderer,
+  /* The newer "view model" components — YouTube is migrating the feed off
+   * Polymer onto these, and they carry their own radii (4-16px). Caught by a
+   * full-feed audit; the first pass only saw the above-the-fold Polymer set. */
+  yt-thumbnail-view-model,
+  .ytThumbnailViewModelHost,
+  .ytThumbnailViewModelImage,
+  .ytChipShapeChip,
+  badge-shape.ytBadgeShapeHost,
+  .ytBadgeShapeHost,
+  yt-interaction,
+  yt-touch-feedback-shape,
+  .ytSpecTouchFeedbackShapeFill,
+  .ytSpecTouchFeedbackShapeStroke,
+  .ytSpecTouchFeedbackShapeHoverEffect,
+  div.fill.style-scope,
+  div.stroke.style-scope,
+  .shortsLockupViewModelHostThumbnailParentContainer,
+  .shortsLockupViewModelHostThumbnailParentContainerRounded,
+  .shortsLockupViewModelHostOutsideMetadata,
+  .shortsLockupViewModelHostMetadataRounded,
+  .skeleton-bg-color,
+  .text-shell,
+  .rich-video-meta,
+  .ytSpecAvatarShapeLiveBadge,
+  [class*="ytCollectionsStackCollectionStack"] {
+    border-radius: 0 !important;
+  }
+
+  /* Channel avatars stay round — a squared avatar reads as a broken image,
+   * and the token set keeps radius-full for exactly this case. */
+  #avatar img,
+  yt-img-shadow#avatar img,
+  ytd-topbar-menu-button-renderer img {
+    border-radius: 9999px !important;
+  }
+
+  /* ─── White-on-dark washes ─────────────────────────────────────────────
+   * Tonal buttons, the search and voice buttons and the feed-nudge card all
+   * paint rgba(255,255,255,0.08-0.1) over the page. Opaque ink steps instead
+   * — same reason as the masthead. */
+  .ytSpecButtonShapeNextTonal,
+  .ytSearchboxComponentSearchButton,
+  #voice-search-button.ytd-masthead,
+  #content-wrapper.ytd-feed-nudge-renderer,
+  .ytChipShapeChip.ytChipShapeInactive,
+  .skeleton-bg-color {
+    background-color: #121216 !important;
+  }
+
+  /* Duration/"New" badges over a thumbnail paint rgba(0,0,0,0.6). Opaque ink
+   * reads the same over any thumbnail and keeps the no-translucency rule. */
+  badge-shape.ytBadgeShapeHost,
+  .ytBadgeShapeThumbnailDefault {
+    background-color: #07080A !important;
+  }
+
+  /* Click ripples paint white. Brand hue instead — the ripple is the one
+   * place the accent gets to move. Their own opacity keeps it subtle. */
+  .ytSpecTouchFeedbackShapeFill,
+  .ytSpecTouchFeedbackShapeHoverEffect,
+  div.fill.style-scope {
+    background-color: #E89082 !important;
+  }
+
+  /* The live badge keeps the system's negative red, not the brand hue. */
+  .ytSpecAvatarShapeLiveBadge {
+    background-color: #ED254E !important;
+  }
+
+  /* Search box: ink treatment, accent edge on focus. */
+  #search-form,
+  #container.ytd-searchbox,
+  .ytSearchboxComponentInputBox {
+    background-color: #0D0D10 !important;
+    border: 1px solid #1C1C1E !important;
+  }
+  #search-form:focus-within,
+  .ytSearchboxComponentInputBox:focus-within {
+    border-color: #CD776A !important;
+  }
+
+  /* Scrub bar and the watched-progress strip on thumbnails. */
+  .ytp-play-progress,
+  .ytp-swatch-background-color,
+  #progress.ytd-thumbnail-overlay-resume-playback-renderer {
+    background-color: #E89082 !important;
+  }
+
+  /* OKLCH upgrade. Surfaces/text from tokens/indigo-glass.tokens.toml
+   * [variants.sage]; accents are hue 29.2deg at C 0.11 on the ink ladder. */
+  @supports (color: oklch(0% 0 0)) {
+    html, html[dark] {
+      --yt-spec-base-background: oklch(0.1340 0.0051 262.32) !important;
+      --yt-spec-raised-background: oklch(0.1605 0.0063 285.67) !important;
+      --yt-spec-menu-background: oklch(0.1605 0.0063 285.67) !important;
+      --yt-spec-general-background-a: oklch(0.1340 0.0051 262.32) !important;
+      --yt-spec-general-background-b: oklch(0.1340 0.0051 262.32) !important;
+      --yt-spec-general-background-c: oklch(0.1605 0.0063 285.67) !important;
+      --yt-spec-additive-background: oklch(0.1840 0.0081 285.58) !important;
+      --yt-spec-badge-chip-background: oklch(0.1840 0.0081 285.58) !important;
+      --yt-spec-text-primary: oklch(0.9791 0.0000 89.88) !important;
+      --yt-spec-text-secondary: oklch(0.5510 0.0234 264.36) !important;
+      --yt-spec-text-disabled: oklch(0.4461 0.0263 256.80) !important;
+      --yt-spec-call-to-action: oklch(0.7400 0.1100 29.20) !important;
+      --yt-spec-call-to-action-inverse: oklch(0.6600 0.1100 29.20) !important;
+      --yt-spec-themed-blue: oklch(0.7400 0.1100 29.20) !important;
+      --yt-spec-brand-link-text: oklch(0.8200 0.1100 29.20) !important;
+      --yt-spec-text-link: oklch(0.8200 0.1100 29.20) !important;
+      --yt-spec-brand-button-background: oklch(0.6600 0.1100 29.20) !important;
+      --yt-spec-icon-active-other: oklch(0.7400 0.1100 29.20) !important;
+      --yt-spec-selected-nav-text: oklch(0.7400 0.1100 29.20) !important;
+      --yt-spec-error-indicator: oklch(0.6124 0.2279 17.60) !important;
+      --yt-spec-static-brand-red: oklch(0.6124 0.2279 17.60) !important;
+    }
+    .ytp-play-progress,
+    .ytp-swatch-background-color,
+    #progress.ytd-thumbnail-overlay-resume-playback-renderer {
+      background-color: oklch(0.7400 0.1100 29.20) !important;
+    }
+    #search-form:focus-within,
+    .ytSearchboxComponentInputBox:focus-within {
+      border-color: oklch(0.6600 0.1100 29.20) !important;
+    }
+  }
+}

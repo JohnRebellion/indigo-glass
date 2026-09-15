@@ -1,0 +1,25 @@
+<!doctype html>
+<!-- serp-grid.html — minimal reproduction of Google's results grid.
+     Geometry copied from a live SERP audit (2026-09-14): #rcnt is a 22-track
+     grid (122.5px, twenty 36px tracks, 122.5px) with a 20px column gap, and
+     #center_col is placed at `2 / span 12` = 652px hard left.
+
+     Exists because Google rate-limits the harness after a few automated
+     searches and starts serving /sorry/index, at which point the width rule
+     in google.user.css cannot be checked against the real page. Applying that
+     file to this fixture gives:
+         without #rhs:  652@143  ->  820@255   (widened, moved toward centre)
+         with    #rhs:  652@143  ->  652@143   (untouched, :has() guard holds)
+     Run: see the width-rule section of ../README.md --><html><head><meta charset="utf-8"><style>
+/* Geometry copied verbatim from a live SERP audit (2026-09-14):
+   #rcnt is a 22-track grid, gap 20px; #center_col is placed at 2 / span 12. */
+body { margin: 0; width: 1400px; }
+#cnt { width: 1385px; }
+#rcnt { display: grid; column-gap: 20px;
+        grid-template-columns: 122.5px repeat(20, 36px) 122.5px; }
+#center_col { grid-column: 2 / span 12; background: #123; min-height: 40px; }
+#rhs { grid-column: 15 / span 6; background: #321; min-height: 40px; }
+</style></head><body>
+<div id="cnt"><div id="rcnt"><div id="center_col">centre</div></div></div>
+<div id="cnt"><div id="rcnt" class="withrhs"><div id="center_col">centre</div><div id="rhs">panel</div></div></div>
+</body></html>

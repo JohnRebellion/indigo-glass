@@ -1,0 +1,254 @@
+/* ==UserStyle==
+@name           Sage Ink — Microsoft Copilot
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.2.0
+@description    Copilot on Sage Ink. Its 100-900 colour ramps remapped onto the ink steps, the squircle clip-paths switched off, corners squared, Microsoft's own blue on the ink ladder. Ramp names read off a live render (scripts/style-check).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/copilot.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+/* Consumer Copilot only. The Microsoft 365 Copilot surfaces
+ * (copilot.cloud.microsoft, m365copilotapp.svc.cloud.microsoft) are Fluent v9
+ * and already covered by microsoft365.user.css via domain("cloud.microsoft"). */
+@-moz-document domain("copilot.microsoft.com") {
+
+  /* Copilot ships Tailwind-style ramps: --color-background-*,
+   * --color-foreground-*, --color-stroke-*, --color-accent-* and friends,
+   * each a 100-900 scale of space-separated RGB triplets (dark to light in
+   * dark mode). Values here are triplets, not hex, because the app composes
+   * them as rgb(var(--color-…) / <alpha>).
+   *
+   * HUE: Copilot keeps Microsoft blue (251.3deg), re-cut on the ink
+   * lightness ladder at L 0.82/0.74/0.66, C 0.11.
+   *
+   * The -static- ramps run the other way round (100 lightest, 900 darkest)
+   * and are NOT decorative: a live audit found #app itself painted from
+   * --color-background-static-150, so leaving them alone left the whole app
+   * canvas on Copilot's #151A28. They are remapped in reverse below. */
+  :root,
+  html,
+  body,
+  #app {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. Raised in review: these are invisible
+     * to a computed-style audit because they have no DOM to measure. Set only
+     * in the files that force a dark surface stack; on an accent-only retint
+     * the site's own color-scheme is already correct. */
+    color-scheme: dark;
+    /* Surfaces */
+    --color-background-100: 7 8 10 !important;
+    --color-background-150: 7 8 10 !important;
+    --color-background-200: 13 13 16 !important;
+    --color-background-250: 13 13 16 !important;
+    --color-background-300: 18 18 22 !important;
+    --color-background-350: 18 18 22 !important;
+    --color-background-400: 28 28 30 !important;
+    --color-background-450: 28 28 30 !important;
+    --color-background-550: 75 85 99 !important;
+    --color-background-600: 107 114 128 !important;
+    --color-background-650: 107 114 128 !important;
+    --color-background-700: 248 248 248 !important;
+    --color-background-750: 248 248 248 !important;
+    --color-background-800: 248 248 248 !important;
+    --color-background-850: 248 248 248 !important;
+    --color-background-900: 248 248 248 !important;
+
+    /* Text */
+    --color-foreground-100: 7 8 10 !important;
+    --color-foreground-150: 7 8 10 !important;
+    --color-foreground-200: 13 13 16 !important;
+    --color-foreground-250: 13 13 16 !important;
+    --color-foreground-300: 18 18 22 !important;
+    --color-foreground-350: 18 18 22 !important;
+    --color-foreground-400: 28 28 30 !important;
+    --color-foreground-450: 28 28 30 !important;
+    --color-foreground-550: 75 85 99 !important;
+    --color-foreground-600: 107 114 128 !important;
+    --color-foreground-650: 107 114 128 !important;
+    --color-foreground-700: 248 248 248 !important;
+    --color-foreground-750: 248 248 248 !important;
+    --color-foreground-800: 248 248 248 !important;
+    --color-foreground-850: 248 248 248 !important;
+    --color-foreground-900: 248 248 248 !important;
+
+    /* Edges */
+    --color-stroke-100: 7 8 10 !important;
+    --color-stroke-150: 7 8 10 !important;
+    --color-stroke-200: 13 13 16 !important;
+    --color-stroke-250: 13 13 16 !important;
+    --color-stroke-300: 18 18 22 !important;
+    --color-stroke-350: 18 18 22 !important;
+    --color-stroke-400: 28 28 30 !important;
+    --color-stroke-450: 28 28 30 !important;
+    --color-stroke-550: 75 85 99 !important;
+    --color-stroke-600: 107 114 128 !important;
+    --color-stroke-650: 107 114 128 !important;
+    --color-stroke-700: 248 248 248 !important;
+    --color-stroke-750: 248 248 248 !important;
+    --color-stroke-800: 248 248 248 !important;
+    --color-stroke-850: 248 248 248 !important;
+    --color-stroke-900: 248 248 248 !important;
+
+    /* Accent */
+    --color-accent-100: 13 13 16 !important;
+    --color-accent-150: 13 13 16 !important;
+    --color-accent-200: 18 18 22 !important;
+    --color-accent-250: 18 18 22 !important;
+    --color-accent-300: 28 28 30 !important;
+    --color-accent-350: 28 28 30 !important;
+    --color-accent-400: 28 28 30 !important;
+    --color-accent-450: 94 94 96 !important;
+    --color-accent-550: 93 150 211 !important;
+    --color-accent-600: 117 175 238 !important;
+    --color-accent-650: 117 175 238 !important;
+    --color-accent-700: 142 201 255 !important;
+    --color-accent-750: 142 201 255 !important;
+    --color-accent-800: 142 201 255 !important;
+    --color-accent-850: 248 248 248 !important;
+    --color-accent-900: 248 248 248 !important;
+
+    /* The app canvas reads --color-app-background-100, a family the app sets
+     * from script rather than a stylesheet — it never appeared in a CSS dump,
+     * and its in-sheet fallback (#f8f4f1) is the light-mode value. Without
+     * these the whole page stays on Copilot's #151A28 no matter what the
+     * ramps below say. Declared as hex: this family is used directly, not
+     * composed through rgb(). */
+    --color-app-background-100: #07080A !important;
+    --color-app-background-150: #07080A !important;
+    --color-app-background-200: #0D0D10 !important;
+    --color-app-background-250: #0D0D10 !important;
+    --color-app-background-300: #121216 !important;
+    --color-app-foreground-100: #F8F8F8 !important;
+    --color-app-foreground-150: #F8F8F8 !important;
+    --color-app-foreground-200: #6B7280 !important;
+
+    /* Static ramps — reversed. */
+    --color-background-static-100: 248 248 248 !important;
+    --color-background-static-150: 248 248 248 !important;
+    --color-background-static-200: 248 248 248 !important;
+    --color-background-static-250: 248 248 248 !important;
+    --color-background-static-300: 248 248 248 !important;
+    --color-background-static-350: 107 114 128 !important;
+    --color-background-static-400: 107 114 128 !important;
+    --color-background-static-450: 75 85 99 !important;
+    --color-background-static-550: 28 28 30 !important;
+    --color-background-static-600: 28 28 30 !important;
+    --color-background-static-650: 18 18 22 !important;
+    --color-background-static-700: 18 18 22 !important;
+    --color-background-static-750: 13 13 16 !important;
+    --color-background-static-800: 13 13 16 !important;
+    --color-background-static-850: 7 8 10 !important;
+    --color-background-static-900: 7 8 10 !important;
+
+    --color-foreground-static-100: 248 248 248 !important;
+    --color-foreground-static-150: 248 248 248 !important;
+    --color-foreground-static-200: 248 248 248 !important;
+    --color-foreground-static-250: 248 248 248 !important;
+    --color-foreground-static-300: 248 248 248 !important;
+    --color-foreground-static-350: 107 114 128 !important;
+    --color-foreground-static-400: 107 114 128 !important;
+    --color-foreground-static-450: 75 85 99 !important;
+    --color-foreground-static-550: 28 28 30 !important;
+    --color-foreground-static-600: 28 28 30 !important;
+    --color-foreground-static-650: 18 18 22 !important;
+    --color-foreground-static-700: 18 18 22 !important;
+    --color-foreground-static-750: 13 13 16 !important;
+    --color-foreground-static-800: 13 13 16 !important;
+    --color-foreground-static-850: 7 8 10 !important;
+    --color-foreground-static-900: 7 8 10 !important;
+
+    --color-accent-static-100: 248 248 248 !important;
+    --color-accent-static-150: 248 248 248 !important;
+    --color-accent-static-200: 142 201 255 !important;
+    --color-accent-static-250: 142 201 255 !important;
+    --color-accent-static-300: 142 201 255 !important;
+    --color-accent-static-350: 117 175 238 !important;
+    --color-accent-static-400: 117 175 238 !important;
+    --color-accent-static-450: 93 150 211 !important;
+    --color-accent-static-550: 94 94 96 !important;
+    --color-accent-static-600: 28 28 30 !important;
+    --color-accent-static-650: 28 28 30 !important;
+    --color-accent-static-700: 28 28 30 !important;
+    --color-accent-static-750: 18 18 22 !important;
+    --color-accent-static-800: 18 18 22 !important;
+    --color-accent-static-850: 13 13 16 !important;
+    --color-accent-static-900: 13 13 16 !important;
+
+    /* Muted chrome tracks the surface steps. */
+    --color-muted-100: 7 8 10 !important;
+    --color-muted-150: 7 8 10 !important;
+    --color-muted-200: 13 13 16 !important;
+    --color-muted-250: 13 13 16 !important;
+    --color-muted-300: 18 18 22 !important;
+    --color-muted-350: 18 18 22 !important;
+    --color-muted-400: 28 28 30 !important;
+    --color-muted-450: 28 28 30 !important;
+    --color-muted-550: 75 85 99 !important;
+    --color-muted-600: 107 114 128 !important;
+    --color-muted-650: 107 114 128 !important;
+    --color-muted-700: 248 248 248 !important;
+    --color-muted-750: 248 248 248 !important;
+    --color-muted-800: 248 248 248 !important;
+    --color-muted-850: 248 248 248 !important;
+    --color-muted-900: 248 248 248 !important;
+
+    /* ─── No superellipse ──────────────────────────────────────────────────
+     * Copilot masks 39 of its surfaces with squircle clip-paths. Sage Ink
+     * ruled the superellipse out explicitly — tokens.toml sets
+     * [radius.squircle].enabled = false, on the grounds that it is a
+     * GLASS-era device and this is a neobrutalist ink system. Switching the
+     * clip-paths off is what squares those surfaces; border-radius alone
+     * cannot, because the rounding is a mask, not a corner. */
+    --clip-path-squircle-4: none !important;
+    --clip-path-squircle-6: none !important;
+    --clip-path-squircle-8: none !important;
+    --clip-path-squircle-10: none !important;
+    --clip-path-squircle-12: none !important;
+    --clip-path-squircle-16: none !important;
+    --clip-path-squircle-20: none !important;
+    --clip-path-squircle-24: none !important;
+    --clip-path-squircle-28: none !important;
+    --clip-path-squircle-32: none !important;
+    --clip-path-squircle-40: none !important;
+    --clip-path-squircle-48: none !important;
+
+    /* Ink has no soft elevation. */
+    --color-shadow-xs-core: transparent !important;
+    --color-shadow-sm-core: transparent !important;
+    --color-shadow-md-core: transparent !important;
+    --color-shadow-lg-core: transparent !important;
+    --color-shadow-xl-core: transparent !important;
+    --color-shadow-md-ambient: transparent !important;
+    --color-shadow-lg-ambient: transparent !important;
+    --color-shadow-xl-ambient: transparent !important;
+    --color-shadow-tint: transparent !important;
+    --color-shadow-highlight: transparent !important;
+  }
+
+  /* The app canvas resists the ramps: Copilot paints #app from a rule in a
+   * cross-origin stylesheet (so it cannot be read back through CSSOM) that
+   * already carries !important. Painting it directly is the only thing that
+   * holds — verified, the ramp overrides alone left it on #151A28. */
+  html,
+  body,
+  #app {
+    background-color: #07080A !important;
+  }
+
+  /* Tailwind's rounded-* utilities hardcode their radii, so a blanket zero
+   * inside the app shell, avatars excepted. */
+  #app *:not([class*="avatar"]):not([class*="Avatar"]):not([class*="spinner"]):not([class*="rounded-full"]),
+  button, input, textarea, [role="dialog"], [role="menu"] {
+    border-radius: 0 !important;
+    clip-path: none !important;
+  }
+
+  pre, code, [class*="code"] {
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
+  }
+}

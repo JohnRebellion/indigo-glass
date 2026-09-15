@@ -40,3 +40,11 @@ __pycache__/
 # plus the per-section montages), so ~5MB per run does not belong in history.
 # The findings live in the synthesis docs and in docs/OUTLINE-SWEEP-*.md.
 research-reports/neobrutalism-live-audit-*/
+
+# Stylus profile snapshots taken by scripts/style-check/stylusapply.mjs before
+# it updates a browser profile. Machine-local recovery data, not repo state.
+backups/stylus/
+
+# Generated Stylus import bundle — rebuilt from browser/stylus/**/*.user.css
+# by the snippet in scripts/style-check/README.md. Not repo state.
+browser/stylus/out/

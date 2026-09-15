@@ -104,13 +104,72 @@ watching if either looks washed-out or low-contrast after re-import.
 
 Includes a preset block `Sage Ink` targeting `*` so the palette applies globally. **Re-run the import any time this JSON changes** — Dark Reader does not watch the file, it only reads it at import time.
 
+## Which layer does what — and what to switch off
+
+Three things can repaint a page. They are not interchangeable, and two of them
+must never run on the same site.
+
+| Layer | Scope | Touches colour? | Run it |
+|---|---|---|---|
+| **Stylus universal** (`stylus/indigo-glass.user.css`) | every site | **no** | always on |
+| **Stylus per-site** (`stylus/sites/*.user.css`) | one site | yes, fully | on, for the sites it covers |
+| **Dark Reader** | every site not in `disabledFor` | yes, fully | on, as the fallback |
+
+**The rule: exactly one colour engine per site.**
+
+- The **universal** style is orthogonal to the other two. It sets typography
+  (Carlito with metric overrides), scrollbars, selection tint and the focus
+  ring — and deliberately nothing else. It cannot conflict with Dark Reader,
+  because Dark Reader does not touch fonts or scrollbars. Leave it on
+  everywhere; it is what keeps the long tail of the web feeling like one system
+  even where no palette is applied.
+- A **per-site** style works *through the site's own dark theme*, remapping the
+  variables that theme already reads. That requires the site's native dark mode
+  to be switched on, and Dark Reader to be **off** for that domain. Running
+  both is what produced every defect in this repo's history: Google's AI
+  Overview as a black hole, Facebook's left rail coming back white, Wikipedia
+  rendering Dark Reader's `#181a1b` instead of its own colours.
+- **Dark Reader** is the fallback for everything else — sites with no native
+  dark mode and no per-site file (Shopee, TikTok, windy.com, most one-off
+  pages). That is the majority of browsing, which is why it stays enabled by
+  default rather than being switched off globally.
+
+### Why the disabled list is explicit
+
+`detectDarkTheme` is already `true`, which is meant to make Dark Reader skip
+sites that ship their own dark theme. It does not work reliably on
+script-rendered apps — Facebook, Google and Wikipedia all have real dark themes
+and Dark Reader processed them anyway. The `disabledFor` list is the part that
+actually holds.
+
+### Adding a site
+
+Writing a new per-site style means adding its domain to `disabledFor` in the
+same change. A per-site file without the exclusion is worse than no file at
+all: two engines, one DOM, and an unpredictable result.
+
+### Verifying a site style against the live site
+
+`scripts/style-check/` renders google/youtube/facebook in the system Edge with
+the repo's current `.user.css` applied and reports what the style missed —
+elements still rounded, surfaces still off-palette, link colours in effect. It
+exists because the first three passes at those files were written from
+screenshots and four separate guesses turned out to be wrong (a selector that
+matched nothing, a width cap that collapsed Google's image grid, a highlight
+rule scoped to the wrong container, and four Facebook variables that do not
+exist). See that directory's README.
+
 ### Native-dark sites — Dark Reader disabled by default
 
 `indigo-glass.json` ships a `siteList`/`disabledFor` list of sites that already have their own dark mode. Stacking Dark Reader on top double-processes the source colors (e.g. Facebook's brand blue gets flattened into a neutral, hueless black — measured directly off a real screenshot pair: native Facebook dark mode is `#0E1114`, genuinely blue-tinted; with Dark Reader's `dynamicTheme` forcing itself over it, it becomes `#0E0E0E`, perfectly neutral). Cleaner to let each site's native dark mode render.
 
 This exact Facebook case was cited here as the rationale for years before `facebook.com` itself was ever actually added to the list below (2026-08-30) — the list had drifted out of sync with its own documented reasoning.
 
-Currently disabled: github.com, fast.com, mail.google.com, settings, www.google.com, www.instagram.com, facebook.com, www.facebook.com, m.facebook.com, www.youtube.com, status.claude.com, docs.google.com, legacy.quran.com, linear.app, chatgpt.com, chat.openai.com, notion.so, notion.site, claude.ai.
+The repo copy of that list had in fact been empty (`"disabledFor": []`) the whole time this section described it — the drift noted above was worse than recorded. Repopulated 2026-09-13, at the same time the google/youtube/facebook Stylus site styles landed: those three retint the site's *own* dark theme via its *own* variables, so Dark Reader running on top is exactly the double-processing described above, and it showed — Facebook's left rail came back white, Google's AI Overview came back as a black hole.
+
+Currently disabled: github.com, fast.com, mail.google.com, settings, google.com, www.google.com, google.com.ph, www.google.com.ph, docs.google.com, www.instagram.com, facebook.com, www.facebook.com, m.facebook.com, messenger.com, www.messenger.com, youtube.com, www.youtube.com, music.youtube.com, status.claude.com, legacy.quran.com, linear.app, chatgpt.com, chat.openai.com, notion.so, notion.site, claude.ai, atlassian.net, atlassian.com, cloud.microsoft, outlook.office.com, outlook.office365.com, teams.microsoft.com, sharepoint.com, office.com, en.wikipedia.org, wikipedia.org.
+
+Both bare and `www.` forms are listed: Dark Reader matches the host as written, so `facebook.com` alone does not cover `www.facebook.com`.
 
 To add more: Dark Reader popup → click toggle → "**OFF for this site**". Or edit `disabledFor` in the JSON and re-import.
 

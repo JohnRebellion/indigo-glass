@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - Claude.ai
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.5.0
+@version        0.7.0
 @description    Retint claude.ai accents with Sage Ink + Carlito loop-tail allograph. Native dark backgrounds/text/borders left untouched. OKLCH accents, sharp ink corners (no squircle). Pairs with the universal Sage Ink Stylus style.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -10,7 +10,10 @@
 @preprocessor   default
 ==/UserStyle== */
 
-@-moz-document domain("claude.ai") {
+/* claude.com and platform.claude.com (the Console) ship the same design
+ * system as claude.ai and were missing from the match list — history shows
+ * all three in regular use. */
+@-moz-document domain("claude.ai"), domain("claude.com") {
 
   /* Accent-only: claude.ai's own native dark backgrounds, text colours and
      borders are left untouched (was forcing all of those too - two
@@ -18,10 +21,10 @@
      DOM). Only the accent/semantic hues - the actual "Sage Ink" identity -
      are retinted. */
   :root {
-    --accent-main-000: #A6C9A6 !important;
-    --accent-main-100: #C0E3C0 !important;
-    --accent-main-200: #89A889 !important;
-    --accent-secondary-000: #89A889 !important;
+    --accent-main-000: #E69277 !important;
+    --accent-main-100: #FFAB8F !important;
+    --accent-main-200: #CB795F !important;
+    --accent-secondary-000: #CB795F !important;
     --accent-secondary-100: #C8B5FF !important;
     --danger-000: #ED254E !important;
     --danger-100: #FF5272 !important;
@@ -35,10 +38,10 @@
    * (165deg, was the pre-nudge shared 152.51deg). */
   @supports (color: oklch(0% 0 0)) {
     :root {
-      --accent-main-000: oklch(0.8000 0.0600 145.00) !important;
-      --accent-main-100: oklch(0.8800 0.0600 145.00) !important;
-      --accent-main-200: oklch(0.7000 0.0570 145.00) !important;
-      --accent-secondary-000: oklch(0.7000 0.0570 145.00) !important;
+      --accent-main-000: oklch(0.7400 0.1100 38.76) !important;
+      --accent-main-100: oklch(0.8200 0.1100 38.76) !important;
+      --accent-main-200: oklch(0.6600 0.1100 38.76) !important;
+      --accent-secondary-000: oklch(0.6600 0.1100 38.76) !important;
       --danger-000: oklch(0.6124 0.2279 17.60) !important;
       --success-000: oklch(0.8792 0.1706 165.00) !important;
     }

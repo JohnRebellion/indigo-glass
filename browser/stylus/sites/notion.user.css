@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.5.1
+@version        0.6.0
 @description    Retint notion.so + notion.site accents with Sage Ink + Carlito loop-tail. Native dark backgrounds/text left untouched. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -20,11 +20,11 @@
      for the forced near-black, not Notion's own surface); the selection
      tint stays, it's an accent wash, not a structural colour. */
   :root {
-    --notion-primary: #A6C9A6 !important;
-    --notion-primary-hover: #C0E3C0 !important;
+    --notion-primary: #77AFEF !important;
+    --notion-primary-hover: #90C8FF !important;
 
-    --notion-blue: #A6C9A6 !important;
-    --notion-purple: #89A889 !important;
+    --notion-blue: #77AFEF !important;
+    --notion-purple: #5F96D4 !important;
     --notion-pink: #C8B5FF !important;
     --notion-red: #ED254E !important;
     --notion-orange: #FBBF24 !important; /* orange banned (PHILOSOPHY.md) -> amber, the single warm accent */
@@ -50,10 +50,10 @@
    * wherever oklch() is supported - all current browsers. */
   @supports (color: oklch(0% 0 0)) {
     :root {
-      --notion-primary: oklch(0.8000 0.0600 145.00) !important;
-      --notion-primary-hover: oklch(0.8800 0.0600 145.00) !important;
-      --notion-blue: oklch(0.8000 0.0600 145.00) !important;
-      --notion-purple: oklch(0.7000 0.0570 145.00) !important;
+      --notion-primary: oklch(0.7400 0.1100 252.70) !important;
+      --notion-primary-hover: oklch(0.8200 0.1100 252.70) !important;
+      --notion-blue: oklch(0.7400 0.1100 252.70) !important;
+      --notion-purple: oklch(0.6600 0.1100 252.70) !important;
       --notion-orange: oklch(0.8369 0.1644 84.43) !important;
       --notion-yellow: oklch(0.8369 0.1644 84.43) !important;
       --notion-red: oklch(0.6124 0.2279 17.60) !important;

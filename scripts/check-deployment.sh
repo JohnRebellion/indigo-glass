@@ -317,12 +317,20 @@ fi
 
 # --- GRUB -----------------------------------------------------------------
 if [ -f /etc/default/grub ]; then
-  gt="$(sed -n 's/^GRUB_THEME=//p' /etc/default/grub | tail -1 | tr -d '"')"
-  if [ -n "$gt" ] && [ -f "$gt" ]; then
+  # Strip BOTH quote styles: sync-grub-parity.sh writes GRUB_THEME='...' with
+  # single quotes, and `tr -d '"'` alone left them in, so every -f test failed.
+  gt="$(sed -n 's/^GRUB_THEME=//p' /etc/default/grub | tail -1 | tr -d "\"'")"
+  # /boot/grub2 is drwx------ (root-only) on Fedora/Nobara, so `[ -f ]` on an
+  # installed theme is false for a normal user. Existence is only decidable
+  # when the parent dir is readable; otherwise judge on the configured path.
+  gt_dir="$(dirname "${gt:-/}")"
+  if [ -n "$gt" ] && { [ ! -r "$gt_dir" ] || [ -f "$gt" ]; }; then
     case "$gt" in
       *indigo-glass*|*sage*) report DEPLOYED "grub theme" "GRUB_THEME=$gt" ;;
       *) report UNDEPLOYED "grub theme" "GRUB_THEME=$gt (not a Sage Ink theme)" ;;
     esac
+  elif [ -n "$gt" ]; then
+    report UNDEPLOYED "grub theme" "GRUB_THEME=$gt (file missing)"
   else
     # Optional by design — install.sh only deploys GRUB with --with-grub.
     report ABSENT "grub theme" "GRUB_THEME unset (optional, needs --with-grub)"

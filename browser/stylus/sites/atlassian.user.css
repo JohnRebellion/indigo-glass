@@ -1,0 +1,153 @@
+/* ==UserStyle==
+@name           Sage Ink — Atlassian (Jira / Confluence)
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.2.0
+@description    Atlassian cloud on Sage Ink structure with Atlassian's own blue. The --ds-* surface stack collapsed to two ink steps, all eight radius tokens zeroed, brand blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/atlassian.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+/* Matches any tenant — the style keys off atlassian.net/.com, never a
+ * hostname, so no customer or employer tenant is named in this repo. */
+@-moz-document domain("atlassian.net"), domain("atlassian.com") {
+
+  /* Atlassian Design System ships ~650 --ds-* tokens on :root, so this is a
+   * pure variable remap. Requires Atlassian's own dark theme (avatar ->
+   * Settings -> Theme -> Dark), Dark Reader off.
+   *
+   * HUE: Atlassian keeps its blue (258.6deg), re-cut on the ink lightness
+   * ladder at L 0.82/0.74/0.66, C 0.11 — not raw #669DF1. */
+  :root,
+  html[data-color-mode="dark"],
+  html[data-theme*="dark"] {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. Raised in review: these are invisible
+     * to a computed-style audit because they have no DOM to measure. Set only
+     * in the files that force a dark surface stack; on an accent-only retint
+     * the site's own color-scheme is already correct. */
+    color-scheme: dark;
+    /* ─── Surfaces ─────────────────────────────────────────────────────
+     * sunken #18191A / surface #1F1F21 / raised #242528 / overlay #2B2C2F
+     * is four greys doing what colour-as-elevation does with two. */
+    --ds-surface: #07080A !important;
+    --ds-surface-sunken: #07080A !important;
+    --ds-surface-raised: #0D0D10 !important;
+    --ds-surface-overlay: #0D0D10 !important;
+    --ds-surface-hovered: #121216 !important;
+    --ds-surface-pressed: #1C1C1E !important;
+    --ds-surface-raised-hovered: #121216 !important;
+    --ds-surface-raised-pressed: #1C1C1E !important;
+    --ds-surface-overlay-hovered: #121216 !important;
+    --ds-surface-overlay-pressed: #1C1C1E !important;
+    --ds-background-input: #0D0D10 !important;
+    --ds-background-input-hovered: #121216 !important;
+    --ds-background-input-pressed: #121216 !important;
+    --ds-background-neutral: #121216 !important;
+    --ds-background-neutral-hovered: #1C1C1E !important;
+    --ds-background-neutral-pressed: #1C1C1E !important;
+    --ds-background-neutral-subtle: transparent !important;
+    --ds-elevation-surface: #07080A !important;
+    --ds-elevation-surface-raised: #0D0D10 !important;
+    --ds-elevation-surface-overlay: #0D0D10 !important;
+    --ds-elevation-surface-sunken: #07080A !important;
+
+    /* ─── Text and icons ──────────────────────────────────────────────── */
+    --ds-text: #F8F8F8 !important;
+    --ds-text-subtle: #6B7280 !important;
+    --ds-text-subtlest: #6B7280 !important;  /* was text_dim: 2.47:1 on surface_alt */
+    --ds-text-disabled: #4B5563 !important;
+    /* --ds-text-inverse is NOT overridden. See the note below. */
+    --ds-icon: #F8F8F8 !important;
+    --ds-icon-subtle: #6B7280 !important;
+    --ds-icon-subtlest: #6B7280 !important;
+
+
+    /* ─── Brand hue on the ink ladder ─────────────────────────────────── */
+    --ds-link: #80ACF0 !important;
+    --ds-link-pressed: #98C6FF !important;
+    --ds-link-visited: #B79BE0 !important;
+    /* ─── Bold fills are left to Atlassian ────────────────────────────────
+     * v0.1.0 repainted --ds-background-*-bold with the ink-ladder blue and
+     * set --ds-text-inverse to ink black to sit on it. That produced
+     * unreadable text wherever the inverse token is used over a surface this
+     * file darkened — a keyboard audit caught "Connect apps" at 1.03:1 (black
+     * on #0D0D10) and "Open Rovo Chat" at 1.56:1. The label token and the
+     * fill token are not paired one-to-one, so overriding one without the
+     * other is guesswork.
+     *
+     * Atlassian's own bold fills are already its blue, which is the hue this
+     * file keeps anyway. Left alone, their label colours stay correct by
+     * construction. Accent survives on text, icons, links and borders. */
+    --ds-background-brand-subtlest: #121216 !important;
+    --ds-background-selected: #121216 !important;
+    --ds-background-selected-hovered: #1C1C1E !important;
+
+    --ds-icon-brand: #80ACF0 !important;
+    --ds-icon-selected: #80ACF0 !important;
+    --ds-text-selected: #98C6FF !important;
+    --ds-border-brand: #6893D5 !important;
+    --ds-border-selected: #6893D5 !important;
+    --ds-border-focused: #6893D5 !important;
+
+    /* ─── Edges ───────────────────────────────────────────────────────── */
+    --ds-border: #1C1C1E !important;
+    --ds-border-bold: #5E5E60 !important;
+    --ds-border-input: #1C1C1E !important;
+    --ds-border-disabled: #1C1C1E !important;
+
+    /* ─── Semantics — the status colours a tracker is read through ────── */
+    --ds-text-danger: #ED254E !important;
+    --ds-icon-danger: #ED254E !important;
+    --ds-border-danger: #ED254E !important;
+    --ds-text-success: #3FFABB !important;
+    --ds-icon-success: #3FFABB !important;
+    --ds-text-warning: #FBBF24 !important;
+    --ds-icon-warning: #FBBF24 !important;
+
+    /* ─── Radius: all eight, minus the pill that keeps avatars round ──── */
+    --ds-radius-xsmall: 0 !important;
+    --ds-radius-small: 0 !important;
+    --ds-radius-medium: 0 !important;
+    --ds-radius-large: 0 !important;
+    --ds-radius-xlarge: 0 !important;
+    --ds-radius-xxlarge: 0 !important;
+    --ds-radius-tile: 0 !important;
+
+    /* ─── Elevation ───────────────────────────────────────────────────── */
+    --ds-shadow-overlay: none !important;
+    --ds-shadow-raised: none !important;
+    --ds-shadow-overflow: none !important;
+  }
+
+  /* Code blocks and inline code in Jira/Confluence bodies. */
+  pre, code, .code-block, [data-code-lang] {
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
+    border-radius: 0 !important;
+  }
+
+  @supports (color: oklch(0% 0 0)) {
+    :root, html[data-color-mode="dark"] {
+      --ds-surface: oklch(0.1340 0.0051 262.32) !important;
+      --ds-surface-sunken: oklch(0.1340 0.0051 262.32) !important;
+      --ds-surface-raised: oklch(0.1605 0.0063 285.67) !important;
+      --ds-surface-overlay: oklch(0.1605 0.0063 285.67) !important;
+      --ds-surface-hovered: oklch(0.1840 0.0081 285.58) !important;
+      --ds-background-input: oklch(0.1605 0.0063 285.67) !important;
+      --ds-background-neutral: oklch(0.1840 0.0081 285.58) !important;
+      --ds-text: oklch(0.9791 0.0000 89.88) !important;
+      --ds-text-subtle: oklch(0.5510 0.0234 264.36) !important;
+      --ds-text-subtlest: oklch(0.5510 0.0234 264.36) !important;
+      --ds-link: oklch(0.7400 0.1100 258.61) !important;
+      --ds-link-pressed: oklch(0.8200 0.1100 258.61) !important;
+      --ds-border-focused: oklch(0.6600 0.1100 258.61) !important;
+      --ds-text-danger: oklch(0.6124 0.2279 17.60) !important;
+      --ds-text-success: oklch(0.8792 0.1706 165.00) !important;
+      --ds-text-warning: oklch(0.8369 0.1644 84.43) !important;
+    }
+  }
+}

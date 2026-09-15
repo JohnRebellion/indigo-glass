@@ -102,7 +102,10 @@ esac
 # be a faithful preview) but NOT for colour — it legitimately displays all
 # three variants side by side on its /palettes route, so foreign-variant hex
 # there is the feature, not drift.
-NON_DEPLOYABLE=(docs research-reports scripts tokens)
+# backups/ holds snapshots of PAST state — Stylus exports taken before a
+# profile is updated, so they contain superseded brand eras by construction.
+# Scanning them reports drift that is the point of the archive.
+NON_DEPLOYABLE=(docs research-reports scripts tokens backups)
 
 mapfile -t ALL_DIRS < <(
   find . -maxdepth 1 -type d -not -name '.*' -not -name 'node_modules' \

@@ -1,0 +1,120 @@
+/* ==UserStyle==
+@name           Sage Ink — Google AI Studio
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.2.0
+@description    AI Studio on Sage Ink. Material 3 surface ramp collapsed to two ink steps, the ms-* shell components repainted, corners squared, Google blue on the ink ladder. Component names read off a live signed-in render (scripts/style-check).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/aistudio.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document domain("aistudio.google.com") {
+
+  /* Same stack as Gemini — Angular Material 3 — but a different app shell
+   * (ms-* components) that paints most of its own greys: #000000 on ms-app,
+   * #191919 on the nav and banner container, #1f1f1f on the category cards.
+   * The token remap handles the components; the rules below handle the shell.
+   *
+   * HUE: AI Studio keeps Google blue (260deg), re-cut on the ink lightness
+   * ladder at L 0.82/0.74/0.66, C 0.11. Distinct from the Google Search file,
+   * which uses a near-neutral cast because Search has four brand colours at
+   * once and no single hue to honour. */
+  :root,
+  html,
+  body {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. Raised in review: these are invisible
+     * to a computed-style audit because they have no DOM to measure. Set only
+     * in the files that force a dark surface stack; on an accent-only retint
+     * the site's own color-scheme is already correct. */
+    color-scheme: dark;
+    --gm3-sys-color-background: #07080A !important;
+    --gm3-sys-color-on-background: #F8F8F8 !important;
+    --gm3-sys-color-surface: #07080A !important;
+    --gm3-sys-color-surface-dim: #07080A !important;
+    --gm3-sys-color-surface-bright: #121216 !important;
+    --gm3-sys-color-surface-variant: #0D0D10 !important;
+    --gm3-sys-color-surface-container-lowest: #07080A !important;
+    --gm3-sys-color-surface-container-low: #0D0D10 !important;
+    --gm3-sys-color-surface-container: #0D0D10 !important;
+    --gm3-sys-color-surface-container-high: #121216 !important;
+    --gm3-sys-color-surface-container-highest: #121216 !important;
+    --gm3-sys-color-on-surface: #F8F8F8 !important;
+    --gm3-sys-color-on-surface-variant: #6B7280 !important;
+    --gm3-sys-color-outline: #1C1C1E !important;
+    --gm3-sys-color-outline-variant: #1C1C1E !important;
+    --gm3-sys-color-primary: #82ACF0 !important;
+    --gm3-sys-color-on-primary: #07080A !important;
+    --gm3-sys-color-primary-container: #121216 !important;
+    --gm3-sys-color-on-primary-container: #9AC5FF !important;
+    --gm3-sys-color-inverse-primary: #6A93D5 !important;
+    --gm3-sys-color-secondary-container: #121216 !important;
+    --gm3-sys-color-on-secondary-container: #9AC5FF !important;
+    --gm3-sys-color-error: #ED254E !important;
+    --gm3-sys-color-on-error: #07080A !important;
+  }
+
+  /* ─── App shell ────────────────────────────────────────────────────── */
+  ms-app,
+  .banner-and-app-container,
+  ms-prompt-page,
+  ms-chat-page,
+  .page-container {
+    background-color: #07080A !important;
+  }
+  .nav-content,
+  .v3-left-nav,
+  ms-navbar,
+  ms-header,
+  .toolbar-container {
+    background-color: #07080A !important;
+    border-color: #1C1C1E !important;
+  }
+  .category-card,
+  ms-run-settings,
+  .settings-panel,
+  ms-prompt-input-wrapper,
+  .prompt-input-wrapper,
+  ms-text-chunk,
+  .chunk-editor {
+    background-color: #0D0D10 !important;
+    border-color: #1C1C1E !important;
+  }
+  .skip-content {
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+
+  /* Radius: Angular Material bakes it into component styles, so a blanket
+   * zero inside the shell with avatars and spinners excepted. */
+  ms-app *:not([class*="avatar"]):not([class*="Avatar"]):not([class*="spinner"]):not([class*="progress"]),
+  .mdc-button, .mat-mdc-button-base, .mat-mdc-card, .mat-mdc-menu-panel,
+  .mat-mdc-dialog-container, .mat-mdc-form-field-flex, input, textarea, select {
+    border-radius: 0 !important;
+  }
+
+  /* Prompt and response text is editable code as often as prose. */
+  pre, code, .cm-editor, [class*="code"], ms-code-block {
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
+    border-radius: 0 !important;
+  }
+
+  @supports (color: oklch(0% 0 0)) {
+    :root, html, body {
+      --gm3-sys-color-background: oklch(0.1340 0.0051 262.32) !important;
+      --gm3-sys-color-surface: oklch(0.1340 0.0051 262.32) !important;
+      --gm3-sys-color-surface-container-low: oklch(0.1605 0.0063 285.67) !important;
+      --gm3-sys-color-surface-container: oklch(0.1605 0.0063 285.67) !important;
+      --gm3-sys-color-surface-container-high: oklch(0.1840 0.0081 285.58) !important;
+      --gm3-sys-color-on-surface: oklch(0.9791 0.0000 89.88) !important;
+      --gm3-sys-color-on-surface-variant: oklch(0.5510 0.0234 264.36) !important;
+      --gm3-sys-color-primary: oklch(0.7400 0.1100 259.96) !important;
+      --gm3-sys-color-on-primary-container: oklch(0.8200 0.1100 259.96) !important;
+      --gm3-sys-color-error: oklch(0.6124 0.2279 17.60) !important;
+    }
+  }
+}

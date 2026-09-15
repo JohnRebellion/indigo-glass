@@ -1,0 +1,175 @@
+/* ==UserStyle==
+@name           Sage Ink — GitHub
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.2.0
+@description    GitHub on Sage Ink structure with GitHub's own hues. Primer's surface stack collapsed to two ink steps, every radius token zeroed, link blue and the primary-action green re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/github.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document domain("github.com"), domain("githubusercontent.com") {
+
+  /* GitHub ships Primer as ~1260 CSS custom properties on :root, so this is a
+   * pure variable remap. Requires GitHub's own dark theme (Settings ->
+   * Appearance -> Dark), with Dark Reader off for github.com.
+   *
+   * HUE: GitHub keeps both of its own. Link blue (255.9deg) and the
+   * primary-action green (146.3deg) are re-cut on the ink lightness ladder
+   * — L 0.82/0.74/0.66 at C 0.11 — instead of Primer's raw #4493f8 (L 0.66,
+   * C 0.17) and #238636 (L 0.55, C 0.15). Same treatment the youtube,
+   * facebook and google files get with their hues. */
+  :root,
+  [data-color-mode],
+  [data-dark-theme] {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. Raised in review: these are invisible
+     * to a computed-style audit because they have no DOM to measure. Set only
+     * in the files that force a dark surface stack; on an accent-only retint
+     * the site's own color-scheme is already correct. */
+    color-scheme: dark;
+    /* ─── Surfaces ─────────────────────────────────────────────────────
+     * Primer runs inset #010409 / default #0d1117 / muted #151b23 /
+     * emphasis #3d444d. Ink uses colour as elevation, so that becomes two
+     * steps plus a border. */
+    --bgColor-default: #07080A !important;
+    --bgColor-inset: #07080A !important;
+    --bgColor-muted: #0D0D10 !important;
+    --bgColor-emphasis: #121216 !important;
+    --bgColor-disabled: #121216 !important;
+    --bgColor-neutral-muted: #121216 !important;
+    --bgColor-accent-muted: #121216 !important;
+    --overlay-bgColor: #0D0D10 !important;
+    --control-bgColor-rest: #121216 !important;
+    --codeMirror-bgColor: #07080A !important;
+    --codeMirror-gutters-bgColor: #07080A !important;
+    --codeMirror-lines-bgColor: #07080A !important;
+
+    /* Legacy Primer names — still referenced by older views (Gists, some
+     * settings pages) that have not migrated to the bgColor-* set. */
+    --color-canvas-default: #07080A !important;
+    --color-canvas-subtle: #0D0D10 !important;
+    --color-canvas-inset: #07080A !important;
+
+    /* ─── Text ─────────────────────────────────────────────────────────── */
+    --fgColor-default: #F8F8F8 !important;
+    --fgColor-muted: #6B7280 !important;
+    --fgColor-disabled: #4B5563 !important;
+    --fgColor-accent: #94C7FF !important;
+    --fgColor-link: #94C7FF !important;
+    --color-fg-default: #F8F8F8 !important;
+    --color-fg-muted: #6B7280 !important;
+    --color-accent-fg: #94C7FF !important;
+
+    /* ─── Edges ────────────────────────────────────────────────────────── */
+    --borderColor-default: #1C1C1E !important;
+    --borderColor-muted: #1C1C1E !important;
+    --borderColor-emphasis: #5E5E60 !important;
+    --borderColor-accent-emphasis: #6494D5 !important;
+    --overlay-borderColor: #1C1C1E !important;
+    --control-borderColor-rest: #1C1C1E !important;
+    --color-border-default: #1C1C1E !important;
+    --color-border-muted: #1C1C1E !important;
+    --focus-outlineColor: #6494D5 !important;
+
+    /* ─── Semantic state ───────────────────────────────────────────────────
+     * Issue/PR state and CI status are painted as SVG `fill`, which a
+     * computed-style audit of backgrounds and text never sees — the contrast
+     * harness's new SVG pass found GitHub's own #3fb950 / #d29922 / #f85149
+     * still in place on a page it otherwise called clean. These are semantic,
+     * and the token set defines semantics, so they map to positive / amber /
+     * negative rather than staying vendor green-amber-red. */
+    --fgColor-success: #3FFABB !important;
+    --fgColor-open: #3FFABB !important;
+    --fgColor-attention: #FBBF24 !important;
+    --fgColor-severe: #FBBF24 !important;
+    --fgColor-danger: #ED254E !important;
+    --fgColor-closed: #ED254E !important;
+    --fgColor-done: #C0E3C0 !important;
+    --bgColor-success-emphasis: #3FFABB !important;
+    --bgColor-attention-emphasis: #FBBF24 !important;
+    --bgColor-danger-emphasis: #ED254E !important;
+
+    /* ─── Buttons ──────────────────────────────────────────────────────────
+     * The primary-action green is the one GitHub affordance nobody wants
+     * re-hued — it is how you find "Commit" and "Create". Kept, re-cut, and
+     * labelled in ink black: white on #7BBE81 is 2.3:1, black is 9.0:1. */
+    --button-primary-bgColor-rest: #7BBE81 !important;
+    --button-primary-bgColor-hover: #94D899 !important;
+    --button-primary-fgColor-rest: #07080A !important;
+    --button-primary-borderColor-rest: #1C1C1E !important;
+    --button-default-bgColor-rest: #121216 !important;
+    --button-default-fgColor-rest: #F8F8F8 !important;
+    --button-default-borderColor-rest: #1C1C1E !important;
+    --button-danger-fgColor-rest: #ED254E !important;
+    --button-danger-bgColor-rest: #121216 !important;
+
+    /* ─── Radius ───────────────────────────────────────────────────────────
+     * Primer has exactly five radius tokens. --borderRadius-full is left
+     * alone: it is what keeps avatars and the notification dot round. */
+    --borderRadius-small: 0 !important;
+    --borderRadius-medium: 0 !important;
+    --borderRadius-default: 0 !important;
+    --borderRadius-large: 0 !important;
+
+    /* ─── Elevation ────────────────────────────────────────────────────────
+     * Sage Ink has no soft shadow; depth is a border or nothing. */
+    --shadow-resting-small: none !important;
+    --shadow-resting-medium: none !important;
+    --shadow-floating-small: none !important;
+    --shadow-floating-medium: none !important;
+    --shadow-floating-large: none !important;
+  }
+
+  /* Code blocks, the copy button and the issue-label tokens hardcode a 6px
+   * radius instead of reading --borderRadius-medium (caught by a live audit
+   * of a repo README). */
+  pre,
+  code,
+  .blob-wrapper,
+  clipboard-copy.btn,
+  .btn,
+  .Box,
+  .prc-Token-TokenBase-te5-F {
+    border-radius: 0 !important;
+  }
+
+  /* Code stays monospaced in the repo's own face. */
+  pre, code, kbd, samp,
+  .blob-code-inner,
+  .cm-editor,
+  [class*="mono"] {
+    font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "Cascadia Code", monospace !important;
+  }
+
+  /* OKLCH upgrade. Surfaces/text from tokens/indigo-glass.tokens.toml
+   * [variants.sage]; accents are GitHub's own hues on the ink ladder. */
+  @supports (color: oklch(0% 0 0)) {
+    :root, [data-color-mode], [data-dark-theme] {
+      --bgColor-default: oklch(0.1340 0.0051 262.32) !important;
+      --bgColor-inset: oklch(0.1340 0.0051 262.32) !important;
+      --bgColor-muted: oklch(0.1605 0.0063 285.67) !important;
+      --bgColor-emphasis: oklch(0.1840 0.0081 285.58) !important;
+      --overlay-bgColor: oklch(0.1605 0.0063 285.67) !important;
+      --control-bgColor-rest: oklch(0.1840 0.0081 285.58) !important;
+      --fgColor-default: oklch(0.9791 0.0000 89.88) !important;
+      --fgColor-muted: oklch(0.5510 0.0234 264.36) !important;
+      --fgColor-accent: oklch(0.8200 0.1100 255.92) !important;
+      --fgColor-link: oklch(0.8200 0.1100 255.92) !important;
+      --borderColor-accent-emphasis: oklch(0.6600 0.1100 255.92) !important;
+      --focus-outlineColor: oklch(0.6600 0.1100 255.92) !important;
+      --button-primary-bgColor-rest: oklch(0.7400 0.1100 146.26) !important;
+      --button-primary-bgColor-hover: oklch(0.8200 0.1100 146.26) !important;
+      --button-danger-fgColor-rest: oklch(0.6124 0.2279 17.60) !important;
+      --fgColor-success: oklch(0.8792 0.1706 165.00) !important;
+      --fgColor-open: oklch(0.8792 0.1706 165.00) !important;
+      --fgColor-attention: oklch(0.8369 0.1644 84.43) !important;
+      --fgColor-danger: oklch(0.6124 0.2279 17.60) !important;
+      --fgColor-closed: oklch(0.6124 0.2279 17.60) !important;
+    }
+  }
+}
