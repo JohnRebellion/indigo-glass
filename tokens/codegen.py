@@ -73,6 +73,10 @@ SHIPPED_KDE_SCHEMES = {
 # not "indigo". install.ps1 logs "Injected Sage Ink scheme" and the file's
 # own "name" field says "Sage Ink", not "Indigo Glass".
 SHIPPED_WT_SCHEME = REPO_ROOT / "windows" / "terminal" / "indigo-glass.scheme.json"
+SHIPPED_MONKEYTYPE = REPO_ROOT / "browser" / "monkeytype" / "indigo-glass.json"
+SHIPPED_MONKEYTYPE_SETTINGS = (
+    REPO_ROOT / "browser" / "monkeytype" / "indigo-glass.settings.json"
+)
 
 
 # =============================================================================
@@ -725,6 +729,11 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
     return "\n".join(lines)
 
 
+# One step brighter than `negative`, shared by the Windows Terminal bright
+# ramp and Monkeytype's extra-error slot so the two cannot drift apart.
+_BRIGHT_RED = "#FF5272"
+
+
 def emit_wt_scheme(t: dict, variant: str | None = None) -> str:
     """Windows Terminal scheme. Uses derived hex (no oklch support)."""
     variant = variant or active_variant(t)
@@ -745,7 +754,7 @@ def emit_wt_scheme(t: dict, variant: str | None = None) -> str:
         "cyan":          "#67E8F9",
         "white":         p["text"],
         "brightBlack":   p["text_muted"],
-        "brightRed":     "#FF5272",
+        "brightRed":     _BRIGHT_RED,
         "brightGreen":   "#8CFFB4",
         "brightYellow":  "#FFD250",
         "brightBlue":    p["indigo_hi"],
@@ -754,6 +763,189 @@ def emit_wt_scheme(t: dict, variant: str | None = None) -> str:
         "brightWhite":   "#FFFFFF",
     }
     return json.dumps(scheme, indent=2) + "\n"
+
+
+# Monkeytype ships two artifacts from one palette: the ten-slot custom theme
+# (what the theme panel edits) and a full settings export that carries that
+# theme plus the display settings the design system asks for.
+#
+# Slot -> token, as rendered by the theme panel's own field labels:
+#
+#   bg         base          the page
+#   main       accent        typed-correct text, brand hue
+#   caret      accent_hi     one step up so the caret reads against typed text
+#   sub        text_muted    untyped/hint text
+#   sub alt    surface_alt   key blocks, modals, the elevated plane
+#   text       text          future text (the highest-contrast neutral)
+#   error      negative      typed-wrong
+#   extra err  _extra_error  red stacked on error, one step further from base
+#                            (see _extra_error - brighter on dark, darker on light)
+#
+# colorfulError{,Extra} repeat error/extra: they are what colorful mode swaps
+# in, and an ink palette has exactly one red, so the two modes agree.
+
+# Display settings that belong to the design system rather than to taste:
+# block caret and word highlight are the Konsole/visionOS reading posture, and
+# the font is the one the type scale is drawn for. Everything else here is a
+# plain Monkeytype default, present because `import settings` replaces the
+# whole object - an omitted key is a reset, not a no-op.
+MONKEYTYPE_SETTINGS: dict = {
+    "theme": "serika_dark",
+    "themeLight": "serika",
+    "themeDark": "serika_dark",
+    "autoSwitchTheme": False,
+    "customTheme": True,
+    "customThemeColors": None,  # filled per variant by emit_monkeytype_settings
+    "favThemes": [],
+    "showKeyTips": True,
+    "smoothCaret": "medium",
+    "codeUnindentOnBackspace": False,
+    "quickRestart": "off",
+    "punctuation": False,
+    "numbers": False,
+    "words": 10,
+    "time": 15,
+    "mode": "words",
+    "quoteLength": [1],
+    "language": "english",
+    "fontSize": 2,
+    "freedomMode": False,
+    "difficulty": "normal",
+    "blindMode": False,
+    "quickEnd": False,
+    "caretStyle": "block",
+    "paceCaretStyle": "default",
+    "flipTestColors": False,
+    "layout": "default",
+    "funbox": [],
+    "confidenceMode": "off",
+    "indicateTypos": "off",
+    "compositionDisplay": "replace",
+    "timerStyle": "mini",
+    "liveSpeedStyle": "off",
+    "liveAccStyle": "off",
+    "liveBurstStyle": "off",
+    "colorfulMode": False,
+    "randomTheme": "off",
+    "timerColor": "main",
+    "timerOpacity": "1",
+    "stopOnError": "off",
+    "deleteOnError": "off",
+    "showAllLines": False,
+    "keymapMode": "off",
+    "keymapStyle": "staggered",
+    "keymapLegendStyle": "lowercase",
+    "keymapLayout": "overrideSync",
+    "keymapKeys": "minimal",
+    "keymapSize": 1,
+    "fontFamily": "Iosevka_Custom_Condensed",
+    "smoothLineScroll": False,
+    "alwaysShowDecimalPlaces": False,
+    "alwaysShowWordsHistory": False,
+    "singleListCommandLine": "on",
+    "capsLockWarning": True,
+    "playSoundOnError": "off",
+    "playSoundOnClick": "off",
+    "soundVolume": 0.5,
+    "startGraphsAtZero": True,
+    "showOutOfFocusWarning": True,
+    "paceCaret": "off",
+    "paceCaretCustomSpeed": 100,
+    "repeatedPace": True,
+    "accountChart": ["on", "on", "on", "on"],
+    "minWpm": "off",
+    "minWpmCustomSpeed": 100,
+    "highlightMode": "word",
+    "typedEffect": "keep",
+    "typingSpeedUnit": "wpm",
+    "ads": "result",
+    "hideExtraLetters": False,
+    "strictSpace": False,
+    "minAcc": "off",
+    "minAccCustom": 90,
+    "monkey": False,
+    "repeatQuotes": "off",
+    "resultSaving": True,
+    "oppositeShiftMode": "off",
+    "customBackground": "",
+    "customBackgroundSize": "cover",
+    "customBackgroundFilter": [0, 1, 1, 1],
+    "customLayoutfluid": ["qwerty", "dvorak", "colemak"],
+    "customPolyglot": ["english", "spanish", "french", "german"],
+    "monkeyPowerLevel": "off",
+    "minBurst": "off",
+    "minBurstCustomSpeed": 100,
+    "burstHeatmap": False,
+    "britishEnglish": False,
+    "lazyMode": False,
+    "showAverage": "off",
+    "showPb": False,
+    "tapeMode": "off",
+    "tapeMargin": 50,
+    "maxLineWidth": 0,
+    "playTimeWarning": "off",
+}
+
+
+def _monkeytype_slug(t: dict, variant: str) -> str:
+    """Theme name Monkeytype shows in its list: "Orchid Ink" -> orchid_ink."""
+    return t["variants"][variant]["name"].lower().replace(" ", "_")
+
+
+def _extra_error(t: dict, variant: str) -> str:
+    """The extra-error red: one step FURTHER FROM the variant's own base.
+
+    On the dark variants that step is brighter, and it is the same literal the
+    Windows Terminal bright ramp uses. On a light variant brighter is wrong -
+    #FF5272 measures ~3.3:1 on #FAFAFC, below the `negative` it is supposed to
+    escalate from - so the step goes darker instead, derived from that
+    variant's own negative so the hue stays put.
+    """
+    L, C, H = resolve_variant(t, variant)["negative"]
+    base_is_light = _relative_luminance(derive_palette(t, variant)["base"]["hex"]) > 0.5
+    return oklch_to_hex(L - 0.12, C, H) if base_is_light else _BRIGHT_RED
+
+
+def _monkeytype_slots(t: dict, variant: str) -> dict[str, str]:
+    p = {k: v["hex"] for k, v in derive_palette(t, variant).items()}
+    extra_error = _extra_error(t, variant)
+    return {
+        "bgColor": p["base"],
+        "mainColor": p["accent"],
+        "subColor": p["text_muted"],
+        "subAltColor": p["surface_alt"],
+        "textColor": p["text"],
+        "errorColor": p["negative"],
+        "errorExtraColor": extra_error,
+        "colorfulErrorColor": p["negative"],
+        "colorfulErrorExtraColor": extra_error,
+        "caretColor": p["accent_hi"],
+    }
+
+
+def emit_monkeytype(t: dict, variant: str | None = None) -> str:
+    """Monkeytype custom theme - the ten slots its theme panel edits."""
+    variant = variant or active_variant(t)
+    theme = {"name": _monkeytype_slug(t, variant), **_monkeytype_slots(t, variant)}
+    return json.dumps(theme, indent=2) + "\n"
+
+
+def emit_monkeytype_settings(t: dict, variant: str | None = None) -> str:
+    """Full Monkeytype settings export carrying the theme above.
+
+    customThemeColors is a positional array, not an object: Monkeytype reads it
+    as [bg, main, caret, sub, subAlt, text, error, extraError, colorfulError,
+    colorfulExtraError]. Order verified against a serika_dark export.
+    """
+    variant = variant or active_variant(t)
+    s = _monkeytype_slots(t, variant)
+    settings = dict(MONKEYTYPE_SETTINGS)
+    settings["customThemeColors"] = [
+        s["bgColor"], s["mainColor"], s["caretColor"], s["subColor"],
+        s["subAltColor"], s["textColor"], s["errorColor"], s["errorExtraColor"],
+        s["colorfulErrorColor"], s["colorfulErrorExtraColor"],
+    ]
+    return json.dumps(settings, indent=2) + "\n"
 
 
 def emit_density_css(t: dict) -> str:
@@ -934,6 +1126,8 @@ VARIANT_WRITERS = [
     ("scss-vars.scss", emit_scss_vars),
     ("kde-palette.colors", emit_kde_colors),
     ("wt-scheme.json", emit_wt_scheme),
+    ("monkeytype.json", emit_monkeytype),
+    ("monkeytype-settings.json", emit_monkeytype_settings),
 ]
 
 # Shared emitters: variant-agnostic, emitted once at the canonical name.
@@ -1063,6 +1257,8 @@ def main():
         for path in paths:
             targets[path] = outputs[f"kde-palette.{variant}.colors"]
     targets[SHIPPED_WT_SCHEME] = outputs["wt-scheme.json"]
+    targets[SHIPPED_MONKEYTYPE] = outputs["monkeytype.json"]
+    targets[SHIPPED_MONKEYTYPE_SETTINGS] = outputs["monkeytype-settings.json"]
 
     rc = 0
     for target, new in targets.items():

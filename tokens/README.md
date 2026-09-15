@@ -27,6 +27,8 @@ suffixed file per variant (`.lime.<ext>` / `.indigo.<ext>`).
 | `out/json-tokens.json` | JSON dump (all variants) + `_derived.palette` {hex,p3,oklch} for JS consumers (generated) |
 | `out/kde-palette.colors` + `out/kde-palette.{lime,indigo}.colors` | KDE color scheme partial — derived RGB (generated) |
 | `out/wt-scheme.json` + `out/wt-scheme.{lime,indigo}.json` | Windows Terminal scheme — derived hex (generated) |
+| `out/monkeytype.json` + `out/monkeytype.<variant>.json` | Monkeytype custom theme — ten derived hex slots (generated) |
+| `out/monkeytype-settings.json` + `out/monkeytype-settings.<variant>.json` | Monkeytype full settings export carrying that theme (generated) |
 | `out/density.css` | Compact-density CSS rules — variant-agnostic (generated) |
 | `out/glass.css` + `out/glass.{lime,indigo}.css` | `.ig-glass` + grain texture + `.ig-squircle` + `.ig-ambient` orbs (generated) |
 
@@ -66,6 +68,7 @@ python3 tokens/codegen.py --check
 | KDE color scheme | `kde-palette.colors` | Merged into `SageInk.colors` |
 | Konsole `.colorscheme` | reuses KDE palette | Manual sync |
 | Windows Terminal | `wt-scheme.json` | `windows/install.ps1` injects `windows/terminal/indigo-glass.scheme.json`, kept in sync with the generated `wt-scheme.json` |
+| Monkeytype | `monkeytype.json`, `monkeytype-settings.json` | Written straight to `browser/monkeytype/indigo-glass{,.settings}.json`; imported by hand in the site's settings panel |
 | GRUB theme | tokens via separate Jinja template (TODO) | Built into GRUB pixmaps |
 | JetBrains `.icls` | future writer | XML emission TODO |
 | Obsidian theme | future writer | CSS emission TODO |

@@ -1,0 +1,13 @@
+{
+  "name": "orchid_ink_light",
+  "bgColor": "#FAFAFC",
+  "mainColor": "#7F4995",
+  "subColor": "#5A5E66",
+  "subAltColor": "#F0F0F3",
+  "textColor": "#23262C",
+  "errorColor": "#C1133B",
+  "errorExtraColor": "#96001A",
+  "colorfulErrorColor": "#C1133B",
+  "colorfulErrorExtraColor": "#96001A",
+  "caretColor": "#692E80"
+}

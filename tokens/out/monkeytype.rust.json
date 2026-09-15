@@ -1,0 +1,13 @@
+{
+  "name": "rust_ink",
+  "bgColor": "#07080A",
+  "mainColor": "#FF987A",
+  "subColor": "#6B7280",
+  "subAltColor": "#121216",
+  "textColor": "#F8F8F8",
+  "errorColor": "#ED254E",
+  "errorExtraColor": "#FF5272",
+  "colorfulErrorColor": "#ED254E",
+  "colorfulErrorExtraColor": "#FF5272",
+  "caretColor": "#FFB193"
+}

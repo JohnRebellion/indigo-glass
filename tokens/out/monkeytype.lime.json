@@ -1,0 +1,13 @@
+{
+  "name": "lime_glass",
+  "bgColor": "#07080A",
+  "mainColor": "#A8E635",
+  "subColor": "#6B7280",
+  "subAltColor": "#121216",
+  "textColor": "#F8F8F8",
+  "errorColor": "#ED254E",
+  "errorExtraColor": "#FF5272",
+  "colorfulErrorColor": "#ED254E",
+  "colorfulErrorExtraColor": "#FF5272",
+  "caretColor": "#C1FF58"
+}

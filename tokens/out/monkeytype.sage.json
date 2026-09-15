@@ -1,0 +1,13 @@
+{
+  "name": "sage_ink",
+  "bgColor": "#07080A",
+  "mainColor": "#A6C9A6",
+  "subColor": "#6B7280",
+  "subAltColor": "#121216",
+  "textColor": "#F8F8F8",
+  "errorColor": "#ED254E",
+  "errorExtraColor": "#FF5272",
+  "colorfulErrorColor": "#ED254E",
+  "colorfulErrorExtraColor": "#FF5272",
+  "caretColor": "#C0E3C0"
+}
