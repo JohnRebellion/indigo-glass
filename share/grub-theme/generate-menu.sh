@@ -22,9 +22,14 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 OUT=assets
 SURFACE_ALT='#121216'   # panel fill
-BORDER='#5E5E60'        # border_strong, 3.10:1 on base
+BORDER='#7A7B80'        # border_strong, 5.08:1 on base (was #5E5E60 / 3.10:1 —
+                        # the panel fill is only 1.35:1 against the desktop, so
+                        # the container edge is carried entirely by this stroke)
 ACCENT='#A6C9A6'        # selection stroke
-B=2                     # border.default
+SELECT_FILL='#A6C9A6'   # selection fill, drawn at SELECT_ALPHA
+SELECT_ALPHA=0.14       # enough to read as a filled row at 1440p, still Tier C
+B=2                     # border.default (menu panel)
+SB=4                    # selection stroke — 2px vanishes at 2560x1440
 
 mkdir -p "$OUT"
 
@@ -47,25 +52,32 @@ magick -size 1x1       xc:"$SURFACE_ALT" PNG32:"$OUT/menu_c.png"
 #    however far the centre stretches.
 H=60
 CAP=45
-# Transparent fill + top/bottom rule.
+# Tinted fill + 4px rule. The fill is what makes the selected row legible
+# from across a room; the stroke alone (2px sage hairline, transparent
+# interior) read as noise against the panel at native 1440p.
+FILL="rgba($(magick xc:"$SELECT_FILL" -format '%[fx:int(255*r)],%[fx:int(255*g)],%[fx:int(255*b)]' info:),${SELECT_ALPHA})"
+
 magick -size 1620x${H} xc:none \
+  -fill "$FILL" -draw "rectangle 0,0 1619,$((H-1))" \
   -fill "$ACCENT" \
-  -draw "rectangle 0,0 1619,$((B-1))" \
-  -draw "rectangle 0,$((H-B)) 1619,$((H-1))" \
+  -draw "rectangle 0,0 1619,$((SB-1))" \
+  -draw "rectangle 0,$((H-SB)) 1619,$((H-1))" \
   PNG32:"$OUT/select_c.png"
 # West cap: adds the left stroke.
 magick -size ${CAP}x${H} xc:none \
+  -fill "$FILL" -draw "rectangle 0,0 $((CAP-1)),$((H-1))" \
   -fill "$ACCENT" \
-  -draw "rectangle 0,0 $((CAP-1)),$((B-1))" \
-  -draw "rectangle 0,$((H-B)) $((CAP-1)),$((H-1))" \
-  -draw "rectangle 0,0 $((B-1)),$((H-1))" \
+  -draw "rectangle 0,0 $((CAP-1)),$((SB-1))" \
+  -draw "rectangle 0,$((H-SB)) $((CAP-1)),$((H-1))" \
+  -draw "rectangle 0,0 $((SB-1)),$((H-1))" \
   PNG32:"$OUT/select_w.png"
 # East cap: adds the right stroke.
 magick -size ${CAP}x${H} xc:none \
+  -fill "$FILL" -draw "rectangle 0,0 $((CAP-1)),$((H-1))" \
   -fill "$ACCENT" \
-  -draw "rectangle 0,0 $((CAP-1)),$((B-1))" \
-  -draw "rectangle 0,$((H-B)) $((CAP-1)),$((H-1))" \
-  -draw "rectangle $((CAP-B)),0 $((CAP-1)),$((H-1))" \
+  -draw "rectangle 0,0 $((CAP-1)),$((SB-1))" \
+  -draw "rectangle 0,$((H-SB)) $((CAP-1)),$((H-1))" \
+  -draw "rectangle $((CAP-SB)),0 $((CAP-1)),$((H-1))" \
   PNG32:"$OUT/select_e.png"
 
 echo "menu 9-slice + selected-item box written to $OUT/"

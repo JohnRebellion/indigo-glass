@@ -2,7 +2,10 @@
 # generate-background.sh — bake the Sage Ink GRUB background + thumb
 #
 # Flat neobrutalist geometry: solid deep-black base (#07080A), hard-edged
-# sage corner brackets, zero blur/gradient/glow/vignette. Was a soft violet
+# sage corner brackets. The ONLY soft pass is a final feathered black frame
+# (see FEATHER below) that ramps the outermost edge to pure #000 so the
+# bracket geometry does not hard-cut at the panel border and any overscan
+# crop lands in dead black. Interior stays flat. Was a soft violet
 # "digital wash" (radial bloom, blurred diagonal beams, node-dot
 # constellation, vignette) in the h≈325° perceptual-complement-of-sage hue —
 # a glass-era aesthetic, and the wrong colour family entirely (violet, not
@@ -32,12 +35,22 @@ if ! command -v magick >/dev/null 2>&1; then
 fi
 
 mkdir -p "$OUT_DIR"
+WORK="$(mktemp -d)"
+trap 'rm -rf "$WORK"' EXIT
 W=2560 H=1440
 
 BASE='#07080A'
 SAGE='#A6C9A6'
 SAGE_ALT='#89A889'
 MINT='#3FFABB'
+
+# ── Edge treatment ───────────────────────────────────────────────────────
+# FEATHER: width in px of the black ramp inward from every screen edge.
+#   0 disables it entirely (restores the old hard-cut border).
+#   The ramp is fully black at the physical edge and fully clear at
+#   x = FEATHER, so it stays outside the 96px content safe area used by
+#   theme.txt — it can only ever soften the corner brackets, never a label.
+FEATHER="${FEATHER:-140}"
 
 # Solid flat base, then hard-edged corner brackets only — no fill anywhere
 # near the content zone. Top-left and bottom-right get the full bracket
@@ -65,7 +78,30 @@ magick -size ${W}x${H} xc:"$BASE" \
   -fill "$MINT" \
   -draw "rectangle 0,0 20,20" \
   -draw "rectangle $((W-20)),$((H-20)) $W,$H" \
-  -quality 92 -sampling-factor 4:2:0 -strip "$OUT_DIR/background.jpg"
+  -strip PNG24:"$WORK/flat.png"
+
+# ── Feathered black safe-screen frame ────────────────────────────────────
+# Build a soft-edged matte (white interior, black edge), use it as alpha on
+# the flat render, then flatten onto pure black. Mask rect is inset by
+# FEATHER/2 and blurred with sigma FEATHER/6, so the ~3-sigma ramp spans
+# 0..FEATHER px measured from the screen edge.
+if [ "$FEATHER" -gt 0 ]; then
+  INSET=$(( FEATHER / 2 ))
+  SIGMA=$(( FEATHER / 6 ))
+  [ "$SIGMA" -lt 1 ] && SIGMA=1
+  magick -size ${W}x${H} xc:black \
+    -fill white \
+    -draw "rectangle $INSET,$INSET $((W-INSET-1)),$((H-INSET-1))" \
+    -blur 0x${SIGMA} \
+    -strip PNG24:"$WORK/matte.png"
+  magick "$WORK/flat.png" "$WORK/matte.png" \
+    -alpha off -compose CopyOpacity -composite \
+    -background black -compose over -flatten \
+    -quality 92 -sampling-factor 4:2:0 -strip "$OUT_DIR/background.jpg"
+else
+  magick "$WORK/flat.png" \
+    -quality 92 -sampling-factor 4:2:0 -strip "$OUT_DIR/background.jpg"
+fi
 
 # Thumb for pickers / simulator manifest.
 magick "$OUT_DIR/background.jpg" -resize 320x180 -quality 85 -strip \

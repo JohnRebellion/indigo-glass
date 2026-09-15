@@ -5,54 +5,61 @@
 # Each card: section label / headline / spec sub-line / capability caption.
 # All values STATIC hardware facts — no telemetry, nothing that drifts.
 # PF2 font names match embedded "Family Style Size" — "SF Pro Display Regular N".
+# Contrast ladder on pure black (background feathers to #000 at the edges):
+#   headline #F8F8F8 19.8:1 / section #C0E3C0 15.0:1 / caption #B7D4B7 13.1:1
+#   / sub-line #BCC3CE 11.8:1. Was #9CA3AF 8.3:1 and #A6C9A6 11.5:1 — both
+#   passed AA but read washed-out at 22-24px across a room at 1440p.
+# Layout safe area: 96px on every edge (3.75% h / 6.7% v). Card pitch 492,
+# last column ends exactly at 2464 = 2560-96. background.jpg feathers to
+# pure black across the outer 140px, so an overscan crop eats only dead black.
 
 title-text: ""
 desktop-image: "background.jpg"
 desktop-color: "#07080A"
 
-# ───── Card 1: CPU  (col x=107) ─────
-+ image { left = 107 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 146 left = 107 width = 440 align = "left" text = "CPU" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
-+ label { top = 178 left = 107 width = 440 align = "left" text = "Ryzen 7 5700X3D" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
-+ label { top = 236 left = 107 width = 440 align = "left" text = "8C / 16T - 96MB 3D V-Cache" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
-+ label { top = 272 left = 107 width = 440 align = "left" text = "AMD-V - IOMMU - AVX2/AES/SHA" color = "#A6C9A6" font = "SF Pro Display Regular 22" }
-# ───── Card 2: MEMORY  (col x=613) ─────
-+ image { left = 613 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 146 left = 613 width = 440 align = "left" text = "MEMORY" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
-+ label { top = 178 left = 613 width = 440 align = "left" text = "32 GB DDR4" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
-+ label { top = 236 left = 613 width = 440 align = "left" text = "3600 MT/s - Dual Channel" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
-+ label { top = 272 left = 613 width = 440 align = "left" text = "G.SKILL Trident Z - CL18" color = "#A6C9A6" font = "SF Pro Display Regular 22" }
-# ───── Card 3: GPU  (col x=1120) ─────
-+ image { left = 1120 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 146 left = 1120 width = 460 align = "left" text = "GPU" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
-+ label { top = 178 left = 1120 width = 460 align = "left" text = "RX 7600 XT 16GB" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
-+ label { top = 236 left = 1120 width = 460 align = "left" text = "RDNA 3 - Vulkan 1.4 / GL 4.6" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
-+ label { top = 272 left = 1120 width = 460 align = "left" text = "AV1 / HEVC - Encode + Decode" color = "#A6C9A6" font = "SF Pro Display Regular 22" }
-# ───── Card 4: DISK  (col x=1627) — static capacity only ─────
-+ image { left = 1627 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 146 left = 1627 width = 440 align = "left" text = "DISK" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
-+ label { top = 178 left = 1627 width = 440 align = "left" text = "1 TB NVMe" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
-+ label { top = 236 left = 1627 width = 440 align = "left" text = "Kingmax - PCIe" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
-+ label { top = 272 left = 1627 width = 440 align = "left" text = "btrfs - zstd compression" color = "#A6C9A6" font = "SF Pro Display Regular 22" }
-# ───── Card 5: BOARD  (col x=2133) ─────
-+ image { left = 2133 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
-+ label { top = 146 left = 2133 width = 400 align = "left" text = "BOARD" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
-+ label { top = 178 left = 2133 width = 400 align = "left" text = "MSI B550M-P" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
-+ label { top = 236 left = 2133 width = 400 align = "left" text = "AMI BIOS 1.90 - UEFI" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
-+ label { top = 272 left = 2133 width = 400 align = "left" text = "Realtek GbE - USB 3.1" color = "#A6C9A6" font = "SF Pro Display Regular 22" }
+# ───── Card 1: CPU  (col x=96) ─────
++ image { left = 96 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 96 width = 440 align = "left" text = "CPU" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 96 width = 440 align = "left" text = "Ryzen 7 5700X3D" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 96 width = 440 align = "left" text = "8C / 16T - 96MB 3D V-Cache" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 96 width = 440 align = "left" text = "AMD-V - IOMMU - AVX2/AES/SHA" color = "#B7D4B7" font = "SF Pro Display Regular 22" }
+# ───── Card 2: MEMORY  (col x=588) ─────
++ image { left = 588 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 588 width = 440 align = "left" text = "MEMORY" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 588 width = 440 align = "left" text = "32 GB DDR4" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 588 width = 440 align = "left" text = "3600 MT/s - Dual Channel" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 588 width = 440 align = "left" text = "G.SKILL Trident Z - CL18" color = "#B7D4B7" font = "SF Pro Display Regular 22" }
+# ───── Card 3: GPU  (col x=1080) ─────
++ image { left = 1080 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 1080 width = 460 align = "left" text = "GPU" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 1080 width = 460 align = "left" text = "RX 7600 XT 16GB" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 1080 width = 460 align = "left" text = "RDNA 3 - Vulkan 1.4 / GL 4.6" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 1080 width = 460 align = "left" text = "AV1 / HEVC - Encode + Decode" color = "#B7D4B7" font = "SF Pro Display Regular 22" }
+# ───── Card 4: DISK  (col x=1572) — static capacity only ─────
++ image { left = 1572 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 1572 width = 440 align = "left" text = "DISK" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 1572 width = 440 align = "left" text = "1 TB NVMe" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 1572 width = 440 align = "left" text = "Kingmax - PCIe" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 1572 width = 440 align = "left" text = "btrfs - zstd compression" color = "#B7D4B7" font = "SF Pro Display Regular 22" }
+# ───── Card 5: BOARD  (col x=2064) ─────
++ image { left = 2064 top = 130 width = 80 height = 5 file = "assets/accent_line.png" }
++ label { top = 146 left = 2064 width = 400 align = "left" text = "BOARD" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
++ label { top = 178 left = 2064 width = 400 align = "left" text = "MSI B550M-P" color = "#F8F8F8" font = "SF Pro Display Regular 40" }
++ label { top = 236 left = 2064 width = 400 align = "left" text = "AMI BIOS 1.90 - UEFI" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
++ label { top = 272 left = 2064 width = 400 align = "left" text = "Realtek GbE - USB 3.1" color = "#B7D4B7" font = "SF Pro Display Regular 22" }
 # ───── BOOT PICKER header ─────
-+ label { top = 360 left = 80 width = 1333 align = "left" text = "BOOT PICKER" color = "#F8F8F8" font = "SF Pro Display Regular 48" }
-+ label { top = 427 left = 80 width = 2133 align = "left" text = "Select an OS - default boots when timer ends" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
-+ label { top = 384 left = 1813 width = 667 align = "right" text = "Up/Down  Enter  to navigate" color = "#A6C9A6" font = "SF Pro Display Regular 29" }
++ label { top = 360 left = 96 width = 1333 align = "left" text = "BOOT PICKER" color = "#F8F8F8" font = "SF Pro Display Regular 48" }
++ label { top = 427 left = 96 width = 2133 align = "left" text = "Select an OS - default boots when timer ends" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
++ label { top = 384 left = 1797 width = 667 align = "right" text = "Up/Down  Enter  to navigate" color = "#B7D4B7" font = "SF Pro Display Regular 29" }
 # ───── Boot menu (table-style) ─────
 + boot_menu {
-  left = 80
+  left = 96
   top = 470
-  width = 2400
-  height = 880
+  width = 2368
+  height = 800
   item_font = "SF Pro Display Regular 29"
   item_color = "#F8F8F8"
-  selected_item_color = "#F8F8F8"
+  selected_item_color = "#C0E3C0"
   selected_item_font = "SF Pro Display Regular 29"
   menu_pixmap_style = "assets/menu_*.png"
   selected_item_pixmap_style = "assets/select_*.png"
@@ -66,4 +73,4 @@ desktop-color: "#07080A"
 }
 
 # ───── Footer ─────
-+ label { top = 1383 left = 0 width = 2560 align = "center" text = "navigate    enter boot    e edit    c console" color = "#9CA3AF" font = "SF Pro Display Regular 24" }
++ label { top = 1310 left = 0 width = 2560 align = "center" text = "navigate    enter boot    e edit    c console" color = "#BCC3CE" font = "SF Pro Display Regular 24" }
