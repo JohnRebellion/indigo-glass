@@ -1,0 +1,266 @@
+# Appendix B — facebook.user.css
+
+```css
+/* ==UserStyle==
+@name           Sage Ink — Facebook / Messenger
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.3.0
+@description    Facebook on Sage Ink structure with Facebook's own hue. Surfaces flattened to the two ink steps, all 68 corner-radius tokens zeroed, loading skeletons de-whited, and the brand blue re-cut on the ink lightness ladder. Every variable name here was read off a live render (scripts/style-check), not guessed.
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/facebook.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document domain("facebook.com"), domain("messenger.com") {
+
+  /* Facebook ships a real token layer as CSS custom properties on :root — 982
+   * of them. v0.1.0 guessed at the names and half of them did not exist
+   * (--menu-background, --notification-badge, --progress-ring-color,
+   * --messenger-gradient-*). Every name below was dumped from a live
+   * Marketplace render: scripts/style-check/vars.mjs.
+   *
+   * HUE: this file does NOT paint Facebook sage. Facebook's identity is its
+   * blue and it stays blue — what changes is the cut: the brand hue (259.8deg)
+   * re-authored on the ink lightness ladder (L 0.82/0.74/0.66 at C 0.11)
+   * instead of #0866FF's raw L 0.55 / C 0.22. Muted, legible on near-black,
+   * and consistent with the YouTube and Google files, which do the same thing
+   * with their own hues. */
+  :root,
+  html {
+    /* ─── Surfaces — nav/rail/card/feed/popover onto two ink steps ─────── */
+    --web-wash: #07080A !important;
+    --surface-background: #07080A !important;
+    --nav-bar-background: #07080A !important;
+    --card-background: #0D0D10 !important;
+    --card-background-flat: #0D0D10 !important;
+    --comment-background: #121216 !important;
+    --popover-background: #0D0D10 !important;
+    --popover-card-background: #0D0D10 !important;
+    --toast-background: #0D0D10 !important;
+    --input-background: #0D0D10 !important;
+    --input-background-hover: #121216 !important;
+    --input-background-disabled: #07080A !important;
+    --secondary-button-background: #121216 !important;
+    --secondary-button-background-floating: #121216 !important;
+    /* Hover and highlight stay TRANSLUCENT. Facebook paints these as a wash
+     * layered over the control, not as its fill — v0.2.0 made them opaque ink
+     * steps, which is a mechanism for a label to disappear under its own
+     * hover state. They are content-state highlights, the case
+     * tokens.toml's [alpha.exempt] allows to keep an alpha channel, not
+     * decorative chrome. */
+    --hover-overlay: rgba(248, 248, 248, 0.06) !important; /* drift-allow: hover wash, [alpha.exempt] content-highlight class */
+    --highlight-bg: rgba(248, 248, 248, 0.10) !important;  /* drift-allow: selection highlight, same class */
+
+    /* Loading skeletons. --glimmer-base-opaque is #FFFFFF even in dark mode
+     * and is what put white blocks over every Marketplace card during load —
+     * 34 of them in one audited render. */
+    --glimmer-base-opaque: #121216 !important;
+    --glimmer-high-contrast-base-opaque: #1C1C1E !important;
+
+    /* ─── Text, icons, edges ──────────────────────────────────────────── */
+    --primary-text: #F8F8F8 !important;
+    --secondary-text: #6B7280 !important;
+    --placeholder-text: #4B5563 !important;
+    --disabled-text: #4B5563 !important;
+    --primary-icon: #F8F8F8 !important;
+    --secondary-icon: #6B7280 !important;
+    --divider: #1C1C1E !important;
+    --divider-on-color: #1C1C1E !important;
+    --media-outer-border: #1C1C1E !important;
+
+    /* ─── Brand hue on the ink ladder ─────────────────────────────────── */
+    --accent: #81ACF0 !important;
+    --blue-link: #9AC5FF !important;
+    --primary-button-background: #81ACF0 !important;
+    --primary-deemphasized-button-background: #121216 !important;
+    --switch-active: #81ACF0 !important;
+    --toast-text-link: #9AC5FF !important;
+    /* Label colour on a filled button. Facebook's own value is #FFFFFF, which
+     * on the accent above is 2.6:1 — under AA. Ink black on it is ~8:1. This
+     * is a real variable (--primary-text-on-color), so unlike v0.1.0's
+     * commented --always-white hack it does not touch text over photos. */
+    --primary-text-on-color: #07080A !important;
+    --primary-button-background-on-color: #07080A !important;
+
+    /* Chrome that sits ON a photo — the Marketplace "Just listed" badge, the
+     * media tooltip, the secondary buttons on a thumbnail. Facebook paints
+     * these #FFFFFF, which is why white pills survived every earlier pass:
+     * they read --primary-button-background-on-media, not --card-background.
+     * Ink surface with light text instead of white with dark text. */
+    --primary-button-background-on-media: #0D0D10 !important;
+    --primary-button-text-on-media: #F8F8F8 !important;
+    --primary-button-icon-on-media: #F8F8F8 !important;
+    --tooltip-background-on-media: #0D0D10 !important;
+    --secondary-button-background-on-media: #121216 !important;
+
+    /* ─── Semantics ───────────────────────────────────────────────────── */
+    --negative: #ED254E !important;
+    --positive: #3FFABB !important;
+    --warning: #FBBF24 !important;
+
+    /* ─── Ink has no soft elevation ───────────────────────────────────── */
+    --shadow-1: none !important;
+    --shadow-2: none !important;
+    --card-box-shadow: none !important;
+    --tooltip-box-shadow: none !important;
+
+    /* ─── Radius: 0 across the board ──────────────────────────────────────
+     * Facebook defines 78 corner-radius tokens between 4px and 20px. Zeroing
+     * the tokens is what v0.1.0's handful of role selectors could not do —
+     * the rounded cards, media tiles, glimmer blocks and chips it missed were
+     * all reading their radius from here.
+     *
+     * Deliberately NOT zeroed: --badge-corner-radius and
+     * --profile-photo-*-corner-radius (round avatars and the notification dot
+     * — a squared avatar reads as a broken image), --pagination-dots-*,
+     * --selection-control-* (radio buttons), --progress-corner-radius. */
+    --action-corner-radius: 0 !important;
+    --action-tile-radius: 0 !important;
+    --alert-banner-corner-radius: 0 !important;
+    --bottom-sheet-corner-radius: 0 !important;
+    --button-corner-radius: 0 !important;
+    --button-corner-radius-large: 0 !important;
+    --button-corner-radius-medium: 0 !important;
+    --button-group-corner-radius: 0 !important;
+    --button-large-corner-radius: 0 !important;
+    --button-small-corner-radius: 0 !important;
+    --card-corner-radius: 0 !important;
+    --card-large-corner-radius: 0 !important;
+    --card-small-corner-radius: 0 !important;
+    --card-square-corner-radius: 0 !important;
+    --carousel-corner-radius: 0 !important;
+    --cell-corner-radius: 0 !important;
+    --chat-bubble-border-radius: 0 !important;
+    --checkbox-corner-radius: 0 !important;
+    --chip-corner-radius: 0 !important;
+    --chip-group-corner-radius: 0 !important;
+    --dialog-corner-radius: 0 !important;
+    --entity-header-background-corner-radius: 0 !important;
+    --filter-group-corner-radius: 0 !important;
+    --glimmer-corner-radius: 0 !important;
+    --glimmer-large-corner-radius: 0 !important;
+    --glimmer-medium-corner-radius: 0 !important;
+    --glimmer-small-corner-radius: 0 !important;
+    --glimmer-xlarge-corner-radius: 0 !important;
+    --glimmer-xsmall-corner-radius: 0 !important;
+    --handle-corner-radius: 0 !important;
+    --hscroll-corner-radius: 0 !important;
+    --hscroll-utility-corner-radius: 0 !important;
+    --icon-action-corner-radius: 0 !important;
+    --image-corner-radius: 0 !important;
+    --infochip-large-radius: 0 !important;
+    --infochip-medium-radius: 0 !important;
+    --infochip-small-radius: 0 !important;
+    --input-bar-corner-radius: 0 !important;
+    --input-corner-radius: 0 !important;
+    --input-field-expanded-corner-radius: 0 !important;
+    --input-field-round-corner-radius: 0 !important;
+    --list-cell-corner-radius: 0 !important;
+    --listcell-inset-radius: 0 !important;
+    --media-corner-radius: 0 !important;
+    --media-large-corner-radius: 0 !important;
+    --media-small-corner-radius: 0 !important;
+    --media-square-corner-radius: 0 !important;
+    --menu-item-base-overlay-radius: 0 !important;
+    --messenger-card-corner-radius: 0 !important;
+    --nav-list-cell-corner-radius: 0 !important;
+    --persistent-cta-corner-radius: 0 !important;
+    --popover-corner-radius: 0 !important;
+    --pressed-state-large-corner-radius: 0 !important;
+    --pressed-state-medium-corner-radius: 0 !important;
+    --pressed-state-rounded-corner-radius: 0 !important;
+    --pressed-state-small-corner-radius: 0 !important;
+    --pressed-state-square-corner-radius: 0 !important;
+    --pressed-state-xlarge-corner-radius: 0 !important;
+    --pressed-state-xsmall-corner-radius: 0 !important;
+    --reshare-radius: 0 !important;
+    --sticky-footer-corner-radius: 0 !important;
+    --sub-nav-action-corner-radius: 0 !important;
+    --table-corner-radius: 0 !important;
+    --text-badge-corner-radius: 0 !important;
+    --toast-corner-radius: 0 !important;
+    --tooltip-corner-radius: 0 !important;
+    --verticalgrid-corner-radius: 0 !important;
+    --verticalgrid-inset-corner-radius: 0 !important;
+  }
+
+  /* ─── Edges, not tints ─────────────────────────────────────────────────
+   * With the greys collapsed the nav/rail/content boundaries vanish, so ink
+   * draws them. Role selectors — Facebook's class names are per-build
+   * hashes and change without notice. */
+  div[role="banner"] {
+    border-bottom: 1px solid #1C1C1E !important;
+  }
+  div[role="navigation"][aria-label],
+  div[role="complementary"] {
+    border-right: 1px solid #1C1C1E !important;
+  }
+
+  /* ─── Radius: the atomic-class holdouts ───────────────────────────────
+   * Zeroing the 68 radius tokens above does not reach everything: a live
+   * audit still found 6px corners on the Marketplace card wrapper, its media
+   * frame, the "Just listed" badge and the thumbnail <img> — all from
+   * per-build atomic classes (.x1exxf4d, .x6ikm8r, .x1iq0kzc, .xz74otr) that
+   * hardcode border-radius rather than reading a token.
+   *
+   * Chasing those hashes would break on the next Facebook build, so this is a
+   * blanket zero scoped to the app's own landmark regions. Avatars survive:
+   * Facebook masks them with an SVG <mask>, not border-radius. */
+  div[role="main"] *,
+  div[role="navigation"] *,
+  div[role="banner"] *,
+  div[role="dialog"] *,
+  div[role="complementary"] * {
+    border-radius: 0 !important;
+  }
+
+  /* Search field: ink treatment, accent edge on focus. */
+  input[type="search"],
+  label[role="combobox"],
+  div[role="search"] {
+    background-color: #0D0D10 !important;
+    border: 1px solid #1C1C1E !important;
+  }
+  div[role="search"]:focus-within,
+  label[role="combobox"]:focus-within {
+    border-color: #6A93D5 !important;
+  }
+
+  /* OKLCH upgrade (perceptually uniform; round-trips to the same hex).
+   * Surfaces/text from tokens/indigo-glass.tokens.toml [variants.sage];
+   * accents are hue 259.8deg on the same ladder. */
+  @supports (color: oklch(0% 0 0)) {
+    :root, html {
+      --web-wash: oklch(0.1340 0.0051 262.32) !important;
+      --surface-background: oklch(0.1340 0.0051 262.32) !important;
+      --nav-bar-background: oklch(0.1340 0.0051 262.32) !important;
+      --card-background: oklch(0.1605 0.0063 285.67) !important;
+      --card-background-flat: oklch(0.1605 0.0063 285.67) !important;
+      --comment-background: oklch(0.1840 0.0081 285.58) !important;
+      --popover-background: oklch(0.1605 0.0063 285.67) !important;
+      --input-background: oklch(0.1605 0.0063 285.67) !important;
+      --glimmer-base-opaque: oklch(0.1840 0.0081 285.58) !important;
+      --primary-text: oklch(0.9791 0.0000 89.88) !important;
+      --secondary-text: oklch(0.5510 0.0234 264.36) !important;
+      --placeholder-text: oklch(0.4461 0.0263 256.80) !important;
+      --disabled-text: oklch(0.4461 0.0263 256.80) !important;
+      --accent: oklch(0.7400 0.1100 259.80) !important;
+      --blue-link: oklch(0.8200 0.1100 259.80) !important;
+      --primary-button-background: oklch(0.7400 0.1100 259.80) !important;
+      --primary-button-background-on-media: oklch(0.1605 0.0063 285.67) !important;
+      --tooltip-background-on-media: oklch(0.1605 0.0063 285.67) !important;
+      --secondary-button-background-on-media: oklch(0.1840 0.0081 285.58) !important;
+      --switch-active: oklch(0.7400 0.1100 259.80) !important;
+      --negative: oklch(0.6124 0.2279 17.60) !important;
+      --positive: oklch(0.8792 0.1706 165.00) !important;
+      --warning: oklch(0.8369 0.1644 84.43) !important;
+    }
+    div[role="search"]:focus-within,
+    label[role="combobox"]:focus-within {
+      border-color: oklch(0.6600 0.1100 259.80) !important;
+    }
+  }
+}
+```

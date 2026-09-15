@@ -1,0 +1,18 @@
+<!doctype html><html><head><style>
+  :root { --site-token: #ff0000; }
+  #host-open, #host-closed { padding: 8px; }
+  /* claim D: self-referential fallback */
+  #selfref { --x: var(--y, var(--x)); background: var(--x, lime); height: 20px; }
+</style></head><body>
+<div id="host-open"></div><div id="host-closed"></div><div id="selfref"></div>
+<div id="jsvar" style="background: var(--site-token)">js var target</div>
+<script>
+  // claim A: do :root custom properties inherit into shadow trees?
+  for (const [id, mode] of [['host-open','open'], ['host-closed','closed']]) {
+    const root = document.getElementById(id).attachShadow({ mode })
+    root.innerHTML = '<style>div{background:var(--site-token, blue);height:20px}</style><div id="inner"></div>'
+    if (mode === 'open') window.openRoot = root
+  }
+  // claim I: does a JS-set inline custom property beat an author !important one?
+  document.documentElement.style.setProperty('--site-token', '#0000ff')
+</script></body></html>

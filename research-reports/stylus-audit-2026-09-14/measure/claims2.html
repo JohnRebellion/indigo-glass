@@ -1,0 +1,7 @@
+<!doctype html><html><head><style>
+  :root { --site-token: #ff0000; }
+  /* Groq's suggested "graceful degradation" pattern, verbatim */
+  #selfref { --site-token: var(--my-token, var(--site-token)); background: var(--site-token, #ffff00); height: 20px; }
+  /* control: plain override */
+  #plain { --site-token: #123456; background: var(--site-token, #ffff00); height: 20px; }
+</style></head><body><div id="selfref"></div><div id="plain"></div></body></html>
