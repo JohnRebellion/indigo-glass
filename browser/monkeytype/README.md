@@ -11,28 +11,44 @@ regenerate with `python3 tokens/codegen.py`.
 | `tokens/out/monkeytype-settings.<variant>.json` | the same settings export per variant |
 
 The active variant is `meta.default_variant` in the token file; today that is
-Sage Ink. Every other brand hue is already emitted — pick the variant file if you
-want Orchid Ink, Rust Ink, or the light pair.
+Sage Ink. Every variant is emitted — pick another file if you want the light
+pair. What changes between them is the surfaces and the neutrals, not the hue:
+see below.
+
+## The hue is Monkeytype's
+
+Same rule the per-site Stylus styles follow (`browser/stylus/sites/README.md`):
+the structure is ours, the hue is theirs. Monkeytype's is the serika yellow its
+default theme and wordmark wear, `#E2B714` — hue 91.25 in OKLCH. Only the hue
+crosses over; the lightness and chroma are re-cut on this system's ladder, at
+L 0.74 / 0.82 and C 0.11, because a swatch drawn for a white page is not drawn
+for a Raycast-deep one.
+
+So sage, lime, rust, orchid and indigo all type in `#C4A853` on `#07080A` —
+the variant supplies the page and the neutrals around it. The light variant
+inverts the cut the way `orchid_light` does, main at L 0.50 and the caret
+DARKER at L 0.42, which is what clears a light page.
 
 ## Slots
 
 | Slot | Token | Role |
 |---|---|---|
 | background | `base` | Raycast-deep base |
-| main | `accent` | typed-correct text — the brand hue |
+| main | Monkeytype hue | typed-correct text — their yellow on our ladder |
 | text | `text` | future text (highest-contrast neutral) |
 | sub | `text_muted` | muted hint text |
 | sub alt | `surface_alt` | elevated surface (key blocks, modals) |
-| caret | `accent_hi` | accent+1 — visible blink against typed text |
+| caret | Monkeytype hue | one step up (down, on a light base) — visible blink against typed text |
 | error | `negative` | typed-wrong |
 | extra error | derived | one step further from base: brighter on the dark variants, darker on a light one |
 
 `colorful error` / `colorful extra error` repeat error / extra error — an ink
 palette has exactly one red, so colorful mode and plain mode agree.
 
-Contrast against each variant's own background (sage): main 11.00:1, text 18.87:1,
-sub 4.14:1, error 4.75:1, extra error 6.39:1, caret 14.30:1. The legacy `indigo`
-variant is the weak one at 4.07:1 on main — large text only.
+Contrast against each variant's own background (sage): main 8.66:1, caret 11.49:1,
+text 18.87:1, sub 4.14:1, error 4.75:1, extra error 6.39:1. The light variant
+measures 5.75:1 on main and 8.05:1 on caret against its own page. No slot in any
+variant falls below 4.1:1.
 
 ---
 

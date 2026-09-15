@@ -1,7 +1,7 @@
 {
   "name": "orchid_ink",
   "bgColor": "#07080A",
-  "mainColor": "#D4ADE6",
+  "mainColor": "#C4A853",
   "subColor": "#888F9E",
   "subAltColor": "#121216",
   "textColor": "#E8E8E8",
@@ -9,5 +9,5 @@
   "errorExtraColor": "#FF5272",
   "colorfulErrorColor": "#ED254E",
   "colorfulErrorExtraColor": "#FF5272",
-  "caretColor": "#EEC6FF"
+  "caretColor": "#DEC26D"
 }

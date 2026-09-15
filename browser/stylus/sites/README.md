@@ -55,6 +55,7 @@ radius 0, opaque chrome — the hue is always theirs.
 |---|---|---|---|
 | YouTube | its red | 29.2 | `#FFA99B` / `#E89082` / `#CD776A` |
 | Anthropic (claude.ai, claude.com) | Anthropic clay `#D97757` | 38.8 | `#FFAB8F` / `#E69277` / `#CB795F` |
+| Monkeytype* | serika yellow `#E2B714` | 91.2 | `#DEC26D` / `#C4A853` / `#AB8F38` |
 | ChatGPT | OpenAI teal `#10A37F` | 169.5 | `#74DBB9` / `#58C1A0` / `#3CA887` |
 | Microsoft Copilot | Microsoft blue `#0078D4` | 251.3 | `#8EC9FF` / `#75AFEE` / `#5D96D3` |
 | Microsoft 365 | its blue | 251.6 | `#8EC9FF` / `#76AFEE` / `#5D96D3` |
@@ -67,6 +68,10 @@ radius 0, opaque chrome — the hue is always theirs.
 | Google Search | four brand colours, no single hue | 262 @ C 0.05 | `#B3C5E5` / `#9AACCB` / `#8293B2` |
 | Linear | Linear indigo `#5E6AD2` | 275.2 | `#AFBEFF` / `#97A5F0` / `#7F8CD5` |
 | Gemini | violet mid-stop of its wordmark gradient `#9B72CB` | 304.0 | `#D3B2FE` / `#BA99E3` / `#A181C9` |
+
+*Monkeytype has no Stylus file — it ships a real theme format, so the same hue
+is generated into `browser/monkeytype/` by `tokens/codegen.py` instead. The cut
+is identical; only the delivery differs.
 
 Google Search is the one exception to "use the brand hue": its brand is four
 colours at once, so there is nothing to honour. It gets a near-neutral cool

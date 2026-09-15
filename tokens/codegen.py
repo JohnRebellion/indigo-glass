@@ -772,8 +772,8 @@ def emit_wt_scheme(t: dict, variant: str | None = None) -> str:
 # Slot -> token, as rendered by the theme panel's own field labels:
 #
 #   bg         base          the page
-#   main       accent        typed-correct text, brand hue
-#   caret      accent_hi     one step up so the caret reads against typed text
+#   main       _mt_accent    typed-correct text - MONKEYTYPE's own yellow
+#   caret      _mt_accent    one step up so the caret reads against typed text
 #   sub        text_muted    untyped/hint text
 #   sub alt    surface_alt   key blocks, modals, the elevated plane
 #   text       text          future text (the highest-contrast neutral)
@@ -892,6 +892,29 @@ def _monkeytype_slug(t: dict, variant: str) -> str:
     return t["variants"][variant]["name"].lower().replace(" ", "_")
 
 
+# Monkeytype keeps its own hue, same rule the per-site Stylus styles follow
+# (browser/stylus/sites/README.md): the structure is ours - ink surfaces, our
+# neutrals, our red - and the hue is theirs. Monkeytype's is the serika yellow
+# its default theme and wordmark are painted in, #E2B714, which is hue 91.25 in
+# OKLCH. Only the hue is taken; the raw lightness and chroma are not, because a
+# vendor swatch cut for a white page is not cut for this ladder.
+_MONKEYTYPE_HUE = 91.25
+
+# Where that hue sits on the ladder. Dark bases use the per-site cut of
+# L 0.82 / 0.74 at C 0.11. A light base inverts it - accent DARKENS on hover
+# there, exactly as [variants.orchid_light] does - and needs the lower
+# lightnesses to clear its own page: 5.75:1 and 8.05:1 against #FAFAFC, where
+# the dark cut measures 2.22:1.
+_MONKEYTYPE_CUT = {          # base_is_light: (main L, C), (caret L, C)
+    False: ((0.74, 0.11), (0.82, 0.11)),
+    True:  ((0.50, 0.13), (0.42, 0.14)),
+}
+
+
+def _base_is_light(t: dict, variant: str) -> bool:
+    return _relative_luminance(derive_palette(t, variant)["base"]["hex"]) > 0.5
+
+
 def _extra_error(t: dict, variant: str) -> str:
     """The extra-error red: one step FURTHER FROM the variant's own base.
 
@@ -902,16 +925,17 @@ def _extra_error(t: dict, variant: str) -> str:
     variant's own negative so the hue stays put.
     """
     L, C, H = resolve_variant(t, variant)["negative"]
-    base_is_light = _relative_luminance(derive_palette(t, variant)["base"]["hex"]) > 0.5
-    return oklch_to_hex(L - 0.12, C, H) if base_is_light else _BRIGHT_RED
+    return (oklch_to_hex(L - 0.12, C, H) if _base_is_light(t, variant)
+            else _BRIGHT_RED)
 
 
 def _monkeytype_slots(t: dict, variant: str) -> dict[str, str]:
     p = {k: v["hex"] for k, v in derive_palette(t, variant).items()}
     extra_error = _extra_error(t, variant)
+    (main_L, main_C), (caret_L, caret_C) = _MONKEYTYPE_CUT[_base_is_light(t, variant)]
     return {
         "bgColor": p["base"],
-        "mainColor": p["accent"],
+        "mainColor": oklch_to_hex(main_L, main_C, _MONKEYTYPE_HUE),
         "subColor": p["text_muted"],
         "subAltColor": p["surface_alt"],
         "textColor": p["text"],
@@ -919,7 +943,7 @@ def _monkeytype_slots(t: dict, variant: str) -> dict[str, str]:
         "errorExtraColor": extra_error,
         "colorfulErrorColor": p["negative"],
         "colorfulErrorExtraColor": extra_error,
-        "caretColor": p["accent_hi"],
+        "caretColor": oklch_to_hex(caret_L, caret_C, _MONKEYTYPE_HUE),
     }
 
 
