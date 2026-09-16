@@ -64,9 +64,34 @@
 #   `tokens/codegen.py --check` — simpler and strictly more thorough than the
 #   differ it replaced, since it's a full-file comparison, not a key overlap.
 #
+# v5 (2026-09-16) — added a fifth dimension, CURRENCY, after a cross-model
+#   audit ran the one experiment nobody had run against this guard: change a
+#   token and ask whether the repo is still consistent. Measured on v4 —
+#   nudge the sage accent hue by 10deg, run codegen.py, run this script:
+#   13 files regenerate, 31 tracked files keep the old #A6C9A6, and the guard
+#   prints "clean" and exits 0. Among the 31 are config/gtk-3.0/gtk.css,
+#   config/gtk-4.0/gtk.css, config/starship.toml and
+#   share/konsole/SageInk.profile — all deployed by install.sh.
+#
+#   That is v1's failure mode ("guard clean, shipped themes stale") reproduced
+#   by the guard written to end it. The hole is structural, not an oversight
+#   in a pattern list: COLOUR hunts only a NON-ACTIVE variant's accent, so a
+#   variant that keeps its name and changes its value is invisible to it;
+#   PARITY covers only the surfaces with a byte-comparable generated
+#   counterpart. A changed accent falls between them.
+#
+#   CURRENCY closes it by asking a question about history rather than about
+#   the current file: which accent literals did this revision supersede, and
+#   does any deployable still carry one? Baseline is HEAD when the tokens are
+#   edited but uncommitted, HEAD~1 otherwise.
+#
+#   scripts/test-drift-guard.sh is the executable form of the paragraph above.
+#   It fails against v4 and passes against v5. Run it after touching this file.
+#
 # Usage:
-#   scripts/check-palette-drift.sh              # colour + material + alpha + parity
+#   scripts/check-palette-drift.sh              # all six scans
 #   scripts/check-palette-drift.sh --colour     # colour only
+#   scripts/check-palette-drift.sh --currency   # currency only
 #   scripts/check-palette-drift.sh --material   # material only
 #   scripts/check-palette-drift.sh --alpha      # alpha only
 #   scripts/check-palette-drift.sh --parity     # parity only
@@ -88,6 +113,7 @@ case "${1:-}" in
   --colour|--color) MODE="colour" ;;
   --material)       MODE="material" ;;
   --alpha)          MODE="alpha" ;;
+  --currency)       MODE="currency" ;;
   --parity)         MODE="parity" ;;
   --shadow)         MODE="shadow" ;;
   "")               MODE="all" ;;
@@ -150,14 +176,23 @@ filter_variant_files() { grep -vE "$VARIANT_FILE_EXCLUDE" || true; }
 # ===========================================================================
 # Accent-only. base/surface/text/semantic tokens are shared across variants on
 # purpose, so matching those would false-positive on every file.
+# accent_literals_for <variant> [tokens-file]
+# Emits the variant's accent, accent_hi and accent_alt in all three spellings
+# this repo writes colours in. The optional second argument lets CURRENCY pass
+# a tokens file extracted from a git ref instead of the working tree's.
 accent_literals_for() {
-  python3 - "$1" <<'PY'
+  python3 - "$1" "${2:-$TOKENS_FILE}" <<'PY'
 import sys, re, importlib.util
 variant = sys.argv[1]
-text = open("tokens/indigo-glass.tokens.toml").read()
-block = re.search(rf'\[variants\.{variant}\](.*?)(?=\n\[|\Z)', text, re.S).group(1)
-L, C, H = (float(x) for x in re.search(
-    r'accent\s*=\s*\[([\d.]+),\s*([\d.]+),\s*([\d.]+)\]', block).groups())
+text = open(sys.argv[2]).read()
+m = re.search(rf'\[variants\.{variant}\](.*?)(?=\n\[|\Z)', text, re.S)
+if not m:
+    sys.exit(0)          # variant absent from this revision — nothing to compare
+block = m.group(1)
+am = re.search(r'accent\s*=\s*\[([\d.]+),\s*([\d.]+),\s*([\d.]+)\]', block)
+if not am:
+    sys.exit(0)
+L, C, H = (float(x) for x in am.groups())
 spec = importlib.util.spec_from_file_location("cg", "tokens/codegen.py")
 cg = importlib.util.module_from_spec(spec); spec.loader.exec_module(cg)
 for dl in (0, 0.08, -0.10):          # accent, accent_hi, accent_alt
@@ -188,6 +223,58 @@ if [ "$MODE" = "all" ] || [ "$MODE" = "colour" ]; then
       echo "$hits"
     fi
   done
+fi
+
+# ===========================================================================
+# 1b. CURRENCY — a superseded accent of ANY variant, including the active one
+# ===========================================================================
+# COLOUR above only hunts a NON-ACTIVE variant's accent, so it is blind to the
+# case where a variant keeps its name and changes its value. PARITY only covers
+# the surfaces that have a byte-comparable generated counterpart. Between the
+# two sits the failure this scan exists for: edit an accent in the TOML,
+# regenerate, and the 13 generated files move while every hand-typed copy of
+# the old hex stays put — in GTK CSS, the Konsole profile, starship, SDDM and
+# the browser themes. Measured 2026-09-16 on the v4 guard: 31 tracked files
+# stale, guard "clean", exit 0.
+#
+# The comparison is against git, because "superseded" is a statement about
+# history, not about the current file. Baseline is HEAD when the working tree
+# has edited the tokens, otherwise HEAD~1 so a change that was just committed
+# is still checked.
+if [ "$MODE" = "all" ] || [ "$MODE" = "currency" ]; then
+  echo ""
+  if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "Currency scan: skipped (not a git checkout)"
+  else
+    if ! git diff --quiet HEAD -- "$TOKENS_FILE" 2>/dev/null; then
+      BASE_REF="HEAD"                 # tokens edited but not yet committed
+    else
+      BASE_REF="HEAD~1"               # tokens match HEAD; check the last commit
+    fi
+
+    BASE_TOKENS="$(mktemp)"
+    if git show "$BASE_REF:$TOKENS_FILE" > "$BASE_TOKENS" 2>/dev/null; then
+      echo "Currency scan: superseded accents vs $BASE_REF"
+      for v in indigo lime sage; do
+        before="$(accent_literals_for "$v" "$BASE_TOKENS" | sort -u)"
+        after="$(accent_literals_for "$v" "$TOKENS_FILE"  | sort -u)"
+        [ -z "$before" ] && continue
+        superseded="$(comm -23 <(echo "$before") <(echo "$after"))"
+        [ -z "$superseded" ] && continue
+        pattern="$(echo "$superseded" | sed 's/[.[\*^$]/\\&/g' | tr '\n' '|' | sed 's/|$//')"
+        hits="$(grep -rInE "$pattern" "${COLOUR_DIRS[@]}" "${EXCLUDE[@]}" 2>/dev/null | filter_allowed | filter_variant_files || true)"
+        if [ -n "$hits" ]; then
+          FOUND=1
+          echo ""
+          echo "--- superseded '$v' accent still present (changed since $BASE_REF) ---"
+          echo "$hits"
+        fi
+      done
+    else
+      echo "Currency scan: skipped (no $BASE_REF revision of $TOKENS_FILE)"
+    fi
+    rm -f "$BASE_TOKENS"
+  fi
 fi
 
 # ===========================================================================
@@ -713,7 +800,7 @@ fi
 
 echo ""
 if [ "$FOUND" -eq 0 ]; then
-  echo "clean — no colour, material, alpha, parity, or shadow drift"
+  echo "clean — no colour, currency, material, alpha, parity, or shadow drift"
   exit 0
 else
   echo "DRIFT FOUND — see file:line above."
