@@ -212,6 +212,7 @@ See [`docs/REFERENCE.md`](docs/REFERENCE.md) for full diagnoses + recovery comma
 
 ## Documentation
 
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — How tokens become theme files: codegen targets, the drift guard, verification
 - [`docs/REFERENCE.md`](docs/REFERENCE.md) — Full reference: colors, layers, install steps, known bugs, recovery
 - [`docs/PHILOSOPHY.md`](docs/PHILOSOPHY.md) — Design rationale
 - [`docs/STATE_GRAMMAR.md`](docs/STATE_GRAMMAR.md) — The fill-vs-outline convention and how it's enforced
