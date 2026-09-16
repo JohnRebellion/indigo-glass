@@ -8,7 +8,7 @@ Canonical palette (colors, fonts, layout discipline) stays universal across all 
 
 | Concept | Detail |
 |---|---|
-| `_default.toml` | Nobara desktop reference (27" 1440p @ 100% scale). Canonical sizes. |
+| `_default.toml` | Reference profile: 109 effective DPI, ratio 1.0. Canonical sizes. Defined on the Nobara desktop (27" 1440p @ 100%), but the profile is keyed to the DPI, not to that machine. |
 | `<host>.toml` | Per-host override. Sets only fields that differ from default. |
 | `apply.sh` | Reads a profile + writes values into live config files (`~/.config/kdeglobals`, GTK, Konsole, VSCode) |
 | Auto-detect | `hostname -s` matched against `<name>.toml`. Falls back to `_default`. |
@@ -54,7 +54,7 @@ font_pt = 11
 
 | Profile | Display | Scale ratio | When to use |
 |---|---|:---:|---|
-| `_default` | 27" 1440p @ 100% | 1.0 (reference) | Nobara desktop. Any 1440p / 4K-100% setup. |
+| `_default` | 27" 1440p @ 100% | 1.0 (reference) | Nobara desktop, and any display at ~109 effective DPI. |
 | `aspire5-14-1080p` | 14" 1080p @ Win 100% | 1.44x | Acer Aspire 5. Or any 13-14" 1080p where you refuse to raise display scaling. |
 
 ## Apply
@@ -105,5 +105,11 @@ bash hosts/apply.sh --dry-run
 | 24" 4K | 184 | 1.69 |
 | 27" 4K | 163 | 1.50 |
 | 32" 4K | 138 | 1.27 |
+
+`_default` suits a display only if its effective DPI is near 109. A 4K panel at
+100% scale is **not** one: by the table above, 27" 4K is 163 DPI (ratio 1.50) and
+24" 4K is 184 DPI (ratio 1.69). Both need their own profile, or display scaling.
+The DPI table is the arbiter — if a claim about a display disagrees with it, the
+table wins.
 
 If you prefer Win/KDE display scaling instead of font scaling: set display to 1.25/1.5/2.0 and keep profile at `_default`. This repo's stance is font-level scaling: same physical text size across machines without touching display scale.

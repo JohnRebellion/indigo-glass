@@ -11,7 +11,10 @@ system is **Sage Ink**.
   `install.sh` ships no `LimeGlass.colors` or Konsole profile. There is no
   installable Lime option; do not treat it as one.
 
-When generating a new path, match the surrounding directory's name, not the repo name.
+Name a new path after its declaration site in `codegen.py` or `install.sh`, not
+after the files beside it — neighbouring `indigo-glass` names are legacy, so
+proximity is not naming authority. Never rename an existing path to match this
+rule: `codegen.py` resolves the "Never hand-edit" names by string.
 
 ## Source of truth
 
@@ -50,12 +53,21 @@ find-and-replace a hex value across layers.
 ## Verify
 
 ```
-python3 tokens/codegen.py          # regenerate
+python3 tokens/codegen.py          # regenerate — required after ANY token change
 scripts/check-palette-drift.sh     # drift guard — must pass
+scripts/test-drift-guard.sh        # only when you have edited the guard itself
 scripts/check-deployment.sh        # is the theme actually in use on this host
 ```
 
-There is no `.github/` and no CI of any kind. Tests exist; nothing runs them but you.
+Regenerating is required after any token *value* change, not just a variant
+switch — `codegen.py` moves 13 files and the hand-typed layer copies do not
+follow. See `docs/ARCHITECTURE.md` for what that cost when the guard missed it.
+
+No CI. `scripts/git-hooks/pre-commit` runs the guard on every commit, wired by
+`core.hooksPath=scripts/git-hooks`. That is per-clone local config and is not
+tracked, so a fresh clone is **unguarded until it is set**:
+
+    git config core.hooksPath scripts/git-hooks
 
 ## Other traps
 
