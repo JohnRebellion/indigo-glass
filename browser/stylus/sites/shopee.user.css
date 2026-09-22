@@ -2,7 +2,7 @@
 @name           Sage Ink — Shopee
 @namespace      github.com/JohnRebellion/indigo-glass
 @version        0.1.0
-@description    Shopee on Sage Ink structure with Shopee's own hue. Shopee ships a real but thin token layer (72 custom properties, prefix "Ncore": --nc-*/--nt-*/--ns-*/--nr-*/--ne-*) plus a component-class layer (shopee-*, stardust-*, btn-solid-primary) for the parts the tokens don't reach. Every selector here was read off a live render (scripts/style-check/shopee-probe*.mjs), not guessed.
+@description    Shopee on Sage Ink structure with Shopee's own hue. Shopee ships a real but thin token layer (72 custom properties, prefix "Ncore": --nc-, --nt-, --ns-, --nr-, --ne-) plus a component-class layer (shopee-, stardust-, btn-solid-primary) for the parts the tokens don't reach. Every selector here was read off a live render (scripts/style-check), not guessed.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
 @updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/shopee.user.css
