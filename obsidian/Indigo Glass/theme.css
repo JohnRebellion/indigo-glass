@@ -47,7 +47,7 @@
 
   /* Tags + chips */
   --tag-color: #89A889;
-  --tag-background: #1F2422; /* was rgba(166,201,166,0.12), before that rgba(139,196,6,...) lime - opaque pale-sage chip fill, composited over --background-primary-alt */
+  --tag-background: #1F2422; /* drift-allow: the lime triple below is provenance, not a live value. Was rgba(166,201,166,0.12), before that rgba(139,196,6,...) lime - opaque pale-sage chip fill, composited over --background-primary-alt */
   --tag-color-hover: #C0E3C0; /* was #C8B5FF (violet) - hover should stay on the same sage hue, not jump to an unrelated one */
 
   /* Code (mono) */
@@ -215,5 +215,5 @@ textarea,
 }
 .callout[data-callout="example"],
 .callout[data-callout="quote"] {
-  --callout-color: 139, 196, 6;
+  --callout-color: 137, 168, 137;   /* #89A889 accent_alt - this role still carried Lime Glass's accent_alt; the one callout the sage migration missed */
 }

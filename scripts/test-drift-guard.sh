@@ -37,9 +37,17 @@ trap cleanup EXIT
 
 git -C "$REPO" worktree add --detach "$WT" HEAD >/dev/null 2>&1
 
-# Exercise the working-tree guard and generator, not the committed ones.
-cp "$REPO/scripts/check-palette-drift.sh" "$WT/scripts/"
-cp "$REPO/tokens/codegen.py"              "$WT/tokens/"
+# Exercise the WORKING TREE, not HEAD. Copying only the guard and the generator
+# tested them against HEAD's layer files, so a guard fix that also required a
+# layer fix failed its own baseline check: "clean checkout passes" reported the
+# very drift the uncommitted change was fixing. Replay every tracked change.
+WT_PATCH="$WT/.working-tree.patch"
+git -C "$REPO" diff HEAD > "$WT_PATCH"
+if [ -s "$WT_PATCH" ]; then
+  git -C "$WT" apply "$WT_PATCH" \
+    || { echo "  FAIL  could not replay the working tree into the test worktree" >&2; exit 1; }
+fi
+rm -f "$WT_PATCH"
 
 cd "$WT"
 
@@ -108,9 +116,69 @@ for f in config/gtk-3.0/gtk.css config/gtk-4.0/gtk.css config/starship.toml \
 done
 check "names the shipped deployables left stale" 0 "$missing"
 
+# --- 4. no false positive: an UNCHANGED literal must not be reported --------
+# accent_hi is its own triple in the TOML and case 2 did not touch it, so
+# codegen still emits it and no file carrying it is stale. v5 derived hi/alt
+# from accent, so every accent edit reported the still-current accent_hi as
+# superseded — 96 lines of noise on this fixture, including
+# config/fastfetch/config.jsonc, which carries hi and alt and no accent at all.
+# Asserted on a FILE, not on the hex: a reported line often contains several
+# literals, and the genuinely stale accent drags the still-current accent_hi
+# into the same line of output. config/fastfetch/config.jsonc is the clean
+# fixture — it carries accent_hi and accent_alt and no accent at all, so
+# nothing in it is stale in this scenario. v5 named it anyway.
+if grep -qF 'config/fastfetch/config.jsonc' <<<"$report"; then
+  echo "      named though it carries only the UNCHANGED accent_hi/accent_alt"
+  falsepos=1
+else
+  falsepos=0
+fi
+check "does not report a file carrying only unchanged hi/alt" 0 "$falsepos"
+
+# --- 5. accent_alt alone: the member of the triple v5 could not see ---------
+# Reset to HEAD, then move ONLY accent_alt. codegen regenerates the 13 files;
+# every hand-typed copy of the old alt stays put. v5 hunted a DERIVED alt
+# (sage: #88A988) that codegen never emitted, so it matched nothing and the
+# scan passed clean over 31 stale deployables.
+cp "$REPO/tokens/indigo-glass.tokens.toml" tokens/indigo-glass.tokens.toml
+python3 tokens/codegen.py >/dev/null 2>&1
+
+python3 - "$ACTIVE" <<'PY'
+import re, sys
+variant = sys.argv[1]
+path = "tokens/indigo-glass.tokens.toml"
+text = open(path).read()
+m = re.search(rf'(\[variants\.{variant}\].*?)(?=\n\[|\Z)', text, re.S)
+block = m.group(1)
+def bump(mm):
+    L, C, H = float(mm.group(2)), mm.group(3), mm.group(4)
+    return f"{mm.group(1)}{min(L + 0.02, 0.99):.4f}, {C}, {H}]"
+new = re.sub(r'(accent_alt\s*=\s*\[)\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\]',
+             bump, block, count=1)
+assert new != block, f"could not find an accent_alt in [variants.{variant}]"
+open(path, "w").write(text[:m.start(1)] + new + text[m.end(1):])
+PY
+
+if ! python3 tokens/codegen.py >/dev/null 2>&1; then
+  echo "  FAIL  codegen.py rejected the accent_alt perturbation" >&2
+  exit 1
+fi
+
+set +e
+alt_report="$(bash scripts/check-palette-drift.sh 2>&1)"
+alt_exit=$?
+set -e
+check "changed accent_alt + regenerate is reported as drift" 1 "$alt_exit"
+
+missing=0
+for f in share/grub-theme config/plasma-theme/SageInk; do
+  grep -qF "$f" <<<"$alt_report" || { echo "      not named: $f"; missing=1; }
+done
+check "names the deployables left on the stale accent_alt" 0 "$missing"
+
 echo ""
 if [ "$fail" -gt 0 ]; then
   echo "$fail failed, $pass passed — the guard has a hole"
   exit 1
 fi
-echo "$pass passed — guard covers superseded accents"
+echo "$pass passed — guard covers every member of the accent triple"

@@ -180,6 +180,14 @@ filter_variant_files() { grep -vE "$VARIANT_FILE_EXCLUDE" || true; }
 # Emits the variant's accent, accent_hi and accent_alt in all three spellings
 # this repo writes colours in. The optional second argument lets CURRENCY pass
 # a tokens file extracted from a git ref instead of the working tree's.
+# Every variant the TOML declares, in file order. Hardcoding "indigo lime sage"
+# silently skipped rust, orchid and orchid_light, and would skip any variant
+# added later — these scans are only as complete as this list.
+mapfile -t ALL_VARIANTS < <(
+  grep -oE '^\[variants\.[A-Za-z0-9_]+\]' "$TOKENS_FILE" \
+    | sed -E 's/^\[variants\.(.*)\]$/\1/'
+)
+
 accent_literals_for() {
   python3 - "$1" "${2:-$TOKENS_FILE}" <<'PY'
 import sys, re, importlib.util
@@ -189,14 +197,32 @@ m = re.search(rf'\[variants\.{variant}\](.*?)(?=\n\[|\Z)', text, re.S)
 if not m:
     sys.exit(0)          # variant absent from this revision — nothing to compare
 block = m.group(1)
-am = re.search(r'accent\s*=\s*\[([\d.]+),\s*([\d.]+),\s*([\d.]+)\]', block)
-if not am:
+
+def triple(key):
+    """The variant block's own value for `key`, or None if it does not set one."""
+    mm = re.search(rf'^{key}\s*=\s*\[\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\]',
+                   block, re.M)
+    return tuple(float(x) for x in mm.groups()) if mm else None
+
+base = triple('accent')
+if base is None:
     sys.exit(0)
-L, C, H = (float(x) for x in am.groups())
 spec = importlib.util.spec_from_file_location("cg", "tokens/codegen.py")
 cg = importlib.util.module_from_spec(spec); spec.loader.exec_module(cg)
-for dl in (0, 0.08, -0.10):          # accent, accent_hi, accent_alt
-    hx = cg.oklch_to_hex(min(max(L + dl, 0), 0.99), C, H)
+
+# accent_hi and accent_alt are INDEPENDENT triples in the TOML, not lightness
+# offsets of accent. v5 derived them as L+0.08 / L-0.10 and so hunted hexes
+# codegen never emits: sage alt was hunted as #88A988 against an emitted
+# #89A889, and indigo's pair (#7483ED/#444CB1) existed nowhere at all. That
+# made CURRENCY miss an accent_alt-only edit entirely (31 stale deployables,
+# guard "clean") while reporting the still-current accent_hi as superseded.
+# Read the block's own values; derive only for a key the block omits.
+L, C, H = base
+for key, fallback in (('accent',     base),
+                      ('accent_hi',  (L + 0.08, C, H)),
+                      ('accent_alt', (L - 0.10, C, H))):
+    l, c, h = triple(key) or fallback
+    hx = cg.oklch_to_hex(min(max(l, 0), 0.99), c, h)
     print(hx)                                    # #A8E635
     r, g, b = (int(hx[i:i+2], 16) for i in (1, 3, 5))
     print(f"{r},{g},{b}")                        # 168,230,53   (CSS rgba)
@@ -207,7 +233,7 @@ PY
 if [ "$MODE" = "all" ] || [ "$MODE" = "colour" ]; then
   echo "Active variant: $ACTIVE_VARIANT"
   echo "Colour scan: ${#COLOUR_DIRS[@]} dirs"
-  for v in indigo lime sage; do
+  for v in "${ALL_VARIANTS[@]}"; do
     [ "$v" = "$ACTIVE_VARIANT" ] && continue
     literals="$(accent_literals_for "$v" | sort -u)"
     [ -z "$literals" ] && continue
@@ -249,13 +275,23 @@ if [ "$MODE" = "all" ] || [ "$MODE" = "currency" ]; then
     if ! git diff --quiet HEAD -- "$TOKENS_FILE" 2>/dev/null; then
       BASE_REF="HEAD"                 # tokens edited but not yet committed
     else
-      BASE_REF="HEAD~1"               # tokens match HEAD; check the last commit
+      # The parent of the last commit that TOUCHED the tokens, not HEAD~1.
+      # HEAD~1 is a one-commit window: land a token change, then any unrelated
+      # commit, and the superseded value drops out of the comparison entirely,
+      # so a stale literal introduced after that point passes silently.
+      # Anchoring to the token history keeps the window open until it is fixed.
+      LAST_TOKEN_COMMIT="$(git log -1 --format=%H -- "$TOKENS_FILE" 2>/dev/null)"
+      if [ -n "$LAST_TOKEN_COMMIT" ]; then
+        BASE_REF="${LAST_TOKEN_COMMIT}^"
+      else
+        BASE_REF="HEAD~1"             # no history for the file; best effort
+      fi
     fi
 
     BASE_TOKENS="$(mktemp)"
     if git show "$BASE_REF:$TOKENS_FILE" > "$BASE_TOKENS" 2>/dev/null; then
       echo "Currency scan: superseded accents vs $BASE_REF"
-      for v in indigo lime sage; do
+      for v in "${ALL_VARIANTS[@]}"; do
         before="$(accent_literals_for "$v" "$BASE_TOKENS" | sort -u)"
         after="$(accent_literals_for "$v" "$TOKENS_FILE"  | sort -u)"
         [ -z "$before" ] && continue
