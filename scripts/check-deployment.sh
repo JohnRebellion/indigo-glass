@@ -198,12 +198,34 @@ fi
 echo ""
 echo "Browsers"
 
-# --- Edge theme -----------------------------------------------------------
+# --- Edge theme + extensions (every profile) -----------------------------
 # This is Finding 2. The manifest can be byte-perfect and still be unloaded;
-# only the profile's own `theme id` proves it is in use.
-edge_pref="$HOME/.config/microsoft-edge/Default/Preferences"
-if command -v microsoft-edge >/dev/null 2>&1 || [ -d "$HOME/.config/microsoft-edge" ]; then
-  if [ -f "$edge_pref" ]; then
+# only a profile's own `theme id` proves it is in use. Daily use runs through
+# the ~/.local/bin/edge-* wrappers, each with its own --user-data-dir under
+# ~/.config/edge-*, so ~/.config/microsoft-edge/Default alone is the wrong
+# place to look (it is the unwrapped launcher's profile, normally themeless).
+# An unpacked extension's id is sha256(absolute path)[:32] mapped 0-f -> a-p,
+# so the expected theme id is computed, not hardcoded.
+edge_theme_dir="$REPO_DIR/browser/edge-theme/indigo-glass"
+edge_profiles=()
+for udd in "$HOME"/.config/edge-* "$HOME/.config/microsoft-edge"; do
+  [ -d "$udd" ] || continue
+  for prof in "$udd"/Default "$udd"/Profile\ [0-9]*; do
+    case "$prof" in *.bak*) continue ;; esac
+    [ -f "$prof/Preferences" ] && edge_profiles+=("$prof")
+  done
+done
+if [ ${#edge_profiles[@]} -eq 0 ]; then
+  report ABSENT "edge" "no Edge profiles found"
+else
+  expect_tid="$(python3 -c "
+import hashlib,sys
+h=hashlib.sha256(sys.argv[1].encode()).hexdigest()[:32]
+print(''.join(chr(97+int(c,16)) for c in h))
+" "$(realpath "$edge_theme_dir")")"
+  themed=0
+  for prof in "${edge_profiles[@]}"; do
+    label="edge ${prof#"$HOME"/.config/}"
     tid="$(python3 -c "
 import json,sys
 try:
@@ -211,34 +233,24 @@ try:
 except Exception:
     print('parse-error'); raise SystemExit
 print(d.get('extensions',{}).get('theme',{}).get('id') or '')
-" "$edge_pref" 2>/dev/null)"
+" "$prof/Preferences" 2>/dev/null)"
     case "$tid" in
-      parse-error) report UNDEPLOYED "edge theme" "could not parse Preferences" ;;
-      "")          report UNDEPLOYED "edge theme" "theme id unset — browser/edge-theme/ never loaded" ;;
-      *)           report DEPLOYED   "edge theme" "theme id=$tid" ;;
+      parse-error)   report UNDEPLOYED "$label" "could not parse Preferences" ;;
+      "$expect_tid") themed=$((themed+1))
+                     ext=""
+                     # Dark Reader: Edge Add-ons id, not the Chrome Web Store one.
+                     for pair in "Stylus:clngdbkpkpeebahjckkjfobafhncgmne" "Dark Reader:ifoakfbpdcdoeenechcleahebpibofpc"; do
+                       [ -d "$prof/Extensions/${pair##*:}" ] || ext="$ext, no ${pair%%:*}"
+                     done
+                     if [ -z "$ext" ]; then report DEPLOYED "$label" "Sage Ink theme + Stylus + Dark Reader"
+                     else report UNDEPLOYED "$label" "Sage Ink theme loaded${ext}"; fi ;;
+      "")            # Profiles of the unwrapped launcher are expected to be themeless.
+                     case "$prof" in "$HOME/.config/microsoft-edge/"*) continue ;; esac
+                     report UNDEPLOYED "$label" "theme id unset — wrapper not passing --load-extension?" ;;
+      *)             report UNDEPLOYED "$label" "foreign theme id=$tid (expected $expect_tid)" ;;
     esac
-  else
-    report UNDEPLOYED "edge theme" "no Default/Preferences (profile never created?)"
-  fi
-else
-  report ABSENT "edge theme" "Microsoft Edge not installed"
-fi
-
-# --- Stylus / Dark Reader -------------------------------------------------
-# Both are extensions; presence is what we can check without driving the UI.
-# We deliberately do NOT assert the userstyle content is applied — that needs
-# a live page render, which is out of scope for a no-display-server check.
-if [ -d "$HOME/.config/microsoft-edge" ]; then
-  for pair in "Stylus:clngdbkpkpeebahjckkjfobafhncgmne" "Dark Reader:eimadpbcbfnmbkopoojfekhnkhdbieeh"; do
-    label="${pair%%:*}"; extid="${pair##*:}"
-    if [ -d "$HOME/.config/microsoft-edge/Default/Extensions/$extid" ]; then
-      report DEPLOYED "edge: $label" "extension present"
-    else
-      report UNDEPLOYED "edge: $label" "not installed — browser/ styles unused"
-    fi
   done
-else
-  report ABSENT "edge extensions" "Microsoft Edge not installed"
+  [ "$themed" -eq 0 ] && report UNDEPLOYED "edge theme" "no profile has browser/edge-theme/ loaded"
 fi
 
 echo ""
