@@ -170,34 +170,6 @@
         "secondaryTextColor": ""
       },
       "url": ["onedrive.live.com"]
-    },
-    {
-      "theme": {
-        "mode": 1,
-        "brightness": 100,
-        "contrast": 100,
-        "grayscale": 0,
-        "sepia": 0,
-        "useFont": true,
-        "fontFamily": "Carlito",
-        "textStroke": 0,
-        "engine": "dynamicTheme",
-        "stylesheet": "",
-        "darkSchemeBackgroundColor": "#090909",
-        "darkSchemeTextColor": "#F8F8F8",
-        "lightSchemeBackgroundColor": "#F8F8F8",
-        "lightSchemeTextColor": "#07080A",
-        "scrollbarColor": "#A6C9A6",
-        "selectionColor": "#A6C9A6",
-        "styleSystemControls": true,
-        "lightColorScheme": "Default",
-        "darkColorScheme": "Default",
-        "immediateModify": false,
-        "secondaryBackgroundColor": "",
-        "secondaryTextColor": "",
-        "stylesystem": false
-      },
-      "url": ["shopee.ph"]
     }
   ],
   "enabledByDefault": true,
@@ -244,7 +216,8 @@
     "aistudio.google.com",
     "copilot.microsoft.com",
     "claude.com",
-    "platform.claude.com"
+    "platform.claude.com",
+    "shopee.ph"
   ],
   "changeBrowserTheme": false,
   "syncSettings": true,

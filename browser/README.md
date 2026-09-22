@@ -130,9 +130,10 @@ must never run on the same site.
   Overview as a black hole, Facebook's left rail coming back white, Wikipedia
   rendering Dark Reader's `#181a1b` instead of its own colours.
 - **Dark Reader** is the fallback for everything else — sites with no native
-  dark mode and no per-site file (Shopee, TikTok, windy.com, most one-off
-  pages). That is the majority of browsing, which is why it stays enabled by
-  default rather than being switched off globally.
+  dark mode and no per-site file (TikTok, windy.com, most one-off pages). That
+  is the majority of browsing, which is why it stays enabled by default rather
+  than being switched off globally. Shopee moved from here to a per-site
+  Stylus file (`browser/stylus/sites/shopee.user.css`) and `disabledFor`.
 
 ### Why the disabled list is explicit
 

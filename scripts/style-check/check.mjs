@@ -130,6 +130,19 @@ const SITES = {
      * early reports the loading state instead of the page. */
     settle: 9000,
   },
+  shopee: {
+    css: 'browser/stylus/sites/shopee.user.css',
+    urls: { home: 'https://shopee.ph/' },
+    content: '#main',
+    settle: 6000,
+    /* shopee.ph runs a slide-puzzle verification (GeeTest-style) on any
+     * unfamiliar browser fingerprint — headless fails it outright, and a
+     * fresh headed profile gets a real puzzle to solve. It does not
+     * re-challenge once solved: the pass persists in that profile's cookies.
+     * Point IG_STYLE_PROFILE at a profile that has already solved it once
+     * (`node check.mjs shopee --headed`, solve by hand, keep that profile
+     * dir); do not script around the puzzle itself. */
+  },
 }
 
 /* Stylus wraps everything in @-moz-document, which Chromium drops as an

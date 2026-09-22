@@ -49,6 +49,7 @@ const TARGETS = {
   chatgpt: ['browser/stylus/sites/chatgpt.user.css', 'https://chatgpt.com/'],
   notion: ['browser/stylus/sites/notion.user.css', 'https://www.notion.so/'],
   linear: ['browser/stylus/sites/linear.user.css', 'https://linear.app/'],
+  shopee: ['browser/stylus/sites/shopee.user.css', 'https://shopee.ph/'],
 }
 
 function unwrap(css) {

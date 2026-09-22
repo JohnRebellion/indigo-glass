@@ -1,0 +1,269 @@
+/* ==UserStyle==
+@name           Sage Ink — Shopee
+@namespace      github.com/JohnRebellion/indigo-glass
+@version        0.1.0
+@description    Shopee on Sage Ink structure with Shopee's own hue. Shopee ships a real but thin token layer (72 custom properties, prefix "Ncore": --nc-*/--nt-*/--ns-*/--nr-*/--ne-*) plus a component-class layer (shopee-*, stardust-*, btn-solid-primary) for the parts the tokens don't reach. Every selector here was read off a live render (scripts/style-check/shopee-probe*.mjs), not guessed.
+@author         John Rebellion
+@homepageURL    https://github.com/JohnRebellion/indigo-glass
+@updateURL      https://raw.githubusercontent.com/JohnRebellion/indigo-glass/main/browser/stylus/sites/shopee.user.css
+@license        MIT
+@preprocessor   default
+==/UserStyle== */
+
+@-moz-document domain("shopee.ph") {
+
+  /* Shopee has no dark mode of its own — --nc-text-primary is rgba(0,0,0,.87)
+   * and color-scheme computes to "normal". This is a full override, the
+   * Facebook/YouTube pattern, not an accent-only retint like Notion/Linear.
+   *
+   * HUE: this file does NOT paint Shopee sage. Shopee's identity is its
+   * orange-red and it stays that colour — re-cut on the ink lightness ladder
+   * (hue 33.1deg at L 0.82/0.74/0.66, C 0.11) instead of #EE4D2D's raw
+   * L 0.642 / C 0.203. Same treatment as the YouTube (29.2deg) and Facebook
+   * (259.8deg) files. */
+  :root,
+  html {
+    /* Tell the UA this document is dark. Without it, browser-rendered widgets
+     * — date pickers, <select> popups, the file dialog, native scrollbars,
+     * form-control internals — keep rendering light on top of a dark page,
+     * and no stylesheet can reach them. */
+    color-scheme: dark;
+
+    /* ─── Shopee's own "Ncore" token layer ──────────────────────────────
+     * Confirmed present at :root via a live var dump (72 properties total).
+     * Where a component reads one of these through var(), overriding it here
+     * repaints the component with no selector needed — e.g. the price text
+     * on every product card computes to exactly --nc-primary's raw hex, with
+     * no stable class name to target directly. */
+    --nc-primary: #E7907D !important;
+    --nc-primary-bg: #0D0D10 !important;
+    --nc-primary-gradient: linear-gradient(#CC7866, #E7907D) !important;
+    --nc-caution: #FBBF24 !important; /* orange banned as primary accent (PHILOSOPHY.md) -> amber is the one warm semantic, shared unchanged */
+    --nc-caution-bg: #0D0D10 !important;
+    --nc-error: #ED254E !important;
+    --nc-error-bg: #0D0D10 !important;
+    --nc-success: #3FFABB !important;
+    --nc-success-bg: #0D0D10 !important;
+    --nc-secondary-blue: #77AFEF !important;
+    --nc-secondary-green: #3FFABB !important;
+    --nc-secondary-yellow: #FBBF24 !important;
+    --nc-text-link: #FFAA96 !important;
+    --nc-text-primary: #F8F8F8 !important;
+    --nc-text-primary-o: #F8F8F8 !important;
+    --nc-text-secondary: #6B7280 !important;
+    --nc-text-secondary-o: #6B7280 !important;
+    --nc-text-tertiary: #4B5563 !important;
+    --nc-text-tertiary-o: #4B5563 !important;
+    --nc-util-bg: #07080A !important;
+    --nc-util-placeholder: #0D0D10 !important;
+    /* These four were black-alpha washes for a white page (rgba(0,0,0,.09)
+     * etc.) — content-state hover/press/line/disabled highlights, not
+     * decorative chrome, so they keep an alpha channel re-based on white,
+     * same class tokens.toml's [alpha.exempt] allows for Facebook's
+     * --hover-overlay. */
+    --nc-util-line: rgba(248, 248, 248, 0.09) !important; /* drift-allow: content-state wash, [alpha.exempt] */
+    --nc-util-line-o: #1C1C1E !important;
+    --nc-util-disabled: rgba(248, 248, 248, 0.26) !important; /* drift-allow: content-state wash, [alpha.exempt] */
+    --nc-util-disabled-o: #4B5563 !important;
+    --nc-util-mask: rgba(0, 0, 0, 0.6) !important; /* drift-allow: modal scrim, [alpha.exempt] */
+    --nc-util-pressed: rgba(248, 248, 248, 0.05) !important; /* drift-allow: content-state wash, [alpha.exempt] */
+
+    /* Ink has no soft elevation. */
+    --ne-depth6: none !important;
+    --ne-depth9: none !important;
+
+    /* Shopee's own radius scale — 2px/4px, both zeroed. */
+    --nr-normal: 0 !important;
+    --nr-overlay: 0 !important;
+  }
+
+  /* ─── Page and app root ───────────────────────────────────────────────
+   * body computes #F5F5F5 (== --nc-util-bg, so the var override above may
+   * already cover it if consumed via var() — set directly too, since that
+   * cannot be confirmed for body itself without risking another live probe
+   * against the anti-bot wall). #main is the SPA's root mount id. */
+  body,
+  html,
+  #main {
+    background: #07080A !important;
+    color: #F8F8F8 !important;
+  }
+
+  /* ─── Header ───────────────────────────────────────────────────────────
+   * .shopee-top carries a hardcoded background-image gradient
+   * (linear-gradient(-180deg, #F53D2D, #FF6633)) that does NOT read
+   * --nc-primary-gradient — a separate literal, confirmed by computed style.
+   * Per the YouTube/Facebook convention, the header goes to ink surface, not
+   * a full-bleed brand wash; the hue carries on the search button and links
+   * instead. */
+  .shopee-top,
+  .shopee-top--sticky {
+    background: #0D0D10 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+
+  .shopee-searchbar-input,
+  .shopee-searchbar-input__input {
+    background: #121216 !important;
+    color: #F8F8F8 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .shopee-searchbar-input__input::placeholder {
+    color: #6B7280 !important;
+  }
+
+  /* Confirmed component class, not a per-page hash — Shopee's shared button
+   * kit. Covers the header search button and, by component identity, any
+   * other primary CTA built from the same class (Sign Up, Add to Cart, Buy
+   * Now use the same kit on other page types, unverified beyond the search
+   * button itself — see the known-gaps note at the end of this file). Label
+   * on accent fill goes ink black, not white: Shopee's own value here is
+   * white, which on this accent is under AA. */
+  .btn-solid-primary {
+    background: #E7907D !important;
+    color: #07080A !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .navbar__link,
+  .navbar__link--signup,
+  .navbar__link-text {
+    color: #F8F8F8 !important;
+  }
+
+  /* ─── Content sections ────────────────────────────────────────────────
+   * home-category-list and homepage-mall-section are stable semantic
+   * classes (unlike the CSS-module hash classes on individual cards — see
+   * known gaps below). */
+  .home-category-list,
+  .homepage-mall-section,
+  .shopee-header-section__header {
+    background: #0D0D10 !important;
+    box-shadow: none !important;
+  }
+
+  /* Hero carousel controls — Shopee's shared "stardust" UI kit. */
+  .stardust-carousel__dot {
+    background: rgba(248, 248, 248, 0.3) !important; /* drift-allow: carousel dot wash, [alpha.exempt] */
+  }
+  .stardust-carousel__dot--active {
+    background: #E7907D !important;
+  }
+  .carousel-arrow {
+    background: #0D0D10 !important;
+    color: #F8F8F8 !important;
+    box-shadow: none !important;
+  }
+
+  /* footer { color } alone does not reach these: measured live, every
+   * footer link (country selector, category shortcuts, "Shopee Guarantee",
+   * "return or refund") carries its own explicit rgba(0,0,0,.54/.65/.87) —
+   * Shopee's own primary/secondary/tertiary text tiers, hash-classed, not
+   * inherited. 371+40+24 = 435 instances measured at ~1.03:1 on the ink
+   * base, confirmed again under keyboard focus. No selector distinguishes
+   * which hash class is which tier, so this collapses all three to one
+   * legible grey rather than leaving the footer unreadable — the same
+   * text_muted tradeoff every other site file in this set makes (see the
+   * contrast-gap note at the end of this file). */
+  footer {
+    background: #07080A !important;
+  }
+  footer,
+  footer a,
+  footer * {
+    color: #6B7280 !important;
+  }
+
+  /* Countdown timer separators on Flash Deals. */
+  .shopee-countdown-timer__colon {
+    color: #F8F8F8 !important;
+  }
+
+  /* ─── Fixes from the first check.mjs audit pass ───────────────────────
+   * home-category-list__category-grid is the stable BEM-style class on each
+   * of the 25 category tile links — white, found live. stardust-button and
+   * stardust-carousel__arrow are Shopee's own shared UI-kit class prefixes
+   * (the trailing hash suffix on stardust-button is per-instance and not
+   * targeted); the arrow variant here is a second, differently-marked-up
+   * carousel component from the one .carousel-arrow already covers. */
+  a.home-category-list__category-grid {
+    background: #0D0D10 !important;
+  }
+  /* The label text is not one colour set on the anchor and inherited — it is
+   * three duplicate spans (EruxhP, R_kmPM, AFi5qx, all rendering the same
+   * text, likely a truncation/ellipsis pattern), and the innermost one
+   * (AFi5qx) carries its own rgba(0,0,0,.8) that a rule on the anchor alone
+   * does not reach. Same shape as the footer fix above: force every
+   * descendant, not just the container. Caught visually — darkening only the
+   * background first left "Men's Apparel" etc. reading as near-invisible
+   * dark-on-dark. */
+  a.home-category-list__category-grid,
+  a.home-category-list__category-grid * {
+    color: #F8F8F8 !important;
+  }
+  .shopee-header-section__header__title {
+    color: #F8F8F8 !important;
+  }
+  [class^="stardust-button"],
+  [class*=" stardust-button"] {
+    border-radius: 0 !important;
+  }
+  .stardust-carousel__arrow {
+    background: #0D0D10 !important;
+  }
+
+  /* ─── Known gaps (v0.1.0) ─────────────────────────────────────────────
+   * Measured on a live check.mjs audit of the home page, run against a
+   * profile that had already solved the anti-bot puzzle once:
+   *
+   * 1. Individual card/tile surfaces render through CSS-module hash classes
+   *    that are not stable across deploys, so none are targeted by name:
+   *      25x a.home-category-list__category-grid  -- FIXED above (stable class)
+   *      20x div.h89ZCQ            bg rgba(0,0,0,.26)  -- overlay/scrim, hash
+   *      16x div.BlBXvx.pAV1IX     bg #FFFFFF          -- card, hash
+   *      16x div.vYNlYv            bg #FFFFFF          -- card, hash
+   *      16x div.JH7cJR            bg #FFBDA6 (peach)  -- badge, hash
+   *      16x li.Ei2TcA             bg #FFFFFF          -- list item, hash
+   *      15x div.XUBFBk.najBCL     bg #FFE97A (yellow) -- discount ribbon, hash
+   *      10x div.DZXgWM.rawIDQ     bg #EFEFEF (grey)   -- card, hash
+   *       3x a.FP4VvO              bg #FFFFFF          -- hash
+   *       2x img.P39yUt.lazyload   bg #FAFAFA          -- lazyload placeholder
+   *    --nc-primary IS confirmed to reach product-card price text (an exact
+   *    hex match to the token's raw value on one of these hash-classed
+   *    spans) — that one is covered by the token override above with no
+   *    selector needed, unlike the surfaces themselves.
+   *
+   * 2. Anchor text: three tiers of Shopee's own black-alpha text
+   *    (rgba(0,0,0,.87/.65/.54)) do not read --nc-text-* on <a> elements.
+   *    All 435 measured instances were footer content (country selector,
+   *    category shortcuts) — fixed above with a scoped `footer *` rule, not
+   *    a sitewide one, so anchors elsewhere that already correctly show this
+   *    file's tokens (42+17 measured) are untouched. If a future audit finds
+   *    the same black-alpha tiers OUTSIDE the footer, this note is the
+   *    reason a sitewide `a{color}` was deliberately not used: it would
+   *    flatten those working ones too.
+   *
+   * 3. contrast.mjs also measured, on this same page:
+   *    - 12 "SELLING FAST"/"N SOLD" ribbon labels at white-on-white (1:1) —
+   *      the ribbon's own background is transparent; the nearest opaque
+   *      ancestor contrast.mjs's compositor walk finds is one of the
+   *      unfixed hash-classed cards above (div.BlBXvx.pAV1IX /
+   *      div.vYNlYv). Same root cause as gap 1, not a separate defect —
+   *      fixing those card backgrounds should cascade-fix this.
+   *    - 19 SVG icon fills still at raw, unconverted brand orange (17x
+   *      #EE4D2D, 2x #D0011B) rather than the ladder-cut accent. Hue-
+   *      consistency nit, not a readability failure; not chased down to
+   *      individual icon selectors in this pass.
+   *
+   * Anti-bot: shopee.ph runs a slide-puzzle verification (GeeTest-style) on
+   * unfamiliar browser fingerprints. Headless Chromium fails it outright;
+   * headed passes once solved by a human, and the pass persists in the
+   * profile's cookies for later automated runs (`node check.mjs shopee
+   * --headed` with IG_STYLE_PROFILE pointed at that profile). Confirms the
+   * ph-scraper-mcp research report's finding on af-ac-enc-* tokens. Do not
+   * script around the puzzle itself — solve it by hand once per profile.
+   */
+}

@@ -20,6 +20,7 @@ Surgical retints for sites where the universal Sage Ink Stylus style isn't enoug
 | `gemini.user.css` | gemini.google.com | Material 3 `--gm3-sys-color-*` + Gemini's `--bard-color-*` |
 | `aistudio.user.css` | aistudio.google.com | Material 3 tokens + the `ms-*` shell components |
 | `copilot.user.css` | copilot.microsoft.com | Tailwind-style 100-900 ramps, squircle clip-paths off |
+| `shopee.user.css` | shopee.ph | Shopee's own thin "Ncore" token layer (`--nc-*`) remapped, plus stable component classes (`shopee-*`, `stardust-*`, `btn-solid-primary`) for what the tokens don't reach |
 
 All of them:
 - Override the CSS custom properties the site already defines, at `:root` (no
@@ -68,6 +69,7 @@ radius 0, opaque chrome — the hue is always theirs.
 | Google Search | four brand colours, no single hue | 262 @ C 0.05 | `#B3C5E5` / `#9AACCB` / `#8293B2` |
 | Linear | Linear indigo `#5E6AD2` | 275.2 | `#AFBEFF` / `#97A5F0` / `#7F8CD5` |
 | Gemini | violet mid-stop of its wordmark gradient `#9B72CB` | 304.0 | `#D3B2FE` / `#BA99E3` / `#A181C9` |
+| Shopee | its orange-red `#EE4D2D` | 33.1 | `#FFAA96` / `#E7907D` / `#CC7866` |
 
 *Monkeytype has no Stylus file — it ships a real theme format, so the same hue
 is generated into `browser/monkeytype/` by `tokens/codegen.py` instead. The cut
@@ -188,6 +190,16 @@ known remainders — one 8px radius outside the app shell, a 5% white wash, and
 one panel at `#0A0A0A` against the base's `#07080A`, a difference no eye
 resolves.
 
+Shopee 0.1.0 passes `radii: []`, no soft elevation, header/search/nav/footer
+fixed. It does **not** pass clean on fills: individual card, badge and ribbon
+surfaces render through CSS-module hash classes (`BlBXvx.pAV1IX`, `JH7cJR`,
+`XUBFBk.najBCL`, ten more) that are not stable across deploys, so they are
+named in the file's own known-gaps comment rather than guessed at. Shopee's
+"Ncore" token layer (`--nc-*`) reaches some of these — confirmed live, a
+product-card price colour was an exact hex match to `--nc-primary`'s raw
+value on an otherwise-unreachable hash-classed span — but most surface colour
+on this site is not var-driven at all.
+
 Wikipedia at 0.2.0 is audited on two URLs — an article, for the infobox /
 ambox / navbox shapes, and `Comparison_of_web_browsers`, which is wall-to-wall
 `.wikitable` with hand-written cell colours. It carries one deliberate
@@ -197,6 +209,21 @@ the two filters that were rendered and rejected before settling there.
 
 Things the harness found that no screenshot would have:
 
+- Shopee runs a slide-puzzle anti-bot check (GeeTest-style) against any
+  unfamiliar browser fingerprint. Headless Chromium fails it outright, even
+  when launched as a plain attached process the way every other site here is.
+  A fresh headed profile gets a real puzzle; solving it by hand once made the
+  pass persist in that profile's cookies for every later automated run
+  (`check.mjs`, `contrast.mjs`) against the same `IG_STYLE_PROFILE`. Confirms
+  `ph-scraper-mcp`'s research report on Shopee's `af-ac-enc-*` tokens. Do not
+  script around the puzzle itself.
+- Shopee's category-tile background fix shipped before its text-colour fix
+  was caught only by looking at the screenshot: darkening
+  `a.home-category-list__category-grid` alone made "Men's Apparel" etc. read
+  as near-invisible dark-on-dark, because the label is three duplicate spans
+  and the innermost one carries its own `rgba(0,0,0,.8)` that a rule on the
+  anchor doesn't reach. Same shape as the footer fix — `selector, selector *`
+  reaches it, a rule on the container alone does not.
 - Facebook's white loading skeletons come from `--glimmer-base-opaque`, which
   is `#FFFFFF` even in dark mode; its "Just listed" badges come from
   `--primary-button-background-on-media`, also `#FFFFFF`.
