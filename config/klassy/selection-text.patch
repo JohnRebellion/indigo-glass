@@ -1,0 +1,36 @@
+--- a/kstyle/breezestyle.cpp
++++ b/kstyle/breezestyle.cpp
+@@ -55,6 +55,7 @@
+ #include <QStackedLayout>
+ #include <QTableView>
+ #include <QTextBrowser>
++#include <QPlainTextEdit>
+ #include <QTextEdit>
+ #include <QToolBar>
+ #include <QToolBox>
+@@ -364,6 +365,25 @@
+     // scrollarea polishing is somewhat complex. It is moved to a dedicated method
+     polishScrollArea(qobject_cast<QAbstractScrollArea *>(widget));
+ 
++    // Sage Ink: [Colors:Selection] foreground is now the TEXT colour (2026-09-22),
++    // because Kirigami/QML delegates paint selected labels in that role over an
++    // unfilled Tier C outline, and there is no QWidget for polish() to reach.
++    // Text selection in these editors is still a genuine sage FILL, so give it
++    // back whichever of Text/Base reads better against Highlight - dark ink on
++    // the dark variants, and still correct on the light ones.
++    if (qobject_cast<QLineEdit *>(widget) || qobject_cast<QTextEdit *>(widget) || qobject_cast<QPlainTextEdit *>(widget)) {
++        QPalette editPalette = widget->palette();
++        for (const auto group : {QPalette::Active, QPalette::Inactive}) {
++            const QColor fill = editPalette.color(group, QPalette::Highlight);
++            const QColor text = editPalette.color(group, QPalette::Text);
++            const QColor base = editPalette.color(group, QPalette::Base);
++            editPalette.setColor(group,
++                                 QPalette::HighlightedText,
++                                 KColorUtils::contrastRatio(text, fill) >= KColorUtils::contrastRatio(base, fill) ? text : base);
++        }
++        widget->setPalette(editPalette);
++    }
++
+     if (auto itemView = qobject_cast<QAbstractItemView *>(widget)) {
+         // enable mouse over effects in the viewport of the itemview
+         itemView->viewport()->setAttribute(Qt::WA_Hover);

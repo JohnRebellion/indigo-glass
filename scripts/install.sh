@@ -350,6 +350,27 @@ if [ "$THEMES_ONLY" = false ]; then
     else
       echo "  [dry-run] would apply config/klassy/menu-tooltip-ink.patch"
     fi
+
+    # ─── Apply the selection-text patch (must follow the three above) ───
+    # [Colors:Selection] foreground is the TEXT colour, because Kirigami/QML
+    # delegates paint selected labels in it over an unfilled Tier C outline
+    # (dark ink there made the System Settings sidebar selection invisible,
+    # live audit 2026-09-22). Text selection in QLineEdit/QTextEdit/
+    # QPlainTextEdit is still a real sage fill, so this gives those widgets
+    # back whichever of Text/Base contrasts better against Highlight.
+    echo "▶ Applying the selection-text patch to Klassy..."
+    if [ "$DRY_RUN" = false ]; then
+      if ! git -C "$HOME/src/klassy" apply --check "$REPO_DIR/config/klassy/selection-text.patch" 2>/dev/null; then
+        echo "  ✗ selection-text.patch does not apply — re-derive it against"
+        echo "    polish(QWidget*) in kstyle/breezestyle.cpp. Refusing to build:"
+        echo "    without it, text selection in line edits reads text-on-sage."
+        exit 1
+      fi
+      git -C "$HOME/src/klassy" apply "$REPO_DIR/config/klassy/selection-text.patch"
+      echo "  ✓ selection-text.patch applied"
+    else
+      echo "  [dry-run] would apply config/klassy/selection-text.patch"
+    fi
   run "cd $HOME/src/klassy && mkdir -p build && cd build && cmake .. \
     -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=OFF -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \

@@ -662,10 +662,17 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         "[Colors:Selection]",
         f"BackgroundNormal={hex_to_rgb(p['indigo'])}",
         f"BackgroundAlternate={hex_to_rgb(p['indigo_hi'])}",
-        # Foreground picked by WCAG contrast against the selection accent:
-        # white on a dark accent (indigo), near-black on a light one (lime).
-        f"ForegroundNormal={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
-        f"ForegroundActive={hex_to_rgb(readable_on(p['indigo'], p['base']))}",
+        # Foreground is TEXT, not "readable on the accent". Under the Tier C
+        # grammar (docs/STATE_GRAMMAR.md) a selected list row is an outline
+        # over an UNFILLED background, and Kirigami/QML delegates paint their
+        # selected label in this role (Kirigami.Theme.highlightedTextColor)
+        # with no QWidget for Klassy's polish() to intercept. Dark ink here
+        # rendered the System Settings sidebar selection invisible (#07080A on
+        # #07080A, live audit 2026-09-22). The genuinely FILLED cases - text
+        # selection in QLineEdit/QTextEdit/QPlainTextEdit - get dark ink back
+        # per widget in config/klassy/tierc-outline.patch.
+        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        f"ForegroundActive={hex_to_rgb(p['text'])}",
         f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
         f"ForegroundLink={hex_to_rgb(p['violet'])}",
         f"ForegroundVisited={_VISITED_UNMAPPED_SELECTION}",
