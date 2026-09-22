@@ -1,9 +1,19 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "type": "small",
+    // Sage Ink mark — ink drop silhouette, traced from a generated concept
+    // render (not hand-authored SVG — see provenance note below). Flat
+    // colour ($1 accent_hi) with the system's hard offset shadow
+    // ($2 accent_alt). The render's internal leaf vein doesn't survive this
+    // raster size — too thin to hold a cell at 30px — so this asset carries
+    // the "ink" half of the name only; "sage" is the fill colour, not a
+    // drawn feature. Source render, generator, and inspection notes live in
+    // research-reports/sage-ink-mark-2026-09-17/ (ship-gpt.py, 03-INSPECTION.md).
+    // Swap to sage-ink-mark-small.txt on narrow terminals.
+    "type": "file",
+    "source": "~/.config/fastfetch/sage-ink-mark.txt",
     "padding": { "right": 2 },
-    "color": { "1": "#C0E3C0" }
+    "color": { "1": "#C0E3C0", "2": "#89A889" }
   },
   "display": {
     "separator": "  ",

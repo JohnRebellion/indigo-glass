@@ -145,6 +145,7 @@ The decision has been taken to close this gap by **taking full ownership of both
 | Konsole profile | Sage Ink (Iosevka Custom Condensed, accent cursor) | `~/.local/share/konsole/SageInk.profile` |
 | Shell prompt | Starship (replaces P10K) | `~/.config/starship.toml` |
 | Greeter | Fastfetch (replaces neofetch) | `~/.config/fastfetch/config.jsonc` |
+| Greeter logo | Sage Ink mark (ink drop, traced from a generated concept render) — 29-col default, 23-col alternate | `~/.config/fastfetch/sage-ink-mark.txt`, `-small.txt` |
 | Edge launch flags | Wayland + system decorations | `~/.local/share/applications/microsoft-edge.desktop` |
 | Panel widgets | windowbuttons (id=43), appmenu (id=44), windowtitle (id=26) | `~/.config/plasma-org.kde.plasma.desktop-appletsrc` |
 
