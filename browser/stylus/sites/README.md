@@ -16,7 +16,7 @@ Surgical retints for sites where the universal Sage Ink Stylus style isn't enoug
 | `github.user.css` | github.com | Primer's ~1260 `--bgColor-*`/`--fgColor-*` tokens |
 | `atlassian.user.css` | atlassian.net + atlassian.com | Atlassian Design System `--ds-*` (any tenant) |
 | `microsoft365.user.css` | cloud.microsoft, outlook.office.com, teams, sharepoint | Fluent v9 `--color*` + legacy Fabric slots |
-| `wikipedia.user.css` | wikipedia/wikimedia/wiktionary/wikidata | Codex tokens + direct rules for Vector's night mode |
+| `wikipedia.user.css` | wikipedia/wikimedia/wiktionary/wikidata | Codex tokens + direct rules for Vector's night mode, the icon-mask fills, and the inline-coloured comparison tables |
 | `gemini.user.css` | gemini.google.com | Material 3 `--gm3-sys-color-*` + Gemini's `--bard-color-*` |
 | `aistudio.user.css` | aistudio.google.com | Material 3 tokens + the `ms-*` shell components |
 | `copilot.user.css` | copilot.microsoft.com | Tailwind-style 100-900 ramps, squircle clip-paths off |
@@ -111,6 +111,29 @@ now maps Primer's semantic tokens (`--fgColor-success`, `--fgColor-attention`,
 Worth checking on any site with status indicators — `contrast.mjs` reports
 saturated SVG paint now.
 
+### Icons are backgrounds, and small enough to audit clean
+
+Codex draws every toolbar icon as a `background-color` behind a `mask-image`.
+The spans are 20px, and `check.mjs` skips anything under 24×12 — so Wikipedia's
+entire header (menu, search, alerts, watchlist, appearance) painted Vector's
+`#C8CCD1` through two passes that both reported `radii: []` and a clean fill
+list. `.cdx-button__icon` reads `--color-neutral`, not the `--color-base` the
+file already set.
+
+`contrast.mjs` is what caught it, and not as a failure — as the `coveredBy`
+field on a *passing* row. Read those: `coveredBy` names the element actually
+painting over a label, and an off-palette icon shows up there long before it
+shows up anywhere else.
+
+### Radii below the audit floor
+
+`check.mjs` only counts a radius of 4px or more, on the grounds that smaller
+ones are invisible. Vector hardcodes **2px on every link** —
+`a:where(:not([role="button"]))`, zero specificity, no token behind it — plus
+the search field and the collapsible toggles. `contrast.mjs`'s rounding pass
+counted 397 of them on one article while `check.mjs` reported none. Run both;
+they do not see the same page.
+
 ### The label-on-accent rule
 
 **Never repaint a "text on accent" token unless this file also owns every
@@ -165,6 +188,13 @@ known remainders — one 8px radius outside the app shell, a 5% white wash, and
 one panel at `#0A0A0A` against the base's `#07080A`, a difference no eye
 resolves.
 
+Wikipedia at 0.2.0 is audited on two URLs — an article, for the infobox /
+ambox / navbox shapes, and `Comparison_of_web_browsers`, which is wall-to-wall
+`.wikitable` with hand-written cell colours. It carries one deliberate
+off-palette fill: the two footer attribution plates at `#F8F9FA`, Vector's own
+value. See the label-on-accent rule above; the comment above the file's `#footer-icons` rule records
+the two filters that were rendered and rejected before settling there.
+
 Things the harness found that no screenshot would have:
 
 - Facebook's white loading skeletons come from `--glimmer-base-opaque`, which
@@ -177,6 +207,26 @@ Things the harness found that no screenshot would have:
 - Vector's night mode ignores its own tokens: `--color-progressive` computes to
   `#88a3e8` while links actually render `#80B0E7`, so Wikipedia needs direct
   rules behind the variable remap.
+- A rule can be inert and still look plausible in the file. Wikipedia's
+  `.infobox-above` header band never landed in either mode: infobox captions
+  carry an inline `background-color:#C0C0C0` from the wikitext, and Vector
+  neutralises it with `html.skin-theme-clientpref-os .infobox th:not(.notheme)
+  {background: inherit !important}` — `!important` at (0,3,2) against a bare
+  class at (0,1,0). Matching the neutraliser's shape and adding one class is
+  what makes it apply. A `!important` in your own file proves nothing.
+- Wikipedia's `{{yes}}`/`{{no}}`/`{{partial}}` templates write
+  `style="background:#9EFF9E;color:black"` **inline**, so no dark mode can
+  reach them — the `--no-style` baseline reports 1978 mint cells on one
+  comparison article, in stock dark Wikipedia. Repaint fill and label
+  together or the black text strands. Named template classes only: in a legend
+  swatch the colour *is* the datum and there is no text to carry it, so a
+  blanket `td[style*="background"]` rule deletes the meaning it set out to
+  restore.
+- Playwright's full-page screenshot does not trigger `loading="lazy"` images.
+  Wikipedia's two footer marks are lazy, so the page-level shot shows empty
+  chips no matter what the style does. `locator.screenshot()` on the element
+  renders them; that is the only way the mangled-hue filters below were seen
+  at all.
 - Google's 652px measure is not a `max-width`. `#rcnt` is a 22-track grid and
   `#center_col` is placed at `2 / span 12`. Re-placing the grid item is the
   only safe way to widen it — capping its width starves the layout instead.

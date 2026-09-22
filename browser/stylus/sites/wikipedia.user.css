@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Wikipedia
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.0
+@version        0.2.0
 @description    Wikipedia (Vector 2022) on Sage Ink structure with its own link hue. Codex surface tokens collapsed to two ink steps, radii zeroed, link blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -48,6 +48,14 @@
     --color-base--subtle: #6B7280 !important;
     --color-emphasized: #F8F8F8 !important;
     --color-subtle: #6B7280 !important;
+    /* Codex paints every toolbar icon as a background-color behind a
+     * mask-image, and `.cdx-button__icon` reads --color-neutral, not
+     * --color-base. Leaving it unset left the whole header — menu, search,
+     * alerts, watchlist, appearance — painting Vector's #C8CCD1, a light
+     * bluish grey that a fills audit never sees because the spans are 20px.
+     * contrast.mjs's hover pass is what surfaced it, as a `coveredBy`. */
+    --color-neutral: #F8F8F8 !important;
+    --color-neutral--hover: #FFFFFF !important;
 
     /* Links — the one hue Wikipedia is identified by, plus its visited purple
      * pulled onto the same ladder so the pair still reads as a pair. */
@@ -139,11 +147,159 @@
     border-color: #1C1C1E !important;
     border-radius: 0 !important;
   }
+  /* Table headers carry a hand-written background in the wikitext — this
+   * article's infobox caption is an inline `background-color:#C0C0C0`. Vector's
+   * night mode neutralises those with
+   * `html.skin-theme-clientpref-os .infobox th:not(.notheme) {background: inherit !important}`,
+   * which is (0,3,2) and beat the plain `.infobox-above` rule that used to sit
+   * here — so the header band never landed in either mode. Matching its shape
+   * and adding one class takes this to (0,4,2).
+   *
+   * clientpref-day is in the list even though the neutraliser it is fighting
+   * only exists in os/night. The rest of this file darkens the page in every
+   * mode — `:root` above carries no mode class — so gating the table rules on
+   * night alone left a day-mode reader with a dark page and light navboxes.
+   * Listing all three keeps the specificity at (0,4,2) and the modes in step. */
+  html:is(.skin-theme-clientpref-os, .skin-theme-clientpref-night, .skin-theme-clientpref-day)
+    :is(.infobox, .navbox, .wikitable)
+    :is(th, .infobox-above, .infobox-header, .navbox-title, .navbox-group):not(.notheme) {
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
   .wikitable > * > tr > th,
   .infobox-above,
+  .infobox-header,
   .navbox-title {
     background-color: #121216 !important;
     color: #F8F8F8 !important;
+  }
+
+  /* Navbox BODY, not its headers. Vector paints the list cells #F7F7F7 and the
+   * even-row stripe in day mode only — in night its own dark theme already
+   * covers them, which is why a night-only audit reported this clean. Body
+   * tone, not the header tone above: these are content rows. Scoped to navbox
+   * so it cannot reach the semantic .table-* cells in a wikitable, whose
+   * colour IS the datum. */
+  .navbox :is(.navbox-list, .navbox-list-with-group, .navbox-abovebelow,
+              .navbox-even, .navbox-odd) {
+    background-color: #0D0D10 !important;
+  }
+
+  /* Infobox text. In night mode Vector recolours these itself; in day mode it
+   * leaves them at its own near-black, which strands them on this file's dark
+   * page — 12 cells at 1.05:1 on the audited article, in both 0.1.0 and 0.2.0.
+   * Colour only: the backgrounds here are already transparent or handled by
+   * the header rule above. */
+  .infobox :is(th, td, caption, .infobox-caption, .infobox-label,
+               .infobox-data, .infobox-full-data) {
+    color: #F8F8F8 !important;
+  }
+
+  /* Vector hardcodes a 2px radius on every link and on the search field —
+   * `a:where(:not([role="button"]))` and `.cdx-search-input--has-end-button`,
+   * neither of which reads --border-radius-base. check.mjs ignores radii under
+   * 4px, so this audited clean; contrast.mjs's rounding pass counted 397 of
+   * them. Circular controls (radio icons) are left alone. */
+  a:where(:not([role="button"])),
+  .cdx-search-input,
+  .cdx-search-input--has-end-button,
+  .cdx-search-input__input-wrapper,
+  .cdx-text-input,
+  .cdx-text-input__input,
+  .cdx-button,
+  .vector-pinnable-header-toggle-button,
+  .mw-collapsible-text,
+  .mw-logo {
+    border-radius: 0 !important;
+  }
+
+  /* ─── The two footer attribution marks keep their vendor plate ────────
+   * They are `cdx-button--fake-button`, so the button rule above repainted
+   * them to #121216 — and the marks inside are dark artwork drawn for the
+   * near-white plate Vector ships even in its own night mode. The result was
+   * two empty rectangles in the footer.
+   *
+   * A CSS filter does not rescue them. `invert(1)` is legible but wrong:
+   * the Wikimedia globe goes green/blue to orange/cyan, the MediaWiki
+   * sunflower yellow to teal. Adding `hue-rotate(180deg)` does not undo that
+   * — hue-rotate is a linear matrix approximation, exact only for
+   * near-neutral colour, and these marks are `#FFFC00` / `#0A00B2` and
+   * `#396` / `#069`. Both filters were rendered and read; each produced a
+   * different wrong palette.
+   *
+   * So this is the README's leave-the-vendor's-brand-fills-alone case, the
+   * same call as Atlassian's and Microsoft's brand buttons. Two 84px plates
+   * in the footer corner, exactly as stock dark Wikipedia renders them, is a
+   * smaller cost than restating someone else's trademark in a colour they
+   * did not choose. #F8F9FA is Vector's own value, measured from the
+   * `--no-style` baseline.
+   *
+   * Caught only by an element screenshot: these carry `loading="lazy"` and
+   * Playwright's full-page capture never triggers them, so the page-level
+   * shot shows two empty chips whatever this rule says. */
+  #footer-icons .cdx-button,
+  #footer-icons .cdx-button--fake-button {
+    background-color: #F8F9FA !important;
+  }
+
+  /* ─── Comparison-table pastels ───────────────────────────────────────
+   * The {{yes}}/{{no}}/{{partial}} family writes its colour inline —
+   * `style="background:#9EFF9E;color:black"` — so Vector's night mode cannot
+   * neutralise it and a comparison article renders mint, pink, cream and
+   * lavender blocks in dark mode. Confirmed stock, not a regression: the
+   * `--no-style` baseline on Comparison_of_web_browsers reports 1978 cells at
+   * rgb(158,255,158). Absorbed rather than left alone, because it is the
+   * loudest off-system surface on the whole site.
+   *
+   * Background and label are repainted TOGETHER. The inline rule sets
+   * `color:black`, so repainting only the fill would strand black text on ink
+   * — the failure mode the README's label-on-accent rule is about.
+   *
+   * Only the named template classes, never hand-coloured cells at large: in a
+   * legend swatch or an election map key the colour IS the datum and there is
+   * no text to carry it, so a blanket `td[style*=background]` rule would
+   * delete the meaning it was trying to restore. Here every cell is labelled
+   * ("Yes", "No", "Partial"), so the semantic survives the move to the hue. */
+  .table-yes, .table-yes2, .table-included, .table-active, .table-free,
+  .table-supported, .table-beta {
+    background: #0D0D10 !important;
+    color: #3FFABB !important;
+  }
+  .table-no, .table-no2, .table-dropped, .table-terminated,
+  .table-discontinued, .table-nonfree, .table-proprietary {
+    background: #0D0D10 !important;
+    color: #ED254E !important;
+  }
+  .table-partial, .table-maybe, .table-depends, .table-optional,
+  .table-sometimes, .table-experimental, .table-planned {
+    background: #0D0D10 !important;
+    color: #FBBF24 !important;
+  }
+  .table-unknown, .table-Unknown, .table-na, .table-any, .table-some {
+    background: #0D0D10 !important;
+    color: #6B7280 !important;
+  }
+  .table-rh, .rh.heading {
+    background: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+
+  /* CS1 citation templates carry their own maintenance green (#18911F) and
+   * error red, outside both the Codex token set and this palette. Stock
+   * Wikipedia has them too — they are only visible with the maintenance
+   * categories switched on, but they are saturated paint the retint missed.
+   *
+   * `.cs1-code` is deliberately NOT listed: it measured green too, but it
+   * inherits that from the `.cs1-maint` span it sits inside. It is the plain
+   * `<code>` of every citation, and colouring it here would paint amber
+   * across every reference list on the site. */
+  .cs1-maint {
+    color: #FBBF24 !important;
+  }
+  .cs1-visible-error,
+  .cs1-hidden-error,
+  .error {
+    color: #ED254E !important;
   }
 
   @supports (color: oklch(0% 0 0)) {
@@ -156,6 +312,7 @@
       --background-color-interactive: oklch(0.1840 0.0081 285.58) !important;
       --color-base: oklch(0.9791 0.0000 89.88) !important;
       --color-base--subtle: oklch(0.5510 0.0234 264.36) !important;
+      --color-neutral: oklch(0.9791 0.0000 89.88) !important;
       --color-progressive: oklch(0.7400 0.1100 262.29) !important;
       --color-progressive--hover: oklch(0.8200 0.1100 262.29) !important;
       --color-progressive--focus: oklch(0.6600 0.1100 262.29) !important;

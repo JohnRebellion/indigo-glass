@@ -70,7 +70,24 @@ const SITES = {
   },
   wikipedia: {
     css: 'browser/stylus/sites/wikipedia.user.css',
-    urls: { article: 'https://en.wikipedia.org/wiki/Nissan_QG_engine' },
+    /* Two shapes, because an article with only an infobox never exercises the
+     * table-header rules: the engine page is the infobox/ambox/navbox case,
+     * the comparison page is wall-to-wall `.wikitable` with hand-written cell
+     * backgrounds in the wikitext. */
+    urls: {
+      article: 'https://en.wikipedia.org/wiki/Nissan_QG_engine',
+      tables: 'https://en.wikipedia.org/wiki/Comparison_of_web_browsers',
+      /* Both again in night mode. Wikipedia's anonymous default is
+       * `skin-theme-clientpref-day`, and `emulateMedia({colorScheme:'dark'})`
+       * does not change it — the class is a client preference, not a media
+       * query. So every rule this file gates on night/os was being audited in
+       * a mode where it cannot fire: the first pass reported 34 navbox cells
+       * "unfixed" that were fixed, and 12 infobox cells unreadable that are
+       * only unreadable in day mode. `?vectornightmode=1` is what flips it;
+       * `?useskintheme=night` does NOT (verified — still renders day). */
+      articleNight: 'https://en.wikipedia.org/wiki/Nissan_QG_engine?vectornightmode=1',
+      tablesNight: 'https://en.wikipedia.org/wiki/Comparison_of_web_browsers?vectornightmode=1',
+    },
     content: 'body',
   },
   /* Work tenants are named by env var, never committed: IG_ATLASSIAN_HOST,
