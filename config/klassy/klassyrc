@@ -112,6 +112,15 @@ useTitleBarColorForAllBorders=true
 ShadowSize=ShadowSmall
 ShadowStrength=255
 ShadowColor=137, 168, 137
+# Klassy's kcfg declares only the per-state keys below (ShadowSize$(Active)
+# and so on), so these are what it reads. The unsuffixed keys above are inert
+# and are kept only because older docs grep for them.
+ShadowColorActive=137, 168, 137
+ShadowColorInactive=137, 168, 137
+ShadowSizeActive=ShadowSmall
+ShadowSizeInactive=ShadowSmall
+ShadowStrengthActive=255
+ShadowStrengthInactive=255
 
 # OpaqueTitleBar defaults to false in Klassy's own schema (it lives in the
 # [Exceptions] group but IS the value read when no per-window exception

@@ -97,26 +97,19 @@ There is no `[blur]` table and no `[glass]` / `[ambient]` block: they were delet
 
 ## Current boundary vs planned scope
 
-**This matters for anyone reading the screenshots and wondering why parts of the desktop are not ink.**
+**Updated 2026-09-22.** The two gaps this section used to describe are closed.
+Both toolkits now ship Sage Ink's own base theme, not a tint over a
+third-party one.
 
-Sage Ink today is a **tint and configuration layer on top of third-party themes**, not a ground-up toolkit theme. Concretely:
-
-| Toolkit | What Sage Ink owns today | What renders in someone else's material |
+| Toolkit | What Sage Ink owns today | What still renders in someone else's material |
 |---|---|---|
-| **Qt / Plasma** | Colour scheme (`[Colors:*]`), Klassy window decoration (patched), fonts, density, radius | The Plasma desktop theme is **`breeze-dark`** — every SVG-driven surface it paints: the application launcher, panel popups, tooltips, OSDs, notification chrome |
-| **GTK 3 / 4** | `gtk.css` colour overrides, and (new) an ink card/popover rule | The base theme is **`WhiteSur-Dark-purple`** — widget geometry, borders, and the macOS-derived rounding and shading it ships |
-| **Icons** | Nothing | **`Tela-circle-purple-dark`** |
+| **Qt / Plasma** | Colour scheme, the Klassy decoration and application style (patched from `~/src/klassy`: ink shadow, Tier C outline, menu/tooltip ink, filled text-selection contrast), and the **SageInk Plasma desktop theme** (`config/plasma-theme/SageInk`, installed by `install.sh`) | Nothing structural. Qt apps drawn through qqc2 `StyleItem` get Klassy but skip `polish()`. |
+| **GTK 3 / 4** | The **SageInk GTK base theme** (`config/gtk-theme/SageInk`) and `config/gtk-4.0/gtk.css`. Both are linted by `scripts/check-ink-contract.py`: opaque shadows, 2px `border_strong` controls, token-only fills. | Nothing structural |
+| **Browsers** | Edge chrome (`browser/edge-theme`, pre-compensated for Edge's lift), a Firefox static theme (`browser/firefox-theme`, needs signing), and per-site Stylus styles | Edge's omnibox pill (the manifest key is ignored) and context menu |
+| **Icons** | Nothing | **`Papirus-Dark`** |
 
-So: native desktop chrome is **not ink today**. It is Breeze and WhiteSur wearing sage-coloured paint. A Breeze popup with soft rounded corners sitting next to an inked application window is the expected current state, not a bug to hunt.
-
-### Planned
-
-The decision has been taken to close this gap by **taking full ownership of both toolkits**:
-
-1. **A real Plasma Desktop Theme package** (`share/plasma/desktoptheme/sage-ink/`) — so the launcher, popups, tooltips and OSDs are painted from Sage Ink SVGs rather than Breeze's, and native chrome becomes genuinely ink.
-2. **A GTK base theme** — replacing WhiteSur-Dark-purple outright rather than overriding its colours, so GTK widget geometry (corners, borders, shadows) is ink rather than macOS-derived.
-
-**Neither exists yet.** `share/` currently contains `color-schemes/`, `konsole/`, `fonts/` and `grub-theme/` — there is no `desktoptheme/` and no GTK theme package. Until those ship, the table above is the accurate description of the system's reach. Do not read the roadmap as current state.
+The WhiteSur and breeze-dark sections further down describe the pre-2026-09
+stack. They are kept for history, not as current state.
 
 ---
 
@@ -128,7 +121,7 @@ The decision has been taken to close this gap by **taking full ownership of both
 | Window button layout | XIA left, M right | same — `ButtonsOnLeft=XIA, ButtonsOnRight=M` |
 | Window corner radius | **0** — square | `~/.config/klassyrc [Windeco] WindowCornerRadius=0` |
 | Window shadow | `ShadowSmall`, strength 255, colour = `accent_alt` | `~/.config/klassyrc [ShadowStyle]` — from `tokens/out/klassy-radius.ini` |
-| Plasma desktop theme | **breeze-dark** — third-party, not ink (see [scope boundary](#current-boundary-vs-planned-scope)) | `~/.config/plasmarc [Theme] name=breeze-dark` |
+| Plasma desktop theme | **SageInk** — `config/plasma-theme/SageInk` | `~/.config/plasmarc [Theme] name=SageInk` |
 | Color scheme | **Sage Ink** (renamed 2026-08-28; was `LimeGlass.colors` with sage values, kept under the old name pending this rename) | `~/.local/share/color-schemes/SageInk.colors` |
 | Widget style (Qt) | **Klassy** | `~/.config/kdeglobals [KDE] widgetStyle=Klassy` |
 | LookAndFeel | **org.kde.breezedark.desktop** (neutral) | `~/.config/kdeglobals [KDE] LookAndFeelPackage` |
@@ -400,10 +393,12 @@ Style=Widget
 
 ```ini
 [Theme]
-name=breeze-dark
+name=SageInk
 ```
 
-This is a **third-party** Plasma theme, and everything it paints — launcher, panel popups, tooltips, OSDs — renders in Breeze material, not ink. See [Current boundary vs planned scope](#current-boundary-vs-planned-scope). It is also the safe choice historically (Bug 7).
+> **Superseded (2026-09):** the value is now `SageInk`. The paragraph below describes the old `breeze-dark` setting.
+
+This was a **third-party** Plasma theme, and everything it paints — launcher, panel popups, tooltips, OSDs — renders in Breeze material, not ink. See [Current boundary vs planned scope](#current-boundary-vs-planned-scope). It is also the safe choice historically (Bug 7).
 
 ### `~/.config/gtk-3.0/settings.ini`
 
@@ -628,8 +623,8 @@ The limitation that dominated the glass era — *"this surface refuses to be tra
 
 | Issue | Cause | Status |
 |---|---|---|
-| **Launcher / tray / notification popups are Breeze, not ink** | They paint from the Plasma desktop theme, which is `breeze-dark` | Planned: ship a Sage Ink desktop theme package — see [scope boundary](#current-boundary-vs-planned-scope) |
-| **GTK widget geometry is WhiteSur, not ink** | `gtk.css` overrides colours only; the base theme owns corners and borders | Planned: ship a GTK base theme — same section |
+| ~~Launcher / tray / notification popups are Breeze, not ink~~ | Was the `breeze-dark` desktop theme | **Closed**: the SageInk desktop theme ships |
+| ~~GTK widget geometry is WhiteSur, not ink~~ | Was a colour-only override of WhiteSur | **Closed**: the SageInk GTK base theme ships |
 | **Edge context menu is Chromium's own** | Native Skia widget, not Plasma-aware | Architectural — Chromium-side, won't fix |
 | **Edge GTK mode broken with adw-gtk3-dark** | Chromium libadwaita lookup fails | Use `WhiteSur-Dark-purple` (full GTK3+4) instead |
 | **Klassy window shadow needs a patched build** | Stock Klassy exposes no shadow offset control | Patch `s_shadowParams[1]` — see [klassyrc](#configklassyrc) above |
