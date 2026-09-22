@@ -1,0 +1,40 @@
+{
+ "gemini": {
+  "app": {
+   "url": "https://gemini.google.com/app",
+   "title": "Google Gemini",
+   "radii": [],
+   "fills": [
+    "1x button.mdc-button.mat-mdc-button-base bg=rgb(18, 18, 22)",
+    "1x bard-sidenav-container bg=rgb(7, 8, 10)",
+    "1x bard-sidenav.mystuff-side-nav-update.hide-on-print bg=rgb(7, 8, 10)",
+    "1x a.mat-mdc-list-item.mdc-list-item bg=rgb(23, 23, 23)",
+    "1x div.chat-history.ng-star-inserted bg=rgb(7, 8, 10)",
+    "1x bard-sidenav-content bg=rgb(7, 8, 10)",
+    "1x chat-window.show-lm-background.lm-canvas-styling bg=rgb(7, 8, 10)",
+    "1x infinite-scroller.chat-history.enable-lm-fast-follows bg=rgb(7, 8, 10)",
+    "1x div.blur-bg.visible-primary-message bg=rgb(13, 13, 16)",
+    "1x div.autosuggest-scrim bg=rgb(7, 8, 10)",
+    "1x fieldset.input-area-container.is-zero-state bg=rgb(13, 13, 16)",
+    "1x input-area-v2.ng-tns-c1934865811-4.ng-tns-c1623302152-2 bg=rgb(13, 13, 16)",
+    "1x div.text-input-field.ng-tns-c1934865811-4 bg=rgb(13, 13, 16)",
+    "1x rich-textarea.text-input-field_textarea.ql-container bg=rgb(13, 13, 16)"
+   ],
+   "linkColours": [
+    "43x rgb(230, 230, 230)"
+   ],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "1x div.mat-drawer-backdrop.ng-star-inserted bg=color(srgb 0 0 0 / 0.2)",
+     "1x mat-sidenav.mat-drawer.mat-sidenav bg=rgb(28, 28, 28)",
+     "1x a.mat-mdc-list-item.mdc-list-item bg=rgb(20, 20, 20)",
+     "1x div.chat-history.mobile bg=rgb(7, 8, 10)",
+     "1x button.mdc-button.mat-mdc-button-base bg=rgb(18, 18, 22)"
+    ]
+   }
+  }
+ }
+}

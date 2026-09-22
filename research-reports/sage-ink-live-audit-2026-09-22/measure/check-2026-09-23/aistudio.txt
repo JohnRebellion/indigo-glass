@@ -1,0 +1,41 @@
+{
+ "aistudio": {
+  "chat": {
+   "url": "https://aistudio.google.com/prompts/new_chat",
+   "title": "Google AI Studio",
+   "radii": [],
+   "fills": [
+    "1x ms-app.ng-tns-c1538783304-0.ng-star-inserted bg=rgb(7, 8, 10)",
+    "1x div.banner-and-app-container.ng-tns-c1538783304-0 bg=rgb(7, 8, 10)",
+    "1x button.skip-content.ng-tns-c1538783304-0 bg=rgb(18, 18, 22)",
+    "1x div.nav-content.v3-left-nav bg=rgb(7, 8, 10)",
+    "1x div.navbar-header.v3-design bg=rgb(7, 8, 10)",
+    "1x nav.ng-tns-c3188062264-1 bg=rgb(7, 8, 10)",
+    "1x ms-nav-items-v2.ng-tns-c3188062264-1 bg=rgb(7, 8, 10)",
+    "1x a.playground-link.ng-tns-c84241087-4 bg=rgb(42, 42, 42)",
+    "1x div.bottom-actions.ng-tns-c3188062264-1 bg=rgb(7, 8, 10)",
+    "1x button.upgrade-card bg=rgb(31, 31, 31)",
+    "1x button.account-switcher-button.ng-tns-c3188062264-1 bg=rgb(31, 31, 31)",
+    "1x section.chunk-editor-main bg=rgb(25, 25, 25)",
+    "1x ms-header.ng-tns-c3368553441-8 bg=rgb(7, 8, 10)",
+    "1x button.upgrade-button.ms-button-large bg=rgb(50, 50, 50)"
+   ],
+   "linkColours": [
+    "6x rgb(140, 140, 140)",
+    "2x rgb(212, 212, 212)"
+   ],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "1x ms-app.ng-tns-c1538783304-0.ng-star-inserted bg=rgb(7, 8, 10)",
+     "1x div.banner-and-app-container.ng-tns-c1538783304-0 bg=rgb(7, 8, 10)",
+     "1x button.skip-content.ng-tns-c1538783304-0 bg=rgb(18, 18, 22)",
+     "1x div.nav-content.v3-left-nav bg=rgb(7, 8, 10)",
+     "1x div.navbar-header.v3-design bg=rgb(7, 8, 10)"
+    ]
+   }
+  }
+ }
+}

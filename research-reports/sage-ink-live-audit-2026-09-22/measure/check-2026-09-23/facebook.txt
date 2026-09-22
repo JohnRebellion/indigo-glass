@@ -1,0 +1,27 @@
+{
+ "facebook": {
+  "marketplace": {
+   "url": "https://www.facebook.com/marketplace/",
+   "title": "Facebook Marketplace | Facebook",
+   "radii": [],
+   "fills": [
+    "20x div.x1iq0kzc.x1i9sevy bg=oklch(0.184 0.0081 285.58)",
+    "10x div.x9f619.x1ja2u2z bg=oklch(0.1605 0.0063 285.67)"
+   ],
+   "linkColours": [
+    "40x rgb(28, 30, 33)"
+   ],
+   "layout": [],
+   "layoutWarnings": [
+    "page height grew 1.9x — content may be wrapping into a starved column"
+   ],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "11x div.x1iq0kzc.x1i9sevy bg=oklch(0.184 0.0081 285.58)",
+     "6x div.x9f619.x1ja2u2z bg=oklch(0.1605 0.0063 285.67)"
+    ]
+   }
+  }
+ }
+}

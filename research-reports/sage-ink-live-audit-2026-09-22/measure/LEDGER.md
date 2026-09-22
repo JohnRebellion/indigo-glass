@@ -45,3 +45,28 @@ myself, GEM = gemini-see claim (never sole evidence).
 - Reload gotcha: KWin reconfigure and a decoration round-trip do NOT refresh
   button colours. Klassy caches them until the
   `/KlassyDecoration org.kde.Klassy.Style.updateDecorationColorCache` signal.
+
+## Browser verification pass, 2026-09-23 (check.mjs + own read + gemini-see on chrome-only crops)
+
+Sites: google, youtube, facebook, github, wikipedia, gemini, aistudio. Skipped: atlassian, m365, copilot
+(client tenants / work account), shopee (anti-bot). Raw harness output: `measure/check-2026-09-23/`.
+Gemini's rounded-corner claims were checked by 400% zoom and refuted on all five sampled
+(YouTube chips, GitHub search, GitHub labels, AI Studio card, Facebook search: all square).
+Its border-weight and filled-state findings held.
+
+| # | Site | Finding | Evidence | Verdict |
+|---|---|---|---|---|
+| L19 | GitHub, Wikipedia | 0.3.0 controls: 2px edges, hard shadows, radii 0, fills on-token | harness + PIX | PASS |
+| L20 | Facebook | radii 0, fills on-token; "page height grew 1.9x" is infinite-scroll, layout intact | harness + own read | PASS (warning benign) |
+| L21 | YouTube | `#frosted-glass` rgba(15,15,15,.8) translucent under chips; `#skip-navigation` #0F0F0F; page canvas stays YouTube #0F0F0F not base | harness | FAIL: translucency + off-token |
+| L22 | YouTube | selected chip "All" = solid white fill; "Home" nav = filled block | own read + gemini | Tier C violation |
+| L23 | YouTube, Facebook, Gemini, AI Studio | search/composer inputs and buttons carry 0–1px borders | gemini, consistent with source (1px in youtube/facebook files) | contract: 2px border_strong |
+| L24 | AI Studio | 5 off-token greys: `.upgrade-card` #1F1F1F, `.account-switcher-button` #1F1F1F, `.chunk-editor-main` #191919, `.upgrade-button` #323232, `.playground-link` #2A2A2A; right-rail run-settings cards also grey | harness + own read | FAIL: off-token fills |
+| L25 | Gemini | `a.mat-mdc-list-item` #171717 off-token; composer has no border | harness + gemini | minor |
+| L26 | GitHub | issue-label chips are rgba(...,0.18) fills — Tier D badges should be opaque; Primer composes them per-label via alpha so no single var fixes it | harness | known limit, document |
+| L27 | Google | AI Overview block: "Show more" pill (~24px radius), rounded images, gradient fade above it. Outside `#center_col`, so check.mjs reports radii=0 — harness blind spot | own read + PIX | FAIL + harness gap |
+| L28 | Facebook, GitHub, AI Studio | selected nav rows are filled blocks (Browse all, Issues, Playground) | gemini + own read | Tier C, same class as L22 |
+| L29 | Wikipedia | Appearance radio groups and Search carry hard shadow + 2px edge; Vector's blue radios kept (site hue) | own read | PASS |
+
+Not verified: Dark Reader interaction (harness runs with extensions disabled, by design), Stylus after import
+(bundle merged, not yet imported), Firefox theme render.
