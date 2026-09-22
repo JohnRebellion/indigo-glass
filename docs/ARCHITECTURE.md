@@ -9,7 +9,7 @@ known bugs see [`REFERENCE.md`](REFERENCE.md).
 The repository is called `indigo-glass`; the design system is called **Sage Ink**.
 The repo predates the rename and several filenames still carry the old name
 (`windows/terminal/indigo-glass.scheme.json`, `browser/monkeytype/indigo-glass.json`)
-while shipping the *active* variant, not the Indigo Glass one. `codegen.py:71-74`
+while shipping the *active* variant, not the Indigo Glass one. `codegen.py:71-73`
 documents this explicitly. Treat `indigo-glass` as an address, not a description.
 
 ## Source of truth
@@ -77,7 +77,7 @@ python3 tokens/codegen.py
 bash scripts/check-palette-drift.sh
 
 # 3. install
-bash scripts/install.sh          # 535 lines
+bash scripts/install.sh          # 538 lines
 ```
 
 Skipping step 1 leaves canonical source and committed generated assets out of

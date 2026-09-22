@@ -48,3 +48,8 @@ backups/stylus/
 # Generated Stylus import bundle — rebuilt from browser/stylus/**/*.user.css
 # by the snippet in scripts/style-check/README.md. Not repo state.
 browser/stylus/out/
+
+# Concept renders for the fastfetch brand mark. mk_svg*.py / ship*.py in the same
+# directory regenerate them (122 PNG/SVG, ~2.3 MB per pass). The findings live in
+# REPORT.md and 03-INSPECTION.md, which are tracked.
+research-reports/sage-ink-mark-*/renders/
