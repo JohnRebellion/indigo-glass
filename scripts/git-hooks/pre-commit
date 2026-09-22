@@ -36,3 +36,13 @@ esac
   echo "  Fix the drift above, or bypass with: git commit --no-verify" >&2
   exit 1
 }
+
+# Ink contract: translucent shadows, invisible borders, invented colours and
+# 1px control borders all pass the hex-only drift guard above. Added
+# 2026-09-22 after a live audit found every one of them shipping in GTK.
+python3 "$REPO_ROOT/scripts/check-ink-contract.py" || {
+  echo "" >&2
+  echo "[pre-commit] ink contract failed — commit blocked." >&2
+  echo "  Fix the violations above, or bypass with: git commit --no-verify" >&2
+  exit 1
+}

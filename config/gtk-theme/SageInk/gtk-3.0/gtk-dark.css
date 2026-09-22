@@ -9,10 +9,11 @@
  *   accent-alt  #89A889   text         #F8F8F8   text-muted   #6B7280
  *   negative    #ED254E   positive     #3FFABB   amber        #FBBF24
  *
- * Shadow offset is 8px (doubled from 4px 2026-08-28) — this theme renders on
- * THIS machine's own 27in 1440p monitor via native desktop apps (Dolphin,
- * GTK dialogs), the same category as Klassy/SDDM, not the "web/css viewed on
- * arbitrary screens" category that reverted to 4px.
+ * Shadow is the canonical 4px 4px 0 0, opaque. (An earlier header claimed 8px;
+ * the rules had already returned to 4px.) Every colour below is a dark-variant
+ * token - scripts/check-ink-contract.py enforces that, plus no translucent
+ * shadow and 2px borders on controls. Audit: research-reports/
+ * sage-ink-live-audit-2026-09-22.
  */
 
 @define-color theme_bg_color #0D0D10;
@@ -29,8 +30,8 @@
 @define-color theme_unfocused_base_color #07080A;
 @define-color theme_unfocused_selected_bg_color #89A889;
 @define-color theme_unfocused_selected_fg_color #07080A;
-@define-color borders #000000;
-@define-color unfocused_borders #000000;
+@define-color borders #5E5E60; /* border_strong - #000000 was invisible on ink */
+@define-color unfocused_borders #5E5E60;
 @define-color warning_color #FBBF24;
 @define-color error_color #ED254E;
 @define-color success_color #3FFABB;
@@ -54,7 +55,7 @@
      mode, WHITE in dark mode (--ring: oklch(100% 0 0) in .dark) - never
      literally black on a near-black theme, where it would be nearly
      invisible. This is the dark Sage Ink variant, so white. */
-  outline-color: #FFFFFF;
+  outline-color: @theme_text_color; /* text token, not literal white */
   -gtk-icon-shadow: none;
   text-shadow: none;
   box-shadow: none;
@@ -75,16 +76,16 @@ button {
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 #89A889;
   padding: 5px 12px;
   transition: none; /* mechanical: no eased hover fade */
 }
 button:hover {
-  background-color: #191c1e;
+  background-color: #121216; /* fill is identity; the accent border is the state */
   border-color: @accent_color;
 }
 button:active, button:checked {
-  box-shadow: 0 0 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 0 0 0 0 #89A889;
   margin: 4px 0 0 4px; /* travels into its own shadow */
 }
 button:disabled {
@@ -97,7 +98,7 @@ button:disabled {
    object first: sage on the sage fill measures 1.44:1, the base colour
    11.00:1. Settled 2026-09-02 — see docs/PHILOSOPHY.md "Tone context". */
 button.suggested-action {
-  box-shadow: 4px 4px 0 0 rgba(7, 8, 10, 0.9);
+  box-shadow: 4px 4px 0 0 #07080A;
   background-color: @accent_color;
   color: @accent_fg_color;
   border-color: @accent_color;
@@ -106,13 +107,19 @@ button.suggested-action:hover {
   background-color: @theme_selected_bg_color;
 }
 button.destructive-action {
+  box-shadow: 4px 4px 0 0 #07080A; /* filled: casts the page colour, as suggested-action */
   background-color: @destructive_bg_color;
   color: @destructive_fg_color;
   border-color: @destructive_bg_color;
 }
-/* Circular buttons (icon-only, close/nav) are the deliberate pill exception */
-button.circular, button.image-button {
+/* Circular buttons are the deliberate pill exception. Plain icon buttons stay
+   square (the reference's icon button is a square size-10 button) and carry
+   no shadow, since they mostly sit inside toolbars rather than on the page. */
+button.circular {
   border-radius: 9999px;
+  box-shadow: none;
+}
+button.image-button {
   box-shadow: none;
 }
 
@@ -120,14 +127,18 @@ button.circular, button.image-button {
 entry {
   background-color: @theme_base_color;
   color: @theme_text_color;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   border-radius: 0;
   box-shadow: none;
   padding: 6px 10px;
 }
+/* Focus: the 2px border itself turns text colour. An outer ring (the
+   reference's ring-offset-2) was tried 2026-09-22 and is clipped by the
+   neighbouring widget in linked entry+button groups, leaving only the top
+   and left edges. */
 entry:focus {
-  border-color: @accent_color;
-  box-shadow: inset 0 0 0 1px @accent_color;
+  border-color: @theme_text_color;
+  box-shadow: none;
 }
 entry:disabled {
   opacity: 0.4;
@@ -154,7 +165,7 @@ headerbar button:hover, .titlebar button:hover {
 /* === Checkbuttons / radiobuttons — sharp check, radio stays circular === */
 checkbutton check, radiobutton radio {
   background-color: @theme_base_color;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   min-width: 16px;
   min-height: 16px;
 }
@@ -175,8 +186,8 @@ checkbutton check:hover, radiobutton radio:hover {
 
 /* === Switches — pill track (deliberate exception), sharp knob === */
 switch {
-  background-color: #191c1e;
-  border: 1px solid @borders;
+  background-color: #121216; /* secondary-background, as the reference track */
+  border: 2px solid @borders;
   border-radius: 9999px;
   box-shadow: none;
 }
@@ -184,13 +195,15 @@ switch:checked {
   background-color: @accent_color;
   border-color: @accent_color;
 }
+/* Reference thumb: 2px border, no shadow. */
 switch slider {
   background-color: @theme_fg_color;
+  border: 2px solid @borders;
   border-radius: 9999px;
-  box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: none;
 }
 
-/* === Notebook / tabs — sharp, hard bottom rule on active tab === */
+/* === Notebook / tabs — sharp; the selected tab is a Tier C outline === */
 notebook > header {
   background-color: #0A0A0D;
   border: none;
@@ -205,8 +218,7 @@ notebook > header tab {
 }
 notebook > header tab:checked {
   color: @theme_fg_color;
-  border-bottom: 2px solid @accent_color;
-  box-shadow: none;
+  box-shadow: inset 0 0 0 2px @theme_text_color;
 }
 notebook > header tab:hover {
   color: @theme_fg_color;
@@ -221,14 +233,14 @@ popover, popover.background {
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 #89A889;
 }
 menu, .menu, .context-menu {
   background-color: #121216;
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 #89A889;
   padding: 4px;
 }
 menuitem, modelbutton {
@@ -241,7 +253,7 @@ menuitem, modelbutton {
    on-select fix this session, not a casual list-row hover preview). Inset,
    not detached: menu items sit flush with no gap. */
 menuitem:hover, modelbutton:hover {
-  outline: 2px solid #FFFFFF;
+  outline: 2px solid @theme_text_color;
   outline-offset: -2px;
   color: @theme_text_color;
 }
@@ -273,8 +285,9 @@ row:hover:not(:selected), treeview row:hover:not(:selected) {
 scrollbar {
   background-color: transparent;
 }
+/* Tier D identity fill - opaque. Hover washes are exempt; a thumb is not. */
 scrollbar slider {
-  background-color: alpha(@theme_fg_color, 0.2);
+  background-color: @borders;
   border-radius: 0;
   min-width: 8px;
   min-height: 8px;
@@ -285,7 +298,8 @@ scrollbar slider:hover {
 
 /* === Progress bars / scales — sharp, flat, accent fill === */
 progressbar > trough {
-  background-color: #191c1e;
+  background-color: #121216;
+  border: 2px solid @borders;
   border-radius: 0;
 }
 progressbar > trough > progress {
@@ -293,9 +307,11 @@ progressbar > trough > progress {
   border-radius: 0;
 }
 scale > trough {
-  background-color: #191c1e;
+  background-color: #121216;
+  border: 2px solid @borders;
   border-radius: 0;
-  min-height: 4px;
+  min-height: 8px;
+  min-width: 8px;
 }
 scale > trough > highlight {
   background-color: @accent_color;
@@ -303,8 +319,9 @@ scale > trough > highlight {
 }
 scale > slider {
   background-color: @theme_fg_color;
+  border: 2px solid @borders;
   border-radius: 9999px; /* pill exception: a slider handle IS a circle */
-  box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: none; /* reference thumb carries no shadow */
 }
 
 /* === Tooltips — opaque flat, hard offset shadow (no soft glow) ===
@@ -318,7 +335,7 @@ tooltip, tooltip.background {
   color: @theme_fg_color;
   border: 2px solid @borders;
   border-radius: 0;
-  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 #89A889;
   padding: 4px 8px;
 }
 
@@ -348,13 +365,22 @@ frame {
 frame.card {
   background-color: #121216;
   border-width: 2px;
-  box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+  box-shadow: 4px 4px 0 0 #89A889;
 }
 
-/* === Selection / text === */
-selection, *:selected {
+/* === Selection / text ===
+   `selection` is text selection - a real fill (Tier A), dark ink on sage.
+   Everything else that is :selected is on-select state (Tier C): outline.
+   The old combined rule re-filled every selected node the scoped rules
+   above did not name. */
+selection {
   background-color: @accent_color;
   color: @accent_fg_color;
+}
+*:selected {
+  background-color: transparent;
+  color: @theme_text_color;
+  box-shadow: inset 0 0 0 2px @theme_text_color;
 }
 
 /* === GTK3 file chooser — the portal's Open/Save dialog =====================
@@ -412,7 +438,7 @@ treeview.view header button {
   padding: 6px 10px;
 }
 treeview.view header button:hover {
-  background-color: #191c1e;
+  background-color: #121216;
   color: @accent_color;
 }
 
@@ -439,14 +465,14 @@ placessidebar row:selected {
 .path-bar button,
 pathbar button {
   background-color: #121216;
-  border: 1px solid @borders;
+  border: 2px solid @borders;
   border-radius: 0;
   box-shadow: none;
   padding: 4px 10px;
 }
 .path-bar button:checked,
 pathbar button:checked {
-  background-color: #191c1e;
+  background-color: #121216;
   border-color: @accent_color;
   color: @theme_fg_color;
 }
