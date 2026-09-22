@@ -1,0 +1,16 @@
+Active variant: sage
+Colour scan: 15 dirs
+
+Currency scan: superseded accents vs HEAD
+
+Material scan: 16 dirs (ink = opaque, zero blur, hard shadow)
+
+Alpha scan: 16 dirs (opaque fills, outline-not-highlight on-select)
+
+Tier C scan: 16 dirs (on-select noun + opaque fill)
+
+Parity scan: tokens/codegen.py --check (shipped deployables vs generated)
+
+Shadow scan: geometry + tone (offsets from tokens.toml, not hardcoded)
+
+clean — no colour, currency, material, alpha, parity, or shadow drift

@@ -1,0 +1,271 @@
+Active variant: sage
+Colour scan: 15 dirs
+
+Currency scan: superseded accents vs HEAD
+
+--- superseded 'sage' accent still present (changed since HEAD) ---
+assets/wallpapers/indigo-glass-mesh-3840x2160.svg:7:      <stop offset="0%"  stop-color="#A6C9A6" stop-opacity="0.55"/>
+assets/wallpapers/indigo-glass-mesh-3840x2160.svg:8:      <stop offset="60%" stop-color="#A6C9A6" stop-opacity="0.12"/>
+assets/wallpapers/indigo-glass-mesh-3840x2160.svg:9:      <stop offset="100%" stop-color="#A6C9A6" stop-opacity="0"/>
+assets/wallpapers/indigo-glass-mesh-3840x2160.svg:12:      <stop offset="0%"  stop-color="#C0E3C0" stop-opacity="0.45"/>
+assets/wallpapers/indigo-glass-mesh-3840x2160.svg:13:      <stop offset="55%" stop-color="#C0E3C0" stop-opacity="0.10"/>
+assets/wallpapers/indigo-glass-mesh-3840x2160.svg:14:      <stop offset="100%" stop-color="#C0E3C0" stop-opacity="0"/>
+browser/stylus/sites/notion.user.css:96:    background-color: rgba(166, 201, 166, 0.45) !important;
+browser/stylus/sites/github.user.css:92:    --fgColor-done: #C0E3C0 !important;
+browser/stylus/indigo-glass.user.css:113:    background-color: rgba(166, 201, 166, 0.45) !important;
+browser/stylus/indigo-glass.user.css:117:    background-color: rgba(166, 201, 166, 0.45) !important;
+browser/stylus/indigo-glass.user.css:130:    background-color: #89A889; /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+browser/stylus/indigo-glass.user.css:136:    background-color: #C0E3C0; /* was rgba(192,227,192,0.75) - accent_hi hover step */
+browser/stylus/indigo-glass.user.css:146:    scrollbar-color: #89A889 transparent; /* was rgba(166,201,166,0.55) - accent_alt; track stays transparent, that's the page bg showing through by design, not a glass edge */
+browser/stylus/indigo-glass.user.css:150:   * #A6C9A6 accent, then before that a visionOS-style glass glow: an
+browser/darkreader/indigo-glass.json:20:    "scrollbarColor": "#A6C9A6",
+browser/darkreader/indigo-glass.json:21:    "selectionColor": "#A6C9A6",
+browser/darkreader/indigo-glass.json:49:        "scrollbarColor": "#A6C9A6",
+browser/darkreader/indigo-glass.json:50:        "selectionColor": "#A6C9A6",
+browser/darkreader/indigo-glass.json:190:        "scrollbarColor": "#A6C9A6",
+browser/darkreader/indigo-glass.json:191:        "selectionColor": "#A6C9A6",
+config/starship.toml:5:[](#A6C9A6)\
+config/starship.toml:8:[](bg:#C0E3C0 fg:#A6C9A6)\
+config/starship.toml:10:[](fg:#C0E3C0 bg:#121216)\
+config/starship.toml:28:accent = '#A6C9A6'
+config/starship.toml:29:accent_hi = '#C0E3C0'
+config/starship.toml:40:style = "bg:#A6C9A6 fg:#F8F8F8"
+config/starship.toml:48:style_user = "bg:#A6C9A6 fg:#F8F8F8"
+config/starship.toml:49:style_root = "bg:#A6C9A6 fg:#F8F8F8"
+config/starship.toml:53:style = "bg:#C0E3C0 fg:#07080A"
+config/starship.toml:67:style = "bg:#121216 fg:#C0E3C0"
+config/starship.toml:106:success_symbol = '[❯](bold #C0E3C0)'
+config/plasma-theme/SageInk/colors:14:ForegroundActive=192,227,192
+config/plasma-theme/SageInk/colors:21:DecorationHover=192,227,192
+config/plasma-theme/SageInk/colors:27:DecorationHover=192,227,192
+config/plasma-theme/SageInk/colors:28:ForegroundActive=192,227,192
+config/plasma-theme/SageInk/colors:41:DecorationHover=192,227,192
+config/plasma-theme/SageInk/colors:42:ForegroundActive=192,227,192
+config/plasma-theme/SageInk/colors:53:BackgroundAlternate=192,227,192
+config/plasma-theme/SageInk/colors:63:DecorationHover=192,227,192
+config/plasma-theme/SageInk/colors:70:ForegroundActive=192,227,192
+config/plasma-theme/SageInk/colors:77:DecorationHover=192,227,192
+config/plasma-theme/SageInk/colors:84:ForegroundActive=192,227,192
+config/plasma-theme/SageInk/colors:85:ForegroundLink=192,227,192
+config/plasma-theme/SageInk/colors:91:DecorationHover=192,227,192
+config/plasma-theme/SageInk/colors:98:ForegroundActive=192,227,192
+config/plasma-theme/SageInk/colors:99:ForegroundLink=192,227,192
+config/plasma-theme/SageInk/colors:105:DecorationHover=192,227,192
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:8: *   sidebar     #0A0A0D   accent       #A6C9A6   accent-hi    #C0E3C0
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:22:@define-color theme_selected_bg_color #A6C9A6;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:38:@define-color accent_color #A6C9A6;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:39:@define-color accent_bg_color #A6C9A6;
+config/gtk-4.0/gtk.css:8:@define-color accent_color #C0E3C0;
+config/gtk-4.0/gtk.css:9:@define-color accent_bg_color #A6C9A6;
+config/gtk-4.0/gtk.css:63:@define-color link_visited_color #C0E3C0;
+config/gtk-3.0/gtk.css:7:@define-color theme_selected_bg_color #A6C9A6;
+config/gtk-3.0/gtk.css:14:@define-color accent_color #C0E3C0;
+config/gtk-3.0/gtk.css:15:@define-color accent_bg_color #A6C9A6;
+config/gtk-3.0/gtk.css:17:@define-color link_color #C0E3C0;
+config/fastfetch/config.jsonc:16:    "color": { "1": "#C0E3C0", "2": "#89A889" }
+config/fastfetch/config.jsonc:21:      "keys": "#C0E3C0",
+config/fastfetch/config.jsonc:31:      "color": { "user": "#89A889", "at": "#6B7280", "host": "#C0E3C0" }
+cursor/build-bibata.sh:33:#   match #FF0000 -> accent    = #A6C9A6 (Sage Ink primary)
+cursor/build-bibata.sh:34:ACCENT="#A6C9A6"
+cursor/build-bibata.sh:106:  -c "Bibata-IndigoGlass - rounded edge Bibata w/ #A6C9A6 (Sage Ink) accent (v2.0.6)"
+obsidian/Indigo Glass/theme.css:13:  --background-modifier-hover: rgba(166, 201, 166, 0.10);
+obsidian/Indigo Glass/theme.css:21:  --background-modifier-border-focus: #A6C9A6;
+obsidian/Indigo Glass/theme.css:35:  --text-accent: #C0E3C0;
+obsidian/Indigo Glass/theme.css:37:  --text-selection: rgba(166, 201, 166, 0.45);
+obsidian/Indigo Glass/theme.css:43:  --interactive-accent: #A6C9A6;
+obsidian/Indigo Glass/theme.css:44:  --interactive-accent-hover: #C0E3C0;
+obsidian/Indigo Glass/theme.css:50:  --tag-background: #1F2422; /* was rgba(166,201,166,0.12), before that rgba(139,196,6,...) lime - opaque pale-sage chip fill, composited over --background-primary-alt */
+obsidian/Indigo Glass/theme.css:51:  --tag-color-hover: #C0E3C0; /* was #C8B5FF (violet) - hover should stay on the same sage hue, not jump to an unrelated one */
+obsidian/Indigo Glass/theme.css:57:  --code-keyword: #C0E3C0;
+obsidian/Indigo Glass/theme.css:61:  --code-tag: #C0E3C0;
+obsidian/Indigo Glass/theme.css:63:  --code-operator: #C0E3C0;
+obsidian/Indigo Glass/theme.css:70:  --link-color: #C0E3C0;
+obsidian/Indigo Glass/theme.css:72:  --link-external-color: #C0E3C0;
+obsidian/Indigo Glass/theme.css:82:  --h5-color: #C0E3C0;
+obsidian/Indigo Glass/theme.css:87:  --scrollbar-thumb-bg: #89A889;  /* was rgba(166,201,166,0.45) - accent_alt, the same real rest-state step used everywhere else, not a computed blend */
+obsidian/Indigo Glass/theme.css:88:  --scrollbar-active-thumb-bg: #C0E3C0;  /* was rgba(192,227,192,0.75) - accent_hi hover step */
+obsidian/Indigo Glass/theme.css:197:  --callout-color: 192, 227, 192;
+obsidian/Indigo Glass/theme.css:201:  --callout-color: 166, 201, 166;
+sddm/indigo-glass/background.svg:7:      <stop offset="0%"  stop-color="#A6C9A6" stop-opacity="0.55"/>
+sddm/indigo-glass/background.svg:8:      <stop offset="60%" stop-color="#A6C9A6" stop-opacity="0.12"/>
+sddm/indigo-glass/background.svg:9:      <stop offset="100%" stop-color="#A6C9A6" stop-opacity="0"/>
+sddm/indigo-glass/background.svg:12:      <stop offset="0%"  stop-color="#C0E3C0" stop-opacity="0.45"/>
+sddm/indigo-glass/background.svg:13:      <stop offset="55%" stop-color="#C0E3C0" stop-opacity="0.10"/>
+sddm/indigo-glass/background.svg:14:      <stop offset="100%" stop-color="#C0E3C0" stop-opacity="0"/>
+sddm/indigo-glass/Main.qml:16:    property string accent: "#A6C9A6"
+sddm/indigo-glass/Main.qml:17:    property string accentHi: "#C0E3C0"
+share/konsole/SageInk.profile:10:CustomCursorColor=166,201,166
+share/konsole/SageInk.colorscheme:47:Color=192,227,192
+share/grub-theme/theme.txt:9:#   headline #F8F8F8 19.8:1 / section #C0E3C0 15.0:1 / caption #B7D4B7 13.1:1
+share/grub-theme/theme.txt:10:#   / sub-line #BCC3CE 11.8:1. Was #9CA3AF 8.3:1 and #A6C9A6 11.5:1 — both
+share/grub-theme/theme.txt:22:+ label { top = 146 left = 96 width = 440 align = "left" text = "CPU" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
+share/grub-theme/theme.txt:28:+ label { top = 146 left = 588 width = 440 align = "left" text = "MEMORY" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
+share/grub-theme/theme.txt:34:+ label { top = 146 left = 1080 width = 460 align = "left" text = "GPU" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
+share/grub-theme/theme.txt:40:+ label { top = 146 left = 1572 width = 440 align = "left" text = "DISK" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
+share/grub-theme/theme.txt:46:+ label { top = 146 left = 2064 width = 400 align = "left" text = "BOARD" color = "#C0E3C0" font = "SF Pro Display Regular 24" }
+share/grub-theme/theme.txt:62:  selected_item_color = "#C0E3C0"
+share/grub-theme/generate-menu.sh:28:ACCENT='#A6C9A6'        # selection stroke
+share/grub-theme/generate-menu.sh:29:SELECT_FILL='#A6C9A6'   # selection fill, drawn at SELECT_ALPHA
+share/grub-theme/generate-cards.sh:90:    -fill '#A6C9A6' -draw "rectangle 20,14 80,18" \
+share/grub-theme/generate-cards.sh:93:    -fill '#C0E3C0' -font "$SF_PRO" -pointsize 18 -gravity northwest \
+share/grub-theme/generate-background.sh:43:SAGE='#A6C9A6'
+share/color-schemes/SageInk.colors:14:ForegroundActive=192,227,192
+share/color-schemes/SageInk.colors:21:DecorationHover=192,227,192
+share/color-schemes/SageInk.colors:27:DecorationHover=192,227,192
+share/color-schemes/SageInk.colors:28:ForegroundActive=192,227,192
+share/color-schemes/SageInk.colors:41:DecorationHover=192,227,192
+share/color-schemes/SageInk.colors:42:ForegroundActive=192,227,192
+share/color-schemes/SageInk.colors:53:BackgroundAlternate=192,227,192
+share/color-schemes/SageInk.colors:63:DecorationHover=192,227,192
+share/color-schemes/SageInk.colors:70:ForegroundActive=192,227,192
+share/color-schemes/SageInk.colors:77:DecorationHover=192,227,192
+share/color-schemes/SageInk.colors:84:ForegroundActive=192,227,192
+share/color-schemes/SageInk.colors:85:ForegroundLink=192,227,192
+share/color-schemes/SageInk.colors:91:DecorationHover=192,227,192
+share/color-schemes/SageInk.colors:98:ForegroundActive=192,227,192
+share/color-schemes/SageInk.colors:99:ForegroundLink=192,227,192
+share/color-schemes/SageInk.colors:105:DecorationHover=192,227,192
+spicetify/Themes/indigo-glass/user.css:13:  background: rgba(166, 201, 166, 0.45) !important;
+spicetify/Themes/indigo-glass/user.css:53:  border-color: #A6C9A6 !important;
+spicetify/Themes/indigo-glass/user.css:61:  background-color: rgba(166, 201, 166, 0.10) !important;
+spicetify/Themes/indigo-glass/user.css:64:   rgba(166,201,166,0.22) highlight). This is a dark surface, so white -
+spicetify/Themes/indigo-glass/user.css:79:  color: #C0E3C0 !important;
+spicetify/Themes/indigo-glass/user.css:85:  background-color: #A6C9A6 !important;
+spicetify/Themes/indigo-glass/user.css:109:  background-color: #89A889;  /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+spicetify/Themes/indigo-glass/user.css:113:  background-color: #C0E3C0;  /* was rgba(192,227,192,0.75) - accent_hi hover step */
+vencord/indigo-glass.theme.css:15:  --ig-indigo: #A6C9A6;
+vencord/indigo-glass.theme.css:16:  --ig-indigo-hi: #C0E3C0;
+vencord/indigo-glass.theme.css:49:  --background-modifier-hover: rgba(166, 201, 166, 0.10) !important;
+vencord/indigo-glass.theme.css:76:  --scrollbar-thin-thumb: #89A889 !important;  /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+vencord/indigo-glass.theme.css:95:  background: rgba(166, 201, 166, 0.45) !important;
+vencord/indigo-glass.theme.css:104:  background-color: #89A889 !important; /* was rgba(166,201,166,0.45) - accent_alt, the real rest-state step, not a computed blend */
+vencord/indigo-glass.theme.css:108:  background-color: #C0E3C0 !important; /* was rgba(192,227,192,0.75) - accent_hi hover step */
+vencord/indigo-glass.theme.css:147:  background-color: #292F2B !important;  /* was rgba(166,201,166,0.18) - opaque pale-sage badge fill, composited over --ig-surface. A persistent status indicator (this message mentions you), not a transient state - stays a fill, just opaque now. */
+vscode/themes/indigo-glass-dark.json:11:        "icon.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:12:        "selection.background": "#A6C9A644",
+vscode/themes/indigo-glass-dark.json:15:        "sash.hoverBorder": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:20:        "editor.selectionBackground": "#A6C9A650",
+vscode/themes/indigo-glass-dark.json:21:        "editor.selectionHighlightBackground": "#A6C9A620",
+vscode/themes/indigo-glass-dark.json:22:        "editor.wordHighlightBackground": "#A6C9A620",
+vscode/themes/indigo-glass-dark.json:27:        "editor.hoverHighlightBackground": "#A6C9A620",
+vscode/themes/indigo-glass-dark.json:29:        "editor.inactiveSelectionBackground": "#A6C9A628",
+vscode/themes/indigo-glass-dark.json:32:        "editorIndentGuide.activeBackground1": "#C0E3C060",
+vscode/themes/indigo-glass-dark.json:35:        "editorCursor.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:38:        "editorBracketMatch.background": "#A6C9A630",
+vscode/themes/indigo-glass-dark.json:39:        "editorBracketMatch.border": "#C0E3C080",
+vscode/themes/indigo-glass-dark.json:40:        "editorBracketHighlight.foreground1": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:44:        "editorBracketHighlight.foreground5": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:49:        "editorInfo.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:51:        "editorGutter.modifiedBackground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:64:        "editorOverviewRuler.infoForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:65:        "editorOverviewRuler.modifiedForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:69:        "editorGroup.dropBackground": "#A6C9A620",
+vscode/themes/indigo-glass-dark.json:93:        "activityBarBadge.background": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:113:        "list.highlightForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:115:        "list.dropBackground": "#A6C9A620",
+vscode/themes/indigo-glass-dark.json:119:        "listFilterWidget.outline": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:132:        "statusBarItem.prominentBackground": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:134:        "statusBarItem.prominentHoverBackground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:135:        "statusBarItem.remoteBackground": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:156:        "button.background": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:158:        "button.hoverBackground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:166:        "checkbox.selectBackground": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:167:        "checkbox.selectBorder": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:182:        "inputValidation.infoBorder": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:188:        "badge.background": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:190:        "progressBar.background": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:194:        "scrollbarSlider.activeBackground": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:197:        "terminal.selectionBackground": "#A6C9A640",
+vscode/themes/indigo-glass-dark.json:201:        "terminalCursor.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:208:        "terminal.ansiBlue": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:226:        "peekView.border": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:246:        "notificationLink.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:249:        "notificationsInfoIcon.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:250:        "extensionButton.prominentBackground": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:252:        "extensionButton.prominentHoverBackground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:253:        "extensionBadge.remoteBackground": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:264:        "pickerGroup.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:268:        "breadcrumb.activeSelectionForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:275:        "gitDecoration.submoduleResourceForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:277:        "gitDecoration.renamedResourceForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:278:        "gitDecoration.stageModifiedResourceForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:280:        "merge.currentHeaderBackground": "#A6C9A650",
+vscode/themes/indigo-glass-dark.json:281:        "merge.currentContentBackground": "#A6C9A620",
+vscode/themes/indigo-glass-dark.json:294:        "debugIcon.stepOverForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:295:        "debugIcon.stepIntoForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:296:        "debugIcon.stepOutForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:299:        "debugConsole.infoForeground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:303:        "debugConsoleInputIcon.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:305:        "settings.modifiedItemIndicator": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:319:        "textLink.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:322:        "textBlockQuote.border": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:324:        "textPreformat.foreground": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:335:        "editorMarkerNavigationInfo.background": "#A6C9A6",
+vscode/themes/indigo-glass-dark.json:340:        "charts.blue": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:431:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:442:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:463:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:534:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:554:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:564:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:585:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:704:                "foreground": "#C0E3C0"
+vscode/themes/indigo-glass-dark.json:723:        "keyword": "#C0E3C0",
+vscode/themes/indigo-glass-dark.json:724:        "modifier": "#C0E3C0",
+vscode/css/claude-code-indigo.css:12: * Palette: #A6C9A6 primary · #C0E3C0 hover · #89A889 violet
+vscode/css/claude-code-indigo.css:18:  --app-claude-orange: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:19:  --app-claude-clay-button-orange: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:22:  --app-banner-tint: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:24:  --app-spinner-foreground: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:26:  --app-accent-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:27:  --app-link: #C0E3C0 !important;
+vscode/css/claude-code-indigo.css:28:  --app-link-color: #C0E3C0 !important;
+vscode/css/claude-code-indigo.css:29:  --app-link-foreground: #C0E3C0 !important;
+vscode/css/claude-code-indigo.css:37:  --app-link: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:38:  --app-link-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:39:  --app-link-foreground: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:265:  background: #1D201F !important; /* was #A6C9A61a (10% alpha) - opaque, composited over --ig-surface */
+vscode/css/claude-code-indigo.css:266:  border-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:270:  background: #A6C9A6 !important; /* was #A6C9A6cc (80% alpha) - fully opaque, no reason for a bullet dot to be translucent */
+vscode/css/claude-code-indigo.css:271:  border-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:284:  background-color: #C0E3C0 !important;
+vscode/css/claude-code-indigo.css:288:  background-color: #A6C9A640 !important;
+vscode/css/claude-code-indigo.css:293:  background-color: #2A302C !important; /* was #A6C9A630 (19% alpha) - opaque badge fill, composited over --ig-surface */
+vscode/css/claude-code-indigo.css:300:  --focus-ring-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:301:  border-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:306:  border-color: #A6C9A6 !important;
+vscode/css/claude-code-indigo.css:330:  background-color: #C0E3C0 !important;
+web/app.css.example:56:  --main: oklch(80.00% 0.0600 145.00);                  /* #A6C9A6 accent */
+web/app.css.example:73:  --chart-1: #A6C9A6;
+windows/terminal/indigo-glass.scheme.json:5:  "cursorColor": "#C0E3C0",
+windows/terminal/indigo-glass.scheme.json:19:  "brightBlue": "#C0E3C0",
+windows/registry/indigo-glass-accent.reg:3:; Sage Ink — Windows 11 accent color #A6C9A6
+windows/registry/indigo-glass-accent.reg:8:; #A6C9A6 → little-endian BGR + alpha = A6 C9 A6 FF = 0xffa6c9a6
+windows/powershell/Microsoft.PowerShell_profile.ps1:29:    Command            = '#C0E3C0'  # accent_hi
+windows/powershell/Microsoft.PowerShell_profile.ps1:34:    Keyword            = '#A6C9A6'  # accent primary
+windows/powershell/Microsoft.PowerShell_profile.ps1:35:    Operator           = '#C0E3C0'
+
+Material scan: 16 dirs (ink = opaque, zero blur, hard shadow)
+
+Alpha scan: 16 dirs (opaque fills, outline-not-highlight on-select)
+
+Tier C scan: 16 dirs (on-select noun + opaque fill)
+
+Parity scan: tokens/codegen.py --check (shipped deployables vs generated)
+
+Shadow scan: geometry + tone (offsets from tokens.toml, not hardcoded)
+
+DRIFT FOUND — see file:line above.
+  colour   -> regenerate from tokens/out/* instead of hand-editing
+  material -> Sage Ink is opaque: drop the blur, flatten the fill,
+              use --ig-shadow-ink (hard offset) for elevation
+  alpha    -> composite to an opaque hex (a real token where
+              possible), or outline instead of filling an on-select
+              state - see docs/STATE_GRAMMAR.md
+  shadow   -> use an offset from [shadow] in tokens.toml; a shadow
+              on an accent-filled surface takes the BASE colour, not
+              accent_alt - see docs/PHILOSOPHY.md 'Tone context'
+  parity   -> copy the generated value over the shipped one; if the
+              shipped file is a hand-merged partial (comment says
+              'source of truth'), regenerate it in full instead of
+              patching the one key

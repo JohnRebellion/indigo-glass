@@ -1,0 +1,41 @@
+# Night-mode audit, 2026-09-22.
+# Wikipedia night mode is reached with ?vectornightmode=1 (verified live).
+# ?useskintheme=night does NOT work — it renders clientpref-day.
+# Run from scripts/style-check (needs its node_modules): node .nma.mjs <css-file>
+
+### 0.1.0 (HEAD), night mode
+== article [skin-theme-clientpref-night] page-container=rgb(7, 8, 10)
+    2x div.vector-pinned-container bg=oklch(0.134 0.0051 262.32)
+    1x form.cdx-search-input bg=oklch(0.134 0.0051 262.32)
+    1x div.catlinks bg=oklch(0.1605 0.0063 285.67)
+    black-text elements: 0 
+== tables [skin-theme-clientpref-night] page-container=rgb(7, 8, 10)
+    1978x td.table-yes bg=rgb(158, 255, 158)
+    1311x td.table-no bg=rgb(255, 199, 199)
+    328x td.table-Unknown bg=oklch(0.184 0.0081 285.58)
+    110x td.table-partial bg=rgb(255, 255, 187)
+    58x td.free bg=rgb(221, 255, 255)
+    57x td.dropped bg=rgb(255, 238, 221)
+    39x td.table-yes2 bg=rgb(187, 255, 221)
+    34x td.active bg=rgb(158, 255, 158)
+    29x td.table-proprietary bg=rgb(231, 231, 255)
+    15x td.depends bg=rgb(255, 238, 221)
+    black-text elements: 3667 td.table-yes, td.dropped, td.active, td.free, td.table-proprietary
+
+### 0.2.0 (working tree), night mode
+== article [skin-theme-clientpref-night] page-container=rgb(7, 8, 10)
+    2x div.vector-pinned-container bg=oklch(0.134 0.0051 262.32)
+    1x form.cdx-search-input bg=oklch(0.134 0.0051 262.32)
+    1x div.catlinks bg=oklch(0.1605 0.0063 285.67)
+    black-text elements: 0 
+== tables [skin-theme-clientpref-night] page-container=rgb(7, 8, 10)
+    29x td.table-proprietary bg=rgb(231, 231, 255)
+    5x td. bg=rgb(255, 238, 221)
+    4x code. bg=oklch(0.1605 0.0063 285.67)
+    2x div.vector-pinned-container bg=oklch(0.134 0.0051 262.32)
+    2x td. bg=rgb(221, 255, 221)
+    1x form.cdx-search-input bg=oklch(0.134 0.0051 262.32)
+    1x img.mw-file-element bg=rgb(255, 255, 255)
+    1x td. bg=rgb(255, 221, 221)
+    1x div.catlinks bg=oklch(0.1605 0.0063 285.67)
+    black-text elements: 31 td.table-proprietary, td.

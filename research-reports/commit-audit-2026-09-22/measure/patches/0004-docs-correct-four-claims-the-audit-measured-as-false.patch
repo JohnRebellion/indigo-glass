@@ -1,0 +1,213 @@
+From dc1a1c6a58d0cd08aecd7f335e2adb7087240357 Mon Sep 17 00:00:00 2001
+From: John Rebellion <johnnecirrebellion@gmail.com>
+Date: Thu, 17 Sep 2026 04:07:38 +0800
+Subject: [PATCH 4/4] docs: correct four claims the audit measured as false
+
+ARCHITECTURE.md said regenerating was "optional -- only needed after
+changing [meta].default_variant". It is required after any token VALUE
+change; skipping it ships canonical source and committed assets out of
+sync. CLAUDE.md's Verify block was already right, so the two documents
+from the same commit contradicted each other on the one question that
+matters most. Build steps now include the drift guard explicitly, and both
+failure modes are named.
+
+ARCHITECTURE.md said "consistency across layers is enforced by the drift
+guard, not by the generator". True as an intent, false as a claim of
+coverage until the preceding commit -- 31 tracked files stale, guard
+clean. The passage now states the gap that existed, why a gap in the guard
+is indistinguishable from no drift, and that guard coverage is a claim
+needing its own test.
+
+CLAUDE.md's naming rule said to match the surrounding directory's name.
+That is unsafe in a repo whose directories carry legacy indigo-glass names
+while shipping the active variant: a new asset inherits a dead name by
+proximity. Rule now points at the declaration site, with an explicit
+prohibition on renaming existing paths, since codegen.py resolves them by
+string.
+
+hosts/README.md advertised _default for "any 1440p / 4K-100% setup" while
+its own DPI table puts 27" 4K at 163 DPI, ratio 1.50 -- self-refuting
+within one file, and wrong by 50% for anyone who followed it. _default is
+now keyed to ~109 effective DPI rather than to a machine, and the DPI table
+is named as the arbiter.
+
+Also corrected during verification: the pre-commit hook is active here via
+core.hooksPath=scripts/git-hooks, not absent as a check of .git/hooks/
+suggested. Since core.hooksPath is per-clone untracked config, a fresh
+clone on another machine is unguarded until it is set -- now documented in
+both files with the command.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ CLAUDE.md            | 18 +++++++++++++++---
+ docs/ARCHITECTURE.md | 45 ++++++++++++++++++++++++++++++++++++--------
+ hosts/README.md      | 10 ++++++++--
+ 3 files changed, 60 insertions(+), 13 deletions(-)
+
+diff --git a/CLAUDE.md b/CLAUDE.md
+index f7bc636..2092999 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -11,7 +11,10 @@ system is **Sage Ink**.
+   `install.sh` ships no `LimeGlass.colors` or Konsole profile. There is no
+   installable Lime option; do not treat it as one.
+ 
+-When generating a new path, match the surrounding directory's name, not the repo name.
++Name a new path after its declaration site in `codegen.py` or `install.sh`, not
++after the files beside it — neighbouring `indigo-glass` names are legacy, so
++proximity is not naming authority. Never rename an existing path to match this
++rule: `codegen.py` resolves the "Never hand-edit" names by string.
+ 
+ ## Source of truth
+ 
+@@ -50,12 +53,21 @@ find-and-replace a hex value across layers.
+ ## Verify
+ 
+ ```
+-python3 tokens/codegen.py          # regenerate
++python3 tokens/codegen.py          # regenerate — required after ANY token change
+ scripts/check-palette-drift.sh     # drift guard — must pass
++scripts/test-drift-guard.sh        # only when you have edited the guard itself
+ scripts/check-deployment.sh        # is the theme actually in use on this host
+ ```
+ 
+-There is no `.github/` and no CI of any kind. Tests exist; nothing runs them but you.
++Regenerating is required after any token *value* change, not just a variant
++switch — `codegen.py` moves 13 files and the hand-typed layer copies do not
++follow. See `docs/ARCHITECTURE.md` for what that cost when the guard missed it.
++
++No CI. `scripts/git-hooks/pre-commit` runs the guard on every commit, wired by
++`core.hooksPath=scripts/git-hooks`. That is per-clone local config and is not
++tracked, so a fresh clone is **unguarded until it is set**:
++
++    git config core.hooksPath scripts/git-hooks
+ 
+ ## Other traps
+ 
+diff --git a/docs/ARCHITECTURE.md b/docs/ARCHITECTURE.md
+index 8158fed..d7149dd 100644
+--- a/docs/ARCHITECTURE.md
++++ b/docs/ARCHITECTURE.md
+@@ -49,7 +49,18 @@ Named shipped targets, with their declaration sites:
+ **This is the load-bearing nuance:** only the files above are regenerated.
+ Most layer configs carry literals typed by hand and nothing regenerates them.
+ `scripts/check-palette-drift.sh:4-7` says so in its own header. Consistency
+-across layers is enforced by the drift guard, *not* by the generator.
++across layers is therefore enforced by the drift guard, *not* by the generator
++— which makes any gap in the guard indistinguishable, from the outside, from
++having no drift at all.
++
++That is not hypothetical. Until 2026-09-16 the guard had exactly such a gap:
++changing an accent value and regenerating moved 13 files, left 31 tracked files
++on the superseded hex — `config/gtk-3.0/gtk.css`, `config/gtk-4.0/gtk.css`,
++`config/starship.toml` and `share/konsole/SageInk.profile` among them — and
++still printed `clean`. The CURRENCY scan closes it, and
++`scripts/test-drift-guard.sh` is the regression test that keeps it closed.
++Treat the guard's coverage as a claim that needs its own test, not as a
++property of having a guard.
+ 
+ All generated outputs are committed, so the installer works without ever running
+ `codegen.py`.
+@@ -57,20 +68,32 @@ All generated outputs are committed, so the installer works without ever running
+ ## Build and install
+ 
+ ```bash
+-# 1. optional — only needed after changing [meta].default_variant
++# 1. required after ANY change to tokens/indigo-glass.tokens.toml —
++#    a changed value, not just a changed [meta].default_variant.
+ python3 tokens/codegen.py
+ 
+-# 2. install
++# 2. required: regeneration moves 13 files; the hand-typed copies in the
++#    other layers do not move with them. The guard is what finds those.
++bash scripts/check-palette-drift.sh
++
++# 3. install
+ bash scripts/install.sh          # 535 lines
+ ```
+ 
++Skipping step 1 leaves canonical source and committed generated assets out of
++sync. Skipping step 2 leaves the generated assets correct and the hand-typed
++layers stale — which is the more expensive of the two, because everything
++that reports on the build still looks healthy.
++
+ ## Verification
+ 
+ | Check | File | What it proves |
+ |---|---|---|
+-| Palette + material drift | `scripts/check-palette-drift.sh` (734 lines) | every layer config still matches the tokens; fails the build on mismatch |
++| Palette + material drift | `scripts/check-palette-drift.sh` (821 lines) | every layer config still matches the tokens; fails the build on mismatch. Six scans: colour, currency, material, alpha, parity, shadow |
++| Drift-guard self-test | `scripts/test-drift-guard.sh` | the guard actually fails when a token changes and the layers do not follow. Run it after editing the guard |
+ | Deployment | `scripts/check-deployment.sh` (368 lines) | the theme is actually live on this system |
+ | Simulator | `simulator/` (SvelteKit + Playwright) | rendered palettes match the generated token files |
++| Pre-commit | `scripts/git-hooks/pre-commit` | the guard ran before a commit landed — **only if** `core.hooksPath=scripts/git-hooks` is set in that clone. It is local config, untracked, so every new clone starts unguarded |
+ 
+ The simulator reads generated tokens directly rather than copying them —
+ `simulator/src/lib/palettes.ts:3` records that it is generated from
+@@ -79,20 +102,26 @@ The simulator reads generated tokens directly rather than copying them —
+ maps `tokens/out/density.css` to the TOML spacing section. Passing the simulator
+ is necessary but not sufficient: it cannot verify Qt/KWin or GTK rendering.
+ 
+-The drift guard is at v2 (2026-08-28), rewritten after an audit found v1
+-reporting "clean" while three shipped themes were still on Lime Glass. That
+-failure is the reason the guard exists in its current form.
++The drift guard is at v5 (2026-09-16). v2 (2026-08-28) was itself a rewrite,
++after an audit found v1 reporting "clean" while three shipped themes were still
++on Lime Glass. v5 exists because v2's successors reproduced that same failure
++against a different input: a variant that keeps its name and changes its value.
++The pattern is worth naming — each version of this guard has been correct about
++the drift it was told to look for and silent about the drift it was not, so the
++guard's own coverage is now under test rather than under review.
+ 
+ ## Invariants
+ 
+ - `tokens/indigo-glass.tokens.toml` is the single source of truth.
+ - `scripts/check-palette-drift.sh` must pass for a build to be valid.
++- Any change to the guard must keep `scripts/test-drift-guard.sh` passing.
+ - Generated assets are tracked in git; those tracked files are what `install.sh`
+   installs.
+ - Variants differ in accent colour only.
+ - No blur, gradient or translucent surface anywhere. Because nothing is
+   translucent there is nothing to blur, so the KWin blur engine was removed from
+-  the install path (v5, 2026-08-28).
++  the install path (install.sh v5, 2026-08-28 — unrelated to the drift guard's
++  own v5 above).
+ 
+ ## Tracked file counts per layer directory
+ 
+diff --git a/hosts/README.md b/hosts/README.md
+index 02e00d0..2c5b58a 100644
+--- a/hosts/README.md
++++ b/hosts/README.md
+@@ -8,7 +8,7 @@ Canonical palette (colors, fonts, layout discipline) stays universal across all
+ 
+ | Concept | Detail |
+ |---|---|
+-| `_default.toml` | Nobara desktop reference (27" 1440p @ 100% scale). Canonical sizes. |
++| `_default.toml` | Reference profile: 109 effective DPI, ratio 1.0. Canonical sizes. Defined on the Nobara desktop (27" 1440p @ 100%), but the profile is keyed to the DPI, not to that machine. |
+ | `<host>.toml` | Per-host override. Sets only fields that differ from default. |
+ | `apply.sh` | Reads a profile + writes values into live config files (`~/.config/kdeglobals`, GTK, Konsole, VSCode) |
+ | Auto-detect | `hostname -s` matched against `<name>.toml`. Falls back to `_default`. |
+@@ -54,7 +54,7 @@ font_pt = 11
+ 
+ | Profile | Display | Scale ratio | When to use |
+ |---|---|:---:|---|
+-| `_default` | 27" 1440p @ 100% | 1.0 (reference) | Nobara desktop. Any 1440p / 4K-100% setup. |
++| `_default` | 27" 1440p @ 100% | 1.0 (reference) | Nobara desktop, and any display at ~109 effective DPI. |
+ | `aspire5-14-1080p` | 14" 1080p @ Win 100% | 1.44x | Acer Aspire 5. Or any 13-14" 1080p where you refuse to raise display scaling. |
+ 
+ ## Apply
+@@ -106,4 +106,10 @@ bash hosts/apply.sh --dry-run
+ | 27" 4K | 163 | 1.50 |
+ | 32" 4K | 138 | 1.27 |
+ 
++`_default` suits a display only if its effective DPI is near 109. A 4K panel at
++100% scale is **not** one: by the table above, 27" 4K is 163 DPI (ratio 1.50) and
++24" 4K is 184 DPI (ratio 1.69). Both need their own profile, or display scaling.
++The DPI table is the arbiter — if a claim about a display disagrees with it, the
++table wins.
++
+ If you prefer Win/KDE display scaling instead of font scaling: set display to 1.25/1.5/2.0 and keep profile at `_default`. This repo's stance is font-level scaling: same physical text size across machines without touching display scale.
+-- 
+2.55.0
+

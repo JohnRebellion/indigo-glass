@@ -1,0 +1,107 @@
+{
+ "wikipedia": {
+  "url": "https://en.wikipedia.org/wiki/Nissan_QG_engine",
+  "checked": 400,
+  "disabledFailures": [],
+  "svgBrandPaint": [],
+  "note": "checked = elements painting their own text",
+  "restFailures": [
+   {
+    "el": "div.vector-menu-heading",
+    "text": "Text",
+    "ratio": 4.14,
+    "min": 4.5,
+    "fg": "rgb(107, 114, 128)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "div.vector-menu-heading",
+    "text": "Width",
+    "ratio": 4.14,
+    "min": 4.5,
+    "fg": "rgb(107, 114, 128)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "div.vector-menu-heading",
+    "text": "Color",
+    "ratio": 4.14,
+    "min": 4.5,
+    "fg": "rgb(107, 114, 128)",
+    "bg": "rgb(7, 8, 10)"
+   }
+  ],
+  "focusFailures": [],
+  "stillRounded": [],
+  "circular": [
+   "8x span.cdx-radio__icon r=50%"
+  ],
+  "hoverFailures": [
+   {
+    "text": "1",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "2",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "3",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "4",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "5",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "6",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "7",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "8",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   }
+  ],
+  "keyboardFocusFailures": []
+ }
+}

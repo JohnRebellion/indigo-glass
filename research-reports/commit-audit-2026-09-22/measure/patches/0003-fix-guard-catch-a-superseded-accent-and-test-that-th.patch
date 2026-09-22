@@ -1,0 +1,312 @@
+From 507d75cfbf96823581a066274519091f0131002f Mon Sep 17 00:00:00 2001
+From: John Rebellion <johnnecirrebellion@gmail.com>
+Date: Thu, 17 Sep 2026 04:06:56 +0800
+Subject: [PATCH 3/4] fix(guard): catch a superseded accent, and test that the
+ guard does
+
+A cross-model audit ran the experiment this guard had never been subjected
+to: change a token and ask whether the repo is still consistent.
+
+    sed -i '116s/145.00/155.00/' tokens/indigo-glass.tokens.toml
+    python3 tokens/codegen.py          -> exit 0, 13 files regenerated
+    scripts/check-palette-drift.sh     -> exit 0, "clean"
+    git grep -l '#A6C9A6'              -> 31 tracked files still on the old hex
+
+Among the 31: config/gtk-3.0/gtk.css, config/gtk-4.0/gtk.css,
+config/starship.toml and share/konsole/SageInk.profile, all deployed by
+install.sh. That is v1's failure mode -- "guard clean, shipped themes
+stale" -- reproduced by the guard written to end it.
+
+The hole is structural rather than a missing pattern. COLOUR hunts only a
+NON-ACTIVE variant's accent, so a variant that keeps its name and changes
+its value is invisible to it. PARITY covers only the surfaces with a
+byte-comparable generated counterpart. A changed accent falls between.
+
+CURRENCY closes it by asking a question about history instead of about the
+current file: which accent literals did this revision supersede, and does
+any deployable still carry one? Baseline is HEAD when the tokens are edited
+but uncommitted, HEAD~1 otherwise. accent_literals_for() now takes an
+optional tokens path so it can read a file extracted from a git ref.
+
+test-drift-guard.sh is the executable form of the paragraphs above: it
+fails against v4 and passes against v5. Verified red before the fix and
+green after; the guard still exits 0 on an unmodified checkout, so the new
+scan adds no false positive.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ scripts/check-palette-drift.sh | 101 ++++++++++++++++++++++++++--
+ scripts/test-drift-guard.sh    | 116 +++++++++++++++++++++++++++++++++
+ 2 files changed, 210 insertions(+), 7 deletions(-)
+ create mode 100755 scripts/test-drift-guard.sh
+
+diff --git a/scripts/check-palette-drift.sh b/scripts/check-palette-drift.sh
+index 7db27c2..6b0624a 100755
+--- a/scripts/check-palette-drift.sh
++++ b/scripts/check-palette-drift.sh
+@@ -64,9 +64,34 @@
+ #   `tokens/codegen.py --check` — simpler and strictly more thorough than the
+ #   differ it replaced, since it's a full-file comparison, not a key overlap.
+ #
++# v5 (2026-09-16) — added a fifth dimension, CURRENCY, after a cross-model
++#   audit ran the one experiment nobody had run against this guard: change a
++#   token and ask whether the repo is still consistent. Measured on v4 —
++#   nudge the sage accent hue by 10deg, run codegen.py, run this script:
++#   13 files regenerate, 31 tracked files keep the old #A6C9A6, and the guard
++#   prints "clean" and exits 0. Among the 31 are config/gtk-3.0/gtk.css,
++#   config/gtk-4.0/gtk.css, config/starship.toml and
++#   share/konsole/SageInk.profile — all deployed by install.sh.
++#
++#   That is v1's failure mode ("guard clean, shipped themes stale") reproduced
++#   by the guard written to end it. The hole is structural, not an oversight
++#   in a pattern list: COLOUR hunts only a NON-ACTIVE variant's accent, so a
++#   variant that keeps its name and changes its value is invisible to it;
++#   PARITY covers only the surfaces with a byte-comparable generated
++#   counterpart. A changed accent falls between them.
++#
++#   CURRENCY closes it by asking a question about history rather than about
++#   the current file: which accent literals did this revision supersede, and
++#   does any deployable still carry one? Baseline is HEAD when the tokens are
++#   edited but uncommitted, HEAD~1 otherwise.
++#
++#   scripts/test-drift-guard.sh is the executable form of the paragraph above.
++#   It fails against v4 and passes against v5. Run it after touching this file.
++#
+ # Usage:
+-#   scripts/check-palette-drift.sh              # colour + material + alpha + parity
++#   scripts/check-palette-drift.sh              # all six scans
+ #   scripts/check-palette-drift.sh --colour     # colour only
++#   scripts/check-palette-drift.sh --currency   # currency only
+ #   scripts/check-palette-drift.sh --material   # material only
+ #   scripts/check-palette-drift.sh --alpha      # alpha only
+ #   scripts/check-palette-drift.sh --parity     # parity only
+@@ -88,6 +113,7 @@ case "${1:-}" in
+   --colour|--color) MODE="colour" ;;
+   --material)       MODE="material" ;;
+   --alpha)          MODE="alpha" ;;
++  --currency)       MODE="currency" ;;
+   --parity)         MODE="parity" ;;
+   --shadow)         MODE="shadow" ;;
+   "")               MODE="all" ;;
+@@ -150,14 +176,23 @@ filter_variant_files() { grep -vE "$VARIANT_FILE_EXCLUDE" || true; }
+ # ===========================================================================
+ # Accent-only. base/surface/text/semantic tokens are shared across variants on
+ # purpose, so matching those would false-positive on every file.
++# accent_literals_for <variant> [tokens-file]
++# Emits the variant's accent, accent_hi and accent_alt in all three spellings
++# this repo writes colours in. The optional second argument lets CURRENCY pass
++# a tokens file extracted from a git ref instead of the working tree's.
+ accent_literals_for() {
+-  python3 - "$1" <<'PY'
++  python3 - "$1" "${2:-$TOKENS_FILE}" <<'PY'
+ import sys, re, importlib.util
+ variant = sys.argv[1]
+-text = open("tokens/indigo-glass.tokens.toml").read()
+-block = re.search(rf'\[variants\.{variant}\](.*?)(?=\n\[|\Z)', text, re.S).group(1)
+-L, C, H = (float(x) for x in re.search(
+-    r'accent\s*=\s*\[([\d.]+),\s*([\d.]+),\s*([\d.]+)\]', block).groups())
++text = open(sys.argv[2]).read()
++m = re.search(rf'\[variants\.{variant}\](.*?)(?=\n\[|\Z)', text, re.S)
++if not m:
++    sys.exit(0)          # variant absent from this revision — nothing to compare
++block = m.group(1)
++am = re.search(r'accent\s*=\s*\[([\d.]+),\s*([\d.]+),\s*([\d.]+)\]', block)
++if not am:
++    sys.exit(0)
++L, C, H = (float(x) for x in am.groups())
+ spec = importlib.util.spec_from_file_location("cg", "tokens/codegen.py")
+ cg = importlib.util.module_from_spec(spec); spec.loader.exec_module(cg)
+ for dl in (0, 0.08, -0.10):          # accent, accent_hi, accent_alt
+@@ -190,6 +225,58 @@ if [ "$MODE" = "all" ] || [ "$MODE" = "colour" ]; then
+   done
+ fi
+ 
++# ===========================================================================
++# 1b. CURRENCY — a superseded accent of ANY variant, including the active one
++# ===========================================================================
++# COLOUR above only hunts a NON-ACTIVE variant's accent, so it is blind to the
++# case where a variant keeps its name and changes its value. PARITY only covers
++# the surfaces that have a byte-comparable generated counterpart. Between the
++# two sits the failure this scan exists for: edit an accent in the TOML,
++# regenerate, and the 13 generated files move while every hand-typed copy of
++# the old hex stays put — in GTK CSS, the Konsole profile, starship, SDDM and
++# the browser themes. Measured 2026-09-16 on the v4 guard: 31 tracked files
++# stale, guard "clean", exit 0.
++#
++# The comparison is against git, because "superseded" is a statement about
++# history, not about the current file. Baseline is HEAD when the working tree
++# has edited the tokens, otherwise HEAD~1 so a change that was just committed
++# is still checked.
++if [ "$MODE" = "all" ] || [ "$MODE" = "currency" ]; then
++  echo ""
++  if ! git rev-parse --git-dir >/dev/null 2>&1; then
++    echo "Currency scan: skipped (not a git checkout)"
++  else
++    if ! git diff --quiet HEAD -- "$TOKENS_FILE" 2>/dev/null; then
++      BASE_REF="HEAD"                 # tokens edited but not yet committed
++    else
++      BASE_REF="HEAD~1"               # tokens match HEAD; check the last commit
++    fi
++
++    BASE_TOKENS="$(mktemp)"
++    if git show "$BASE_REF:$TOKENS_FILE" > "$BASE_TOKENS" 2>/dev/null; then
++      echo "Currency scan: superseded accents vs $BASE_REF"
++      for v in indigo lime sage; do
++        before="$(accent_literals_for "$v" "$BASE_TOKENS" | sort -u)"
++        after="$(accent_literals_for "$v" "$TOKENS_FILE"  | sort -u)"
++        [ -z "$before" ] && continue
++        superseded="$(comm -23 <(echo "$before") <(echo "$after"))"
++        [ -z "$superseded" ] && continue
++        pattern="$(echo "$superseded" | sed 's/[.[\*^$]/\\&/g' | tr '\n' '|' | sed 's/|$//')"
++        hits="$(grep -rInE "$pattern" "${COLOUR_DIRS[@]}" "${EXCLUDE[@]}" 2>/dev/null | filter_allowed | filter_variant_files || true)"
++        if [ -n "$hits" ]; then
++          FOUND=1
++          echo ""
++          echo "--- superseded '$v' accent still present (changed since $BASE_REF) ---"
++          echo "$hits"
++        fi
++      done
++    else
++      echo "Currency scan: skipped (no $BASE_REF revision of $TOKENS_FILE)"
++    fi
++    rm -f "$BASE_TOKENS"
++  fi
++fi
++
+ # ===========================================================================
+ # 2. MATERIAL — glass surviving in an ink system
+ # ===========================================================================
+@@ -713,7 +800,7 @@ fi
+ 
+ echo ""
+ if [ "$FOUND" -eq 0 ]; then
+-  echo "clean — no colour, material, alpha, parity, or shadow drift"
++  echo "clean — no colour, currency, material, alpha, parity, or shadow drift"
+   exit 0
+ else
+   echo "DRIFT FOUND — see file:line above."
+diff --git a/scripts/test-drift-guard.sh b/scripts/test-drift-guard.sh
+new file mode 100755
+index 0000000..f22082d
+--- /dev/null
++++ b/scripts/test-drift-guard.sh
+@@ -0,0 +1,116 @@
++#!/usr/bin/env bash
++# test-drift-guard.sh — self-test for scripts/check-palette-drift.sh
++#
++# Added 2026-09-16 after a cross-model audit ran the obvious experiment nobody
++# had run: change one token and ask the guard whether the repo is still
++# consistent. It said "clean". Measured on the unmodified v4 guard:
++#
++#     sed -i '116s/145.00/155.00/' tokens/indigo-glass.tokens.toml  # sage accent
++#     python3 tokens/codegen.py        -> exit 0, 13 files regenerated
++#     scripts/check-palette-drift.sh   -> exit 0, "clean"
++#     git grep -l '#A6C9A6'            -> 31 tracked files still on the old hex,
++#                                         including config/gtk-3.0/gtk.css,
++#                                         config/gtk-4.0/gtk.css, config/starship.toml
++#                                         and share/konsole/SageInk.profile, all of
++#                                         which install.sh deploys.
++#
++# That is the v1 failure mode — "guard clean, shipped themes stale" — reproduced
++# by the v2/v3/v4 guard that was written to end it. COLOUR only hunts a
++# NON-ACTIVE variant's accent, so it is blind to the active variant's own
++# superseded value; PARITY only covers the surfaces with a byte-comparable
++# generated counterpart. A changed accent falls between the two.
++#
++# This test asserts the guard notices. It runs against the WORKING TREE copy of
++# the guard and codegen, not HEAD, so it exercises edits before they are
++# committed. It never touches the real working tree: all mutation happens in a
++# throwaway git worktree under $TMPDIR.
++#
++# Usage:  bash scripts/test-drift-guard.sh
++# Exit 0 = the guard behaves correctly. Exit 1 = the guard has a hole.
++set -euo pipefail
++cd "$(dirname "${BASH_SOURCE[0]}")/.."
++REPO="$PWD"
++
++WT="$(mktemp -d -t drift-guard-test-XXXXXX)"
++cleanup() { git -C "$REPO" worktree remove --force "$WT" >/dev/null 2>&1 || rm -rf "$WT"; }
++trap cleanup EXIT
++
++git -C "$REPO" worktree add --detach "$WT" HEAD >/dev/null 2>&1
++
++# Exercise the working-tree guard and generator, not the committed ones.
++cp "$REPO/scripts/check-palette-drift.sh" "$WT/scripts/"
++cp "$REPO/tokens/codegen.py"              "$WT/tokens/"
++
++cd "$WT"
++
++pass=0
++fail=0
++check() { # check <description> <expected-exit> <actual-exit>
++  if [ "$2" = "$3" ]; then
++    echo "  ok    $1"
++    pass=$((pass + 1))
++  else
++    echo "  FAIL  $1 (expected exit $2, got $3)"
++    fail=$((fail + 1))
++  fi
++}
++
++echo "drift guard self-test"
++echo ""
++
++# --- 1. baseline: an untouched checkout must be clean -----------------------
++set +e
++bash scripts/check-palette-drift.sh >/dev/null 2>&1
++baseline=$?
++set -e
++check "clean checkout passes" 0 "$baseline"
++
++# --- 2. the regression: change the active variant's accent ------------------
++ACTIVE="$(grep -E '^default_variant' tokens/indigo-glass.tokens.toml \
++          | sed -E 's/.*"([a-z]+)".*/\1/')"
++
++# Nudge the accent hue by 10 degrees inside the active variant's block only.
++python3 - "$ACTIVE" <<'PY'
++import re, sys
++variant = sys.argv[1]
++path = "tokens/indigo-glass.tokens.toml"
++text = open(path).read()
++m = re.search(rf'(\[variants\.{variant}\].*?)(?=\n\[|\Z)', text, re.S)
++block = m.group(1)
++def bump(mm):
++    L, C, H = mm.group(2), mm.group(3), float(mm.group(4))
++    return f"{mm.group(1)}{L}, {C}, {(H + 10.0) % 360:.2f}]"
++new = re.sub(r'(accent\s*=\s*\[)\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\]', bump, block, count=1)
++assert new != block, f"could not find an accent in [variants.{variant}]"
++open(path, "w").write(text[:m.start(1)] + new + text[m.end(1):])
++PY
++
++if ! python3 tokens/codegen.py >/dev/null 2>&1; then
++  echo "  FAIL  codegen.py rejected the perturbed tokens — test fixture is broken" >&2
++  exit 1
++fi
++
++set +e
++bash scripts/check-palette-drift.sh >/dev/null 2>&1
++after=$?
++set -e
++check "changed accent + regenerate is reported as drift" 1 "$after"
++
++# --- 3. the drift it must name ----------------------------------------------
++# Every deployable still carrying the superseded accent should be reported.
++set +e
++report="$(bash scripts/check-palette-drift.sh 2>&1)"
++set -e
++missing=0
++for f in config/gtk-3.0/gtk.css config/gtk-4.0/gtk.css config/starship.toml \
++         share/konsole/SageInk.profile; do
++  grep -qF "$f" <<<"$report" || { echo "      not named: $f"; missing=1; }
++done
++check "names the shipped deployables left stale" 0 "$missing"
++
++echo ""
++if [ "$fail" -gt 0 ]; then
++  echo "$fail failed, $pass passed — the guard has a hole"
++  exit 1
++fi
++echo "$pass passed — guard covers superseded accents"
+-- 
+2.55.0
+

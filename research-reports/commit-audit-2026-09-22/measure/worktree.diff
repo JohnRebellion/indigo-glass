@@ -1,0 +1,327 @@
+diff --git a/browser/stylus/sites/README.md b/browser/stylus/sites/README.md
+index 928ef01..5f39961 100644
+--- a/browser/stylus/sites/README.md
++++ b/browser/stylus/sites/README.md
+@@ -16,7 +16,7 @@ Surgical retints for sites where the universal Sage Ink Stylus style isn't enoug
+ | `github.user.css` | github.com | Primer's ~1260 `--bgColor-*`/`--fgColor-*` tokens |
+ | `atlassian.user.css` | atlassian.net + atlassian.com | Atlassian Design System `--ds-*` (any tenant) |
+ | `microsoft365.user.css` | cloud.microsoft, outlook.office.com, teams, sharepoint | Fluent v9 `--color*` + legacy Fabric slots |
+-| `wikipedia.user.css` | wikipedia/wikimedia/wiktionary/wikidata | Codex tokens + direct rules for Vector's night mode |
++| `wikipedia.user.css` | wikipedia/wikimedia/wiktionary/wikidata | Codex tokens + direct rules for Vector's night mode, the icon-mask fills, and the inline-coloured comparison tables |
+ | `gemini.user.css` | gemini.google.com | Material 3 `--gm3-sys-color-*` + Gemini's `--bard-color-*` |
+ | `aistudio.user.css` | aistudio.google.com | Material 3 tokens + the `ms-*` shell components |
+ | `copilot.user.css` | copilot.microsoft.com | Tailwind-style 100-900 ramps, squircle clip-paths off |
+@@ -111,6 +111,29 @@ now maps Primer's semantic tokens (`--fgColor-success`, `--fgColor-attention`,
+ Worth checking on any site with status indicators — `contrast.mjs` reports
+ saturated SVG paint now.
+ 
++### Icons are backgrounds, and small enough to audit clean
++
++Codex draws every toolbar icon as a `background-color` behind a `mask-image`.
++The spans are 20px, and `check.mjs` skips anything under 24×12 — so Wikipedia's
++entire header (menu, search, alerts, watchlist, appearance) painted Vector's
++`#C8CCD1` through two passes that both reported `radii: []` and a clean fill
++list. `.cdx-button__icon` reads `--color-neutral`, not the `--color-base` the
++file already set.
++
++`contrast.mjs` is what caught it, and not as a failure — as the `coveredBy`
++field on a *passing* row. Read those: `coveredBy` names the element actually
++painting over a label, and an off-palette icon shows up there long before it
++shows up anywhere else.
++
++### Radii below the audit floor
++
++`check.mjs` only counts a radius of 4px or more, on the grounds that smaller
++ones are invisible. Vector hardcodes **2px on every link** —
++`a:where(:not([role="button"]))`, zero specificity, no token behind it — plus
++the search field and the collapsible toggles. `contrast.mjs`'s rounding pass
++counted 397 of them on one article while `check.mjs` reported none. Run both;
++they do not see the same page.
++
+ ### The label-on-accent rule
+ 
+ **Never repaint a "text on accent" token unless this file also owns every
+@@ -165,6 +188,13 @@ known remainders — one 8px radius outside the app shell, a 5% white wash, and
+ one panel at `#0A0A0A` against the base's `#07080A`, a difference no eye
+ resolves.
+ 
++Wikipedia at 0.2.0 is audited on two URLs — an article, for the infobox /
++ambox / navbox shapes, and `Comparison_of_web_browsers`, which is wall-to-wall
++`.wikitable` with hand-written cell colours. It carries one deliberate
++off-palette fill: the two footer attribution plates at `#F8F9FA`, Vector's own
++value. See the label-on-accent rule above; the file's header comment records
++the two filters that were rendered and rejected before settling there.
++
+ Things the harness found that no screenshot would have:
+ 
+ - Facebook's white loading skeletons come from `--glimmer-base-opaque`, which
+@@ -177,6 +207,26 @@ Things the harness found that no screenshot would have:
+ - Vector's night mode ignores its own tokens: `--color-progressive` computes to
+   `#88a3e8` while links actually render `#80B0E7`, so Wikipedia needs direct
+   rules behind the variable remap.
++- A rule can be inert and still look plausible in the file. Wikipedia's
++  `.infobox-above` header band never landed in either mode: infobox captions
++  carry an inline `background-color:#C0C0C0` from the wikitext, and Vector
++  neutralises it with `html.skin-theme-clientpref-os .infobox th:not(.notheme)
++  {background: inherit !important}` — `!important` at (0,3,2) against a bare
++  class at (0,1,0). Matching the neutraliser's shape and adding one class is
++  what makes it apply. A `!important` in your own file proves nothing.
++- Wikipedia's `{{yes}}`/`{{no}}`/`{{partial}}` templates write
++  `style="background:#9EFF9E;color:black"` **inline**, so no dark mode can
++  reach them — the `--no-style` baseline reports 1978 mint cells on one
++  comparison article, in stock dark Wikipedia. Repaint fill and label
++  together or the black text strands. Named template classes only: in a legend
++  swatch the colour *is* the datum and there is no text to carry it, so a
++  blanket `td[style*="background"]` rule deletes the meaning it set out to
++  restore.
++- Playwright's full-page screenshot does not trigger `loading="lazy"` images.
++  Wikipedia's two footer marks are lazy, so the page-level shot shows empty
++  chips no matter what the style does. `locator.screenshot()` on the element
++  renders them; that is the only way the mangled-hue filters below were seen
++  at all.
+ - Google's 652px measure is not a `max-width`. `#rcnt` is a 22-track grid and
+   `#center_col` is placed at `2 / span 12`. Re-placing the grid item is the
+   only safe way to widen it — capping its width starves the layout instead.
+diff --git a/browser/stylus/sites/wikipedia.user.css b/browser/stylus/sites/wikipedia.user.css
+index 8e1438c..aabfa71 100644
+--- a/browser/stylus/sites/wikipedia.user.css
++++ b/browser/stylus/sites/wikipedia.user.css
+@@ -1,7 +1,7 @@
+ /* ==UserStyle==
+ @name           Sage Ink — Wikipedia
+ @namespace      github.com/JohnRebellion/indigo-glass
+-@version        0.1.0
++@version        0.2.0
+ @description    Wikipedia (Vector 2022) on Sage Ink structure with its own link hue. Codex surface tokens collapsed to two ink steps, radii zeroed, link blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
+ @author         John Rebellion
+ @homepageURL    https://github.com/JohnRebellion/indigo-glass
+@@ -48,6 +48,14 @@
+     --color-base--subtle: #6B7280 !important;
+     --color-emphasized: #F8F8F8 !important;
+     --color-subtle: #6B7280 !important;
++    /* Codex paints every toolbar icon as a background-color behind a
++     * mask-image, and `.cdx-button__icon` reads --color-neutral, not
++     * --color-base. Leaving it unset left the whole header — menu, search,
++     * alerts, watchlist, appearance — painting Vector's #C8CCD1, a light
++     * bluish grey that a fills audit never sees because the spans are 20px.
++     * contrast.mjs's hover pass is what surfaced it, as a `coveredBy`. */
++    --color-neutral: #F8F8F8 !important;
++    --color-neutral--hover: #FFFFFF !important;
+ 
+     /* Links — the one hue Wikipedia is identified by, plus its visited purple
+      * pulled onto the same ladder so the pair still reads as a pair. */
+@@ -139,13 +147,134 @@
+     border-color: #1C1C1E !important;
+     border-radius: 0 !important;
+   }
++  /* Table headers carry a hand-written background in the wikitext — this
++   * article's infobox caption is an inline `background-color:#C0C0C0`. Vector's
++   * night mode neutralises those with
++   * `html.skin-theme-clientpref-os .infobox th:not(.notheme) {background: inherit !important}`,
++   * which is (0,3,2) and beat the plain `.infobox-above` rule that used to sit
++   * here — so the header band never landed in either mode. Matching its shape
++   * and adding one class takes this to (0,4,2). */
++  html:is(.skin-theme-clientpref-os, .skin-theme-clientpref-night)
++    :is(.infobox, .navbox, .wikitable)
++    :is(th, .infobox-above, .infobox-header, .navbox-title, .navbox-group):not(.notheme) {
++    background-color: #121216 !important;
++    color: #F8F8F8 !important;
++  }
+   .wikitable > * > tr > th,
+   .infobox-above,
++  .infobox-header,
+   .navbox-title {
+     background-color: #121216 !important;
+     color: #F8F8F8 !important;
+   }
+ 
++  /* Vector hardcodes a 2px radius on every link and on the search field —
++   * `a:where(:not([role="button"]))` and `.cdx-search-input--has-end-button`,
++   * neither of which reads --border-radius-base. check.mjs ignores radii under
++   * 4px, so this audited clean; contrast.mjs's rounding pass counted 397 of
++   * them. Circular controls (radio icons) are left alone. */
++  a:where(:not([role="button"])),
++  .cdx-search-input,
++  .cdx-search-input--has-end-button,
++  .cdx-search-input__input-wrapper,
++  .cdx-text-input,
++  .cdx-text-input__input,
++  .cdx-button,
++  .vector-pinnable-header-toggle-button,
++  .mw-collapsible-text,
++  .mw-logo {
++    border-radius: 0 !important;
++  }
++
++  /* ─── The two footer attribution marks keep their vendor plate ────────
++   * They are `cdx-button--fake-button`, so the button rule above repainted
++   * them to #121216 — and the marks inside are dark artwork drawn for the
++   * near-white plate Vector ships even in its own night mode. The result was
++   * two empty rectangles in the footer.
++   *
++   * A CSS filter does not rescue them. `invert(1)` is legible but wrong:
++   * the Wikimedia globe goes green/blue to orange/cyan, the MediaWiki
++   * sunflower yellow to teal. Adding `hue-rotate(180deg)` does not undo that
++   * — hue-rotate is a linear matrix approximation, exact only for
++   * near-neutral colour, and these marks are `#FFFC00` / `#0A00B2` and
++   * `#396` / `#069`. Both filters were rendered and read; each produced a
++   * different wrong palette.
++   *
++   * So this is the README's leave-the-vendor's-brand-fills-alone case, the
++   * same call as Atlassian's and Microsoft's brand buttons. Two 84px plates
++   * in the footer corner, exactly as stock dark Wikipedia renders them, is a
++   * smaller cost than restating someone else's trademark in a colour they
++   * did not choose. #F8F9FA is Vector's own value, measured from the
++   * `--no-style` baseline.
++   *
++   * Caught only by an element screenshot: these carry `loading="lazy"` and
++   * Playwright's full-page capture never triggers them, so the page-level
++   * shot shows two empty chips whatever this rule says. */
++  #footer-icons .cdx-button,
++  #footer-icons .cdx-button--fake-button {
++    background-color: #F8F9FA !important;
++  }
++
++  /* ─── Comparison-table pastels ───────────────────────────────────────
++   * The {{yes}}/{{no}}/{{partial}} family writes its colour inline —
++   * `style="background:#9EFF9E;color:black"` — so Vector's night mode cannot
++   * neutralise it and a comparison article renders mint, pink, cream and
++   * lavender blocks in dark mode. Confirmed stock, not a regression: the
++   * `--no-style` baseline on Comparison_of_web_browsers reports 1978 cells at
++   * rgb(158,255,158). Absorbed rather than left alone, because it is the
++   * loudest off-system surface on the whole site.
++   *
++   * Background and label are repainted TOGETHER. The inline rule sets
++   * `color:black`, so repainting only the fill would strand black text on ink
++   * — the failure mode the README's label-on-accent rule is about.
++   *
++   * Only the named template classes, never hand-coloured cells at large: in a
++   * legend swatch or an election map key the colour IS the datum and there is
++   * no text to carry it, so a blanket `td[style*=background]` rule would
++   * delete the meaning it was trying to restore. Here every cell is labelled
++   * ("Yes", "No", "Partial"), so the semantic survives the move to the hue. */
++  .table-yes, .table-yes2, .table-included, .table-active, .table-free,
++  .table-supported, .table-beta {
++    background: #0D0D10 !important;
++    color: #3FFABB !important;
++  }
++  .table-no, .table-no2, .table-dropped, .table-terminated,
++  .table-discontinued, .table-nonfree {
++    background: #0D0D10 !important;
++    color: #ED254E !important;
++  }
++  .table-partial, .table-maybe, .table-depends, .table-optional,
++  .table-sometimes, .table-experimental, .table-planned {
++    background: #0D0D10 !important;
++    color: #FBBF24 !important;
++  }
++  .table-unknown, .table-Unknown, .table-na, .table-any, .table-some {
++    background: #0D0D10 !important;
++    color: #6B7280 !important;
++  }
++  .table-rh, .rh.heading {
++    background: #121216 !important;
++    color: #F8F8F8 !important;
++  }
++
++  /* CS1 citation templates carry their own maintenance green (#18911F) and
++   * error red, outside both the Codex token set and this palette. Stock
++   * Wikipedia has them too — they are only visible with the maintenance
++   * categories switched on, but they are saturated paint the retint missed.
++   *
++   * `.cs1-code` is deliberately NOT listed: it measured green too, but it
++   * inherits that from the `.cs1-maint` span it sits inside. It is the plain
++   * `<code>` of every citation, and colouring it here would paint amber
++   * across every reference list on the site. */
++  .cs1-maint {
++    color: #FBBF24 !important;
++  }
++  .cs1-visible-error,
++  .cs1-hidden-error,
++  .error {
++    color: #ED254E !important;
++  }
++
+   @supports (color: oklch(0% 0 0)) {
+     :root,
+     html.skin-theme-clientpref-night,
+@@ -156,6 +285,7 @@
+       --background-color-interactive: oklch(0.1840 0.0081 285.58) !important;
+       --color-base: oklch(0.9791 0.0000 89.88) !important;
+       --color-base--subtle: oklch(0.5510 0.0234 264.36) !important;
++      --color-neutral: oklch(0.9791 0.0000 89.88) !important;
+       --color-progressive: oklch(0.7400 0.1100 262.29) !important;
+       --color-progressive--hover: oklch(0.8200 0.1100 262.29) !important;
+       --color-progressive--focus: oklch(0.6600 0.1100 262.29) !important;
+diff --git a/config/fastfetch/config.jsonc b/config/fastfetch/config.jsonc
+index 1c1c51f..c178c9b 100644
+--- a/config/fastfetch/config.jsonc
++++ b/config/fastfetch/config.jsonc
+@@ -1,9 +1,19 @@
+ {
+   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+   "logo": {
+-    "type": "small",
++    // Sage Ink mark — ink drop silhouette, traced from a generated concept
++    // render (not hand-authored SVG — see provenance note below). Flat
++    // colour ($1 accent_hi) with the system's hard offset shadow
++    // ($2 accent_alt). The render's internal leaf vein doesn't survive this
++    // raster size — too thin to hold a cell at 30px — so this asset carries
++    // the "ink" half of the name only; "sage" is the fill colour, not a
++    // drawn feature. Source render, generator, and inspection notes live in
++    // research-reports/sage-ink-mark-2026-09-17/ (ship-gpt.py, 03-INSPECTION.md).
++    // Swap to sage-ink-mark-small.txt on narrow terminals.
++    "type": "file",
++    "source": "~/.config/fastfetch/sage-ink-mark.txt",
+     "padding": { "right": 2 },
+-    "color": { "1": "#C0E3C0" }
++    "color": { "1": "#C0E3C0", "2": "#89A889" }
+   },
+   "display": {
+     "separator": "  ",
+diff --git a/docs/REFERENCE.md b/docs/REFERENCE.md
+index 0d9bc02..3613b60 100644
+--- a/docs/REFERENCE.md
++++ b/docs/REFERENCE.md
+@@ -145,6 +145,7 @@ The decision has been taken to close this gap by **taking full ownership of both
+ | Konsole profile | Sage Ink (Iosevka Custom Condensed, accent cursor) | `~/.local/share/konsole/SageInk.profile` |
+ | Shell prompt | Starship (replaces P10K) | `~/.config/starship.toml` |
+ | Greeter | Fastfetch (replaces neofetch) | `~/.config/fastfetch/config.jsonc` |
++| Greeter logo | Sage Ink mark (ink drop, traced from a generated concept render) — 30-col default, 24-col alternate | `~/.config/fastfetch/sage-ink-mark.txt`, `-small.txt` |
+ | Edge launch flags | Wayland + system decorations | `~/.local/share/applications/microsoft-edge.desktop` |
+ | Panel widgets | windowbuttons (id=43), appmenu (id=44), windowtitle (id=26) | `~/.config/plasma-org.kde.plasma.desktop-appletsrc` |
+ 
+diff --git a/scripts/install.sh b/scripts/install.sh
+index a6145bf..29b6ca6 100755
+--- a/scripts/install.sh
++++ b/scripts/install.sh
+@@ -423,6 +423,9 @@ run "cp '$REPO_DIR/config/klassy/klassyrc' '$HOME/.config/klassyrc'"
+ run "cp '$REPO_DIR/config/klassy/klassyrc' '$HOME/.config/klassy/klassyrc'"
+ run "cp '$REPO_DIR/config/starship.toml' '$HOME/.config/starship.toml'"
+ run "cp '$REPO_DIR/config/fastfetch/config.jsonc' '$HOME/.config/fastfetch/config.jsonc'"
++# config.jsonc references the logo by absolute path, so both files must ship.
++run "cp '$REPO_DIR/config/fastfetch/sage-ink-mark.txt' '$HOME/.config/fastfetch/sage-ink-mark.txt'"
++run "cp '$REPO_DIR/config/fastfetch/sage-ink-mark-small.txt' '$HOME/.config/fastfetch/sage-ink-mark-small.txt'"
+ run "cp '$REPO_DIR/config/gtk-3.0/settings.ini' '$HOME/.config/gtk-3.0/settings.ini'"
+ run "cp '$REPO_DIR/config/gtk-3.0/gtk.css' '$HOME/.config/gtk-3.0/gtk.css'"
+ run "cp '$REPO_DIR/config/gtk-4.0/settings.ini' '$HOME/.config/gtk-4.0/settings.ini'"
+diff --git a/scripts/style-check/check.mjs b/scripts/style-check/check.mjs
+index a9f472b..9ae99c6 100644
+--- a/scripts/style-check/check.mjs
++++ b/scripts/style-check/check.mjs
+@@ -70,7 +70,14 @@ const SITES = {
+   },
+   wikipedia: {
+     css: 'browser/stylus/sites/wikipedia.user.css',
+-    urls: { article: 'https://en.wikipedia.org/wiki/Nissan_QG_engine' },
++    /* Two shapes, because an article with only an infobox never exercises the
++     * table-header rules: the engine page is the infobox/ambox/navbox case,
++     * the comparison page is wall-to-wall `.wikitable` with hand-written cell
++     * backgrounds in the wikitext. */
++    urls: {
++      article: 'https://en.wikipedia.org/wiki/Nissan_QG_engine',
++      tables: 'https://en.wikipedia.org/wiki/Comparison_of_web_browsers',
++    },
+     content: 'body',
+   },
+   /* Work tenants are named by env var, never committed: IG_ATLASSIAN_HOST,

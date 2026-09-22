@@ -1,0 +1,157 @@
+{
+ "wikipedia": {
+  "article": {
+   "url": "https://en.wikipedia.org/wiki/Nissan_QG_engine",
+   "title": "Nissan QG engine - Wikipedia",
+   "radii": [],
+   "fills": [
+    "24x th.navbox-group bg=rgb(18, 18, 22)",
+    "24x td.navbox-list-with-group.navbox-list bg=rgb(13, 13, 16)",
+    "16x th.infobox-label bg=rgb(18, 18, 22)",
+    "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+    "6x th.infobox-header bg=rgb(18, 18, 22)",
+    "2x div.vector-dropdown-content bg=rgb(13, 13, 16)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-pin-button bg=rgb(18, 18, 22)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-unpin-button bg=rgb(18, 18, 22)",
+    "2x a.cdx-button.cdx-button--fake-button bg=rgb(248, 249, 250)",
+    "1x div.vector-header-container bg=rgb(7, 8, 10)",
+    "1x header.vector-header.mw-header bg=rgb(7, 8, 10)",
+    "1x div#vector-main-menu.vector-main-menu.vector-pinnable-element bg=rgb(7, 8, 10)",
+    "1x form#searchform.cdx-search-input.cdx-search-input--has-end-button bg=oklch(0.134 0.0051 262.32)",
+    "1x div.mw-page-container bg=rgb(7, 8, 10)"
+   ],
+   "linkColours": [
+    "460x rgb(133, 171, 241)",
+    "3x oklch(0.9791 0 89.88)",
+    "2x rgb(248, 248, 248)"
+   ],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "24x th.navbox-group bg=rgb(18, 18, 22)",
+     "24x td.navbox-list-with-group.navbox-list bg=rgb(13, 13, 16)",
+     "16x th.infobox-label bg=rgb(18, 18, 22)",
+     "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+     "6x th.infobox-header bg=rgb(18, 18, 22)"
+    ]
+   }
+  },
+  "tables": {
+   "url": "https://en.wikipedia.org/wiki/Comparison_of_web_browsers",
+   "title": "Comparison of web browsers - Wikipedia",
+   "radii": [],
+   "fills": [
+    "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+    "2x div.vector-dropdown-content bg=rgb(13, 13, 16)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-pin-button bg=rgb(18, 18, 22)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-unpin-button bg=rgb(18, 18, 22)",
+    "1x div.vector-header-container bg=rgb(7, 8, 10)",
+    "1x header.vector-header.mw-header bg=rgb(7, 8, 10)",
+    "1x div#vector-main-menu.vector-main-menu.vector-pinnable-element bg=rgb(7, 8, 10)",
+    "1x form#searchform.cdx-search-input.cdx-search-input--has-end-button bg=oklch(0.134 0.0051 262.32)",
+    "1x div.mw-page-container bg=rgb(7, 8, 10)",
+    "1x div#vector-toc-pinned-container.vector-pinned-container bg=oklch(0.134 0.0051 262.32)",
+    "1x main#content.mw-body bg=rgb(7, 8, 10)",
+    "1x div.vector-page-toolbar bg=rgb(7, 8, 10)",
+    "1x div#vector-appearance-pinned-container.vector-pinned-container bg=oklch(0.134 0.0051 262.32)",
+    "1x th#mwEQ.headerSort bg=rgb(18, 18, 22)"
+   ],
+   "linkColours": [
+    "592x rgb(133, 171, 241)",
+    "4x rgb(237, 37, 78)",
+    "3x oklch(0.9791 0 89.88)"
+   ],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+     "4x div.vector-dropdown-content bg=rgb(13, 13, 16)",
+     "1x div.vector-header-container bg=rgb(7, 8, 10)",
+     "1x header.vector-header.mw-header bg=rgb(7, 8, 10)",
+     "1x div#vector-main-menu.vector-main-menu.vector-pinnable-element bg=rgb(7, 8, 10)"
+    ]
+   }
+  },
+  "articleNight": {
+   "url": "https://en.wikipedia.org/wiki/Nissan_QG_engine?vectornightmode=1",
+   "title": "Nissan QG engine - Wikipedia",
+   "radii": [],
+   "fills": [
+    "24x th.navbox-group bg=rgb(18, 18, 22)",
+    "16x th.infobox-label bg=rgb(18, 18, 22)",
+    "14x td.navbox-list-with-group.navbox-list bg=rgb(13, 13, 16)",
+    "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+    "6x th.infobox-header bg=rgb(18, 18, 22)",
+    "4x table.nowraplinks.navbox-subgroup bg=rgb(13, 13, 16)",
+    "2x div.vector-dropdown-content bg=rgb(13, 13, 16)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-pin-button bg=rgb(18, 18, 22)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-unpin-button bg=rgb(18, 18, 22)",
+    "2x a.cdx-button.cdx-button--fake-button bg=rgb(248, 249, 250)",
+    "1x div.vector-header-container bg=rgb(7, 8, 10)",
+    "1x header.vector-header.mw-header bg=rgb(7, 8, 10)",
+    "1x div#vector-main-menu.vector-main-menu.vector-pinnable-element bg=rgb(7, 8, 10)",
+    "1x form#searchform.cdx-search-input.cdx-search-input--has-end-button bg=oklch(0.134 0.0051 262.32)"
+   ],
+   "linkColours": [
+    "309x oklch(0.74 0.11 262.29)",
+    "151x rgb(133, 171, 241)",
+    "3x oklch(0.9791 0 89.88)",
+    "2x rgb(248, 248, 248)"
+   ],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "24x th.navbox-group bg=rgb(18, 18, 22)",
+     "16x th.infobox-label bg=rgb(18, 18, 22)",
+     "14x td.navbox-list-with-group.navbox-list bg=rgb(13, 13, 16)",
+     "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+     "6x th.infobox-header bg=rgb(18, 18, 22)"
+    ]
+   }
+  },
+  "tablesNight": {
+   "url": "https://en.wikipedia.org/wiki/Comparison_of_web_browsers?vectornightmode=1",
+   "title": "Comparison of web browsers - Wikipedia",
+   "radii": [],
+   "fills": [
+    "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+    "2x div.vector-dropdown-content bg=rgb(13, 13, 16)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-pin-button bg=rgb(18, 18, 22)",
+    "2x button.vector-pinnable-header-toggle-button.vector-pinnable-header-unpin-button bg=rgb(18, 18, 22)",
+    "1x div.vector-header-container bg=rgb(7, 8, 10)",
+    "1x header.vector-header.mw-header bg=rgb(7, 8, 10)",
+    "1x div#vector-main-menu.vector-main-menu.vector-pinnable-element bg=rgb(7, 8, 10)",
+    "1x form#searchform.cdx-search-input.cdx-search-input--has-end-button bg=oklch(0.134 0.0051 262.32)",
+    "1x div.mw-page-container bg=rgb(7, 8, 10)",
+    "1x div#vector-toc-pinned-container.vector-pinned-container bg=oklch(0.134 0.0051 262.32)",
+    "1x main#content.mw-body bg=rgb(7, 8, 10)",
+    "1x div.vector-page-toolbar bg=rgb(7, 8, 10)",
+    "1x div#vector-appearance-pinned-container.vector-pinned-container bg=oklch(0.134 0.0051 262.32)",
+    "1x div.hatnote.navigation-not-searchable bg=rgb(13, 13, 16)"
+   ],
+   "linkColours": [
+    "592x rgb(133, 171, 241)",
+    "4x rgb(237, 37, 78)",
+    "3x oklch(0.9791 0 89.88)"
+   ],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "11x div.vector-menu-content bg=rgb(13, 13, 16)",
+     "4x div.vector-dropdown-content bg=rgb(13, 13, 16)",
+     "1x div.vector-header-container bg=rgb(7, 8, 10)",
+     "1x header.vector-header.mw-header bg=rgb(7, 8, 10)",
+     "1x div#vector-main-menu.vector-main-menu.vector-pinnable-element bg=rgb(7, 8, 10)"
+    ]
+   }
+  }
+ }
+}

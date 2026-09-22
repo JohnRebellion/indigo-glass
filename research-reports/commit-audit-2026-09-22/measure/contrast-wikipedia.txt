@@ -1,0 +1,179 @@
+{
+ "wikipedia": {
+  "url": "https://en.wikipedia.org/wiki/Nissan_QG_engine",
+  "checked": 400,
+  "disabledFailures": [],
+  "svgBrandPaint": [],
+  "note": "checked = elements painting their own text",
+  "restFailures": [
+   {
+    "el": "div.infobox-caption",
+    "text": "QG18DE engine at the Nissan ",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "Nissan Machinery (Aichi Kika",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "1.3–1.8 L (1,295–1,769 cc)",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "71 mm (2.8 in)\n73.6 mm (2.90",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "81.8 mm (3.22 in)\n88 mm (3.4",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "th.infobox-label",
+    "text": "Cylinder block material",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "Cast-iron",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "th.infobox-label",
+    "text": "Cylinder head material",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "Aluminum",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "DOHC 4 valves x cyl. with VV",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "td.infobox-data",
+    "text": "9.5:1",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   },
+   {
+    "el": "th.infobox-label",
+    "text": "Max. engine speed",
+    "ratio": 1.05,
+    "min": 4.5,
+    "fg": "rgb(0, 0, 0)",
+    "bg": "rgb(7, 8, 10)"
+   }
+  ],
+  "focusFailures": [],
+  "stillRounded": [],
+  "circular": [
+   "8x span.cdx-radio__icon r=50%"
+  ],
+  "hoverFailures": [
+   {
+    "text": "1",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "2",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "3",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "4",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "5",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "6",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "7",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   },
+   {
+    "text": "8",
+    "ratio": 8.67,
+    "min": 4.5,
+    "fg": "rgb(133, 171, 241)",
+    "bg": "rgb(7, 8, 10)",
+    "coveredBy": "header.vector-header bg=rgb(7, 8, 10)"
+   }
+  ],
+  "keyboardFocusFailures": []
+ }
+}
