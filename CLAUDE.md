@@ -18,9 +18,9 @@ rule: `codegen.py` resolves the "Never hand-edit" names by string.
 
 ## Source of truth
 
-`tokens/indigo-glass.tokens.toml` (OKLCH, schema v6) is canonical.
-`tokens/codegen.py` generates from it into five directories: `tokens/`, `share/`,
-`config/`, `browser/`, `windows/`.
+`tokens/indigo-glass.tokens.toml` (OKLCH, schema v7) is canonical.
+`tokens/codegen.py` generates from it into six directories: `tokens/`, `share/`,
+`config/`, `browser/`, `windows/` and `vscode/`.
 
 ```
 python3 tokens/codegen.py
@@ -31,9 +31,12 @@ Generated output **is committed on purpose** — users install without running c
 ## Never hand-edit
 
 - `tokens/out/*` — wholly generated.
-- `share/color-schemes/SageInk.colors` (`codegen.py:60`), `config/plasma-theme/SageInk/colors` (`:68`),
-  `share/color-schemes/IndigoGlass.colors` (`:70`), `windows/terminal/indigo-glass.scheme.json` (`:75`),
-  `browser/monkeytype/indigo-glass.json` (`:76`) and `.settings.json` (`:77`).
+- `share/color-schemes/SageInk.colors` (`codegen.py:62`), `config/plasma-theme/SageInk/colors` (`:70`),
+  `share/color-schemes/IndigoGlass.colors` (`:72`), `windows/terminal/indigo-glass.scheme.json` (`:77`),
+  `browser/monkeytype/indigo-glass.json` (`:78`) and `.settings.json` (`:79`).
+- `vscode/themes/indigo-glass-dark.json` and `-light.json` (`SHIPPED_VSCODE`, `codegen.py:1366`).
+  Generated since 2026-09-22 from `tokens/vscode_roles.py`, which holds the role
+  MAP; the values stay in the TOML. Edit the map or the tokens, never the themes.
 - `simulator/src/lib/palettes.ts` — its header marks it GENERATED.
 - `cursor/.work/` — upstream vendor tree, untracked.
 - Anything under `research-reports/` — never edit an audit to make an implementation

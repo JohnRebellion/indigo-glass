@@ -3,7 +3,7 @@
 # Every layer (KDE, VSCode, browser, GRUB, Windows) derives its
 # concrete config from this file via tokens/codegen.py.
 #
-# Schema version: 6
+# Schema version: 7
 # Last token revision: 2026-08-30 (v6: [palette.alpha] border/border_strong -
 #   the last literal translucent "glass edge" values in the token source -
 #   replaced with [palette.composite], resolved to opaque hex at emit time.
@@ -36,7 +36,7 @@
 # themes for weeks after v4. See the note where [glass] used to live.
 
 [meta]
-schema_version = 6
+schema_version = 7
 name = "Sage Ink"                   # active brand name (was "Lime Glass", "Indigo Glass")
 description = "neobrutalist ink - opaque, hard-shadow, colour-as-elevation. No glass."
 density = "compact"
@@ -130,6 +130,44 @@ negative    = [0.6124, 0.2279, 17.60]
 text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
 text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
+
+
+# ANSI terminal slots. Declared per-variant because the 16-colour contract is
+# FUNCTIONAL, not decorative: programs encode meaning in slot identity (ls
+# paints directories blue and symlinks cyan, git paints diffs red/green), so a
+# slot that is not distinguishable from its neighbour is a broken slot, not a
+# restrained one.
+#
+# This is the one place the single-accent rule is deliberately suspended, on
+# the same grounds syntax highlighting already suspends it: these are colours
+# the theme lends to somebody else's OUTPUT, not chrome the theme paints
+# itself. The shipped VSCode dark theme had blue=accent_hi and
+# magenta=accent_alt, i.e. two sage tones separated only by lightness, which
+# is exactly the unreadable case above.
+#
+# red/green/yellow keep the semantic roles (negative/positive/amber) - those
+# already exist and match universal convention. blue/magenta/cyan get their
+# own hues, held at sage-adjacent LOW CHROMA so the terminal reads as ink
+# rather than neon. bright_* is the same hue at a shifted lightness, never a
+# different hue.
+# Contrast quoted against this variant's base (#07080A).
+[variants.sage.ansi]
+black          = [0.3400, 0.0120, 264.00]   # #35383E  1.70:1 - dim by design
+red            = [0.6124, 0.2279,  17.60]   # #ED254E  4.75:1 = negative
+green          = [0.8792, 0.1706, 165.00]   # #3FFABB 14.89:1 = positive
+yellow         = [0.8369, 0.1644,  84.43]   # #FBBF24 12.00:1 = amber
+blue           = [0.7400, 0.0900, 255.00]   # #84AEE3  8.72:1
+magenta        = [0.7400, 0.0900, 330.00]   # #CC96C6  8.34:1
+cyan           = [0.8000, 0.0900, 200.00]   # #71D0D5 11.15:1
+white          = [0.8700, 0.0060, 264.00]   # #D2D4D8 13.50:1
+bright_black   = [0.5510, 0.0234, 264.36]   # #6B7280  4.14:1 = text_muted
+bright_red     = [0.7000, 0.2000,  17.60]   # #FF5D6F  6.72:1
+bright_green   = [0.9300, 0.1300, 165.00]   # #8BFFD2 16.54:1
+bright_yellow  = [0.9000, 0.1500,  84.43]   # #FFD55A 14.23:1
+bright_blue    = [0.8300, 0.0800, 255.00]   # #A5CAFB 11.87:1
+bright_magenta = [0.8300, 0.0800, 330.00]   # #E6B5E0 11.50:1
+bright_cyan    = [0.8800, 0.0800, 200.00]   # #96E8EC 14.36:1
+bright_white   = [0.9791, 0.0000,  89.88]   # #F8F8F8 18.87:1 = text
 
 [variants.rust]
 name        = "Rust Ink"
@@ -375,6 +413,71 @@ text_dim    = [0.5800, 0.0140, 264.00]   # #767A83  4.13:1 caption/metadata only
 # composite when absent, so every dark variant is untouched.
 border        = [0.9000, 0.0050, 285.58]   # #DDDDE1 quiet divider
 border_strong = [0.6200, 0.0100, 285.58]   # #85858C structural, worst 3.22:1
+
+[variants.sage_light]
+name        = "Sage Ink Light"
+brand_hue   = "sage"
+# The light counterpart of [variants.sage]. Paired in THEME_PAIRS and consumed
+# by emit_vscode_theme; `window.autoDetectColorScheme` swaps between the two.
+#
+# Every value below is DERIVED, not hand-picked: hue is held from the dark
+# variant and only lightness moves, each L solved against a contrast target
+# using codegen's own contrast_ratio(). The VSCode README had documented a
+# hand-typed ladder (#4D6D4E / #607E60) that predates this block - solving for
+# the same 5.81:1 / 4.52:1 targets at the canonical hue lands on #4B6A4C and
+# #5C7B5C, within 2 RGB levels, which is what confirmed the old ladder was
+# sound rather than merely plausible. It is now generated instead of asserted.
+#
+# Surfaces - same shape as orchid_light: page steps DOWN, panels go pure white
+base        = [0.9850, 0.0030, 285.67]   # #FAFAFC page canvas
+surface     = [1.0000, 0.0000, 285.67]   # #FFFFFF panels lift above the page
+surface_alt = [0.9550, 0.0040, 285.58]   # #F0F0F3 recessed / code fill
+sidebar     = [0.9700, 0.0030, 285.58]   # #F5F5F7
+# Brand - hue 145.0 and chroma 0.06 both held from the dark variant, so the
+# light theme is recognisably the same sage. Only L moves. Unlike the dark
+# variant (where accent_hi is BRIGHTER for hover), on a light canvas hover
+# goes DARKER - the same direction orchid_light takes.
+#
+# Contrast is quoted against `base`; every one of these is also used as a
+# button FILL, where the pairing that matters is white-on-accent: 6.06:1.
+accent      = [0.4910, 0.0600, 145.00]   # #4B6A4C  5.81:1 on base, fill+text safe
+accent_hi   = [0.4165, 0.0600, 145.00]   # #375538  8.00:1 hover, DARKER
+accent_alt  = [0.5499, 0.0600, 145.00]   # #5C7B5C  4.53:1 decoration/active
+# Semantic - hue held from the dark variant, lightness re-solved. The dark
+# variant's values measure 1.3-2.4:1 on white and cannot be reused.
+amber       = [0.5480, 0.1300, 84.43]    # #946900  4.71:1
+positive    = [0.5109, 0.1400, 165.00]   # #007E52  4.91:1 (hue 165, post-nudge)
+negative    = [0.5113, 0.2000, 17.60]    # #BE0C39  6.10:1
+# Text - not pure black, matching orchid_light's reasoning
+text        = [0.2662, 0.0120, 264.00]   # #23262C 14.54:1
+text_muted  = [0.4825, 0.0140, 264.00]   # #5A5E67  6.23:1 valid body copy
+text_dim    = [0.5804, 0.0140, 264.00]   # #767B83  4.09:1 caption/metadata only
+# Borders declared PER-VARIANT for the same reason orchid_light declares them:
+# [palette.composite] builds them as white-over-`surface`, and this variant's
+# surface IS #FFFFFF, so both would composite to white and measure 1.00:1.
+border        = [0.8980, 0.0050, 285.58]   # #DDDDE1 quiet divider
+border_strong = [0.6604, 0.0100, 285.58]   # #919298 structural, 3.10:1 on surface
+
+# ANSI terminal slots - see the rationale on [variants.sage.ansi]. Same hues,
+# lightness re-solved for a white canvas; bright_* goes DARKER here, not
+# lighter. Contrast quoted against `surface` (#FFFFFF).
+[variants.sage_light.ansi]
+black          = [0.3000, 0.0120, 264.00]   # #2B2E34 13.61:1
+red            = [0.5113, 0.2000,  17.60]   # #BE0C39  6.36:1 = negative
+green          = [0.5109, 0.1400, 165.00]   # #007E52  5.11:1 = positive
+yellow         = [0.5480, 0.1300,  84.43]   # #946900  4.91:1 = amber
+blue           = [0.4700, 0.1000, 255.00]   # #315C92  6.83:1
+magenta        = [0.4700, 0.1100, 330.00]   # #7C4178  7.28:1
+cyan           = [0.5100, 0.0900, 200.00]   # #00757A  5.49:1
+white          = [0.7400, 0.0060, 264.00]   # #A9ABAF  2.30:1 - dim by design
+bright_black   = [0.4825, 0.0140, 264.00]   # #5A5E67  6.50:1 = text_muted
+bright_red     = [0.4400, 0.2000,  17.60]   # #A40025  8.06:1
+bright_green   = [0.4400, 0.1300, 165.00]   # #006740  6.97:1
+bright_yellow  = [0.4700, 0.1200,  84.43]   # #7A5300  6.85:1
+bright_blue    = [0.4000, 0.1100, 255.00]   # #164781  9.32:1
+bright_magenta = [0.4000, 0.1200, 330.00]   # #6A2A66  9.83:1
+bright_cyan    = [0.4400, 0.0900, 200.00]   # #006166  7.24:1
+bright_white   = [0.2662, 0.0120, 264.00]   # #23262C 15.16:1 = text
 
 # =============================================================================
 # BORDER - neobrutalism.dev reference audit (2026-08-29): the reference

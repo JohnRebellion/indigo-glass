@@ -44,6 +44,8 @@ except ImportError:
     sys.exit(1)
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling: vscode_roles
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TOKENS_FILE = REPO_ROOT / "tokens" / "indigo-glass.tokens.toml"
 OUT_DIR = REPO_ROOT / "tokens" / "out"
@@ -1142,6 +1144,231 @@ def emit_klassy_radius(t: dict) -> str:
     return "\n".join(lines)
 
 
+# =============================================================================
+# VSCode colour themes (dark + light) - generated from tokens/vscode_roles.py
+#
+# Added 2026-09-22. Before this the two theme files were hand-typed, and the
+# drift guard could not see them because it hunts SUPERSEDED accents, not
+# arbitrary off-palette literals. That gap had let the light theme keep 27
+# occurrences of a violet (#7C3AED) on types, classes, numbers, links and
+# button hover - a colour from no Sage Ink variant, documented nowhere, and
+# contradicted by vscode/README.md which claimed a sage ladder instead.
+# Generating both files from one role map is what makes the two agree.
+# =============================================================================
+
+def ansi_palette(t: dict, variant: str) -> dict:
+    """The 16 ANSI slots for a variant, as hex. See [variants.<v>.ansi]."""
+    v = t["variants"][variant]
+    if "ansi" not in v:
+        raise KeyError(
+            f"variant {variant!r} ships a VSCode theme but declares no "
+            f"[variants.{variant}.ansi] block"
+        )
+    return {slot: oklch_to_hex(*lch) for slot, lch in v["ansi"].items()}
+
+
+# Neutral ladder above `surface`: scrollbars, hover fills, pinned-tab borders.
+# Not palette roles because they carry no meaning - they are the same surface
+# a step further from the canvas. The step is applied to `surface`'s own OKLCH
+# so each variant keeps its own hue, and it is SIGNED: on a dark canvas "up"
+# is lighter, on a light canvas it is darker.
+_LIFT_STEPS = {"lift1": 0.03, "lift2": 0.09, "lift3": 0.14}
+
+
+def _lift(t: dict, variant: str, name: str) -> str:
+    L, C, H = t["variants"][variant]["surface"]
+    delta = _LIFT_STEPS[name] * (-1 if _base_is_light(t, variant) else 1)
+    return oklch_to_hex(max(0.0, min(1.0, L + delta)), C, H)
+
+
+def _orange(t: dict, variant: str) -> str:
+    """Derived: amber's lightness and chroma at the hue midway between amber
+    and negative. The palette has no orange role, but `invalid.deprecated` and
+    charts.orange both need one that is not simply amber again."""
+    aL, aC, aH = t["variants"][variant]["amber"]
+    _, _, nH = t["variants"][variant]["negative"]
+    return oklch_to_hex(aL, aC, (aH + nH) / 2)
+
+
+def _on_accent(t: dict, variant: str, pal: dict) -> str:
+    """Text/icon legible on an `accent` FILL - button labels, badge counts.
+
+    The hand-typed dark theme used #FFFFFF here, which measured 1.68:1 on the
+    sage fill it sat on: button.foreground was effectively invisible. Picking
+    the best of {text, white, black} by measured contrast fixes that, and on
+    the light variant independently arrives at white (6.06:1)."""
+    fill = pal["accent"]["hex"]
+    return max((pal["text"]["hex"], "#FFFFFF", "#000000"),
+               key=lambda c: contrast_ratio(c, fill))
+
+
+def _resolve_role(t: dict, variant: str, pal: dict, ansi: dict, expr: str) -> str:
+    """Resolve one role expression from tokens/vscode_roles.py to hex.
+    Grammar is documented in that module's docstring."""
+    # `tint:` carries its own fractional alpha, so it is matched on the FULL
+    # expression before the trailing-alpha split below would eat it.
+    if expr.startswith("tint:"):
+        # tint:negative@0.12 - composited over `base` to an OPAQUE hex, the
+        # same discipline [palette.composite] applies: no consumer of this
+        # theme ever receives a real alpha channel for a status FILL.
+        role_name, _, frac = expr[5:].partition("@")
+        return _composite_hex(pal[role_name]["hex"], float(frac), pal["base"]["hex"])
+    body, _, alpha = expr.partition("@")
+    if body == "transparent":
+        return "#00000000"
+    if body.startswith("ansi:"):
+        slot = body[5:]
+        if slot not in ansi:
+            raise KeyError(f"{variant}: no ANSI slot {slot!r}")
+        hexv = ansi[slot]
+    elif body in _LIFT_STEPS:
+        hexv = _lift(t, variant, body)
+    elif body == "marker":
+        # Maximum contrast against the canvas: focus rings and active borders
+        # must win against every surface, so they take the extreme, not `text`.
+        hexv = "#000000" if _base_is_light(t, variant) else "#FFFFFF"
+    elif body == "on_accent":
+        hexv = _on_accent(t, variant, pal)
+    elif body == "outline_hard":
+        # The silhouette the ink material projects its hard shadow from.
+        # Black on BOTH variants on purpose - neobrutalism.dev's reference
+        # library borders every surface in black on a light canvas too.
+        hexv = "#000000"
+    elif body == "orange":
+        hexv = _orange(t, variant)
+    elif body in pal:
+        hexv = pal[body]["hex"]
+    else:
+        raise KeyError(f"{variant}: unknown role expression {expr!r}")
+    return f"{hexv}{alpha}" if alpha else hexv
+
+
+# Contrast pairs asserted at emit time. A colour theme is the one artifact in
+# this repo where a wrong value is invisible to every other guard: the drift
+# scan proves a hex came from the palette, not that the pair it forms is
+# legible. The hand-typed theme this replaced shipped button.foreground at
+# 1.68:1 on its own fill for months, and no scan could have caught it.
+#
+# Tiers are the honest ones, not aspirational: TEXT is body copy and must
+# clear WCAG AA 4.5:1; MUTED is deliberately secondary (comments, line
+# numbers, inactive tabs) and is held at 4.0 because `text_muted` measures
+# 4.14:1 on the sage dark base - a known, documented shortfall of the token
+# itself, not of this theme. Raising it is a palette-wide change touching
+# every layer, so it is reported rather than silently patched here.
+_CONTRAST_TEXT = [
+    ("editor.foreground", "editor.background"),
+    ("button.foreground", "button.background"),
+    ("button.secondaryForeground", "button.secondaryBackground"),
+    ("sideBar.foreground", "sideBar.background"),
+    ("statusBar.foreground", "statusBar.background"),
+    ("activityBar.foreground", "activityBar.background"),
+    ("badge.foreground", "badge.background"),
+    ("tab.activeForeground", "tab.activeBackground"),
+    ("input.foreground", "input.background"),
+    ("dropdown.foreground", "dropdown.background"),
+    ("titleBar.activeForeground", "titleBar.activeBackground"),
+    ("notifications.foreground", "notifications.background"),
+    ("terminal.foreground", "terminal.background"),
+    ("quickInput.foreground", "quickInput.background"),
+    ("menu.foreground", "menu.background"),
+    ("statusBarItem.errorForeground", "statusBarItem.errorBackground"),
+]
+_CONTRAST_MUTED = [
+    ("tab.inactiveForeground", "tab.inactiveBackground"),
+    ("editorLineNumber.foreground", "editor.background"),
+    ("descriptionForeground", "editor.background"),
+]
+
+
+def _assert_vscode_contrast(variant: str, colors: dict, token_colors: list) -> None:
+    bad = []
+    for pairs, floor, tier in ((_CONTRAST_TEXT, 4.5, "text"),
+                               (_CONTRAST_MUTED, 4.0, "muted")):
+        for fg, bg in pairs:
+            if fg not in colors or bg not in colors:
+                continue
+            ratio = contrast_ratio(colors[fg][:7], colors[bg][:7])
+            if ratio < floor:
+                bad.append(f"{variant}: {fg} on {bg} = {ratio:.2f}:1 "
+                           f"(<{floor} for {tier})")
+    editor_bg = colors["editor.background"][:7]
+    for rule in token_colors:
+        fg = rule["settings"].get("foreground")
+        if not fg:
+            continue
+        ratio = contrast_ratio(fg[:7], editor_bg)
+        if ratio < 4.0:
+            bad.append(f"{variant}: syntax {rule.get('name')!r} = "
+                       f"{ratio:.2f}:1 on the editor canvas (<4.0)")
+    if bad:
+        raise SystemExit("VSCode theme contrast check FAILED:\n  "
+                         + "\n  ".join(bad))
+
+
+def emit_vscode_theme(t: dict, variant: str, label: str, ui: str) -> str:
+    """One VSCode colour theme. `ui` is VSCode's own light/dark switch."""
+    from vscode_roles import VSCODE_COLORS, VSCODE_TOKEN_COLORS, VSCODE_SEMANTIC
+
+    pal = derive_palette(t, variant)
+    ansi = ansi_palette(t, variant)
+    r = lambda e: _resolve_role(t, variant, pal, ansi, e)
+
+    token_colors = []
+    for rule in VSCODE_TOKEN_COLORS:
+        settings = dict(rule["settings"])
+        if "foreground" in settings:
+            settings["foreground"] = r(settings["foreground"])
+        entry = {}
+        if rule.get("name"):
+            entry["name"] = rule["name"]
+        entry["scope"] = rule["scope"]
+        entry["settings"] = settings
+        token_colors.append(entry)
+
+    semantic = {}
+    for key, val in VSCODE_SEMANTIC.items():
+        if isinstance(val, str):
+            semantic[key] = r(val)
+        else:
+            v = dict(val)
+            if "foreground" in v:
+                v["foreground"] = r(v["foreground"])
+            semantic[key] = v
+
+    colors = {k: r(v) for k, v in VSCODE_COLORS.items()}
+    _assert_vscode_contrast(variant, colors, token_colors)
+
+    theme = {
+        "$schema": "vscode://schemas/color-theme",
+        "_generated": (
+            "DO NOT EDIT - generated by tokens/codegen.py from "
+            "tokens/indigo-glass.tokens.toml + tokens/vscode_roles.py. "
+            "Run `python3 tokens/codegen.py` after any token change."
+        ),
+        "name": label,
+        "type": ui,
+        "semanticHighlighting": True,
+        "colors": colors,
+        "semanticTokenColors": semantic,
+        "tokenColors": token_colors,
+    }
+    return json.dumps(theme, indent=4, ensure_ascii=False) + "\n"
+
+
+# Shipped VSCode themes: (output stem, variant, package.json label, ui kind).
+# Filenames are load-bearing - vscode/package.json resolves themes by path,
+# and the repo rule is never to rename an existing path to match current
+# naming, so these keep their legacy indigo-glass-* stems.
+VSCODE_THEMES = [
+    ("vscode-theme-dark.json", "sage", "Sage Ink Dark", "dark"),
+    ("vscode-theme-light.json", "sage_light", "Sage Ink Light", "light"),
+]
+SHIPPED_VSCODE = {
+    "vscode-theme-dark.json": REPO_ROOT / "vscode" / "themes" / "indigo-glass-dark.json",
+    "vscode-theme-light.json": REPO_ROOT / "vscode" / "themes" / "indigo-glass-light.json",
+}
+
+
 # Per-variant emitters: emitted once per variant. Canonical filename (no
 # variant suffix) = the default variant, for back-compat with consumers that
 # read e.g. tokens/out/css-vars.css. Plus a <stem>.<variant>.<ext> for each.
@@ -1236,7 +1463,7 @@ def emit_css_theme_pair(t: dict, dark: str, light: str) -> str:
 
 # Dark variant -> its light counterpart. Only pairs listed here get a
 # combined css-theme.<dark>.css; a variant with no light sibling is unaffected.
-THEME_PAIRS = [("orchid", "orchid_light")]
+THEME_PAIRS = [("orchid", "orchid_light"), ("sage", "sage_light")]
 
 
 def build_outputs(t: dict) -> dict[str, str]:
@@ -1250,6 +1477,8 @@ def build_outputs(t: dict) -> dict[str, str]:
         out[fname] = fn(t, default)  # canonical = default variant
     for fname, fn in SHARED_WRITERS:
         out[fname] = fn(t)
+    for fname, v, label, ui in VSCODE_THEMES:
+        out[fname] = emit_vscode_theme(t, v, label, ui)
     # Theme pairs: a dark variant and its light counterpart in one file.
     for dark, light in THEME_PAIRS:
         if dark in t["variants"] and light in t["variants"]:
@@ -1283,6 +1512,8 @@ def main():
     targets[SHIPPED_WT_SCHEME] = outputs["wt-scheme.json"]
     targets[SHIPPED_MONKEYTYPE] = outputs["monkeytype.json"]
     targets[SHIPPED_MONKEYTYPE_SETTINGS] = outputs["monkeytype-settings.json"]
+    for fname, path in SHIPPED_VSCODE.items():
+        targets[path] = outputs[fname]
 
     rc = 0
     for target, new in targets.items():

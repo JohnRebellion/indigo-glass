@@ -1,8 +1,8 @@
 {
   "name": "indigo-glass",
   "displayName": "Sage Ink",
-  "description": "neobrutalist ink — opaque, hard-shadow, colour-as-elevation — color theme + product icons",
-  "version": "0.2.0",
+  "description": "neobrutalist ink — opaque, hard-shadow, colour-as-elevation — Sage Ink dark + light color themes",
+  "version": "0.3.0",
   "publisher": "johnrebellion",
   "license": "MIT",
   "engines": {

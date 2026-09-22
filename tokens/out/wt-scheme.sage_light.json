@@ -1,0 +1,23 @@
+{
+  "name": "Sage Ink Light",
+  "background": "#FAFAFC",
+  "foreground": "#23262C",
+  "cursorColor": "#375538",
+  "selectionBackground": "#4B6A4C",
+  "black": "#F5F5F7",
+  "red": "#BE0C39",
+  "green": "#007E52",
+  "yellow": "#946900",
+  "blue": "#4B6A4C",
+  "purple": "#5C7B5C",
+  "cyan": "#67E8F9",
+  "white": "#23262C",
+  "brightBlack": "#5A5E67",
+  "brightRed": "#FF5272",
+  "brightGreen": "#8CFFB4",
+  "brightYellow": "#FFD250",
+  "brightBlue": "#375538",
+  "brightPurple": "#C8B5FF",
+  "brightCyan": "#A5F3FC",
+  "brightWhite": "#FFFFFF"
+}

@@ -233,8 +233,16 @@ PY
 if [ "$MODE" = "all" ] || [ "$MODE" = "colour" ]; then
   echo "Active variant: $ACTIVE_VARIANT"
   echo "Colour scan: ${#COLOUR_DIRS[@]} dirs"
+  # The active variant's LIGHT COUNTERPART is not a foreign variant: it is the
+  # other half of one shipped theme pair, and a light theme carries its own
+  # accent ladder by necessity (sage #A6C9A6 measures 1.82:1 on white, so a
+  # light build cannot reuse the dark accents and stay legible). Convention is
+  # "<active>_light", matching [variants.sage_light] / [variants.orchid_light]
+  # and codegen's THEME_PAIRS. Added 2026-09-22 with the generated VSCode
+  # light theme, which is the first deployable to carry these literals.
   for v in "${ALL_VARIANTS[@]}"; do
     [ "$v" = "$ACTIVE_VARIANT" ] && continue
+    [ "$v" = "${ACTIVE_VARIANT}_light" ] && continue
     literals="$(accent_literals_for "$v" | sort -u)"
     [ -z "$literals" ] && continue
     pattern="$(echo "$literals" | sed 's/[.[\*^$]/\\&/g' | tr '\n' '|' | sed 's/|$//')"
