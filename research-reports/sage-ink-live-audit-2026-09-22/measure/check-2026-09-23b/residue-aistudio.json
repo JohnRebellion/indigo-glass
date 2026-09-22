@@ -1,0 +1,23 @@
+{
+ "offToken": [],
+ "radii": [],
+ "gradientsBlur": [],
+ "translucent": [],
+ "selectedItems": [
+  "1x a.playground-link.ng-tns-c84241087-4.active-override bg=rgba(0, 0, 0, 0) shadow=rgb(248, 248, 248) 0px 0px 0px 2px inset"
+ ],
+ "thinBorders": [
+  "2x button.mat-mdc-tooltip-trigger.ms-button-borderless.ms-button-icon 1px rgba(0, 0, 0, 0)",
+  "2x button.expand-icon.ms-button-borderless.ms-button-icon 1px rgba(0, 0, 0, 0)",
+  "1x button.mat-mdc-tooltip-trigger.navbar-toggle-button.ng-tns-c3188062264-1 1px rgba(0, 0, 0, 0)",
+  "1x button.mat-mdc-tooltip-trigger.compare-button.ng-tns-c3368553441-8 1px rgba(0, 0, 0, 0)",
+  "1x button.mat-mdc-tooltip-trigger.ng-tns-c3368553441-8.ng-trigger 1px rgba(0, 0, 0, 0)",
+  "1x button.mat-mdc-menu-trigger.mat-mdc-tooltip-trigger.ng-tns-c3368553441-8 1px rgba(0, 0, 0, 0)",
+  "1x button.chevron-btn.left.ms-button-borderless 1px rgba(0, 0, 0, 0)",
+  "1x button.chevron-btn.right.ms-button-borderless 1px rgba(0, 0, 0, 0)",
+  "1x button#getCodeBtn.mat-mdc-tooltip-trigger.ms-button-borderless.ms-button-small 1px rgba(0, 0, 0, 0)",
+  "1x button#resetSettingsBtn.mat-mdc-tooltip-trigger.ms-button-borderless.ms-button-icon 1px rgba(0, 0, 0, 0)",
+  "1x button.ms-button-borderless.ms-button-icon.ms-button-small 1px rgba(0, 0, 0, 0)",
+  "1x input.slider-number-input.small[role=spinbutton] 1px rgb(38, 38, 38)"
+ ]
+}

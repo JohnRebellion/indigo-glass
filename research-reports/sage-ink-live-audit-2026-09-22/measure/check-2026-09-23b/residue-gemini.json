@@ -1,0 +1,12 @@
+{
+ "offToken": [
+  "2x div.gradient-strip rgb(186, 153, 227)"
+ ],
+ "radii": [],
+ "gradientsBlur": [],
+ "translucent": [],
+ "selectedItems": [
+  "1x a.mat-mdc-list-item.mdc-list-item.mat-mdc-tooltip-trigger[aria-current=page] bg=rgba(0, 0, 0, 0) shadow=rgb(248, 248, 248) 0px 0px 0px 2px inset"
+ ],
+ "thinBorders": []
+}

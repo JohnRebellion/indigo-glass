@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — GitHub
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.0
 @description    GitHub on Sage Ink structure with GitHub's own hues. Primer's surface stack collapsed to two ink steps, every radius token zeroed, link blue and the primary-action green re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -72,6 +72,8 @@
     --borderColor-accent-emphasis: #6494D5 !important;
     --overlay-borderColor: #5E5E60 !important;
     --control-borderColor-rest: #5E5E60 !important;
+    --control-transparent-bgColor-selected: transparent !important;
+    --control-transparent-bgColor-active: transparent !important;
     --color-border-default: #1C1C1E !important;
     --color-border-muted: #1C1C1E !important;
     --focus-outlineColor: #6494D5 !important;
@@ -167,6 +169,31 @@
   .cm-editor,
   [class*="mono"] {
     font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", "Cascadia Code", monospace !important;
+  }
+
+  /* ─── 0.4.0: live-audit residue (LEDGER L26, L28) ─────────────────────
+   * Tier C: the active ActionList row (Issues) was a 20% grey wash. Issue
+   * labels stay translucent: Primer composes each label's fill from its
+   * own hue with alpha (LabelToken), and no single variable makes them
+   * opaque without losing the per-label colour. Documented limit. */
+  li[class*="prc-ActionList-ActionListItem"][data-active="true"],
+  .prc-ActionList-ActionListItem[data-active="true"] {
+    background-color: transparent !important;
+    box-shadow: inset 0 0 0 2px #F8F8F8 !important;
+  }
+  /* Invisible-variant buttons (header icons, filter menus) carry no edge;
+   * --control-borderColor-rest would otherwise give them a stray 1px. */
+  [class*="prc-Button-ButtonBase"][data-variant="invisible"] {
+    border-color: transparent !important;
+  }
+  input.FormControl-input,
+  input[class*="prc-TextInput"],
+  [class*="prc-TextInput-TextInputWrapper"],
+  .form-control,
+  #qb-input-query,
+  [class*="Search-module__searchButton"] {
+    border-width: 2px !important;
+    border-color: #5E5E60 !important;
   }
 
   /* OKLCH upgrade. Surfaces/text from tokens/indigo-glass.tokens.toml

@@ -1,0 +1,86 @@
+{
+ "github": {
+  "repo": {
+   "url": "https://github.com/anthropics/claude-code",
+   "title": "anthropics/claude-code: Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.",
+   "radii": [],
+   "fills": [
+    "5x div.snippet-clipboard-content.notranslate bg=oklch(0.1605 0.0063 285.67)",
+    "5x pre.notranslate bg=oklch(0.1605 0.0063 285.67)",
+    "4x span.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+    "3x span.ml-1.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+    "3x code bg=rgb(18, 18, 22)",
+    "1x header.GlobalNav.styles-module__appHeader__YzYWk bg=oklch(0.134 0.0051 262.32)",
+    "1x button#_R_biqbahlik5_.prc-Button-ButtonBase-9n-Xk.NotificationsSubscriptionsMenu-module__ActionMenuButton__FVE3w bg=rgb(18, 18, 22)",
+    "1x a.prc-Button-ButtonBase-9n-Xk bg=rgb(18, 18, 22)",
+    "1x button#_R_kiqbahlik5_.prc-Button-ButtonBase-9n-Xk.prc-Button-IconButton-fyge7 bg=rgb(18, 18, 22)",
+    "1x button.prc-Button-ButtonBase-9n-Xk bg=rgb(18, 18, 22)",
+    "1x button.prc-Button-ButtonBase-9n-Xk.prc-Button-IconButton-fyge7 bg=rgb(18, 18, 22)",
+    "1x button#ref-picker-repos-header-ref-selector.prc-Button-ButtonBase-9n-Xk.overview-ref-selector bg=rgb(18, 18, 22)",
+    "1x span.d-flex.FileResultsList-module__FilesSearchBox__ivVkc bg=oklch(0.134 0.0051 262.32)",
+    "1x button#_R_51idahlik5_.prc-Button-ButtonBase-9n-Xk bg=rgb(18, 18, 22)"
+   ],
+   "linkColours": [
+    "46x oklch(0.551 0.0234 264.36)",
+    "39x oklch(0.82 0.11 255.92)",
+    "35x oklch(0.9791 0 89.88)",
+    "1x rgb(248, 248, 248)"
+   ],
+   "gradients": [],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "5x div.snippet-clipboard-content.notranslate bg=oklch(0.1605 0.0063 285.67)",
+     "5x pre.notranslate bg=oklch(0.1605 0.0063 285.67)",
+     "4x span.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+     "3x span.ml-1.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+     "3x code bg=rgb(18, 18, 22)"
+    ]
+   }
+  },
+  "issues": {
+   "url": "https://github.com/anthropics/claude-code/issues",
+   "title": "Issues · anthropics/claude-code",
+   "radii": [],
+   "fills": [
+    "50x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(237, 237, 237, 0.18)",
+    "26x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(147, 165, 255, 0.18)",
+    "20x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(255, 107, 128, 0.18)",
+    "3x span.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+    "3x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(162, 217, 206, 0.18)",
+    "2x span.valid-filter-value.StyledInput-module__Box_1__V2PE8 bg=rgb(18, 18, 22)",
+    "2x span.SectionFilterLink-module__count__OYuYz.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+    "2x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(215, 119, 87, 0.18)",
+    "2x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(136, 136, 136, 0.18)",
+    "1x header.GlobalNav.styles-module__appHeader__YzYWk bg=oklch(0.134 0.0051 262.32)",
+    "1x aside#_r_0_.CollapsibleSidebar-module__sidebar__X5thL.CollapsibleSidebar-module__expandedSmall__jnaCI bg=oklch(0.134 0.0051 262.32)",
+    "1x div.CollapsibleSidebar-module__footer__zkaPg bg=oklch(0.134 0.0051 262.32)",
+    "1x a.prc-Button-ButtonBase-9n-Xk bg=oklch(0.74 0.11 146.26)",
+    "1x button#_r_6n_.prc-Button-ButtonBase-9n-Xk bg=rgb(18, 18, 22)"
+   ],
+   "linkColours": [
+    "105x oklch(0.82 0.11 255.92)",
+    "54x oklch(0.9791 0 89.88)",
+    "39x oklch(0.551 0.0234 264.36)",
+    "1x rgb(7, 8, 10)",
+    "1x rgb(75, 85, 99)",
+    "1x rgb(255, 255, 255)"
+   ],
+   "gradients": [],
+   "layout": [],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "50x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(237, 237, 237, 0.18)",
+     "26x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(147, 165, 255, 0.18)",
+     "20x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(255, 107, 128, 0.18)",
+     "3x span.prc-CounterLabel-CounterLabel-X-kRU bg=rgb(18, 18, 22)",
+     "3x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM bg=rgba(162, 217, 206, 0.18)"
+    ]
+   }
+  }
+ }
+}

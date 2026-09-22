@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Facebook / Messenger
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.0
 @description    Facebook on Sage Ink structure with Facebook's own hue. Surfaces flattened to the two ink steps, all 68 corner-radius tokens zeroed, loading skeletons de-whited, and the brand blue re-cut on the ink lightness ladder. Every variable name here was read off a live render (scripts/style-check), not guessed.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -49,6 +49,14 @@
     --input-background-disabled: #07080A !important;
     --secondary-button-background: #121216 !important;
     --secondary-button-background-floating: #121216 !important;
+    /* 0.4.0: four more dark-mode fills the live audit caught at rest
+     * (LEDGER L28): the nav search label, disabled icon buttons, the
+     * Messenger chat tile, and --base-blue, which the Browse-all tile
+     * paints directly rather than through --accent. */
+    --text-input-bar-background: #0D0D10 !important;
+    --disabled-button-background: #121216 !important;
+    --messenger-card-background: #0D0D10 !important;
+    --base-blue: #81ACF0 !important;
     /* Hover and highlight stay TRANSLUCENT. Facebook paints these as a wash
      * layered over the control, not as its fill — v0.2.0 made them opaque ink
      * steps, which is a mechanism for a label to disappear under its own
@@ -196,11 +204,11 @@
    * draws them. Role selectors — Facebook's class names are per-build
    * hashes and change without notice. */
   div[role="banner"] {
-    border-bottom: 1px solid #1C1C1E !important;
+    border-bottom: 2px solid #5E5E60 !important;
   }
   div[role="navigation"][aria-label],
   div[role="complementary"] {
-    border-right: 1px solid #1C1C1E !important;
+    border-right: 2px solid #5E5E60 !important;
   }
 
   /* ─── Radius: the atomic-class holdouts ───────────────────────────────
@@ -223,14 +231,23 @@
 
   /* Search field: ink treatment, accent edge on focus. */
   input[type="search"],
+  input[role="combobox"],
   label[role="combobox"],
   div[role="search"] {
     background-color: #0D0D10 !important;
-    border: 1px solid #1C1C1E !important;
+    border: 2px solid #5E5E60 !important;
   }
   div[role="search"]:focus-within,
   label[role="combobox"]:focus-within {
     border-color: #6A93D5 !important;
+  }
+
+  /* ─── 0.4.0: live-audit residue (LEDGER L23, L28) ─────────────────────
+   * Tier C: the current nav row (Browse all) was a 10% white wash. */
+  a[role="link"][aria-current="page"],
+  a[aria-current="page"] {
+    background-color: transparent !important;
+    box-shadow: inset 0 0 0 2px #F8F8F8 !important;
   }
 
   /* OKLCH upgrade (perceptually uniform; round-trips to the same hex).

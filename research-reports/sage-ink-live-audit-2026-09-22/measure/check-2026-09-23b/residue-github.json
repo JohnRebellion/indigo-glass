@@ -1,0 +1,31 @@
+{
+ "offToken": [],
+ "radii": [],
+ "gradientsBlur": [],
+ "translucent": [
+  "36x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM.LabelToken-module__IssueLabelToken__vAY0G rgba(237, 237, 237, 0.18)",
+  "22x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM.LabelToken-module__IssueLabelToken__vAY0G rgba(147, 165, 255, 0.18)",
+  "16x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM.LabelToken-module__IssueLabelToken__vAY0G rgba(255, 107, 128, 0.18)",
+  "2x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM.LabelToken-module__IssueLabelToken__vAY0G rgba(215, 119, 87, 0.18)",
+  "2x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM.LabelToken-module__IssueLabelToken__vAY0G rgba(136, 136, 136, 0.18)",
+  "1x span.prc-Token-TokenBase-te5-F.prc-Token-IssueLabel-2IazM.LabelToken-module__IssueLabelToken__vAY0G rgba(162, 217, 206, 0.18)"
+ ],
+ "selectedItems": [
+  "1x a.prc-components-UnderlineItem-7fP-n[aria-current=page] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x li.prc-ActionList-ActionListItem-So4vC[data-active=true] bg=rgba(0, 0, 0, 0) shadow=rgb(248, 248, 248) 0px 0px 0px 2px inset",
+  "1x a#_R_dkllj5_.prc-ActionList-ActionListContent-KBb8-.prc-Link-Link-9ZwDx[aria-current=page] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x a#_R_lkllj5_.prc-ActionList-ActionListContent-KBb8-.prc-Link-Link-9ZwDx[aria-current=false] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x a#_R_tkllj5_.prc-ActionList-ActionListContent-KBb8-.prc-Link-Link-9ZwDx[aria-current=false] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x a#_R_15kllj5_.prc-ActionList-ActionListContent-KBb8-.prc-Link-Link-9ZwDx[aria-current=false] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x a#_R_1dkllj5_.prc-ActionList-ActionListContent-KBb8-.prc-Link-Link-9ZwDx[aria-current=false] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x a.SectionFilterLink-module__container__GDiZl.SectionFilterLink-module__selected__viCT6.prc-Text-Text-9mHv3[aria-current=true] bg=rgba(0, 0, 0, 0) shadow=none"
+ ],
+ "thinBorders": [
+  "6x button.prc-Button-ButtonBase-9n-Xk.repository-filter-actions-module__FilterButton__kSEV_ 1px rgba(0, 0, 0, 0)",
+  "1x button.prc-Button-ButtonBase-9n-Xk.styles-module__appHeaderButton__axedQ.prc-Button-IconButton-fyge7 1px rgba(0, 0, 0, 0)",
+  "1x button#_R_2iif5_.prc-Button-ButtonBase-9n-Xk.styles-module__appHeaderButton__axedQ.CopilotItems-module__CopilotMenu__DVdfE 1px rgba(0, 0, 0, 0)",
+  "1x button#_R_mf5_.prc-Button-ButtonBase-9n-Xk.GlobalCreateMenu-module__actionMenuButton__Hj_iB.GlobalCreateMenu-module__responsiveCreateMenu__zTmSP 1px rgba(0, 0, 0, 0)",
+  "1x button.prc-Button-ButtonBase-9n-Xk.GlobalNavUserMenu-module__anchor__Dcej6.prc-Button-IconButton-fyge7 1px rgba(0, 0, 0, 0)",
+  "1x button#_r_o_.prc-Button-ButtonBase-9n-Xk.sorting-dropdown-module__sortingMenuButton__j3BcS 1px rgba(0, 0, 0, 0)"
+ ]
+}

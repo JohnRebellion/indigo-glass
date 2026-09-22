@@ -132,6 +132,15 @@ json.dump(out, open('browser/stylus/out/sage-ink-stylus-import.json','w'), inden
 EOF
 ```
 
+Residue pass — the buckets `check.mjs` does not scan (off-token fills anywhere
+in the viewport, gradients and blur, translucent fills at rest, filled selected
+items, controls under 2px):
+
+```sh
+node residue.mjs browser/stylus/sites/youtube.user.css https://www.youtube.com/ /tmp/yt.png
+node residue.mjs - https://www.youtube.com/     # unstyled baseline
+```
+
 Two smaller tools for writing a rule in the first place:
 
 ```sh

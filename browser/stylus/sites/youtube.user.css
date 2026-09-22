@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — YouTube
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    YouTube on Sage Ink structure with YouTube's own hue. Six greys collapsed to two ink steps, every rounded corner squared, the translucent masthead made opaque, and the brand red re-cut on the ink lightness ladder. Fixes verified against a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -101,11 +101,11 @@
   /* ─── Edges, not tints ─────────────────────────────────────────────── */
   ytd-app tp-yt-app-drawer #contentContainer,
   ytd-mini-guide-renderer {
-    border-right: 1px solid #1C1C1E !important;
+    border-right: 2px solid #5E5E60 !important;
   }
   #masthead-container,
   ytd-masthead {
-    border-bottom: 1px solid #1C1C1E !important;
+    border-bottom: 2px solid #5E5E60 !important;
   }
 
   /* ─── Ink corners ──────────────────────────────────────────────────────
@@ -209,7 +209,7 @@
   #container.ytd-searchbox,
   .ytSearchboxComponentInputBox {
     background-color: #0D0D10 !important;
-    border: 1px solid #1C1C1E !important;
+    border: 2px solid #5E5E60 !important;
   }
   #search-form:focus-within,
   .ytSearchboxComponentInputBox:focus-within {
@@ -221,6 +221,41 @@
   .ytp-swatch-background-color,
   #progress.ytd-thumbnail-overlay-resume-playback-renderer {
     background-color: #E89082 !important;
+  }
+
+  /* ─── 0.3.0: live-audit residue (LEDGER L21-L23) ──────────────────────
+   * ytd-app paints #0F0F0F from its own stylesheet, not a --yt-spec token,
+   * so the canvas never reached base. #frosted-glass is the translucent
+   * blur bar under the chip row; ink has neither. */
+  html, body, ytd-app, #page-manager.ytd-app,
+  ytd-button-renderer.ytd-feed-filter-chip-bar-renderer {
+    background-color: #07080A !important;
+  }
+  #frosted-glass.ytd-app,
+  #frosted-glass {
+    background-color: #07080A !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  #skip-navigation.ytd-masthead {
+    background-color: #121216 !important;
+  }
+  /* Tier C: the selected chip and the active guide row were fills (white,
+   * and a 10% white wash). An inset 2px text-colour stroke instead; inset
+   * so the chip row's overflow clipping cannot eat it. */
+  .ytChipShapeChip.ytChipShapeActive,
+  ytd-guide-entry-renderer[active],
+  ytd-guide-entry-renderer[active] #endpoint,
+  ytd-mini-guide-entry-renderer[active] {
+    background-color: transparent !important;
+    box-shadow: inset 0 0 0 2px #F8F8F8 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Controls carry the 2px border_strong edge. */
+  .ytSearchboxComponentSearchButton,
+  .ytSpecButtonShapeNextTonal,
+  #voice-search-button.ytd-masthead button {
+    border: 2px solid #5E5E60 !important;
   }
 
   /* OKLCH upgrade. Surfaces/text from tokens/indigo-glass.tokens.toml

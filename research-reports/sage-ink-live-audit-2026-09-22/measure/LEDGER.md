@@ -70,3 +70,34 @@ Its border-weight and filled-state findings held.
 
 Not verified: Dark Reader interaction (harness runs with extensions disabled, by design), Stylus after import
 (bundle merged, not yet imported), Firefox theme render.
+
+## Fix pass for L21–L28, 2026-09-23 (residue.mjs + check.mjs + own read)
+
+Styles bumped: youtube 0.3.0, aistudio 0.3.0, gemini 0.3.0, facebook 0.4.0, github 0.4.0, google 0.5.0.
+`check.mjs` now scans Google from `body` (was `#center_col`, the L27 blind spot) and reports a
+`gradients` bucket (gradient fills + backdrop-filter). The residue probe used for this pass is
+promoted to `scripts/style-check/residue.mjs`. Raw output: `measure/check-2026-09-23b/`
+(`*.txt` = check.mjs, `residue-*.json` = residue.mjs, after fixes).
+
+Every hashed selector the probe surfaced was traced to a role/attribute anchor before a rule was
+written; no rule names a Google or Facebook hash. Facebook fills were traced to their declared
+variables (`--text-input-bar-background`, `--disabled-button-background`,
+`--messenger-card-background`, `--base-blue`) via the site's own stylesheets.
+
+| # | Site | Was | Now | Evidence |
+|---|---|---|---|---|
+| L30 | YouTube | canvas #0F0F0F; `#frosted-glass` rgba+blur(48px); "All" chip white fill; Home row 10% wash; 1px search edge | base everywhere; blur gone; chip + Home = inset 2px text stroke; 2px border_strong on search, masthead, guide | residue: offToken = ripple #E89082 only (site hue), gradientsBlur 0, translucent = drawer scrim only; own read |
+| L31 | AI Studio | 10 off-token greys (#1F1F1F/#191919/#252525/#323232…); 3 backdrop blurs; conic gradient; Playground row #2A2A2A fill | surface/surface_alt + 2px edges; blur and gradient gone; Playground = stroke | residue: offToken 0, gradientsBlur 0; thinBorders = borderless icon buttons (1px transparent, no visible edge) |
+| L32 | Gemini | current chat #171717 fill; fade gradients; composer edgeless; drawer #1C1C1C at 900px | stroke; gradients off; composer 2px; drawer sidebar token | check narrow900 fills on-token; horizontal scrollbar at 1400px is present unstyled too (not ours) |
+| L33 | Facebook | Browse-all 10% wash; #1877F2 tile; #242526 chat tile; 10% washes on search label + disabled buttons; 1px combobox | stroke; #81ACF0 (site accent recut); surface; 2px edges | residue: offToken = #81ACF0 only; translucent 0; "page height grew 1.7x" = infinite scroll, as L20 |
+| L34 | GitHub | Issues row 20% wash; header/filter buttons 1px; label chips rgba .18 | stroke via `--control-transparent-bgColor-selected` + inset; invisible-variant buttons edgeless by design; inputs 2px | residue: translucent = label chips only (L26 limit stands); own read |
+| L35 | Google | AI Overview outside `#center_col`: #363840 source chips, #22242A "Show more" pill r=24, fade gradient, white favicon tiles, `mark` r=4 + gradient; Images tab: #22242A chips r=8, white thumb tiles, carousel fades | all on-token, radius 0, no gradients; Show more = one full-width 2px button (first cut split it in two — inner text div repainted base; fixed); tabs stayed unfilled after `:has(img)` scoping | check.mjs all + images: radii [], gradients [], fills on-token; residue all buckets empty; own read ×3 |
+
+Residue that is intentional and stays: YouTube ripple #E89082, Facebook #81ACF0, Gemini `.gradient-strip`
+#BA99E3 (per-site hue policy); YouTube/Gemini modal scrims (drift-allow); GitHub label chips (L26);
+1px-transparent borders on invisible-variant buttons (no edge is the design).
+
+Not verified in this pass: Dark Reader interaction (harness disables extensions), the bundle after
+Stylus import, Firefox render. `edge-personal` confirmed on the same binary the harness drives
+(`/usr/bin/microsoft-edge-stable` → `/opt/microsoft/msedge/msedge`, 153.0.4234.48) with theme,
+Stylus and Dark Reader present in Default and Profile 1 (`check-deployment.sh`).

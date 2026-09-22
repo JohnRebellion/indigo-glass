@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Google Search
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
+@version        0.5.0
 @description    Google Search on Sage Ink structure with a near-neutral hue of its own. One flat ink canvas, ink-sharp corners, the AI-Overview streaming highlight replaced by an underline, and the results column widened and centred through Google's own grid. Selectors verified against a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -142,14 +142,85 @@
   #center_col div,
   #center_col img,
   #center_col g-img,
+  #rcnt div,
+  #rcnt img,
+  #rcnt g-img,
+  #rcnt a[role="button"],
+  #rcnt span[role="button"],
   #botstuff div,
   #rhs div,
+  #appbar div,
   [role="button"],
   [role="listitem"],
+  [role="list"],
   button,
   input,
   g-fab {
     border-radius: 0 !important;
+  }
+
+  /* ─── 0.5.0: live-audit residue (LEDGER L27) ──────────────────────────
+   * The AI Overview, its "Show more" pill and the People-also-ask cards
+   * all sit outside #center_col, so the 0.4.0 rules never reached them.
+   * Their fills are Google's own dark-mode blue-greys (#363840, #2C2E35,
+   * #22242A) painted from hashed classes. Blanket by role and container,
+   * never by hash. */
+  #rcnt div[role="button"],
+  #rcnt button,
+  #rcnt [role="region"] > div,
+  #rcnt [data-attrid] > div[jscontroller] {
+    background-color: #121216 !important;
+  }
+  #rcnt div[role="button"],
+  #rcnt button {
+    border: 2px solid #5E5E60 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Favicons ship as data: PNGs on a white tile. Surface_alt, not white. */
+  #rcnt img[src^="data:image"] {
+    background-color: #121216 !important;
+  }
+  /* The AI Overview's truncation wrapper ([data-fh]) fades its last lines
+   * with a gradient overlay ([data-lhoverlay]) that lands on a "Show more"
+   * bar. Ink has no fades: overlay off, bar on base. */
+  mark,
+  #rcnt [data-lhoverlay] {
+    background-image: none !important;
+    border-radius: 0 !important;
+  }
+  #rcnt [data-fh] div:not([role]) {
+    background-color: #07080A !important;
+  }
+  /* The bar's inner text wrapper would otherwise repaint base over the
+   * left two-thirds and split the button in two. */
+  #rcnt [data-fh] div[role="button"] div {
+    background-color: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  /* Images tab: the refinement-chip carousel under the tab bar (#hdtb-sc)
+   * is a role=list of role=listitem anchors — grey tiles (#22242A, r=8),
+   * white thumb placeholders, and gradient fades on both carousel edges. */
+  /* :has(img) keeps this off the result-type tabs (All/Images/...), which
+   * share the list/listitem/link structure but carry no thumbnail. */
+  [role="list"] [role="listitem"] a[role="link"]:has(img) div {
+    background-color: #121216 !important;
+  }
+  [role="list"] [role="listitem"] a[role="link"]:has(img) div,
+  [role="list"] [role="listitem"] a[role="link"]:has(img) span,
+  [role="list"] [role="listitem"] a[role="link"]:has(img) img {
+    border-radius: 0 !important;
+  }
+  #hdtb-sc div:empty,
+  #appbar div:empty {
+    background-image: none !important;
+  }
+  /* Tier C: the current result tab (All/Images) is a stroke, not a wash. */
+  #rcnt [aria-current="page"],
+  #hdtb-sc [aria-current="page"],
+  [role="navigation"] [aria-current="page"] {
+    background-color: transparent !important;
+    box-shadow: inset 0 -2px 0 0 #F8F8F8 !important;
   }
 
   /* ─── Dividers ─────────────────────────────────────────────────────── */

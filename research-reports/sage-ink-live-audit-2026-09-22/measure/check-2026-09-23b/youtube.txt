@@ -1,0 +1,54 @@
+{
+ "youtube": {
+  "home": {
+   "url": "https://www.youtube.com/",
+   "title": "YouTube",
+   "radii": [],
+   "fills": [
+    "76x div.ytSpecTouchFeedbackShapeFill bg=rgb(232, 144, 130)",
+    "41x div.fill.style-scope bg=rgb(232, 144, 130)",
+    "22x badge-shape.ytBadgeShapeHost.ytBadgeShapeThumbnailDefault bg=rgb(7, 8, 10)",
+    "21x div.ytSpecTouchFeedbackShapeHoverEffect bg=rgb(232, 144, 130)",
+    "19x div.ytChipShapeChip.ytChipShapeInactive bg=rgb(18, 18, 22)",
+    "6x div.rich-thumbnail.skeleton-bg-color bg=rgb(18, 18, 22)",
+    "6x div.channel-avatar.skeleton-bg-color bg=rgb(18, 18, 22)",
+    "6x div.rich-video-title.text-shell bg=rgb(18, 18, 22)",
+    "6x div.video-meta.rich-video-meta bg=rgb(18, 18, 22)",
+    "2x button.ytSpecButtonShapeNextHost.ytSpecButtonShapeNextTonal bg=rgb(18, 18, 22)",
+    "1x div#frosted-glass.with-chipbar.style-scope bg=rgb(7, 8, 10)",
+    "1x div#masthead-container.style-scope.ytd-app bg=rgb(7, 8, 10)",
+    "1x div#skip-navigation.style-scope.ytd-masthead bg=rgb(18, 18, 22)",
+    "1x div.contribYtLightShapeStaticWashLight.contribYtLightShapeStaticWashLightTonal bg=rgba(255, 255, 255, 0.05)"
+   ],
+   "linkColours": [
+    "58x rgb(241, 241, 241)",
+    "33x rgb(170, 170, 170)",
+    "31x rgb(158, 158, 255)",
+    "1x rgb(248, 248, 248)"
+   ],
+   "gradients": [],
+   "layout": [
+    {
+     "sel": "#search",
+     "box": 0,
+     "width": "auto",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "inline",
+     "gridCols": "none"
+    }
+   ],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "74x div.ytSpecTouchFeedbackShapeFill bg=rgb(232, 144, 130)",
+     "42x div.fill.style-scope bg=rgb(232, 144, 130)",
+     "23x badge-shape.ytBadgeShapeHost.ytBadgeShapeThumbnailDefault bg=rgb(7, 8, 10)",
+     "22x div.ytSpecTouchFeedbackShapeHoverEffect bg=rgb(232, 144, 130)",
+     "19x div.ytChipShapeChip.ytChipShapeInactive bg=rgb(18, 18, 22)"
+    ]
+   }
+  }
+ }
+}

@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Google Gemini
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    Gemini on Sage Ink. Material 3's surface-container ramp collapsed to two ink steps, Gemini's own --bard-color-* chrome retinted, corners squared, Gemini's own violet on the ink ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -152,6 +152,38 @@
   pre, code, .code-block, [class*="code-block"] {
     font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
     border-radius: 0 !important;
+  }
+
+  /* ─── 0.3.0: live-audit residue (LEDGER L25) ──────────────────────────
+   * Tier C: the current chat row was a #171717 fill. The list's fade
+   * scrims are gradients; ink has no fades. The promo strip's rainbow
+   * gradient is the brand's; it becomes the flat brand violet. */
+  a.mat-mdc-list-item[aria-current="page"],
+  .mat-mdc-list-item.mdc-list-item--activated {
+    background-color: transparent !important;
+    box-shadow: inset 0 0 0 2px #F8F8F8 !important;
+  }
+  .top-gradient,
+  .bottom-gradient {
+    background: none !important;
+  }
+  .gradient-strip {
+    background: #BA99E3 !important;
+  }
+  input-area-v2,
+  .input-area-container,
+  .text-input-field {
+    border: 2px solid #5E5E60 !important;
+  }
+  /* Under 960px the side nav becomes a mat-drawer painted #1C1C1C from
+   * Material's own surface, not a Gemini token. */
+  mat-sidenav.mat-drawer,
+  .mat-drawer.mat-sidenav {
+    background-color: #0A0A0D !important;
+    border-right: 2px solid #5E5E60 !important;
+  }
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* drift-allow: modal scrim */
   }
 
   @supports (color: oklch(0% 0 0)) {

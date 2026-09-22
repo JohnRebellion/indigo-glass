@@ -38,7 +38,9 @@ const SITES = {
       all: 'https://www.google.com/',
       images: 'https://www.google.com/',
     },
-    content: '#center_col',
+    /* Was '#center_col' until 2026-09-23; the AI Overview and its pill sit
+     * outside it, so residue there went unseen (LEDGER L27). */
+    content: 'body',
     /* Hitting /search directly gets served /sorry/index (CAPTCHA) on a cold
      * cookie jar. Typing the query on the homepage and submitting does not. */
     flow: async (page, label) => {
@@ -200,6 +202,7 @@ async function audit(page, contentSel) {
     const radii = new Map()
     const fills = new Map()
     const linkColours = new Map()
+    const gradients = new Map()
     for (const el of all) {
       const r = el.getBoundingClientRect()
       if (r.width < 24 || r.height < 12) continue
@@ -215,6 +218,10 @@ async function audit(page, contentSel) {
         bump(fills, `${sig(el)} bg=${bg}`)
       }
       if (el.tagName === 'A') bump(linkColours, c.color)
+      // ink has no gradients and no blur; both are residue wherever they sit
+      if (/gradient\(/.test(c.backgroundImage)) bump(gradients, `${sig(el)} ${c.backgroundImage.slice(0, 60)}`)
+      const bf = c.backdropFilter || c.webkitBackdropFilter
+      if (bf && bf !== 'none') bump(gradients, `${sig(el)} backdrop=${bf}`)
     }
     const top = (m, n = 14) => [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, n)
       .map(([k, v]) => `${v}x ${k}`)
@@ -226,7 +233,7 @@ async function audit(page, contentSel) {
       return { sel: s, box: Math.round(e.getBoundingClientRect().width), width: c.width, maxWidth: c.maxWidth, marginLeft: c.marginLeft, display: c.display, gridCols: c.gridTemplateColumns }
     }).filter(Boolean)
 
-    return { radii: top(radii), fills: top(fills), linkColours: top(linkColours, 8), layout }
+    return { radii: top(radii), fills: top(fills), linkColours: top(linkColours, 8), gradients: top(gradients), layout }
   }, contentSel)
 }
 

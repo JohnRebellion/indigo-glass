@@ -1,0 +1,177 @@
+{
+ "google": {
+  "all": {
+   "url": "https://www.google.com/search?q=qg18de&num=10&sca_esv=b40dc5c8df7b9ed7&sxsrf=APpeQnt8mAXTpaezWME4MvFlI0tBOXBVSw%3A1790109319263&source=hp&ei=h-ayatXkDfHi2roPh8PH-A0&iflsig=ABILxe8AAAAAarL0l8tC6Qc0qCqpo-_4OPJEDEzj7pWl&ved=0ahUKEwiVxNPwhIOXAxVxsVYBHYfhEd8Q4dUDCCg&uact=5&oq=qg18de&gs_lp=Egdnd3Mtd2l6IgZxZzE4ZGVICFAAWABwAHgAkAEAmAEAoAEAqgEAuAEDyAEA-AEBmAIAoAIAmAMAkgcAoAcAsgcAuAcAwgcAyAcAgAgB&sclient=gws-wiz",
+   "title": "qg18de - Google Search",
+   "radii": [],
+   "fills": [
+    "16x div bg=rgb(7, 8, 10)",
+    "7x div.MJ8UF.iTPLzd bg=rgb(18, 18, 22)",
+    "6x div.WYczDe bg=rgb(7, 8, 10)",
+    "4x img.XNo5Ab bg=rgb(18, 18, 22)",
+    "4x div.iTPLzd.rNSxBe bg=rgb(18, 18, 22)",
+    "3x button.vDOt8c.oy7Apc bg=rgb(18, 18, 22)",
+    "3x div.S9OuHf bg=rgb(7, 8, 10)",
+    "3x div.cRH23c.g7lqo bg=rgb(7, 8, 10)",
+    "3x div.Wgphwb bg=rgb(7, 8, 10)",
+    "3x div.xWZV4e bg=rgb(7, 8, 10)",
+    "3x div.jdxGff bg=rgb(7, 8, 10)",
+    "3x div.ypuoue bg=rgb(7, 8, 10)",
+    "3x div.pNAzYe bg=rgb(7, 8, 10)",
+    "3x div.uzRjgd bg=rgb(7, 8, 10)"
+   ],
+   "linkColours": [
+    "39x oklch(0.82 0.05 262)",
+    "16x rgb(153, 195, 255)",
+    "5x rgb(191, 191, 191)",
+    "2x rgb(197, 138, 249)",
+    "2x rgb(168, 199, 250)"
+   ],
+   "gradients": [],
+   "layout": [
+    {
+     "sel": "#cnt",
+     "box": 1385,
+     "width": "1385px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    },
+    {
+     "sel": "#rcnt",
+     "box": 1385,
+     "width": "1385px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "grid",
+     "gridCols": "122.5px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 122.5px"
+    },
+    {
+     "sel": "#center_col",
+     "box": 820,
+     "width": "820px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    },
+    {
+     "sel": "#rso",
+     "box": 820,
+     "width": "820px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    },
+    {
+     "sel": "#search",
+     "box": 820,
+     "width": "820px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    }
+   ],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "16x div bg=rgb(7, 8, 10)",
+     "7x div.MJ8UF.iTPLzd bg=rgb(18, 18, 22)",
+     "6x div.WYczDe bg=rgb(7, 8, 10)",
+     "4x img.XNo5Ab bg=rgb(18, 18, 22)",
+     "4x div.iTPLzd.rNSxBe bg=rgb(18, 18, 22)"
+    ]
+   }
+  },
+  "images": {
+   "url": "https://www.google.com/search?num=10&sca_esv=b40dc5c8df7b9ed7&sxsrf=APpeQnsEETGZdElSQhO2B6m08UXMwbw1iA:1790109333171&udm=2&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8cqCQj_06QnZs315LoFmPf5bBLHMJ0vMQmTbuI72DM7jmSm18uaHUIcIw77cYBDAp2S_EK0zZU1C-EyNUuO0jdFw__dW4l75s_oWTPlu_0Mf3G2aEXAkSmrl7q5TsOGZl0c9WQ-XmVrvTfkbWIyND0Ir4R4Ib1EDR8F8APKFiWJiOh-HA5ULCvxc2kwKNYZjePoMXvhA&q=qg18de&sa=X&ved=2ahUKEwiHmqb3hIOXAxXfcvUHHSEqOdoQtKgLegQIGBAB&biw=1400&bih=1000&dpr=1",
+   "title": "qg18de - Google Search",
+   "radii": [],
+   "fills": [
+    "100x div.RmwKgd.klScif bg=rgb(18, 18, 22)",
+    "33x div.GKS7s bg=rgb(18, 18, 22)",
+    "33x div.iAatCe bg=rgb(18, 18, 22)",
+    "33x div.q1MG4e bg=rgb(18, 18, 22)",
+    "1x div#searchform.CvDJxb.YNk70c bg=oklch(0.134 0.0051 262.32)",
+    "1x form#tsf.tsf bg=oklch(0.134 0.0051 262.32)",
+    "1x div.RNNXgb bg=oklch(0.1605 0.0063 285.67)",
+    "1x div#main.main.n48JGd bg=oklch(0.134 0.0051 262.32)",
+    "1x div#cnt.e9EfHf bg=oklch(0.134 0.0051 262.32)",
+    "1x div.rfiSsc.YNk70c bg=rgb(34, 36, 42)",
+    "1x div#rcnt.NbTBrb.YNk70c bg=oklch(0.134 0.0051 262.32)",
+    "1x div#center_col.s6JM6d.bzXtMb bg=oklch(0.134 0.0051 262.32)",
+    "1x img#dimg_1OWyapulCfafvr0Pp-3QoAc_92 bg=rgb(18, 18, 22)",
+    "1x img#dimg_1OWyapulCfafvr0Pp-3QoAc_131 bg=rgb(18, 18, 22)"
+   ],
+   "linkColours": [
+    "213x oklch(0.82 0.05 262)",
+    "42x rgb(153, 195, 255)",
+    "3x rgb(197, 138, 249)",
+    "2x rgb(168, 199, 250)"
+   ],
+   "gradients": [],
+   "layout": [
+    {
+     "sel": "#cnt",
+     "box": 1385,
+     "width": "1385px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    },
+    {
+     "sel": "#rcnt",
+     "box": 1385,
+     "width": "1385px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "grid",
+     "gridCols": "122.5px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 122.5px"
+    },
+    {
+     "sel": "#center_col",
+     "box": 800,
+     "width": "800px",
+     "maxWidth": "1385px",
+     "marginLeft": "20px",
+     "display": "block",
+     "gridCols": "none"
+    },
+    {
+     "sel": "#rso",
+     "box": 800,
+     "width": "800px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    },
+    {
+     "sel": "#search",
+     "box": 800,
+     "width": "800px",
+     "maxWidth": "none",
+     "marginLeft": "0px",
+     "display": "block",
+     "gridCols": "none"
+    }
+   ],
+   "layoutWarnings": [],
+   "narrow900": {
+    "radii": [],
+    "fills": [
+     "100x div.RmwKgd.klScif bg=rgb(18, 18, 22)",
+     "33x div.GKS7s bg=rgb(18, 18, 22)",
+     "33x div.iAatCe bg=rgb(18, 18, 22)",
+     "33x div.q1MG4e bg=rgb(18, 18, 22)",
+     "1x div#searchform.CvDJxb.YNk70c bg=oklch(0.134 0.0051 262.32)"
+    ]
+   }
+  }
+ }
+}

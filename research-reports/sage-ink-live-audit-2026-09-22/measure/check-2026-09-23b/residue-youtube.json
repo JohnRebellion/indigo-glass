@@ -1,0 +1,19 @@
+{
+ "offToken": [
+  "52x div.ytSpecTouchFeedbackShapeFill rgb(232, 144, 130)",
+  "41x div.fill.style-scope.yt-interaction rgb(232, 144, 130)",
+  "9x div.ytSpecTouchFeedbackShapeHoverEffect rgb(232, 144, 130)"
+ ],
+ "radii": [],
+ "gradientsBlur": [],
+ "translucent": [
+  "1x div#scrim.style-scope.tp-yt-app-drawer rgba(0, 0, 0, 0.5)"
+ ],
+ "selectedItems": [
+  "1x ytd-guide-entry-renderer.style-scope.ytd-guide-section-renderer[active=] bg=rgba(0, 0, 0, 0) shadow=rgb(248, 248, 248) 0px 0px 0px 2px inset",
+  "1x yt-chip-cloud-chip-renderer.style-scope.ytd-feed-filter-chip-bar-renderer.iron-selected[selected=] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x button.ytChipShapeButtonReset[role=tab][aria-selected=true] bg=rgba(0, 0, 0, 0) shadow=none",
+  "1x div.ytChipShapeChip.ytChipShapeActive.ytChipShapeOnlyTextPadding bg=rgba(0, 0, 0, 0) shadow=rgb(248, 248, 248) 0px 0px 0px 2px inset"
+ ],
+ "thinBorders": []
+}
