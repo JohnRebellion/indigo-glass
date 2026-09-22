@@ -9,6 +9,27 @@
 #
 # Bypass for emergency/WIP commits: git commit --no-verify
 REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# --- author identity -------------------------------------------------------
+# Added 2026-09-22. This is a personal repo and its commits are supposed to
+# carry the personal identity, but 6bf824d landed with the employer address and
+# was pushed before anyone noticed — a rule that lived only in prose. The drift
+# guard below proves hooks work here; authorship just had nothing watching it.
+#
+# git var resolves the identity the commit will ACTUALLY use, including a
+# -c user.email= override or GIT_AUTHOR_EMAIL in the environment, which is how
+# the bad commit was made. Reading git config would miss both.
+AUTHOR_EMAIL="$(git var GIT_AUTHOR_IDENT | sed -n 's/.*<\(.*\)>.*/\1/p')"
+case "$AUTHOR_EMAIL" in
+  johnnecirrebellion@gmail.com|*+JohnRebellion@users.noreply.github.com) ;;
+  *)
+    echo "[pre-commit] author email '$AUTHOR_EMAIL' is not the personal identity." >&2
+    echo "  This repo commits as John Rebellion <johnnecirrebellion@gmail.com>." >&2
+    echo "  Let git use the configured identity - do not pass -c user.email=." >&2
+    echo "  Bypass for a deliberate exception: git commit --no-verify" >&2
+    exit 1
+    ;;
+esac
 "$REPO_ROOT/scripts/check-palette-drift.sh" || {
   echo "" >&2
   echo "[pre-commit] drift guard failed — commit blocked." >&2
