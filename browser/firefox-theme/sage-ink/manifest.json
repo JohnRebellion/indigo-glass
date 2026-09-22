@@ -1,0 +1,55 @@
+{
+  "manifest_version": 2,
+  "name": "Sage Ink",
+  "version": "1.0.0",
+  "description": "Firefox chrome on Sage Ink tokens: opaque flat ink, border_strong edges, sage accent.",
+  "author": "John Rebellion",
+  "browser_specific_settings": {
+    "gecko": { "id": "sage-ink-theme@necir.ph" }
+  },
+  "theme": {
+    "colors": {
+      "frame": "#121216",
+      "frame_inactive": "#0D0D10",
+      "tab_background_text": "#6B7280",
+      "tab_text": "#F8F8F8",
+      "tab_selected": "#07080A",
+      "tab_line": "#A6C9A6",
+      "tab_loading": "#A6C9A6",
+      "toolbar": "#07080A",
+      "toolbar_text": "#F8F8F8",
+      "toolbar_top_separator": "#5E5E60",
+      "toolbar_bottom_separator": "#1C1C1E",
+      "toolbar_vertical_separator": "#1C1C1E",
+      "toolbar_field": "#121216",
+      "toolbar_field_text": "#F8F8F8",
+      "toolbar_field_border": "#5E5E60",
+      "toolbar_field_focus": "#121216",
+      "toolbar_field_text_focus": "#F8F8F8",
+      "toolbar_field_border_focus": "#F8F8F8",
+      "toolbar_field_highlight": "#A6C9A6",
+      "toolbar_field_highlight_text": "#07080A",
+      "button_background_hover": "#121216",
+      "button_background_active": "#1C1C1E",
+      "icons": "#F8F8F8",
+      "icons_attention": "#A6C9A6",
+      "popup": "#0D0D10",
+      "popup_text": "#F8F8F8",
+      "popup_border": "#5E5E60",
+      "popup_highlight": "#A6C9A6",
+      "popup_highlight_text": "#07080A",
+      "sidebar": "#0A0A0D",
+      "sidebar_text": "#F8F8F8",
+      "sidebar_border": "#5E5E60",
+      "sidebar_highlight": "#A6C9A6",
+      "sidebar_highlight_text": "#07080A",
+      "ntp_background": "#07080A",
+      "ntp_text": "#F8F8F8",
+      "ntp_card_background": "#121216"
+    },
+    "properties": {
+      "color_scheme": "dark",
+      "content_color_scheme": "dark"
+    }
+  }
+}
