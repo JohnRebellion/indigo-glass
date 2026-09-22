@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — GitHub
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    GitHub on Sage Ink structure with GitHub's own hues. Primer's surface stack collapsed to two ink steps, every radius token zeroed, link blue and the primary-action green re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -70,8 +70,8 @@
     --borderColor-muted: #1C1C1E !important;
     --borderColor-emphasis: #5E5E60 !important;
     --borderColor-accent-emphasis: #6494D5 !important;
-    --overlay-borderColor: #1C1C1E !important;
-    --control-borderColor-rest: #1C1C1E !important;
+    --overlay-borderColor: #5E5E60 !important;
+    --control-borderColor-rest: #5E5E60 !important;
     --color-border-default: #1C1C1E !important;
     --color-border-muted: #1C1C1E !important;
     --focus-outlineColor: #6494D5 !important;
@@ -101,10 +101,10 @@
     --button-primary-bgColor-rest: #7BBE81 !important;
     --button-primary-bgColor-hover: #94D899 !important;
     --button-primary-fgColor-rest: #07080A !important;
-    --button-primary-borderColor-rest: #1C1C1E !important;
+    --button-primary-borderColor-rest: #07080A !important;
     --button-default-bgColor-rest: #121216 !important;
     --button-default-fgColor-rest: #F8F8F8 !important;
-    --button-default-borderColor-rest: #1C1C1E !important;
+    --button-default-borderColor-rest: #5E5E60 !important;
     --button-danger-fgColor-rest: #ED254E !important;
     --button-danger-bgColor-rest: #121216 !important;
 
@@ -117,12 +117,13 @@
     --borderRadius-large: 0 !important;
 
     /* ─── Elevation ────────────────────────────────────────────────────────
-     * Sage Ink has no soft shadow; depth is a border or nothing. */
+     * Sage Ink has no soft shadow. Resting surfaces get a border or nothing;
+     * floating overlays (menus, dialogs, popovers) get the hard ink offset. */
     --shadow-resting-small: none !important;
     --shadow-resting-medium: none !important;
-    --shadow-floating-small: none !important;
-    --shadow-floating-medium: none !important;
-    --shadow-floating-large: none !important;
+    --shadow-floating-small: 4px 4px 0 0 #89A889 !important;
+    --shadow-floating-medium: 4px 4px 0 0 #89A889 !important;
+    --shadow-floating-large: 7px 7px 0 0 #89A889 !important;
   }
 
   /* Code blocks, the copy button and the issue-label tokens hardcode a 6px
@@ -136,6 +137,28 @@
   .Box,
   .prc-Token-TokenBase-te5-F {
     border-radius: 0 !important;
+  }
+
+  /* Neobrutal buttons: 2px border_strong and the hard 4px ink shadow, which
+   * collapses on press. Invisible and octicon buttons are icon affordances
+   * inside other chrome and stay flat. The primary (green fill) button keeps
+   * the sage shadow: the base-ink shadow accent fills cast elsewhere would
+   * vanish on GitHub's #07080A page. Its border is the ink edge instead. */
+  .btn:not(.btn-octicon):not(.btn-invisible):not(.btn-link),
+  [class*="prc-Button-ButtonBase"]:not([data-variant="invisible"]):not([data-variant="link"]) {
+    border-width: 2px !important;
+    box-shadow: 4px 4px 0 0 #89A889 !important;
+  }
+  /* "New issue" reads a translucent Primer border, not
+   * --button-primary-borderColor-rest, so set the ink edge directly. */
+  .btn-primary,
+  [class*="prc-Button-ButtonBase"][data-variant="primary"] {
+    border-color: #07080A !important;
+  }
+  .btn:not(.btn-octicon):not(.btn-invisible):not(.btn-link):active,
+  [class*="prc-Button-ButtonBase"]:not([data-variant="invisible"]):not([data-variant="link"]):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px);
   }
 
   /* Code stays monospaced in the repo's own face. */

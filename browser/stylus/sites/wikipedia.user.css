@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Wikipedia
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    Wikipedia (Vector 2022) on Sage Ink structure with its own link hue. Codex surface tokens collapsed to two ink steps, radii zeroed, link blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -240,6 +240,30 @@
   #footer-icons .cdx-button,
   #footer-icons .cdx-button--fake-button {
     background-color: #F8F9FA !important;
+  }
+
+  /* ─── Neobrutal controls ──────────────────────────────────────────────
+   * Controls get a 2px border_strong edge. Solid buttons and floating
+   * overlays also get the hard 4px ink shadow, which collapses on press.
+   * Quiet (icon) buttons and the footer's vendor plates stay flat. */
+  .cdx-button:not(.cdx-button--weight-quiet):not(.cdx-button--fake-button),
+  .cdx-text-input__input,
+  .cdx-search-input__input-wrapper,
+  .vector-search-box-input {
+    border: 2px solid #5E5E60 !important;
+  }
+  .cdx-button:not(.cdx-button--weight-quiet):not(.cdx-button--fake-button) {
+    box-shadow: 4px 4px 0 0 #89A889 !important;
+  }
+  .cdx-button:not(.cdx-button--weight-quiet):not(.cdx-button--fake-button):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px);
+  }
+  .vector-dropdown-content,
+  .vector-menu-content,
+  .cdx-menu {
+    border: 2px solid #5E5E60 !important;
+    box-shadow: 4px 4px 0 0 #89A889 !important;
   }
 
   /* ─── Comparison-table pastels ───────────────────────────────────────
