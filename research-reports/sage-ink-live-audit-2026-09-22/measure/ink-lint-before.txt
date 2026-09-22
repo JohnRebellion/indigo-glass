@@ -1,0 +1,40 @@
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:32: #000000 is not a dark-variant token: @define-color borders #000000;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:33: #000000 is not a dark-variant token: @define-color unfocused_borders #000000;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:57: #FFFFFF is not a dark-variant token: outline-color: #FFFFFF;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:78: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:83: #191c1e is not a dark-variant token: background-color: #191c1e;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:87: translucent shadow: box-shadow: 0 0 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:100: translucent shadow: box-shadow: 4px 4px 0 0 rgba(7, 8, 10, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:123: 1px border on a control [entry] (contract: 2px)
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:157: 1px border on a control [checkbutton check, radiobutton radio] (contract: 2px)
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:178: #191c1e is not a dark-variant token: background-color: #191c1e;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:179: 1px border on a control [switch] (contract: 2px)
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:190: translucent shadow: box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:224: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:231: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:244: #FFFFFF is not a dark-variant token: outline: 2px solid #FFFFFF;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:277: translucent fill outside a hover wash [scrollbar slider]: background-color: alpha(@theme_fg_color, 0.2);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:288: #191c1e is not a dark-variant token: background-color: #191c1e;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:296: #191c1e is not a dark-variant token: background-color: #191c1e;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:307: translucent shadow: box-shadow: 2px 2px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:321: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:351: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137, 168, 137, 0.9);
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:415: #191c1e is not a dark-variant token: background-color: #191c1e;
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:442: 1px border on a control [pathbar button] (contract: 2px)
+config/gtk-theme/SageInk/gtk-3.0/gtk-dark.css:449: #191c1e is not a dark-variant token: background-color: #191c1e;
+config/gtk-4.0/gtk.css:19: #FFFFFF is not a dark-variant token: @define-color destructive_fg_color #FFFFFF;
+config/gtk-4.0/gtk.css:31: #FFFFFF is not a dark-variant token: @define-color error_fg_color #FFFFFF;
+config/gtk-4.0/gtk.css:41: translucent fill outside a hover wash []: @define-color headerbar_shade_color rgba(0,0,0,0.36);
+config/gtk-4.0/gtk.css:46: translucent fill outside a hover wash []: @define-color card_shade_color rgba(0,0,0,0.36);
+config/gtk-4.0/gtk.css:58: #080809 is not a dark-variant token: @define-color sidebar_backdrop_color #080809;
+config/gtk-4.0/gtk.css:60: translucent fill outside a hover wash []: @define-color sidebar_shade_color rgba(0,0,0,0.36);
+config/gtk-4.0/gtk.css:74: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
+config/gtk-4.0/gtk.css:90: #FFFFFF is not a dark-variant token: outline-color: #FFFFFF;
+config/gtk-4.0/gtk.css:95: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
+config/gtk-4.0/gtk.css:99: translucent shadow: box-shadow: 0 0 0 0 rgba(137,168,137,0.9);
+config/gtk-4.0/gtk.css:111: translucent shadow: box-shadow: 4px 4px 0 0 rgba(7,8,10,0.9);
+config/gtk-4.0/gtk.css:133: translucent shadow: box-shadow: 2px 2px 0 0 rgba(137,168,137,0.9);
+config/gtk-4.0/gtk.css:178: translucent fill outside a hover wash [scrollbar slider]: background-color: alpha(@window_fg_color, 0.2);
+config/gtk-4.0/gtk.css:186: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
+config/gtk-4.0/gtk.css:191: translucent shadow: box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
+ink contract: 39 violation(s) in 3 file(s)

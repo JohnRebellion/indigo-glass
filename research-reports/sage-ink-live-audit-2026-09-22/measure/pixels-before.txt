@@ -1,0 +1,27 @@
+edge toolbar-left      19191CFF
+edge omnibox-inner     2E2E32FF
+edge bookmarkbar       19191CFF
+edge vtab-strip        19191CFF
+edge ntp-bg            363636FF
+edge ntp-search        FFFFFFFF
+edge omnibox-focus-ring 101112FF 101112FF
+github code-btn        436347FF
+github page-bg         101112FF
+wiki page-bg           0F1112FF
+wiki gutter            131313FF
+firefox tabstrip       121216FF
+firefox toolbar        222224FF
+dolphin view-bg        07080AFF
+dolphin sidebar        0D0D10FF
+dolphin titlebar       07080AFF
+dolphin sel-outline    838485FF FFFFFFFF
+dolphin shadow-right   89A889FF 89A889FF
+dolphin shadow-bottom  89A889FF
+dolphin close-btn      910323FF
+konsole bg             07080AFF
+sysset sel-outline     07080AFF
+sysset sel-interior    07080AFF
+gtk btn-shadow         7C987DFF
+gtk btn-border         121216FF
+gtk switch-knob        F8F8F8FF
+gtk bg                 0D0D10FF

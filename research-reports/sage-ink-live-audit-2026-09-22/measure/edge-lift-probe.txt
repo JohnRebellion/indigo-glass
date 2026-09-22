@@ -1,0 +1,9 @@
+in f=[10,10,15] o=[2,3,4] -> tab 121216FF toolbar-bg 121216FF omni 090B0CFF
+in f=[11,11,16] o=[1,2,3] -> tab 131317FF toolbar-bg 131317FF omni 06090BFF
+
+P4 verify, manifest v1.4.0, throwaway profile, data: URL page (omnibox unfocused):
+  frame 121216FF  tab strip 121216FF  toolbar 121216FF   -> PASS (seam gone)
+  omnibox 2A2A2EFF (focused and unfocused)
+Omnibox probe: omnibox_background=[200,0,0] still renders 2A2A2EFF.
+  -> Edge 153.0.4234.48 ignores omnibox_background; the pill is Edge's own
+     dark-mode fill. Not fixable from a theme manifest.

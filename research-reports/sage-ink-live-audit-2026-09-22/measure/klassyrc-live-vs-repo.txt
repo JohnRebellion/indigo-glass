@@ -1,0 +1,6 @@
+[ShadowStyle] ShadowColorActive: repo=None live=137, 168, 137
+[ShadowStyle] ShadowColorInactive: repo=None live=137, 168, 137
+[ShadowStyle] ShadowSizeActive: repo=None live=ShadowSmall
+[ShadowStyle] ShadowSizeInactive: repo=None live=ShadowSmall
+[ShadowStyle] ShadowStrengthActive: repo=None live=255
+[ShadowStyle] ShadowStrengthInactive: repo=None live=255

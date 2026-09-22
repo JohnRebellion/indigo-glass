@@ -1,0 +1,28 @@
+gemini-see: gemini-3.7-flash at capacity, trying next model...
+gemini-see: gemini-3.8-flash at capacity, trying next model...
+gemini-see: gemini-3.6-flash at capacity, trying next model...
+Here is the audit of the desktop theme/pages against the neobrutalism.dev design grammar:
+
+### Tile 1 (Top-Left: GitHub Repository Page)
+* **TILE 1** | Window Frame | Outer edge | Missing solid 2px border and hard offset drop shadow | **high**
+* **TILE 1** | Buttons (e.g., "Code" green button, branch dropdown) | Top of file list | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 1** | Input ("Go to file" search) | Top of file list | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 1** | File List Table Container | Center | Rounded corners (top left/right) and missing outer 2px border | **med**
+
+### Tile 2 (Top-Right: Search Page)
+* **TILE 2** | Search Input | Center | Rounded pill shape (inputs must be square), missing 2px border, missing hard offset shadow | **high**
+
+### Tile 3 (Bottom-Left: Wikipedia Dark Mode)
+* **TILE 3** | Search Input | Top center | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 3** | Appearance Menu Container | Right sidebar | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 3** | Infobox Container | Right | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+
+### Tile 4 (Bottom-Right: Wikipedia Light Mode)
+* **TILE 4** | Search Input & Button | Top center | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 4** | Language Selector Button | Top right | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 4** | Appearance Menu Container | Right sidebar | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+* **TILE 4** | Infobox Container | Right | Rounded corners, missing 2px border, missing hard offset shadow | **high**
+
+---
+
+**CONSISTENCY:** The tiles are highly consistent with each other but completely non-compliant with the neobrutalism.dev design grammar. Across all light and dark variants, the elements uniformly use modern borderless/soft-shadow UI conventions with rounded corners on containers, buttons, and inputs, rather than 2px borders, square corners, and hard 4px offset drop shadows.

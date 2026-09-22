@@ -1,0 +1,1 @@
+toggle shadow(537,60)=89A889FF (538,66)=89A889FF border(399,57)=5E5E60FF (400,57)=121216FF entry border(11,182)=2E2E30FF focus border(11,58)=F8F8F8FF tab outline(12,578)=0A0A0DFF

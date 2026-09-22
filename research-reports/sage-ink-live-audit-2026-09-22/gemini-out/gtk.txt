@@ -1,0 +1,12 @@
+gemini-see: gemini-3.7-flash at capacity, trying next model...
+gemini-see: gemini-3.8-flash at capacity, trying next model...
+Tile 1 | Controls & Cards | Window-wide | Missing hard offset drop shadow (4px right, 4px down) on all controls and container cards | SEVERITY high
+Tile 1 | Tabs | Top main panel | Active tab ("Info") uses an underline style instead of a complete 2px solid outline | SEVERITY med
+Tile 1 | Sidebar Items | Left sidebar | Selected item ("Application Class") lacks hard drop shadow and 2px border definition | SEVERITY med
+
+Tile 2 | Buttons & Inputs | Left & center columns | Missing hard offset drop shadow on comboboxes, text entries, toggle buttons, and push buttons | SEVERITY high
+Tile 2 | Frame Containers | Right panel ("Inset", "Outset", "Groove", "Ridge") | Container borders are thinner than 2px (~1px) and lack hard offset drop shadows | SEVERITY high
+Tile 2 | Toggle Switches | Center column (bottom) | Toggle switches lack 2px borders and hard offset drop shadows | SEVERITY med
+Tile 2 | Tabs & Data Table | Top bar, bottom tabs, top-right table | Selected tabs and table controls lack solid 2px outline borders and hard drop shadows | SEVERITY med
+
+CONSISTENCY: Both tiles consistently omit hard offset drop shadows (4px right, 4px down) across all UI elements and rely on thin (~1px) borders or partial line indicators instead of uniform 2px solid outlines.
