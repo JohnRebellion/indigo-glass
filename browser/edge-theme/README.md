@@ -34,14 +34,40 @@ Pre-2026-08-30 backups of the unmodified wrappers: `~/.local/bin/edge-*.bak-2026
 
 ## Color mapping
 
-| Token             | Hex       | RGB            | Edge slot         |
-| ----------------- | --------- | -------------- | ----------------- |
-| `surface_alt`     | `#121216` | `18,18,22`     | frame, toolbar    |
-| `surface`         | `#0D0D10` | `13,13,16`     | frame_inactive    |
-| `sidebar`         | `#0A0A0D` | `10,10,13`     | frame_incognito   |
-| `base`            | `#07080A` | `7,8,10`       | omnibox bg        |
-| `text`            | `#F8F8F8` | `248,248,248`  | all foreground    |
-| `text_muted`      | `#6B7280` | `107,114,128`  | inactive tab text |
+| Token             | Hex (target) | Manifest RGB  | Edge slot                          |
+| ----------------- | ------------ | ------------- | ---------------------------------- |
+| `surface_alt`     | `#121216`    | `10,10,15`    | frame, toolbar, button_background  |
+| `surface`         | `#0D0D10`    | `5,5,7`       | frame_inactive                     |
+| `sidebar`         | `#0A0A0D`    | `2,2,4`       | frame_incognito                    |
+| `base`            | `#07080A`    | `1,2,3`       | frame_incognito_inactive, omnibox  |
+| `text`            | `#F8F8F8`    | `248,248,248` | all foreground                     |
+| `text_muted`      | `#6B7280`    | —             | inactive tab text (hand-tuned)     |
+
+### Why the manifest RGB is darker than the token (v1.4.0, 2026-09-22)
+
+Edge lifts near-black theme colours non-linearly before painting them, so a
+manifest that says `[18,18,22]` renders about `#19191C`, not `#121216`. It was
+measured on Edge 153.0.4234.48 by loading probe themes into a throwaway profile
+and pixel-sampling the toolbar. Input and rendered values are per channel:
+
+| in  | 0 | 1 | 2 | 3  | 4  | 7  | 10 | 15 | 18 | 30 | 40 | 48 |
+| --- | - | - | - | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| out | 0 | 6 | 9 | 11 | 12 | 16 | 18 | 22 | 25 | 35 | 44 | 51 |
+
+`[10,10,15]` renders exactly `#121216`, and `[1,2,3]` renders `#06090B`
+(`base` is `#07080A`, so it is within 1 per channel). Vivid and light colours
+pass through almost unchanged, which is why the text and tint slots are
+uncompensated. Raw data: `research-reports/sage-ink-live-audit-2026-09-22/measure/edge-lift-probe.txt`.
+
+**Known limit: the omnibox.** Edge 153 ignores `omnibox_background`. A probe
+set to `[200,0,0]` still rendered Edge's own `#2A2A2E` pill. The value stays in
+the manifest because Chromium proper honours it, but on Edge the address bar is
+not token-coloured, and no manifest key changes that.
+
+**Re-measure after a major Edge update.** If the lift curve changes, the seam
+against the Klassy titlebar comes back. `scripts/check-deployment.sh` is the
+quick check. The drift guard cannot catch this, because these values are
+deliberately not the token hex.
 
 `ntp_background`/`ntp_text`/`ntp_link`/`ntp_background_alignment` deliberately
 omitted (removed 2026-08-31, v1.3.1): setting `ntp_background` forces a flat
