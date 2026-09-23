@@ -695,6 +695,16 @@
         "#FFFFFF",
         0.335,
         "surface"
+      ],
+      "select_fill": [
+        "accent",
+        0.14,
+        "surface_alt"
+      ],
+      "card_fill": [
+        "accent",
+        0.45,
+        "surface"
       ]
     },
     "derive": {
@@ -752,10 +762,7 @@
     "ink": "4px 4px 0 0 #000000",
     "ink_lg": "7px 7px 0 0 #000000",
     "ink_press": "0 0 0 0 #000000",
-    "hairline": "0 0 0 1px rgba(255,255,255,0.10)",
     "ink_accent": "4px 4px 0 0 #000000",
-    "accent_glow": "0 0 0 2px rgba(0,0,0,0.30)",
-    "accent_glow_lg": "0 0 24px rgba(0,0,0,0.40)",
     "klassy": {
       "size": "ShadowSmall",
       "strength": 255,
@@ -1060,6 +1067,16 @@
           "hex": "#68686B",
           "p3": "#68686B",
           "oklch": "#68686B"
+        },
+        "select_fill": {
+          "hex": "#282A40",
+          "p3": "#282A40",
+          "oklch": "#282A40"
+        },
+        "card_fill": {
+          "hex": "#3A3F71",
+          "p3": "#3A3F71",
+          "oklch": "#3A3F71"
         }
       },
       "lime": {
@@ -1172,6 +1189,16 @@
           "hex": "#5E5E60",
           "p3": "#5E5E60",
           "oklch": "#5E5E60"
+        },
+        "select_fill": {
+          "hex": "#27301A",
+          "p3": "#27301A",
+          "oklch": "#27301A"
+        },
+        "card_fill": {
+          "hex": "#536F21",
+          "p3": "#536F21",
+          "oklch": "#536F21"
         }
       },
       "sage": {
@@ -1284,6 +1311,16 @@
           "hex": "#5E5E60",
           "p3": "#5E5E60",
           "oklch": "#5E5E60"
+        },
+        "select_fill": {
+          "hex": "#272C2A",
+          "p3": "#272C2A",
+          "oklch": "#272C2A"
+        },
+        "card_fill": {
+          "hex": "#526254",
+          "p3": "#526254",
+          "oklch": "#526254"
         }
       },
       "rust": {
@@ -1396,6 +1433,16 @@
           "hex": "#5E5E60",
           "p3": "#5E5E60",
           "oklch": "#5E5E60"
+        },
+        "select_fill": {
+          "hex": "#332524",
+          "p3": "#332524",
+          "oklch": "#332524"
+        },
+        "card_fill": {
+          "hex": "#7A4C40",
+          "p3": "#7A4C40",
+          "oklch": "#7A4C40"
         }
       },
       "orchid": {
@@ -1508,6 +1555,16 @@
           "hex": "#5E5E60",
           "p3": "#5E5E60",
           "oklch": "#5E5E60"
+        },
+        "select_fill": {
+          "hex": "#2D2833",
+          "p3": "#2D2833",
+          "oklch": "#2D2833"
+        },
+        "card_fill": {
+          "hex": "#675570",
+          "p3": "#675570",
+          "oklch": "#675570"
         }
       },
       "orchid_light": {
@@ -1620,6 +1677,16 @@
           "hex": "#85858C",
           "p3": "color(display-p3 0.5227 0.5229 0.5470)",
           "oklch": "oklch(0.6200 0.0100 285.58)"
+        },
+        "select_fill": {
+          "hex": "#E0D9E6",
+          "p3": "#E0D9E6",
+          "oklch": "#E0D9E6"
+        },
+        "card_fill": {
+          "hex": "#C5ADCF",
+          "p3": "#C5ADCF",
+          "oklch": "#C5ADCF"
         }
       },
       "sage_light": {
@@ -1732,6 +1799,16 @@
           "hex": "#919198",
           "p3": "color(display-p3 0.5703 0.5706 0.5950)",
           "oklch": "oklch(0.6604 0.0100 285.58)"
+        },
+        "select_fill": {
+          "hex": "#D9DDDC",
+          "p3": "#D9DDDC",
+          "oklch": "#D9DDDC"
+        },
+        "card_fill": {
+          "hex": "#AEBCAE",
+          "p3": "#AEBCAE",
+          "oklch": "#AEBCAE"
         }
       }
     },

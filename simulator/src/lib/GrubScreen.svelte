@@ -6,7 +6,7 @@
   import { resolveCoord } from './theme/coord';
   import { parseColor, colorToCss } from './theme/color';
   import { resolveIcon } from './theme/icon';
-  import { loadImage } from './theme/nineSlice';
+  import { loadImage, loadNineSlice, drawNineSlice, type NineSliceImages } from './theme/nineSlice';
   import { drawInkPanel } from './theme/inkPanel';
   import type { PFF2Font, PFF2Glyph } from './theme/pff2';
 
@@ -36,55 +36,14 @@
   const SCREEN_W = 2560;
   const SCREEN_H = 1440;
 
-  // Plasma Sage Ink color scheme (~/.local/share/color-schemes/LimeGlass.colors —
-  // filename kept pending the coordinated rename pass, see docs/PHILOSOPHY.md)
-  // Panel = Button BackgroundNormal #1f2028
-  // Pill  = Selection BackgroundNormal #a6c9a6 / accent #c0e3c0
-  function panelTintFor(id: string): [number, number, number, number] {
-    switch (id) {
-      case 'amber':  return [40, 18, 8, 0.42];
-      case 'blue':   return [8, 16, 40, 0.42];
-      case 'green':  return [6, 30, 22, 0.42];
-      default:       return [31, 32, 40, 0.78]; // Plasma #1f2028 dark frosted (matches Plasma dropdown)
-    }
-  }
-
-  function drawKeyChip(
-    c: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    w: number,
-    h: number,
-    kind: 'enter' | 'esc'
-  ): void {
-    c.save();
-    // Sharp rect, opaque fill, border-2 solid black — was a fully rounded
-    // pill (r = h/2) with a translucent white tint fill and border; no pill
-    // step exists in the neobrutalism.dev reference, and badge/chip fills
-    // are always opaque, never a translucent tint.
-    c.fillStyle = '#121216';
-    c.fillRect(x + 1, y + 1, w - 2, h - 2);
-    c.lineWidth = 2;
-    c.strokeStyle = '#000000';
-    c.strokeRect(x + 1, y + 1, w - 2, h - 2);
-    // Text (manually draw arrow + ENTER glyphs since PFF2 glyphs needed)
-    c.fillStyle = '#F8F8F8'; // was rgba(255,255,255,0.85) - opaque text, no reason for a key-chip label to be translucent
-    c.font = '600 18px ui-monospace, monospace';
-    c.textAlign = 'center';
-    c.textBaseline = 'middle';
-    if (kind === 'enter') c.fillText('↵ Enter', x + w / 2, y + h / 2);
-    else c.fillText('Esc', x + w / 2, y + h / 2);
-    c.restore();
-  }
-
-  function accentColorFor(id: string): string {
-    switch (id) {
-      case 'amber':  return '#fbbf24';
-      case 'blue':   return '#60a5fa';
-      case 'green':  return '#34d399';
-      default:       return '#89a889';
-    }
-  }
+  // The boot menu is drawn from the theme's OWN pixmaps (menu_pixmap_style /
+  // selected_item_pixmap_style), exactly as GRUB does. Until 2026-09-23 this
+  // renderer ignored both and painted an approximation of its own: a #1F2028
+  // panel (a Plasma-era colour in no token file) with a black border that
+  // measures 1.08:1 here, a per-preset tint table, an accent left-bar and an
+  // "Enter" key chip that real GRUB never draws. A parity tool that invents
+  // chrome cannot verify the theme, so all of that is gone; when a preset
+  // ships no pixmaps the fallback is a plain ink panel and a 2px outline.
 
   onMount(() => {
     canvas.width = SCREEN_W;
@@ -157,6 +116,22 @@
     }
     if (currentTokenStale(token)) return;
 
+    // Pre-load the boot_menu pixmap boxes (GRUB's `menu_*.png` / `select_*.png`)
+    const boxes = new Map<string, NineSliceImages>();
+    for (const comp of preset.theme.components) {
+      if (comp.type !== 'boot_menu') continue;
+      for (const key of ['menu_pixmap_style', 'selected_item_pixmap_style'] as const) {
+        const pattern = comp.props[key];
+        if (!pattern || boxes.has(pattern)) continue;
+        try {
+          boxes.set(pattern, await loadNineSlice(pattern, resolveAsset));
+        } catch {
+          // a missing slice falls through to the flat fallback below
+        }
+      }
+    }
+    if (currentTokenStale(token)) return;
+
     // 1. Build (or reuse) the bg-only offscreen canvas
     if (!bgCanvas) {
       bgCanvas = document.createElement('canvas');
@@ -183,7 +158,7 @@
     // 3. Render each component in declaration order (now fully sync)
     for (const comp of preset.theme.components) {
       try {
-        renderComponentSync(comp, iconImages, imageCache);
+        renderComponentSync(comp, iconImages, imageCache, boxes);
       } catch (e) {
         // Swallow per-component errors so one bad component doesn't kill render
         // eslint-disable-next-line no-console
@@ -203,7 +178,8 @@
   function renderComponentSync(
     comp: ThemeComponent,
     iconImages: (HTMLImageElement | null)[],
-    imageCache: Map<string, HTMLImageElement>
+    imageCache: Map<string, HTMLImageElement>,
+    boxes: Map<string, NineSliceImages>
   ): void {
     const p = comp.props;
     const left = resolveCoord(p.left ?? '0', SCREEN_W);
@@ -225,7 +201,7 @@
         renderImageSync(comp, left, top, w, h, imageCache);
         break;
       case 'boot_menu':
-        renderBootMenuSync(comp, left, top, w, h, iconImages);
+        renderBootMenuSync(comp, left, top, w, h, iconImages, boxes);
         break;
     }
   }
@@ -243,7 +219,7 @@
     // GRUB printf-format escape: %% → %  (matches grub_vsnprintf behaviour)
     text = text.replace(/%%/g, '%');
     const align = (comp.props.align ?? 'left') as 'left' | 'center' | 'right';
-    const color = parseColor(comp.props.color ?? '#ffffff');
+    const color = parseColor(comp.props.color ?? '#ffffff'); // drift-allow: GRUB gfxmenu's own default when theme.txt omits color
     const fontName = comp.props.font ?? '';
     const font = preset.fonts.get(fontName);
     if (!font || !text) return;
@@ -299,7 +275,7 @@
       ctx.save();
       ctx.translate(tx, ty);
       ctx.rotate(angle + Math.PI / 2);
-      ctx.fillStyle = isOn ? '#A6C9A6' : '#202024'; // was lime rgba(139,196,6,1) (stale Lime Glass accent) / translucent white 12% - both now opaque sage tokens
+      ctx.fillStyle = isOn ? '#A6C9A6' : '#1C1C1E'; // accent / border token (was #202024, a hex in no token file)
       ctx.fillRect(-1.5, -4, 3, 8);
       ctx.restore();
     }
@@ -314,11 +290,15 @@
   ): void {
     // Simple flat progress bar (Apple-style indeterminate slim line)
     const bgY = top + height / 2 - 1;
-    ctx.fillStyle = '#161719'; // was rgba(255,255,255,0.08) - opaque track
+    ctx.fillStyle = '#121216'; // surface_alt track (was #161719, a hex in no token file)
     ctx.fillRect(left, bgY, width, Math.max(2, height));
     const progress = 0.7;
     ctx.fillStyle = '#A6C9A6'; // was lime rgba(139,196,6,0.85) - stale Lime Glass accent, now opaque sage
     ctx.fillRect(left, bgY, width * progress, Math.max(2, height));
+  }
+
+  function hasSlices(b: NineSliceImages | undefined): b is NineSliceImages {
+    return !!b && Object.keys(b).length > 0;
   }
 
   function renderBootMenuSync(
@@ -327,7 +307,8 @@
     top: number,
     width: number,
     height: number,
-    iconImages: (HTMLImageElement | null)[]
+    iconImages: (HTMLImageElement | null)[],
+    boxes: Map<string, NineSliceImages>
   ): void {
     const p = comp.props;
     const itemHeight = parseInt(p.item_height ?? '64', 10);
@@ -337,25 +318,32 @@
     const iconH = parseInt(p.icon_height ?? '40', 10);
     const iconSpace = parseInt(p.item_icon_space ?? '16', 10);
 
-    // Menu background — ink panel (per-preset fill via preset.id)
-    // SKIP if theme.txt has no menu_pixmap_style (Cmd-K / dashboard variant)
+    // Menu box: the theme's own 9-slice, as GRUB draws it. SKIP entirely if
+    // theme.txt has no menu_pixmap_style (Cmd-K / dashboard variant).
     if (p.menu_pixmap_style) {
-      const panelTint = panelTintFor(preset.id);
-      drawInkPanel(ctx, left, top, width, height, {
-        radius: 0,
-        fill: [panelTint[0], panelTint[1], panelTint[2]],
-        borderColor: '#000000',
-        borderWidth: 2,
-        shadow: true
-      });
+      const menuBox = boxes.get(p.menu_pixmap_style);
+      if (hasSlices(menuBox)) {
+        drawNineSlice(ctx, menuBox, left, top, width, height);
+      } else {
+        // Preset ships no menu pixmaps: flat surface_alt panel, border_strong
+        // edge, no shadow (GRUB has no shadow primitive to be faithful to).
+        drawInkPanel(ctx, left, top, width, height, {
+          radius: 0,
+          fill: [18, 18, 22],
+          borderColor: '#5E5E60',
+          borderWidth: 2,
+          shadow: false
+        });
+      }
     }
 
-    const itemColor = parseColor(p.item_color ?? '#cccccc');
-    const selColor = parseColor(p.selected_item_color ?? '#ffffff');
+    const itemColor = parseColor(p.item_color ?? '#cccccc'); // drift-allow: GRUB gfxmenu default
+    const selColor = parseColor(p.selected_item_color ?? '#ffffff'); // drift-allow: GRUB gfxmenu default
     const itemFontName = p.item_font ?? '';
     const selFontName = p.selected_item_font ?? itemFontName;
     const itemFont = preset.fonts.get(itemFontName);
     const selFont = preset.fonts.get(selFontName) ?? itemFont;
+    const selBox = p.selected_item_pixmap_style ? boxes.get(p.selected_item_pixmap_style) : undefined;
 
     const innerX = left + itemPadding;
     const innerY = top + itemPadding;
@@ -367,30 +355,21 @@
       const isSelected = i === selected;
 
       if (isSelected) {
-        // Keyboard-focused row: a solid outline only, no fill/highlight
-        // wash and no shadow — the same focus-visible rule used everywhere
-        // else in this system (an outline, never a translucent or solid
-        // highlight). Was a solid sage fill + black border + hard shadow
-        // (a "selected/active" treatment), then before that a rounded
-        // borderless "Linear-style" pill - this row IS the arrow-key focus
-        // position, not a confirmed selection, so it gets the focus rule.
-        ctx.save();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = accentColorFor(preset.id);
-        ctx.strokeRect(innerX + 1, itemY + 1, innerW - 2, itemHeight - 2);
-        ctx.restore();
-        // Accent left-bar, sharp corners (was a rounded "Linear-style" bar).
-        ctx.save();
-        ctx.fillStyle = accentColorFor(preset.id);
-        const barW = 5;
-        const barH = itemHeight * 0.55;
-        const barX = innerX + 6;
-        const barY = itemY + (itemHeight - barH) / 2;
-        ctx.fillRect(barX, barY, barW, barH);
-        ctx.restore();
-
-        // Linear-style keyboard hint chip on right (↵ Enter)
-        drawKeyChip(ctx, innerX + innerW - 100, itemY + (itemHeight - 36) / 2, 80, 36, 'enter');
+        if (hasSlices(selBox)) {
+          // GRUB stretches the selected_item box over the item rect; with a
+          // c/e/w-only slice the caps keep their width and the centre spans
+          // the rest. (Real GRUB lets the caps overhang the item by their own
+          // width; drawing them inside is the one approximation here.)
+          drawNineSlice(ctx, selBox, innerX, itemY, innerW, itemHeight);
+        } else {
+          // Tier C fallback: a 2px outline in the theme's selected colour, no
+          // fill - the focus rule every other layer in this system uses.
+          ctx.save();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = colorToCss(selColor);
+          ctx.strokeRect(innerX + 1, itemY + 1, innerW - 2, itemHeight - 2);
+          ctx.restore();
+        }
       }
 
       // Icon (preloaded)
@@ -471,13 +450,10 @@
       }
     }
     tctx.putImageData(id, 0, 0);
-    // Soft drop shadow for readability over any bg
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.55)';
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetY = 1;
+    // No text shadow: GRUB's gfxmenu label draws bare glyphs, and a 4px blurred
+    // rgba(0,0,0,0.55) shadow (removed 2026-09-23) both misrepresented that and
+    // was the blurred translucent material the ink contract forbids.
     ctx.drawImage(tmp, Math.round(x), Math.round(y));
-    ctx.restore();
   }
 </script>
 

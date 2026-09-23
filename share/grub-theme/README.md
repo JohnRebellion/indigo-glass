@@ -1,81 +1,95 @@
-# Lime Glass — GRUB Theme
+# Orchid Ink Light — GRUB Theme
 
-Custom GRUB2 boot theme matching the Lime Glass design system.
+GRUB2 boot theme for the Sage Ink design system, shipped in the **Orchid Ink
+Light** variant (`orchid_light`: page #FAFAFC, accent #7F4995) since
+2026-09-23 - the light orchid variant the laptop ran. `theme.txt` is the
+canonical source; its `# variant:` header is the one colour switch, read by
+both generators and the ink lint. `scripts/sync-grub-parity.sh` propagates
+the theme to the simulator preset and, with `--deploy`, to
+`/boot/grub2/themes/sage-ink/` (the install path keeps its legacy name).
 
-## Design alignment
+## Design contract
 
-Per `docs/PHILOSOPHY.md` spec:
+Same rules as every other layer (docs/STATE_GRAMMAR.md, and the 2026-09-22 live
+audit in research-reports/sage-ink-live-audit-2026-09-22):
 
-| Spec | Value |
-|------|-------|
-| Primary accent | `#A8E635` (ghost lime) |
-| Accent shifts | `#C1FF58`, `#8BC406` (luminance variants of same hue) |
-| Text primary | `#F8F8F8` |
-| Text muted | `#6B7280` |
-| Surface base | `#07080A` |
-| Surface | `#121216` |
-| Radius default | `8px` |
-| Chrome font | SF Pro Display (titles, brand) |
-| Body font | Carlito (descriptions, menu items, footer) |
+| Rule | Here |
+|------|------|
+| Every colour a token of the named variant | labels use `text` #23262C, `accent_hi` #692E80, `accent` #7F4995; `desktop-color` is `base` #FAFAFC; the menu card is `card_fill` #C5ADCF; edges and shadow are `[on_light]` #000000. Ladder on base: 14.5 / 8.8 / 6.1:1; on the card: text 7.4:1, accent_hi 4.5:1 |
+| Opaque fills, no translucency | every referenced PNG has a binary alpha channel (0 or 255); the selected row's interior is fully transparent so the card shows through, never a wash |
+| Light mode = white page, coloured forward-facing card, black edge + hard shadow | the boot menu is the card: `card_fill` centre, 2px `#000000` edge, 4px `#000000` hard shadow baked into the `e`/`s`/`se` slices (GRUB pads each side by the W/N/E/S slice size and scales the corners to match). A dark variant bakes a `surface_alt` panel with a `border_strong` edge and no shadow instead |
+| On-select = stroke, not fill | selected row `select_*.png`: 4px black stroke (2px vanishes at 2560x1440), see-through interior. Dark variants stroke in `accent` over the opaque `select_fill` wash |
+| No gradient, blur or glow | flat `background.jpg` on `base` with `accent`/`accent_alt` corner brackets and `positive` corner ticks; the one deliberate soft pass is the 140px **black** feather at the physical screen edge that frames the 96px safe area (overscan safety; kept on the light variant by the user's call, recorded as intentional residue in the audit ledger) |
+| Radius 0 | no rounded assets |
 
-## Layout
+`scripts/check-ink-contract.py` reads all of this back from `theme.txt` and the
+pixmaps it references, and runs on every commit.
 
-Dashboard view (Compot-inspired):
+## Layout (v12, 2560x1440 native)
 
-- **Brand top-left:** "Nobara Workstation" — SF Pro 28pt
-- **Stamp top-right:** "UEFI · GRUB 2.14" — SF Pro 22pt accent
-- **Stat-card row:** 3 cards (ENTRIES · TIMEOUT · DEFAULT), pre-baked PNGs with rounded 8px corners + accent line + value text inline
-- **Section title:** "BOOT PICKER" — SF Pro 36pt
-- **Description:** Carlito 24pt muted
-- **Boot menu:** Carlito body, lime glow pill, accent left-bar, "Press Enter" chip on selected
-- **Footer hints:** Carlito 22pt muted
+- Five static stat cards at top=130..300: CPU / MEMORY / GPU / DISK / BOARD.
+  Each is an 80x5 `accent_line.png` rule, a section label (`accent`, 24px), a
+  headline (`text`, 40px), a spec sub-line (`accent_hi`, 24px) and a capability
+  caption (`accent`, 22px). Values are hardware facts, nothing that drifts.
+- "BOOT PICKER" header at top=360, key hint right-aligned.
+- `boot_menu` at 96,470 2368x800: `menu_*.png` panel, `select_*.png` row box,
+  40px icons, 72px rows.
+- Footer hints centred at top=1310.
+- 96px safe area on every edge.
 
 ## Contents
 
-- `theme.txt` — GRUB theme definition (multi-line, no `N+N` math, no inline blocks)
-- `background.jpg` — abstract digital wash in ghost lime's OKLCH complement (violet-purple, h≈308°): dark multi-point gradient, blurred diagonal beams, signal arcs + lime motes, vignetted to `#07080A` edges. Max luminance capped (L≈0.34 OKLab) so glass overlays and labels keep contrast. Baked by `generate-background.sh`.
-- `generate-background.sh` — deterministic ImageMagick bake for `background.jpg` + `thumb.jpg`
-- `assets/card_entries.png`, `card_timeout.png`, `card_default.png` — pre-baked stat cards w/ text+borders
-- `assets/select_w.png`, `select_c.png`, `select_e.png` — 3-slice selection pill (glow + accent left-bar + Press Enter chip baked in)
-- `assets/progress_bar_*.png`, `progress_highlight_*.png` — top-edge progress
-- `assets/terminal_box_*.png` — 9-slice terminal box (rare, edge mode)
-- `assets/spin_center.png`, `spin_tick.png` — circular_progress assets
-- `sfpro-*.pf2` — SF Pro Display at 18,20,22,26,28,30,32,36,38,42,64,96
-- `opensans-*.pf2` — Carlito Regular at 22,24,26,28,30
-- `icons/*.png` — OS class icons (nobara, gnu-linux, windows, uefi-firmware, memtest, fedora, linux)
+- `theme.txt` — GRUB theme definition (multi-line components, no `N+N` maths).
+- `background.jpg`, `thumb.jpg` — baked by `generate-background.sh`.
+- `assets/menu_*.png`, `assets/select_*.png`, `assets/accent_line.png` — baked by
+  `generate-menu.sh`, which reads its colours from
+  `tokens/out/css-vars.<variant>.css` (run `python3 tokens/codegen.py` first).
+- `assets/card_*.png`, `terminal_box_*`, `progress_*`, `spin_*`, `specs_panel`,
+  `sparkline`, `bars`, `dot_violet`, `version_chip` — legacy assets from earlier
+  layouts; not referenced by `theme.txt`, so not rendered, not linted.
+- `generate-cards.sh` — bakes the legacy `card_os/kernel/hardware.png`; unused
+  by the current layout.
+- `sfpro-*.pf2` — SF Pro Display at the sizes `theme.txt` names (22, 24, 29, 40,
+  48) plus spares; `carlito-*.pf2` — for `GRUB_FONT`.
+- `icons/*.png` — OS class icons.
+
+## Switch variant
+
+Edit the `# variant: <name>` line at the top of `theme.txt`, retype the label
+hexes to that variant's `text` / `accent_hi` / `accent` / `base` (the lint
+tells you which are wrong), then run the regenerate steps below. Any variant
+with a `tokens/out/css-vars.<name>.css` works, dark or light.
+
+## Regenerate
+
+```bash
+python3 tokens/codegen.py                    # tokens first
+bash share/grub-theme/generate-menu.sh       # menu_*, select_*, accent_line
+bash share/grub-theme/generate-background.sh # background.jpg + thumb.jpg
+bash scripts/sync-grub-parity.sh             # -> simulator/static/presets/sage
+python3 scripts/check-ink-contract.py        # contract read-back
+```
 
 ## Real-GRUB compatibility notes
 
 GRUB 2.12 strict parser limits:
-- All components MUST be multi-line (`{` and `}` on own lines)
-- No `N+N` arithmetic in coords (only `%-N` / `%+N` against parent dim)
-- Image z-order takes precedence over label declaration order — labels behind images get hidden. Bake text into card PNGs to work around.
-- 4+ overlapping image components can silently break render — keep stat-card count ≤ 3
-- No live blur / no canvas effects: all decorative effects (glow, frosted glass) must be pre-baked into PNG assets
+- All components MUST be multi-line (`{` and `}` on own lines).
+- No `N+N` arithmetic in coords (only `%-N` / `%+N` against parent dim).
+- Image z-order takes precedence over label declaration order — labels behind
+  images get hidden.
+- No live blur / no canvas effects: every surface is a pixmap.
 
 ## Install
 
 ```bash
-bash scripts/install.sh --with-grub --themes-only
+bash scripts/sync-grub-parity.sh --deploy   # copies to /boot, sets GRUB_THEME/FONT, regenerates grub.cfg (sudo)
 ```
 
-Copies theme to `/boot/grub2/themes/indigo-glass/`, points `GRUB_THEME` at it,
-regenerates `grub.cfg`.
-
-## Manual install
-
-```bash
-sudo cp -r share/grub-theme /boot/grub2/themes/indigo-glass
-sudo cp /etc/default/grub /etc/default/grub.bak
-sudo sed -i "s|^GRUB_THEME=.*|GRUB_THEME='/boot/grub2/themes/indigo-glass/theme.txt'|" /etc/default/grub
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-```
-
-For UEFI Fedora/Nobara, regenerate at `/boot/efi/EFI/fedora/grub.cfg` instead.
+For UEFI Fedora/Nobara the live config may be `/boot/efi/EFI/fedora/grub.cfg`;
+the script probes both.
 
 ## Fonts
 
 ```bash
-grub2-mkfont --no-bitmap -s 24 -o opensans-24.pf2 /usr/share/fonts/open-sans/OpenSans-Regular.ttf
-grub2-mkfont --no-bitmap -s 28 -o sfpro-28.pf2 /usr/local/share/fonts/s/SF_Pro_Display_Regular.otf
+grub2-mkfont --no-bitmap -s 24 -o sfpro-24.pf2 /usr/local/share/fonts/s/SF_Pro_Display_Regular.otf
 ```

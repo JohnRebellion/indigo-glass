@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# generate-background.sh — bake the Sage Ink GRUB background + thumb
+# generate-background.sh — bake the GRUB background + thumb for the variant
+# theme.txt names (`# variant: <name>` header).
 #
-# Flat neobrutalist geometry: solid deep-black base (#07080A), hard-edged
-# sage corner brackets. The ONLY soft pass is a final feathered black frame
-# (see FEATHER below) that ramps the outermost edge to pure #000 so the
-# bracket geometry does not hard-cut at the panel border and any overscan
-# crop lands in dead black. Interior stays flat. Was a soft violet
-# "digital wash" (radial bloom, blurred diagonal beams, node-dot
-# constellation, vignette) in the h≈325° perceptual-complement-of-sage hue —
-# a glass-era aesthetic, and the wrong colour family entirely (violet, not
-# sage). See background-prompt.md for an AI-image-gen alternative if a more
-# organic/illustrated background is wanted instead of flat vector geometry.
+# Flat neobrutalist geometry: solid base, hard-edged accent corner brackets.
+# The ONLY soft pass is a final feathered BLACK frame (see FEATHER below) that
+# ramps the outermost edge to pure #000, so the bracket geometry does not
+# hard-cut at the panel border and any overscan crop lands in dead black. The
+# interior stays flat. Kept black on the light variant too, by the user's
+# call (2026-09-23): it frames the 96px safe area, and it is the one soft
+# pass the theme is allowed - the ledger records it as intentional residue.
+#
+# Every colour is read from tokens/out/css-vars.<variant>.css. Run codegen first.
 #
 # Layout safety: matches theme.txt's real layout, not a stylistic guess.
 # The 5 stat-card labels sit at top=130-300 (x from 107 onward); the
@@ -39,10 +39,21 @@ WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 W=2560 H=1440
 
-BASE='#07080A'
-SAGE='#A6C9A6'
-SAGE_ALT='#89A889'
-MINT='#3FFABB'
+VARIANT="$(sed -n 's/^# variant: *//p' "$SCRIPT_DIR/theme.txt" | head -1)"
+[ -n "$VARIANT" ] || { echo "ERROR: theme.txt has no '# variant:' header" >&2; exit 1; }
+VARS="$SCRIPT_DIR/../../tokens/out/css-vars.${VARIANT}.css"
+[ -f "$VARS" ] || { echo "ERROR: $VARS missing - run python3 tokens/codegen.py" >&2; exit 1; }
+tok() {
+  local v
+  v="$(grep -oE "^\s*--ig-$1:\s*#[0-9A-Fa-f]{6}" "$VARS" | head -1 | grep -oE '#[0-9A-Fa-f]{6}')"
+  [ -n "$v" ] || { echo "ERROR: token --ig-$1 not in $VARS" >&2; exit 1; }
+  printf '%s' "$v"
+}
+
+BASE="$(tok base)"
+SAGE="$(tok accent)"          # bracket inner L (name kept: the geometry is the sage-era design)
+SAGE_ALT="$(tok accent-alt)"  # bracket outer L
+MINT="$(tok positive)"        # 20px corner ticks
 
 # ── Edge treatment ───────────────────────────────────────────────────────
 # FEATHER: width in px of the black ramp inward from every screen edge.

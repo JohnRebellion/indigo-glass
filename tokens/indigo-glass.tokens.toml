@@ -288,6 +288,20 @@ border        = ["#FFFFFF", 0.06, "surface"]
 # heritage, so this is accepted rather than solved. Fixing it properly means
 # deriving the border per-variant instead of compositing one alpha globally.
 border_strong = ["#FFFFFF", 0.335, "surface"]
+# 2026-09-23: the GRUB boot menu's selected-row fill. generate-menu.sh baked it
+# as accent at 0.14 alpha straight into select_*.png - the one translucent
+# value left in the theme after the live audit. Same discipline as border /
+# border_strong: composite to ONE opaque hex here so the PNG carries a real
+# token and the ink lint can prove it. accent over surface_alt (the menu
+# panel fill), so the wash sits inside the 4px accent stroke that carries
+# the Tier C state. Consumers: share/grub-theme/generate-menu.sh.
+select_fill   = ["accent", 0.14, "surface_alt"]
+# card_fill: the forward-facing card on a LIGHT variant (neobrutalism.dev light
+# mode: white page, coloured cards, black 2px edge + black hard shadow). accent
+# over white at 0.45 lands a pastel (orchid_light: #C5ADCF) that carries `text`
+# at 7.4:1 and accent_hi at 4.5:1. Consumer: share/grub-theme/generate-menu.sh
+# when theme.txt names a light variant. Emitted for dark variants too, unused.
+card_fill     = ["accent", 0.45, "surface"]
 
 # =============================================================================
 # DERIVED ACCENT STEPS (OKLCH lightness shifts - documentation only)
@@ -561,13 +575,16 @@ none           = "none"
 ink            = "4px 4px 0 0 #000000"   # -> accent_alt hex at emit time (doc placeholder, do not hardcode)
 ink_lg         = "7px 7px 0 0 #000000"   # -> accent_alt hex at emit time (doc placeholder)
 ink_press      = "0 0 0 0 #000000"       # -> accent_alt hex at emit time (doc placeholder); collapses on press
-hairline       = "0 0 0 1px rgba(255,255,255,0.10)"  # quiet dividers where even ink is too loud
-# accent_glow / accent_glow_lg / ink_accent are DERIVED per-variant from the
-# active accent by codegen (see emit_css_vars); rgba/hex below are doc
-# placeholders only, overwritten at emit time. Do NOT hardcode a variant hex.
+# ink_accent is DERIVED per-variant from the active accent by codegen (see
+# emit_css_vars); the hex below is a doc placeholder only, overwritten at
+# emit time. Do NOT hardcode a variant hex.
 ink_accent     = "4px 4px 0 0 #000000"   # -> accent_alt hex at emit time (hazard-coloured ink shadow)
-accent_glow    = "0 0 0 2px rgba(0,0,0,0.30)"
-accent_glow_lg = "0 0 24px rgba(0,0,0,0.40)"
+# 2026-09-23: hairline (1px rgba white 0.10), accent_glow (2px rgba ring) and
+# accent_glow_lg (24px BLURRED rgba glow) were DELETED, with the legacy
+# --ig-shadow-indigo-glow{,-lg} aliases. Zero consumers in the repo, and the
+# live audit's ink lint flagged all three the moment it read the simulator's
+# copy of css-vars.css: a translucent ring and a blurred glow are the two
+# materials this block's header rules out.
 # v5, 2026-08-28: the deprecated glass_sm/glass/glass_lg (soft blurred) and
 # neu_raised/neu_pressed (pillowy neumorphic) shadows were DELETED. They were
 # still emitted as --ig-shadow-glass etc., and tokens/out/glass.css actively

@@ -27,6 +27,8 @@
   --ig-overlay: #07080ACC;
   --ig-border: #1C1C1E;
   --ig-border-strong: #5E5E60;
+  --ig-select-fill: #2D2833;
+  --ig-card-fill: #675570;
 }
 
 /* The OS asked for light. */
@@ -55,6 +57,8 @@
     --ig-overlay: #FAFAFCCC;
     --ig-border: #DDDDE1;
     --ig-border-strong: #85858C;
+    --ig-select-fill: #E0D9E6;
+    --ig-card-fill: #C5ADCF;
   }
 }
 
@@ -84,6 +88,8 @@
   --ig-overlay: #FAFAFCCC;
   --ig-border: #DDDDE1;
   --ig-border-strong: #85858C;
+  --ig-select-fill: #E0D9E6;
+  --ig-card-fill: #C5ADCF;
 }
 
 /* The reader chose dark. Must restate the dark palette: the media
@@ -112,4 +118,6 @@
   --ig-overlay: #07080ACC;
   --ig-border: #1C1C1E;
   --ig-border-strong: #5E5E60;
+  --ig-select-fill: #2D2833;
+  --ig-card-fill: #675570;
 }

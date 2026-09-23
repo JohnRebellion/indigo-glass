@@ -74,10 +74,10 @@
   /* Charts — same five slots as the reference, re-hued so slot 1 is the
      accent and slot 4 is Sage Ink's own `positive` (hue nudged to 165). */
   --chart-1: #A6C9A6;
-  --chart-2: #0099FF;
-  --chart-3: #FF7A05;
+  --chart-2: #0099FF; /* drift-allow: reference chart slot 2, a data hue on a static SVG specimen, not a UI fill */
+  --chart-3: #FF7A05; /* drift-allow: reference chart slot 3, as above */
   --chart-4: #3FFABB;
-  --chart-5: #7A83FF;
+  --chart-5: #7A83FF; /* drift-allow: reference chart slot 5, as above */
   --chart-active-dot: #F8F8F8;
 
   /* Fonts — the reference ships no font tokens (inherits the docs site's

@@ -46,11 +46,13 @@ also present - a scrollbar thumb's hover state is Tier D, not a preview).
 | VSCode theme JSON | Dedicated `*Outline`/`*Border` keys where they exist (`list.focusOutline`, `menu.selectionBorder`, `tab.activeBorderTop`, ...); where none exists (`quickInputList`, `peekViewResult`, `statusBarItem`), fall back to reducing the fill toward a neutral, non-accent wash - documented per-key, not a silent gap |
 | KDE Plasma colour scheme | `DecorationFocus` role (distinct from `Colors:Selection`, which stays a genuine text-selection fill) |
 | Plasma FrameSVG (`viewitem.svg`) | Only the `*-center` tile's opacity zeroed per state; the 8 corner/edge tiles already form a complete border frame using the file's own existing geometry |
-| GRUB (9-patch PNG) | `select_c/e/w.png` are transparent fill, 2px stroke outline only |
+| GRUB (9-patch PNG) | `select_c/e/w.png`: 4px stroke (2px vanishes at 2560x1440), no fill. On a light variant (the shipped `orchid_light`, per `theme.txt`'s `# variant:` header) the stroke is `[on_light]` black and the interior is fully transparent so the `card_fill` card shows through; on a dark variant it is an accent stroke over the opaque `select_fill` composite token (accent 0.14 over surface_alt). The wash was baked at 0.14 alpha until 2026-09-23; `[palette.composite]` now resolves it to one hex, so the PNG carries a token and `check-ink-contract.py` can read it back |
 | Discord (Vencord) | Can only override the *value* of a variable Discord's compiled stylesheet already reads as `background-color` - no stable, non-obfuscated selector exists to attach a real `outline` to. Documented limitation, not solved: reduced toward barely-there instead of a bold fill. |
-| Canvas (`GrubScreen.svelte` preview) | `ctx.strokeRect(...)`, no `ctx.fillRect(...)` for the selected-row treatment |
+| Canvas (`GrubScreen.svelte` preview) | draws the theme's own `select_*.png` / `menu_*.png` 9-slices, so it can only show what GRUB will; a preset with no pixmaps falls back to `ctx.strokeRect(...)` in `selected_item_color`, never a fill |
 
 ## Enforcement
+
+`scripts/check-ink-contract.py` (pre-commit) reads the contract back from the GTK CSS, the simulator's hand-typed CSS/Svelte/TS and the GRUB theme + its referenced pixmaps: translucent shadow or fill, non-token hex, 1px control border, partial PNG alpha.
 
 `scripts/check-palette-drift.sh --alpha` (part of the default full run) flags
 any `rgba(...)` with alpha < 1 or `#RRGGBBAA` hex outside the Tier A

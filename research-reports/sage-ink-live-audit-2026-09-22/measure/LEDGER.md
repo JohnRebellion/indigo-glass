@@ -101,3 +101,80 @@ Not verified in this pass: Dark Reader interaction (harness disables extensions)
 Stylus import, Firefox render. `edge-personal` confirmed on the same binary the harness drives
 (`/usr/bin/microsoft-edge-stable` → `/opt/microsoft/msedge/msedge`, 153.0.4234.48) with theme,
 Stylus and Dark Reader present in Default and Profile 1 (`check-deployment.sh`).
+
+## Fix pass for the simulator + GRUB theme, 2026-09-23 (check-ink-contract.py + Playwright + own read)
+
+Same contract as L21–L35, applied to the two layers the browser passes did not touch: the
+simulator (SvelteKit, `simulator/`) and the GRUB gfxmenu theme (`share/grub-theme/`).
+`scripts/check-ink-contract.py` widened from the three GTK files to the simulator's hand-typed
+CSS/Svelte/TS and to `theme.txt` plus every pixmap it references (binary alpha, token-only flat
+fills). Run against the pre-pass tree it reports 25 violations on the GRUB theme and 38 across
+the four simulator files below; against the fixed tree, 0 in 39 files. Pixel samples from
+`scripts/shoot-grub.mjs` at 2560x1440, before/after on the same entry list.
+
+| # | Layer | Was | Now | Evidence |
+|---|---|---|---|---|
+| L36 | GRUB `theme.txt` | sub-lines and footer `#BCC3CE`, captions `#B7D4B7`, section labels `#C0E3C0` (three non-token greys/greens) | `accent_hi` #C0E3C0 / `accent` #A6C9A6 / `text` #F8F8F8 only; ladder 19.8 / 15.0 / 11.5:1 on base | lint: 13 hex hits gone; own read of the sample |
+| L37 | GRUB pixmaps | `select_*.png` alpha 36/255 wash (0.14 baked); `menu_*` edge `#7A7B80`; `accent_line` `#BEE6BE` | `select_fill` composite token #272C2A opaque + 4px accent stroke; menu edge `border_strong` 2px on `surface_alt`; line `accent` | `magick -unique-colors`: alpha 1..1 on all 13; sample fill (39,44,42), stroke (166,201,166), panel edge (94,94,96) fill (18,18,22) — was edge (0,0,0) fill (31,32,40) |
+| L38 | GRUB generator | `generate-menu.sh` hard-coded four hexes | reads `--ig-surface-alt/border-strong/accent/select-fill` from `tokens/out/css-vars.css`, fails closed on a missing token | rerun reproduces the committed PNGs byte-for-byte |
+| L39 | Simulator sage preset | manifest listed stale `menu_bkg_*`; canvas never loaded the real 9-slices, painted its own tint + black 1px border + rgba(0,0,0,.55) glyph shadow | manifest = real `menu_*`/`select_*`/`accent_line`; `GrubScreen.svelte` draws the pixmaps via `drawNineSlice`, strokeRect fallback only when a slice is missing; glyph shadow gone | `sync-grub-parity.sh` "manifest covers all theme.txt references"; grub snapshot regenerated and read |
+| L40 | Simulator `/grub` route | aside gradient; bezel 40px blurred rgba shadow + two indigo gradients; focus ring rgba .4; eight off-token greys; 1px `#1A1B1D` inputs | flat `surface_alt` bezel, 2px `border_strong`, hard offset shadows; inputs 2px; active row = accent border; radius 0 | lint 22 hits gone; snapshot read |
+| L41 | Simulator shared | `inkPanel.ts` shadow rgba .9; `global.css` `.ig-input` 1px + `#FFFFFF` focus; vscode palette `rgba` layered shadow; palettes ambient gradients; `nb-core.css` chart hues | opaque shadow tokens; 2px `border_strong`, focus = `text`; `background-image: none`; chart slots on drift-allow (data hues on a static specimen) | lint 0; `bun run check` 0 errors; vitest 20 passed |
+| L42 | Tokens | `[shadow]` shipped `hairline`, `accent_glow`, `accent_glow_lg` (rgba, 24px blur), zero consumers; codegen leaked `[shadow.klassy]` dict into CSS | removed; codegen skips subtables; new `select_fill = ["accent", 0.14, "surface_alt"]` composite | codegen OK; `check-palette-drift.sh` clean; 19 `tokens/out` files regenerated |
+
+Playwright: 44 passed / 5 skipped after refreshing the `grub` and `claude-code` snapshots (the
+latter shifted ~1px from the 2px `.ig-input` border) and repointing the `scopes` focus-ring
+expectation from white to `text` rgb(248,248,248). The 5 skips predate this pass.
+
+Residue that is intentional and stays: `background.jpg` 140px black edge feather (overscan
+safety, outside the 96px safe area); GRUB gfxmenu default literals `#ffffff`/`#cccccc` in the
+canvas (drift-allow: they are GRUB's defaults, not ours); `/density-test` 1px site-native fixtures
+(drift-allow: the density opt-in is measured against them); `/palettes` hex exhibits (lint exempt);
+legacy unreferenced GRUB assets (`card_*`, `terminal_box_*`, `progress_*`, `spin_*`, …) untouched.
+
+Not verified in this pass: real GRUB render (`sync-grub-parity.sh --deploy` not run, needs sudo
+and a reboot); the simulator is a web approximation of gfxmenu's 9-slice scaling.
+
+### Addendum, same day: GRUB theme switched to `orchid_light`, light card model
+
+User direction after L36–L42 landed, in two steps: (1) GRUB should be light mode in the orchid
+variant the laptop ran; (2) light mode as neobrutalism.dev draws it - white page, coloured
+forward-facing cards - and the black feather around the safe area stays. Implemented as one
+switch, not a retype: `theme.txt` carries a `# variant: orchid_light` header, and
+`generate-menu.sh`, `generate-background.sh` and `check-ink-contract.py` all read it and take
+their token set from `tokens/out/css-vars.<variant>.css`. The menu generator branches on the
+variant's base luminance (the `[on_light]` threshold, 0.179): dark bakes the L37 panel; light
+bakes the card below. New composite token `card_fill = ["accent", 0.45, "surface"]`.
+
+| Role | Token | Hex | Contrast |
+|---|---|---|---|
+| page / `desktop-color` | `base` | #FAFAFC | — |
+| headline, `item_color` | `text` | #23262C | 14.5:1 on base, 7.4:1 on the card |
+| sub-line, footer, `selected_item_color` | `accent_hi` | #692E80 | 8.8:1 on base, 4.5:1 on the card |
+| section label, caption, key hint, accent line | `accent` | #7F4995 | 6.1:1 on base |
+| boot menu card fill | `card_fill` (accent 0.45 over surface) | #C5ADCF | 1.96:1 lift off base |
+| card edge 2px, hard shadow 4px, selection stroke 4px | `[on_light] border` / `ink` | #000000 | 10.3:1 on the card |
+| selected row interior | none (alpha 0) | — | card shows through: Tier C, outline not fill |
+| background brackets / ticks | `accent`, `accent_alt`, `positive` | #7F4995 / #9563AB / #008154 | edge decoration only |
+
+Shadow in a 9-slice: GRUB pads each side by the W/N/E/S slice's own size and scales the corners
+to the pads they meet, so `menu_e` is 6x1 and `menu_s` 1x6 (2px edge + 4px shadow), `menu_se`
+6x6 solid, `menu_ne` 6x2 and `menu_sw` 2x6 with the shadow region transparent. The shadow starts
+2px early on the right column and bottom row (the e/s slices stretch uniformly); at 2560x1440
+that is below what the eye resolves. `simulator/src/lib/theme/nineSlice.ts` pads the same way.
+Canvas samples at 2560x1440: edge (0,0,0) at 96,470; fill (197,173,207) at 200,600; right shadow
+(0,0,0) at 2459..2463,900; bottom shadow (0,0,0) at 130,1268; page (250,250,252) at 300,200.
+
+Residue, intentional: `background.jpg`'s 140px black edge feather (a ramp, on a light page a
+visible dark frame) stays at the user's explicit request; it lives outside the 96px safe area.
+
+Lint: 0 violations / 39 files against the orchid_light set plus `[on_light]` (allowed only when the
+GRUB variant's base is light; transparent PNG pixels are flattened onto a sentinel and ignored).
+Pixmaps: 12 slices, alpha in {0, 255} on all, opaque colours ⊆ {#000000, #C5ADCF, #7F4995}. OS
+icons are dark inks (navy, green, red, blue) and stay legible on the light page. Drift guard:
+COLOUR now skips the GRUB theme's declared variant under `share/grub-theme/` only; self-test
+grew case 7 (a foreign variant's accent in theme.txt is drift) and its working-tree replay now
+uses `git diff --binary`, without which any re-baked PNG broke the harness. Simulator preset `sage`
+(the path) displays as "Orchid Ink Light"; the install path `/boot/grub2/themes/sage-ink` keeps
+its legacy name. Playwright 44 passed / 5 skipped after refreshing the grub snapshot. Still not
+deployed to `/boot`.

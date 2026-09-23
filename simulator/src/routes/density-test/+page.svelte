@@ -84,7 +84,7 @@
   <!-- Code blocks -->
   <section data-testid="section-code">
     <h3>Code (always mono)</h3>
-    <p>Inline <code>--ig-accent: #A8E635</code> and a block:</p>
+    <p>Inline <code>--ig-accent: #A6C9A6</code> and a block:</p>
     <pre><code>{codeSnippet}</code></pre>
   </section>
 </div>
@@ -164,7 +164,7 @@
   form input, form textarea {
     background: var(--ig-base);
     color: var(--ig-text);
-    border: 1px solid var(--ig-border);
+    border: 1px solid var(--ig-border); /* drift-allow: site-native fixture the density opt-in is measured against, not a Sage Ink control */
     border-radius: 4px;
     padding: 6px 10px;       /* site-native */
     font-family: inherit;
@@ -199,7 +199,7 @@
   .card p { margin: 0 0 8px; font-size: 9pt; color: var(--ig-text-muted); }
   .card button {
     background: transparent;
-    border: 1px solid var(--ig-border-strong);
+    border: 1px solid var(--ig-border-strong); /* drift-allow: site-native fixture, as above */
     color: var(--ig-text);
     padding: 3px 8px;
     border-radius: 4px;

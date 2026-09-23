@@ -179,26 +179,31 @@
 </div>
 
 <style>
+  /* Sidebar, controls and monitor mockup on Sage Ink tokens only. The
+     2026-09-22 live audit's contract (research-reports/sage-ink-live-audit-
+     2026-09-22): opaque fills, hard offset shadows, 2px border_strong on
+     controls, no gradient, no blur, no translucency, every hex a token.
+     Before this pass the route carried an aside gradient, a CRT bezel with a
+     40px blurred rgba shadow and two indigo-era gradients, a translucent
+     focus ring, and eight hand-picked greys - all on drift-allow or below the
+     drift guard's radar. The monitor still reads as a monitor from its
+     geometry (bezel + stand); it no longer needs glass to do it. */
   :global(body) {
     margin: 0;
-    background: #07070f;
+    background: #07080A;
   }
   .layout {
     display: grid;
     grid-template-columns: 380px 1fr;
     height: 100vh;
-    color: #e0e7ff;
+    color: #F8F8F8;
     font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
   }
-  /* Sidebar + controls rewritten to Sage Ink (was hardcoded lime/violet -
-     #A8E635/#C1FF58/#8BC406 and #5b21b6/#6d28d9/#8b4ff5 gradients, never
-     migrated). Sharp ink corners, border-2 on shadow-bearing surfaces,
-     hover-travel press per the neobrutalism.dev reference audit. */
   aside {
     overflow-y: auto;
     padding: 1.25rem;
-    border-right: 1px solid #202024; /* was rgba(255,255,255,0.06) - opaque hairline over the aside gradient */
-    background: linear-gradient(180deg, #121216 0%, #0A0A0D 100%);
+    border-right: 1px solid #1C1C1E; /* Tier B hairline divider: border token */
+    background: #121216;
   }
   .brand {
     display: flex;
@@ -211,7 +216,7 @@
   .logo {
     width: 32px; height: 32px; border-radius: 0;
     background: #A6C9A6;
-    border: 2px solid #89A889;
+    border: 2px solid #5E5E60;
     box-shadow: 4px 4px 0 0 #89A889;
   }
   h2 {
@@ -228,13 +233,14 @@
   .preset-card {
     position: relative;
     padding: 0;
-    border: 2px solid #1C1C1F; /* was #FFFFFF10 - opaque hairline over card bg */
+    border: 2px solid #5E5E60;
     border-radius: 0;
     overflow: hidden;
     cursor: pointer;
     background: #0D0D10;
     box-shadow: 4px 4px 0 0 #89A889;
     outline: 2px solid transparent;
+    outline-offset: 2px;
     transition: outline-color 120ms, transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
   }
   .preset-card img {
@@ -246,25 +252,27 @@
     font-size: 0.72rem;
     text-align: left;
     color: #F8F8F8;
-    background: rgba(0,0,0,0.55); /* drift-allow: a caption legibility scrim over an arbitrary preset screenshot, not a fixed surface - can't be pre-composited to one opaque value like a modal scrim can't either */
+    background: #121216; /* was rgba(0,0,0,0.55) over the thumbnail: the label now sits below it, opaque */
   }
-  .preset-card.active { outline-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 4px 4px 0 0 #89A889; }
+  /* Tier C: the chosen preset is an on-select state, so it gets the detached
+     2px text ring every other layer uses - not an accent halo. */
+  .preset-card.active { outline-color: #F8F8F8; }
   /* Press travels on :active, not :hover — adjudicated 2026-09-02 by
      cross-model audit. Travelling into the shadow is a press metaphor; firing
      it on pointer arrival announces an action that has not happened, and is
      pointer-only so keyboard and touch users never see it. Deliberate
      divergence from neobrutalism.dev, which uses :hover. */
-  .preset-card:hover { outline-color: rgba(255,255,255,0.18); }
+  .preset-card:hover { outline-color: #5E5E60; }
   .preset-card:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
 
   label {
-    display: block; font-size: 0.72rem; color: #C9CBD3;
+    display: block; font-size: 0.72rem; color: #F8F8F8;
     margin: 0.55rem 0;
   }
   label .val { float: right; color: #C0E3C0; }
   input[type='range'] { width: 100%; accent-color: #A6C9A6; }
   input[type='text'], textarea {
-    background: #07080A; border: 1px solid #1A1B1D; color: #F8F8F8; /* border was #FFFFFF14, now opaque over #07080A */
+    background: #07080A; border: 2px solid #5E5E60; color: #F8F8F8; /* 2px border_strong on a control (was 1px #1A1B1D) */
     padding: 0.4rem; border-radius: 0; font: 11px monospace; width: 100%;
     box-sizing: border-box;
   }
@@ -276,72 +284,63 @@
     gap: 0.3rem;
     margin-bottom: 0.3rem;
   }
-  .entry-row.active > input { border-color: #A6C9A6; box-shadow: 0 0 0 1px rgba(166,201,166,0.4); }
-  .x { background: #2a1616; color: #ED254E; }
-  .x:hover { background: #4d1418; color: #fff; }
+  /* The row whose entry is the previewed selection: outline, not a halo
+     (was border accent + 0 0 0 1px rgba(166,201,166,0.4)). */
+  .entry-row.active > input { border-color: #A6C9A6; }
+  .x { background: #121216; color: #ED254E; }
+  .x:hover { background: #ED254E; color: #F8F8F8; }
   .add { width: 100%; margin-top: 0.3rem; }
 
   .actions { display: flex; gap: 0.5rem; margin-top: 0.4rem; }
   .actions button { flex: 1; }
   button {
-    background: #121216; color: #F8F8F8; border: 2px solid #212125; /* was #FFFFFF10, now opaque over #121216 */
+    background: #121216; color: #F8F8F8; border: 2px solid #5E5E60;
     padding: 0.5rem 0.85rem; border-radius: 0; cursor: pointer;
     font-size: 0.78rem; font-weight: 700;
     box-shadow: 4px 4px 0 0 #89A889;
     transition: background 100ms, transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
   }
-  button:hover { background: #191c1e; }
+  button:hover { background: #0D0D10; } /* neutral hover moves fill only, to the surface token (was #191c1e) */
   button:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 #89A889; }
   button.primary {
     background: #A6C9A6;
     color: #07080A;
-    border-color: #A6C9A6;
-    box-shadow: 4px 4px 0 0 #89A889;
+    border-color: #5E5E60;
+    box-shadow: 4px 4px 0 0 #07080A; /* light fill casts the base-coloured shadow (tone context, nb-surfaces.css) */
   }
   button.primary:hover { background: #C0E3C0; }
+  button.primary:active { box-shadow: 0 0 0 0 #07080A; }
 
   main {
     padding: 2rem;
     overflow: auto;
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
-    /* This route's own CRT-monitor mockup chrome around the theme preview -
-       a deliberately separate meta-aesthetic from the Sage Ink surface it's
-       previewing, not a migration miss (see .bezel just below, same zone,
-       same reasoning). */
-    background:
-      radial-gradient(ellipse at top left, rgba(124,58,237,0.08), transparent 50%), /* drift-allow: see comment above */
-      radial-gradient(ellipse at bottom right, rgba(59,130,246,0.06), transparent 50%), /* drift-allow: see comment above */
-      #07070f;
+    background: #07080A;
   }
   .monitor { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
   .bezel {
     padding: 14px 14px 18px;
-    border-radius: 18px;
-    background:
-      linear-gradient(180deg, #1a1a2a 0%, #0e0e18 100%);
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.04),
-      0 12px 40px rgba(0,0,0,0.7),
-      inset 0 1px 0 rgba(255,255,255,0.08);
+    border-radius: 0;
+    background: #121216;
+    border: 2px solid #5E5E60;
+    box-shadow: 7px 7px 0 0 #89A889;
     position: relative;
   }
   .screen-wrap {
     background: #000;
-    border-radius: 6px;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
     line-height: 0;
   }
   .stand {
     width: 130px; height: 9px;
-    background: linear-gradient(180deg, #2a2a44, #18182c);
-    border-radius: 0 0 12px 12px;
+    background: #121216;
+    border: 2px solid #5E5E60;
+    border-top: 0;
+    border-radius: 0;
     margin: 14px auto -22px;
-    /* Dark fill -> sage shadow, at the [shadow].ink offset. Was
-       8px 8px black: the offset was the abandoned 2026-08-28 doubling and
-       black on this surface measured 1.05:1. */
-    box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
+    box-shadow: 4px 4px 0 0 #89A889;
   }
   .size-control {
     margin-top: 30px;

@@ -209,12 +209,11 @@
     inset: -6% -6% 40%;
     z-index: 0;
     pointer-events: none;
-    /* Page-wide decorative ambient glow (class name literally "pal-amb"),
-       not a component fill - same carve-out as the grub simulator's own
-       CRT-bezel chrome. */
-    background-image:
-      radial-gradient(circle at 22% 20%, color-mix(in oklab, var(--ig-accent) 9%, transparent) 0%, transparent 58%), /* drift-allow: see comment above */
-      radial-gradient(circle at 80% 60%, color-mix(in oklab, var(--ig-accent-alt) 6%, transparent) 0%, transparent 58%); /* drift-allow: see comment above */
+    /* Was two radial accent gradients (a page-wide "ambient glow", carried
+       on a drift-allow). The 2026-09-22 live audit's contract has no
+       decorative carve-out: ink is flat, so this layer now paints nothing
+       and stays only so the z-index stacking below is unchanged. */
+    background-image: none;
   }
   .pal > *:not(.pal-amb) { position: relative; z-index: 1; }
 
@@ -363,7 +362,7 @@
     /* [shadow].ink offset, sage tone: the fill is --ig-surface (dark), and
        black on it measured 1.07:1. Second half of the leftover in
        docs/SAGE_INK_AUDIT.md #7. */
-    box-shadow: 4px 4px 0 0 rgba(137,168,137,0.9);
+    box-shadow: var(--ig-shadow-ink); /* was rgba(137,168,137,0.9): translucent, rendered off-token */
     container-type: inline-size;
   }
   .pw-title {

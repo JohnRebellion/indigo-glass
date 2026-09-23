@@ -213,7 +213,7 @@
   }
   .card-img {
     aspect-ratio: 1;
-    background: linear-gradient(135deg, var(--ig-surface), var(--ig-sidebar));
+    background: var(--ig-surface); /* was a 135deg surface->sidebar gradient: ink is flat */
   }
   .card-body {
     padding: 4px 6px;

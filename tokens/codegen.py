@@ -326,13 +326,6 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
         lines.append(f"  --ig-opacity-{k.replace('_', '-')}: {v};")
 
     lines.extend(["", "  /* Shadow */"])
-    # accent_glow{,_lg} are derived from the active accent so the focus-glow
-    # matches the variant instead of shipping a hardcoded indigo rgba. The
-    # legacy --ig-shadow-indigo-glow{,-lg} names are emitted as aliases for
-    # back-compat (mirrors _BRAND_ALIAS behaviour for the accent triple).
-    accent_rgb = hex_to_rgb(pal["accent"]["hex"])
-    accent_glow = f"0 0 0 2px rgba({accent_rgb},0.30)"
-    accent_glow_lg = f"0 0 24px rgba({accent_rgb},0.40)"
     # ink_accent: the hazard-coloured ink shadow (Sage Ink v4) - same idea as
     # accent_glow above, but a hard offset instead of a glow. Uses accent_alt
     # (the darker/active step) so the shadow reads as a distinct plane behind
@@ -351,11 +344,11 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
     ink_lg = f"7px 7px 0 0 {pal['accent_alt']['hex']}"
     ink_press = f"0 0 0 0 {pal['accent_alt']['hex']}"
     for k, v in t["shadow"].items():
-        if k == "accent_glow":
-            v = accent_glow
-        elif k == "accent_glow_lg":
-            v = accent_glow_lg
-        elif k == "ink_accent":
+        if isinstance(v, dict):
+            # [shadow.klassy] is a subtable for the kdecoration partial; it
+            # used to leak into CSS as `--ig-shadow-klassy: {'size': ...}`.
+            continue
+        if k == "ink_accent":
             v = ink_accent
         elif k == "ink":
             v = ink
@@ -370,10 +363,6 @@ def emit_css_vars(t: dict, variant: str | None = None) -> str:
     # because black is black regardless of which accent is active.
     for k, v in t.get("on_light", {}).items():
         lines.append(f"  --ig-on-light-{k.replace('_', '-')}: {v};")
-
-    # Legacy aliases (kept so consumers referencing indigo-glow keep working).
-    lines.append(f"  --ig-shadow-indigo-glow: {accent_glow};")
-    lines.append(f"  --ig-shadow-indigo-glow-lg: {accent_glow_lg};")
 
     lines.extend(["", "  /* Type scale (pt) */"])
     for k, v in t["type"]["scale"].items():

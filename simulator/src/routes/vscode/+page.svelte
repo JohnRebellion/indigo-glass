@@ -20,7 +20,7 @@
     'index.ts': `import { palette } from './tokens';\n\nexport function applyTheme(host: string): void {\n  const tokens = palette[host];\n  document.documentElement.style.setProperty('--ig-indigo', tokens.indigo);\n}\n\nconst result = applyTheme('default');`,
     'theme.json': `{\n  "name": "Sage Ink Dark",\n  "type": "dark",\n  "colors": {\n    "editor.background": "#07080A",\n    "editor.foreground": "#F8F8F8"\n  }\n}`,
     'package.json': `{\n  "name": "indigo-glass",\n  "version": "0.1.0"\n}`,
-    'tokens.toml': `[variants.lime]\nbase = "#07080A"\naccent = "#A8E635"`
+    'tokens.toml': `[variants.sage]\nbase = "#07080A"\naccent = "#A6C9A6"`
   };
 </script>
 
@@ -479,9 +479,9 @@ actions   = "#121216"</pre>
   .chat-send {
     padding: 5px 10px;
     background: var(--ig-indigo);
-    color: #0A0B08;
-    border: 1px solid var(--ig-indigo);
-    border-radius: 4px;
+    color: var(--ig-base); /* dark text on the accent fill: base token (was #0A0B08, in no token file) */
+    border: var(--ig-border-default) solid var(--ig-border-strong); /* 2px control border (was 1px accent) */
+    border-radius: var(--ig-radius-default);
     font-weight: 700;
     cursor: pointer;
   }
@@ -504,13 +504,15 @@ actions   = "#121216"</pre>
        14px 14px black, the leftover flagged in docs/SAGE_INK_AUDIT.md #7:
        the offset was the reverted doubling and the fill here is
        --ig-surface, so the shadow takes sage, not black. */
-    box-shadow: 7px 7px 0 0 rgba(137,168,137,0.9);
+    box-shadow: var(--ig-shadow-ink-lg); /* was rgba(137,168,137,0.9): translucent, rendered off-token */
     overflow: hidden;
     font-size: 9pt;
   }
   .vscode.layered .palette {
     background: var(--ig-surface-alt);  /* Actions tier: highest tone -> clearly floats */
-    box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--ig-border-strong);
+    /* Was 0 12px 40px rgba(0,0,0,0.7): a blurred translucent drop - glass, not
+       ink. Same hard offset as flat mode; the ring is the 2px border_strong edge. */
+    box-shadow: var(--ig-shadow-ink-lg), 0 0 0 2px var(--ig-border-strong);
   }
   .palette-input {
     width: 100%;
@@ -545,7 +547,7 @@ actions   = "#121216"</pre>
     color: var(--ig-text-muted);
     background: var(--ig-base);
     border: 1px solid var(--ig-border);
-    border-radius: 3px;
+    border-radius: var(--ig-radius-xs); /* was 3px: no such radius step */
     padding: 1px 5px;
   }
   /* Neutral opaque fallback, not an accent-tinted highlight (was
@@ -554,10 +556,10 @@ actions   = "#121216"</pre>
      for a focused command-palette row, so the closest compliant treatment
      is reducing the fill toward neutral, same as the actual .json themes. */
   .palette-active {
-    background: #202023;
+    background: #212125; /* drift-allow: mirrors the shipped theme's quickInputList.focusBackground verbatim */
   }
   .vscode.layered .palette-active {
-    background: #252528;
+    background: #212125; /* drift-allow: as above */
   }
 
   /* Reposition palette so its overlay works — need relative on .vscode */

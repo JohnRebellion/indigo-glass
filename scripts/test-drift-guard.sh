@@ -41,8 +41,11 @@ git -C "$REPO" worktree add --detach "$WT" HEAD >/dev/null 2>&1
 # tested them against HEAD's layer files, so a guard fix that also required a
 # layer fix failed its own baseline check: "clean checkout passes" reported the
 # very drift the uncommitted change was fixing. Replay every tracked change.
+# --binary: a plain diff describes a changed PNG as "Binary files differ" and
+# `git apply` refuses it, so any pass that re-bakes a pixmap (the GRUB theme,
+# a Playwright snapshot) broke this replay. Found 2026-09-23.
 WT_PATCH="$WT/.working-tree.patch"
-git -C "$REPO" diff HEAD > "$WT_PATCH"
+git -C "$REPO" diff HEAD --binary > "$WT_PATCH"
 if [ -s "$WT_PATCH" ]; then
   git -C "$WT" apply "$WT_PATCH" \
     || { echo "  FAIL  could not replay the working tree into the test worktree" >&2; exit 1; }
@@ -170,15 +173,42 @@ alt_exit=$?
 set -e
 check "changed accent_alt + regenerate is reported as drift" 1 "$alt_exit"
 
+# share/grub-theme was a fixture here until 2026-09-23: its generators read
+# every colour from tokens/out now, so it no longer carries a hand-typed alt
+# to go stale. klassyrc still does.
 missing=0
-for f in share/grub-theme config/plasma-theme/SageInk; do
+for f in config/klassy/klassyrc config/plasma-theme/SageInk; do
   grep -qF "$f" <<<"$alt_report" || { echo "      not named: $f"; missing=1; }
 done
 check "names the deployables left on the stale accent_alt" 0 "$missing"
+
+# --- 7. GRUB theme: its declared variant is not drift, a foreign one is ----
+# theme.txt names its own variant (`# variant: orchid_light`), so the guard
+# must not hunt that variant's accents under share/grub-theme/ (case 1, the
+# clean baseline, already covers this: theme.txt carries #7F4995 and passes)
+# while still catching any OTHER non-active variant's accent there. Inject
+# rust's accent into a label and expect the file to be named.
+cp "$REPO/tokens/indigo-glass.tokens.toml" tokens/indigo-glass.tokens.toml
+python3 tokens/codegen.py >/dev/null 2>&1
+GRUB_VARIANT="$(sed -n 's/^# variant: *//p' share/grub-theme/theme.txt | head -1)"
+FOREIGN="$(grep -oE '^\[variants\.[a-z_]+\]' tokens/indigo-glass.tokens.toml \
+           | sed -E 's/^\[variants\.(.*)\]$/\1/' \
+           | grep -vE "^(${ACTIVE}|${ACTIVE}_light|${GRUB_VARIANT})$" | head -1)"
+FOREIGN_HEX="$(grep -oE '^\s*--ig-accent:\s*#[0-9A-Fa-f]{6}' "tokens/out/css-vars.${FOREIGN}.css" \
+               | head -1 | grep -oE '#[0-9A-Fa-f]{6}')"
+printf '+ label { top = 1400 left = 0 width = 10 align = "left" text = "x" color = "%s" font = "SF Pro Display Regular 22" }\n' \
+  "$FOREIGN_HEX" >> share/grub-theme/theme.txt
+set +e
+grub_report="$(bash scripts/check-palette-drift.sh 2>&1)"
+grub_exit=$?
+set -e
+check "a foreign variant's accent ($FOREIGN) in the GRUB theme is drift" 1 "$grub_exit"
+if grep -qF 'share/grub-theme/theme.txt' <<<"$grub_report"; then named=0; else named=1; fi
+check "and names share/grub-theme/theme.txt" 0 "$named"
 
 echo ""
 if [ "$fail" -gt 0 ]; then
   echo "$fail failed, $pass passed — the guard has a hole"
   exit 1
 fi
-echo "$pass passed — guard covers every member of the accent triple"
+echo "$pass passed — guard covers every member of the accent triple and the GRUB variant switch"

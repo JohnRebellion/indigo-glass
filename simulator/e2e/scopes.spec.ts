@@ -53,7 +53,7 @@ const HEX = {
   // light surfaces, near-white on dark ones — matching the reference's own
   // --ring token, which is oklch(0% 0 0) in light mode and oklch(100% 0 0)
   // in dark. Sage Ink is dark-only, so the ring is white.
-  ring: 'rgb(255, 255, 255)',
+  ring: 'rgb(248, 248, 248)', // `text` token: nb-core.css binds --ring to --ig-text, and Sage Ink ships no #FFFFFF (was literal white until 2026-09-23)
   indigoHi: 'rgb(192, 227, 192)', // #C0E3C0 sage hover
   positive: 'rgb(63, 250, 187)',  // #3FFABB (nudged +12.5deg off sage's hue)
   surfaceAlt: 'rgb(18, 18, 22)'   // #121216

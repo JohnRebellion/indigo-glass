@@ -89,7 +89,10 @@ export function drawInkPanel(
     // panel measured 1.05:1 and was doing nothing. 0.179 is the luminance at
     // which black and white contrast equally.
     const fillIsLight = luminance(o.fill as readonly [number, number, number]) > 0.179;
-    ctx.fillStyle = fillIsLight ? 'rgba(7,8,10,0.9)' : 'rgba(137,168,137,0.9)';
+    // Opaque base / accent_alt. Was rgba(...,0.9): the same translucent-shadow
+    // defect the 2026-09-22 live audit found in GTK (L2), where 0.9 sage over
+    // the page rendered #7C987D, a colour in no token file.
+    ctx.fillStyle = fillIsLight ? '#07080A' : '#89A889';
     roundRectPath(ctx, x + INK_OFFSET, y + INK_OFFSET, w, h, o.radius);
     ctx.fill();
   }

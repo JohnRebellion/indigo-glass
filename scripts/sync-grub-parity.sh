@@ -8,7 +8,9 @@
 #   1. simulator/static/presets/sage/  (the in-browser simulator preset;
 #      was presets/lime/ - renamed 2026-08-28 along with the accent, since
 #      GRUB was never actually deployed to /boot yet, so there was no live
-#      install under the old name to migrate)
+#      install under the old name to migrate. The id is a path, not the
+#      variant: since 2026-09-23 theme.txt names `orchid_light` and the
+#      preset shows that; index.json carries the display name)
 #   2. /boot/grub2/themes/sage-ink/    (the live installed theme)  [--deploy]
 #
 # Without --deploy it only syncs the simulator preset (safe, no sudo). Use
@@ -65,8 +67,11 @@ overlay() {
   local dest="$1" mode="$2" sudo_pfx="${3:-}"
   local files=()
   if [ "$mode" = manifest ]; then
-    # theme.txt is always required; add every asset/font the manifest lists
-    files+=("theme.txt")
+    # theme.txt is always required, and thumb.jpg is what /grub's preset
+    # picker shows (index.json points at presets/<id>/thumb.jpg directly, so
+    # the manifest never lists it - it went stale on the 2026-09-23 variant
+    # switch). Then every asset/font the manifest lists.
+    files+=("theme.txt" "thumb.jpg")
     local mf="$dest/manifest.json"
     [ -f "$mf" ] || mf="$SRC/manifest.json"
     if [ -f "$mf" ]; then

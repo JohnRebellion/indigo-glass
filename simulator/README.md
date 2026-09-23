@@ -1,6 +1,6 @@
-# Lime Glass - Simulator
+# Sage Ink - Simulator
 
-SvelteKit visual + Playwright preview of all Lime Glass surfaces.
+SvelteKit visual + Playwright preview of all Sage Ink surfaces.
 Consolidated from the standalone `~/grub-simulator` repo.
 
 ## Surfaces
@@ -11,14 +11,14 @@ Consolidated from the standalone `~/grub-simulator` repo.
 | `/browser/` | Mock browser w/ feed / marketplace / mail tabs |
 | `/vscode/` | Mock VSCode workbench (sidebar, tabs, editor, status bar) |
 | `/vscode/claude-code/` | Anthropic Claude Code chat panel |
-| `/grub/` | GRUB boot picker (full editor, kept from grub-simulator) |
+| `/grub/` | GRUB boot picker (full editor, kept from grub-simulator). Draws `share/grub-theme`'s own `menu_*.png` / `select_*.png` pixmaps in the variant its `theme.txt` header names (`orchid_light`, light, since 2026-09-23); run `scripts/sync-grub-parity.sh` after regenerating them. The preset dir is still `presets/sage` (a path, not the variant) |
 
 ## Why a sim
 
-- Visual proof the tokens + density rules + glass composition look right
+- Visual proof the tokens + density rules + ink material look right
 - Playwright snapshot regression: every commit verifies no surface drifts
 - Reference target for non-installable surfaces (GRUB live testing slow)
-- Single page to show a stakeholder "what Lime Glass is"
+- Single page to show a stakeholder "what Sage Ink is"
 
 ## Run
 

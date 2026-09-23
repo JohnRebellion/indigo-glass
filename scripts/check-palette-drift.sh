@@ -171,6 +171,22 @@ filter_allowed() { grep -v 'drift-allow' || true; }
 VARIANT_FILE_EXCLUDE='share/color-schemes/IndigoGlass\.colors|share/konsole/IndigoGlass\.(colorscheme|profile)'
 filter_variant_files() { grep -vE "$VARIANT_FILE_EXCLUDE" || true; }
 
+# The GRUB theme declares its own variant in theme.txt's `# variant:` header
+# (orchid_light since 2026-09-23 - the boot screen is light on purpose while
+# the desktop stays on the active dark variant). Its generators and
+# scripts/check-ink-contract.py hold every hex under share/grub-theme/ to THAT
+# variant's tokens, so its accents are not stale there; any OTHER non-active
+# variant's accent in those files is still drift and is still hunted below.
+GRUB_THEME="share/grub-theme/theme.txt"
+GRUB_VARIANT="$( [ -f "$GRUB_THEME" ] && sed -n 's/^# variant: *//p' "$GRUB_THEME" | head -1 || true)"
+filter_grub_variant() { # filter_grub_variant <variant-being-hunted>
+  if [ -n "$GRUB_VARIANT" ] && [ "$1" = "$GRUB_VARIANT" ]; then
+    grep -vE '^share/grub-theme/' || true
+  else
+    cat
+  fi
+}
+
 # ===========================================================================
 # 1. COLOUR — stale accent from a non-active variant
 # ===========================================================================
@@ -249,7 +265,7 @@ if [ "$MODE" = "all" ] || [ "$MODE" = "colour" ]; then
     # trailing `|| true`: a genuinely clean result means the last grep in
     # this pipeline matches nothing and exits 1, which set -e would treat
     # as this whole script failing before it ever prints "clean".
-    hits="$(grep -rInE "$pattern" "${COLOUR_DIRS[@]}" "${EXCLUDE[@]}" 2>/dev/null | filter_allowed | filter_variant_files || true)"
+    hits="$(grep -rInE "$pattern" "${COLOUR_DIRS[@]}" "${EXCLUDE[@]}" 2>/dev/null | filter_allowed | filter_variant_files | filter_grub_variant "$v" || true)"
     if [ -n "$hits" ]; then
       FOUND=1
       echo ""

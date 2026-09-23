@@ -139,8 +139,9 @@ a:hover {
 .ig-input {
   background: var(--ig-surface);
   color: var(--ig-text);
-  border: 1px solid var(--ig-border);
-  border-bottom: 1px solid var(--ig-border-strong);
+  /* 2px border_strong on a control (was 1px border + 1px strong underline):
+     the live audit's L4 contract, same as GTK entry/check/radio/switch. */
+  border: var(--ig-border-default) solid var(--ig-border-strong);
   padding: var(--ig-density-input-pad-y, 4px) var(--ig-density-input-pad-x, 8px);
   border-radius: var(--ig-radius-default); /* was --ig-radius-sm (broken ref), then --ig-radius-xs - inputs use the default ink radius, not the tag-step */
   font-family: inherit;
@@ -151,16 +152,16 @@ a:hover {
    1px -> 2px to match ring-offset-2 (a detached gap, not flush against
    the input). */
 .ig-input:focus {
-  outline: 2px solid #FFFFFF;
+  outline: 2px solid var(--ig-text); /* text token, not literal white - Sage Ink has no #FFFFFF */
   outline-offset: 2px;
-  border-color: #FFFFFF;
+  border-color: var(--ig-text);
 }
 
 /* White outline only - no translucent halo (was accent, then briefly
    literal black; dark surface, so white per the reference's own
    dark-mode --ring). */
 *:focus-visible {
-  outline: 2px solid #FFFFFF;
+  outline: 2px solid var(--ig-text);
   outline-offset: 2px;
 }
 

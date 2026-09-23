@@ -26,6 +26,8 @@
   --ig-overlay: #07080ACC;
   --ig-border: #1C1C1E;
   --ig-border-strong: #5E5E60;
+  --ig-select-fill: #2D2833;
+  --ig-card-fill: #675570;
 
   /* Spacing */
   --ig-pad-xs: 2px;
@@ -71,16 +73,10 @@
   --ig-shadow-ink: 4px 4px 0 0 #B38FC3;
   --ig-shadow-ink-lg: 7px 7px 0 0 #B38FC3;
   --ig-shadow-ink-press: 0 0 0 0 #B38FC3;
-  --ig-shadow-hairline: 0 0 0 1px rgba(255,255,255,0.10);
   --ig-shadow-ink-accent: 4px 4px 0 0 #B38FC3;
-  --ig-shadow-accent-glow: 0 0 0 2px rgba(212,173,230,0.30);
-  --ig-shadow-accent-glow-lg: 0 0 24px rgba(212,173,230,0.40);
-  --ig-shadow-klassy: {'size': 'ShadowSmall', 'strength': 255, 'color': '0, 0, 0'};
   --ig-on-light-border: #000000;
   --ig-on-light-ink: 4px 4px 0 0 #000000;
   --ig-on-light-ink-lg: 7px 7px 0 0 #000000;
-  --ig-shadow-indigo-glow: 0 0 0 2px rgba(212,173,230,0.30);
-  --ig-shadow-indigo-glow-lg: 0 0 24px rgba(212,173,230,0.40);
 
   /* Type scale (pt) */
   --ig-type-anchor-pt: 11pt;
