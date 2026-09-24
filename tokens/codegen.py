@@ -32,8 +32,10 @@ Requires Python 3.11+ (uses tomllib). No third-party dependencies.
 from __future__ import annotations
 
 import argparse
+import colorsys
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -1365,6 +1367,227 @@ SHIPPED_VSCODE = {
 }
 
 
+# =============================================================================
+# Edge profiles - per-profile browser layer (see [edge_profiles] in the token
+# file). Every Edge profile keeps the Sage Ink surface ladder and carries its
+# own brand accent triple. Three artifacts per profile:
+#
+#   browser/edge-theme/edge-<profile>/manifest.json   theme extension (committed)
+#   browser/darkreader/darkreader.<profile>.json      Dark Reader import (committed)
+#   browser/stylus/out/stylus-import.<profile>.json   Stylus bundle (untracked,
+#                                                     like the personal bundle -
+#                                                     see .gitignore)
+#
+# "personal" gets only the theme manifest: its Dark Reader import and Stylus
+# bundle ARE the canonical files these emitters substitute from.
+# =============================================================================
+
+SHIPPED_EDGE_THEME_DIR = REPO_ROOT / "browser" / "edge-theme"
+SHIPPED_DARKREADER_DIR = REPO_ROOT / "browser" / "darkreader"
+DARKREADER_TEMPLATE = SHIPPED_DARKREADER_DIR / "indigo-glass.json"  # personal import file
+STYLUS_OUT_DIR = REPO_ROOT / "browser" / "stylus" / "out"
+STYLUS_SRC_GLOBS = ["browser/stylus/*.user.css", "browser/stylus/sites/*.user.css"]
+
+# Edge lifts near-black theme colours non-linearly before painting them
+# (measured on Edge 153 by pixel-sampling probe themes - the full curve and
+# raw data live in browser/edge-theme/README.md). These RGB triples are the
+# measured compensations that RENDER as the sage surface ladder; they are
+# deliberately NOT the token hex, so never "fix" them to match tokens.
+# _assert_edge_surfaces() below ties them back to the tokens through the
+# forward lift curve, so a silent token change still fails the build.
+_EDGE_LIFT_CURVE = [(0, 0), (1, 6), (2, 9), (3, 11), (4, 12), (7, 16),
+                    (10, 18), (15, 22), (18, 25), (30, 35), (40, 44), (48, 51)]
+_EDGE_SURFACES = {          # token key -> compensated manifest RGB
+    "surface_alt": [10, 10, 15],   # renders #121216 - frame/toolbar/buttons
+    "surface":     [5, 5, 7],      # renders ~#0D0D10 - frame_inactive
+    "sidebar":     [2, 2, 4],      # renders ~#0A0A0D - frame_incognito
+    "base":        [1, 2, 3],      # renders ~#07080A - incognito_inactive/omnibox
+}
+_EDGE_TEXT = [248, 248, 248]                  # text #F8F8F8, uncompensated
+_EDGE_TAB_BG_TEXT = [165, 169, 178]           # hand-tuned inactive tab text
+_EDGE_TAB_BG_TEXT_INACTIVE = [120, 122, 130]  # hand-tuned, see README
+_EDGE_THEME_VERSION = "1.5.0"  # first generated series; 1.4.0 was hand-kept
+# Fixed so codegen output is deterministic (--check compares bytes). Stylus
+# only displays this date; 2026-09-24 = the day the bundles became generated.
+_STYLUS_INSTALL_DATE = 1758672000000
+
+
+def _edge_rendered(v: int) -> float:
+    """Forward-interpolate the measured lift curve: manifest value -> what
+    Edge actually paints. Linear between measured points."""
+    pts = _EDGE_LIFT_CURVE
+    if v <= pts[0][0]:
+        return float(pts[0][1])
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        if v <= x1:
+            return y0 + (y1 - y0) * (v - x0) / (x1 - x0)
+    return float(pts[-1][1])
+
+
+def _assert_edge_surfaces(t: dict) -> None:
+    """The compensated RGB constants must still render the sage ladder. If a
+    sage surface token moves, this fails instead of shipping a stale seam."""
+    pal = derive_palette(t, "sage")
+    for key, rgb in _EDGE_SURFACES.items():
+        want = pal[key]["hex"].lstrip("#")
+        want_rgb = [int(want[i:i + 2], 16) for i in (0, 2, 4)]
+        for ch, (inp, target) in enumerate(zip(rgb, want_rgb)):
+            got = _edge_rendered(inp)
+            if abs(got - target) > 2:
+                raise SystemExit(
+                    f"edge surface drift: _EDGE_SURFACES[{key!r}] channel {ch} "
+                    f"renders {got:.1f}, token says {target}. Re-measure the "
+                    f"lift curve or update the constant (see edge-theme README).")
+
+
+def _edge_profile_hexes(t: dict, profile: str) -> dict[str, str]:
+    """Resolve a profile's brand triple to hex. `accent = \"<variant>\"`
+    inherits that variant's triple; otherwise the profile declares all three."""
+    spec = t["edge_profiles"][profile]
+    if isinstance(spec["accent"], str):
+        v = resolve_variant(t, spec["accent"])
+        triples = {k: v[k] for k in ("accent", "accent_hi", "accent_alt")}
+    else:
+        triples = {k: spec[k] for k in ("accent", "accent_hi", "accent_alt")}
+    return {k: oklch_to_hex(*lch) for k, lch in triples.items()}
+
+
+def _hls_tint(hex_color: str) -> list[float]:
+    """Chromium theme tint triple [h, s, l] (0-1, 2dp) for a hex colour -
+    the format `theme.tints.buttons` takes. Matches the hand-computed sage
+    value: #C0E3C0 -> [0.33, 0.38, 0.82]."""
+    r, g, b = (int(hex_color.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
+    return [round(h, 2), round(s, 2), round(l, 2)]
+
+
+def emit_edge_theme(t: dict, profile: str) -> str:
+    """Per-profile Edge theme manifest. Surfaces identical across profiles
+    (the Klassy-seam contract); only the toolbar icon tint carries the brand
+    hue. Edge 153 ignores omnibox_background - kept for Chromium proper."""
+    _assert_edge_surfaces(t)
+    label = t["edge_profiles"][profile]["label"]
+    hexes = _edge_profile_hexes(t, profile)
+    s = _EDGE_SURFACES
+    manifest = {
+        "manifest_version": 3,
+        "name": f"Sage Ink — {label}",
+        "short_name": "Sage Ink",
+        "version": _EDGE_THEME_VERSION,
+        "description": (
+            f"Sage Ink chrome for the {label} Edge profile - shared ink "
+            f"surfaces, {label}-brand toolbar icon tint. Generated by "
+            "tokens/codegen.py; do not hand-edit."),
+        "author": "John Rebellion",
+        "theme": {
+            "colors": {
+                "frame": s["surface_alt"],
+                "frame_inactive": s["surface"],
+                "frame_incognito": s["sidebar"],
+                "frame_incognito_inactive": s["base"],
+                "toolbar": s["surface_alt"],
+                "toolbar_text": _EDGE_TEXT,
+                "tab_text": _EDGE_TEXT,
+                "tab_background_text": _EDGE_TAB_BG_TEXT,
+                "tab_background_text_inactive": _EDGE_TAB_BG_TEXT_INACTIVE,
+                "bookmark_text": _EDGE_TEXT,
+                "omnibox_background": s["base"],
+                "omnibox_text": _EDGE_TEXT,
+                "button_background": s["surface_alt"],
+            },
+            "tints": {
+                "buttons": _hls_tint(hexes["accent_hi"]),
+                "frame": [-1, -1, -1],
+                "background_tab": [-1, -1, -1],
+            },
+        },
+    }
+    return json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
+
+
+def _accent_substitutions(t: dict, profile: str) -> dict[str, str]:
+    """sage accent literal -> profile accent literal, in every form the
+    browser layer actually writes: #RRGGBB (either case) and the decimal
+    triple with and without spaces (rgba() bodies)."""
+    sage = derive_palette(t, "sage")
+    prof = _edge_profile_hexes(t, profile)
+    subs: dict[str, str] = {}
+    for key in ("accent", "accent_hi", "accent_alt"):
+        s_hex = sage[key]["hex"].lstrip("#")
+        p_hex = prof[key].lstrip("#")
+        sr, sg, sb = (int(s_hex[i:i + 2], 16) for i in (0, 2, 4))
+        pr, pg, pb = (int(p_hex[i:i + 2], 16) for i in (0, 2, 4))
+        subs[s_hex] = p_hex
+        subs[s_hex.lower()] = p_hex
+        subs[f"{sr}, {sg}, {sb}"] = f"{pr}, {pg}, {pb}"
+        subs[f"{sr},{sg},{sb}"] = f"{pr},{pg},{pb}"
+    return subs
+
+
+def _substitute(text: str, subs: dict[str, str]) -> str:
+    for old, new in subs.items():
+        text = text.replace(old, new)
+    return text
+
+
+def emit_darkreader(t: dict, profile: str) -> str:
+    """Per-profile Dark Reader import: the personal import file with the sage
+    accents swapped for the profile's brand triple. Dark Reader has no update
+    URL - re-import after regenerating (see browser/README.md)."""
+    label = t["edge_profiles"][profile]["label"]
+    template = DARKREADER_TEMPLATE.read_text()
+    sage_accent = derive_palette(t, "sage")["accent"]["hex"].lstrip("#")
+    if sage_accent not in template:
+        raise SystemExit(
+            f"darkreader template {DARKREADER_TEMPLATE} no longer carries the "
+            f"sage accent #{sage_accent} - substitution basis is stale.")
+    out = _substitute(template, _accent_substitutions(t, profile))
+    return out.replace('"name": "Sage Ink"', f'"name": "Sage Ink — {label}"')
+
+
+def emit_stylus_bundle(t: dict, profile: str) -> str:
+    """Per-profile Stylus import bundle, built from the same .user.css files
+    as the personal bundle (scripts/style-check/README.md snippet - the
+    personal export is byte-identical to those files), with the brand triple
+    substituted. @updateURL is STRIPPED: Stylus's update check re-fetches the
+    sage originals from raw.githubusercontent.com and would silently revert
+    the brand hue on its next poll. Re-import after regenerating instead."""
+    label = t["edge_profiles"][profile]["label"]
+    subs = _accent_substitutions(t, profile)
+    files = sorted((REPO_ROOT).glob(STYLUS_SRC_GLOBS[0])) + \
+        sorted((REPO_ROOT).glob(STYLUS_SRC_GLOBS[1]))
+    if not files:
+        raise SystemExit("no browser/stylus/**/*.user.css sources found")
+    out = []
+    meta_keys = ("name", "namespace", "version", "description", "author",
+                 "homepageURL", "updateURL", "license", "preprocessor")
+    for path in files:
+        src = path.read_text()
+        src = _substitute(src, subs)
+        src = re.sub(r"^@updateURL\s+\S+\n", "", src, flags=re.M)
+        # Site files mix em dash and ASCII hyphen after "Sage Ink"; tag the
+        # profile right after the brand so both forms are covered.
+        src = re.sub(r"^@name(\s+)Sage Ink",
+                     f"@name\\g<1>Sage Ink [{label}]", src, flags=re.M)
+        meta = {}
+        for k in meta_keys:
+            m = re.search(rf"^@{k}\s+(.+)$", src, re.M)
+            meta[k] = m.group(1).strip() if m else None
+        out.append({
+            "enabled": True,
+            "name": meta["name"],
+            "updateUrl": None,
+            "url": meta["homepageURL"],
+            "installDate": _STYLUS_INSTALL_DATE,
+            "sourceCode": src,
+            "_usercss": True,
+            "usercssData": {**meta,
+                            "preprocessor": meta["preprocessor"] or "default",
+                            "vars": {}},
+        })
+    return json.dumps(out, indent=1, ensure_ascii=False)
+
+
 # Per-variant emitters: emitted once per variant. Canonical filename (no
 # variant suffix) = the default variant, for back-compat with consumers that
 # read e.g. tokens/out/css-vars.css. Plus a <stem>.<variant>.<ext> for each.
@@ -1479,6 +1702,15 @@ def build_outputs(t: dict) -> dict[str, str]:
     for dark, light in THEME_PAIRS:
         if dark in t["variants"] and light in t["variants"]:
             out[f"css-theme.{dark}.css"] = emit_css_theme_pair(t, dark, light)
+    # Edge profiles: theme manifest for every profile; Dark Reader import for
+    # the brand profiles only (personal's import file IS the template these
+    # substitute from). Stylus bundles are NOT in this dict - they ship to the
+    # untracked browser/stylus/out/ only, never to committed tokens/out/
+    # (main() adds them straight to the shipped-targets map).
+    for profile in t.get("edge_profiles", {}):
+        out[f"edge-theme.{profile}.json"] = emit_edge_theme(t, profile)
+        if profile != "personal":
+            out[f"darkreader.{profile}.json"] = emit_darkreader(t, profile)
     return out
 
 
@@ -1510,6 +1742,15 @@ def main():
     targets[SHIPPED_MONKEYTYPE_SETTINGS] = outputs["monkeytype-settings.json"]
     for fname, path in SHIPPED_VSCODE.items():
         targets[path] = outputs[fname]
+    for profile in t.get("edge_profiles", {}):
+        targets[SHIPPED_EDGE_THEME_DIR / f"edge-{profile}" / "manifest.json"] = \
+            outputs[f"edge-theme.{profile}.json"]
+        if profile != "personal":
+            targets[SHIPPED_DARKREADER_DIR / f"darkreader.{profile}.json"] = \
+                outputs[f"darkreader.{profile}.json"]
+            # Untracked, like the personal bundle (.gitignore browser/stylus/out/).
+            targets[STYLUS_OUT_DIR / f"stylus-import.{profile}.json"] = \
+                emit_stylus_bundle(t, profile)
 
     rc = 0
     for target, new in targets.items():
@@ -1518,6 +1759,7 @@ def main():
                 print(f"OUT-OF-DATE: {target}")
                 rc = 1
             continue
+        target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(new)
         print(f"wrote {target}")
 

@@ -850,3 +850,52 @@ key_fragments = [
     # clickable widget, so there's nothing to "outline" instead.
     "overlay", "scrim", "modal-background", "app-modal-background",
 ]
+
+# =============================================================================
+# EDGE PROFILES (2026-09-24) - per-profile brand accents for the browser layer
+# =============================================================================
+# Each Edge profile keeps the full Sage Ink surface/text ladder (visual
+# consistency with the desktop and with the Personal profile) and carries its
+# OWN brand accent triple, hue-derived from the client logo's dominant colour.
+#
+# These are NOT variants. A [variants.<name>] entry owes the full key set,
+# an ANSI contract, contrast quotes and KDE/WT/VSCode output; an edge profile
+# owes only an accent triple, consumed exclusively by the Edge-profile
+# emitters in codegen.py (theme manifest, Dark Reader import, Stylus bundle).
+#
+# Derivation rule (logo -> triple):
+#   - H: OKLCH hue of the logo's dominant saturated colour (neutrals and
+#     near-white/black pixels excluded, 10-degree hue buckets, largest bucket).
+#   - L ladder: sage's own (accent 0.80 / accent_hi 0.88 / accent_alt 0.70).
+#   - C: solved per hue so accent_hi's HSL saturation lands at 0.38 - the
+#     shipped weight of sage's Edge toolbar icon tint - so every profile's
+#     accent carries the same muted ink weight; hue alone differentiates.
+#     accent shares accent_hi's C (sage does too); accent_alt scales by 0.95
+#     (sage's 0.057/0.060 ratio).
+#
+# `accent = "<variant>"` inherits that variant's brand triple verbatim.
+
+[edge_profiles.personal]
+label  = "Personal"
+accent = "sage"   # the default desktop variant, unchanged - source of truth
+
+[edge_profiles.mtusa]
+label       = "MTUSA"
+# ~/Downloads/mtusalogo.png dominant #214D95 -> OKLCH(0.4310, 0.1281, 259.82)
+accent      = [0.8000, 0.0251, 259.82]   # #B4BECE muted steel blue
+accent_hi   = [0.8800, 0.0251, 259.82]   # #CED8E9 icon tint [0.60, 0.38, 0.86]
+accent_alt  = [0.7000, 0.0238, 259.82]   # #969FAE
+
+[edge_profiles.sida4]
+label       = "Sida4"
+# ~/Downloads/sida4logo.png dominant #00B47F -> OKLCH(0.6813, 0.1463, 163.47)
+accent      = [0.8000, 0.0456, 163.47]   # #A4C7B6 muted mint
+accent_hi   = [0.8800, 0.0456, 163.47]   # #BDE1CF icon tint [0.42, 0.37, 0.81]
+accent_alt  = [0.7000, 0.0433, 163.47]   # #86A797
+
+[edge_profiles.tyremax]
+label       = "Tyremax"
+# ~/Downloads/tyremaxlogo.png dominant #E46529 -> OKLCH(0.6554, 0.1731, 42.81)
+accent      = [0.8000, 0.0263, 42.81]    # #CDB9B1 muted copper
+accent_hi   = [0.8800, 0.0263, 42.81]    # #E8D2CA icon tint [0.04, 0.39, 0.85]
+accent_alt  = [0.7000, 0.0250, 42.81]    # #AD9A92

@@ -206,7 +206,27 @@ echo "Browsers"
 # place to look (it is the unwrapped launcher's profile, normally themeless).
 # An unpacked extension's id is sha256(absolute path)[:32] mapped 0-f -> a-p,
 # so the expected theme id is computed, not hardcoded.
-edge_theme_dir="$REPO_DIR/browser/edge-theme/indigo-glass"
+#
+# 2026-09-24: each profile loads its OWN generated theme folder
+# (browser/edge-theme/edge-<profile>/ — see that dir's README). Tyremax lives
+# in "Profile 1" of the edge-sida4 user-data-dir. The legacy indigo-glass/
+# folder is no longer loaded by any wrapper and counts as UNDEPLOYED.
+edge_expected_dir() {  # profile Preferences dir -> the theme folder it should load
+  case "$1" in
+    "$HOME/.config/edge-sida4/Profile 1") echo "$REPO_DIR/browser/edge-theme/edge-tyremax" ;;
+    "$HOME/.config/edge-personal/"*)      echo "$REPO_DIR/browser/edge-theme/edge-personal" ;;
+    "$HOME/.config/edge-mtusa/"*)         echo "$REPO_DIR/browser/edge-theme/edge-mtusa" ;;
+    "$HOME/.config/edge-sida4/"*)         echo "$REPO_DIR/browser/edge-theme/edge-sida4" ;;
+    *)                                    echo "" ;;
+  esac
+}
+edge_theme_id() {  # theme folder -> unpacked extension id
+  python3 -c "
+import hashlib,sys
+h=hashlib.sha256(sys.argv[1].encode()).hexdigest()[:32]
+print(''.join(chr(97+int(c,16)) for c in h))
+" "$(realpath "$1")"
+}
 edge_profiles=()
 for udd in "$HOME"/.config/edge-* "$HOME/.config/microsoft-edge"; do
   [ -d "$udd" ] || continue
@@ -218,14 +238,13 @@ done
 if [ ${#edge_profiles[@]} -eq 0 ]; then
   report ABSENT "edge" "no Edge profiles found"
 else
-  expect_tid="$(python3 -c "
-import hashlib,sys
-h=hashlib.sha256(sys.argv[1].encode()).hexdigest()[:32]
-print(''.join(chr(97+int(c,16)) for c in h))
-" "$(realpath "$edge_theme_dir")")"
+  legacy_tid="$(edge_theme_id "$REPO_DIR/browser/edge-theme/indigo-glass")"
   themed=0
   for prof in "${edge_profiles[@]}"; do
     label="edge ${prof#"$HOME"/.config/}"
+    expect_dir="$(edge_expected_dir "$prof")"
+    expect_tid=""
+    [ -n "$expect_dir" ] && expect_tid="$(edge_theme_id "$expect_dir")"
     tid="$(python3 -c "
 import json,sys
 try:
@@ -234,8 +253,16 @@ except Exception:
     print('parse-error'); raise SystemExit
 print(d.get('extensions',{}).get('theme',{}).get('id') or '')
 " "$prof/Preferences" 2>/dev/null)"
+    if [ -z "$expect_dir" ]; then
+      # Not one of the wrapper profiles (e.g. the unwrapped launcher's) —
+      # expected themeless; anything else is somebody's manual install.
+      [ -n "$tid" ] && [ "$tid" != "parse-error" ] && \
+        report UNDEPLOYED "$label" "unexpected theme id=$tid on a non-wrapper profile"
+      continue
+    fi
     case "$tid" in
       parse-error)   report UNDEPLOYED "$label" "could not parse Preferences" ;;
+      "$legacy_tid") report UNDEPLOYED "$label" "legacy indigo-glass theme still loaded — relaunch via the updated wrapper (expected $(basename "$expect_dir"))" ;;
       "$expect_tid") themed=$((themed+1))
                      ext=""
                      # Dark Reader: Edge Add-ons id, not the Chrome Web Store one.

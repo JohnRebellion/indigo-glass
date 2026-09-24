@@ -28,6 +28,36 @@ Run both together. Stylus paints the cross-cutting chrome (scrollbars/selection/
 
 ---
 
+## Per-profile brand hues (2026-09-24)
+
+The install steps below describe the **Personal** profile, whose files
+(`stylus/*.user.css`, `darkreader/indigo-glass.json`) are the source of truth.
+The MTUSA / Sida4 / Tyremax Edge profiles keep the identical Sage Ink surfaces
+but carry their own brand accent triple (`[edge_profiles]` in
+`tokens/indigo-glass.tokens.toml`). `python3 tokens/codegen.py` generates
+their import files by substituting the sage accents in the personal ones:
+
+| Profile | Dark Reader import | Stylus import bundle |
+|---|---|---|
+| MTUSA | `darkreader/darkreader.mtusa.json` | `stylus/out/stylus-import.mtusa.json` |
+| Sida4 | `darkreader/darkreader.sida4.json` | `stylus/out/stylus-import.sida4.json` |
+| Tyremax | `darkreader/darkreader.tyremax.json` | `stylus/out/stylus-import.tyremax.json` |
+
+Install into each profile with the same Import steps below, using that
+profile's files. Two deliberate differences from the personal set:
+
+- **`@updateURL` is stripped** from the bundled styles. Stylus's update check
+  re-fetches the sage originals from `raw.githubusercontent.com` and would
+  silently revert the brand hue on its next poll. Brand profiles update by
+  regenerate → re-import, exactly like Dark Reader.
+- The Stylus bundles live in gitignored `stylus/out/` (like the personal
+  bundle) — run codegen once on a fresh clone to materialise them.
+
+`scripts/sync-browser-theme.sh` (LevelDB clone of the personal profile) makes
+every profile **sage** again — if you use it, re-import the per-profile
+bundles afterwards. The per-profile Edge *theme* extension is separate and
+needs no import at all: see `edge-theme/README.md`.
+
 ## Install — Stylus
 
 ### Option A — Auto-update from GitHub

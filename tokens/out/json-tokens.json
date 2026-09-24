@@ -954,6 +954,66 @@
       ]
     }
   },
+  "edge_profiles": {
+    "personal": {
+      "label": "Personal",
+      "accent": "sage"
+    },
+    "mtusa": {
+      "label": "MTUSA",
+      "accent": [
+        0.8,
+        0.0251,
+        259.82
+      ],
+      "accent_hi": [
+        0.88,
+        0.0251,
+        259.82
+      ],
+      "accent_alt": [
+        0.7,
+        0.0238,
+        259.82
+      ]
+    },
+    "sida4": {
+      "label": "Sida4",
+      "accent": [
+        0.8,
+        0.0456,
+        163.47
+      ],
+      "accent_hi": [
+        0.88,
+        0.0456,
+        163.47
+      ],
+      "accent_alt": [
+        0.7,
+        0.0433,
+        163.47
+      ]
+    },
+    "tyremax": {
+      "label": "Tyremax",
+      "accent": [
+        0.8,
+        0.0263,
+        42.81
+      ],
+      "accent_hi": [
+        0.88,
+        0.0263,
+        42.81
+      ],
+      "accent_alt": [
+        0.7,
+        0.025,
+        42.81
+      ]
+    }
+  },
   "_derived": {
     "default_variant": "sage",
     "palettes": {
