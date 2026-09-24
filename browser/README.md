@@ -39,9 +39,16 @@ their import files by substituting the sage accents in the personal ones:
 
 | Profile | Dark Reader import | Stylus import bundle |
 |---|---|---|
+| Personal | `darkreader/darkreader.personal.json` | `stylus/out/stylus-import.personal.json` |
 | MTUSA | `darkreader/darkreader.mtusa.json` | `stylus/out/stylus-import.mtusa.json` |
 | Sida4 | `darkreader/darkreader.sida4.json` | `stylus/out/stylus-import.sida4.json` |
 | Tyremax | `darkreader/darkreader.tyremax.json` | `stylus/out/stylus-import.tyremax.json` |
+
+The Personal pair is emitted for uniformity — colour-identical to the
+canonical personal files (`darkreader/indigo-glass.json` and the
+`stylus/*.user.css` sources); it differs only in the `[Personal]` name tag
+and the stripped `@updateURL`. Either install path works for Personal; the
+canonical files stay the substitution source.
 
 Install into each profile with the same Import steps below, using that
 profile's files. Two deliberate differences from the personal set:

@@ -1378,8 +1378,11 @@ SHIPPED_VSCODE = {
 #                                                     like the personal bundle -
 #                                                     see .gitignore)
 #
-# "personal" gets only the theme manifest: its Dark Reader import and Stylus
-# bundle ARE the canonical files these emitters substitute from.
+# "personal" is emitted too, for uniformity — its substitution is the
+# identity (sage -> sage), so it differs from the canonical personal files
+# only in the [Personal] name tag and the stripped @updateURL. The canonical
+# files (browser/stylus/*.user.css, browser/darkreader/indigo-glass.json)
+# remain the source these emitters substitute FROM.
 # =============================================================================
 
 SHIPPED_EDGE_THEME_DIR = REPO_ROOT / "browser" / "edge-theme"
@@ -1702,15 +1705,14 @@ def build_outputs(t: dict) -> dict[str, str]:
     for dark, light in THEME_PAIRS:
         if dark in t["variants"] and light in t["variants"]:
             out[f"css-theme.{dark}.css"] = emit_css_theme_pair(t, dark, light)
-    # Edge profiles: theme manifest for every profile; Dark Reader import for
-    # the brand profiles only (personal's import file IS the template these
-    # substitute from). Stylus bundles are NOT in this dict - they ship to the
-    # untracked browser/stylus/out/ only, never to committed tokens/out/
-    # (main() adds them straight to the shipped-targets map).
+    # Edge profiles: theme manifest + Dark Reader import for every profile
+    # (personal's substitution is the identity - see the emitter block).
+    # Stylus bundles are NOT in this dict - they ship to the untracked
+    # browser/stylus/out/ only, never to committed tokens/out/ (main() adds
+    # them straight to the shipped-targets map).
     for profile in t.get("edge_profiles", {}):
         out[f"edge-theme.{profile}.json"] = emit_edge_theme(t, profile)
-        if profile != "personal":
-            out[f"darkreader.{profile}.json"] = emit_darkreader(t, profile)
+        out[f"darkreader.{profile}.json"] = emit_darkreader(t, profile)
     return out
 
 
@@ -1745,12 +1747,12 @@ def main():
     for profile in t.get("edge_profiles", {}):
         targets[SHIPPED_EDGE_THEME_DIR / f"edge-{profile}" / "manifest.json"] = \
             outputs[f"edge-theme.{profile}.json"]
-        if profile != "personal":
-            targets[SHIPPED_DARKREADER_DIR / f"darkreader.{profile}.json"] = \
-                outputs[f"darkreader.{profile}.json"]
-            # Untracked, like the personal bundle (.gitignore browser/stylus/out/).
-            targets[STYLUS_OUT_DIR / f"stylus-import.{profile}.json"] = \
-                emit_stylus_bundle(t, profile)
+        targets[SHIPPED_DARKREADER_DIR / f"darkreader.{profile}.json"] = \
+            outputs[f"darkreader.{profile}.json"]
+        # Untracked, like the hand-exported personal bundle (.gitignore
+        # browser/stylus/out/).
+        targets[STYLUS_OUT_DIR / f"stylus-import.{profile}.json"] = \
+            emit_stylus_bundle(t, profile)
 
     rc = 0
     for target, new in targets.items():
