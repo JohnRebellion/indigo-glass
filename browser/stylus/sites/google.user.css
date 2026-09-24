@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Google Search
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.5.0
+@version        0.6.1
 @description    Google Search on Sage Ink structure with a near-neutral hue of its own. One flat ink canvas, ink-sharp corners, the AI-Overview streaming highlight replaced by an underline, and the results column widened and centred through Google's own grid. Selectors verified against a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -263,6 +263,87 @@
       color: oklch(0.5510 0.0234 264.36) !important;
     }
   }
+
+  /* ─── 0.6.1: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/google/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  #rcnt div[role="button"]:not(:has(> :only-child:is(svg, i))):not(.mic):not(.lens),
+  #rcnt button:not(:has(> :only-child:is(svg, i))):not(.mic):not(.lens) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #8293B2 !important;
+    background-image: none !important;
+  }
+  #rcnt div[role="button"]:not(:has(> :only-child:is(svg, i))):not(.mic):not(.lens):hover,
+  #rcnt button:not(:has(> :only-child:is(svg, i))):not(.mic):not(.lens):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #8293B2 !important;
+  }
+  #rcnt div[role="button"]:not(:has(> :only-child:is(svg, i))):not(.mic):not(.lens):active,
+  #rcnt button:not(:has(> :only-child:is(svg, i))):not(.mic):not(.lens):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  #rcnt .cur {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="listbox"], g-menu, [role="menu"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #8293B2 !important;
+  }
+  [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #8293B2 !important;
+  }
+  [role="tooltip"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #8293B2 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .RNNXgb {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .RNNXgb textarea, .RNNXgb input, .gLFyf, .gsfi {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Body text: Google paints snippets #bfbfbf and titles #99c3ff; the ink
+   * ladder wants text / muted. */
+  #rcnt, #search, #center_col, #rhs, #rcnt .VwiC3b, #rcnt .kp, .kp-title, #rcnt .paa, #rcnt .related, #rcnt .sitelinks {
+    color: #F8F8F8 !important;
+  }
+  #rcnt cite, #rcnt .date, #rcnt .kp-sub, #rcnt .src span, #rcnt .pager {
+    color: #6B7280 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  #rcnt .kp, #rcnt .paa, #rcnt .related, #rcnt g-img, #rcnt .ico, #rcnt .sitelinks, #rcnt .ai-title, #rcnt .pager, #rcnt .sr, g-menu, [role="listbox"],
+  /* Video/image carousel cards (16px) and the .ZOyvub result wrapper (4px), measured on a live SERP by live-contract 2026-09-24. */
+  #rcnt g-inner-card, .ZOyvub {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  #rcnt .kp, #rcnt .paa, #rcnt .related, #rcnt .sr {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }
 
 /* ─── Width and centring: TEXT results only ───────────────────────────────

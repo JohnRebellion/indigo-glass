@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Microsoft 365 (Outlook / Teams / SharePoint)
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    Microsoft 365 web apps on Sage Ink structure with Microsoft's own blue. Fluent's six-step neutral ramp collapsed to two ink steps, all eleven radius tokens zeroed, brand blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -197,4 +197,85 @@
       --colorPaletteYellowForeground1: oklch(0.8369 0.1644 84.43) !important;
     }
   }
+
+  /* ─── 0.3.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/microsoft365/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  #appContainer button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button),
+  button.fui-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button),
+  button.ms-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button),
+  .hdr-btn:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    background-image: none !important;
+  }
+  #appContainer button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover,
+  button.fui-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover,
+  button.ms-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover,
+  .hdr-btn:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+  }
+  #appContainer button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active,
+  button.fui-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active,
+  button.ms-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active,
+  .hdr-btn:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  button.fui-Button.primary, button.ms-Button--primary, button.fui-Button.danger {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  .fui-Menu, .fui-Popover, .ms-Callout, [role="menu"], .fui-Toast {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+  }
+  [role="dialog"], .fui-DialogSurface {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #5D96D3 !important;
+  }
+  [role="tooltip"], .fui-Tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .fui-Input, .fui-Textarea, .fui-Select, .fui-Dropdown, .ms-TextField, .ms-Dropdown, .compose-bar, .editor {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .fui-Input input, .fui-Textarea textarea, .ms-TextField input, .fui-Select select {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .fui-Card, .fui-CardPreview, .fui-Badge:not(.circular), .fui-CounterBadge, .fui-Tag, .fui-MessageBar, .ms-MessageBar, .fui-Toast, .fui-Skeleton, .fui-ProgressBar, .fui-ProgressBar *, .fui-Slider, .fui-Checkbox__indicator, .fui-Table, .fui-Accordion, .fui-AccordionPanel, .fui-Divider, .event, .msg-item, .teams-msg .bubble, .preview, .reactions, .ms-DetailsRow, .fui-Tab, .fui-TabList {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .fui-Card, .fui-MessageBar, .ms-MessageBar, .msg-item, .event, .teams-msg .bubble, .fui-Table, .fui-Accordion, .ms-DetailsRow, .reading-pane, .folder-pane, .message-list, .fui-Tab, .fui-Skeleton, .ms-Persona {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  /* Brand-fill badges, tags and the primary label read ink black. */
+  .fui-Badge.brand, .fui-Badge.brand *, .fui-Badge.success, .fui-Badge.danger, .fui-Badge.warning, .fui-CounterBadge, .fui-Tag.brand, .fui-PresenceBadge {
+    color: #07080A !important;
+  }
+
 }

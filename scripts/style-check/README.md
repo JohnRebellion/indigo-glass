@@ -91,6 +91,43 @@ layers as absent.
 - **a 900px pass** — a responsive breakpoint can swap in a component tree whose
   tokens were never remapped.
 
+### live-contract.mjs — the simulator's contract on the real site
+
+```sh
+node live-contract.mjs public              # github, wikipedia, youtube, google, shopee
+node live-contract.mjs google --headed     # a cold headless jar gets the CAPTCHA; headed does not
+node live-contract.mjs claude,notion       # logged-in sites, via the profile copy
+node live-contract.mjs youtube --no-style  # is a failure ours or the site's?
+```
+
+`simulator/e2e/sites.spec.ts` proves each `.user.css` against its `/sites/<id>/`
+mock. This runs the **same contract block** (radius above 2px off circles and
+pills, soft or alpha shadows, blur, gradients, dialog and menu edges, action
+buttons carrying the 4px `accent_alt` offset, borders thinner than 2px) on the
+live DOM with the file injected, so a live class the mock never carried shows
+up here. The check body is copied, not shared — keep it in step with the spec
+when the contract changes. Exit status is the number of failing sites; output is
+one JSON object per site with distinct failure signatures, most frequent first.
+
+First live pass, 2026-09-24 (public five):
+
+| Site | Found | Fix |
+|---|---|---|
+| github | Primer avatar ring `rgba(255,255,255,.15) 0 0 0 1px` | `.avatar, [class*="prc-Avatar-Avatar"] { box-shadow: none }` |
+| wikipedia | `<html>` left black by Vector night | `html` added to the surface rule |
+| youtube | `<html>` stayed `#0F0F0F`: YouTube's `html[dark]` canvas rule is `!important` and outranks a bare `html` | `html[dark]` added to the surface rule |
+| youtube | `ytd-video-preview #media-container` 12px | added to the radius list |
+| google | `g-inner-card` 16px (video carousel), `.ZOyvub` 4px | added to the radius list |
+| shopee | served `/verify/traffic/error` (slide puzzle) — not audited | solve once in a headed run, keep that profile |
+
+Two contract exemptions came out of the same pass and live in both the spec
+and this script: avatar-shaped `[role=button]` hosts (YouTube's channel
+avatars with a LIVE badge) and entries inside `[role="navigation"]` are chrome,
+not action buttons.
+
+Screenshots (`--shot`) land in `/tmp/ig-shots/live-<id>.png`. A shot of a work
+profile is client material: read it here, never relay it.
+
 ### stylusapply.mjs — installing across profiles
 
 ```sh

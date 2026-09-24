@@ -206,6 +206,33 @@ check "a foreign variant's accent ($FOREIGN) in the GRUB theme is drift" 1 "$gru
 if grep -qF 'share/grub-theme/theme.txt' <<<"$grub_report"; then named=0; else named=1; fi
 check "and names share/grub-theme/theme.txt" 0 "$named"
 
+# --- 8. stock lanes: the simulator's /sites/ "before" CSS is not drift ----
+# simulator/src/lib/sites/<id>/stock.css reproduces the vendor's blur, soft
+# shadow and translucency so the page can show what the .user.css removes.
+# The guard must skip that one file and nothing beside it: the same glass in
+# Page.svelte next door is a real leak.
+cp "$REPO/share/grub-theme/theme.txt" share/grub-theme/theme.txt
+STOCK_DIR="simulator/src/lib/sites/zz-guard-test"
+mkdir -p "$STOCK_DIR"
+GLASS='.x { backdrop-filter: blur(8px); box-shadow: 0 4px 24px rgba(0,0,0,.4); background: rgba(255,255,255,.08); }'
+printf '%s\n' "$GLASS" > "$STOCK_DIR/stock.css"
+set +e
+bash scripts/check-palette-drift.sh >/dev/null 2>&1
+stock_exit=$?
+set -e
+check "vendor glass in a stock lane (stock.css) is not drift" 0 "$stock_exit"
+printf '<style>%s</style>\n' "$GLASS" > "$STOCK_DIR/Page.svelte"
+set +e
+lane_report="$(bash scripts/check-palette-drift.sh 2>&1)"
+lane_exit=$?
+set -e
+check "the same glass in Page.svelte beside it is drift" 1 "$lane_exit"
+if grep -qF "$STOCK_DIR/Page.svelte" <<<"$lane_report"; then named=0; else named=1; fi
+check "and names the Page.svelte, not the stock.css" 0 "$named"
+if grep -qF "$STOCK_DIR/stock.css" <<<"$lane_report"; then leaked=1; else leaked=0; fi
+check "stock.css absent from that report" 0 "$leaked"
+rm -rf "$STOCK_DIR"
+
 echo ""
 if [ "$fail" -gt 0 ]; then
   echo "$fail failed, $pass passed — the guard has a hole"

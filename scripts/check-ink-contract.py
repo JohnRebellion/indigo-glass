@@ -61,8 +61,13 @@ SIMULATOR_GLOBS = [
 ]
 # /palettes shows every variant's hues side by side on purpose (the drift
 # guard makes the same exception); its hex literals are the exhibit, not fills.
+# The /sites/<id>/ mock pages are the STOCK DOM of each site: their inline
+# literals (avatar fills, language bars, brand tiles, Google's greys) are the
+# values the shipped .user.css has to override, and the ours lane is judged by
+# computed style in simulator/e2e/sites.spec.ts, not by a literal scan. The
+# lane infrastructure beside them (SitePage, Pair, registry) stays token-only.
 # Unit-test fixtures (*.test.ts) parse arbitrary theme.txt input and are skipped.
-HEX_EXEMPT_PATHS = ("simulator/src/routes/palettes/",)
+HEX_EXEMPT = re.compile(r"^simulator/src/routes/palettes/|^simulator/src/lib/sites/[^/]+/Page\.svelte$")
 CONTROL = re.compile(r"(^|[\s,>])(entry|check|radio|switch|button|input|textarea|select)\b")
 PNG_TOKEN_MAX_COLOURS = 8  # flat tiles only; icons and text bakes have hundreds
 PNG_SENTINEL = "#FE01FE"   # what transparent pixels flatten onto before the colour read
@@ -132,7 +137,7 @@ def lint_text(path: pathlib.Path, allowed: set[str], frags: list[str]) -> list[s
     selector = ""
     raw = path.read_text().splitlines()
     rel = _rel(path)
-    check_hex = not rel.startswith(HEX_EXEMPT_PATHS)
+    check_hex = not HEX_EXEMPT.search(rel)
     for n, line in enumerate(strip_comments(path.read_text(), path.suffix).splitlines(), 1):
         if "drift-allow" in raw[n - 1]:
             continue  # reviewed functional alpha (e.g. libadwaita press-state shade)

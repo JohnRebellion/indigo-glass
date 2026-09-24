@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Wikipedia
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.1
 @description    Wikipedia (Vector 2022) on Sage Ink structure with its own link hue. Codex surface tokens collapsed to two ink steps, radii zeroed, link blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -93,6 +93,9 @@
   .vector-header,
   .vector-header-container,
   .vector-main-menu,
+  /* `html` too: Vector night paints the canvas black on <html>, and the
+   * gutter beside a narrow article shows it (live-contract, 2026-09-24). */
+  html,
   .vector-page-toolbar,
   .vector-sticky-header,
   .mw-body,
@@ -253,7 +256,7 @@
     border: 2px solid #5E5E60 !important;
   }
   .cdx-button:not(.cdx-button--weight-quiet):not(.cdx-button--fake-button) {
-    box-shadow: 4px 4px 0 0 #89A889 !important;
+    box-shadow: 4px 4px 0 0 #6D92D6 !important;
   }
   .cdx-button:not(.cdx-button--weight-quiet):not(.cdx-button--fake-button):active {
     box-shadow: none !important;
@@ -263,7 +266,7 @@
   .vector-menu-content,
   .cdx-menu {
     border: 2px solid #5E5E60 !important;
-    box-shadow: 4px 4px 0 0 #89A889 !important;
+    box-shadow: 4px 4px 0 0 #6D92D6 !important;
   }
 
   /* ─── Comparison-table pastels ───────────────────────────────────────
@@ -343,4 +346,79 @@
       --color-destructive: oklch(0.6124 0.2279 17.60) !important;
     }
   }
+
+  /* ─── 0.4.1: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/wikipedia/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  .cdx-button:not(:has(> :only-child:is(svg, i))):not(.cdx-button--weight-quiet):not(.cdx-button--icon-only):not(.cdx-button--fake-button),
+  .oo-ui-buttonElement-button:not(:has(> :only-child:is(svg, i))):not(.cdx-button--weight-quiet):not(.cdx-button--icon-only):not(.cdx-button--fake-button) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6D92D6 !important;
+    background-image: none !important;
+  }
+  .cdx-button:not(:has(> :only-child:is(svg, i))):not(.cdx-button--weight-quiet):not(.cdx-button--icon-only):not(.cdx-button--fake-button):hover,
+  .oo-ui-buttonElement-button:not(:has(> :only-child:is(svg, i))):not(.cdx-button--weight-quiet):not(.cdx-button--icon-only):not(.cdx-button--fake-button):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #6D92D6 !important;
+  }
+  .cdx-button:not(:has(> :only-child:is(svg, i))):not(.cdx-button--weight-quiet):not(.cdx-button--icon-only):not(.cdx-button--fake-button):active,
+  .oo-ui-buttonElement-button:not(:has(> :only-child:is(svg, i))):not(.cdx-button--weight-quiet):not(.cdx-button--icon-only):not(.cdx-button--fake-button):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  .cdx-button--weight-primary.cdx-button--action-progressive, .cdx-button--weight-primary.cdx-button--action-destructive, .oo-ui-flaggedElement-progressive .oo-ui-buttonElement-button {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  .cdx-menu, .vector-dropdown-content, .mw-notification {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6D92D6 !important;
+  }
+  .cdx-dialog {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #6D92D6 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .cdx-text-input__input, .cdx-select, .cdx-search-input__input-wrapper, .vector-search-box-input {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .cdx-search-input__input-wrapper .cdx-text-input__input {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .cdx-message, .cdx-menu-item, .cdx-thumbnail, .cdx-info-chip, .cdx-tabs__header, .infobox, .navbox, .ambox, .ombox, .hatnote, .quotebox, .thumb, .thumbimage, .cdx-progress-bar, .cdx-checkbox__icon, .vector-pinnable-header-toggle-button, .mw-search-result {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .infobox, .navbox, .thumb, .cdx-message, .ambox, .ombox, .mw-notification, .cdx-tabs__header, .cdx-thumbnail {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  /* Infobox and table text: Vector's #202122 on the ink surface. */
+  .infobox, .infobox th, .infobox td, .infobox-label, .infobox-data, .infobox-above, .infobox-header,
+  .navbox, .navbox th, .navbox td, .wikitable th, .wikitable td, .ambox, .ombox, .hatnote, .quotebox,
+  .cdx-message, .catlinks, .mw-footer, .reflist, .citation {
+    color: #F8F8F8 !important;
+  }
+  .infobox-caption, .thumbcaption, .mw-editsection, .hatnote, .catlinks li, .mw-footer li {
+    color: #6B7280 !important;
+  }
+  /* Quiet buttons are text affordances: no edge at all rather than a 1px one. */
+  .cdx-button--weight-quiet { border-color: transparent !important; }
+
 }

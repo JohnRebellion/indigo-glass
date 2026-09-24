@@ -1,0 +1,119 @@
+/* Notion stock: dark-mode values as notion.so paints them. Login-walled, so
+ * vars.mjs returned nothing; the --notion-* colour names the file remaps are
+ * Notion's own, the shell/surface values are the dark theme's rgba stops on
+ * its #191919 page. Class names are notion-* where Notion exposes them
+ * (notion-page-content, notion-code-block, notion-collection-item) and mock
+ * n-* elsewhere. */
+@scope (.site-notion) {
+  :scope {
+    color-scheme: dark;
+    --notion-primary: #2383E2; --notion-primary-hover: #0077D4; --notion-blue: #529CCA; --notion-purple: #9A6DD7; --notion-pink: #D15796; --notion-red: #DF5452; --notion-orange: #D9730D; --notion-yellow: #CB912F; --notion-green: #4DAB9A; --notion-teal: #4DAB9A; --notion-brown: #937264; --notion-gray: #979A9B;
+    --notion-selected-block: rgba(35,131,226,.14);
+    --n-bg: #191919; --n-sidebar: #202020; --n-hover: rgba(255,255,255,.055); --n-active: rgba(255,255,255,.03); --n-card: #252525; --n-popover: #252525;
+    --n-text: rgba(255,255,255,.81); --n-text-2: rgba(255,255,255,.443); --n-text-3: rgba(255,255,255,.282);
+    --n-border: rgba(255,255,255,.13); --n-border-2: rgba(255,255,255,.094);
+    --n-bg-blue: rgba(82,156,202,.18); --n-bg-red: rgba(223,84,82,.18); --n-bg-yellow: rgba(203,145,47,.18); --n-bg-green: rgba(77,171,154,.18); --n-bg-purple: rgba(154,109,215,.18); --n-bg-gray: rgba(151,154,155,.18); --n-bg-orange: rgba(217,115,13,.18); --n-bg-pink: rgba(209,87,150,.18);
+    background: var(--n-bg); color: var(--n-text); font-family: ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 14px;
+  }
+  a { color: var(--n-text); text-decoration: underline; text-decoration-color: var(--n-text-3); }
+  button { font: inherit; cursor: pointer; }
+  .shell { display: flex; width: 100%; min-height: 320px; }
+  .n-sidebar { width: 240px; flex: none; background: var(--n-sidebar); padding: 8px; display: flex; flex-direction: column; gap: 1px; }
+  .n-sidebar .ws { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-weight: 500; margin-bottom: 8px; }
+  .n-sidebar .ws:hover { background: var(--n-hover); }
+  .n-sidebar .ws span { width: 20px; height: 20px; border-radius: 4px; background: var(--notion-purple); display: inline-block; }
+  .n-sidebar a { display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 8px; border-radius: 6px; color: var(--n-text-2); text-decoration: none; font-weight: 500; }
+  .n-sidebar a:hover { background: var(--n-hover); } .n-sidebar a.active { background: var(--n-active); color: var(--n-text); }
+  .n-sidebar .label { font-size: 12px; color: var(--n-text-3); padding: 12px 8px 4px; font-weight: 500; }
+  .n-main { flex: 1; padding: 0 0 24px; }
+  .n-topbar { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; }
+  .n-topbar .crumb { display: flex; gap: 4px; color: var(--n-text-2); } .n-topbar .crumb b { color: var(--n-text); font-weight: 400; }
+  .n-topbar .actions { margin-left: auto; display: flex; gap: 4px; align-items: center; color: var(--n-text-2); }
+  .n-topbar button { border: 0; background: none; color: var(--n-text-2); padding: 4px 8px; border-radius: 4px; }
+  .n-topbar button:hover { background: var(--n-hover); }
+  .n-topbar button.share { color: var(--n-text); }
+  .cover { height: 90px; background: linear-gradient(120deg, #2b3a55, #4a2f4f); }
+  .icon { font-size: 56px; margin: -28px 0 0 96px; line-height: 1; }
+  .notion-page-content { padding: 8px 96px 0; max-width: 900px; }
+  .notion-page-content h1 { font-size: 40px; font-weight: 700; margin: 8px 0 16px; }
+  .notion-page-content [contenteditable] { outline: 0; }
+  .notion-page-content [data-block-id] { padding: 3px 2px; margin: 1px 0; border-radius: 3px; line-height: 1.5; }
+  .notion-page-content [data-block-id].selected { background: var(--notion-selected-block); }
+  .notion-page-content [data-block-id]:hover { background: transparent; }
+  .notion-page-content h2[data-block-id] { font-size: 24px; font-weight: 600; margin-top: 20px; }
+  .notion-page-content h3[data-block-id] { font-size: 20px; font-weight: 600; margin-top: 16px; }
+  .todo { display: flex; align-items: center; gap: 8px; }
+  .todo .box { width: 16px; height: 16px; border: 1.5px solid var(--n-text-2); border-radius: 3px; display: inline-grid; place-items: center; font-size: 10px; }
+  .todo.done .box { background: var(--notion-primary); border-color: var(--notion-primary); color: #fff; } .todo.done span { text-decoration: line-through; color: var(--n-text-2); }
+  .toggle::before { content: "▸ "; color: var(--n-text-2); }
+  .callout { display: flex; gap: 12px; padding: 16px 16px 16px 12px; border-radius: 4px; background: var(--n-card); border: 1px solid transparent; }
+  .callout.blue { background: var(--n-bg-blue); } .callout.red { background: var(--n-bg-red); } .callout.yellow { background: var(--n-bg-yellow); }
+  .quote { border-left: 3px solid currentColor; padding-left: 14px; font-size: 16px; }
+  .divider { border-top: 1px solid var(--n-border); margin: 6px 0; }
+  .link-mention { border-bottom: 1px solid var(--n-text-3); font-weight: 500; }
+  .n-mention { color: var(--n-text-2); font-weight: 500; }
+  .n-mention.date { color: var(--n-text-2); }
+  .highlight { background: var(--n-bg-yellow); } .col-blue { color: var(--notion-blue); } .col-red { color: var(--notion-red); } .col-green { color: var(--notion-green); } .col-purple { color: var(--notion-purple); } .col-orange { color: var(--notion-orange); } .col-pink { color: var(--notion-pink); } .col-yellow { color: var(--notion-yellow); }
+  code { font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 85%; background: rgba(135,131,120,.15); color: #EB5757; padding: 2px 4px; border-radius: 4px; }
+  .notion-code-block { background: var(--n-card); border-radius: 4px; padding: 34px 16px 32px; position: relative; font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 14px; line-height: 1.5; }
+  .notion-code-block .lang { position: absolute; top: 8px; left: 12px; font-size: 12px; color: var(--n-text-2); font-family: inherit; }
+  .notion-code-block .copy { position: absolute; top: 6px; right: 8px; font-size: 12px; color: var(--n-text-2); border: 0; background: none; border-radius: 4px; padding: 2px 6px; font-family: inherit; }
+  .notion-code-block pre { margin: 0; white-space: pre-wrap; } .notion-code-block pre code { background: none; color: var(--n-text); padding: 0; font-size: 14px; }
+  kbd, samp, tt { font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 13px; }
+  kbd { padding: 1px 5px; border: 1px solid var(--n-border); border-radius: 3px; background: var(--n-card); }
+  .n-table { border-collapse: collapse; width: 100%; } .n-table th, .n-table td { border: 1px solid var(--n-border); padding: 6px 8px; text-align: left; vertical-align: top; } .n-table th { background: var(--n-active); color: var(--n-text-2); font-weight: 500; }
+  .n-table th span { display: inline-flex; gap: 6px; align-items: center; }
+  .tag { display: inline-block; padding: 0 6px; border-radius: 3px; font-size: 14px; line-height: 20px; white-space: nowrap; }
+  .tag.blue { background: var(--n-bg-blue); color: var(--notion-blue); } .tag.red { background: var(--n-bg-red); color: var(--notion-red); } .tag.yellow { background: var(--n-bg-yellow); color: var(--notion-yellow); } .tag.green { background: var(--n-bg-green); color: var(--notion-green); } .tag.purple { background: var(--n-bg-purple); color: var(--notion-purple); } .tag.gray { background: var(--n-bg-gray); color: var(--notion-gray); } .tag.orange { background: var(--n-bg-orange); color: var(--notion-orange); } .tag.pink { background: var(--n-bg-pink); color: var(--notion-pink); }
+  .status { display: inline-flex; align-items: center; gap: 6px; padding: 0 8px 0 6px; border-radius: 3px; font-size: 14px; line-height: 20px; background: var(--n-bg-gray); } .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--notion-gray); }
+  .status.progress { background: var(--n-bg-blue); } .status.progress::before { background: var(--notion-blue); } .status.done { background: var(--n-bg-green); } .status.done::before { background: var(--notion-green); }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
+  a.notion-collection-item { display: block; border-radius: 6px; background: var(--n-card); box-shadow: rgba(255,255,255,.094) 0 0 0 1px; overflow: hidden; text-decoration: none; }
+  a.notion-collection-item .img { height: 80px; background: linear-gradient(135deg, #3b4a66, #22262e); }
+  a.notion-collection-item .body { padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; } a.notion-collection-item .body b { font-weight: 500; }
+  a.notion-collection-item:hover { background: #2c2c2c; }
+  .board { display: flex; gap: 12px; width: 100%; }
+  .board .col { flex: 1; } .board .col-head { display: flex; align-items: center; gap: 6px; padding: 4px; color: var(--n-text-2); font-size: 14px; }
+  .board .card { background: var(--n-card); border-radius: 6px; box-shadow: rgba(255,255,255,.094) 0 0 0 1px; padding: 8px 10px; margin-top: 8px; font-weight: 500; }
+  .views { display: flex; gap: 2px; border-bottom: 1px solid var(--n-border); align-items: center; }
+  .views button { border: 0; background: none; color: var(--n-text-2); padding: 6px 8px; font-size: 14px; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .views button.active { color: var(--n-text); border-bottom-color: var(--n-text); }
+  .views .right { margin-left: auto; display: flex; gap: 4px; }
+  .n-btn { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border: 0; border-radius: 6px; font-size: 14px; font-weight: 500; color: var(--n-text); background: transparent; }
+  .n-btn:hover { background: var(--n-hover); }
+  .n-btn.primary { background: var(--notion-primary); color: #fff; } .n-btn.primary:hover { background: var(--notion-primary-hover); }
+  .n-btn.outline { box-shadow: rgba(255,255,255,.13) 0 0 0 1px inset; }
+  .n-btn.danger { color: var(--notion-red); }
+  .n-input { height: 28px; padding: 0 8px; border-radius: 4px; border: 0; box-shadow: rgba(255,255,255,.13) 0 0 0 1px inset; background: var(--n-active); color: var(--n-text); font: inherit; width: 220px; }
+  .n-input:focus { outline: 0; box-shadow: var(--notion-primary) 0 0 0 1px inset, rgba(35,131,226,.35) 0 0 0 3px; }
+  .n-select { height: 28px; padding: 0 8px; border-radius: 4px; border: 0; box-shadow: rgba(255,255,255,.13) 0 0 0 1px inset; background: var(--n-active); color: var(--n-text); font: inherit; }
+  .n-switch { width: 30px; height: 18px; border-radius: 44px; background: rgba(255,255,255,.2); position: relative; display: inline-block; vertical-align: middle; }
+  .n-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+  .n-switch.on { background: var(--notion-primary); } .n-switch.on::after { left: 14px; }
+  .n-check { width: 16px; height: 16px; border: 1.5px solid var(--n-text-2); border-radius: 3px; display: inline-block; vertical-align: middle; }
+  .n-check.on { background: var(--notion-primary); border-color: var(--notion-primary); }
+  .n-radio { width: 16px; height: 16px; border: 1.5px solid var(--n-text-2); border-radius: 50%; display: inline-block; vertical-align: middle; }
+  .n-radio.on { border: 5px solid var(--notion-primary); }
+  .n-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--notion-orange); display: inline-grid; place-items: center; font-size: 10px; color: #fff; }
+  [role="dialog"] { width: 100%; max-width: 460px; background: var(--n-popover); border-radius: 12px; box-shadow: rgba(255,255,255,.094) 0 0 0 1px, rgba(15,15,15,.2) 0 5px 10px, rgba(15,15,15,.4) 0 15px 40px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  [role="dialog"] h2 { margin: 0; font-size: 16px; font-weight: 600; } [role="dialog"] p { margin: 0; color: var(--n-text-2); }
+  [role="dialog"] .foot { display: flex; justify-content: flex-end; gap: 8px; }
+  [role="menu"] { width: 260px; background: var(--n-popover); border-radius: 10px; box-shadow: rgba(255,255,255,.094) 0 0 0 1px, rgba(15,15,15,.2) 0 3px 6px, rgba(15,15,15,.4) 0 9px 24px; padding: 6px 4px; }
+  [role="menuitem"] { display: flex; align-items: center; gap: 10px; padding: 4px 10px; min-height: 28px; border-radius: 6px; }
+  [role="menuitem"]:hover { background: var(--n-hover); } [role="menuitem"] kbd { margin-left: auto; border: 0; background: none; color: var(--n-text-3); }
+  [role="menu"] .sep { border-top: 1px solid var(--n-border-2); margin: 6px 0; }
+  [role="menu"] .head { font-size: 12px; color: var(--n-text-2); padding: 4px 10px; }
+  .n-toast { display: inline-flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--n-popover); border-radius: 8px; box-shadow: rgba(255,255,255,.094) 0 0 0 1px, rgba(15,15,15,.4) 0 9px 24px; }
+  .n-toast a { color: var(--notion-primary); text-decoration: none; }
+  .n-tooltip { display: inline-block; padding: 4px 8px; border-radius: 4px; background: #fff; color: #191919; font-size: 12px; font-weight: 500; }
+  .n-banner { width: 100%; padding: 8px 12px; border-radius: 4px; background: var(--n-bg-blue); font-size: 13px; display: flex; gap: 8px; align-items: center; }
+  .n-banner.red { background: var(--n-bg-red); }
+  .n-badge { display: inline-block; padding: 0 6px; border-radius: 4px; background: var(--notion-primary); color: #fff; font-size: 11px; line-height: 16px; font-weight: 600; text-transform: uppercase; }
+  .n-badge.new { background: var(--notion-red); }
+  .n-progress { height: 4px; border-radius: 2px; background: var(--n-border); width: 160px; overflow: hidden; display: inline-block; vertical-align: middle; } .n-progress span { display: block; height: 100%; width: 65%; background: var(--notion-primary); }
+  .n-slash { width: 300px; background: var(--n-popover); border-radius: 10px; box-shadow: rgba(255,255,255,.094) 0 0 0 1px, rgba(15,15,15,.4) 0 9px 24px; padding: 6px 4px; }
+  .n-slash .row { display: flex; align-items: center; gap: 10px; padding: 4px 8px; border-radius: 6px; } .n-slash .row.sel { background: var(--n-hover); }
+  .n-slash .row .ic { width: 46px; height: 46px; border-radius: 4px; background: #fff; display: grid; place-items: center; color: #191919; }
+  .n-slash .row b { display: block; font-weight: 500; } .n-slash .row small { color: var(--n-text-2); font-size: 12px; }
+  .cover-picker { display: flex; gap: 6px; } .cover-picker span { width: 60px; height: 40px; border-radius: 4px; background: var(--notion-blue); } .cover-picker span:nth-child(2) { background: var(--notion-green); } .cover-picker span:nth-child(3) { background: var(--notion-pink); } .cover-picker span:nth-child(4) { background: var(--notion-yellow); }
+}

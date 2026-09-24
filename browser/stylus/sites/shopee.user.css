@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Shopee
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.1.0
+@version        0.2.0
 @description    Shopee on Sage Ink structure with Shopee's own hue. Shopee ships a real but thin token layer (72 custom properties, prefix "Ncore": --nc-, --nt-, --ns-, --nr-, --ne-) plus a component-class layer (shopee-, stardust-, btn-solid-primary) for the parts the tokens don't reach. Every selector here was read off a live render (scripts/style-check), not guessed.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -266,4 +266,104 @@
    * ph-scraper-mcp research report's finding on af-ac-enc-* tokens. Do not
    * script around the puzzle itself — solve it by hand once per profile.
    */
+
+  /* ─── 0.2.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/shopee/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  .stardust-button:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled),
+  .shopee-button-solid--primary:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled),
+  .btn-solid-primary:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled),
+  .shopee-page-controller button:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CC7866 !important;
+    background-image: none !important;
+  }
+  .stardust-button:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):hover,
+  .shopee-button-solid--primary:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):hover,
+  .btn-solid-primary:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):hover,
+  .shopee-page-controller button:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #CC7866 !important;
+  }
+  .stardust-button:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):active,
+  .shopee-button-solid--primary:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):active,
+  .btn-solid-primary:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):active,
+  .shopee-page-controller button:not(:has(> :only-child:is(svg, i))):not(.stardust-button--ghost):not(.stardust-carousel__arrow):not(.carousel-arrow):not(.stardust-tabs-header__tab):not(.stardust-button--disabled):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  .stardust-button--primary, .shopee-button-solid--primary, .btn-solid-primary, .stardust-button--primary *, .shopee-button-solid--primary *, .btn-solid-primary * {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  .stardust-popover, .stardust-dropdown, .shopee-toast, [role="menu"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CC7866 !important;
+  }
+  .shopee-modal, [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #CC7866 !important;
+  }
+  [role="tooltip"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CC7866 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .shopee-searchbar, .shopee-searchbar-input, .stardust-input {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .shopee-searchbar-input__input, .stardust-input input {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .product-card, .mall-item, .voucher, .voucher *, .flash-item, .flash-item *, .shopee-alert, .shopee-toast, .shopee-label, .stardust-form-error, .stardust-dropdown, .stardust-dropdown__item, .stardust-popover, .stardust-tabs-header__tab, .shopee-countdown-timer__number, .home-category-list__category-grid, .home-category-list__grid, .homepage-mall-section, .shopee-header-section, .shopee-header-section__header, .shopee-searchbar, .shopee-searchbar-input, .cart-number-badge, .placeholder, .discount, .tag, footer .payments span, .stardust-carousel, .stardust-carousel__arrow, .carousel-arrow, .mall .img, .img {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .stardust-button--ghost, .stardust-button--disabled, .product-card, .mall-item, .voucher, .flash-item, .shopee-alert, .home-category-list, .homepage-mall-section, .shopee-header-section, .shopee-searchbar, .shopee-page-controller, .stardust-carousel, .flash-sale, .navbar, .header-main, .shopee-top {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  /* Gradient primary: flat hue. The header section is Shopee's white card;
+   * it takes the raised ink step and ink text. */
+  :root, html, body {
+    --nc-primary-gradient: linear-gradient(#E7907D, #E7907D) !important;
+    --ne-depth6: none !important; --ne-depth5: none !important; --ne-depth4: none !important;
+    --ne-depth3: none !important; --ne-depth2: none !important; --ne-depth1: none !important;
+  }
+  .shopee-header-section, .shopee-header-section__header, .homepage-mall-section, .home-category-list, .flash-sale, .product-card, .mall-item, .voucher, .voucher .left, .voucher .right, .shopee-page-controller, footer .payments span, .stardust-dropdown, .stardust-popover {
+    background-color: #0D0D10 !important;
+    background-image: none !important;
+    color: #F8F8F8 !important;
+  }
+  .shopee-header-section__header__title, .product-card .name, .mall-item .name, .flash-item .name, .flash-item .price, .navbar__link-text, .shopee-searchbar-input__input, .voucher .right, footer, footer .legal, .stardust-tabs-header__tab, .home-category-list__category-grid, .mall .name {
+    color: #F8F8F8 !important;
+  }
+  .product-card .meta, .product-card .sold, .mall-item .meta, .text-secondary, footer .cols, .hints, .sep, .disabled-text {
+    color: #6B7280 !important;
+  }
+  .discount, .tag, .cart-number-badge, .shopee-label:not(.shopee-label--outline), .shopee-countdown-timer__number, .stardust-carousel__dot--active {
+    color: #07080A !important;
+  }
+  .flash-item .discount, .product-card .discount { background-color: #FBBF24 !important; }
+  .stardust-button, .stardust-button * { background-image: none !important; }
+
 }

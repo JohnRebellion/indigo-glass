@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - Linear
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.6.0
+@version        0.7.0
 @description    Refine linear.app with Sage Ink palette. Linear's native dark mode is already close - just shift accents. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -70,4 +70,93 @@
   pre, code, kbd, samp, tt {
     font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
   }
+
+  /* ─── 0.7.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/linear/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Surfaces promoted from an accent retint to the full ink stack. */
+  :root, html, body {
+    color-scheme: dark;
+    --color-bg-primary: #07080A !important;
+    --color-bg-secondary: #0D0D10 !important;
+    --color-bg-tertiary: #121216 !important;
+    --color-bg-quaternary: #121216 !important;
+    --color-bg-quinary: #1C1C1E !important;
+    --color-bg-level-0: #07080A !important;
+    --color-bg-level-1: #0D0D10 !important;
+    --color-bg-level-2: #121216 !important;
+    --color-bg-level-3: #121216 !important;
+    --color-bg-translucent: #121216 !important;
+    --color-overlay-primary: #0D0D10 !important;
+    --color-text-primary: #F8F8F8 !important;
+    --color-text-secondary: #6B7280 !important;
+    --color-text-tertiary: #6B7280 !important;
+    --color-text-quaternary: #4B5563 !important;
+    --color-border-primary: #1C1C1E !important;
+    --color-border-secondary: #1C1C1E !important;
+    --color-border-tertiary: #5E5E60 !important;
+    --color-border-translucent: #1C1C1E !important;
+    /* Owned: every fill --color-accent-text sits on is this file's accent. */
+    --color-accent-text: #07080A !important;
+  }
+  body { background-color: #07080A !important; color: #F8F8F8 !important; }
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.btn-ghost) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #7F8CD5 !important;
+    background-image: none !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.btn-ghost):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #7F8CD5 !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.btn-ghost):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  button.btn-primary {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .command, .toast {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #7F8CD5 !important;
+  }
+  [role="dialog"], .modal {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #7F8CD5 !important;
+  }
+  [role="tooltip"], .tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #7F8CD5 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .input, .select, select, textarea {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  button, a, code, kbd, pre, .tabs, .tabs *, .sidebar *, .ws, .ws *, .command *, [role="menu"] *, .cmd-row *, .k, .project-icon, .issue-card, .project-card, .banner, .badge, .label-chip, .skeleton, .checkbox, .comment, .activity, .col, .detail, .filter-bar, .group-head, .cmd-row, .progress, .block {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .issue-card, .project-card, .banner, .comment, .detail, .block {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }

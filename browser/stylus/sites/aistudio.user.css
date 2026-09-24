@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Google AI Studio
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.0
 @description    AI Studio on Sage Ink. Material 3 surface ramp collapsed to two ink steps, the ms-* shell components repainted, corners squared, Google blue on the ink ladder. Component names read off a live signed-in render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -171,4 +171,91 @@
       --gm3-sys-color-error: oklch(0.6124 0.2279 17.60) !important;
     }
   }
+
+  /* ─── 0.4.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/aistudio/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  ms-app button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button),
+  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button),
+  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button),
+  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button),
+  button.ms-button-primary:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button),
+  button.upgrade-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button),
+  button.paid-api-key-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+    background-image: none !important;
+  }
+  ms-app button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover,
+  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover,
+  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover,
+  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover,
+  button.ms-button-primary:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover,
+  button.upgrade-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover,
+  button.paid-api-key-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+  }
+  ms-app button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active,
+  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active,
+  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active,
+  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active,
+  button.ms-button-primary:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active,
+  button.upgrade-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active,
+  button.paid-api-key-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-menu-item):not(.action):not(.ms-button-filter-chip):not(.code-copy):not(.chunk-actions button):not(.account-switcher-button):not(.playground-link):not(.skip-content):not(.toolbar-container button):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  button.ms-button-primary, button.ms-button-primary *, .mat-mdc-unelevated-button, .mat-mdc-unelevated-button *, button.upgrade-button, button.upgrade-button *, .cta {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  .mat-mdc-menu-panel, .mat-mdc-snack-bar-container, .settings-panel {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+  }
+  .mat-mdc-dialog-container, [role="dialog"], .dragging-overlay {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #6A93D5 !important;
+  }
+  .mat-mdc-tooltip, [role="tooltip"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .prompt-input-wrapper, .prompt-box-container, .mat-mdc-text-field-wrapper, .mat-mdc-form-field-flex, .mat-mdc-select, .api-key, .cm-editor {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .prompt-input-wrapper textarea, .mat-mdc-text-field-wrapper input, .mat-mdc-text-field-wrapper textarea, .mat-mdc-form-field-flex input, .api-key input {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .ms-button-filter-chip, .mat-mdc-card, .mat-mdc-card *, .model-card, .category-card, .category-card i, .on-error, .settings-card, .upgrade-card, .upgrade-card-wrapper, .settings-panel, .mat-mdc-snack-bar-container, .mat-mdc-tooltip, .info-banner, .error-banner, .progress-bar, .progress-bar *, .mat-mdc-slider, .mat-mdc-tab, .mat-mdc-tab-group, .mat-mdc-menu-item, .mat-mdc-select, .code-inline-badge, .cm-editor, .chunk-editor, .chunk-editor-main, .token-count, .enabled-tool, .setting-row, .dragging-overlay, .mat-mdc-text-field-wrapper, .mat-mdc-form-field-flex, .prompt-input-wrapper, .prompt-box-container, .mat-mdc-menu-panel, .mat-mdc-dialog-container {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .mat-mdc-card, .model-card, .category-card, .settings-card, .upgrade-card, .upgrade-card-wrapper, .info-banner, .error-banner, .chunk-editor, .cm-editor, .mdc-switch, .mdc-switch *, .settings-panel {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .upgrade-card, .upgrade-card-wrapper { background-image: none !important; }
+
 }

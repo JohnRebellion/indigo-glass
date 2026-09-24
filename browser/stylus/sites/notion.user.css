@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - Notion
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.6.0
+@version        0.7.0
 @description    Retint notion.so + notion.site accents with Sage Ink + Carlito loop-tail. Native dark backgrounds/text left untouched. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -95,4 +95,85 @@
   ::selection {
     background-color: rgba(166, 201, 166, 0.45) !important;
   }
+
+  /* ─── 0.7.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/notion/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Surfaces promoted from an accent retint to the full ink stack. Notion
+   * exposes no surface variables; the shell classes are stable. */
+  :root, html, body { color-scheme: dark; }
+  body, .notion-app-inner, .notion-frame, .notion-page-content {
+    background-color: #07080A !important;
+    color: #F8F8F8 !important;
+  }
+  .notion-sidebar-container, .notion-topbar {
+    background-color: #0D0D10 !important;
+    color: #F8F8F8 !important;
+  }
+  .notion-app-inner [role="dialog"], .notion-app-inner [role="menu"] {
+    background-color: #0D0D10 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  .notion-app-inner [role="button"]:not(:has(> :only-child:is(svg, i))):not(.notion-topbar [role="button"]):not(.notion-sidebar-container [role="button"]):not(.copy):not(.share),
+  .notion-app-inner button:not(:has(> :only-child:is(svg, i))):not(.notion-topbar [role="button"]):not(.notion-sidebar-container [role="button"]):not(.copy):not(.share) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5F96D4 !important;
+    background-image: none !important;
+  }
+  .notion-app-inner [role="button"]:not(:has(> :only-child:is(svg, i))):not(.notion-topbar [role="button"]):not(.notion-sidebar-container [role="button"]):not(.copy):not(.share):hover,
+  .notion-app-inner button:not(:has(> :only-child:is(svg, i))):not(.notion-topbar [role="button"]):not(.notion-sidebar-container [role="button"]):not(.copy):not(.share):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #5F96D4 !important;
+  }
+  .notion-app-inner [role="button"]:not(:has(> :only-child:is(svg, i))):not(.notion-topbar [role="button"]):not(.notion-sidebar-container [role="button"]):not(.copy):not(.share):active,
+  .notion-app-inner button:not(:has(> :only-child:is(svg, i))):not(.notion-topbar [role="button"]):not(.notion-sidebar-container [role="button"]):not(.copy):not(.share):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  .notion-app-inner [role="button"].primary {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .n-slash, .n-toast {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5F96D4 !important;
+  }
+  [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #5F96D4 !important;
+  }
+  [role="tooltip"], .n-tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5F96D4 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .notion-app-inner input, .notion-app-inner select {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .notion-app-inner button, .notion-app-inner [role="button"], .notion-app-inner a, .notion-app-inner code, .notion-app-inner kbd, .notion-sidebar-switcher, .notion-sidebar-switcher *, .notion-app-inner [role="menu"] *, .notion-app-inner .n-slash *, .notion-app-inner .n-check, .notion-app-inner .n-check *, .notion-app-inner .n-progress, .notion-app-inner .n-progress *, .notion-app-inner .n-badge, .notion-app-inner .status, .notion-app-inner .cover-picker *, .notion-app-inner .card, .notion-collection-item, .notion-app-inner .callout, .notion-code-block, .notion-app-inner .n-badge, .notion-app-inner .n-mention, .notion-app-inner .n-banner, .notion-app-inner .n-progress, .notion-app-inner .n-table, .notion-app-inner .box, .notion-app-inner .gallery > *, .notion-app-inner .board .col, .notion-app-inner .n-check, .notion-app-inner .cover, .notion-app-inner .cover-picker, .notion-app-inner .tag {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .notion-app-inner .card, .notion-collection-item, .notion-app-inner .callout, .notion-code-block, .notion-app-inner .n-banner, .notion-app-inner .box, .notion-app-inner .n-table {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }

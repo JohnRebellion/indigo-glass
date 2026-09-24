@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Google Gemini
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.0
 @description    Gemini on Sage Ink. Material 3's surface-container ramp collapsed to two ink steps, Gemini's own --bard-color-* chrome retinted, corners squared, Gemini's own violet on the ink ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -204,4 +204,98 @@
       --bard-color-code-chip-foreground: oklch(0.8200 0.1100 304.01) !important;
     }
   }
+
+  /* ─── 0.4.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/gemini/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  bard-sidenav-container button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  .mat-mdc-raised-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  .mat-tonal-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  button.upsell-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
+  button.new-chat:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #A181C9 !important;
+    background-image: none !important;
+  }
+  bard-sidenav-container button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  .mat-mdc-raised-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  .mat-tonal-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  button.upsell-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
+  button.new-chat:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #A181C9 !important;
+  }
+  bard-sidenav-container button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  .mat-mdc-raised-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  .mat-tonal-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  button.upsell-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
+  button.new-chat:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  .mat-mdc-unelevated-button, .mat-mdc-unelevated-button *, .mat-mdc-raised-button, .mat-mdc-raised-button *, button.upsell-button, button.upsell-button *, .power-up {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  .mat-mdc-menu-panel, .mat-mdc-snack-bar-container, .autosuggest {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #A181C9 !important;
+  }
+  .mat-mdc-dialog-container, [role="dialog"], .mat-drawer, .mat-sidenav {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #A181C9 !important;
+  }
+  .mat-mdc-tooltip, [role="tooltip"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #A181C9 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .text-input-field, .input-area-container, .mat-mdc-form-field-flex, .mat-mdc-select {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .text-input-field textarea, .text-input-field [contenteditable], .mat-mdc-form-field-flex input, .mat-mdc-form-field-flex textarea {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .autosuggest *, .on-error, .mat-mdc-chip, .mat-mdc-chip *, .draft-chip, .model-chip, .code-chip, .mat-mdc-card, .mat-mdc-card *, .tertiary-card, .mat-mdc-snack-bar-container, .mat-mdc-tooltip, .info-banner, .error-banner, .disclaimer, .mat-mdc-progress-bar, .mat-mdc-progress-bar *, .mat-mdc-slider, .mat-mdc-tab, .mat-mdc-tab-group, .mat-mdc-list-item, .mat-mdc-select, .mat-drawer, .code-block, .conversation-container, .gem, .autosuggest, .gradient-strip, .top-gradient, .bottom-gradient, .mat-mdc-form-field-flex, .mat-mdc-menu-panel, .mat-mdc-dialog-container {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .mat-mdc-fab, .mat-mdc-card, .tertiary-card, .info-banner, .error-banner, .disclaimer, .code-block, .conversation-container, .mat-mdc-tab-group, .mat-mdc-list-item, .mat-mdc-raised-button, .gem, .mdc-switch, .mdc-switch *, .mat-mdc-slide-toggle * {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  /* Gradients: flat. */
+  .gradient-strip, .top-gradient, .bottom-gradient, .power-up, .draft-chip {
+    background-image: none !important;
+  }
+  .gradient-strip, .top-gradient, .bottom-gradient { background-color: #0D0D10 !important; }
+
 }

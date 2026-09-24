@@ -1,0 +1,136 @@
+/* Facebook stock: the dark :root variables read off facebook.com on
+ * 2026-09-24 with vars.mjs (982 vars; the ones the file remaps plus what the
+ * mock components read). Facebook's class names are build hashes, so the
+ * components here use role attributes — the same anchors the Stylus file uses
+ * — and mock classes (fb-*) that read the site's own variables. */
+@scope (.site-facebook) {
+  :scope {
+    color-scheme: dark;
+    --web-wash: #1C1C1D; --surface-background: #252728; --nav-bar-background: #252728; --card-background: #252728; --card-background-flat: #333334;
+    --comment-background: #333334; --popover-background: #3B3C3E; --popover-card-background: #252728; --toast-background: #242526;
+    --input-background: #242526; --input-background-hover: #242526; --input-background-disabled: #18191A;
+    --secondary-button-background: rgba(255,255,255,.1); --secondary-button-background-floating: #46484B; --text-input-bar-background: rgba(255,255,255,.1);
+    --disabled-button-background: rgba(255,255,255,.1); --messenger-card-background: #242526; --base-blue: #1877F2;
+    --hover-overlay: rgba(255,255,255,.1); --highlight-bg: rgba(24,119,242,.31); --glimmer-base-opaque: #FFFFFF; --glimmer-high-contrast-base-opaque: #FFFFFF;
+    --primary-text: #E2E5E9; --secondary-text: #B0B3B8; --placeholder-text: #B0B3B8; --disabled-text: #6F7276; --primary-icon: #E2E5E9; --secondary-icon: #B0B3B8;
+    --divider: #65686C; --divider-on-color: #5C5E62; --media-outer-border: #33363A;
+    --accent: #0866FF; --blue-link: #5AA7FF; --primary-button-background: #0866FF; --primary-deemphasized-button-background: rgba(29,133,252,.2);
+    --switch-active: hsl(214,100%,59%); --toast-text-link: #4599FF; --primary-text-on-color: #FFFFFF; --primary-button-background-on-color: #FFFFFF;
+    --primary-button-background-on-media: #FFFFFF; --primary-button-text-on-media: #080809; --primary-button-icon-on-media: #080809;
+    --tooltip-background-on-media: #FFFFFF; --secondary-button-background-on-media: rgba(51,51,52,.67);
+    --negative: #FF7C74; --positive: #3FBB46; --warning: #AF8F00;
+    --shadow-1: rgba(0,0,0,.1); --shadow-2: rgba(0,0,0,.2); --card-box-shadow: 0 12px 28px 0 rgba(0,0,0,.2), 0 2px 4px 0 rgba(0,0,0,.1); --tooltip-box-shadow: 0 2px 4px 0 rgba(0,0,0,.5);
+    --action-corner-radius: 6px; --action-tile-radius: 16px; --alert-banner-corner-radius: 8px; --button-corner-radius: 8px; --button-corner-radius-large: 12px; --button-corner-radius-medium: 10px;
+    --card-corner-radius: 12px; --card-large-corner-radius: 16px; --card-small-corner-radius: 12px; --chat-bubble-border-radius: 18px; --checkbox-corner-radius: 4px; --chip-corner-radius: 255px;
+    --dialog-corner-radius: 12px; --glimmer-corner-radius: 0px; --glimmer-large-corner-radius: 12px; --glimmer-medium-corner-radius: 8px; --glimmer-small-corner-radius: 6px;
+    --handle-corner-radius: 255px; --icon-action-corner-radius: 255px; --image-corner-radius: 4px; --infochip-medium-radius: 4px; --input-bar-corner-radius: 255px; --input-corner-radius: 12px;
+    --input-field-round-corner-radius: 255px; --list-cell-corner-radius: 8px; --media-corner-radius: 12px; --media-large-corner-radius: 16px; --menu-item-base-overlay-radius: 4px;
+    --messenger-card-corner-radius: 8px; --nav-list-cell-corner-radius: 8px; --popover-corner-radius: 16px; --pressed-state-medium-corner-radius: 8px; --reshare-radius: 16px;
+    --text-badge-corner-radius: 4px; --toast-corner-radius: 8px; --tooltip-corner-radius: 12px; --verticalgrid-inset-corner-radius: 16px;
+    background: var(--web-wash); color: var(--primary-text); font-family: Segoe UI, Helvetica, Arial, sans-serif; font-size: 15px;
+  }
+  a { color: var(--blue-link); text-decoration: none; }
+  div[role="banner"] { display: flex; align-items: center; gap: 8px; width: 100%; height: 56px; padding: 0 16px; background: var(--nav-bar-background); box-shadow: 0 2px 4px var(--shadow-1); }
+  .fb-logo { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: bold; font-size: 24px; }
+  div[role="search"], label[role="combobox"] { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; background: var(--comment-background); border-radius: var(--input-bar-corner-radius); min-width: 240px; }
+  input[type="search"], input[role="combobox"] { all: unset; flex: 1; color: var(--primary-text); font-size: 15px; }
+  input::placeholder { color: var(--placeholder-text); }
+  .fb-tabs { display: flex; flex: 1; justify-content: center; gap: 8px; height: 56px; }
+  .fb-tabs a[role="link"] { display: flex; align-items: center; justify-content: center; width: 110px; color: var(--secondary-icon); border-radius: var(--list-cell-corner-radius); margin: 4px 0; }
+  .fb-tabs a[role="link"][aria-current="page"] { color: var(--accent); border-radius: 0; box-shadow: inset 0 -3px 0 var(--accent); }
+  .fb-tabs a:hover { background: var(--hover-overlay); }
+  .fb-icon-btn { width: 40px; height: 40px; border-radius: var(--icon-action-corner-radius); background: var(--secondary-button-background); color: var(--primary-icon); display: grid; place-items: center; border: 0; position: relative; font-size: 18px; }
+  .fb-badge { position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: var(--text-badge-corner-radius); background: #E41E3F; color: #fff; font-size: 11px; font-weight: bold; display: grid; place-items: center; border-radius: 9px; }
+  .fb-avatar { width: 36px; height: 36px; border-radius: 50%; background: #6D8AB5; display: inline-block; flex: none; }
+  .fb-avatar.sm { width: 28px; height: 28px; } .fb-avatar.lg { width: 56px; height: 56px; }
+
+  div[role="navigation"][aria-label] { width: 300px; padding: 8px; background: var(--web-wash); }
+  div[role="complementary"] { width: 300px; padding: 8px; }
+  div[role="navigation"] a[aria-current="page"], .fb-nav-row[aria-current="page"] { background: var(--hover-overlay); }
+  .fb-nav-row { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: var(--nav-list-cell-corner-radius); color: var(--primary-text); font-weight: 500; }
+  .fb-nav-row:hover { background: var(--hover-overlay); }
+  .fb-nav-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); flex: none; }
+  .fb-section-title { color: var(--secondary-text); font-size: 17px; font-weight: 600; padding: 8px; }
+
+  div[role="main"] { width: 100%; display: flex; flex-direction: column; gap: 16px; }
+  .fb-card { width: 100%; background: var(--card-background); border-radius: var(--card-corner-radius); box-shadow: var(--card-box-shadow); }
+  .fb-card-flat { background: var(--card-background-flat); }
+  .fb-card-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px 0; }
+  .fb-card-head b { display: block; } .fb-card-head small { color: var(--secondary-text); font-size: 13px; }
+  .fb-card-body { padding: 12px 16px; }
+  .fb-card-media { height: 160px; background: linear-gradient(135deg, #3d4a5c, #1f2530); border-top: 1px solid var(--media-outer-border); border-bottom: 1px solid var(--media-outer-border); }
+  .fb-card-actions { display: flex; margin: 0 16px; padding: 4px 0; border-top: 1px solid var(--divider); }
+  .fb-card-actions button { flex: 1; height: 36px; border: 0; background: transparent; color: var(--secondary-text); font-weight: 600; border-radius: var(--action-corner-radius); font-size: 15px; }
+  .fb-card-actions button:hover { background: var(--hover-overlay); }
+  .fb-composer { display: flex; gap: 8px; align-items: center; padding: 12px 16px; }
+  .fb-composer-input { flex: 1; height: 40px; display: flex; align-items: center; padding: 0 12px; border-radius: var(--input-bar-corner-radius); background: var(--comment-background); color: var(--secondary-text); }
+  .fb-composer-input:hover { background: var(--hover-overlay); }
+  .fb-reactions { display: flex; align-items: center; gap: 4px; padding: 8px 16px; color: var(--secondary-text); font-size: 15px; }
+  .fb-reaction { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); display: inline-block; margin-left: -4px; box-shadow: 0 0 0 2px var(--card-background); }
+  .fb-reaction.love { background: #F33E58; } .fb-reaction.haha { background: #F7B125; }
+  .fb-comment { display: flex; gap: 8px; padding: 4px 16px 8px; }
+  .fb-comment-bubble { background: var(--comment-background); border-radius: var(--chat-bubble-border-radius); padding: 8px 12px; }
+  .fb-comment-bubble b { display: block; font-size: 13px; }
+  .fb-comment-meta { font-size: 12px; color: var(--secondary-text); padding: 4px 12px; }
+  .fb-comment-meta b { margin-right: 12px; }
+  .fb-stories { display: flex; gap: 8px; width: 100%; }
+  .fb-story { width: 112px; height: 200px; border-radius: var(--card-corner-radius); background: linear-gradient(180deg, #5c6b80, #1c1c1d); position: relative; box-shadow: var(--card-box-shadow); }
+  .fb-story.create { background: var(--card-background); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 12px; color: var(--primary-text); font-size: 13px; font-weight: 600; }
+  .fb-story .fb-avatar { position: absolute; top: 12px; left: 12px; box-shadow: 0 0 0 4px var(--accent); }
+  .fb-story span { position: absolute; bottom: 12px; left: 12px; font-size: 13px; font-weight: 600; color: #fff; }
+
+  .fb-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 12px; border: 0; border-radius: var(--button-corner-radius); font-weight: 600; font-size: 15px; cursor: pointer; }
+  .fb-btn-primary { background: var(--primary-button-background); color: var(--primary-text-on-color); }
+  .fb-btn-secondary { background: var(--secondary-button-background); color: var(--primary-text); }
+  .fb-btn-deemph { background: var(--primary-deemphasized-button-background); color: var(--blue-link); }
+  .fb-btn-floating { background: var(--secondary-button-background-floating); color: var(--primary-text); }
+  .fb-btn-disabled { background: var(--disabled-button-background); color: var(--disabled-text); }
+  .fb-btn-on-media { background: var(--primary-button-background-on-media); color: var(--primary-button-text-on-media); }
+  .fb-btn-secondary-on-media { background: var(--secondary-button-background-on-media); color: #fff; }
+  .fb-btn-lg { height: 40px; border-radius: var(--button-corner-radius-large); }
+  .fb-chip { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: var(--chip-corner-radius); background: var(--secondary-button-background); font-weight: 600; font-size: 14px; }
+  .fb-chip.selected { background: var(--primary-deemphasized-button-background); color: var(--blue-link); }
+  .fb-input { height: 40px; padding: 0 12px; border-radius: var(--input-corner-radius); border: 1px solid var(--divider); background: var(--input-background); color: var(--primary-text); font-size: 15px; width: 240px; }
+  .fb-input:hover { background: var(--input-background-hover); }
+  .fb-input:disabled { background: var(--input-background-disabled); color: var(--disabled-text); }
+  .fb-textarea { width: 100%; height: 64px; padding: 8px 12px; border-radius: var(--input-corner-radius); border: 0; background: var(--text-input-bar-background); color: var(--primary-text); font: inherit; }
+  .fb-switch { width: 40px; height: 20px; border-radius: var(--handle-corner-radius); background: var(--secondary-button-background); position: relative; display: inline-block; vertical-align: middle; }
+  .fb-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--primary-icon); }
+  .fb-switch.on { background: var(--switch-active); } .fb-switch.on::after { left: 22px; background: #fff; }
+  .fb-checkbox { width: 20px; height: 20px; border: 2px solid var(--secondary-icon); border-radius: var(--checkbox-corner-radius); display: inline-block; vertical-align: middle; }
+  .fb-checkbox.on { background: var(--accent); border-color: var(--accent); }
+  .fb-radio { width: 20px; height: 20px; border: 2px solid var(--secondary-icon); border-radius: 50%; display: inline-block; vertical-align: middle; }
+  .fb-radio.on { border: 6px solid var(--accent); }
+  .fb-highlight { background: var(--highlight-bg); padding: 0 2px; }
+  .fb-pos { color: var(--positive); } .fb-neg { color: var(--negative); } .fb-warn { color: var(--warning); }
+
+  div[role="dialog"] { width: 100%; max-width: 460px; background: var(--card-background); border-radius: var(--dialog-corner-radius); box-shadow: var(--card-box-shadow); }
+  .fb-dialog-head { position: relative; text-align: center; padding: 16px; border-bottom: 1px solid var(--divider); font-size: 20px; font-weight: 700; }
+  .fb-dialog-head .fb-icon-btn { position: absolute; right: 12px; top: 10px; height: 36px; width: 36px; }
+  .fb-dialog-body { padding: 16px; }
+  .fb-dialog-foot { padding: 12px 16px 16px; }
+  .fb-popover { width: 300px; background: var(--popover-background); border-radius: var(--popover-corner-radius); box-shadow: var(--card-box-shadow); padding: 8px; }
+  .fb-popover-card { background: var(--popover-card-background); border-radius: var(--card-corner-radius); padding: 8px; }
+  .fb-menu-row { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: var(--menu-item-base-overlay-radius); }
+  .fb-menu-row:hover { background: var(--hover-overlay); }
+  .fb-tooltip { display: inline-block; padding: 6px 12px; border-radius: var(--tooltip-corner-radius); background: var(--tooltip-background-on-media); color: #080809; box-shadow: var(--tooltip-box-shadow); font-size: 13px; }
+  .fb-toast { display: inline-flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--toast-background); border-radius: var(--toast-corner-radius); box-shadow: var(--card-box-shadow); }
+  .fb-toast a { color: var(--toast-text-link); font-weight: 600; }
+  .fb-alert { width: 100%; padding: 12px 16px; border-radius: var(--alert-banner-corner-radius); background: var(--card-background-flat); display: flex; gap: 12px; align-items: center; }
+  .fb-messenger { width: 300px; background: var(--messenger-card-background); border-radius: var(--messenger-card-corner-radius); box-shadow: var(--card-box-shadow); }
+  .fb-messenger-head { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--divider); }
+  .fb-msg { max-width: 75%; padding: 8px 12px; border-radius: var(--chat-bubble-border-radius); margin: 4px 12px; background: var(--comment-background); width: fit-content; }
+  .fb-msg.me { background: var(--accent); color: #fff; margin-left: auto; }
+  .fb-msg-bar { display: flex; gap: 8px; align-items: center; padding: 8px 12px; }
+  .fb-msg-bar input { flex: 1; height: 36px; border: 0; border-radius: var(--input-bar-corner-radius); background: var(--text-input-bar-background); color: var(--primary-text); padding: 0 12px; }
+  .fb-glimmer { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .fb-glimmer span { display: block; height: 12px; border-radius: var(--glimmer-medium-corner-radius); background: var(--glimmer-base-opaque); opacity: .08; }
+  .fb-glimmer span.hc { background: var(--glimmer-high-contrast-base-opaque); opacity: .14; }
+  .fb-market { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; }
+  .fb-market-card { background: var(--card-background); border-radius: var(--card-corner-radius); overflow: hidden; }
+  .fb-market-img { aspect-ratio: 1; background: linear-gradient(135deg, #7a8699, #2a2f38); border-radius: var(--media-corner-radius); border: 1px solid var(--media-outer-border); }
+  .fb-market-card b { display: block; padding: 8px 4px 0; } .fb-market-card small { display: block; padding: 0 4px 8px; color: var(--secondary-text); }
+  .fb-infochip { display: inline-block; padding: 2px 6px; border-radius: var(--infochip-medium-radius); background: var(--secondary-button-background); font-size: 12px; font-weight: 600; }
+  .fb-tile { width: 96px; height: 96px; border-radius: var(--action-tile-radius); background: var(--card-background-flat); display: grid; place-items: center; }
+  .fb-reshare { border: 1px solid var(--divider); border-radius: var(--reshare-radius); padding: 12px; margin: 0 16px 12px; }
+}

@@ -164,6 +164,16 @@ FOUND=0
 # Drop lines carrying the escape hatch.
 filter_allowed() { grep -v 'drift-allow' || true; }
 
+# The simulator's /sites/<id>/ comparison pages render each Stylus target's
+# STOCK elements beside the same markup under the shipped .user.css. The stock
+# lane, simulator/src/lib/sites/<id>/stock.css, reproduces the vendor's own
+# blur, soft shadow and translucency on purpose — it is the "before" the
+# .user.css removes, and e2e/sites.spec.ts proves the "ours" lane repaints it.
+# Excluded from the material-family scans only; Page.svelte and every other
+# file beside it stay in scope. Added 2026-09-24.
+STOCK_LANE='^simulator/src/lib/sites/[^/]+/stock\.css:'
+filter_stock_lanes() { grep -vE "$STOCK_LANE" || true; }
+
 # Per-variant installable files are SUPPOSED to carry a non-active variant's
 # hex by design (e.g. share/color-schemes/IndigoGlass.colors is the indigo
 # option, installed alongside the active sage scheme so either can be
@@ -351,7 +361,7 @@ if [ "$MODE" = "all" ] || [ "$MODE" = "material" ]; then
   # backdrop-filter set to an actual filter function is drift.
   hits="$(grep -rInE "$GLASS_PATTERNS" "${MATERIAL_DIRS[@]}" "${EXCLUDE[@]}" 2>/dev/null \
     | grep -vE '(-webkit-)?backdrop-filter\s*:\s*none\s*(!important)?\s*;?\s*$' \
-    | filter_allowed || true)"
+    | filter_allowed | filter_stock_lanes || true)"
   if [ -n "$hits" ]; then
     FOUND=1
     echo ""
@@ -402,7 +412,8 @@ for root_arg in sys.argv[1:]:
                         except ValueError:
                             pass
 PY
-)"
+)" || true
+  soft="$(printf '%s\n' "$soft" | filter_stock_lanes)"
   if [ -n "$soft" ]; then
     FOUND=1
     echo ""
@@ -599,7 +610,8 @@ for root_arg in sys.argv[1:]:
                     print(f"{p}:{n}:{raw.strip()[:120]}")
                     break
 PY
-)"
+)" || true
+  alpha_hits="$(printf '%s\n' "$alpha_hits" | filter_stock_lanes)"
   if [ -n "$alpha_hits" ]; then
     FOUND=1
     echo ""
@@ -736,6 +748,7 @@ for root_arg in sys.argv[1:]:
 PY
 )" || true
 
+  tierc_hits="$(printf '%s\n' "$tierc_hits" | filter_stock_lanes)"
   if [ -n "$tierc_hits" ]; then
     FOUND=1
     echo ""
@@ -850,6 +863,7 @@ for h in hits:
 PY_SHADOW
 )" || true
 
+  shadow_hits="$(printf '%s\n' "$shadow_hits" | filter_stock_lanes)"
   if [ -n "$shadow_hits" ]; then
     FOUND=$((FOUND + 1))
     echo ""

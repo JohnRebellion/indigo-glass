@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Microsoft Copilot
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    Copilot on Sage Ink. Its 100-900 colour ramps remapped onto the ink steps, the squircle clip-paths switched off, corners squared, Microsoft's own blue on the ink ladder. Ramp names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -251,4 +251,72 @@
   pre, code, [class*="code"] {
     font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
   }
+
+  /* ─── 0.3.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/copilot/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  #app button:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    background-image: none !important;
+  }
+  #app button:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+  }
+  #app button:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  #app button.primary {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .toast {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+  }
+  [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #5D96D3 !important;
+  }
+  [role="tooltip"], .tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .composer, #app textarea, .input, .textarea {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .composer textarea {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  [role="menu"] *, [role="menuitem"], .banner, .toast, .tooltip, .skeleton, #app .card, #app .banner, #app .code-block, #app .skeleton, #app .msg, #app .sources, #app .citation, #app .image-tile, #app .img, #app .checkbox, .toast, .tooltip, #app .msg-actions, #app .followups, #app .typing {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  #app .card, #app .banner, #app .code-block, #app .msg, #app .sources, #app .image-tile, #app .composer {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }

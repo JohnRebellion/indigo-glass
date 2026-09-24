@@ -9,7 +9,7 @@ Surgical retints for sites where the universal Sage Ink Stylus style isn't enoug
 | `claude-ai.user.css` | claude.ai + claude.com | Full palette override - Anthropic's surface vars |
 | `chatgpt.user.css` | chatgpt.com + chat.openai.com | OpenAI surface vars + interactive accent |
 | `notion.user.css` | notion.so + notion.site | Notion `--notion-*` color vars |
-| `linear.user.css` | linear.app | Light retint - Linear is already aligned w/ our design philosophy |
+| `linear.user.css` | linear.app | `--color-bg-*` / `--color-text-*` / `--color-border-*` surface remap + accent |
 | `google.user.css` | google.com + ccTLDs | Structural IDs + grid re-placement - Google ships no theme vars |
 | `youtube.user.css` | youtube.com + music.youtube.com | `--yt-spec-*` remap (consumed via fallbacks, never declared) |
 | `facebook.user.css` | facebook.com + messenger.com | FB's 982 `:root` vars - surfaces, accents, 68 radius tokens |
@@ -44,6 +44,35 @@ The **universal** Stylus style stays on everywhere alongside these. It defines
 the `@font-face` with the metric overrides that the site styles reference by
 name, plus scrollbars, selection and the focus ring — and it touches no colour,
 so it cannot conflict with either a site style or Dark Reader.
+
+### Sage Ink structure (every file, since 2026-09-24)
+
+Each file ends its `@-moz-document` block with a "Sage Ink structure" section
+that the simulator page `/sites/<id>/` verifies (`simulator/e2e/sites.spec.ts`,
+contract step 4). The page fails when the file drifts, so the shipped file and
+the simulator cannot disagree silently. The contract, per site with its own
+`accent_alt`:
+
+- page surface `#07080A`; no soft or alpha shadow anywhere; no blur, no
+  gradient (image stand-ins and Tier A scrims excepted);
+- radius 0 on everything that is not a circle or a pill;
+- action buttons: 2px `#5E5E60` edge and a hard `4px 4px 0 0 accent_alt`
+  offset that collapses on `:active` (`translate(4px, 4px)`), never on
+  `:hover`. Icon-only buttons (a lone `svg` or `i` child) and chrome — tabs,
+  nav rows, menu items, chips, pills, quiet/ghost/invisible variants — stay
+  flat. At least 60% of the text-bearing buttons on the page must carry it;
+- accent-filled buttons take the ink edge and an ink-black label;
+- dialogs and menus: 2px edge, `7px 7px` for dialogs, `4px 4px` for menus,
+  popovers, toasts and tooltips;
+- text fields: 2px edge on the wrapper, none on the inner input;
+- no visible control border thinner than 2px.
+
+To change a rule, edit the file, run `cd simulator && npx vite build && npx
+playwright test e2e/sites.spec.ts`, and read what the page reports. Then run
+the same contract on the real site — `node scripts/style-check/live-contract.mjs
+<id>` — because the mock only carries the live classes someone has already
+seen. The first live pass (2026-09-24, github/wikipedia/youtube/google) found
+four residues the mocks could not: see `scripts/style-check/README.md`.
 
 ### Per-site hue
 
@@ -98,9 +127,13 @@ dialog, form-control internals — on top of a dark page, and no stylesheet can
 reach them. They have no DOM to measure either, so the harness cannot see the
 problem; it came out of the round-1 cross-model review.
 
-Not set in the accent-only retints (Claude, ChatGPT, Notion, Linear): those
-leave the site's own surfaces alone, so the site's own `color-scheme` is
-already right.
+Since the Sage Ink structure sweep (claude-ai 0.8.0, chatgpt 0.7.0, notion
+0.7.0, linear 0.7.0) every file forces the ink surface stack, so every file
+sets it. The four that used to be accent-only retints now remap their surface
+variables (Claude `--bg-*`, ChatGPT `--main-surface-*`/`--sidebar-surface-*`,
+Linear `--color-bg-*`) or, for Notion, which publishes none, the stable shell
+classes (`.notion-app-inner`, `.notion-frame`, `.notion-sidebar-container`,
+`.notion-topbar`).
 
 ### Semantic colour hides in SVG
 
@@ -281,3 +314,8 @@ The universal Stylus style avoids most font/scrollbar drift cross-site. But site
    - semantic (red/green/yellow) -> negative/positive/amber
 3. Copy `claude-ai.user.css` as template, change domain + var names, save in this dir
 4. Commit + push -> auto-update via `@updateURL`
+5. Add `simulator/src/lib/sites/<id>/stock.css` + `Page.svelte` and a row in
+   `registry.ts` / `pages.ts`. The simulator's `/sites/<id>/` page renders the
+   site's stock elements beside the same markup under your file, and
+   `simulator/e2e/sites.spec.ts` fails if any selector in the file has no
+   element in the stock lane — the fastest way to see what a file misses

@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - Claude.ai
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.7.0
+@version        0.8.0
 @description    Retint claude.ai accents with Sage Ink + Carlito loop-tail allograph. Native dark backgrounds/text/borders left untouched. OKLCH accents, sharp ink corners (no squircle). Pairs with the universal Sage Ink Stylus style.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -76,4 +76,95 @@
   body, p, h1, h2, h3, h4, h5, h6, li, a, label, button, [class*="prose"] {
     font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
   }
+
+  /* ─── 0.8.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/claude/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Surfaces promoted from an accent retint to the full ink stack. Claude's
+   * bg ladder is inverted in dark mode (bg-000 is the raised composer, bg-100
+   * the page, bg-200 the sidebar), so the map follows use, not number. */
+  :root, html, body, [data-mode="dark"], .dark {
+    color-scheme: dark;
+    --bg-000: #121216 !important;
+    --bg-100: #07080A !important;
+    --bg-200: #0D0D10 !important;
+    --bg-300: #0D0D10 !important;
+    --bg-400: #121216 !important;
+    --bg-500: #121216 !important;
+    --text-000: #F8F8F8 !important;
+    --text-100: #F8F8F8 !important;
+    --text-200: #F8F8F8 !important;
+    --text-300: #6B7280 !important;
+    --text-400: #6B7280 !important;
+    --text-500: #4B5563 !important;
+    --border-100: #1C1C1E !important;
+    --border-200: #1C1C1E !important;
+    --border-300: #1C1C1E !important;
+    --border-400: #5E5E60 !important;
+  }
+  body { background-color: #07080A !important; color: #F8F8F8 !important; }
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.btn-send):not(.btn-ghost):not(.pill) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CB795F !important;
+    background-image: none !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.btn-send):not(.btn-ghost):not(.pill):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #CB795F !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.btn-send):not(.btn-ghost):not(.pill):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  button[class*="bg-accent-main"], button.btn-primary {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .toast {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CB795F !important;
+  }
+  [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #CB795F !important;
+  }
+  [role="tooltip"], .tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CB795F !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  [class*="rounded-2xl"]:has([contenteditable]), .input, select {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  [contenteditable] {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  button, a, code, kbd, pre, .tabs, .tabs *, .sidebar *, [class*="rounded-lg"], [class*="rounded-md"], [class*="rounded-xl"], [class*="rounded-2xl"], .rounded, .card, .banner, .artifact, .code-block, .skeleton, .tool, .thinking, .list-row, .usage, .checkbox, .select {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .card, .artifact, .banner, .code-block, .tool, .thinking, .usage {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }

@@ -9,6 +9,8 @@ Consolidated from the standalone `~/grub-simulator` repo.
 |---|---|
 | `/` | Overview (palette + surface index) |
 | `/browser/` | Mock browser w/ feed / marketplace / mail tabs |
+| `/sites/` | Index of the 15 Stylus site styles in `browser/stylus/sites/` |
+| `/sites/<id>/` | One page per site: the site's **stock** elements (real class names, real custom-property names, stock values) in one lane, the same markup under the shipped `.user.css` in the other. The file is imported raw and wrapped in `@scope`; `e2e/sites.spec.ts` checks every selector in the file has an element in the stock lane, that the ours lane repaints to ink, that no pair overflows, and that the ours lane obeys the Sage Ink structure contract (hard opaque shadows only, no blur or gradient, radius 0 off circles and pills, neobrutal action buttons, hard-edged dialogs and menus — see `browser/stylus/sites/README.md`) |
 | `/vscode/` | Mock VSCode workbench (sidebar, tabs, editor, status bar) |
 | `/vscode/claude-code/` | Anthropic Claude Code chat panel |
 | `/grub/` | GRUB boot picker (full editor, kept from grub-simulator). Draws `share/grub-theme`'s own `menu_*.png` / `select_*.png` pixmaps in the variant its `theme.txt` header names (`orchid_light`, light, since 2026-09-23); run `scripts/sync-grub-parity.sh` after regenerating them. The preset dir is still `presets/sage` (a path, not the variant) |

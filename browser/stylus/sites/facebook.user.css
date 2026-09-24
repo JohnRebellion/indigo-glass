@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Facebook / Messenger
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
+@version        0.5.0
 @description    Facebook on Sage Ink structure with Facebook's own hue. Surfaces flattened to the two ink steps, all 68 corner-radius tokens zeroed, loading skeletons de-whited, and the brand blue re-cut on the ink lightness ladder. Every variable name here was read off a live render (scripts/style-check), not guessed.
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -284,4 +284,75 @@
       border-color: oklch(0.6600 0.1100 259.80) !important;
     }
   }
+
+  /* ─── 0.5.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/facebook/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  div[role="button"]:not(:has(> :only-child:is(svg, i))):not(.fb-icon-btn):not([class*="fb-nav"]):not([class*="fb-menu-row"]):not([class*="fb-story"]):not([class*="fb-reaction"]):not([class*="fb-avatar"]):not(.fb-btn-floating):not([class*="fb-tile"]):not([class*="fb-chip"]):not(.fb-btn-deemph),
+  button:not(:has(> :only-child:is(svg, i))):not(.fb-icon-btn):not([class*="fb-nav"]):not([class*="fb-menu-row"]):not([class*="fb-story"]):not([class*="fb-reaction"]):not([class*="fb-avatar"]):not(.fb-btn-floating):not([class*="fb-tile"]):not([class*="fb-chip"]):not(.fb-btn-deemph) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+    background-image: none !important;
+  }
+  div[role="button"]:not(:has(> :only-child:is(svg, i))):not(.fb-icon-btn):not([class*="fb-nav"]):not([class*="fb-menu-row"]):not([class*="fb-story"]):not([class*="fb-reaction"]):not([class*="fb-avatar"]):not(.fb-btn-floating):not([class*="fb-tile"]):not([class*="fb-chip"]):not(.fb-btn-deemph):hover,
+  button:not(:has(> :only-child:is(svg, i))):not(.fb-icon-btn):not([class*="fb-nav"]):not([class*="fb-menu-row"]):not([class*="fb-story"]):not([class*="fb-reaction"]):not([class*="fb-avatar"]):not(.fb-btn-floating):not([class*="fb-tile"]):not([class*="fb-chip"]):not(.fb-btn-deemph):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+  }
+  div[role="button"]:not(:has(> :only-child:is(svg, i))):not(.fb-icon-btn):not([class*="fb-nav"]):not([class*="fb-menu-row"]):not([class*="fb-story"]):not([class*="fb-reaction"]):not([class*="fb-avatar"]):not(.fb-btn-floating):not([class*="fb-tile"]):not([class*="fb-chip"]):not(.fb-btn-deemph):active,
+  button:not(:has(> :only-child:is(svg, i))):not(.fb-icon-btn):not([class*="fb-nav"]):not([class*="fb-menu-row"]):not([class*="fb-story"]):not([class*="fb-reaction"]):not([class*="fb-avatar"]):not(.fb-btn-floating):not([class*="fb-tile"]):not([class*="fb-chip"]):not(.fb-btn-deemph):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  div[role="button"].fb-btn-primary {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .fb-popover, .fb-popover-card, .fb-toast, .fb-messenger {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+  }
+  [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #6A93D5 !important;
+  }
+  [role="tooltip"], .fb-tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6A93D5 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .fb-input, .fb-textarea, .fb-composer-input, input[type="search"], label[role="combobox"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  label[role="combobox"] input {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .fb-card, .fb-card-media, .fb-market-card, .fb-market-img, .fb-comment-bubble, .fb-msg, .fb-msg-bar, .fb-composer, .fb-alert, .fb-warn, .fb-badge, .fb-infochip, .fb-glimmer, .fb-highlight, .fb-tile, .fb-messenger, .fb-messenger-head, .fb-tabs, .fb-section-title {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .fb-card, .fb-market-card, .fb-composer, .fb-comment-bubble, .fb-msg, .fb-alert {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }

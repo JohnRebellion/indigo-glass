@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Atlassian (Jira / Confluence)
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.2.0
+@version        0.3.0
 @description    Atlassian cloud on Sage Ink structure with Atlassian's own blue. The --ds-* surface stack collapsed to two ink steps, all eight radius tokens zeroed, brand blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -65,7 +65,6 @@
     --ds-icon: #F8F8F8 !important;
     --ds-icon-subtle: #6B7280 !important;
     --ds-icon-subtlest: #6B7280 !important;
-
 
     /* ─── Brand hue on the ink ladder ─────────────────────────────────── */
     --ds-link: #80ACF0 !important;
@@ -150,4 +149,71 @@
       --ds-text-warning: oklch(0.8369 0.1644 84.43) !important;
     }
   }
+
+  /* ─── 0.3.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/atlassian/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  button:not(:has(> :only-child:is(svg, i))):not(.icon-btn):not(.nav-item):not(.subtle):not(.link):not(.toggle) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6893D5 !important;
+    background-image: none !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.icon-btn):not(.nav-item):not(.subtle):not(.link):not(.toggle):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #6893D5 !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.icon-btn):not(.nav-item):not(.subtle):not(.link):not(.toggle):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  button.primary, button.danger {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .dropdown, .inline-dialog, .flag {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6893D5 !important;
+  }
+  [role="dialog"], .modal {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #6893D5 !important;
+  }
+  [role="tooltip"], .tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #6893D5 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  .textfield, .select, .search, .comment-box {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  .card, .lozenge, .tag, .badge, .section-message, .banner, .flag, .empty-state, .panel, .code-block, .progress, .skeleton, .bubble, .column, .breadcrumbs, .tabs, .checkbox, .toggle, .radio, .avatar-group, .field, .helper, .comment, .detail, .issue-header {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .card, .section-message, .banner, .panel, .empty-state, .code-block, .bubble, .comment, .column {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  /* Lozenge labels sit on bold fills the file owns; ink black reads on all. */
+  .lozenge.bold, .lozenge.bold *, .badge.primary {
+    color: #07080A !important;
+  }
+
 }

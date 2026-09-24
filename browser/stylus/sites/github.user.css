@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — GitHub
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
+@version        0.5.1
 @description    GitHub on Sage Ink structure with GitHub's own hues. Primer's surface stack collapsed to two ink steps, every radius token zeroed, link blue and the primary-action green re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -123,9 +123,9 @@
      * floating overlays (menus, dialogs, popovers) get the hard ink offset. */
     --shadow-resting-small: none !important;
     --shadow-resting-medium: none !important;
-    --shadow-floating-small: 4px 4px 0 0 #89A889 !important;
-    --shadow-floating-medium: 4px 4px 0 0 #89A889 !important;
-    --shadow-floating-large: 7px 7px 0 0 #89A889 !important;
+    --shadow-floating-small: 4px 4px 0 0 #6494D5 !important;
+    --shadow-floating-medium: 4px 4px 0 0 #6494D5 !important;
+    --shadow-floating-large: 7px 7px 0 0 #6494D5 !important;
   }
 
   /* Code blocks, the copy button and the issue-label tokens hardcode a 6px
@@ -143,13 +143,14 @@
 
   /* Neobrutal buttons: 2px border_strong and the hard 4px ink shadow, which
    * collapses on press. Invisible and octicon buttons are icon affordances
-   * inside other chrome and stay flat. The primary (green fill) button keeps
-   * the sage shadow: the base-ink shadow accent fills cast elsewhere would
-   * vanish on GitHub's #07080A page. Its border is the ink edge instead. */
+   * inside other chrome and stay flat. The shadow is GitHub's accent_alt, not
+   * the base-ink shadow accent fills cast elsewhere: that would vanish on
+   * GitHub's #07080A page. The primary (green fill) button's border is the
+   * ink edge instead. */
   .btn:not(.btn-octicon):not(.btn-invisible):not(.btn-link),
   [class*="prc-Button-ButtonBase"]:not([data-variant="invisible"]):not([data-variant="link"]) {
     border-width: 2px !important;
-    box-shadow: 4px 4px 0 0 #89A889 !important;
+    box-shadow: 4px 4px 0 0 #6494D5 !important;
   }
   /* "New issue" reads a translucent Primer border, not
    * --button-primary-borderColor-rest, so set the ink edge directly. */
@@ -222,4 +223,52 @@
       --fgColor-closed: oklch(0.6124 0.2279 17.60) !important;
     }
   }
+
+  /* ─── 0.5.1: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/github/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* State pills keep white-on-colour labels; ink black reads on every fill
+   * this file owns (positive, amber, negative, done). */
+  .State, .Label--success, .Label--attention, .Label--danger, .Label--accent,
+  .Counter--primary, .color-bg-success-emphasis {
+    color: #07080A !important;
+  }
+  /* kbd, CodeMirror, Toast and the rest hardcode 6px. */
+  .State, kbd, .cm-editor, .cm-gutters, .Toast, .Toast-icon, .Toast-content, .Popover-message,
+  .Overlay, .SelectMenu-modal, .flash, .markdown-alert, .Box-row, .blankslate,
+  .form-select, .form-control, .FormControl-input, .tooltipped-box, .Progress {
+    border-radius: 0 !important;
+  }
+  .Toast, .Popover-message, .tooltipped-box {
+    border: 2px solid #5E5E60 !important;
+    box-shadow: 4px 4px 0 0 #6494D5 !important;
+  }
+  .Overlay, .SelectMenu-modal {
+    border: 2px solid #5E5E60 !important;
+    box-shadow: 7px 7px 0 0 #6494D5 !important;
+  }
+  .Box, .TimelineItem-badge, .flash, .markdown-alert {
+    box-shadow: none !important;
+  }
+  .form-select {
+    border-width: 2px !important;
+    border-color: #5E5E60 !important;
+  }
+  /* Primer's inset text-field shadow is a 24% wash; the 2px edge replaces it. */
+  .form-control, .FormControl-input, .form-select, #qb-input-query,
+  [class*="prc-TextInput-TextInputWrapper"], input[class*="prc-TextInput"] {
+    box-shadow: none !important;
+  }
+  /* Primer rings avatars with a 15% white 1px shadow; on live github.com
+   * that is the only alpha shadow left (live-contract, 2026-09-24). */
+  .avatar, [class*="prc-Avatar-Avatar"] {
+    box-shadow: none !important;
+  }
+  /* Link-variant buttons are text, not controls: no edge. */
+  .btn-link, [class*="prc-Button-ButtonBase"][data-variant="link"] {
+    border: 0 !important;
+  }
+
 }

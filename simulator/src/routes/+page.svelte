@@ -1,6 +1,7 @@
 <script lang="ts">
   const surfaces = [
     { href: '/browser/',          name: 'Browser',                 desc: 'Stylus + Dark Reader cross-site retint' },
+    { href: '/sites/',            name: 'Sites',                   desc: '15 site styles: stock elements vs the shipped .user.css, side by side' },
     { href: '/vscode/',           name: 'VSCode',                  desc: 'Sage Ink Dark color theme' },
     { href: '/vscode/claude-code/', name: 'Claude Code',           desc: 'Anthropic webview retint via patch-webview-css' },
     { href: '/grub/',             name: 'GRUB',                    desc: 'Boot picker theme (consolidated from grub-simulator)' }

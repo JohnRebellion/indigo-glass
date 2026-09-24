@@ -1,0 +1,87 @@
+/* Google Search stock: Google ships no theme variables (vars.mjs finds only
+ * Material internals), so these are the computed dark-SERP colours: page
+ * #202124, search box #303134, text #bdc1c6, link #8ab4f8, visited #c58af9,
+ * cite #bdc1c6, chips #303134 on #3c4043 borders, footer #171717. Ids are the
+ * structural anchors the Stylus file uses (#rcnt, #center_col, #rhs, #tsf…). */
+@scope (.site-google) {
+  :scope { color-scheme: dark; background: #202124; color: #bdc1c6; font-family: arial, sans-serif; font-size: 14px; }
+  #main, #cnt, #rcnt, #center_col, #search, #rso, #botstuff, #appbar, #searchform, #tsf, #rhs, #foot, #footcnt { background: #202124; }
+  #main { width: 100%; } #cnt { width: 100%; }
+  #searchform { display: flex; align-items: center; gap: 24px; width: 100%; padding: 6px 0 12px; }
+  .glogo { font: 22px/1 arial; letter-spacing: -1px; color: #e8eaed; }
+  .glogo b:nth-child(1){color:#4285f4}.glogo b:nth-child(2){color:#ea4335}.glogo b:nth-child(3){color:#fbbc05}.glogo b:nth-child(4){color:#4285f4}.glogo b:nth-child(5){color:#34a853}.glogo b:nth-child(6){color:#ea4335}
+  form#tsf { flex: 1; max-width: 690px; }
+  .RNNXgb { display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 16px; background: #303134; border: 1px solid transparent; border-radius: 24px; box-shadow: 0 2px 5px 1px rgba(64,60,67,.16); }
+  .RNNXgb textarea, .RNNXgb input { all: unset; flex: 1; color: #e8eaed; font-size: 16px; resize: none; }
+  .RNNXgb .ico { color: #9aa0a6; }
+  .RNNXgb .ico.mic { color: #8ab4f8; } .RNNXgb .ico.lens { color: #34a853; }
+  g-fab, .gfab { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #303134; color: #8ab4f8; }
+  #appbar { width: 100%; border-bottom: 1px solid #3c4043; }
+  #hdtb-sc { display: flex; gap: 4px; }
+  #hdtb-sc a, [role="navigation"] a { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px; color: #bdc1c6; border-radius: 20px; }
+  #hdtb-sc [aria-current="page"], [role="navigation"] [aria-current="page"] { color: #e8eaed; border-radius: 0; box-shadow: inset 0 -3px 0 #8ab4f8; }
+  #hdtb-sc div:empty, #appbar div:empty { width: 24px; height: 24px; display: inline-block; background-image: linear-gradient(#5f6368, #5f6368); background-size: 16px 2px; background-repeat: no-repeat; background-position: center; }
+  #rcnt.shell { display: flex; gap: 24px; width: 100%; padding-top: 12px; }
+  #center_col { flex: 0 0 652px; max-width: 652px; }
+  #rhs { flex: 0 0 360px; }
+  #center_col a, #botstuff a, #rhs a, #foot a { color: #8ab4f8; text-decoration: none; }
+  #center_col a:visited, #center_col a:visited h3, #botstuff a:visited, #rhs a:visited { color: #c58af9; }
+  #center_col a:hover, #botstuff a:hover, #rhs a:hover, #foot a:hover { text-decoration: underline; }
+  #center_col a h3 { margin: 0; font: 20px/26px arial; color: #8ab4f8; font-weight: 400; }
+  #center_col, #center_col span { color: #bdc1c6; }
+  #center_col cite, #center_col cite * { color: #bdc1c6; font-style: normal; font-size: 12px; }
+  #center_col em, #center_col b { font-weight: bold; color: #e8eaed; font-style: normal; }
+  mark { background-color: #4d4a2e; color: #e8eaed; border-radius: 4px; padding: 0 2px; background-image: linear-gradient(90deg, #4d4a2e, #5a5636); }
+  .result { padding: 12px 0; }
+  .result .src { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  g-img { display: inline-block; line-height: 0; }
+  h1.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  h2.gsh-title { margin: 0 0 8px; font-weight: 400; }
+  .result .src img { width: 26px; height: 26px; border-radius: 50%; background: #303134; border: 1px solid #3c4043; }
+  .result .src span { display: block; font-size: 14px; color: #dadce0; }
+  .result .snip { font-size: 14px; line-height: 22px; }
+  .result .snip .date { color: #9aa0a6; }
+  .sitelinks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; padding: 8px 0 0 24px; }
+  .sitelinks a { font-size: 16px; }
+  #center_col g-section-with-header, g-section-with-header { display: block; margin: 16px 0; }
+  .gsh-title { font: 20px arial; color: #e8eaed; margin-bottom: 8px; }
+  [role="list"] { display: flex; gap: 8px; flex-wrap: wrap; }
+  [role="list"] [role="listitem"] a[role="link"] { display: flex; flex-direction: column; gap: 8px; width: 150px; }
+  [role="list"] [role="listitem"] a[role="link"]:has(img) div { background: #303134; border-radius: 12px; padding: 8px; }
+  [role="list"] [role="listitem"] a[role="link"]:has(img) img { display: block; width: 100%; height: 84px; border-radius: 8px; background: linear-gradient(135deg, #5f6368, #303134); }
+  [role="list"] [role="listitem"] a[role="link"]:has(img) span { display: block; font-size: 14px; color: #e8eaed; border-radius: 4px; }
+  #rcnt div[role="button"], #rcnt button { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 1px solid #3c4043; border-radius: 18px; background: #303134; color: #e8eaed; font-size: 14px; cursor: pointer; }
+  #rcnt [role="region"] > div, #rcnt [data-attrid] > div[jscontroller] { padding: 16px; background: #303134; border-radius: 12px; margin-bottom: 12px; }
+  #rcnt [data-attrid] > div[jscontroller] .kp-title { font: 28px arial; color: #e8eaed; }
+  #rcnt [data-attrid] .kp-sub { color: #9aa0a6; font-size: 14px; }
+  #rcnt img[src^="data:image"] { width: 96px; height: 96px; border-radius: 8px; background: #303134; }
+  [data-lhoverlay] { display: block; height: 120px; border-radius: 12px; background-image: linear-gradient(135deg, #5f6368, #202124); }
+  #rcnt [data-fh] { padding: 16px; background: #303134; border-radius: 16px; margin-bottom: 12px; }
+  #rcnt [data-fh] div:not([role]) { background: #303134; }
+  #rcnt [data-fh] .ai-title { font: 16px arial; color: #e8eaed; display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  #rcnt [data-fh] .ai-title::before { content: "✦"; color: #8ab4f8; }
+  #rcnt [data-fh] div[role="button"] div { background: #3c4043; border: 1px solid #5f6368; border-radius: 12px; padding: 2px 6px; box-shadow: 0 1px 2px rgba(0,0,0,.3); font-size: 12px; }
+  .ai-fade { height: 32px; margin-top: -32px; position: relative; background-image: linear-gradient(transparent, #303134); }
+  #center_col hr, #botstuff hr { border: 0; border-top: 1px solid #3c4043; margin: 12px 0; }
+  .related { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .related [role="button"] { justify-content: flex-start; height: 48px; border-radius: 100px; width: 100%; }
+  .paa [role="button"] { width: 100%; justify-content: space-between; border-radius: 0; border: 0; border-bottom: 1px solid #3c4043; background: transparent; height: 48px; padding: 0 4px; }
+  #botstuff { width: 100%; padding-top: 12px; }
+  .pager { display: flex; gap: 16px; align-items: center; justify-content: center; padding: 16px 0; }
+  .pager .cur { color: #e8eaed; }
+  #foot, #footcnt { width: 100%; }
+  #footcnt { padding: 16px 24px; background: #171717; color: #9aa0a6; display: flex; gap: 24px; flex-wrap: wrap; }
+  #foot a { color: #9aa0a6; }
+  #rhs .kp { padding: 16px; border: 1px solid #3c4043; border-radius: 12px; background: #202124; }
+  input.gsfi { height: 36px; padding: 0 12px; border-radius: 18px; border: 1px solid #5f6368; background: #303134; color: #e8eaed; }
+}
+  /* Overlays: Google's #303134 popup surface, 8px radius, material shadow. */
+  g-menu, .g-dialog, .g-tip, .g-list { display: block; background: #303134; color: #e8eaed; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.4); font-size: 14px; }
+  g-menu { min-width: 200px; padding: 8px 0; } g-menu-item { display: block; padding: 8px 16px; cursor: pointer; } g-menu-item:hover { background: #3c4043; }
+  .g-dialog { width: 320px; padding: 20px 24px; } .g-dialog h2 { margin: 0 0 8px; font-size: 18px; font-weight: 400; } .g-dialog p { margin: 0 0 16px; color: #bdc1c6; }
+  .g-dialog .acts { display: flex; justify-content: flex-end; gap: 8px; } .g-btn { padding: 8px 16px; border-radius: 4px; color: #8ab4f8; cursor: pointer; } .g-btn.cur { background: #8ab4f8; color: #202124; }
+  .g-tip { display: inline-block; padding: 6px 8px; font-size: 12px; background: #3c4043; }
+  .g-list { min-width: 320px; padding: 8px 0; } .g-list [role="option"] { padding: 8px 16px; } .g-list [role="option"][aria-selected="true"] { background: #3c4043; }
+  /* Carousel cards round 16px; the result wrapper .ZOyvub carries 4px. */
+  .ZOyvub { border-radius: 4px; padding: 8px; background: #202124; }
+  g-inner-card { display: block; width: 120px; height: 200px; overflow: hidden; border-radius: 16px; background: #303134; } g-inner-card img { width: 100%; height: 100%; }

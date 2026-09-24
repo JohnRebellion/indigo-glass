@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink - ChatGPT
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.6.0
+@version        0.7.0
 @description    Retint chatgpt.com accents with Sage Ink + Carlito loop-tail. Native dark backgrounds/text/borders left untouched. OKLCH accents, sharp ink corners (no squircle).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -74,4 +74,98 @@
   [class*="prose"], [class*="markdown"] {
     font-family: "IndigoLoopTail", "Carlito", "SF Pro Display", -apple-system, system-ui, sans-serif !important;
   }
+
+  /* ─── 0.7.0: Sage Ink structure ────────────────────────────────────────
+   * Verified against the simulator page /sites/chatgpt/, whose contract check
+   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
+   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
+   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
+  /* Surfaces promoted from an accent retint to the full ink stack. */
+  :root, html, body, .dark {
+    color-scheme: dark;
+    --main-surface-background: #07080A !important;
+    --main-surface-primary: #07080A !important;
+    --main-surface-secondary: #0D0D10 !important;
+    --main-surface-tertiary: #121216 !important;
+    --message-surface: #121216 !important;
+    --composer-surface: #0D0D10 !important;
+    --sidebar-surface-primary: #0D0D10 !important;
+    --sidebar-surface-secondary: #121216 !important;
+    --sidebar-surface-tertiary: #121216 !important;
+    --interactive-bg-secondary-default: #121216 !important;
+    --interactive-bg-secondary-hover: #1C1C1E !important;
+    --interactive-bg-tertiary-default: #121216 !important;
+    --text-primary: #F8F8F8 !important;
+    --text-secondary: #6B7280 !important;
+    --text-tertiary: #6B7280 !important;
+    --text-quaternary: #4B5563 !important;
+    --text-placeholder: #4B5563 !important;
+    --border-light: #1C1C1E !important;
+    --border-medium: #1C1C1E !important;
+    --border-heavy: #5E5E60 !important;
+    --border-xheavy: #5E5E60 !important;
+  }
+  body { background-color: #07080A !important; color: #F8F8F8 !important; }
+  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
+   * collapsing on press. Icon-only affordances and the chrome named in the
+   * exclusions stay flat; travel is :active, never :hover. */
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.send):not(.chip):not(.model):not(.btn-ghost) {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #3CA887 !important;
+    background-image: none !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.send):not(.chip):not(.model):not(.btn-ghost):hover {
+    transform: none !important;
+    box-shadow: 4px 4px 0 0 #3CA887 !important;
+  }
+  button:not(:has(> :only-child:is(svg, i))):not(.btn-icon):not(.send):not(.chip):not(.model):not(.btn-ghost):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  /* Accent fills carry the ink edge and an ink-black label. */
+  button.btn-accent, button.btn-primary {
+    border-color: #07080A !important;
+    color: #07080A !important;
+  }
+  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
+   * and toasts. Nothing soft, nothing translucent. */
+  [role="menu"], .toast {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #3CA887 !important;
+  }
+  [role="dialog"] {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 0 #3CA887 !important;
+  }
+  [role="tooltip"], .tooltip {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #3CA887 !important;
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Text entry: 2px border_strong on the field, nothing on the inner input. */
+  [class*="rounded-3xl"]:has(textarea), .input, select {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .composer textarea {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+  /* Radius leftovers the simulator page still measured above 2px. */
+  button, a, code, kbd, pre, .tabs, .tabs *, .sidebar *, [class*="rounded-lg"], [class*="rounded-md"], [class*="rounded-xl"], [class*="rounded-2xl"], [class*="rounded-3xl"], .rounded, .card, .banner, .canvas, .code-block, .sources, .markdown pre, .checkbox, .select {
+    border-radius: 0 !important;
+  }
+  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  .card, .canvas, .banner, .code-block, .sources {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
 }
