@@ -10,7 +10,7 @@ const reg = readFileSync(path.join(ROOT, 'simulator/src/lib/sites/registry.ts'),
 const SITES = [...reg.matchAll(/id: '([a-z0-9]+)'.*?file: '([^']+)'[\s\S]*?hi: '(#[0-9A-F]{6})', mid: '(#[0-9A-F]{6})', alt: '(#[0-9A-F]{6})' \}(, retint: true)?/g)]
   .map((m) => ({ id: m[1], file: m[2], hi: m[3], mid: m[4], alt: m[5], retint: !!m[6] }));
 const want = process.argv.slice(2);
-const INK = ['#07080A', '#0D0D10', '#121216', '#1C1C1E', '#5E5E60', '#F8F8F8', '#6B7280', '#4B5563', '#3FFABB', '#FBBF24', '#ED254E', '#C0E3C0', '#000000'];
+const INK = ['#07080A', '#0D0D10', '#121216', '#1C1C1E', '#5E5E60', '#F8F8F8', '#7F8695', '#4B5563', '#3FFABB', '#FBBF24', '#F42E53', '#C0E3C0', '#000000'];
 
 const server = spawn('npx', ['http-server', 'build', '-p', '4173', '-s', '--silent', '-c-1'], { stdio: 'ignore' });
 await new Promise((r) => setTimeout(r, 1500));

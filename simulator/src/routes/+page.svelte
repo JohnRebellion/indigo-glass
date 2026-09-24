@@ -17,9 +17,9 @@
     { token: 'sage_alt',    hex: '#89A889', role: 'Visited link, ink shadow colour' },
     { token: 'amber',       hex: '#FBBF24', role: 'Warning' },
     { token: 'positive',    hex: '#3FFABB', role: 'Success (hue nudged +12.5° off sage)' },
-    { token: 'negative',    hex: '#ED254E', role: 'Error' },
+    { token: 'negative',    hex: '#F42E53', role: 'Error' },
     { token: 'text',        hex: '#F8F8F8', role: 'Primary text' },
-    { token: 'text_muted',  hex: '#6B7280', role: 'Secondary text' }
+    { token: 'text_muted',  hex: '#7F8695', role: 'Secondary text' }
   ];
 </script>
 

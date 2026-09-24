@@ -42,9 +42,9 @@ Accent+1:        #C0E3C0     Hover, focus, active link
 Accent-alt:      #89A889     Visited link, accent decoration, ink_accent shadow
 Amber:           #FBBF24     Semantic warning
 Positive:        #3FFABB     Success  (sage-only hue nudge — see below)
-Negative:        #ED254E     Error, destructive
+Negative:        #F42E53     Error, destructive
 Text primary:    #F8F8F8
-Text muted:      #6B7280
+Text muted:      #7F8695
 Text dim:        #4B5563
 ```
 
@@ -65,7 +65,7 @@ Sage accent OKLCH hue is **145.0** at chroma **0.06** — deliberately low-chrom
 | `#C0E3C0` Accent+1 | Decoration | accent | Color4 | accent_light | keys | OnAllDesktops btn | --color-accent-hi |
 | `#89A889` Accent-alt | Link | link_color, violet_color | Color5 | accent_alt | title | Shadow colour | --color-accent-alt |
 | `#FBBF24` Amber | Neutral | warning | Color3 | amber | - | Min btn | --color-amber |
-| `#ED254E` Negative | Negative | destructive | Color1 | - | - | Close btn | --color-negative |
+| `#F42E53` Negative | Negative | destructive | Color1 | - | - | Close btn | --color-negative |
 | `#3FFABB` Positive | Positive | success | Color2 | - | - | Max btn | --color-positive |
 
 **RGB equivalents (for KDE color schemes and Klassy):**
@@ -304,13 +304,13 @@ ForegroundNormal=248,248,248     # #F8F8F8
 ForegroundActive=192,227,192     # sage accent
 ForegroundNeutral=251,191,36     # AMBER (warning) — semantic
 ForegroundPositive=63,250,187    # #3FFABB — sage-only hue nudge
-ForegroundNegative=237,37,78     # #ED254E
+ForegroundNegative=244, 46, 83     # #F42E53
 
 [WM]
 activeBackground=18,18,22
 activeForeground=248,248,248
 inactiveBackground=13,13,16
-inactiveForeground=107,114,128
+inactiveForeground=127,134,149
 ```
 
 ### `~/.config/kwinrc` — KWin
@@ -433,7 +433,7 @@ Same as gtk-3.0 minus button-images, menu-images, modules, toolbar-style, shell-
 @define-color accent_bg_color #A6C9A6;
 @define-color accent_fg_color #FFFFFF;
 
-@define-color destructive_color #ED254E;
+@define-color destructive_color #F42E53;
 @define-color success_color #71F79F;    /* stale — sage's positive is #3FFABB */
 @define-color warning_color #FBBF24;
 
@@ -927,7 +927,7 @@ SvelteKit + Tailwind v4 portfolio inherits the same design tokens via an `@theme
   --color-accent-alt: #89A889;
   --color-amber: #FBBF24;
   --color-positive: #3FFABB;
-  --color-negative: #ED254E;
+  --color-negative: #F42E53;
 
   --font-sans: "Carlito", "SF Pro Display", system-ui, sans-serif;
   --font-display: "SF Pro Display", "Inter", -apple-system, sans-serif;

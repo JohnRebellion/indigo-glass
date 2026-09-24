@@ -98,10 +98,10 @@ AFTER:  padding: 3px 8px; margin: 0;
 
 Ink changes what padding is *for*. Under glass, generous padding bought you visible backdrop — the tint read through, so space was part of the material. Under ink the fill is opaque, so interior padding buys nothing but distance between a border and a glyph. Spend it only where legibility needs it.
 
-What ink *does* need space for is **outside** the box. `[shadow].ink` is `8px 8px 0 0` and `ink_lg` is `14px 14px 0 0` — hard offsets with zero blur, cast down and right. That silhouette occupies real layout area:
+What ink *does* need space for is **outside** the box. `[shadow].ink` is `4px 4px 0 0` and `ink_lg` is `7px 7px 0 0` — hard offsets with zero blur, cast down and right. That silhouette occupies real layout area:
 
-- Reserve clearance to the right and below any inked element. An 8px shadow inside a 4px gap reads as a collision, not as depth.
-- Adjacent inked elements need at least the shadow offset between them, or the upper one's shadow lands on the lower one's fill. `[shadow].ink` is 8, so `gap_md` (8) is the exact floor between inked cards and `gap_lg` (12) the comfortable one. `ink_lg` is 14, which no gap step clears except `gap_xl` (20) — use it, and note this is the one place the spacing ladder does not have a snug answer.
+- Reserve clearance to the right and below any inked element. A 4px shadow inside a 2px gap reads as a collision, not as depth.
+- Adjacent inked elements need at least the shadow offset between them, or the upper one's shadow lands on the lower one's fill. `[shadow].ink` is 4, so `gap_sm` (4) is the exact floor between inked elements and `gap_md` (8) the comfortable one. `ink_lg` is 7, which `gap_md` clears. Fewer elements are inked than the gap arithmetic suggests: only the primary button of a group, transient chrome and modals carry an offset — see `docs/ELEVATION.md`.
 - Flush repeating rows (`list_row_gap = 1`) must not be inked individually. They are ink *inside* one inked container, separated by `[shadow].hairline` where a divider is needed at all — "quiet dividers where even ink is too loud", as the token file puts it.
 
 Compact density and hard shadows are not in tension; they just move the budget from inside the element to around it.

@@ -53,7 +53,7 @@ terminal-border: "0"
 + image { left = 80   top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
 + label { top = 124   left = 80  width = 320 align = "left" text = "ENTRIES" color = "#a78bfa" font = "SF Pro Display Regular 18" }
 + label { top = 148   left = 80  width = 320 align = "left" text = "5"       color = "#e0e7ff" font = "SF Pro Display Regular 42" }
-+ label { top = 204   left = 80  width = 320 align = "left" text = "Boot options" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 204   left = 80  width = 320 align = "left" text = "Boot options" color = "#7f8695" font = "SF Pro Display Regular 18" }
 
 # Card 2: Timeout (with sparkline)
 + image { left = 440  top = 96  width = 360 height = 140 file = "assets/card_c.png" }
@@ -61,21 +61,21 @@ terminal-border: "0"
 + label { top = 124   left = 460 width = 320 align = "left" text = "TIMEOUT" color = "#a78bfa" font = "SF Pro Display Regular 18" }
 + label { top = 148   left = 460 width = 200 align = "left" text = "5s"      color = "#e0e7ff" font = "SF Pro Display Regular 42" }
 + image { left = 660  top = 156 width = 110 height = 30  file = "assets/sparkline.png" }
-+ label { top = 204   left = 460 width = 320 align = "left" text = "Auto-boot countdown" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 204   left = 460 width = 320 align = "left" text = "Auto-boot countdown" color = "#7f8695" font = "SF Pro Display Regular 18" }
 
 # Card 3: Default OS
 + image { left = 820  top = 96  width = 360 height = 140 file = "assets/card_c.png" }
 + image { left = 840  top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
 + label { top = 124   left = 840 width = 320 align = "left" text = "DEFAULT" color = "#a78bfa" font = "SF Pro Display Regular 18" }
 + label { top = 148   left = 840 width = 320 align = "left" text = "Nobara"  color = "#e0e7ff" font = "SF Pro Display Regular 32" }
-+ label { top = 200   left = 840 width = 320 align = "left" text = "Linux · 7.0.1 · KDE Plasma" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 200   left = 840 width = 320 align = "left" text = "Linux · 7.0.1 · KDE Plasma" color = "#7f8695" font = "SF Pro Display Regular 18" }
 
 # Card 4: Disk / donut chart
 + image { left = 1200 top = 96  width = 360 height = 140 file = "assets/card_c.png" }
 + image { left = 1220 top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
 + label { top = 124   left = 1220 width = 220 align = "left" text = "DISK" color = "#a78bfa" font = "SF Pro Display Regular 18" }
 + label { top = 148   left = 1220 width = 220 align = "left" text = "72%"   color = "#e0e7ff" font = "SF Pro Display Regular 42" }
-+ label { top = 200   left = 1220 width = 220 align = "left" text = "468 / 650 GB" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 200   left = 1220 width = 220 align = "left" text = "468 / 650 GB" color = "#7f8695" font = "SF Pro Display Regular 18" }
 + image { left = 1450 top = 106 width = 110 height = 110 file = "assets/donut.png" }
 
 # Card 5: Kernel / build (right edge)
@@ -83,7 +83,7 @@ terminal-border: "0"
 + image { left = 1600 top = 110 width = 60  height = 4   file = "assets/accent_line.png" }
 + label { top = 124   left = 1600 width = 320 align = "left" text = "KERNEL" color = "#a78bfa" font = "SF Pro Display Regular 18" }
 + label { top = 148   left = 1600 width = 320 align = "left" text = "7.0.1" color = "#e0e7ff" font = "SF Pro Display Regular 42" }
-+ label { top = 200   left = 1600 width = 320 align = "left" text = "fc43.x86_64 · GA" color = "#6b7280" font = "SF Pro Display Regular 18" }
++ label { top = 200   left = 1600 width = 320 align = "left" text = "fc43.x86_64 · GA" color = "#7f8695" font = "SF Pro Display Regular 18" }
 
 # Section: Boot Picker title =================================
 + label {
@@ -102,7 +102,7 @@ terminal-border: "0"
   width = 1600
   align = "left"
   text = "Select an OS · Default boots automatically when timer ends"
-  color = "#6b7280"
+  color = "#7f8695"
   font = "SF Pro Display Regular 20"
 }
 
@@ -156,6 +156,6 @@ terminal-border: "0"
   width = 100%
   align = "center"
   text = "↑↓ navigate    ↵ boot    E edit    C console"
-  color = "#6b7280"
+  color = "#7f8695"
   font = "SF Pro Display Regular 20"
 }

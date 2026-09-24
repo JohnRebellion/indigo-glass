@@ -72,10 +72,10 @@ accent_alt  = [0.7090, 0.1592, 293.54]
 # Semantic
 amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 152.51]
-negative    = [0.6124, 0.2279, 17.60]
+negative    = [0.6300, 0.2279, 17.60]
 # Text
 text        = [0.9791, 0.0000, 89.88]
-text_muted  = [0.5510, 0.0234, 264.36]
+text_muted  = [0.6200, 0.0234, 264.36]   # #7F8695  lifted 2026-09-24 (rationale at the sage block)
 text_dim    = [0.4461, 0.0263, 256.80]
 
 [variants.lime]
@@ -96,10 +96,10 @@ accent_alt  = [0.7523, 0.1947, 127.71]   # #8BC406 active/decoration (copy hex f
 # Semantic (unchanged hues - warnings/errors must stay legible vs lime)
 amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 152.51]
-negative    = [0.6124, 0.2279, 17.60]
+negative    = [0.6300, 0.2279, 17.60]
 # Text: neutral (matches the neutral base; no green tint)
 text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
-text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
+text_muted  = [0.6200, 0.0234, 264.36]   # #7F8695  5.48:1 base / 5.31 surface / 5.11 surface_alt (was 0.5510 #6B7280, 4.14 / 4.01 / 3.87 - failed AA; lifted 2026-09-24)
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
 
 [variants.sage]
@@ -125,10 +125,10 @@ accent_alt  = [0.7000, 0.0570, 145.00]   # #89A889 active/decoration
 # ripple into the hardcoded hex already baked into ~40 downstream configs.
 amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 165.00]   # #3FFABB (was 152.51 / #71F79F)
-negative    = [0.6124, 0.2279, 17.60]
+negative    = [0.6300, 0.2279, 17.60]
 # Text: neutral (matches the neutral base; no sage tint - sage is fill-only)
 text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
-text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
+text_muted  = [0.6200, 0.0234, 264.36]   # #7F8695  5.48:1 base / 5.31 surface / 5.11 surface_alt (was 0.5510 #6B7280, 4.14 / 4.01 / 3.87 - failed AA; lifted 2026-09-24)
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
 
 
@@ -153,14 +153,14 @@ text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
 # Contrast quoted against this variant's base (#07080A).
 [variants.sage.ansi]
 black          = [0.3400, 0.0120, 264.00]   # #35383E  1.70:1 - dim by design
-red            = [0.6124, 0.2279,  17.60]   # #ED254E  4.75:1 = negative
+red            = [0.6300, 0.2279,  17.60]   # #F42E53  5.10:1 = negative
 green          = [0.8792, 0.1706, 165.00]   # #3FFABB 14.89:1 = positive
 yellow         = [0.8369, 0.1644,  84.43]   # #FBBF24 12.00:1 = amber
 blue           = [0.7400, 0.0900, 255.00]   # #84AEE3  8.72:1
 magenta        = [0.7400, 0.0900, 330.00]   # #CC96C6  8.34:1
 cyan           = [0.8000, 0.0900, 200.00]   # #71D0D5 11.15:1
 white          = [0.8700, 0.0060, 264.00]   # #D2D4D8 13.50:1
-bright_black   = [0.5510, 0.0234, 264.36]   # #6B7280  4.14:1 = text_muted
+bright_black   = [0.6200, 0.0234, 264.36]   # #7F8695  5.48:1 = text_muted
 bright_red     = [0.7000, 0.2000,  17.60]   # #FF5D6F  6.72:1
 bright_green   = [0.9300, 0.1300, 165.00]   # #8BFFD2 16.54:1
 bright_yellow  = [0.9000, 0.1500,  84.43]   # #FFD55A 14.23:1
@@ -194,10 +194,10 @@ accent_alt  = [0.7000, 0.1400, 35.00]
 # be nudged to 165, so both stay at their shared cross-variant values.
 amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 152.51]
-negative    = [0.6124, 0.2279, 17.60]
+negative    = [0.6300, 0.2279, 17.60]
 # Text: neutral. Rust is fill-only; no rust tint in the text ladder.
 text        = [0.9791, 0.0000, 89.88]    # #F8F8F8
-text_muted  = [0.5510, 0.0234, 264.36]   # #6B7280
+text_muted  = [0.6200, 0.0234, 264.36]   # #7F8695  5.48:1 base / 5.31 surface / 5.11 surface_alt (was 0.5510 #6B7280, 4.14 / 4.01 / 3.87 - failed AA; lifted 2026-09-24)
 text_dim    = [0.4461, 0.0263, 256.80]   # #4B5563
 
 [variants.orchid]
@@ -237,13 +237,15 @@ accent_alt  = [0.7000, 0.0850, 315.00]   # #B38FC3
 # by 63deg or more, so unlike sage no nudge is needed. Shared values stand.
 amber       = [0.8369, 0.1644, 84.43]
 positive    = [0.8792, 0.1706, 165.00]
-negative    = [0.6124, 0.2279, 17.60]
+negative    = [0.6300, 0.2279, 17.60]
 # TEXT LADDER - the actual reason this variant exists.
 # text: softened from the shared 0.9791 (#F8F8F8, 18.86:1) to 0.93 (#E8E8E8,
 #   16.30:1). Still far above the 4.5 floor, but off the halation-prone
 #   pure-white end. This is the single most load-bearing change here.
-# text_muted: raised from the shared 0.5510 (4.01:1 - FAILS SC 1.4.3 for body
-#   copy, the defect the research-reports audit measured) to 0.65 (6.00:1).
+# text_muted: raised to 0.65 (6.00:1). The shared value was 0.5510 (4.01:1 -
+#   FAILED SC 1.4.3 for body copy, the defect the research-reports audit
+#   measured) until 2026-09-24, when it was lifted to 0.62 (5.31:1); this
+#   variant keeps the extra headroom.
 #   A reading variant cannot ship a muted role that fails as running prose.
 # text_dim: raised from 0.4461 (2.57:1) to 0.55 (4.01:1) so even the quietest
 #   tier stays legible; it is for captions and metadata, not decoration.

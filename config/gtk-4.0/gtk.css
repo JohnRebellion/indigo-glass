@@ -14,8 +14,8 @@
    behind it that existed only in the two GTK CSS files. */
 @define-color accent_fg_color #07080A;
 
-@define-color destructive_color #ED254E;
-@define-color destructive_bg_color #ED254E;
+@define-color destructive_color #F42E53;
+@define-color destructive_bg_color #F42E53;
 @define-color destructive_fg_color #F8F8F8;
 
 @define-color success_color #3FFABB;
@@ -26,8 +26,8 @@
 @define-color warning_bg_color #FBBF24;
 @define-color warning_fg_color #07080A;
 
-@define-color error_color #ED254E;
-@define-color error_bg_color #ED254E;
+@define-color error_color #F42E53;
+@define-color error_bg_color #F42E53;
 @define-color error_fg_color #F8F8F8;
 
 @define-color window_bg_color #0D0D10;

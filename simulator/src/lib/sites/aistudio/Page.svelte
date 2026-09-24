@@ -59,7 +59,7 @@
       <div role="dialog" class="mat-mdc-dialog-container"><h2>Delete prompt?</h2><p>"Sage Ink stock pages" will be permanently deleted from your library.</p><div class="mat-mdc-dialog-actions"><button class="mdc-button mat-mdc-button-base">Cancel</button><button class="mdc-button mat-mdc-button-base mat-mdc-unelevated-button">Delete</button></div></div>
     </Pair>
     <Pair name="snackbar / tooltip / spinner / progress / banners / avatars" wrap={false}>
-      <div class="mat-mdc-snack-bar-container">Prompt saved <span class="action">View</span></div>
+      <div class="mat-mdc-snack-bar-container"><div class="mdc-snackbar__surface"><div class="mat-mdc-simple-snack-bar">Prompt saved <span class="action mat-mdc-snack-bar-action">View</span></div></div></div>
       <span role="tooltip" class="mat-mdc-tooltip">Copy code</span> <span class="mat-mdc-progress-spinner"></span> <span class="spinner-sm"></span> <span class="progress-bar"><span></span></span>
       <div class="error-banner">⚠ Rate limit exceeded. <span class="on-error">Retry</span></div><div class="info-banner">ℹ Free tier: data may be used to improve products.</div>
       <span><span class="avatar-user">JR</span> <span class="Avatar-lg"></span></span>

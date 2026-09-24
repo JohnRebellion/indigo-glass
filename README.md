@@ -39,10 +39,10 @@ Accent+1       #C0E3C0     Hover, focus, active link
 Accent-alt     #89A889     Active, decoration, visited link
 Amber          #FBBF24     Semantic warning
 Positive       #3FFABB     Success
-Negative       #ED254E     Error, destructive
+Negative       #F42E53     Error, destructive
 
 Text primary   #F8F8F8
-Text muted     #6B7280
+Text muted     #7F8695
 ```
 
 Sage `#A6C9A6` on base `#07080A` = **11.00:1** (AAA). Sage is fill-only — it
@@ -216,6 +216,7 @@ See [`docs/REFERENCE.md`](docs/REFERENCE.md) for full diagnoses + recovery comma
 - [`docs/INSTALL-AND-UPDATE.md`](docs/INSTALL-AND-UPDATE.md) — Install / update lifecycle on a chezmoi-managed Plasma host, stock-KDE reset, rollback
 - [`docs/REFERENCE.md`](docs/REFERENCE.md) — Full reference: colors, layers, install steps, known bugs, recovery
 - [`docs/PHILOSOPHY.md`](docs/PHILOSOPHY.md) — Design rationale
+- [`docs/ELEVATION.md`](docs/ELEVATION.md) — Which elements carry the offset shadow, and the rule that decides it
 - [`docs/STATE_GRAMMAR.md`](docs/STATE_GRAMMAR.md) — The fill-vs-outline convention and how it's enforced
 - [`docs/SAGE_INK_AUDIT.md`](docs/SAGE_INK_AUDIT.md) — Exhaustive per-layer audit against the neobrutalism.dev reference
 

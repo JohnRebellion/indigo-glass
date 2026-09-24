@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — GitHub
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.5.1
+@version        0.6.0
 @description    GitHub on Sage Ink structure with GitHub's own hues. Primer's surface stack collapsed to two ink steps, every radius token zeroed, link blue and the primary-action green re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -57,12 +57,12 @@
 
     /* ─── Text ─────────────────────────────────────────────────────────── */
     --fgColor-default: #F8F8F8 !important;
-    --fgColor-muted: #6B7280 !important;
+    --fgColor-muted: #7F8695 !important;
     --fgColor-disabled: #4B5563 !important;
     --fgColor-accent: #94C7FF !important;
     --fgColor-link: #94C7FF !important;
     --color-fg-default: #F8F8F8 !important;
-    --color-fg-muted: #6B7280 !important;
+    --color-fg-muted: #7F8695 !important;
     --color-accent-fg: #94C7FF !important;
 
     /* ─── Edges ────────────────────────────────────────────────────────── */
@@ -89,12 +89,12 @@
     --fgColor-open: #3FFABB !important;
     --fgColor-attention: #FBBF24 !important;
     --fgColor-severe: #FBBF24 !important;
-    --fgColor-danger: #ED254E !important;
-    --fgColor-closed: #ED254E !important;
+    --fgColor-danger: #F42E53 !important;
+    --fgColor-closed: #F42E53 !important;
     --fgColor-done: #C0E3C0 !important;
     --bgColor-success-emphasis: #3FFABB !important;
     --bgColor-attention-emphasis: #FBBF24 !important;
-    --bgColor-danger-emphasis: #ED254E !important;
+    --bgColor-danger-emphasis: #F42E53 !important;
 
     /* ─── Buttons ──────────────────────────────────────────────────────────
      * The primary-action green is the one GitHub affordance nobody wants
@@ -107,7 +107,7 @@
     --button-default-bgColor-rest: #121216 !important;
     --button-default-fgColor-rest: #F8F8F8 !important;
     --button-default-borderColor-rest: #5E5E60 !important;
-    --button-danger-fgColor-rest: #ED254E !important;
+    --button-danger-fgColor-rest: #F42E53 !important;
     --button-danger-bgColor-rest: #121216 !important;
 
     /* ─── Radius ───────────────────────────────────────────────────────────
@@ -147,19 +147,26 @@
    * the base-ink shadow accent fills cast elsewhere: that would vanish on
    * GitHub's #07080A page. The primary (green fill) button's border is the
    * ink edge instead. */
-  .btn:not(.btn-octicon):not(.btn-invisible):not(.btn-link),
-  [class*="prc-Button-ButtonBase"]:not([data-variant="invisible"]):not([data-variant="link"]) {
-    border-width: 2px !important;
-    box-shadow: 4px 4px 0 0 #6494D5 !important;
+  .btn:where(:not(.btn-octicon):not(.btn-invisible):not(.btn-link)),
+  [class*="prc-Button-ButtonBase"]:where(:not([data-variant="invisible"]):not([data-variant="link"])) {
+    border-width: 2px !important; /* level 0; :where() keeps .btn-primary above it */
+    box-shadow: none !important;
   }
-  /* "New issue" reads a translucent Primer border, not
+  /* Level 1 (docs/ELEVATION.md): only the primary fill carries the offset.
+   * Primer's danger button rests on the neutral fill with red text, so it
+   * stays level 0. "New issue" reads a translucent Primer border, not
    * --button-primary-borderColor-rest, so set the ink edge directly. */
   .btn-primary,
   [class*="prc-Button-ButtonBase"][data-variant="primary"] {
     border-color: #07080A !important;
+    color: #07080A !important;
+    box-shadow: 4px 4px 0 0 #6494D5 !important;
   }
-  .btn:not(.btn-octicon):not(.btn-invisible):not(.btn-link):active,
-  [class*="prc-Button-ButtonBase"]:not([data-variant="invisible"]):not([data-variant="link"]):active {
+  .btn-primary *, [class*="prc-Button-ButtonBase"][data-variant="primary"] * {
+    color: #07080A !important;
+  }
+  .btn-primary:active,
+  [class*="prc-Button-ButtonBase"][data-variant="primary"]:active {
     box-shadow: none !important;
     transform: translate(4px, 4px);
   }
@@ -208,31 +215,48 @@
       --overlay-bgColor: oklch(0.1605 0.0063 285.67) !important;
       --control-bgColor-rest: oklch(0.1840 0.0081 285.58) !important;
       --fgColor-default: oklch(0.9791 0.0000 89.88) !important;
-      --fgColor-muted: oklch(0.5510 0.0234 264.36) !important;
+      --fgColor-muted: oklch(0.6200 0.0234 264.36) !important;
       --fgColor-accent: oklch(0.8200 0.1100 255.92) !important;
       --fgColor-link: oklch(0.8200 0.1100 255.92) !important;
       --borderColor-accent-emphasis: oklch(0.6600 0.1100 255.92) !important;
       --focus-outlineColor: oklch(0.6600 0.1100 255.92) !important;
       --button-primary-bgColor-rest: oklch(0.7400 0.1100 146.26) !important;
       --button-primary-bgColor-hover: oklch(0.8200 0.1100 146.26) !important;
-      --button-danger-fgColor-rest: oklch(0.6124 0.2279 17.60) !important;
+      --button-danger-fgColor-rest: oklch(0.6300 0.2279 17.60) !important;
       --fgColor-success: oklch(0.8792 0.1706 165.00) !important;
       --fgColor-open: oklch(0.8792 0.1706 165.00) !important;
       --fgColor-attention: oklch(0.8369 0.1644 84.43) !important;
-      --fgColor-danger: oklch(0.6124 0.2279 17.60) !important;
-      --fgColor-closed: oklch(0.6124 0.2279 17.60) !important;
+      --fgColor-danger: oklch(0.6300 0.2279 17.60) !important;
+      --fgColor-closed: oklch(0.6300 0.2279 17.60) !important;
     }
   }
 
-  /* ─── 0.5.1: Sage Ink structure ────────────────────────────────────────
-   * Verified against the simulator page /sites/github/, whose contract check
-   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
-   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
-   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
-  /* State pills keep white-on-colour labels; ink black reads on every fill
-   * this file owns (positive, amber, negative, done). */
-  .State, .Label--success, .Label--attention, .Label--danger, .Label--accent,
-  .Counter--primary, .color-bg-success-emphasis {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ─── 0.6.0: Sage Ink structure ────────────────────────────────────────
+   * Generated by scripts/style-check/structure-blocks.py and verified against
+   * the simulator page /sites/github/, whose contract (simulator/e2e/sites.spec.ts)
+   * fails when this file drifts: ink page, hard opaque shadows only, no blur
+   * or gradient, radius 0 off circles and pills, the offset on primary buttons
+   * only (docs/ELEVATION.md), hard-edged dialogs and menus. */
+  /* Only the fills this file owns take an ink label. Primer's outlined
+   * Labels, the grey draft State and Counter keep Primer's text; its green,
+   * red and purple State pills keep white, which is the better contrast
+   * on those fills (measured 2026-09-24). */
+  .color-bg-success-emphasis {
     color: #07080A !important;
   }
   /* kbd, CodeMirror, Toast and the rest hardcode 6px. */
@@ -270,5 +294,9 @@
   .btn-link, [class*="prc-Button-ButtonBase"][data-variant="link"] {
     border: 0 !important;
   }
+  /* Ink on the fills this file paints: the toast icon square (positive,
+   * accent, negative) and the diff gutter numbers on their tints. */
+  .Toast-icon { color: #07080A !important; }
+  .blob-num-addition, .blob-num-deletion { color: #F8F8F8 !important; }
 
 }

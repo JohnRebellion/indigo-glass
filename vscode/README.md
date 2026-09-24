@@ -41,7 +41,7 @@ off-palette literals. Generation is the fix; the guard now checks parity too.
 | `button.hoverBackground` | `#C0E3C0` | `#375538` | Hover: lighter on dark, darker on light |
 | `focusBorder` | `#FFFFFF` | `#000000` | Max contrast against the canvas |
 | `widget.border` | `#000000` | `#000000` | Hard silhouette, both variants |
-| `editorLineNumber.foreground` | `#6B7280` | `#5A5E67` | Muted |
+| `editorLineNumber.foreground` | `#7F8695` | `#5A5E67` | Muted |
 
 Syntax:
 
@@ -50,8 +50,8 @@ Syntax:
 | String | `#3FFABB` | `#007E52` |
 | Keyword | `#C0E3C0` | `#375538` |
 | Class / Type | `#89A889` | `#5C7B5C` |
-| Comment | `#6B7280` | `#5A5E67` |
-| Invalid | `#ED254E` | `#BE0C39` |
+| Comment | `#7F8695` | `#5A5E67` |
+| Invalid | `#F42E53` | `#BE0C39` |
 
 The light variant is `[variants.sage_light]`. It cannot reuse the dark accents:
 sage `#A6C9A6` measures 1.82:1 on white. Hue (145°) and chroma (0.06) are held
@@ -80,8 +80,8 @@ The integrated terminal gets all 16 slots from `[variants.<v>.ansi]`.
 
 | Slot | Dark | Dark bright | Light | Light bright |
 |---|---|---|---|---|
-| `black` | `#35383E` | `#6B7280` | `#2B2E34` | `#5A5E67` |
-| `red` | `#ED254E` | `#FF5D6F` | `#BE0C39` | `#A40025` |
+| `black` | `#35383E` | `#7F8695` | `#2B2E34` | `#5A5E67` |
+| `red` | `#F42E53` | `#FF5D6F` | `#BE0C39` | `#A40025` |
 | `green` | `#3FFABB` | `#8BFFD2` | `#007E52` | `#006740` |
 | `yellow` | `#FBBF24` | `#FFD55A` | `#946900` | `#7A5300` |
 | `blue` | `#84AEE3` | `#A5CAFB` | `#315C92` | `#164781` |
@@ -164,7 +164,7 @@ sel    #A6C9A650          sel    #4B6A4C50
 accent #A6C9A6            accent #4B6A4C
 type   #89A889            type   #5C7B5C
 str    #3FFABB            str    #007E52
-err    #ED254E            err    #BE0C39
+err    #F42E53            err    #BE0C39
 ```
 
 Both inherit single-accent + tint-not-fill from the parent rules in `../docs/PHILOSOPHY.md`.

@@ -17,7 +17,8 @@
  *
  * The profile's Edge must be closed; the extension needs a headed browser.
  *
- * Usage: node stylusapply.mjs <user-data-dir> [profile-dir] [list|apply|clean|all]
+ * Usage: [IG_STYLUS_BUNDLE=browser/stylus/out/stylus-import.personal.json] \
+ *        node stylusapply.mjs <user-data-dir> [profile-dir] [list|apply|clean|all|reset|verify]
  */
 import { chromium } from 'playwright-core'
 import { spawn } from 'node:child_process'
@@ -27,7 +28,13 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
-const BUNDLE = resolve(HERE, '../../browser/stylus/out/sage-ink-stylus-import.json')
+/* Default is the canonical sage bundle. A profile that carries a brand-hue
+ * import (browser/stylus/out/stylus-import.<profile>.json, names tagged
+ * "[Personal]" etc.) must be verified against ITS bundle, or every style reads
+ * as missing — set IG_STYLUS_BUNDLE to that file. */
+const BUNDLE = process.env.IG_STYLUS_BUNDLE
+  ? resolve(process.env.IG_STYLUS_BUNDLE)
+  : resolve(HERE, '../../browser/stylus/out/sage-ink-stylus-import.json')
 const STYLUS_ID = 'clngdbkpkpeebahjckkjfobafhncgmne'
 const [userDataDir, profileDir = 'Default', mode = 'list'] = process.argv.slice(2)
 if (!userDataDir) { console.error('usage: stylusapply.mjs <user-data-dir> [profile-dir] [list|apply|clean|all]'); process.exit(1) }

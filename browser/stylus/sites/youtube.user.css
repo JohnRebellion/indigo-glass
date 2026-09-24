@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — YouTube
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.1
+@version        0.5.2
 @description    YouTube on Sage Ink structure with YouTube's own hue. Six greys collapsed to two ink steps, every rounded corner squared, the translucent masthead made opaque, and the brand red re-cut on the ink lightness ladder. Fixes verified against a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -56,7 +56,7 @@
 
     /* Text */
     --yt-spec-text-primary: #F8F8F8 !important;
-    --yt-spec-text-secondary: #6B7280 !important;
+    --yt-spec-text-secondary: #7F8695 !important;
     --yt-spec-text-disabled: #4B5563 !important;
     --yt-spec-text-primary-inverse: #07080A !important;
 
@@ -71,13 +71,13 @@
     --yt-spec-brand-button-background: #CD776A !important;
     --yt-spec-filled-button-text: #07080A !important;
     --yt-spec-icon-active-other: #E89082 !important;
-    --yt-spec-icon-inactive: #6B7280 !important;
+    --yt-spec-icon-inactive: #7F8695 !important;
     --yt-spec-suggested-action: #121216 !important;
     --yt-spec-selected-nav-text: #E89082 !important;
 
     /* Semantics — the live badge and error states keep the system red. */
-    --yt-spec-error-indicator: #ED254E !important;
-    --yt-spec-static-brand-red: #ED254E !important;
+    --yt-spec-error-indicator: #F42E53 !important;
+    --yt-spec-static-brand-red: #F42E53 !important;
     --yt-spec-static-brand-white: #F8F8F8 !important;
 
     /* Dividers, overlays, elevation */
@@ -201,7 +201,7 @@
 
   /* The live badge keeps the system's negative red, not the brand hue. */
   .ytSpecAvatarShapeLiveBadge {
-    background-color: #ED254E !important;
+    background-color: #F42E53 !important;
   }
 
   /* Search box: ink treatment, accent edge on focus. */
@@ -253,10 +253,13 @@
     box-shadow: inset 0 0 0 2px #F8F8F8 !important;
     color: #F8F8F8 !important;
   }
-  /* Controls carry the 2px border_strong edge. */
+  /* Controls carry the 2px border_strong edge. The voice-search button left
+   * this list 2026-09-24: live it is now a transparent icon-only
+   * ytSpecButtonShapeNextText, and icon-only affordances keep their own
+   * geometry (the live contract's iconEdge check). Its wrapper is repainted
+   * opaque above, which is all the ink it needs. */
   .ytSearchboxComponentSearchButton,
-  .ytSpecButtonShapeNextTonal,
-  #voice-search-button.ytd-masthead button {
+  .ytSpecButtonShapeNextTonal {
     border: 2px solid #5E5E60 !important;
   }
 
@@ -273,7 +276,7 @@
       --yt-spec-additive-background: oklch(0.1840 0.0081 285.58) !important;
       --yt-spec-badge-chip-background: oklch(0.1840 0.0081 285.58) !important;
       --yt-spec-text-primary: oklch(0.9791 0.0000 89.88) !important;
-      --yt-spec-text-secondary: oklch(0.5510 0.0234 264.36) !important;
+      --yt-spec-text-secondary: oklch(0.6200 0.0234 264.36) !important;
       --yt-spec-text-disabled: oklch(0.4461 0.0263 256.80) !important;
       --yt-spec-call-to-action: oklch(0.7400 0.1100 29.20) !important;
       --yt-spec-call-to-action-inverse: oklch(0.6600 0.1100 29.20) !important;
@@ -283,8 +286,8 @@
       --yt-spec-brand-button-background: oklch(0.6600 0.1100 29.20) !important;
       --yt-spec-icon-active-other: oklch(0.7400 0.1100 29.20) !important;
       --yt-spec-selected-nav-text: oklch(0.7400 0.1100 29.20) !important;
-      --yt-spec-error-indicator: oklch(0.6124 0.2279 17.60) !important;
-      --yt-spec-static-brand-red: oklch(0.6124 0.2279 17.60) !important;
+      --yt-spec-error-indicator: oklch(0.6300 0.2279 17.60) !important;
+      --yt-spec-static-brand-red: oklch(0.6300 0.2279 17.60) !important;
     }
     .ytp-play-progress,
     .ytp-swatch-background-color,
@@ -297,48 +300,87 @@
     }
   }
 
-  /* ─── 0.4.1: Sage Ink structure ────────────────────────────────────────
-   * Verified against the simulator page /sites/youtube/, whose contract check
-   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
-   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
-   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
-  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
-   * collapsing on press. Icon-only affordances and the chrome named in the
-   * exclusions stay flat; travel is :active, never :hover. */
-  ytd-app button:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip),
-  .yt-spec-button-shape-next:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip),
-  .ytSpecButtonShapeNextTonal:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip),
-  .ytSearchboxComponentSearchButton:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip),
-  ytd-app .cta:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ─── 0.5.2: Sage Ink structure ────────────────────────────────────────
+   * Generated by scripts/style-check/structure-blocks.py and verified against
+   * the simulator page /sites/youtube/, whose contract (simulator/e2e/sites.spec.ts)
+   * fails when this file drifts: ink page, hard opaque shadows only, no blur
+   * or gradient, radius 0 off circles and pills, the offset on primary buttons
+   * only (docs/ELEVATION.md), hard-edged dialogs and menus. */
+  /* Secondary buttons are level 0: a 2px border_strong edge, no offset. The
+   * hard shadow is reserved for the one accent-filled primary per view
+   * (docs/ELEVATION.md). Icon-only affordances and the chrome named in the
+   * exclusions keep their own geometry. */
+  :where(ytd-app) button:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)),
+  .yt-spec-button-shape-next:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)),
+  .ytSpecButtonShapeNextHost:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)),
+  .ytSpecButtonShapeNextTonal:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)),
+  .ytSearchboxComponentSearchButton:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)),
+  :where(ytd-app) .cta:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)) {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
-    box-shadow: 4px 4px 0 0 #CD776A !important;
+    box-shadow: none !important;
     background-image: none !important;
-  }
-  ytd-app button:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):hover,
-  .yt-spec-button-shape-next:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):hover,
-  .ytSpecButtonShapeNextTonal:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):hover,
-  .ytSearchboxComponentSearchButton:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):hover,
-  ytd-app .cta:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):hover {
     transform: none !important;
-    box-shadow: 4px 4px 0 0 #CD776A !important;
   }
-  ytd-app button:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):active,
-  .yt-spec-button-shape-next:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):active,
-  .ytSpecButtonShapeNextTonal:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):active,
-  .ytSearchboxComponentSearchButton:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):active,
-  ytd-app .cta:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):active {
+  :where(ytd-app) button:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)):active,
+  .yt-spec-button-shape-next:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)):active,
+  .ytSpecButtonShapeNextHost:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)):active,
+  .ytSpecButtonShapeNextTonal:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)):active,
+  .ytSearchboxComponentSearchButton:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)):active,
+  :where(ytd-app) .cta:where(:not(:has(> :only-child:is(svg, i))):not(.yt-spec-button-shape-next--icon-button):not(.yt-spec-button-shape-next--text):not(.text):not(.ytChipShapeChip):not(.ytSpecButtonShapeNextIconButton):not([class*="ytSpecButtonShapeNextIconOnly"]):not(.ytSpecButtonShapeNextText):not(.yt-icon-button):not(.ytmMuteButtonButton):not(.ytmClosedCaptioningButtonButton)):active {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  /* Primary: level 1. Accent fill, ink edge and label, the 4px accent_alt
+   * offset. Hover moves fill only; the press travels into the shadow. */
+  .yt-spec-button-shape-next--filled, ytd-app .cta.filled, ytd-subscribe-button-renderer button, .cta.yt-spec-button-shape-next--tonal {
+    background-color: #E89082 !important;
+    background-image: none !important;
+    color: #07080A !important;
+    border: 2px solid #07080A !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #CD776A !important;
+    transform: none !important;
+  }
+  .yt-spec-button-shape-next--filled *, ytd-app .cta.filled *, ytd-subscribe-button-renderer button *, .cta.yt-spec-button-shape-next--tonal * {
+    color: #07080A !important;
+  }
+  .yt-spec-button-shape-next--filled:hover, ytd-app .cta.filled:hover, ytd-subscribe-button-renderer button:hover, .cta.yt-spec-button-shape-next--tonal:hover {
+    background-color: #FFA99B !important;
+    box-shadow: 4px 4px 0 0 #CD776A !important;
+    transform: none !important;
+  }
+  .yt-spec-button-shape-next--filled:active, ytd-app .cta.filled:active, ytd-subscribe-button-renderer button:active, .cta.yt-spec-button-shape-next--tonal:active {
     box-shadow: none !important;
     transform: translate(4px, 4px) !important;
   }
-  /* Accent fills carry the ink edge and an ink-black label. */
-  .yt-spec-button-shape-next--filled, ytd-app .cta.filled, .ytSearchboxComponentSearchButton {
-    border-color: #07080A !important;
-    color: #07080A !important;
+  /* Join sits beside Subscribe; one inked member per group, so the brand
+   * button is level 0 on the raised surface. */
+  yt-button-shape button.brand {
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
   }
-  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
-   * and toasts. Nothing soft, nothing translucent. */
-  tp-yt-paper-toast, tp-yt-paper-listbox, ytd-menu-popup-renderer, tp-yt-iron-dropdown, ytd-feed-nudge-renderer {
+  /* Floating chrome: level 2 (menus, popovers, toasts) at 4px, level 3
+   * (dialogs) at 7px. 2px edge, nothing soft, nothing translucent. */
+  tp-yt-paper-toast, tp-yt-paper-listbox, ytd-menu-popup-renderer, tp-yt-iron-dropdown, ytd-feed-nudge-renderer, .ytSearchboxComponentSuggestionsContainer, .ytdMiniplayerComponentContent, tp-yt-paper-material {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
     box-shadow: 4px 4px 0 0 #CD776A !important;
@@ -348,11 +390,15 @@
     border-radius: 0 !important;
     box-shadow: 7px 7px 0 0 #CD776A !important;
   }
-  tp-yt-paper-tooltip, ytd-app [role="tooltip"] {
+  tp-yt-paper-tooltip #tooltip, ytd-app [role="tooltip"]:not(tp-yt-paper-tooltip) {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
     box-shadow: 4px 4px 0 0 #CD776A !important;
     background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  /* Toast and nudge fills are repainted above; their text follows. */
+  tp-yt-paper-toast, ytd-feed-nudge-renderer, tp-yt-paper-toast *, ytd-feed-nudge-renderer * {
     color: #F8F8F8 !important;
   }
   /* Text entry: 2px border_strong on the field, nothing on the inner input. */
@@ -370,10 +416,40 @@
   .ytSearchboxComponentSearchButton, tp-yt-paper-toast, .guide-icon, a#endpoint, #endpoint, #description, ytd-guide-entry-renderer, ytd-guide-entry-renderer a, ytd-video-preview, ytd-video-preview #media-container, ytd-watch-metadata #description, .skeleton-bg-color, .ytp-chrome-bottom, .ytp-progress-bar, ytd-thumbnail-overlay-resume-playback-renderer, .ytBadgeShapeHost, .ytThumbnailViewModelHost, .shortsLockupViewModelHostThumbnailParentContainerRounded, .shortsLockupViewModelHostMetadataRounded, .ytSpecTouchFeedbackShapeStroke, .ytSpecTouchFeedbackShapeFill, .ytSpecTouchFeedbackShapeHoverEffect, .ytCollectionsStackCollectionStackHost, ytd-feed-nudge-renderer, .ytd-feed-nudge-renderer {
     border-radius: 0 !important;
   }
-  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  /* Resting surfaces (level 0): a border or nothing. No lift, no radius. */
   #search-form, ytd-searchbox, ytd-rich-item-renderer, ytd-video-renderer, ytd-watch-metadata, ytd-comment-thread-renderer, ytd-guide-entry-renderer, .skeleton-bg-color {
     box-shadow: none !important;
     border-radius: 0 !important;
+  }
+  /* The notification count sits on the negative fill: ink, 5.10:1. */
+  .yt-spec-icon-badge-shape__badge, .ytSpecAvatarShapeLiveBadge { color: #07080A !important; }
+  /* YouTube's 2026 "light shapes" (yt-light-shape, live 2026-09-24): a
+   * 10px-blurred white wash and a rim light under tonal and outline buttons -
+   * a soft glow, which is a soft shadow by another name. Purely decorative,
+   * so the element goes rather than being repainted. */
+  yt-light-shape, [class*="contribYtLightShape"] { display: none !important; }
+  /* Blurred backdrops the first passes never measured: the overlay-dark
+   * media button (Shorts mute), the chip bar's scrim and the player's
+   * suggested-action badge. Opaque ink instead. */
+  .ytSpecButtonShapeNextOverlayDark, .with-chipbar.ytd-app, .ytp-suggested-action-badge {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .ytSpecButtonShapeNextOverlayDark { background-color: #07080A !important; }
+  /* The three floating surfaces lifted above are stock #212121/#282828 boxes;
+   * the raised step is the ink surface for a level 2 sheet. */
+  .ytSearchboxComponentSuggestionsContainer, .ytdMiniplayerComponentContent, tp-yt-paper-material {
+    background-color: #0D0D10 !important;
+  }
+  /* The tooltip HOST is always in the DOM - empty until upgraded, and with
+   * its #tooltip child hidden until hover - so chrome on the host paints 4x4
+   * accent dots at every button corner (live 2026-09-24, masthead Sign in).
+   * The level 2 edge and shadow go on #tooltip above; the host stays bare. */
+  tp-yt-paper-tooltip {
+    border: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
   }
 
 }

@@ -194,7 +194,7 @@
     background: var(--ig-surface-alt);
     border: var(--ig-border-default) solid var(--ig-border);
     border-radius: var(--ig-radius-default); /* was --ig-radius-sm, a token that doesn't exist */
-    box-shadow: var(--ig-shadow-ink);
+    box-shadow: var(--ig-shadow-none); /* level 0: a repeating grid card (docs/ELEVATION.md) */
     overflow: hidden;
     transition: border-color var(--ig-dur-quick), transform var(--ig-motion-ink-press, 80ms steps(2, end)), box-shadow var(--ig-motion-ink-press, 80ms steps(2, end));
   }
@@ -208,8 +208,6 @@
   }
   .card:active {
     border-color: var(--ig-indigo);
-    transform: translate(4px, 4px);
-    box-shadow: var(--ig-shadow-none);
   }
   .card-img {
     aspect-ratio: 1;

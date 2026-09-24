@@ -55,4 +55,15 @@
       <div id="foot"><div id="footcnt"><span>Philippines · Makati — from your device</span><a href="#">Help</a><a href="#">Send feedback</a><a href="#">Privacy</a><a href="#">Terms</a></div></div>
     </Pair>
   </Section>
+  <Section id="carousel" title="Result carousels" lead="g-left-button / g-right-button: the scroll arrows fade in over the strip with a gradient" min="320px">
+    <Pair name="g-scrolling-carousel + g-left-button + g-right-button">
+      <div class="g-strip"><g-left-button class="pQXcHc wgbRNb bCwlI" role="button" aria-label="Previous"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></g-left-button><span class="g-card" data-art>Sage</span><span class="g-card" data-art>Ink</span><span class="g-card" data-art>Plasma</span><g-right-button class="wgbRNb VdehBf OZ5bRd" role="button" aria-label="Next"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></g-right-button></div>
+    </Pair>
+    <Pair name="tools-bar toggle chip / knowledge-panel arrow (.duf-h) / star-rating hard-stop fill">
+      <div class="XbwLI"><span role="button" aria-pressed="false" class="InPmOc CCWeQ vwakYd">Tools</span> <span role="button" aria-pressed="true" class="InPmOc CCWeQ vwakYd">All filters</span></div>
+      <div id="rhs"><div class="kno-fb-ctx"><a href="#"><div class="sEtYzd duf-h TUOsUe" aria-label="Previous image"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></div><span class="g-kp-photo" data-art></span></a></div></div>
+      <div role="img" aria-label="Rated 3.8 out of 5" class="LFROUd"><span role="img" class="XPyIt YrbPuc Y0A0hc"><span role="img" class="z3HNkc"><span><span class="gTPtFb" style="background:linear-gradient(to right, currentcolor 62px, #80868b 0%)"></span></span></span></span></div>
+    </Pair>
+  </Section>
+
 </SitePage>

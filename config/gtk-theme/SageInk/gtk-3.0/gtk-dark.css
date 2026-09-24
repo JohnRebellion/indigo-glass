@@ -6,8 +6,8 @@
  * Palette (from indigo-glass.tokens.toml [variants.sage]):
  *   base        #07080A   surface      #0D0D10   surface-alt  #121216
  *   sidebar     #0A0A0D   accent       #A6C9A6   accent-hi    #C0E3C0
- *   accent-alt  #89A889   text         #F8F8F8   text-muted   #6B7280
- *   negative    #ED254E   positive     #3FFABB   amber        #FBBF24
+ *   accent-alt  #89A889   text         #F8F8F8   text-muted   #7F8695
+ *   negative    #F42E53   positive     #3FFABB   amber        #FBBF24
  *
  * Shadow is the canonical 4px 4px 0 0, opaque. (An earlier header claimed 8px;
  * the rules had already returned to 4px.) Every colour below is a dark-variant
@@ -23,24 +23,24 @@
 @define-color theme_selected_bg_color #A6C9A6;
 @define-color theme_selected_fg_color #07080A;
 @define-color insensitive_bg_color #0A0A0D;
-@define-color insensitive_fg_color #6B7280;
+@define-color insensitive_fg_color #7F8695;
 @define-color insensitive_base_color #0A0A0D;
 @define-color theme_unfocused_bg_color #0D0D10;
-@define-color theme_unfocused_fg_color #6B7280;
+@define-color theme_unfocused_fg_color #7F8695;
 @define-color theme_unfocused_base_color #07080A;
 @define-color theme_unfocused_selected_bg_color #89A889;
 @define-color theme_unfocused_selected_fg_color #07080A;
 @define-color borders #5E5E60; /* border_strong - #000000 was invisible on ink */
 @define-color unfocused_borders #5E5E60;
 @define-color warning_color #FBBF24;
-@define-color error_color #ED254E;
+@define-color error_color #F42E53;
 @define-color success_color #3FFABB;
 
 @define-color accent_color #A6C9A6;
 @define-color accent_bg_color #A6C9A6;
 @define-color accent_fg_color #07080A;
-@define-color destructive_color #ED254E;
-@define-color destructive_bg_color #ED254E;
+@define-color destructive_color #F42E53;
+@define-color destructive_bg_color #F42E53;
 @define-color destructive_fg_color #F8F8F8;
 
 * {

@@ -28,7 +28,7 @@
     {
       "type": "title",
       "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}",
-      "color": { "user": "#89A889", "at": "#6B7280", "host": "#C0E3C0" }
+      "color": { "user": "#89A889", "at": "#7F8695", "host": "#C0E3C0" }
     },
     {
       "type": "custom",

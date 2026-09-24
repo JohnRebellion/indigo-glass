@@ -33,12 +33,12 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
     Variable           = '#F8F8F8'
     Keyword            = '#A6C9A6'  # accent primary
     Operator           = '#C0E3C0'
-    Comment            = '#6B7280'  # muted
+    Comment            = '#7F8695'  # muted
     Type               = '#89A889'
     Default            = '#F8F8F8'
     Selection          = "`e[48;2;168;230;53;128m"
-    Error              = '#ED254E'
-    InlinePrediction   = '#6B7280'
+    Error              = '#F42E53'
+    InlinePrediction   = '#7F8695'
   }
   Set-PSReadLineKeyHandler -Key Tab           -Function MenuComplete
   Set-PSReadLineKeyHandler -Key UpArrow       -Function HistorySearchBackward

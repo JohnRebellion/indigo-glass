@@ -91,6 +91,21 @@ layers as absent.
 - **a 900px pass** — a responsive breakpoint can swap in a component tree whose
   tokens were never remapped.
 
+### structure-blocks.py — the generator behind every site's structure section
+
+```
+python3 structure-blocks.py          # rewrites all 15 site files, idempotent
+python3 ../../tokens/codegen.py      # then: the Stylus import bundles embed them
+```
+
+One entry per site names the button bases and their exclusions, the
+`primary` and `danger` selectors (level 1, `docs/ELEVATION.md`), overlays,
+inputs, radius and resting lists, plus `EXTRA` (contrast fixes measured by
+`simulator/e2e/quality.spec.ts`) and `OUTSIDE` (exact-anchor edits to rules
+that live above the structure section). Base selectors are emitted with their
+ancestors and exclusions inside `:where()` so a primary rule always outranks
+them. It also rewrites the hex, oklch and RGB-triple copies of lifted tokens.
+
 ### live-contract.mjs — the simulator's contract on the real site
 
 ```sh
@@ -102,8 +117,9 @@ node live-contract.mjs youtube --no-style  # is a failure ours or the site's?
 
 `simulator/e2e/sites.spec.ts` proves each `.user.css` against its `/sites/<id>/`
 mock. This runs the **same contract block** (radius above 2px off circles and
-pills, soft or alpha shadows, blur, gradients, dialog and menu edges, action
-buttons carrying the 4px `accent_alt` offset, borders thinner than 2px) on the
+pills, soft or alpha shadows, blur, gradients, dialog and menu edges, light-filled
+buttons lifted with an ink label and dark-filled ones flat, inked elements no
+closer than the offset, borders thinner than 2px) on the
 live DOM with the file injected, so a live class the mock never carried shows
 up here. The check body is copied, not shared — keep it in step with the spec
 when the contract changes. Exit status is the number of failing sites; output is
@@ -125,6 +141,40 @@ and this script: avatar-shaped `[role=button]` hosts (YouTube's channel
 avatars with a LIVE badge) and entries inside `[role="navigation"]` are chrome,
 not action buttons.
 
+Third live pass, 2026-09-24 (github/wikipedia/youtube/google/facebook/copilot/gemini),
+after the elevation work. Two checks were added to both copies of the contract
+because live YouTube failed in ways the block could not see:
+
+- **iconEdge** - a ghost icon-only button (no text, at most 72px, or a single
+  svg/i/img child) that carries the 2px `border_strong` edge. Level 0 edges are
+  for text controls; on a kebab or a mic they read as boxes. Buttons the site
+  itself bordered are marked `data-ig-stock-edge` before injection and skipped
+  (the spec walks the same child path into the stock lane instead).
+- **phantom** - an inked element under 12px on either axis: chrome on an empty
+  host paints an accent dot. Only rendered elements count (`display`,
+  `visibility`, size, and now `opacity` 0 are all "not rendered"; Google parks
+  closed dialogs at opacity 0 as 380x4 strips).
+- Hard-stop gradients (two stops, the second at `0%`) are content, not blends:
+  Google's star-rating fill. Both contracts skip them.
+- A bot wall or consent gate (`/sorry/`, "Just a moment", "unusual traffic")
+  now returns `{ blocked: true }` and counts as failing. Before this, Google's
+  CAPTCHA page scanned clean and looked like a pass.
+
+| Site | Found | Fix |
+|---|---|---|
+| youtube | 25 icon-only kebabs boxed: classes renamed to camelCase `ytSpecButtonShapeNext*` | both spellings in the exemption chain (0.5.1) |
+| youtube | `yt-light-shape` blurred wash + rim light in tonal buttons; `OverlayDark` backdrop filter | hidden / zeroed in `EXTRA` |
+| youtube | 4x4 accent dots at button corners: the `tp-yt-paper-tooltip` host is the `[role=tooltip]` and is always present | chrome moved to `#tooltip`, host reset (0.5.2) |
+| youtube | `#voice-search-button` boxed | removed from the hand-written edge rule |
+| copilot | empty account hit-target boxed | `:not(:empty)` (0.4.2) |
+| facebook | 27 icon buttons boxed; no class to name | structural exemptions for seven `svg`/`i`/`img` trees (0.6.1, 0.6.2) |
+| google | `g-left-button` / `g-right-button` gradient fades | opaque ink in `EXTRA` |
+| google | tools-bar `span[role=button][aria-pressed]` 1px pill; `.duf-h` carousel arrow soft shadow | bases + `EXTRA` (0.7.1); **verified in the mock only** - google bot-walled every later run, headless and headed |
+| gemini | `cdk-describedby` hidden a11y text as phantoms | false positive; phantom now skips non-rendered elements |
+
+Facebook's r=18 cards, popover soft shadows and one gradient still sit on
+atomic hash classes with no stable hook; documented residue, not fixed.
+
 Screenshots (`--shot`) land in `/tmp/ig-shots/live-<id>.png`. A shot of a work
 profile is client material: read it here, never relay it.
 
@@ -132,7 +182,13 @@ profile is client material: read it here, never relay it.
 
 ```sh
 node stylusapply.mjs ~/.config/<user-data-dir> [profile-dir] list|verify|reset
+IG_STYLUS_BUNDLE=../../browser/stylus/out/stylus-import.personal.json \
+  node stylusapply.mjs ~/.config/edge-personal Default reset   # a brand-hue bundle
 ```
+
+`IG_STYLUS_BUNDLE` points it at one of the per-profile bundles codegen emits
+from `[edge_profiles]`; without it the canonical Sage Ink bundle is installed.
+The profile's Edge must be closed: Stylus's IndexedDB is locked while it runs.
 
 `reset` is the mode that matters: back up → remove every style this repo owns
 (any brand era, usercss or not) → install the current set → dedupe. Anything
@@ -183,6 +239,9 @@ Two smaller tools for writing a rule in the first place:
 ```sh
 node vars.mjs https://www.facebook.com/marketplace/     # dump the site's own CSS custom properties
 node probe.mjs <url> '<selector>'                       # which rules actually paint this element
+node probe.mjs <url> '<selector>' --style browser/stylus/sites/<id>.user.css
+                                  # ...with our sheet injected: walks @layer/@media too and marks
+                                  # !important rules, so a host rule that outranks ours is visible
 ```
 
 ## When Google locks you out

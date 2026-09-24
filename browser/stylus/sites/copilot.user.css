@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Microsoft Copilot
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.2
 @description    Copilot on Sage Ink. Its 100-900 colour ramps remapped onto the ink steps, the squircle clip-paths switched off, corners squared, Microsoft's own blue on the ink ladder. Ramp names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -50,8 +50,8 @@
     --color-background-400: 28 28 30 !important;
     --color-background-450: 28 28 30 !important;
     --color-background-550: 75 85 99 !important;
-    --color-background-600: 107 114 128 !important;
-    --color-background-650: 107 114 128 !important;
+    --color-background-600: 127 134 149 !important;
+    --color-background-650: 127 134 149 !important;
     --color-background-700: 248 248 248 !important;
     --color-background-750: 248 248 248 !important;
     --color-background-800: 248 248 248 !important;
@@ -68,8 +68,8 @@
     --color-foreground-400: 28 28 30 !important;
     --color-foreground-450: 28 28 30 !important;
     --color-foreground-550: 75 85 99 !important;
-    --color-foreground-600: 107 114 128 !important;
-    --color-foreground-650: 107 114 128 !important;
+    --color-foreground-600: 127 134 149 !important;
+    --color-foreground-650: 127 134 149 !important;
     --color-foreground-700: 248 248 248 !important;
     --color-foreground-750: 248 248 248 !important;
     --color-foreground-800: 248 248 248 !important;
@@ -86,8 +86,8 @@
     --color-stroke-400: 28 28 30 !important;
     --color-stroke-450: 28 28 30 !important;
     --color-stroke-550: 75 85 99 !important;
-    --color-stroke-600: 107 114 128 !important;
-    --color-stroke-650: 107 114 128 !important;
+    --color-stroke-600: 127 134 149 !important;
+    --color-stroke-650: 127 134 149 !important;
     --color-stroke-700: 248 248 248 !important;
     --color-stroke-750: 248 248 248 !important;
     --color-stroke-800: 248 248 248 !important;
@@ -125,7 +125,7 @@
     --color-app-background-300: #121216 !important;
     --color-app-foreground-100: #F8F8F8 !important;
     --color-app-foreground-150: #F8F8F8 !important;
-    --color-app-foreground-200: #6B7280 !important;
+    --color-app-foreground-200: #7F8695 !important;
 
     /* Static ramps — reversed. */
     --color-background-static-100: 248 248 248 !important;
@@ -133,8 +133,8 @@
     --color-background-static-200: 248 248 248 !important;
     --color-background-static-250: 248 248 248 !important;
     --color-background-static-300: 248 248 248 !important;
-    --color-background-static-350: 107 114 128 !important;
-    --color-background-static-400: 107 114 128 !important;
+    --color-background-static-350: 127 134 149 !important;
+    --color-background-static-400: 127 134 149 !important;
     --color-background-static-450: 75 85 99 !important;
     --color-background-static-550: 28 28 30 !important;
     --color-background-static-600: 28 28 30 !important;
@@ -150,8 +150,8 @@
     --color-foreground-static-200: 248 248 248 !important;
     --color-foreground-static-250: 248 248 248 !important;
     --color-foreground-static-300: 248 248 248 !important;
-    --color-foreground-static-350: 107 114 128 !important;
-    --color-foreground-static-400: 107 114 128 !important;
+    --color-foreground-static-350: 127 134 149 !important;
+    --color-foreground-static-400: 127 134 149 !important;
     --color-foreground-static-450: 75 85 99 !important;
     --color-foreground-static-550: 28 28 30 !important;
     --color-foreground-static-600: 28 28 30 !important;
@@ -189,8 +189,8 @@
     --color-muted-400: 28 28 30 !important;
     --color-muted-450: 28 28 30 !important;
     --color-muted-550: 75 85 99 !important;
-    --color-muted-600: 107 114 128 !important;
-    --color-muted-650: 107 114 128 !important;
+    --color-muted-600: 127 134 149 !important;
+    --color-muted-650: 127 134 149 !important;
     --color-muted-700: 248 248 248 !important;
     --color-muted-750: 248 248 248 !important;
     --color-muted-800: 248 248 248 !important;
@@ -252,35 +252,70 @@
     font-family: "Iosevka Custom Condensed", "Iosevka Custom", "MesloLGS NF", monospace !important;
   }
 
-  /* ─── 0.3.0: Sage Ink structure ────────────────────────────────────────
-   * Verified against the simulator page /sites/copilot/, whose contract check
-   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
-   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
-   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
-  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
-   * collapsing on press. Icon-only affordances and the chrome named in the
-   * exclusions stay flat; travel is :active, never :hover. */
-  #app button:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ─── 0.4.2: Sage Ink structure ────────────────────────────────────────
+   * Generated by scripts/style-check/structure-blocks.py and verified against
+   * the simulator page /sites/copilot/, whose contract (simulator/e2e/sites.spec.ts)
+   * fails when this file drifts: ink page, hard opaque shadows only, no blur
+   * or gradient, radius 0 off circles and pills, the offset on primary buttons
+   * only (docs/ELEVATION.md), hard-edged dialogs and menus. */
+  /* Secondary buttons are level 0: a 2px border_strong edge, no offset. The
+   * hard shadow is reserved for the one accent-filled primary per view
+   * (docs/ELEVATION.md). Icon-only affordances and the chrome named in the
+   * exclusions keep their own geometry. */
+  :where(#app) button:where(:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost):not(:empty)) {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
-    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    box-shadow: none !important;
     background-image: none !important;
-  }
-  #app button:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost):hover {
     transform: none !important;
-    box-shadow: 4px 4px 0 0 #5D96D3 !important;
   }
-  #app button:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost):active {
+  :where(#app) button:where(:not(:has(> :only-child:is(svg, i))):not(.icon):not(.send):not(.mode-toggle):not(.voice-orb):not(.followups > *):not(.citation):not(.image-tile):not(.chip):not(.pill):not(.ghost):not(:empty)):active {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  /* Primary: level 1. Accent fill, ink edge and label, the 4px accent_alt
+   * offset. Hover moves fill only; the press travels into the shadow. */
+  #app button.primary {
+    background-color: #75AFEE !important;
+    background-image: none !important;
+    color: #07080A !important;
+    border: 2px solid #07080A !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    transform: none !important;
+  }
+  #app button.primary * {
+    color: #07080A !important;
+  }
+  #app button.primary:hover {
+    background-color: #8EC9FF !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    transform: none !important;
+  }
+  #app button.primary:active {
     box-shadow: none !important;
     transform: translate(4px, 4px) !important;
   }
-  /* Accent fills carry the ink edge and an ink-black label. */
-  #app button.primary {
-    border-color: #07080A !important;
-    color: #07080A !important;
-  }
-  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
-   * and toasts. Nothing soft, nothing translucent. */
+  /* Floating chrome: level 2 (menus, popovers, toasts) at 4px, level 3
+   * (dialogs) at 7px. 2px edge, nothing soft, nothing translucent. */
   [role="menu"], .toast {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
@@ -310,13 +345,41 @@
     outline: 0 !important;
   }
   /* Radius leftovers the simulator page still measured above 2px. */
-  [role="menu"] *, [role="menuitem"], .banner, .toast, .tooltip, .skeleton, #app .card, #app .banner, #app .code-block, #app .skeleton, #app .msg, #app .sources, #app .citation, #app .image-tile, #app .img, #app .checkbox, .toast, .tooltip, #app .msg-actions, #app .followups, #app .typing {
+  [role="menu"] *, [role="menuitem"], .banner, .toast, .tooltip, .skeleton, #app .card, #app .banner, #app .code-block, #app .skeleton, #app .msg, #app .sources, #app .citation, #app .image-tile, #app .img, #app .checkbox, .toast, .tooltip, #app .msg-actions, #app .followups, #app .typing, [class*="NavItem"], [class*="NavSubItem"], [class*="NavCategoryItem"], .spa-link, button.fui-Button:not([class*="icon" i]):not(.rounded-full) {
     border-radius: 0 !important;
   }
-  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  /* Resting surfaces (level 0): a border or nothing. No lift, no radius. */
   #app .card, #app .banner, #app .code-block, #app .msg, #app .sources, #app .image-tile, #app .composer {
     box-shadow: none !important;
     border-radius: 0 !important;
+  }
+  /* Prompt suggestions (live: button.fx-Suggestion, hashed second class) sit
+   * outside the #app base rule's reach and kept a 1px stroke: level 0 edge. */
+  .fx-Suggestion {
+    border: 2px solid #5E5E60 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+  /* Copilot's nav overrides live in `@layer application` and are !important
+   * (probe.mjs --style, 2026-09-24: `.SnBES2Fu { border-radius … !important }`).
+   * Among important declarations a layered rule outranks every unlayered one,
+   * whatever its specificity, so the flattening has to sit in that same layer;
+   * there, ordinary order and specificity decide, and this sheet loads last. */
+  @layer application {
+    [class*="NavItem"][class], [class*="NavSubItem"][class], [class*="NavCategoryItem"][class],
+    #app *:not([class*="avatar"]):not([class*="Avatar"]):not([class*="spinner"]):not([class*="rounded-full"]),
+    button, button[class], input, textarea, [role="dialog"], [role="menu"],
+    [role="button"]:not([class*="avatar" i]),
+    [class]:has(> * > * > #user-account-avatar) {
+      border-radius: 0 !important;
+    }
+    /* The hit button and overlay on the round account avatar ask for 50%
+     * inline; the host forces 12px !important on them. Circles they stay. */
+    [class]:has(> * > * > #user-account-avatar) button,
+    [class]:has(> * > * > #user-account-avatar) [role="button"] {
+      border-radius: 50% !important;
+    }
   }
 
 }

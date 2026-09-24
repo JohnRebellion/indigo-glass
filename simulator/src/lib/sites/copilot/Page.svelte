@@ -11,9 +11,9 @@
 </script>
 
 <SitePage {site}>
-  <Section id="shell" title="#app shell" lead="Sidebar buttons, greeting, squircle composer with textarea and rounded-full send, suggestion chips, mode toggle" min="600px">
+  <Section id="shell" title="#app shell" lead="Sidebar Fluent nav items (fui-NavItem / SplitNavItem / NavCategoryItem / NavSubItem, r=12 live), greeting, squircle composer with textarea and rounded-full send, suggestion chips, mode toggle" min="600px">
     <Pair name="#app + sidebar button + .composer textarea + .btn.send.rounded-full + .chip" wrap={false} span="full">
-      <div id="app" class="shell"><nav class="sidebar"><div class="brand"><i data-art></i> Copilot</div><button class="active">💬 Chat</button><button>🖼 Imagine</button><button>📚 Pages</button><button>🔔 Notifications</button><div class="label">Recent</div><button>Sage Ink stock pages</button><button>Tailwind ramp channels</button><button>Squircle clip-paths</button><div class="user"><button><span class="avatar">JR</span> John Rebellion</button></div></nav>
+      <div id="app" class="shell"><nav class="sidebar"><a class="brand spa-link" href="#"><i data-art></i> Copilot</a><button class="fui-NavItem active">💬 Chat</button><button class="fui-NavItem">🖼 Imagine</button><button class="fui-NavItem">📚 Pages</button><button class="fui-NavItem">🔔 Notifications</button><div class="label">Recent</div><div class="fui-SplitNavItem"><button class="fui-NavItem">Sage Ink stock pages</button></div><div class="fui-NavCategoryItem"><button class="fui-NavItem">Tailwind ramp channels</button><a class="fui-NavSubItem" href="#">Squircle clip-paths</a></div><div class="user"><div class="account"><div><span aria-hidden="true"><span id="user-account-avatar" class="avatar" role="img" aria-label="John Rebellion">JR</span></span></div><div class="account-hit"><div><button type="button" aria-label="Account" style="height:31px;width:31px;border-radius:50%;background:transparent"></button></div></div><div role="button" class="account-overlay" tabindex="0" aria-label="John Rebellion"></div><span>John Rebellion</span></div></div></nav>
         <div class="main"><div class="greeting">Hey John, what's on your mind?</div>
           <div class="composer"><textarea rows="1" placeholder="Message Copilot"></textarea><div class="bar"><button class="btn icon ghost rounded-full"><i>＋</i></button><div class="mode-toggle"><button class="active">Quick response</button><button>Think deeper</button></div><div class="right"><button class="btn icon ghost rounded-full"><i>🎤</i></button><button class="btn send rounded-full"><i>↑</i></button></div></div></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><span class="chip">✍ Write a draft</span><span class="chip selected">💡 Explain OKLCH</span><span class="chip">🧩 Debug CSS</span><span class="chip">🌐 Search the web</span></div>
@@ -31,7 +31,7 @@
 --clip-path-squircle-24: none !important;</code></pre></div>
           <div class="sources"><a href="#"><i></i> tailwindcss.com</a><a href="#"><i style="background:#7fba00"></i> learn.microsoft.com</a></div>
           <div class="msg-actions"><button><i>⎘</i></button><button><i>👍</i></button><button><i>👎</i></button><button><i>🔊</i></button><button><i>↻</i></button></div>
-          <div class="followups"><button class="followup">Show me the static ramp mapping</button><button class="followup">Why keep rounded-full exempt?</button></div>
+          <div class="followups"><button class="fx-Suggestion followup">Show me the static ramp mapping</button><button class="fx-Suggestion followup">Why keep rounded-full exempt?</button></div>
           <span class="typing"><i></i><i></i><i></i></span> <span class="spinner"></span></div></div></div>
     </Pair>
   </Section>
@@ -39,7 +39,7 @@
   <Section id="controls" title="Controls and cards" lead="button variants, input/textarea, switch/checkbox/radio, tabs, pill, squircle cards, image tiles, avatars (class*=avatar / Avatar), voice orb" min="420px">
     <Pair name="button variants + .btn.icon.rounded-full">
       <button class="btn icon" aria-label="Close"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5"/></svg></button>
-      <button class="btn primary">Sign in</button><button class="btn">Secondary</button><button class="btn outline">Outline</button><button class="btn ghost">Ghost</button><button class="btn danger">Delete</button><button class="btn" disabled>Disabled</button>
+      <button class="btn primary">Sign in</button><button class="btn fui-Button">Secondary</button><button class="btn outline">Outline</button><button class="btn ghost">Ghost</button><button class="btn danger">Delete</button><button class="btn" disabled>Disabled</button>
       <span><button class="btn icon"><i>⚙</i></button> <button class="btn icon rounded-full"><i>＋</i></button></span>
     </Pair>
     <Pair name="input + textarea + switch/checkbox/radio + tabs + .pill.rounded-full">

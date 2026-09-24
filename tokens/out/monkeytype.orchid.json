@@ -5,9 +5,9 @@
   "subColor": "#888F9E",
   "subAltColor": "#121216",
   "textColor": "#E8E8E8",
-  "errorColor": "#ED254E",
+  "errorColor": "#F42E53",
   "errorExtraColor": "#FF5272",
-  "colorfulErrorColor": "#ED254E",
+  "colorfulErrorColor": "#F42E53",
   "colorfulErrorExtraColor": "#FF5272",
   "caretColor": "#DEC26D"
 }

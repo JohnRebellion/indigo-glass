@@ -287,8 +287,8 @@
   /* The row whose entry is the previewed selection: outline, not a halo
      (was border accent + 0 0 0 1px rgba(166,201,166,0.4)). */
   .entry-row.active > input { border-color: #A6C9A6; }
-  .x { background: #121216; color: #ED254E; }
-  .x:hover { background: #ED254E; color: #F8F8F8; }
+  .x { background: #121216; color: #F42E53; }
+  .x:hover { background: #F42E53; color: #F8F8F8; }
   .add { width: 100%; margin-top: 0.3rem; }
 
   .actions { display: flex; gap: 0.5rem; margin-top: 0.4rem; }

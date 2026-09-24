@@ -21,16 +21,16 @@
   --background-modifier-border-focus: #A6C9A6;
   --background-modifier-form-field: #0D0D10;
   --background-modifier-success: #132925;  /* was rgba(113,247,159,0.12) - opaque, composited over --background-primary-alt. Also fixes a stale literal: 113,247,159 was the pre-v5 positive hex (#71F79F); current sage positive is #3FFABB */
-  --background-modifier-error: #281017;  /* was rgba(237,37,78,0.12) - opaque, composited over --background-primary-alt */
-  --background-modifier-error-rgb: 237, 37, 78;
-  --background-modifier-error-hover: #3A121C;  /* was rgba(237,37,78,0.20) */
+  --background-modifier-error: #281017;  /* was rgba(244, 46, 83,0.12) - opaque, composited over --background-primary-alt */
+  --background-modifier-error-rgb: 244, 46, 83;
+  --background-modifier-error-hover: #3A121C;  /* was rgba(244, 46, 83,0.20) */
 
   /* Text */
   --text-normal: #F8F8F8;
-  --text-muted: #6B7280;
+  --text-muted: #7F8695;
   --text-faint: #4B5563;
   --text-on-accent: #FFFFFF;
-  --text-error: #ED254E;
+  --text-error: #F42E53;
   --text-success: #71F79F;
   --text-accent: #C0E3C0;
   --text-accent-hover: #89A889;
@@ -53,7 +53,7 @@
   /* Code (mono) */
   --code-normal: #F8F8F8;
   --code-background: #121216;
-  --code-comment: #6B7280;
+  --code-comment: #7F8695;
   --code-keyword: #C0E3C0;
   --code-string: #71F79F;
   --code-number: #89A889;
@@ -61,17 +61,17 @@
   --code-tag: #C0E3C0;
   --code-property: #89A889;
   --code-operator: #C0E3C0;
-  --code-punctuation: #6B7280;
+  --code-punctuation: #7F8695;
   --code-class: #89A889;
   --code-constant: #89A889;
-  --code-important: #ED254E;
+  --code-important: #F42E53;
 
   /* Links */
   --link-color: #C0E3C0;
   --link-color-hover: #89A889;
   --link-external-color: #C0E3C0;
   --link-external-color-hover: #89A889;
-  --link-unresolved-color: #ED254E;
+  --link-unresolved-color: #F42E53;
   --link-unresolved-opacity: 0.7;
 
   /* Headings - subtle steps using indigo family */
@@ -211,7 +211,7 @@ textarea,
 .callout[data-callout="failure"],
 .callout[data-callout="error"],
 .callout[data-callout="bug"] {
-  --callout-color: 237, 37, 78;
+  --callout-color: 244, 46, 83;
 }
 .callout[data-callout="example"],
 .callout[data-callout="quote"] {

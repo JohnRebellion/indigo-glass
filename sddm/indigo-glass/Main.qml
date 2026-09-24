@@ -18,7 +18,7 @@ Rectangle {
     property string onAccent: "#07080A"  // dark text on the light sage accent
     property string surfaceAlt: "#1F2028"
     property string text: "#F8F8F8"
-    property string textMuted: "#6B7280"
+    property string textMuted: "#7F8695"
 
     // Mesh background (SVG provided in theme dir as background.svg).
     // If background.svg missing, the solid #0F0F12 fill above shows.

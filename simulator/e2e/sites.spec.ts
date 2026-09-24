@@ -11,7 +11,10 @@ import { test, expect } from '@playwright/test';
  *   3. layout — nothing runs past the viewport, so a capture is complete;
  *   4. contract — the ours lane obeys Sage Ink structure (ink page, hard alt
  *      shadows only, no blur/gradient, radius 0 off circles and pills,
- *      neobrutal action buttons, hard-edged dialogs and menus).
+ *      the offset on accent-filled primary buttons only, hard-edged dialogs
+ *      and menus, no two inked elements closer than the offset). The
+ *      elevation scale is docs/ELEVATION.md; scripts/style-check/live-contract.mjs
+ *      carries the same body for real sites - keep them in step.
  * The id list is the registry's; it is repeated here because the registry
  * imports the .user.css files through Vite's ?raw, which Playwright's Node
  * loader cannot resolve. */
@@ -80,7 +83,10 @@ for (const id of IDS) {
         // Circles and pills are exempt: radius at or past half the shorter side.
         return r >= Math.min(b.width, b.height) / 2 - 0.5;
       };
-      const fails = { radius: [] as string[], shadow: [] as string[], blur: [] as string[], gradient: [] as string[], thin: [] as string[], overlay: [] as string[] };
+      // Two stops with the second at 0% is a hard edge, not a blend: Google's star-rating fill. Content, not decoration.
+      const hardStop = (img: string) => /\d(?:px|%)\s*,\s*(?:rgba?\([^)]*\)|[a-z]+|#[0-9a-f]+)\s+0%\)/i.test(img);
+      const fails = { radius: [] as string[], shadow: [] as string[], blur: [] as string[], gradient: [] as string[], thin: [] as string[], overlay: [] as string[], collision: [] as string[], phantom: [] as string[] };
+      const inked: { el: HTMLElement; off: number }[] = [];
       for (const el of all) {
         if (!visible(el)) continue;
         const cs = getComputedStyle(el);
@@ -98,14 +104,19 @@ for (const id of IDS) {
             const c = rgb(m[1]);
             if (c[3] === 0) continue;
             if (blur > 0 || c[3] < 255) fails.shadow.push(`${where(el)} ${layer}`);
+            const x = parseFloat(m[2]), y = parseFloat(m[3]);
+            if (!m[6] && blur === 0 && x > 0 && y > 0 && near(c, altRgb)) inked.push({ el, off: Math.max(x, y) });
           }
         }
         const bf = (cs as any).backdropFilter || (cs as any).webkitBackdropFilter;
         if (bf && bf !== 'none') fails.blur.push(where(el));
         if (cs.filter && /blur\(/.test(cs.filter) && !isArt(el)) fails.blur.push(`${where(el)} filter`);
-        if (/gradient\(/.test(cs.backgroundImage) && !isArt(el) && !el.matches('[data-scrim]')) fails.gradient.push(where(el));
+        if (/gradient\(/.test(cs.backgroundImage) && !hardStop(cs.backgroundImage) && !isArt(el) && !el.matches('[data-scrim]')) fails.gradient.push(where(el));
       }
-      // buttons: ≥60% of text-bearing, non-chrome buttons carry the 4px alt shadow
+      // buttons (docs/ELEVATION.md): a text-bearing, non-chrome button whose own
+      // fill is lighter than relative luminance 0.179 (the [on_light] threshold
+      // in the tokens) is the primary: it MUST carry the 4px alt offset and an
+      // ink label. The offset is never on a dark fill. No quota - per element.
       const btns = all.filter((el) => visible(el) && el.matches('button, [role="button"], input[type="submit"]'));
       const chrome = (el: HTMLElement) => {
         const cs = getComputedStyle(el);
@@ -115,16 +126,65 @@ for (const id of IDS) {
           el.matches('[role="tab"], [role="menuitem"], [role="option"], [role="link"], [class*="tab" i], [class*="chip" i], [class*="pill" i], [class*="ghost" i], [class*="subtle" i], [class*="transparent" i], [class*="invisible"], [class*="quiet"], [class*="link" i], [class*="text" i], [class*="MenuItem"], [class*="Tree"], [class*="icon" i], [class*="carousel" i], [class*="arrow" i], [class*="menu-item" i], [class*="list-item" i], [class*="nav" i], [class*="story" i], [class*="reaction" i], [class*="tile" i], [class*="follow" i], [class*="mode" i], [class*="send" i], [class*="copy" i], [class*="share" i], [class*="action" i], [class*="toggle" i], [class*="switch" i], [class*="filter" i], [class*="deemph" i], [class*="floating" i], [class*="on-media" i], [class*="lozenge" i], [class*="tag" i], [class*="account" i], [class*="skip" i], [class*="playground" i], [class*="tts" i], [class*="model" i], [class*="disabled" i], [disabled], [aria-disabled="true"], [data-variant="invisible"], [data-variant="link"]');
       };
       const candidates = btns.filter((b) => !chrome(b as HTMLElement));
-      const hard = candidates.filter((b) => { const s = getComputedStyle(b).boxShadow; const m = s.match(/(rgba?\([^)]*\)|oklch\([^)]*\))\s+4px\s+4px\s+0px(\s+0px)?/); return !!m && near(rgb(m[1]), altRgb); });
-      const flat = candidates.filter((b) => !hard.includes(b)).map(where);
+      const lum = (c: number[]) => { const f = (v: number) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
+      const isLightFill = (el: Element) => { const c = rgb(getComputedStyle(el).backgroundColor); return c[3] > 0 && lum(c) > 0.179; };
+      const isHard = (el: Element) => { const s = getComputedStyle(el).boxShadow; const m = s.match(/(rgba?\([^)]*\)|oklch\([^)]*\))\s+4px\s+4px\s+0px(\s+0px)?/); return !!m && near(rgb(m[1]), altRgb); };
+      // a flat half inside an inked wrapper (a split button) is lifted by the group
+      const lifted = (el: Element) => isHard(el) || (!!el.parentElement && isHard(el.parentElement));
+      const primary = candidates.filter(isLightFill);
+      const hard = candidates.filter(lifted);
+      const hex = (c: number[]) => '#' + c.slice(0, 3).map((v) => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+      const withFill = (b: Element) => `${where(b)} fill=${hex(rgb(getComputedStyle(b).backgroundColor))} "${(b.textContent ?? '').trim().slice(0, 20)}"`;
+      const primaryFlat = primary.filter((b) => !lifted(b)).map(withFill);
+      const primaryLightLabel = primary.filter((b) => lum(rgb(getComputedStyle(b).color)) > 0.179).map(withFill);
+      const secondaryHard = btns.filter((b) => isHard(b) && !isLightFill(b)).map(withFill);
+      // collisions: an inked element whose shadow zone reaches another inked element
+      const rendered = (el: Element) => { const cs = getComputedStyle(el); const r = el.getBoundingClientRect(); return cs.visibility !== 'hidden' && cs.display !== 'none' && parseFloat(cs.opacity) > 0 && r.width > 0 && r.height > 0; };
+      const shown = inked.filter((i) => rendered(i.el)); // Gemini's cdk-describedby tooltips are hidden a11y text; Google parks closed dialogs at opacity 0
+      for (const a of shown) for (const b of shown) {
+        if (a === b || a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        const ra = a.el.getBoundingClientRect(), rb = b.el.getBoundingClientRect();
+        const gapX = rb.left - ra.right, gapY = rb.top - ra.bottom;
+        const vOverlap = rb.top < ra.bottom && rb.bottom > ra.top, hOverlap = rb.left < ra.right && rb.right > ra.left;
+        if ((gapX >= 0 && gapX < a.off && vOverlap) || (gapY >= 0 && gapY < a.off && hOverlap)) fails.collision.push(`${where(a.el)} ${a.off}px shadow lands on ${tag(b.el)}`);
+      }
       const thinBorder = candidates.filter((b) => { const cs = getComputedStyle(b); const w = parseFloat(cs.borderTopWidth); return cs.borderTopStyle !== 'none' && w > 0 && w < 2 && rgb(cs.borderTopColor)[3] > 0; }).map(where);
+      // icon-only affordances keep their own geometry (structure-blocks.py): a
+      // ghost icon button (no label, transparent fill) that has picked up our
+      // 2px border_strong edge is an exemption the generator missed - live
+      // YouTube grew 25 boxed kebab menus when its classes went camelCase.
+      // A stock-bordered icon button (Codex's normal-weight icon-only) keeps
+      // its edge, upgraded to 2px; only a stock-ghost one is a miss. The stock
+      // lane is the same markup, so the twin sits at the same child path.
+      const stockTwin = (el: Element) => {
+        const ours = el.closest('[data-lane="ours"]');
+        const stock = ours?.closest('[data-testid^="pair-"]')?.querySelector('[data-lane="stock"]');
+        if (!ours || !stock) return null;
+        const path: number[] = [];
+        for (let n: Element | null = el; n && n !== ours; n = n.parentElement) path.unshift([...n.parentElement!.children].indexOf(n));
+        let t: Element | undefined = stock;
+        for (const i of path) t = t?.children[i];
+        return t ?? null;
+      };
+      const stockEdged = (el: Element) => { const t = stockTwin(el); if (!t) return false; const cs = getComputedStyle(t); return cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) > 0 && rgb(cs.borderTopColor)[3] > 0; };
+      const inkEdge = rgb('#5E5E60');
+      const iconEdge = btns.filter((b) => {
+        const cs = getComputedStyle(b);
+        const text = (b.textContent ?? '').trim();
+        const bx = b.getBoundingClientRect();
+        const iconish = (!text && bx.width <= 72 && bx.height <= 72) || (b.children.length === 1 && b.children[0].matches('svg, i, img, [class*="icon" i], [role="img"]') && text.length <= 3);
+        return iconish && rgb(cs.backgroundColor)[3] === 0 && cs.borderTopStyle === 'solid' && parseFloat(cs.borderTopWidth) >= 2 && near(rgb(cs.borderTopColor), inkEdge) && !stockEdged(b);
+      }).map(where);
+      // phantom: an inked element too small to be a surface (YouTube's empty
+      // un-upgraded tooltip hosts came out as 4x4 accent dots).
+      for (const i of shown) { const r = i.el.getBoundingClientRect(); if (r.width < 12 || r.height < 12) fails.phantom.push(`${where(i.el)} ${Math.round(r.width)}x${Math.round(r.height)}`); }
       // overlays: dialog + menu carry 2px border and the alt shadow
       for (const el of all.filter((e) => visible(e) && e.matches('[role="dialog"], [role="menu"], [role="alertdialog"]'))) {
         const cs = getComputedStyle(el);
         const ok = parseFloat(cs.borderTopWidth) >= 2 && /4px 4px 0px|7px 7px 0px/.test(cs.boxShadow) && near(rgb(cs.boxShadow.match(/(rgba?\([^)]*\)|oklch\([^)]*\))/)?.[1] ?? 'transparent'), altRgb);
         if (!ok) fails.overlay.push(`${where(el)} border=${cs.borderTopWidth} shadow=${cs.boxShadow}`);
       }
-      return { fails, buttons: { total: candidates.length, hard: hard.length, flat, thinBorder } };
+      return { fails, buttons: { total: candidates.length, primary: primary.length, hard: hard.length, primaryFlat, primaryLightLabel, secondaryHard, thinBorder, iconEdge } };
     }, (await page.getByTestId(`site-page-${id}`).getAttribute('data-alt')) ?? '#000000');
     expect(contract.fails.blur, 'a blurred backdrop or blur filter in the ours lane').toEqual([]);
     expect(contract.fails.gradient, 'gradient fill in the ours lane').toEqual([]);
@@ -132,8 +192,13 @@ for (const id of IDS) {
     expect(contract.fails.radius, 'radius above 2px on a non-round element in the ours lane').toEqual([]);
     expect(contract.fails.overlay, 'dialog/menu without 2px edge and hard alt shadow').toEqual([]);
     expect(contract.buttons.thinBorder, 'action button with a border thinner than 2px').toEqual([]);
+    expect(contract.buttons.iconEdge, 'ghost icon button boxed by the 2px edge (icon-only keeps its own geometry)').toEqual([]);
     expect(contract.buttons.total, 'no action buttons found to judge').toBeGreaterThan(0);
-    expect(contract.buttons.hard / contract.buttons.total, `flat action buttons: ${contract.buttons.flat.join(' | ')}`).toBeGreaterThanOrEqual(0.6);
+    expect(contract.buttons.primaryFlat, 'accent-filled button without the 4px offset (level 1)').toEqual([]);
+    expect(contract.buttons.primaryLightLabel, 'accent-filled button without an ink label').toEqual([]);
+    expect(contract.buttons.secondaryHard, 'offset shadow on a dark-filled button (level 0 is flat)').toEqual([]);
+    expect(contract.fails.collision, 'inked elements closer than the shadow offset').toEqual([]);
+    expect(contract.fails.phantom, 'inked element under 12px (an empty host wearing the edge and shadow)').toEqual([]);
 
     const overflow = await page.evaluate(() => ({
       w: document.documentElement.scrollWidth, c: document.documentElement.clientWidth,

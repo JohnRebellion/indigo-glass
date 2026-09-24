@@ -237,7 +237,7 @@
   font-size: var(--ig-caption-pt);
   white-space: nowrap;
 }
-.nb-pagination-link[aria-current="page"] { background: var(--main); color: var(--main-foreground); box-shadow: var(--shadow); }
+.nb-pagination-link[aria-current="page"] { background: var(--main); color: var(--main-foreground); box-shadow: none; /* level 0: a selected member of a group is fill only (docs/ELEVATION.md) */ }
 .nb-pagination-ellipsis { display: inline-grid; place-items: center; min-width: 40px; height: 40px; color: var(--ig-text-muted); }
 
 .nb-navmenu { display: flex; align-items: center; gap: var(--ig-gap-sm); }
@@ -349,7 +349,7 @@
   color: var(--main-foreground);
   font-size: var(--ig-section-pt);
   font-weight: var(--heading-font-weight);
-  box-shadow: var(--shadow);
+  box-shadow: none; /* level 0: repeating cards in a row (docs/ELEVATION.md) */
 }
 
 .nb-calendar {

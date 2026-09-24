@@ -95,7 +95,7 @@
   .ig-tab {
     color: var(--ig-text-muted);
     text-decoration: none;
-    padding: 3px 10px;
+    padding: 5px 10px; /* 26px tall - the 24px hit-target floor, measured 22px at 3px */
     border-radius: var(--ig-radius-default); /* was 4px, off the 0/2/9999 ink ladder */
     font-family: var(--ig-font-chrome, "SF Pro Display", system-ui, sans-serif);
     font-size: 10pt;

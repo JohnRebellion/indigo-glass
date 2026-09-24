@@ -42,13 +42,13 @@ Settings -> Appearance & Behavior -> Appearance -> Font:
 | `base` `#07080A` | Default scheme background |
 | `surface_alt` `#121216` | Notification + tooltip bg |
 | `text` `#F8F8F8` | Foreground |
-| `text_muted` `#6B7280` | Line numbers, comments |
+| `text_muted` `#7F8695` | Line numbers, comments |
 | `accent` `#A8E635` | Selection bg, focus border |
 | `accent_hi` `#C1FF58` | Caret, hover, keywords, modified tab |
 | `accent_alt` `#8BC406` | Class/type, number, predefined symbol |
 | `positive` `#71F79F` | String literal, VCS added |
 | `amber` `#FBBF24` | Function name, escape char, VCS modified |
-| `negative` `#ED254E` | Error, invalid escape, VCS removed |
+| `negative` `#F42E53` | Error, invalid escape, VCS removed |
 
 ## Token-type aesthetic (matches VSCode Lime Glass theme)
 

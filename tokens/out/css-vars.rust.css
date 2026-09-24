@@ -19,9 +19,9 @@
   --ig-lime-alt: #E77B60;
   --ig-amber: #FBBF24;
   --ig-positive: #71F79F;
-  --ig-negative: #ED254E;
+  --ig-negative: #F42E53;
   --ig-text: #F8F8F8;
-  --ig-text-muted: #6B7280;
+  --ig-text-muted: #7F8695;
   --ig-text-dim: #4B5563;
   --ig-overlay: #07080ACC;
   --ig-border: #1C1C1E;
@@ -177,9 +177,9 @@
     --ig-lime-alt: oklch(0.7000 0.1400 35.00);
     --ig-amber: oklch(0.8369 0.1644 84.43);
     --ig-positive: oklch(0.8792 0.1706 152.51);
-    --ig-negative: oklch(0.6124 0.2279 17.60);
+    --ig-negative: oklch(0.6300 0.2279 17.60);
     --ig-text: oklch(0.9791 0.0000 89.88);
-    --ig-text-muted: oklch(0.5510 0.0234 264.36);
+    --ig-text-muted: oklch(0.6200 0.0234 264.36);
     --ig-text-dim: oklch(0.4461 0.0263 256.80);
   }
 }
@@ -195,7 +195,7 @@
     --ig-violet: color(display-p3 0.8520 0.5054 0.4037);
     --ig-amber: color(display-p3 0.9481 0.7585 0.2941);
     --ig-positive: color(display-p3 0.5846 0.9569 0.6544);
-    --ig-negative: color(display-p3 0.8543 0.2375 0.3230);
+    --ig-negative: color(display-p3 0.8787 0.2634 0.3429);
   }
 }
 

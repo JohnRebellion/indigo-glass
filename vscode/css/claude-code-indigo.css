@@ -10,7 +10,7 @@
  * Re-apply after every Claude Code extension upgrade.
  *
  * Palette: #A6C9A6 primary · #C0E3C0 hover · #89A889 violet
- *          #F8F8F8 text · #6B7280 muted · #07080A base · #121216 surface
+ *          #F8F8F8 text · #7F8695 muted · #07080A base · #121216 surface
  */
 
 html,
@@ -277,7 +277,7 @@ html body :is(
 }
 
 .statusBadge_IHCQeQ.failed_IHCQeQ {
-  background-color: #ED254E !important;
+  background-color: #F42E53 !important;
 }
 
 .timelineMessage_07S1Yg.dotProgress_07S1Yg:before {

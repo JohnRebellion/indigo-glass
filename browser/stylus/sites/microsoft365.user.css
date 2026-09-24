@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Microsoft 365 (Outlook / Teams / SharePoint)
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.3.0
+@version        0.4.0
 @description    Microsoft 365 web apps on Sage Ink structure with Microsoft's own blue. Fluent's six-step neutral ramp collapsed to two ink steps, all eleven radius tokens zeroed, brand blue re-cut on the ink lightness ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -56,9 +56,9 @@
     /* ─── Text and icons ──────────────────────────────────────────────── */
     --colorNeutralForeground1: #F8F8F8 !important;
     --colorNeutralForeground2: #F8F8F8 !important;
-    --colorNeutralForeground3: #6B7280 !important;
-    --colorNeutralForeground4: #6B7280 !important;  /* was text_dim: the command bar (Archive, Delete, Block) reads it, at 2.65:1 */
-    --colorNeutralForegroundDisabled: #6B7280 !important;  /* OWA paints live command-bar labels (Archive, Delete, Block) with this */
+    --colorNeutralForeground3: #7F8695 !important;
+    --colorNeutralForeground4: #7F8695 !important;  /* was text_dim: the command bar (Archive, Delete, Block) reads it, at 2.65:1 */
+    --colorNeutralForegroundDisabled: #7F8695 !important;  /* OWA paints live command-bar labels (Archive, Delete, Block) with this */
     /* --colorNeutralForegroundOnBrand is NOT overridden: a keyboard audit
      * caught it at 1.07:1 (ink black on #121216), because Fluent uses it on
      * surfaces beyond the brand fill. See the brand note below. */
@@ -91,8 +91,8 @@
     --colorStrokeFocus2: #76AFEE !important;
 
     /* ─── Semantics ───────────────────────────────────────────────────── */
-    --colorPaletteRedForeground1: #ED254E !important;
-    --colorPaletteRedBackground3: #ED254E !important;
+    --colorPaletteRedForeground1: #F42E53 !important;
+    --colorPaletteRedBackground3: #F42E53 !important;
     --colorPaletteGreenForeground1: #3FFABB !important;
     --colorPaletteYellowForeground1: #FBBF24 !important;
 
@@ -141,8 +141,8 @@
     --neutralQuaternaryAlt: #121216 !important;
     --neutralQuaternary: #1C1C1E !important;
     --neutralTertiaryAlt: #1C1C1E !important;
-    --neutralTertiary: #6B7280 !important;
-    --neutralSecondary: #6B7280 !important;
+    --neutralTertiary: #7F8695 !important;
+    --neutralSecondary: #7F8695 !important;
     --neutralPrimaryAlt: #F8F8F8 !important;
     --neutralPrimary: #F8F8F8 !important;
     --neutralDark: #F8F8F8 !important;
@@ -188,54 +188,86 @@
       --colorNeutralBackground4: oklch(0.1605 0.0063 285.67) !important;
       --colorNeutralBackground6: oklch(0.1840 0.0081 285.58) !important;
       --colorNeutralForeground1: oklch(0.9791 0.0000 89.88) !important;
-      --colorNeutralForeground3: oklch(0.5510 0.0234 264.36) !important;
-      --colorNeutralForeground4: oklch(0.5510 0.0234 264.36) !important;
+      --colorNeutralForeground3: oklch(0.6200 0.0234 264.36) !important;
+      --colorNeutralForeground4: oklch(0.6200 0.0234 264.36) !important;
       --colorBrandForegroundLink: oklch(0.8200 0.1100 251.63) !important;
       --colorCompoundBrandForeground1: oklch(0.8200 0.1100 251.63) !important;
-      --colorPaletteRedForeground1: oklch(0.6124 0.2279 17.60) !important;
+      --colorPaletteRedForeground1: oklch(0.6300 0.2279 17.60) !important;
       --colorPaletteGreenForeground1: oklch(0.8792 0.1706 165.00) !important;
       --colorPaletteYellowForeground1: oklch(0.8369 0.1644 84.43) !important;
     }
   }
 
-  /* ─── 0.3.0: Sage Ink structure ────────────────────────────────────────
-   * Verified against the simulator page /sites/microsoft365/, whose contract check
-   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
-   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
-   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
-  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
-   * collapsing on press. Icon-only affordances and the chrome named in the
-   * exclusions stay flat; travel is :active, never :hover. */
-  #appContainer button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button),
-  button.fui-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button),
-  button.ms-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button),
-  .hdr-btn:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ─── 0.4.0: Sage Ink structure ────────────────────────────────────────
+   * Generated by scripts/style-check/structure-blocks.py and verified against
+   * the simulator page /sites/microsoft365/, whose contract (simulator/e2e/sites.spec.ts)
+   * fails when this file drifts: ink page, hard opaque shadows only, no blur
+   * or gradient, radius 0 off circles and pills, the offset on primary buttons
+   * only (docs/ELEVATION.md), hard-edged dialogs and menus. */
+  /* Secondary buttons are level 0: a 2px border_strong edge, no offset. The
+   * hard shadow is reserved for the one accent-filled primary per view
+   * (docs/ELEVATION.md). Icon-only affordances and the chrome named in the
+   * exclusions keep their own geometry. */
+  :where(#appContainer) button:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)),
+  button.fui-Button:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)),
+  button.ms-Button:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)),
+  .hdr-btn:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)) {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
-    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    box-shadow: none !important;
     background-image: none !important;
-  }
-  #appContainer button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover,
-  button.fui-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover,
-  button.ms-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover,
-  .hdr-btn:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):hover {
     transform: none !important;
-    box-shadow: 4px 4px 0 0 #5D96D3 !important;
   }
-  #appContainer button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active,
-  button.fui-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active,
-  button.ms-Button:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active,
-  .hdr-btn:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button):active {
+  :where(#appContainer) button:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)):active,
+  button.fui-Button:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)):active,
+  button.ms-Button:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)):active,
+  .hdr-btn:where(:not(:has(> :only-child:is(svg, i))):not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)):active {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  /* Primary: level 1. Accent fill, ink edge and label, the 4px accent_alt
+   * offset. Hover moves fill only; the press travels into the shadow. */
+  button.fui-Button.primary, button.ms-Button--primary, button.fui-Button.danger {
+    background-color: #76AFEE !important;
+    background-image: none !important;
+    color: #07080A !important;
+    border: 2px solid #07080A !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    transform: none !important;
+  }
+  button.fui-Button.primary *, button.ms-Button--primary *, button.fui-Button.danger * {
+    color: #07080A !important;
+  }
+  button.fui-Button.primary:hover, button.ms-Button--primary:hover, button.fui-Button.danger:hover {
+    background-color: #8EC9FF !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+    transform: none !important;
+  }
+  button.fui-Button.primary:active, button.ms-Button--primary:active, button.fui-Button.danger:active {
     box-shadow: none !important;
     transform: translate(4px, 4px) !important;
   }
-  /* Accent fills carry the ink edge and an ink-black label. */
-  button.fui-Button.primary, button.ms-Button--primary, button.fui-Button.danger {
-    border-color: #07080A !important;
-    color: #07080A !important;
-  }
-  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
-   * and toasts. Nothing soft, nothing translucent. */
+  /* Floating chrome: level 2 (menus, popovers, toasts) at 4px, level 3
+   * (dialogs) at 7px. 2px edge, nothing soft, nothing translucent. */
   .fui-Menu, .fui-Popover, .ms-Callout, [role="menu"], .fui-Toast {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
@@ -268,14 +300,40 @@
   .fui-Card, .fui-CardPreview, .fui-Badge:not(.circular), .fui-CounterBadge, .fui-Tag, .fui-MessageBar, .ms-MessageBar, .fui-Toast, .fui-Skeleton, .fui-ProgressBar, .fui-ProgressBar *, .fui-Slider, .fui-Checkbox__indicator, .fui-Table, .fui-Accordion, .fui-AccordionPanel, .fui-Divider, .event, .msg-item, .teams-msg .bubble, .preview, .reactions, .ms-DetailsRow, .fui-Tab, .fui-TabList {
     border-radius: 0 !important;
   }
-  /* Resting surfaces: a border or nothing. No lift, no radius. */
+  /* Resting surfaces (level 0): a border or nothing. No lift, no radius. */
   .fui-Card, .fui-MessageBar, .ms-MessageBar, .msg-item, .event, .teams-msg .bubble, .fui-Table, .fui-Accordion, .ms-DetailsRow, .reading-pane, .folder-pane, .message-list, .fui-Tab, .fui-Skeleton, .ms-Persona {
     box-shadow: none !important;
     border-radius: 0 !important;
   }
-  /* Brand-fill badges, tags and the primary label read ink black. */
-  .fui-Badge.brand, .fui-Badge.brand *, .fui-Badge.success, .fui-Badge.danger, .fui-Badge.warning, .fui-CounterBadge, .fui-Tag.brand, .fui-PresenceBadge {
+  /* Only fills this file owns take an ink label: the brand badge, the
+   * counter, the danger badge (its fill is the negative token, 5.10:1 ink
+   * against 3.93:1 white) and the checked box. Fluent's own success and
+   * warning fills and the grey Tag keep Fluent's white text (measured
+   * 2026-09-24: white is the higher contrast on #107C10). */
+  .fui-Badge.brand, .fui-Badge.brand *, .fui-CounterBadge, .fui-PresenceBadge, .fui-Badge.danger,
+  .ms-Checkbox-checkbox.is-checked, .ms-Checkbox-checkbox.is-checked *, .fui-Checkbox__indicator {
     color: #07080A !important;
+  }
+  /* A primary split button ("New mail" + chevron) is one group with one
+   * lift: the wrapper carries the edge and the offset, the halves are flat
+   * inside it with a single ink divider (docs/ELEVATION.md, clearance). */
+  .fui-SplitButton:has(> .fui-Button.primary) {
+    border: 2px solid #07080A !important;
+    box-shadow: 4px 4px 0 0 #5D96D3 !important;
+  }
+  .fui-SplitButton > button.fui-Button.primary {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .fui-SplitButton > button.fui-Button.primary + button.fui-Button.primary {
+    border-left: 2px solid #07080A !important;
+  }
+  .fui-SplitButton:has(> .fui-Button.primary):active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+  }
+  .fui-SplitButton > button.fui-Button.primary:active {
+    transform: none !important;
   }
 
 }

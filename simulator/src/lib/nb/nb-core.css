@@ -136,10 +136,13 @@
   background: var(--main);
   box-shadow: none;
 }
+/* DIVERGENCE (docs/ELEVATION.md): the reference lifts neutral buttons too.
+   Sage Ink reserves the offset for the accent-filled primary; a neutral
+   button is level 0 — edge only. */
 .nb-button--neutral {
   color: var(--foreground);
   background: var(--secondary-background);
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 /* `reverse` starts flat and GAINS the shadow on press, travelling up-left. */
 .nb-button--reverse {
@@ -477,13 +480,13 @@
   border: var(--ig-border-default) solid var(--border);
   padding: 12px 16px;
   font-size: var(--ig-caption-pt);
-  box-shadow: var(--shadow);
+  box-shadow: none; /* level 0: an inline banner rests in the flow (docs/ELEVATION.md) */
 }
 .nb-alert--default { background: var(--main); color: var(--main-foreground); }
 /* DIVERGENCE: reference `destructive` is literally `bg-black text-white` —
    invisible on Sage Ink's near-black page, so it is bound to the `negative`
    semantic token. The reference has no semantic colour scale at all. */
-.nb-alert--destructive { background: var(--ig-negative); color: var(--ig-text); }
+.nb-alert--destructive { background: var(--ig-negative); color: var(--ig-base); } /* negative sits above on_light: ink label */
 .nb-alert--warning { background: var(--ig-amber); color: var(--ig-base); }
 .nb-alert--positive { background: var(--ig-positive); color: var(--ig-base); }
 .nb-alert-icon { grid-column: 1; line-height: 1; }
@@ -495,7 +498,7 @@
   overflow: hidden;
   border-radius: var(--border-radius);
   border: var(--ig-border-default) solid var(--border);
-  box-shadow: var(--shadow);
+  box-shadow: none; /* level 0: stacked flush rows are never inked one by one (docs/ELEVATION.md) */
 }
 .nb-accordion-trigger {
   display: flex;

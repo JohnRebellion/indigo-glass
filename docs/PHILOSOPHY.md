@@ -18,7 +18,7 @@ The single lineage reference is the extracted spec for **The Verge's 2024 redesi
 Two deliberate divergences, both worth naming so nobody "corrects" them later:
 
 - **The accent is not acid.** The Verge runs Jelly Mint `#3cffd0` at full hazard intensity; sage is chroma `0.06` — pale and muted by choice. The *role* is the same, the loudness is not.
-- **There is a hard offset shadow.** The research report argued colour-as-elevation was "the cleanest exit from frosted glass that does not land you in neobrutalism — no 3px borders, no `6px 6px 0` shadows". Sage Ink took the neobrutalist option anyway: colour-as-elevation *plus* an `8px 8px 0` shadow. A taste call, made knowingly. See `[shadow]` in the token file.
+- **There is a hard offset shadow.** The research report argued colour-as-elevation was "the cleanest exit from frosted glass that does not land you in neobrutalism — no 3px borders, no `6px 6px 0` shadows". Sage Ink took the neobrutalist option anyway: colour-as-elevation *plus* a `4px 4px 0` shadow (`7px 7px 0` on modals). A taste call, made knowingly. See `[shadow]` in the token file, and `docs/ELEVATION.md` for which elements carry it.
 
 ### Linear — what survived
 
@@ -84,7 +84,7 @@ Colour is **authored in OKLCH** (`[meta].color_authoring = "oklch"`) and hex is 
 - **Low chroma on purpose.** Chroma `0.06` where lime ran `0.2049`. The token comment calls the character "pale/muted, not vivid like lime". Contrast against the base is `11.00:1`, down from lime's `13.39:1` — a fill/background ratio, not a text ratio; see the next point.
 - **Fill-only.** Sage is `1.72:1` against `--text`, so it **cannot carry body text**. It sits behind text, never as text. Hover is `#C0E3C0` (`L 0.88`), active/decoration `#89A889` (`L 0.70`) — same hue `145.0`, lightness shifts only.
 
-Text stays neutral: `#F8F8F8` / `#6B7280` / `#4B5563`, with no sage tint, because sage is fill-only.
+Text stays neutral: `#F8F8F8` / `#7F8695` / `#4B5563`, with no sage tint, because sage is fill-only.
 
 ### The `positive` nudge
 
@@ -148,7 +148,7 @@ Exactly ONE decorative accent hue per variant (sage `#A6C9A6` by default). The `
 
 ### Three text colours max
 
-Primary `#F8F8F8`, muted `#6B7280`, dim `#4B5563`. No "tertiary text" in five different greys.
+Primary `#F8F8F8`, muted `#7F8695` (L 0.62 since 2026-09-24; 0.551 failed AA on every ink step), dim `#4B5563`. No "tertiary text" in five different greys.
 
 ### Three surface levels
 

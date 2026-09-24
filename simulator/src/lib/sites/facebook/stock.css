@@ -134,3 +134,13 @@
   .fb-tile { width: 96px; height: 96px; border-radius: var(--action-tile-radius); background: var(--card-background-flat); display: grid; place-items: center; }
   .fb-reshare { border: 1px solid var(--divider); border-radius: var(--reshare-radius); padding: 12px; margin: 0 16px 12px; }
 }
+
+/* facebook.com icon buttons (probe 2026-09-24): 40px transparent-or-10%-white
+ * circles, svg first child, a role=none touch overlay after it; the profile
+ * button is 44px with the avatar svg one div down; a 4x4 aria-hidden ghost. */
+.fb-live-bar { display: flex; gap: 8px; align-items: center; }
+.fb-live-bar [role="button"] { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: transparent; color: #e4e6eb; cursor: pointer; position: relative; }
+.fb-live-bar [aria-label="Your profile"] { width: 44px; height: 44px; }
+.fb-live-bar .fb-live-ghost { width: 4px; height: 4px; }
+.fb-live-mask { display: block; width: 20px; height: 20px; background: currentColor; -webkit-mask: radial-gradient(circle, #000 55%, transparent 58%); mask: radial-gradient(circle, #000 55%, transparent 58%); }
+.fb-live-avatar { display: block; width: 28px; height: 28px; background: #4b5563; }

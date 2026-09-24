@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Sage Ink — Google Gemini
 @namespace      github.com/JohnRebellion/indigo-glass
-@version        0.4.0
+@version        0.5.1
 @description    Gemini on Sage Ink. Material 3's surface-container ramp collapsed to two ink steps, Gemini's own --bard-color-* chrome retinted, corners squared, Gemini's own violet on the ink ladder. Token names read off a live render (scripts/style-check).
 @author         John Rebellion
 @homepageURL    https://github.com/JohnRebellion/indigo-glass
@@ -50,7 +50,7 @@
     --gm3-sys-color-surface-container-high: #121216 !important;
     --gm3-sys-color-surface-container-highest: #121216 !important;
     --gm3-sys-color-on-surface: #F8F8F8 !important;
-    --gm3-sys-color-on-surface-variant: #6B7280 !important;
+    --gm3-sys-color-on-surface-variant: #7F8695 !important;
     --gm3-sys-color-outline: #1C1C1E !important;
     --gm3-sys-color-outline-variant: #1C1C1E !important;
     --gm3-sys-color-inverse-surface: #F8F8F8 !important;
@@ -67,7 +67,7 @@
     --gm3-sys-color-secondary-fixed: #121216 !important;
     --gm3-sys-color-on-secondary-fixed: #D3B2FE !important;
     --gm3-sys-color-tertiary-container: #121216 !important;
-    --gm3-sys-color-error: #ED254E !important;
+    --gm3-sys-color-error: #F42E53 !important;
     --gm3-sys-color-on-error: #07080A !important;
     --gm3-sys-color-error-container: #121216 !important;
 
@@ -80,7 +80,7 @@
     --bard-color-bot-power-up-button-background: #121216 !important;
     --bard-color-bot-logo-bg-default: #0D0D10 !important;
     --bard-color-bot-logo-border-default: #1C1C1E !important;
-    --bard-color-bot-logo-text-default: #6B7280 !important;
+    --bard-color-bot-logo-text-default: #7F8695 !important;
     --bard-color-code-chip-background: #121216 !important;
     --bard-color-code-chip-background-selected: #1C1C1E !important;
     --bard-color-code-chip-foreground: #D3B2FE !important;
@@ -133,7 +133,6 @@
    * fill — a tonal button is a secondary affordance and should not shout. */
   .mat-tonal-button,
   .tts-button,
-  button.mdc-button.mat-mdc-unelevated-button,
   .upsell-button {
     background-color: #121216 !important;
     color: #D3B2FE !important;
@@ -195,72 +194,100 @@
       --gm3-sys-color-surface-container-high: oklch(0.1840 0.0081 285.58) !important;
       --gm3-sys-color-surface-container-highest: oklch(0.1840 0.0081 285.58) !important;
       --gm3-sys-color-on-surface: oklch(0.9791 0.0000 89.88) !important;
-      --gm3-sys-color-on-surface-variant: oklch(0.5510 0.0234 264.36) !important;
+      --gm3-sys-color-on-surface-variant: oklch(0.6200 0.0234 264.36) !important;
       --gm3-sys-color-primary: oklch(0.7400 0.1100 304.01) !important;
       --gm3-sys-color-on-primary-container: oklch(0.8200 0.1100 304.01) !important;
       --gm3-sys-color-inverse-primary: oklch(0.6600 0.1100 304.01) !important;
-      --gm3-sys-color-error: oklch(0.6124 0.2279 17.60) !important;
+      --gm3-sys-color-error: oklch(0.6300 0.2279 17.60) !important;
       --bard-color-form-field-outline-active: oklch(0.6600 0.1100 304.01) !important;
       --bard-color-code-chip-foreground: oklch(0.8200 0.1100 304.01) !important;
     }
   }
 
-  /* ─── 0.4.0: Sage Ink structure ────────────────────────────────────────
-   * Verified against the simulator page /sites/gemini/, whose contract check
-   * (simulator/e2e/sites.spec.ts) fails when this file drifts: ink page,
-   * hard opaque shadows only, no blur or gradient, radius 0 off circles and
-   * pills, neobrutal action buttons, hard-edged dialogs and menus. */
-  /* Neobrutal buttons: 2px border_strong and the hard 4px accent_alt offset,
-   * collapsing on press. Icon-only affordances and the chrome named in the
-   * exclusions stay flat; travel is :active, never :hover. */
-  bard-sidenav-container button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  .mat-mdc-raised-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  .mat-tonal-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  button.upsell-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button),
-  button.new-chat:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ─── 0.5.1: Sage Ink structure ────────────────────────────────────────
+   * Generated by scripts/style-check/structure-blocks.py and verified against
+   * the simulator page /sites/gemini/, whose contract (simulator/e2e/sites.spec.ts)
+   * fails when this file drifts: ink page, hard opaque shadows only, no blur
+   * or gradient, radius 0 off circles and pills, the offset on primary buttons
+   * only (docs/ELEVATION.md), hard-edged dialogs and menus. */
+  /* Secondary buttons are level 0: a 2px border_strong edge, no offset. The
+   * hard shadow is reserved for the one accent-filled primary per view
+   * (docs/ELEVATION.md). Icon-only affordances and the chrome named in the
+   * exclusions keep their own geometry. */
+  :where(bard-sidenav-container) button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  .mdc-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  .mat-mdc-unelevated-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  .mat-mdc-raised-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  .mat-mdc-outlined-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  .mat-tonal-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  button.upsell-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)),
+  button.new-chat:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)) {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
-    box-shadow: 4px 4px 0 0 #A181C9 !important;
+    box-shadow: none !important;
     background-image: none !important;
-  }
-  bard-sidenav-container button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  .mat-mdc-raised-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  .mat-tonal-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  button.upsell-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover,
-  button.new-chat:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):hover {
     transform: none !important;
-    box-shadow: 4px 4px 0 0 #A181C9 !important;
   }
-  bard-sidenav-container button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  .mdc-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  .mat-mdc-unelevated-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  .mat-mdc-raised-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  .mat-mdc-outlined-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  .mat-tonal-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  button.upsell-button:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active,
-  button.new-chat:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button):active {
+  :where(bard-sidenav-container) button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  .mdc-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  .mat-mdc-unelevated-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  .mat-mdc-raised-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  .mat-mdc-outlined-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  .mat-tonal-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  button.upsell-button:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active,
+  button.new-chat:where(:not(:has(> :only-child:is(svg, i))):not(.mat-mdc-icon-button):not(.mat-mdc-fab):not(.mat-mdc-tab):not(.icon-btn):not(.mat-mdc-list-item):not(.mat-mdc-menu-item):not(.mat-mdc-chip):not(.action):not(.send):not(.tts-button):not(.menu-btn):not(.draft-chip):not(.model-chip):not(.code-chip):not(.response-actions button)):active {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  /* Primary: level 1. Accent fill, ink edge and label, the 4px accent_alt
+   * offset. Hover moves fill only; the press travels into the shadow. */
+  button.mdc-button.mat-mdc-unelevated-button, .mat-mdc-unelevated-button {
+    background-color: #BA99E3 !important;
+    background-image: none !important;
+    color: #07080A !important;
+    border: 2px solid #07080A !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 0 #A181C9 !important;
+    transform: none !important;
+  }
+  button.mdc-button.mat-mdc-unelevated-button *, .mat-mdc-unelevated-button * {
+    color: #07080A !important;
+  }
+  button.mdc-button.mat-mdc-unelevated-button:hover, .mat-mdc-unelevated-button:hover {
+    background-color: #D3B2FE !important;
+    box-shadow: 4px 4px 0 0 #A181C9 !important;
+    transform: none !important;
+  }
+  button.mdc-button.mat-mdc-unelevated-button:active, .mat-mdc-unelevated-button:active {
     box-shadow: none !important;
     transform: translate(4px, 4px) !important;
   }
-  /* Accent fills carry the ink edge and an ink-black label. */
-  .mat-mdc-unelevated-button, .mat-mdc-unelevated-button *, .mat-mdc-raised-button, .mat-mdc-raised-button *, button.upsell-button, button.upsell-button *, .power-up {
-    border-color: #07080A !important;
-    color: #07080A !important;
-  }
-  /* Floating chrome: hard offset, 7px for dialogs, 4px for menus, popovers
-   * and toasts. Nothing soft, nothing translucent. */
+  /* Floating chrome: level 2 (menus, popovers, toasts) at 4px, level 3
+   * (dialogs) at 7px. 2px edge, nothing soft, nothing translucent. */
   .mat-mdc-menu-panel, .mat-mdc-snack-bar-container, .autosuggest {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
     box-shadow: 4px 4px 0 0 #A181C9 !important;
   }
-  .mat-mdc-dialog-container, [role="dialog"], .mat-drawer, .mat-sidenav {
+  .mat-mdc-dialog-container, [role="dialog"] {
     border: 2px solid #5E5E60 !important;
     border-radius: 0 !important;
     box-shadow: 7px 7px 0 0 #A181C9 !important;
@@ -287,15 +314,40 @@
   .autosuggest *, .on-error, .mat-mdc-chip, .mat-mdc-chip *, .draft-chip, .model-chip, .code-chip, .mat-mdc-card, .mat-mdc-card *, .tertiary-card, .mat-mdc-snack-bar-container, .mat-mdc-tooltip, .info-banner, .error-banner, .disclaimer, .mat-mdc-progress-bar, .mat-mdc-progress-bar *, .mat-mdc-slider, .mat-mdc-tab, .mat-mdc-tab-group, .mat-mdc-list-item, .mat-mdc-select, .mat-drawer, .code-block, .conversation-container, .gem, .autosuggest, .gradient-strip, .top-gradient, .bottom-gradient, .mat-mdc-form-field-flex, .mat-mdc-menu-panel, .mat-mdc-dialog-container {
     border-radius: 0 !important;
   }
-  /* Resting surfaces: a border or nothing. No lift, no radius. */
-  .mat-mdc-fab, .mat-mdc-card, .tertiary-card, .info-banner, .error-banner, .disclaimer, .code-block, .conversation-container, .mat-mdc-tab-group, .mat-mdc-list-item, .mat-mdc-raised-button, .gem, .mdc-switch, .mdc-switch *, .mat-mdc-slide-toggle * {
+  /* Resting surfaces (level 0): a border or nothing. No lift, no radius. */
+  input-area-v2, .mat-mdc-fab, .mat-mdc-card, .tertiary-card, .info-banner, .error-banner, .disclaimer, .code-block, .conversation-container, .mat-mdc-tab-group, .mat-mdc-list-item, .mat-mdc-raised-button, .gem, .mdc-switch, .mdc-switch *, .mat-mdc-slide-toggle *, .mat-drawer, .mat-sidenav {
     box-shadow: none !important;
     border-radius: 0 !important;
+  }
+  /* The side drawer is a resting pane, not a modal: 2px edge, no lift. */
+  .mat-drawer, .mat-sidenav { border-right: 2px solid #5E5E60 !important; }
+  /* Tonal buttons (raised, upsell, power-up) are level 0: ink surface with
+   * accent text, never an ink label on a dark fill. */
+  .mat-mdc-raised-button, .mat-mdc-raised-button *, button.upsell-button, button.upsell-button *, .power-up, .power-up * {
+    color: #D3B2FE !important;
   }
   /* Gradients: flat. */
   .gradient-strip, .top-gradient, .bottom-gradient, .power-up, .draft-chip {
     background-image: none !important;
   }
   .gradient-strip, .top-gradient, .bottom-gradient { background-color: #0D0D10 !important; }
+  /* The greeting is gradient text: with the gradient gone the clip left it
+   * transparent on the page (1:1). A flat accent fill instead. */
+  .greeting .brand-text, .brand-text {
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #BA99E3 !important;
+    color: #BA99E3 !important;
+  }
+  /* Snackbar is Material's inverse (light) surface; level 2 is the ink
+   * overlay with the light action colour. */
+  .mat-mdc-snack-bar-container, .mdc-snackbar__surface, .mat-mdc-simple-snack-bar {
+    background-color: #121216 !important;
+    color: #F8F8F8 !important;
+  }
+  .mat-mdc-snack-bar-container .action, .mat-mdc-snack-bar-action {
+    color: #D3B2FE !important;
+  }
 
 }

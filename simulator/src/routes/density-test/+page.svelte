@@ -171,7 +171,7 @@
   }
   form button {
     background: var(--ig-indigo);
-    color: white;
+    color: var(--ig-base); /* ink on an accent fill (on_light) */
     border: none;
     padding: 6px 14px;       /* site-native */
     border-radius: 4px;

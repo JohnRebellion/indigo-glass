@@ -85,3 +85,18 @@
   /* Carousel cards round 16px; the result wrapper .ZOyvub carries 4px. */
   .ZOyvub { border-radius: 4px; padding: 8px; background: #202124; }
   g-inner-card { display: block; width: 120px; height: 200px; overflow: hidden; border-radius: 16px; background: #303134; } g-inner-card img { width: 100%; height: 100%; }
+
+/* Result carousel arrows (live 2026-09-24): a gradient fade over the strip. */
+.g-strip { position: relative; display: flex; gap: 8px; width: 320px; overflow: hidden; padding: 8px 0; }
+.g-card { flex: none; width: 120px; height: 72px; background: #303134; border-radius: 12px; display: grid; place-items: center; }
+g-left-button, g-right-button { position: absolute; top: 0; bottom: 0; width: 56px; display: grid; place-items: center; color: #e8eaed; cursor: pointer; }
+g-left-button { left: 0; background-image: linear-gradient(to right, #202124 60%, rgba(32,33,36,0)); }
+g-right-button { right: 0; background-image: linear-gradient(to left, #202124 60%, rgba(32,33,36,0)); }
+.XbwLI { display: flex; gap: 8px; }
+.CCWeQ { border-radius: 9999px; border: 1px solid #3c4043; box-sizing: border-box; height: 36px; padding: 0 12px; display: inline-flex; align-items: center; color: #1a73e8; font-size: 14px; }
+.kno-fb-ctx { position: relative; width: 160px; height: 96px; }
+.g-kp-photo { display: block; width: 160px; height: 96px; background: #303134; border-radius: 8px; }
+.sEtYzd { position: absolute; top: 32px; left: 4px; width: 32px; height: 32px; display: grid; place-items: center; background-color: rgba(48, 49, 52, 0.8); box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px; border-radius: 2px; color: #e8eaed; z-index: 1; }
+.LFROUd { display: inline-block; margin-top: 8px; }
+.z3HNkc { display: inline-block; height: 14px; width: 80px; }
+.gTPtFb { display: block; height: 14px; width: 80px; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 14'%3E%3Cpath d='M7 0l2 5h5l-4 3 2 6-5-3-5 3 2-6-4-3h5z' fill='%23000'/%3E%3C/svg%3E") 0 0 / 16px 14px repeat-x; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 14'%3E%3Cpath d='M7 0l2 5h5l-4 3 2 6-5-3-5 3 2-6-4-3h5z' fill='%23000'/%3E%3C/svg%3E") 0 0 / 16px 14px repeat-x; color: #fbbc04; }

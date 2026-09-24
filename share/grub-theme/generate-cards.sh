@@ -93,7 +93,7 @@ make_card() {
     -fill '#C0E3C0' -font "$SF_PRO" -pointsize 18 -gravity northwest \
     -annotate +20+32 "$label" \
     -fill '#F8F8F8' -pointsize "$big_size" -annotate +20+50 "$big" \
-    -fill '#6B7280' -pointsize 16 -annotate +20+108 "$sub" \
+    -fill '#7F8695' -pointsize 16 -annotate +20+108 "$sub" \
     PNG32:"$out"
 }
 

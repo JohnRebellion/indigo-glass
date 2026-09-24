@@ -14,7 +14,7 @@
     <Pair name="sidebar + greeting + .composer.rounded-2xl + .pill.rounded-full" span="full">
       <div class="shell"><nav class="sidebar"><div class="brand">Claude</div><a class="rounded-lg active" href="#">＋ New chat</a><a class="rounded-lg" href="#">💬 Chats</a><a class="rounded-lg" href="#">📁 Projects</a><a class="rounded-lg" href="#">🧩 Artifacts</a><div class="label">Recents</div><a class="rounded-lg" href="#">Sage Ink stock pages</a><a class="rounded-lg" href="#">OKLCH ladder maths</a><a class="rounded-lg" href="#">Playwright clip slices</a></nav>
         <div class="main"><h1 class="greeting"><span class="spark">✳</span> Good evening, John</h1>
-          <div class="composer rounded-2xl"><div contenteditable="true" data-placeholder="How can I help you today?"></div><div class="bar"><button class="btn btn-icon rounded-md"><i>＋</i></button><button class="btn btn-icon rounded-md"><i>⚙</i></button><span class="model">Claude Fable 5.1 ▾</span><button class="btn btn-send rounded-lg"><i>↑</i></button></div></div>
+          <div class="composer rounded-2xl"><div contenteditable="true" data-placeholder="How can I help you today?"></div><div class="bar"><button class="btn btn-icon rounded-md"><i>＋</i></button><button class="btn btn-icon rounded-md"><i>⚙</i></button><span class="model">Claude Fable 5.1 ▾</span><button class="btn btn-send rounded-lg" aria-label="Send message"><i>↑</i></button></div></div>
           <div style="display:flex;gap:8px"><span class="pill rounded-full">Write</span><span class="pill rounded-full">Learn</span><span class="pill rounded-full">Code</span><span class="pill rounded-full pro">Pro</span><span class="pill rounded-full new">New</span></div>
         </div></div>
     </Pair>

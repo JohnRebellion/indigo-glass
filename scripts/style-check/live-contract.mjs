@@ -120,7 +120,10 @@ function contract({ alt, rootSel, limit }) {
     const r = parseFloat(cs.borderTopLeftRadius)
     return r >= Math.min(b.width, b.height) / 2 - 0.5
   }
-  const fails = { radius: [], shadow: [], blur: [], gradient: [], overlay: [] }
+  // Two stops with the second at 0% is a hard edge, not a blend: Google's star-rating fill. Content, not decoration.
+  const hardStop = (img) => /\d(?:px|%)\s*,\s*(?:rgba?\([^)]*\)|[a-z]+|#[0-9a-f]+)\s+0%\)/i.test(img)
+  const fails = { radius: [], shadow: [], blur: [], gradient: [], overlay: [], collision: [], phantom: [] }
+  const inked = []
   for (const el of all) {
     if (!visible(el)) continue
     const cs = getComputedStyle(el)
@@ -135,12 +138,14 @@ function contract({ alt, rootSel, limit }) {
         const c = rgb(m[1])
         if (c[3] === 0) continue
         if (blur > 0 || c[3] < 255) fails.shadow.push(`${where(el)} ${layer}`)
+        const x = parseFloat(m[2]), y = parseFloat(m[3])
+        if (!m[6] && blur === 0 && x > 0 && y > 0 && near(c, altRgb)) inked.push({ el, off: Math.max(x, y) })
       }
     }
     const bf = cs.backdropFilter || cs.webkitBackdropFilter
     if (bf && bf !== 'none') fails.blur.push(where(el))
     if (cs.filter && /blur\(/.test(cs.filter) && !isArt(el)) fails.blur.push(`${where(el)} filter`)
-    if (/gradient\(/.test(cs.backgroundImage) && !isArt(el) && !el.matches('[data-scrim]')) fails.gradient.push(where(el))
+    if (/gradient\(/.test(cs.backgroundImage) && !hardStop(cs.backgroundImage) && !isArt(el) && !el.matches('[data-scrim]')) fails.gradient.push(where(el))
   }
   const btns = all.filter((el) => visible(el) && el.matches('button, [role="button"], input[type="submit"]'))
   const chrome = (el) => {
@@ -151,9 +156,44 @@ function contract({ alt, rootSel, limit }) {
       el.matches('[role="tab"], [role="menuitem"], [role="option"], [role="link"], [class*="tab" i], [class*="chip" i], [class*="pill" i], [class*="ghost" i], [class*="subtle" i], [class*="transparent" i], [class*="invisible"], [class*="quiet"], [class*="link" i], [class*="text" i], [class*="MenuItem"], [class*="Tree"], [class*="icon" i], [class*="carousel" i], [class*="arrow" i], [class*="menu-item" i], [class*="list-item" i], [class*="nav" i], [class*="story" i], [class*="reaction" i], [class*="tile" i], [class*="follow" i], [class*="mode" i], [class*="send" i], [class*="copy" i], [class*="share" i], [class*="action" i], [class*="toggle" i], [class*="switch" i], [class*="filter" i], [class*="deemph" i], [class*="floating" i], [class*="on-media" i], [class*="lozenge" i], [class*="tag" i], [class*="account" i], [class*="skip" i], [class*="playground" i], [class*="tts" i], [class*="model" i], [class*="disabled" i], [disabled], [aria-disabled="true"], [data-variant="invisible"], [data-variant="link"]')
   }
   const candidates = btns.filter((b) => !chrome(b))
-  const hard = candidates.filter((b) => { const s = getComputedStyle(b).boxShadow; const m = s.match(/(rgba?\([^)]*\)|oklch\([^)]*\))\s+4px\s+4px\s+0px(\s+0px)?/); return !!m && near(rgb(m[1]), altRgb) })
-  const flat = candidates.filter((b) => !hard.includes(b)).map((b) => `${where(b)} "${(b.textContent || '').trim().slice(0, 24)}"`)
+  // docs/ELEVATION.md: a light-filled (relative luminance > 0.179) non-chrome
+  // button is the primary and must be hard with an ink label; the offset is
+  // never on a dark fill. Same body as simulator/e2e/sites.spec.ts.
+  const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4 }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]) }
+  const isLightFill = (el) => { const c = rgb(getComputedStyle(el).backgroundColor); return c[3] > 0 && lum(c) > 0.179 }
+  const isHard = (el) => { const s = getComputedStyle(el).boxShadow; const m = s.match(/(rgba?\([^)]*\)|oklch\([^)]*\))\s+4px\s+4px\s+0px(\s+0px)?/); return !!m && near(rgb(m[1]), altRgb) }
+  const hex = (c) => '#' + c.slice(0, 3).map((v) => v.toString(16).padStart(2, '0')).join('').toUpperCase()
+  const label = (b) => `${where(b)} fill=${hex(rgb(getComputedStyle(b).backgroundColor))} "${(b.textContent || '').trim().slice(0, 24)}"`
+  const primary = candidates.filter(isLightFill)
+  // a flat half inside an inked wrapper (a split button) is lifted by the group
+  const lifted = (el) => isHard(el) || (!!el.parentElement && isHard(el.parentElement))
+  const hard = candidates.filter(lifted)
+  const primaryFlat = primary.filter((b) => !lifted(b)).map(label)
+  const primaryLightLabel = primary.filter((b) => lum(rgb(getComputedStyle(b).color)) > 0.179).map(label)
+  const secondaryHard = btns.filter((b) => isHard(b) && !isLightFill(b)).map(label)
+  const rendered = (el) => { const cs = getComputedStyle(el); const r = el.getBoundingClientRect(); return cs.visibility !== 'hidden' && cs.display !== 'none' && parseFloat(cs.opacity) > 0 && r.width > 0 && r.height > 0 }
+  const shown = inked.filter((i) => rendered(i.el)) // Gemini's cdk-describedby tooltips are hidden a11y text; Google parks closed dialogs at opacity 0
+  for (const a of shown) for (const b of shown) {
+    if (a === b || a.el.contains(b.el) || b.el.contains(a.el)) continue
+    const ra = a.el.getBoundingClientRect(), rb = b.el.getBoundingClientRect()
+    const gapX = rb.left - ra.right, gapY = rb.top - ra.bottom
+    const vOverlap = rb.top < ra.bottom && rb.bottom > ra.top, hOverlap = rb.left < ra.right && rb.right > ra.left
+    if ((gapX >= 0 && gapX < a.off && vOverlap) || (gapY >= 0 && gapY < a.off && hOverlap)) fails.collision.push(`${where(a.el)} ${a.off}px shadow lands on ${tag(b.el)}`)
+  }
   const thinBorder = candidates.filter((b) => { const cs = getComputedStyle(b); const w = parseFloat(cs.borderTopWidth); return cs.borderTopStyle !== 'none' && w > 0 && w < 2 && rgb(cs.borderTopColor)[3] > 0 }).map(where)
+  // Same as sites.spec.ts: a ghost icon button (no label, transparent fill)
+  // wearing our 2px border_strong edge is a missed exemption, not a style.
+  const inkEdge = rgb('#5E5E60')
+  const iconEdge = btns.filter((b) => {
+    const cs = getComputedStyle(b)
+    const text = (b.textContent ?? '').trim()
+    const bx = b.getBoundingClientRect()
+    const iconish = (!text && bx.width <= 72 && bx.height <= 72) || (b.children.length === 1 && b.children[0].matches('svg, i, img, [class*="icon" i], [role="img"]') && text.length <= 3)
+    return iconish && rgb(cs.backgroundColor)[3] === 0 && cs.borderTopStyle === 'solid' && parseFloat(cs.borderTopWidth) >= 2 && near(rgb(cs.borderTopColor), inkEdge) && !b.hasAttribute('data-ig-stock-edge')
+  }).map(where)
+  // phantom: an inked element too small to be a surface (YouTube's empty
+  // un-upgraded tooltip hosts came out as 4x4 accent dots).
+  for (const i of shown) { const r = i.el.getBoundingClientRect(); if (r.width < 12 || r.height < 12) fails.phantom.push(`${where(i.el)} ${Math.round(r.width)}x${Math.round(r.height)}`) }
   for (const el of all.filter((e) => visible(e) && e.matches('[role="dialog"], [role="menu"], [role="alertdialog"]'))) {
     const cs = getComputedStyle(el)
     const ok = parseFloat(cs.borderTopWidth) >= 2 && /4px 4px 0px|7px 7px 0px/.test(cs.boxShadow) && near(rgb(cs.boxShadow.match(/(rgba?\([^)]*\)|oklch\([^)]*\))/)?.[1] ?? 'transparent'), altRgb)
@@ -161,7 +201,7 @@ function contract({ alt, rootSel, limit }) {
   }
   const pageBg = rgb(getComputedStyle(document.documentElement).backgroundColor).slice(0, 3)
   const bodyBg = rgb(getComputedStyle(document.body).backgroundColor).slice(0, 3)
-  return { scanned: all.length, pageBg, bodyBg, fails, buttons: { total: candidates.length, hard: hard.length, flat, thinBorder } }
+  return { scanned: all.length, pageBg, bodyBg, fails, buttons: { total: candidates.length, primary: primary.length, hard: hard.length, primaryFlat, primaryLightLabel, secondaryHard, thinBorder, iconEdge } }
 }
 
 /* Collapse a long list to distinct signatures with counts, most frequent first. */
@@ -206,18 +246,33 @@ try {
       if (site.flow) await site.flow(page)
       await page.waitForTimeout(site.settle || 4000)
       if (!flag('--no-style')) {
+        /* Stock state the contract needs after our sheet lands: which buttons
+         * the site itself bordered (their 2px edge is an upgrade, not a miss). */
+        await page.evaluate(() => {
+          for (const b of document.querySelectorAll('button, [role="button"], input[type="submit"]')) {
+            const cs = getComputedStyle(b)
+            if (cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) > 0 && !/rgba\(\d+, \d+, \d+, 0\)|transparent/.test(cs.borderTopColor)) b.setAttribute('data-ig-stock-edge', '')
+          }
+        })
         await page.addStyleTag({ content: unwrap(readFileSync(resolve(REPO, 'browser/stylus/sites', site.css), 'utf8')) })
         await page.waitForTimeout(800)
       }
-      const r = await page.evaluate(contract, { alt: site.alt, rootSel: site.root || null, limit: 12000 })
       const title = await page.title()
+      if (/\/sorry\/|\/challenge|consent\./.test(page.url()) || /just a moment|unusual traffic|attention required|verify you are human/i.test(title)) {
+        // Bot wall or consent gate: nothing of the real page was scanned, so a clean result here proves nothing.
+        failing++
+        results[id] = { url: page.url(), title: title.slice(0, 60), blocked: true }
+        await page.close()
+        continue
+      }
+      const r = await page.evaluate(contract, { alt: site.alt, rootSel: site.root || null, limit: 12000 })
       const counts = Object.fromEntries(Object.entries(r.fails).map(([k, v]) => [k, v.length]))
-      const bad = Object.values(counts).some((n) => n > 0) || r.buttons.thinBorder.length > 0 || (r.buttons.total > 0 && r.buttons.hard / r.buttons.total < 0.6)
+      const bad = Object.values(counts).some((n) => n > 0) || r.buttons.thinBorder.length > 0 || r.buttons.iconEdge.length > 0 || r.buttons.primaryFlat.length > 0 || r.buttons.primaryLightLabel.length > 0 || r.buttons.secondaryHard.length > 0
       if (bad) failing++
       results[id] = {
         url: page.url(), title: title.slice(0, 60), scanned: r.scanned, pageBg: r.pageBg, bodyBg: r.bodyBg,
         counts,
-        buttons: { total: r.buttons.total, hard: r.buttons.total ? Math.round((100 * r.buttons.hard) / r.buttons.total) + '%' : 'n/a', flat: summarise(r.buttons.flat), thinBorder: summarise(r.buttons.thinBorder) },
+        buttons: { total: r.buttons.total, hard: r.buttons.total ? Math.round((100 * r.buttons.hard) / r.buttons.total) + '%' : 'n/a', primary: `${r.buttons.hard}/${r.buttons.primary} hard`, primaryFlat: summarise(r.buttons.primaryFlat), primaryLightLabel: summarise(r.buttons.primaryLightLabel), secondaryHard: summarise(r.buttons.secondaryHard), thinBorder: summarise(r.buttons.thinBorder), iconEdge: summarise(r.buttons.iconEdge) },
         fails: Object.fromEntries(Object.entries(r.fails).map(([k, v]) => [k, summarise(v)])),
       }
       if (flag('--shot')) await page.screenshot({ path: `${SHOTS}/live-${id}.png`, fullPage: false })

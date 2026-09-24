@@ -20,9 +20,12 @@
         <div id="voice-search-button" class="ytd-masthead"><button aria-label="Search with your voice"><i>🎤</i></button></div>
         <yt-button-shape><button>+ Create</button></yt-button-shape>
         <ytd-notification-topbar-button-renderer><span class="guide-icon"></span><span class="yt-spec-icon-badge-shape__badge">9+</span></ytd-notification-topbar-button-renderer>
+        <ytd-topbar-menu-button-renderer><yt-icon-button class="style-scope ytd-topbar-menu-button-renderer"><button class="style-scope yt-icon-button" aria-label="Settings"><yt-icon class="style-scope ytd-topbar-menu-button-renderer"></yt-icon></button></yt-icon-button></ytd-topbar-menu-button-renderer>
         <ytd-topbar-menu-button-renderer><img alt="" /></ytd-topbar-menu-button-renderer>
+        <yt-button-shape><a class="ytSpecButtonShapeNextHost ytSpecButtonShapeNextOutline ytSpecButtonShapeNextCallToAction ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconLeading" href="#"><div class="ytSpecButtonShapeNextIcon"></div><div class="ytSpecButtonShapeNextButtonTextContent">Sign in</div></a></yt-button-shape>
       </ytd-masthead></div>
       <div id="frosted-glass" class="ytd-app" style="height:8px;width:100%"></div>
+      <div class="with-chipbar style-scope ytd-app" style="height:8px;width:100%"></div>
       <div id="page-manager" class="ytd-app"><ytd-feed-filter-chip-bar-renderer><yt-chip-cloud-chip-renderer><span class="ytChipShapeChip ytChipShapeActive">All</span></yt-chip-cloud-chip-renderer><yt-chip-cloud-chip-renderer><span class="ytChipShapeChip ytChipShapeInactive">Music</span></yt-chip-cloud-chip-renderer><yt-chip-cloud-chip-renderer><span class="ytChipShapeChip ytChipShapeInactive">Live</span></yt-chip-cloud-chip-renderer><yt-chip-cloud-chip-renderer><span class="ytChipShapeChip ytChipShapeInactive">KDE Plasma</span></yt-chip-cloud-chip-renderer><ytd-button-renderer class="ytd-feed-filter-chip-bar-renderer"><button><i>›</i></button></ytd-button-renderer></ytd-feed-filter-chip-bar-renderer></div>
       </ytd-app>
     </Pair>
@@ -44,7 +47,7 @@
   <Section id="lockups" title="Thumbnails and lockups" lead="Rich grid item, list item, playlist, shorts, collection stack, skeleton — every rounded corner the file zeroes" min="420px">
     <Pair name="ytd-rich-item-renderer + ytd-thumbnail + badge-shape + resume progress">
       <ytd-rich-item-renderer><ytd-thumbnail><a id="thumbnail" href="#"><yt-img-shadow><img alt="" /></yt-img-shadow><badge-shape class="ytBadgeShapeHost ytBadgeShapeThumbnailDefault">12:34</badge-shape><ytd-thumbnail-overlay-resume-playback-renderer><div id="progress" class="ytd-thumbnail-overlay-resume-playback-renderer"></div></ytd-thumbnail-overlay-resume-playback-renderer></a></ytd-thumbnail>
-        <div class="rich-video-meta"><yt-img-shadow id="avatar"><img alt="" /></yt-img-shadow><div><h3>Sage Ink on KDE Plasma 6 — full walkthrough</h3><div class="meta">John Rebellion <span class="verified"></span><br/>12K views · 2 days ago</div></div></div><ytd-video-preview><div id="media-container"></div></ytd-video-preview></ytd-rich-item-renderer>
+        <div class="rich-video-meta"><yt-img-shadow id="avatar"><img alt="" /></yt-img-shadow><div><h3>Sage Ink on KDE Plasma 6 — full walkthrough</h3><div class="meta">John Rebellion <span class="verified"></span><br/>12K views · 2 days ago</div></div></div><button-view-model class="ytSpecButtonViewModelHost"><button class="ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton" aria-label="Action menu"><div class="ytSpecButtonShapeNextIcon ytSpecButtonShapeNextElevatedContent"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></div><yt-touch-feedback-shape class="ytSpecTouchFeedbackShapeHost ytSpecTouchFeedbackShapeTouchResponse"><div class="ytSpecTouchFeedbackShapeStroke"></div><div class="ytSpecTouchFeedbackShapeFill"></div></yt-touch-feedback-shape></button></button-view-model><ytd-video-preview><div id="media-container"></div></ytd-video-preview></ytd-rich-item-renderer>
     </Pair>
     <Pair name="ytd-video-renderer (list) + yt-thumbnail-view-model + ytd-playlist-thumbnail">
       <ytd-video-renderer><ytd-thumbnail><yt-thumbnail-view-model><div class="ytThumbnailViewModelHost"><img class="ytThumbnailViewModelImage" alt="" /></div><badge-shape class="ytBadgeShapeHost">LIVE</badge-shape></yt-thumbnail-view-model></ytd-thumbnail><div class="text-shell"><div><h3>Zero-blur KWin: why translucency was removed</h3><div class="meta">3.1K watching · <span class="ytSpecAvatarShapeLiveBadge">LIVE</span></div></div></div></ytd-video-renderer>
@@ -68,6 +71,16 @@
       <button class="ytSpecButtonShapeNextTonal yt-spec-button-shape-next yt-spec-button-shape-next--tonal">Tonal</button>
       <ytd-button-renderer><button>Share</button></ytd-button-renderer>
     </Pair>
+    <Pair name="ytSpecButtonShapeNext* (camelCase) / yt-light-shape rim light + wash / OverlayDark" note="YouTube's 2026 button classes. The tonal button carries a yt-light-shape: a 10px-blurred white wash (a soft glow) and a rim light. The overlay-dark icon button paints a blurred backdrop.">
+      <button class="ytSpecButtonShapeNextHost ytSpecButtonShapeNextTonal ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeM">Show more<yt-light-shape class="contribYtLightShapeHost contribYtLightShapeStaticRimLightTonal contribYtLightShapeStaticRimLight"><div class="contribYtLightShapeStaticWashLight contribYtLightShapeStaticWashLightTonal"></div></yt-light-shape></button>
+      <button class="ytSpecButtonShapeNextHost ytSpecButtonShapeNextOutline ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconTrailing"><div class="ytSpecButtonShapeNextButtonTextContent">Show more</div><div class="ytSpecButtonShapeNextIcon"></div><yt-light-shape class="contribYtLightShapeHost contribYtLightShapeStaticRimLightOutline contribYtLightShapeStaticRimLight"></yt-light-shape></button>
+      <button class="ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconOnlyDefault" aria-label="Notifications"><div class="ytSpecButtonShapeNextIcon ytSpecButtonShapeNextElevatedContent"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6V11c0-3.1-1.6-5.6-4.5-6.3V4a1.5 1.5 0 00-3 0v.7C7.6 5.4 6 7.9 6 11v5l-2 2v1h16v-1l-2-2z" fill="currentColor"/></svg></div><yt-touch-feedback-shape class="ytSpecTouchFeedbackShapeHost ytSpecTouchFeedbackShapeTouchResponse"><div class="ytSpecTouchFeedbackShapeStroke"></div><div class="ytSpecTouchFeedbackShapeFill"></div></yt-touch-feedback-shape></button>
+      <span class="shorts-frame" data-art><button class="ytSpecButtonShapeNextHost ytSpecButtonShapeNextTonal ytSpecButtonShapeNextOverlayDark ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton" aria-label="Mute"><div class="ytSpecButtonShapeNextIcon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/></svg></div></button></span>
+      <ytm-mute-button class="ytmMuteButtonHost"><button class="ytmMuteButtonButton" aria-label="Mute"><span></span></button></ytm-mute-button>
+      <ytm-closed-captioning-button class="ytmClosedCaptioningButtonHost"><button class="ytmClosedCaptioningButtonButton" aria-label="Captions"><span class="ytIconWrapperHost ytmClosedCaptioningButtonYtIconOverlay"></span></button></ytm-closed-captioning-button>
+      <span class="shorts-frame" data-art><div class="ytp-button ytp-suggested-action-badge ytp-suggested-action-badge-with-controls">Shop</div></span>
+      <button class="ytChipShapeButtonReset"><div class="ytChipShapeChip ytChipShapeInactive">Podcasts</div></button>
+    </Pair>
     <Pair name="yt-interaction / yt-touch-feedback-shape (fill, stroke, hover)" note="The pressed/hover feedback layers are white at 10% — the file paints the fill in the brand accent.">
       <yt-button-shape><button style="position:relative">Pressed<yt-interaction><div class="fill style-scope"></div><div class="stroke style-scope"></div></yt-interaction></button></yt-button-shape>
       <yt-button-shape><button style="position:relative">Hover<yt-touch-feedback-shape><div class="ytSpecTouchFeedbackShapeHoverEffect"></div><div class="ytSpecTouchFeedbackShapeFill"></div><div class="ytSpecTouchFeedbackShapeStroke"></div></yt-touch-feedback-shape></button></yt-button-shape>
@@ -90,11 +103,18 @@
       <ytd-feed-nudge-renderer><div id="dismissible" class="ytd-feed-nudge-renderer"><div id="content-wrapper" class="ytd-feed-nudge-renderer"><span class="guide-icon"></span><div><b>Try searching to get started</b><div class="secondary-text">Start watching videos to help us build a feed you'll love.</div></div></div></div></ytd-feed-nudge-renderer>
       <tp-yt-paper-toast>Saved to Watch later <a href="#">UNDO</a></tp-yt-paper-toast>
     </Pair>
+    <Pair name=".ytSearchboxComponentSuggestionsContainer / .ytdMiniplayerComponentContent / tp-yt-paper-material" note="Three floating surfaces the first live passes never opened: the search suggestions sheet, the miniplayer and paper-material. Each casts a soft black shadow in stock.">
+      <div class="ytSearchboxComponentSuggestionsContainer ytSearchboxComponentSuggestionsContainerDark"><div class="ytSuggestionComponentSuggestion">sage ink kde plasma</div><div class="ytSuggestionComponentSuggestion">sage ink theme review</div><div class="ytSuggestionComponentSuggestion">flat ink grub theme</div></div>
+      <div class="ytdMiniplayerComponentContent"><div class="mini-video" data-art></div><div class="secondary-text">Sage Ink on Plasma 6</div></div>
+      <tp-yt-paper-material class="style-scope ytd-channel-legal-info-renderer">Channel details</tp-yt-paper-material>
+    </Pair>
     <Pair name="ytd-popup-container › tp-yt-iron-dropdown tp-yt-paper-listbox[role=menu] + tp-yt-paper-dialog[role=dialog] + tp-yt-paper-tooltip[role=tooltip]" wrap={false}>
       <ytd-popup-container>
         <tp-yt-iron-dropdown><tp-yt-paper-listbox role="menu"><ytd-menu-service-item-renderer role="menuitem">Save to playlist</ytd-menu-service-item-renderer><ytd-menu-service-item-renderer role="menuitem">Share</ytd-menu-service-item-renderer><ytd-menu-service-item-renderer role="menuitem">Not interested</ytd-menu-service-item-renderer></tp-yt-paper-listbox></tp-yt-iron-dropdown>
         <tp-yt-paper-dialog role="dialog"><h2>Delete this video?</h2><p>This can't be undone.</p><div class="acts"><button class="yt-spec-button-shape-next yt-spec-button-shape-next--text">Cancel</button><button class="yt-spec-button-shape-next yt-spec-button-shape-next--filled">Delete</button></div></tp-yt-paper-dialog>
-        <tp-yt-paper-tooltip role="tooltip">Settings</tp-yt-paper-tooltip>
+        <tp-yt-paper-tooltip><div id="tooltip" role="tooltip">Settings</div></tp-yt-paper-tooltip>
+        <tp-yt-paper-tooltip><div id="tooltip" class="hidden">Hidden until hover</div></tp-yt-paper-tooltip>
+        <tp-yt-paper-tooltip offset="8" disable-upgrade></tp-yt-paper-tooltip>
       </ytd-popup-container>
     </Pair>
   </Section>

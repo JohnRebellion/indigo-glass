@@ -66,7 +66,7 @@
     {
       area: 'placeholder / muted',
       ref: 'text-foreground/50 — an alpha wash',
-      ink: 'text_muted #6B7280 — a real token',
+      ink: 'text_muted #7F8695 — a real token',
       why: 'check-palette-drift.sh --alpha rejects computed translucency outside the Tier A allowlist.',
       open: 'None — this is a strict improvement in auditability. Confirm nothing is lost visually.'
     },

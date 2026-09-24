@@ -56,23 +56,53 @@ the simulator cannot disagree silently. The contract, per site with its own
 - page surface `#07080A`; no soft or alpha shadow anywhere; no blur, no
   gradient (image stand-ins and Tier A scrims excepted);
 - radius 0 on everything that is not a circle or a pill;
-- action buttons: 2px `#5E5E60` edge and a hard `4px 4px 0 0 accent_alt`
-  offset that collapses on `:active` (`translate(4px, 4px)`), never on
-  `:hover`. Icon-only buttons (a lone `svg` or `i` child) and chrome — tabs,
-  nav rows, menu items, chips, pills, quiet/ghost/invisible variants — stay
-  flat. At least 60% of the text-bearing buttons on the page must carry it;
-- accent-filled buttons take the ink edge and an ink-black label;
+- secondary buttons are level 0: 2px `#5E5E60` edge, no offset, no lift on
+  hover or press. Icon-only buttons (a lone `svg` or `i` child) and chrome —
+  tabs, nav rows, menu items, chips, pills, quiet/ghost/invisible variants —
+  keep their own geometry;
+- a button whose fill is above the `on_light` threshold (relative luminance
+  0.179) is primary: accent fill, ink edge, ink label and the hard
+  `4px 4px 0 0 accent_alt` offset that collapses on `:active`
+  (`translate(4px, 4px)`), never on `:hover`. Danger and warning buttons keep
+  their own fill and take the same lift. No dark-filled button is lifted, and
+  no two inked elements sit closer than the offset (`docs/ELEVATION.md`);
 - dialogs and menus: 2px edge, `7px 7px` for dialogs, `4px 4px` for menus,
   popovers, toasts and tooltips;
 - text fields: 2px edge on the wrapper, none on the inner input;
 - no visible control border thinner than 2px.
 
-To change a rule, edit the file, run `cd simulator && npx vite build && npx
-playwright test e2e/sites.spec.ts`, and read what the page reports. Then run
+The structure section is generated: edit the site's entry in
+`scripts/style-check/structure-blocks.py` (bases, exclusions, `primary`,
+`danger`, overlays, and the `EXTRA` contrast fixes), run it, then
+`python3 tokens/codegen.py` so the Stylus import bundles pick the files up.
+Then `cd simulator && npx vite build && npx playwright test e2e/sites.spec.ts`
+and read what the page reports. Then run
 the same contract on the real site — `node scripts/style-check/live-contract.mjs
 <id>` — because the mock only carries the live classes someone has already
 seen. The first live pass (2026-09-24, github/wikipedia/youtube/google) found
 four residues the mocks could not: see `scripts/style-check/README.md`.
+The second (2026-09-24, copilot/gemini/facebook from the profile copy) found
+Fluent nav items that a matching `!important` rule could not flatten: Copilot
+keeps its overrides in `@layer application`, and among important declarations
+a layered rule outranks every unlayered one, so the copilot file now declares
+its radius policy inside that layer too. `probe.mjs --style` shows the winning
+rule when a declaration of ours visibly loses. Facebook's remaining radius and
+soft-shadow residue sits on atomic hash classes shared by unrelated elements,
+so it stays unfixed rather than guessed at.
+The third (2026-09-24, seven sites after the elevation work) was mostly
+YouTube: its button classes had gone camelCase, so every kebab-case exemption
+missed and 25 icon menus wore a box; `yt-light-shape` paints a blurred wash
+inside tonal buttons; and the `tp-yt-paper-tooltip` host is itself the
+`[role=tooltip]`, always present and 4x4 while empty, so tooltip chrome
+became accent dots at every button corner. The lesson generalises: a mock
+that only carries the classes someone once saw passes while live fails, so
+each live shape now has a mock twin, and the contract gained `iconEdge`
+(ghost icon buttons must not carry the level-0 edge) and `phantom` (nothing
+inked may be under 12px). Facebook's icon buttons got structural `:has()`
+exemptions (seven trees); Google's tools-bar chips and knowledge-panel
+arrows are fixed in the mock but google bot-walled every live run since, so
+0.7.1 is unverified live. Table and check definitions:
+`scripts/style-check/README.md`.
 
 ### Per-site hue
 
@@ -185,17 +215,21 @@ construction, and the accent still carries on text, links, icons and borders.
 GitHub is the exception that survives: its green primary button is repainted
 *and* labelled by the same file, and measures 9:1.
 
-### Known contrast gap: `text_muted`
+### Contrast: `text_muted` and `negative` were lifted (2026-09-24)
 
-`--ig-text-muted` (`#6B7280`, oklch L 0.551) measures **4.14:1 on base, 4.01 on
-surface, 3.87 on surface_alt** — below the 4.5:1 AA floor for small text. It is
-the secondary-text mapping in every site style, so it shows up on GitHub commit
-metadata, Facebook listing locations, Atlassian sidebar headings and YouTube's
-footer alike. `text_dim` (`#4B5563`) is worse at 2.47-2.65:1.
+`--ig-text-muted` was `#6B7280` (oklch L 0.551): **4.14:1 on base, 4.01 on
+surface, 3.87 on surface_alt**, below the AA floor, and it is the secondary
+text mapping in every site style. It is now L 0.62 (`#7F8695`): 5.48 / 5.31 /
+5.11:1. The negative red moved from L 0.6124 (`#ED254E`, 4.43:1 on
+surface_alt) to L 0.63 (`#F42E53`, 4.76:1; 5.10:1 for an ink label on it).
+Both are tokens.toml changes; every layer was regenerated or swept, and the
+generator rewrites the site files' hex, oklch and RGB-triple copies.
 
-This is a tokens.toml decision, not a per-site one: raising `text_muted` to
-oklch L 0.60 (`#79808F`) clears 4.5:1 on all three ink steps, at the cost of
-regenerating every layer. Not changed unilaterally — it moves the whole system.
+`text_dim` (`#4B5563`, 2.47-2.65:1) is unchanged: it marks disabled and
+placeholder text and is not meant to pass. What still fails in
+`simulator/test-results/quality/REPORT.md` after the pass is disabled states
+and Notion's own greys (`rgba(255,255,255,.44)` and friends, 4.2-4.4:1),
+which the Notion file does not repaint.
 
 ### Verified, not guessed
 

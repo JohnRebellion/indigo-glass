@@ -115,7 +115,7 @@
         <tr><th class="infobox-header" colspan="2">Details</th></tr>
         <tr><th class="infobox-label" scope="row">Developer</th><td class="infobox-data"><a href="#">Mozilla</a></td></tr>
         <tr><th class="infobox-label" scope="row">Engine</th><td class="infobox-data">Gecko, SpiderMonkey</td></tr>
-        <tr><th class="infobox-label notheme" scope="row">Licence</th><td class="infobox-data">MPL 2.0</td></tr>
+        <tr><th class="infobox-label notheme" scope="row" style="background:#C0C0C0">Licence</th><td class="infobox-data">MPL 2.0</td></tr>
         <tr><td class="infobox-full-data" colspan="2">Website: <a href="#">mozilla.org/firefox</a></td></tr>
       </tbody></table>
     </Pair>

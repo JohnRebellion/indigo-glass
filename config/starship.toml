@@ -30,7 +30,7 @@ accent_hi = '#C0E3C0'
 accent_alt = '#89A889'
 amber = '#FBBF24'
 text = '#F8F8F8'
-muted = '#6B7280'
+muted = '#7F8695'
 bg_0 = '#07080A'
 bg_1 = '#0D0D10'
 bg_2 = '#121216'
@@ -99,12 +99,12 @@ format = '[ $symbol ($version) ]($style)'
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:#07080A fg:#6B7280"
+style = "bg:#07080A fg:#7F8695"
 format = '[ ♥ $time ]($style)'
 
 [character]
 success_symbol = '[❯](bold #C0E3C0)'
-error_symbol = '[❯](bold #ED254E)'
+error_symbol = '[❯](bold #F42E53)'
 vimcmd_symbol = '[❮](bold #89A889)'
 
 [line_break]

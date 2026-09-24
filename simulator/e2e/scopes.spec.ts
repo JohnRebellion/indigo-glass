@@ -170,7 +170,7 @@ test.describe('semantics', () => {
   test('overview swatch error chip = negative red', async ({ page }) => {
     await page.goto('/');
     const bg = await readBg(page, '[data-testid="swatch-negative"] .ig-swatch-chip');
-    expect(bg).toBe('rgb(237, 37, 78)');
+    expect(bg).toBe('rgb(244, 46, 83)'); // negative L 0.63 since 2026-09-24 (4.76:1 on surface_alt)
   });
 
   test('overview swatch positive chip = positive green (hue nudged off sage)', async ({ page }) => {

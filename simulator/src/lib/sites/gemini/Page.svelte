@@ -69,7 +69,7 @@
       <div role="dialog" class="mat-mdc-dialog-container"><h2>Delete chat?</h2><p>This will delete "Sage Ink stock pages" and any related activity.</p><div class="mat-mdc-dialog-actions"><button class="mdc-button mat-mdc-button-base">Cancel</button><button class="mdc-button mat-mdc-button-base">Delete</button></div></div>
     </Pair>
     <Pair name="snackbar / tooltip / spinner (.mat-mdc-progress-spinner, .spinner-sm) / progress bar / banners / avatars" wrap={false}>
-      <div class="mat-mdc-snack-bar-container">Response copied <span class="action">Undo</span></div>
+      <div class="mat-mdc-snack-bar-container"><div class="mdc-snackbar__surface"><div class="mat-mdc-simple-snack-bar">Response copied <span class="action mat-mdc-snack-bar-action">Undo</span></div></div></div>
       <span role="tooltip" class="mat-mdc-tooltip">New chat</span> <span class="mat-mdc-progress-spinner"></span> <span class="spinner-sm"></span> <span class="mat-mdc-progress-bar"><span></span></span>
       <div class="error-banner">⚠ Something went wrong. <span class="on-error">Retry</span></div><div class="info-banner">ℹ Gemini Apps Activity is on.</div>
       <span><span class="avatar-small"></span> <span class="Avatar-large"></span> <span class="user-avatar">JR</span></span>

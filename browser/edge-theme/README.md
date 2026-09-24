@@ -66,7 +66,7 @@ Wrapper backups: `~/.local/bin/edge-*.bak-20260830` (pre-theme-flag),
 | `sidebar`         | `#0A0A0D`    | `2,2,4`       | frame_incognito                    |
 | `base`            | `#07080A`    | `1,2,3`       | frame_incognito_inactive, omnibox  |
 | `text`            | `#F8F8F8`    | `248,248,248` | all foreground                     |
-| `text_muted`      | `#6B7280`    | —             | inactive tab text (hand-tuned)     |
+| `text_muted`      | `#7F8695`    | —             | inactive tab text (hand-tuned)     |
 
 ### Why the manifest RGB is darker than the token (v1.4.0, 2026-09-22)
 

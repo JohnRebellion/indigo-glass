@@ -29,7 +29,7 @@ const page=await browser.contexts()[0].newPage();await page.setViewportSize({wid
 await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});await page.waitForTimeout(5000)
 if(file!=='-') await page.addStyleTag({content:unwrap(readFileSync(file,'utf8'))});await page.waitForTimeout(1000)
 const out=await page.evaluate(()=>{
-  const TOK=new Set(['rgb(7, 8, 10)','rgb(13, 13, 16)','rgb(18, 18, 22)','rgb(10, 10, 13)','rgb(28, 28, 30)','rgb(94, 94, 96)','rgb(248, 248, 248)','rgb(107, 114, 128)','rgb(75, 85, 99)','rgb(166, 201, 166)','rgb(192, 227, 192)','rgb(137, 168, 137)'])
+  const TOK=new Set(['rgb(7, 8, 10)','rgb(13, 13, 16)','rgb(18, 18, 22)','rgb(10, 10, 13)','rgb(28, 28, 30)','rgb(94, 94, 96)','rgb(248, 248, 248)','rgb(127, 134, 149)','rgb(75, 85, 99)','rgb(166, 201, 166)','rgb(192, 227, 192)','rgb(137, 168, 137)'])
   const sig=el=>{const cls=typeof el.className==='string'?el.className.trim().split(/\s+/).slice(0,3).join('.'):'';const at=['role','aria-current','aria-selected','active','selected','data-active','jsname'].filter(a=>el.hasAttribute(a)).map(a=>`[${a}=${el.getAttribute(a).slice(0,20)}]`).join('');return `${el.tagName.toLowerCase()}${el.id?'#'+el.id:''}${cls?'.'+cls:''}${at}`}
   const bump=(m,k)=>m.set(k,(m.get(k)||0)+1)
   const off=new Map(),rad=new Map(),grad=new Map(),alpha=new Map(),sel=new Map(),thin=new Map()
