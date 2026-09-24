@@ -1411,8 +1411,10 @@ _EDGE_TAB_BG_TEXT = [165, 169, 178]           # hand-tuned inactive tab text
 _EDGE_TAB_BG_TEXT_INACTIVE = [120, 122, 130]  # hand-tuned, see README
 _EDGE_THEME_VERSION = "1.5.0"  # first generated series; 1.4.0 was hand-kept
 # Fixed so codegen output is deterministic (--check compares bytes). Stylus
-# only displays this date; 2026-09-24 = the day the bundles became generated.
-_STYLUS_INSTALL_DATE = 1758672000000
+# only displays this date; 2026-09-24 UTC = the day the bundles became
+# generated. (First shipped as 1758672000000 = 2025-09-24 - a year off -
+# which Stylus dutifully displayed as "1 year ago".)
+_STYLUS_INSTALL_DATE = 1790208000000
 
 
 def _edge_rendered(v: int) -> float:
