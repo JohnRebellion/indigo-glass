@@ -15,7 +15,7 @@ audit in research-reports/sage-ink-live-audit-2026-09-22):
 
 | Rule | Here |
 |------|------|
-| Every colour a token of the named variant | labels use `text` #23262C, `accent_hi` #692E80, `accent` #7F4995; `desktop-color` is `base` #FAFAFC; the menu card is `card_fill` #C5ADCF; edges and shadow are `[on_light]` #000000. Ladder on base: 14.5 / 8.8 / 6.1:1; on the card: text 7.4:1, accent_hi 4.5:1 |
+| Every colour a token of the named variant | labels use `text` #23262C, `accent_hi` #692E80, `accent` #7F4995; `desktop-color` is `base` #FAFAFC; the menu card is `card_fill` #C5ADCF; edges and shadow are `[on_light]` #000000. Ladder on base: 14.5 / 8.8 / 6.1:1; on the card: text 7.4:1 (selected_item_color is also `text`, not `accent_hi` — the latter measured 4.4515:1 there, under the floor; see theme.txt's 2026-09-25 note) |
 | Opaque fills, no translucency | every referenced PNG has a binary alpha channel (0 or 255); the selected row's interior is fully transparent so the card shows through, never a wash |
 | Light mode = white page, coloured forward-facing card, black edge + hard shadow | the boot menu is the card: `card_fill` centre, 2px `#000000` edge, 4px `#000000` hard shadow baked into the `e`/`s`/`se` slices (GRUB pads each side by the W/N/E/S slice size and scales the corners to match). A dark variant bakes a `surface_alt` panel with a `border_strong` edge and no shadow instead |
 | On-select = stroke, not fill | selected row `select_*.png`: 4px black stroke (2px vanishes at 2560x1440), see-through interior. Dark variants stroke in `accent` over the opaque `select_fill` wash |

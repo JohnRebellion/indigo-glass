@@ -5,23 +5,31 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15 // Screen is a QtQuick.Window attached type in Qt 5
 import SddmComponents 2.0
 
 Rectangle {
     id: root
     width: Screen.width
     height: Screen.height
-    color: "#0F0F12"
+    color: base
 
+    // Sage Ink tokens (tokens/out/css-vars.css, variant sage). Hand-typed:
+    // check-palette-drift.sh and simulator /desktop/sddm/ hold them to the TOML.
+    property string base: "#07080A"
     property string accent: "#A6C9A6"
     property string accentHi: "#C0E3C0"
-    property string onAccent: "#07080A"  // dark text on the light sage accent
-    property string surfaceAlt: "#1F2028"
+    // Was `onAccent`: a property named on<Upper> parses as a signal handler, so
+    // Qt 5 and Qt 6 both refused to load this file ("Cannot assign a value to a signal").
+    property string accentInk: "#07080A"  // base - dark text on the light sage accent
+    property string surfaceAlt: "#121216" // was an off-palette grey
+    property string borderStrong: "#5E5E60"
+    property string accentAlt: "#89A889"  // accent_alt - the ink shadow colour
     property string text: "#F8F8F8"
     property string textMuted: "#7F8695"
 
     // Mesh background (SVG provided in theme dir as background.svg).
-    // If background.svg missing, the solid #0F0F12 fill above shows.
+    // If background.svg missing, the solid base fill above shows.
     Image {
         anchors.fill: parent
         source: "background.svg"
@@ -29,16 +37,8 @@ Rectangle {
         smooth: true
         cache: true
         asynchronous: true
-        opacity: 0.92
-    }
-
-    // Subtle vignette
-    Rectangle {
-        anchors.fill: parent
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#00000000" }
-            GradientStop { position: 1.0; color: "#80000000" }
-        }
+        // opacity 0.92 and a 0->50% black gradient vignette removed: ink has
+        // no translucency and no gradient.
     }
 
     Item {
@@ -47,24 +47,25 @@ Rectangle {
         height: panel.implicitHeight
 
         // Hard offset shadow - ink material, zero blur, colour-as-elevation.
-        // Offset matches --ig-shadow-ink (8px, doubled from 4px 2026-08-28).
+        // Offset is --ig-shadow-ink-lg (7px): the login panel is a modal,
+        // level 3 in docs/ELEVATION.md (was 8px, the pre-2026-09-24 ink offset).
         Rectangle {
-            x: 8
-            y: 8
+            x: 7
+            y: 7
             width: panel.width
             height: panel.height
-            color: Qt.rgba(0, 0, 0, 0.9) // drift-allow: the ink drop-shadow rectangle itself (see comment above), not a fill
+            color: accentAlt // [shadow].ink_lg resolves to accent_alt, opaque (was Qt.rgba(0,0,0,0.9): black and translucent)
         }
 
         Rectangle {
             id: panel
             anchors.fill: parent
-            color: Qt.rgba(0.12, 0.13, 0.16, 1.0)
-            // Border 2px solid black (was 1px translucent white) -
-            // shadow-bearing surfaces take border-2 in solid black per the
-            // neobrutalism.dev reference audit.
+            color: base // was Qt.rgba(0.12, 0.13, 0.16): off the palette, and not even surfaceAlt.
+            // base, as the simulator's nb-dialog: border_strong clears 3:1 on base, not on surface.
+            // Border 2px border_strong: the modal edge in docs/ELEVATION.md
+            // (was solid black, from the neobrutalism.dev reference audit).
             border.width: 2
-            border.color: Qt.rgba(0, 0, 0, 1.0)
+            border.color: borderStrong
             radius: 0
             implicitHeight: layout.implicitHeight + 32
 
@@ -88,7 +89,7 @@ Rectangle {
                         font.family: "Carlito"
                         font.pixelSize: 14
                         font.weight: Font.Bold
-                        color: text
+                        color: root.text // unqualified `text` resolved to this Text's own string -> invalid colour -> black
                     }
                 }
 
@@ -103,13 +104,13 @@ Rectangle {
 
                     background: Rectangle {
                         color: surfaceAlt
-                        border.width: 1
-                        border.color: userInput.activeFocus ? accent : "#2C2D35" // was Qt.rgba(1,1,1,0.06) - opaque hairline over surfaceAlt
+                        border.width: 2 // controls take 2px (was a 1px hairline)
+                        border.color: userInput.activeFocus ? accent : borderStrong // was an off-palette grey at 1.2:1 on the fill
                         radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     contentItem: Text {
                         text: userInput.currentText
-                        color: text
+                        color: root.text // unqualified `text` resolved to this Text's own string -> invalid colour -> black
                         font.family: "Carlito"
                         font.pixelSize: 11
                         leftPadding: 8
@@ -124,15 +125,15 @@ Rectangle {
                     Layout.preferredHeight: 28
                     echoMode: TextInput.Password
                     placeholderText: "Password"
-                    color: text
+                    color: root.text // unqualified `text` resolved to the typed password -> black dots
                     placeholderTextColor: textMuted
                     font.family: "Carlito"
                     font.pixelSize: 11
                     leftPadding: 8
                     background: Rectangle {
                         color: surfaceAlt
-                        border.width: 1
-                        border.color: passwordInput.activeFocus ? accent : "#2C2D35" // was Qt.rgba(1,1,1,0.06) - opaque hairline over surfaceAlt
+                        border.width: 2 // controls take 2px (was a 1px hairline)
+                        border.color: passwordInput.activeFocus ? accent : borderStrong // was an off-palette grey at 1.2:1 on the fill
                         radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     Keys.onReturnPressed: loginButton.clicked()
@@ -151,7 +152,7 @@ Rectangle {
                     }
                     contentItem: Text {
                         text: loginButton.text
-                        color: onAccent
+                        color: accentInk
                         font.family: "Carlito"
                         font.pixelSize: 11
                         font.weight: Font.Medium
@@ -172,8 +173,8 @@ Rectangle {
 
                     background: Rectangle {
                         color: "transparent"
-                        border.width: 1
-                        border.color: "#2C2D35" // was Qt.rgba(1,1,1,0.06) - opaque hairline (session selector sits on a transparent background, closest reference is surfaceAlt)
+                        border.width: 2 // controls take 2px (was a 1px hairline)
+                        border.color: borderStrong // was an off-palette grey
                         radius: 0 // was 4, off the 0/2/9999 ink radius ladder
                     }
                     contentItem: Text {

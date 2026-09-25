@@ -125,6 +125,20 @@ Comment=Bibata cursor recolored with Sage Ink accent ($ACCENT)
 Inherits=Bibata-Modern-Classic
 EOF
 
+# ctgen's cursor.theme template (clickgen/packer/x11.py) writes
+# Name=<ctgen -n name> and Inherits="<same name>": the name is
+# "Bibata-Modern-IndigoGlass", which is not this directory, the value is
+# quoted (freedesktop theme values are bare strings; libXcursor's parser
+# keeps the quotes) and the theme inherits itself. Rewrite it to agree
+# with index.theme above.
+cat > "$FINAL_DIR/cursor.theme" <<EOF
+# Rewritten by build-bibata.sh: agrees with index.theme (ctgen's template
+# inherited itself, under another name, quoted).
+[Icon Theme]
+Name=Bibata Indigo Glass
+Inherits=Bibata-Modern-Classic
+EOF
+
 echo ""
 echo "[ok] Built: $FINAL_DIR"
 echo ""

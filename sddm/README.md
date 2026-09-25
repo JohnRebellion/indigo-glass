@@ -1,6 +1,6 @@
-# Lime Glass - SDDM greeter theme
+# Sage Ink - SDDM greeter theme
 
-Login screen w/ Lime Glass palette + mesh wallpaper. QML-based (SDDM standard).
+Login screen w/ Sage Ink palette + mesh wallpaper. QML-based (SDDM standard).
 
 ## Install
 
@@ -9,7 +9,7 @@ sudo cp -r indigo-glass /usr/share/sddm/themes/
 sudo kwriteconfig6 --file /etc/sddm.conf --group Theme --key Current 'indigo-glass'
 ```
 
-Or via Plasma Settings -> Login Screen (SDDM) -> Theme -> select "Lime Glass".
+Or via Plasma Settings -> Login Screen (SDDM) -> Theme -> select "Sage Ink".
 
 ## Preview without reboot
 
@@ -19,8 +19,8 @@ sddm-greeter --test-mode --theme /usr/share/sddm/themes/indigo-glass
 
 ## What it shows
 
-- Mesh gradient background (`background.svg`, shipped) over `#0F0F12` base
-- Centered translucent login panel (12px radius, 70% surface_alt + 13px blur effect)
+- Mesh gradient background (`background.svg`, shipped) over the `base` fill
+- Centered opaque ink panel (`base` fill, radius 0, 2px `border_strong` edge, hard 7px `accent_alt` offset shadow, no blur)
 - Username combo + password field + sign-in button
 - Session selector at bottom
 - Clock in lower-right (Iosevka mono)

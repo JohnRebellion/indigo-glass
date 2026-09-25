@@ -22,9 +22,16 @@
 # Contrast ladder on base #FAFAFC:
 #   headline text #23262C 14.5:1 / sub-line accent_hi #692E80 8.8:1 /
 #   section label + caption + key hint accent #7F4995 6.1:1.
-#   On the card (#C5ADCF): item text 7.4:1, selected item accent_hi 4.5:1.
+#   On the card (#C5ADCF): item text 7.4:1.
 #   In the light variant accent_hi is the DARKER step, so the hierarchy still
 #   reads headline > spec > label.
+# 2026-09-25 (simulator/desktop/grub finding): selected_item_color was
+#   accent_hi (#692E80), measuring 4.4515:1 on card_fill #C5ADCF — a hair
+#   under the 4.5:1 text floor, though the ladder above rounded it up to
+#   "4.5:1". On-select is already communicated structurally (the 4px stroke
+#   box, not colour — see the "stroke, not fill" rule above), so the text
+#   colour carries no signal that needs its own hue: selected_item_color is
+#   now `text` #23262C (7.4:1 on the card, same as an unselected item).
 # Layout safe area: 96px on every edge (3.75% h / 6.7% v). Card pitch 492,
 # last column ends exactly at 2464 = 2560-96. background.jpg feathers to
 # pure black across the outer 140px (kept on the light variant by the
@@ -76,7 +83,7 @@ desktop-color: "#FAFAFC"
   height = 800
   item_font = "SF Pro Display Regular 29"
   item_color = "#23262C"
-  selected_item_color = "#692E80"
+  selected_item_color = "#23262C"
   selected_item_font = "SF Pro Display Regular 29"
   menu_pixmap_style = "assets/menu_*.png"
   selected_item_pixmap_style = "assets/select_*.png"
