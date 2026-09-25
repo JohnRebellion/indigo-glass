@@ -37,7 +37,12 @@ bg_2 = '#121216'
 
 [os]
 disabled = false
-style = "bg:#A6C9A6 fg:#F8F8F8"
+# fg was #F8F8F8 (text) on bg:#A6C9A6 (accent) — 1.72:1, fails WCAG's 4.5:1
+# text floor. Every other light-background segment in this format (directory:
+# bg:#C0E3C0 fg:#07080A) already pairs a light accent with the dark bg_0
+# ink text, not the light `text` token. Fixed 2026-09-25 to match that
+# established pattern: 10.99:1.
+style = "bg:#A6C9A6 fg:#07080A"
 
 [os.symbols]
 Linux = " "
@@ -45,8 +50,9 @@ Fedora = " "
 
 [username]
 show_always = true
-style_user = "bg:#A6C9A6 fg:#F8F8F8"
-style_root = "bg:#A6C9A6 fg:#F8F8F8"
+# Same fix as [os] above (contrast 1.72:1 -> 10.99:1), same reason.
+style_user = "bg:#A6C9A6 fg:#07080A"
+style_root = "bg:#A6C9A6 fg:#07080A"
 format = '[ $user ]($style)'
 
 [directory]

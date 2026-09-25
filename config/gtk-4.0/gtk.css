@@ -16,7 +16,13 @@
 
 @define-color destructive_color #F42E53;
 @define-color destructive_bg_color #F42E53;
-@define-color destructive_fg_color #F8F8F8;
+/* Was #F8F8F8 (text) - 3.69:1 on destructive_bg_color, failing the 4.5:1 AA
+   floor for a normal-weight button label; every other saturated fill in this
+   file already pairs with base ink for exactly this reason (see
+   accent_fg_color above, success/warning_fg_color below), and
+   docs/ELEVATION.md's own negative-role note gives 5.10:1 for "an ink label
+   on the fill" as the intended pairing. 2026-09-25. */
+@define-color destructive_fg_color #07080A;
 
 @define-color success_color #3FFABB;
 @define-color success_bg_color #3FFABB;
@@ -28,7 +34,12 @@
 
 @define-color error_color #F42E53;
 @define-color error_bg_color #F42E53;
-@define-color error_fg_color #F8F8F8;
+/* Same fix as destructive_fg_color above - error_bg_color is the same
+   negative fill, so the same ink-fg pairing applies. Not independently
+   exercised by a structural rule in this file today (only accent/
+   destructive are consumed as button fills here), fixed for consistency
+   with the token it shares. */
+@define-color error_fg_color #07080A;
 
 @define-color window_bg_color #0D0D10;
 @define-color window_fg_color #F8F8F8;

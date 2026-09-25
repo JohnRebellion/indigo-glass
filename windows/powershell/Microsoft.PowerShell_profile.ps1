@@ -36,7 +36,13 @@ if (Get-Module -ListAvailable -Name PSReadLine) {
     Comment            = '#7F8695'  # muted
     Type               = '#89A889'
     Default            = '#F8F8F8'
-    Selection          = "`e[48;2;168;230;53;128m"
+    # was a 48;2 background in the retired Lime Glass accent, not this
+    # theme's, plus a 4th "alpha" parameter ANSI truecolor SGR (ESC[48;2;R;G;Bm)
+    # has no such parameter, so it was either ignored or corrupted the
+    # sequence — and Sage Ink is opaque ink, no translucency anyway. Fixed
+    # 2026-09-25 to base-on-accent, matching Konsole's CustomCursorColor/
+    # CustomCursorTextColor pair (share/konsole/SageInk.profile).
+    Selection          = "`e[38;2;7;8;10m`e[48;2;166;201;166m"
     Error              = '#F42E53'
     InlinePrediction   = '#7F8695'
   }

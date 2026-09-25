@@ -1,3 +1,12 @@
+# Color0-Color7 (normal) and Intense variants + Foreground corrected
+# 2026-09-25 to the exact hex of [variants.sage.ansi] in
+# tokens/indigo-glass.tokens.toml (oklch_to_hex, tokens/codegen.py) — this
+# file is hand-kept (codegen.py never writes share/konsole/*), and several
+# ANSI slots had drifted: Color0/Color0Intense were far too dark to read as
+# black/bright-black, and Color4/Color5/Color6 carried unrelated colours
+# (accent_hi, accent_alt, a generic cyan) instead of the ANSI blue/magenta/
+# cyan hues, which breaks ls/git/diff colour-coding. See simulator
+# /desktop/konsole/ for the per-slot check against the token file.
 [Background]
 Color=7,8,10
 
@@ -8,22 +17,22 @@ Color=7,8,10
 Color=13,13,16
 
 [Color0]
-Color=13,13,16
+Color=53,56,62
 
 [Color0Faint]
 Color=20,20,25
 
 [Color0Intense]
-Color=49,54,61
+Color=127,134,149
 
 [Color1]
-Color=237,37,78
+Color=244,46,83
 
 [Color1Faint]
 Color=140,26,50
 
 [Color1Intense]
-Color=255,82,114
+Color=255,93,111
 
 [Color2]
 Color=63,250,187
@@ -32,7 +41,7 @@ Color=63,250,187
 Color=56,140,84
 
 [Color2Intense]
-Color=140,255,180
+Color=139,255,210
 
 [Color3]
 Color=251,191,36
@@ -41,37 +50,37 @@ Color=251,191,36
 Color=180,135,28
 
 [Color3Intense]
-Color=255,210,80
+Color=255,213,90
 
 [Color4]
-Color=192,227,192
+Color=132,174,227
 
 [Color4Faint]
 Color=70,80,180
 
 [Color4Intense]
-Color=167,176,255
+Color=165,202,251
 
 [Color5]
-Color=137,168,137
+Color=204,150,198
 
 [Color5Faint]
 Color=110,90,180
 
 [Color5Intense]
-Color=196,170,255
+Color=230,181,224
 
 [Color6]
-Color=34,211,238
+Color=113,208,213
 
 [Color6Faint]
 Color=20,140,160
 
 [Color6Intense]
-Color=103,232,249
+Color=150,232,236
 
 [Color7]
-Color=211,218,227
+Color=210,212,216
 
 [Color7Faint]
 Color=150,156,165
@@ -80,7 +89,7 @@ Color=150,156,165
 Color=248,248,248
 
 [Foreground]
-Color=211,218,227
+Color=210,212,216
 
 [ForegroundFaint]
 Color=150,156,165
