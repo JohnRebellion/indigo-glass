@@ -171,7 +171,11 @@ filter_allowed() { grep -v 'drift-allow' || true; }
 # .user.css removes, and e2e/sites.spec.ts proves the "ours" lane repaints it.
 # Excluded from the material-family scans only; Page.svelte and every other
 # file beside it stay in scope. Added 2026-09-24.
-STOCK_LANE='^simulator/src/lib/sites/[^/]+/stock\.css:'
+# The /desktop/<id>/ pages' stock lanes read upstream files frozen verbatim
+# under simulator/fixtures/stock/<id>/ (Breeze, Adwaita, Campbell ...; see
+# fixtures/README.md for provenance). Same "before", same carve-out; the
+# pages that render them stay in scope. Added 2026-09-25.
+STOCK_LANE='^simulator/(src/lib/sites/[^/]+/stock\.css|fixtures/stock/)'
 filter_stock_lanes() { grep -vE "$STOCK_LANE" || true; }
 
 # Per-variant installable files are SUPPOSED to carry a non-active variant's

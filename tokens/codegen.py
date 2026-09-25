@@ -544,7 +544,8 @@ frameContrast=0.2
 """.strip("\n")
 
 
-def emit_kde_colors(t: dict, variant: str | None = None) -> str:
+def emit_kde_colors(t: dict, variant: str | None = None,
+                    plasma_shell: bool = False) -> str:
     """Complete, installable KDE colour scheme - not a partial. Previously
     emitted only [General]/[Colors:Window]/[Colors:Selection]/[Colors:View]/
     [Colors:Button]/[Colors:Tooltip]/[WM] and relied on share/color-schemes/*
@@ -657,7 +658,16 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         # #07080A, live audit 2026-09-22). The genuinely FILLED cases - text
         # selection in QLineEdit/QTextEdit/QPlainTextEdit - get dark ink back
         # per widget in config/klassy/tierc-outline.patch.
-        f"ForegroundNormal={hex_to_rgb(p['text'])}",
+        #
+        # plasma_shell (config/plasma-theme/SageInk/colors only): plasmashell
+        # has no Klassy to hand filled selections their ink, and its PC3
+        # TextField/TextArea/SpinBox/ComboBox paint selected text in this role
+        # over BackgroundNormal - text on accent, 1.72:1 (simulator
+        # /desktop/plasma-theme/, 2026-09-25). Plasma's outlined rows (KSvg
+        # viewitem, Kickoff) do not read it; the one outlined consumer found
+        # on 6.7.4 is a selected label inside a non-root Folder View
+        # (FolderItemDelegate.qml:364), which this trades away.
+        f"ForegroundNormal={hex_to_rgb(p['base'] if plasma_shell else p['text'])}",
         f"ForegroundActive={hex_to_rgb(p['text'])}",
         f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
         f"ForegroundLink={hex_to_rgb(p['violet'])}",
@@ -718,7 +728,9 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         # earlier version of this function (2026-09-01) before the omission
         # was caught by diffing against the pre-generation file - see
         # SHIPPED_KDE_SCHEMES.
-        "activeFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        # Point size from [type.roles] window_title_pt (was a literal 10 while
+        # the token said 11; simulator /desktop/fonts/, 2026-09-25).
+        f"activeFont=SF Pro Display,{t['type']['roles']['window_title_pt']},-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
         "",
     ]
     return "\n".join(lines)
@@ -1630,6 +1642,7 @@ VARIANT_WRITERS = [
     ("css-vars.css", emit_css_vars),
     ("scss-vars.scss", emit_scss_vars),
     ("kde-palette.colors", emit_kde_colors),
+    ("plasma-colors.colors", lambda t, variant=None: emit_kde_colors(t, variant, plasma_shell=True)),
     ("wt-scheme.json", emit_wt_scheme),
     ("monkeytype.json", emit_monkeytype),
     ("monkeytype-settings.json", emit_monkeytype_settings),
@@ -1771,7 +1784,10 @@ def main():
                                  for fname, content in outputs.items()}
     for variant, paths in SHIPPED_KDE_SCHEMES.items():
         for path in paths:
-            targets[path] = outputs[f"kde-palette.{variant}.colors"]
+            # The plasma-theme copy is the plasmashell flavour - see
+            # emit_kde_colors(plasma_shell=True).
+            stem = "plasma-colors" if "plasma-theme" in path.parts else "kde-palette"
+            targets[path] = outputs[f"{stem}.{variant}.colors"]
     targets[SHIPPED_WT_SCHEME] = outputs["wt-scheme.json"]
     targets[SHIPPED_MONKEYTYPE] = outputs["monkeytype.json"]
     targets[SHIPPED_MONKEYTYPE_SETTINGS] = outputs["monkeytype-settings.json"]
@@ -1786,10 +1802,16 @@ def main():
         # browser/stylus/out/).
         targets[STYLUS_OUT_DIR / f"stylus-import.{profile}.json"] = \
             emit_stylus_bundle(t, profile)
+    # Untracked targets are absent from a fresh clone (and from the drift
+    # guard self-test's HEAD worktree), so --check only compares them when
+    # they exist; a stale local copy still fails.
+    untracked = {p for p in targets if STYLUS_OUT_DIR in p.parents}
 
     rc = 0
     for target, new in targets.items():
         if args.check:
+            if target in untracked and not target.exists():
+                continue
             if not target.exists() or target.read_text() != new:
                 print(f"OUT-OF-DATE: {target}")
                 rc = 1

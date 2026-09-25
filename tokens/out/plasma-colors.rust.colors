@@ -1,9 +1,9 @@
-# Lime Glass - KDE color scheme
+# Rust Ink - KDE color scheme
 # Generated in full by tokens/codegen.py - do not hand-edit.
 
 [General]
-ColorScheme=LimeGlass
-Name=Lime Glass
+ColorScheme=RustInk
+Name=Rust Ink
 shadeSortColumn=true
 
 [Colors:Button]
@@ -11,98 +11,98 @@ BackgroundNormal=18,18,22
 BackgroundAlternate=13,13,16
 ForegroundNormal=248,248,248
 ForegroundInactive=127,134,149
-ForegroundActive=193,255,88
-ForegroundLink=139,196,6
-ForegroundVisited=139,196,6
+ForegroundActive=255,177,147
+ForegroundLink=231,123,96
+ForegroundVisited=231,123,96
 ForegroundNegative=244,46,83
 ForegroundNeutral=251,191,36
 ForegroundPositive=113,247,159
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
+DecorationHover=255,177,147
 
 [Colors:Complementary]
 BackgroundAlternate=13,13,16
 BackgroundNormal=7,8,10
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationHover=255,177,147
+ForegroundActive=255,177,147
 ForegroundInactive=127,134,149
-ForegroundLink=139,196,6
+ForegroundLink=231,123,96
 ForegroundNegative=244,46,83
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=139,196,6
+ForegroundVisited=231,123,96
 
 [Colors:Header]
 BackgroundAlternate=13,13,16
 BackgroundNormal=7,8,10
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
-ForegroundActive=193,255,88
+DecorationHover=255,177,147
+ForegroundActive=255,177,147
 ForegroundInactive=127,134,149
-ForegroundLink=139,196,6
+ForegroundLink=231,123,96
 ForegroundNegative=244,46,83
 ForegroundNeutral=251,191,36
 ForegroundNormal=248,248,248
 ForegroundPositive=113,247,159
-ForegroundVisited=139,196,6
+ForegroundVisited=231,123,96
 
 [Colors:Selection]
-BackgroundNormal=168,230,53
-BackgroundAlternate=193,255,88
-ForegroundNormal=248,248,248
+BackgroundNormal=255,152,122
+BackgroundAlternate=255,177,147
+ForegroundNormal=7,8,10
 ForegroundActive=248,248,248
 ForegroundInactive=127,134,149
-ForegroundLink=139,196,6
-ForegroundVisited=139,196,6
+ForegroundLink=231,123,96
+ForegroundVisited=231,123,96
 ForegroundNegative=244,46,83
 ForegroundNeutral=251,191,36
 ForegroundPositive=113,247,159
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
+DecorationHover=255,177,147
 
 [Colors:Tooltip]
 BackgroundNormal=18,18,22
 BackgroundAlternate=13,13,16
 ForegroundNormal=248,248,248
 ForegroundInactive=127,134,149
-ForegroundActive=193,255,88
-ForegroundLink=139,196,6
-ForegroundVisited=139,196,6
+ForegroundActive=255,177,147
+ForegroundLink=231,123,96
+ForegroundVisited=231,123,96
 ForegroundNegative=244,46,83
 ForegroundNeutral=251,191,36
 ForegroundPositive=113,247,159
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
+DecorationHover=255,177,147
 
 [Colors:View]
 BackgroundNormal=7,8,10
 BackgroundAlternate=13,13,16
 ForegroundNormal=248,248,248
 ForegroundInactive=127,134,149
-ForegroundActive=193,255,88
-ForegroundLink=193,255,88
-ForegroundVisited=139,196,6
+ForegroundActive=255,177,147
+ForegroundLink=255,177,147
+ForegroundVisited=231,123,96
 ForegroundNegative=244,46,83
 ForegroundNeutral=251,191,36
 ForegroundPositive=113,247,159
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
+DecorationHover=255,177,147
 
 [Colors:Window]
 BackgroundNormal=13,13,16
 BackgroundAlternate=18,18,22
 ForegroundNormal=248,248,248
 ForegroundInactive=127,134,149
-ForegroundActive=193,255,88
-ForegroundLink=193,255,88
-ForegroundVisited=139,196,6
+ForegroundActive=255,177,147
+ForegroundLink=255,177,147
+ForegroundVisited=231,123,96
 ForegroundNegative=244,46,83
 ForegroundPositive=113,247,159
 ForegroundNeutral=251,191,36
 DecorationFocus=248,248,248
-DecorationHover=193,255,88
+DecorationHover=255,177,147
 
 [ColorEffects:Disabled]
 Color=56,56,56
@@ -133,6 +133,6 @@ activeBackground=13,13,16
 activeForeground=248,248,248
 inactiveBackground=10,10,13
 inactiveForeground=127,134,149
-activeBlend=168,230,53
+activeBlend=255,152,122
 inactiveBlend=75,85,99
 activeFont=SF Pro Display,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
