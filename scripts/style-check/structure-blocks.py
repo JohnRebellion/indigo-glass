@@ -520,7 +520,7 @@ S['atlassian'] = ('0.4.0', header('0.4.0', 'atlassian') + button_block(
     color: #07080A !important;
   }""")
 
-S['microsoft365'] = ('0.4.0', header('0.4.0', 'microsoft365') + button_block(
+S['microsoft365'] = ('0.4.1', header('0.4.1', 'microsoft365') + button_block(
     'microsoft365',
     ['#appContainer button', 'button.fui-Button', 'button.ms-Button', '.hdr-btn'],
     exempt=':not(.subtle):not(.transparent):not(.ms-CommandBarItem):not(.fui-Tab):not(.ms-Pivot-link):not(.fui-BreadcrumbButton):not(.fui-MenuItem):not(.fui-Tree-item):not(.ms-Nav-link):not(.waffle):not(.icon):not(.fui-AccordionHeader button)',
@@ -533,8 +533,11 @@ S['microsoft365'] = ('0.4.0', header('0.4.0', 'microsoft365') + button_block(
    * counter, the danger badge (its fill is the negative token, 5.10:1 ink
    * against 3.93:1 white) and the checked box. Fluent's own success and
    * warning fills and the grey Tag keep Fluent's white text (measured
-   * 2026-09-24: white is the higher contrast on #107C10). */
-  .fui-Badge.brand, .fui-Badge.brand *, .fui-CounterBadge, .fui-PresenceBadge, .fui-Badge.danger,
+   * 2026-09-24: white is the higher contrast on #107C10).
+   * .fui-PresenceBadge is deliberately absent: its status dot is an SVG
+   * filled with currentColor, and the status hue IS its color. Inking it
+   * blacked out every presence dot in Teams and Outlook (2026-09-25). */
+  .fui-Badge.brand, .fui-Badge.brand *, .fui-CounterBadge, .fui-Badge.danger,
   .ms-Checkbox-checkbox.is-checked, .ms-Checkbox-checkbox.is-checked *, .fui-Checkbox__indicator {
     color: #07080A !important;
   }

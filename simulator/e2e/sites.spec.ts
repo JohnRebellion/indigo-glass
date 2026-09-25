@@ -85,7 +85,7 @@ for (const id of IDS) {
       };
       // Two stops with the second at 0% is a hard edge, not a blend: Google's star-rating fill. Content, not decoration.
       const hardStop = (img: string) => /\d(?:px|%)\s*,\s*(?:rgba?\([^)]*\)|[a-z]+|#[0-9a-f]+)\s+0%\)/i.test(img);
-      const fails = { radius: [] as string[], shadow: [] as string[], blur: [] as string[], gradient: [] as string[], thin: [] as string[], overlay: [] as string[], collision: [] as string[], phantom: [] as string[] };
+      const fails = { radius: [] as string[], shadow: [] as string[], blur: [] as string[], gradient: [] as string[], thin: [] as string[], overlay: [] as string[], collision: [] as string[], phantom: [] as string[], status: [] as string[] };
       const inked: { el: HTMLElement; off: number }[] = [];
       for (const el of all) {
         if (!visible(el)) continue;
@@ -178,6 +178,15 @@ for (const id of IDS) {
       // phantom: an inked element too small to be a surface (YouTube's empty
       // un-upgraded tooltip hosts came out as 4x4 accent dots).
       for (const i of shown) { const r = i.el.getBoundingClientRect(); if (r.width < 12 || r.height < 12) fails.phantom.push(`${where(i.el)} ${Math.round(r.width)}x${Math.round(r.height)}`); }
+      // status: a presence/status dot keeps its hue. Fluent draws it as an SVG
+      // filled with currentColor, so an ink `color` rule on the badge blacked out
+      // every Teams presence dot (2026-09-25). Judge the SVG fill when there is
+      // one, else the background; the dot must not read as ink.
+      for (const el of all.filter((e) => visible(e) && e.matches('[class*="presence" i], [class*="status-dot" i]'))) {
+        const svg = el.querySelector('svg');
+        const paint = rgb(svg ? getComputedStyle(svg).fill : getComputedStyle(el).backgroundColor);
+        if (paint[3] > 0 && Math.max(...paint.slice(0, 3)) < 48) fails.status.push(`${where(el)} rgb(${paint.slice(0, 3).join(',')})`);
+      }
       // overlays: dialog + menu carry 2px border and the alt shadow
       for (const el of all.filter((e) => visible(e) && e.matches('[role="dialog"], [role="menu"], [role="alertdialog"]'))) {
         const cs = getComputedStyle(el);
@@ -198,6 +207,7 @@ for (const id of IDS) {
     expect(contract.buttons.primaryLightLabel, 'accent-filled button without an ink label').toEqual([]);
     expect(contract.buttons.secondaryHard, 'offset shadow on a dark-filled button (level 0 is flat)').toEqual([]);
     expect(contract.fails.collision, 'inked elements closer than the shadow offset').toEqual([]);
+    expect(contract.fails.status, 'presence/status dot painted ink (its hue is the information)').toEqual([]);
     expect(contract.fails.phantom, 'inked element under 12px (an empty host wearing the edge and shadow)').toEqual([]);
 
     const overflow = await page.evaluate(() => ({
