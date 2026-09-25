@@ -514,6 +514,20 @@ apply_ini_to_config "$REPO_DIR/tokens/out/klassy-radius.ini" "$HOME/.config/klas
 # ~/.config/kwinrulesrc that had to be found and removed by hand this
 # session, directly contradicting "ink is opaque". Don't recreate it.
 
+if command -v vlc >/dev/null 2>&1; then
+  echo
+  echo "▶ Patching VLC (flat sliders, opaque fullscreen controller)..."
+  # Not apply_ini_to_config: kwriteconfig6 merges vlcrc's repeated section
+  # names and drops its BOM. apply-vlc.py edits lines in place and snapshots
+  # to the same backup dir. It refuses while VLC runs, so don't abort on it.
+  if [ "$DRY_RUN" = true ]; then
+    python3 "$REPO_DIR/scripts/apply-vlc.py" --dry-run || true
+  else
+    python3 "$REPO_DIR/scripts/apply-vlc.py" \
+      || echo "  ⚠ VLC not patched — quit VLC, then: python3 scripts/apply-vlc.py"
+  fi
+fi
+
 if [ "$WITH_GRUB" = true ]; then
   echo
   echo "▶ Installing Sage Ink GRUB theme..."
