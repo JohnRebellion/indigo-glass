@@ -1,0 +1,1166 @@
+{
+ "captured": "2026-09-25",
+ "host": "Fedora 44 (this host), /usr/share/icons",
+ "themes": {
+  "breeze-dark": {
+   "inherits": [
+    "breeze",
+    "hicolor"
+   ],
+   "followsColorScheme": true,
+   "index": "/usr/share/icons/breeze-dark/index.theme",
+   "indexPackage": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+   "icons": {
+    "folder": {
+     "16": {
+      "file": "breeze-dark/places/16/folder.svg",
+      "source": "/usr/share/icons/breeze-dark/places/16/folder.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/places/22/folder.svg",
+      "source": "/usr/share/icons/breeze-dark/places/22/folder.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/places/32/folder.svg",
+      "source": "/usr/share/icons/breeze-dark/places/32/folder.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/places/48/folder.svg",
+      "source": "/usr/share/icons/breeze-dark/places/48/folder.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "folder-documents": {
+     "16": {
+      "file": "breeze-dark/places/16/folder-documents.svg",
+      "source": "/usr/share/icons/breeze-dark/places/16/folder-documents.svg",
+      "real": "/usr/share/icons/breeze-dark/actions/16/edit-copy.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/places/22/folder-documents.svg",
+      "source": "/usr/share/icons/breeze-dark/places/22/folder-documents.svg",
+      "real": "/usr/share/icons/breeze-dark/actions/22/edit-copy.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/places/32/folder-documents.svg",
+      "source": "/usr/share/icons/breeze-dark/places/32/folder-documents.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/places/48/folder-documents.svg",
+      "source": "/usr/share/icons/breeze-dark/places/48/folder-documents.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "folder-download": {
+     "16": {
+      "file": "breeze-dark/places/16/folder-download.svg",
+      "source": "/usr/share/icons/breeze-dark/places/16/folder-download.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/places/22/folder-download.svg",
+      "source": "/usr/share/icons/breeze-dark/places/22/folder-download.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/places/32/folder-download.svg",
+      "source": "/usr/share/icons/breeze-dark/places/32/folder-download.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/places/48/folder-download.svg",
+      "source": "/usr/share/icons/breeze-dark/places/48/folder-download.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "user-home": {
+     "16": {
+      "file": "breeze-dark/places/16/user-home.svg",
+      "source": "/usr/share/icons/breeze-dark/places/16/user-home.svg",
+      "real": "/usr/share/icons/breeze-dark/actions/16/go-home.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/places/22/user-home.svg",
+      "source": "/usr/share/icons/breeze-dark/places/22/user-home.svg",
+      "real": "/usr/share/icons/breeze-dark/actions/22/go-home.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/places/32/user-home.svg",
+      "source": "/usr/share/icons/breeze-dark/places/32/user-home.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/places/48/user-home.svg",
+      "source": "/usr/share/icons/breeze-dark/places/48/user-home.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "user-trash": {
+     "16": {
+      "file": "breeze-dark/places/16/user-trash.svg",
+      "source": "/usr/share/icons/breeze-dark/places/16/user-trash.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/places/22/user-trash.svg",
+      "source": "/usr/share/icons/breeze-dark/places/22/user-trash.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/places/32/user-trash.svg",
+      "source": "/usr/share/icons/breeze-dark/places/32/user-trash.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/places/48/user-trash.svg",
+      "source": "/usr/share/icons/breeze-dark/places/48/user-trash.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "text-x-generic": {
+     "16": {
+      "file": "breeze-dark/mimetypes/16/text-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/16/text-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/mimetypes/22/text-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/22/text-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Scalable"
+     },
+     "32": {
+      "file": "breeze-dark/mimetypes/32/text-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/32/text-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/mimetypes/32/text-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/32/text-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     }
+    },
+    "application-pdf": {
+     "16": {
+      "file": "breeze-dark/mimetypes/16/application-pdf.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/16/application-pdf.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/mimetypes/22/application-pdf.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/22/application-pdf.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Scalable"
+     },
+     "32": {
+      "file": "breeze-dark/mimetypes/32/application-pdf.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/32/application-pdf.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/mimetypes/32/application-pdf.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/32/application-pdf.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     }
+    },
+    "image-x-generic": {
+     "16": {
+      "file": "breeze-dark/mimetypes/16/image-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/16/image-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/mimetypes/22/image-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/22/image-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Scalable"
+     },
+     "32": {
+      "file": "breeze-dark/mimetypes/32/image-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/32/image-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/mimetypes/32/image-x-generic.svg",
+      "source": "/usr/share/icons/breeze-dark/mimetypes/32/image-x-generic.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     }
+    },
+    "edit-copy": {
+     "16": {
+      "file": "breeze-dark/actions/16/edit-copy.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/16/edit-copy.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/actions/22/edit-copy.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/22/edit-copy.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/actions/24/edit-copy.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/24/edit-copy.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/actions/24/edit-copy.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/24/edit-copy.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     }
+    },
+    "list-add": {
+     "16": {
+      "file": "breeze-dark/actions/16/list-add.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/16/list-add.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/actions/22/list-add.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/22/list-add.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/actions/24/list-add.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/24/list-add.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/actions/24/list-add.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/24/list-add.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     }
+    },
+    "edit-delete": {
+     "16": {
+      "file": "breeze-dark/actions/16/edit-delete.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/16/edit-delete.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/actions/22/edit-delete.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/22/edit-delete.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/actions/32/edit-delete.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/32/edit-delete.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Scalable"
+     },
+     "48": {
+      "file": "breeze-dark/actions/32/edit-delete.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/32/edit-delete.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Scalable"
+     }
+    },
+    "document-save": {
+     "16": {
+      "file": "breeze-dark/actions/16/document-save.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/16/document-save.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/actions/22/document-save.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/22/document-save.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/actions/32/document-save.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/32/document-save.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Scalable"
+     },
+     "48": {
+      "file": "breeze-dark/actions/32/document-save.svg",
+      "source": "/usr/share/icons/breeze-dark/actions/32/document-save.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Scalable"
+     }
+    },
+    "dialog-warning": {
+     "16": {
+      "file": "breeze-dark/status/16/dialog-warning.svg",
+      "source": "/usr/share/icons/breeze-dark/status/16/dialog-warning.svg",
+      "real": "/usr/share/icons/breeze-dark/status/16/data-warning.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/status/22/dialog-warning.svg",
+      "source": "/usr/share/icons/breeze-dark/status/22/dialog-warning.svg",
+      "real": "/usr/share/icons/breeze-dark/status/22/data-warning.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/status/64/dialog-warning.svg",
+      "source": "/usr/share/icons/breeze-dark/status/64/dialog-warning.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 64,
+      "dirType": "Scalable"
+     },
+     "48": {
+      "file": "breeze-dark/status/64/dialog-warning.svg",
+      "source": "/usr/share/icons/breeze-dark/status/64/dialog-warning.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 64,
+      "dirType": "Scalable"
+     }
+    },
+    "dialog-error": {
+     "16": {
+      "file": "breeze-dark/status/16/dialog-error.svg",
+      "source": "/usr/share/icons/breeze-dark/status/16/dialog-error.svg",
+      "real": "/usr/share/icons/breeze-dark/status/16/data-error.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/status/22/dialog-error.svg",
+      "source": "/usr/share/icons/breeze-dark/status/22/dialog-error.svg",
+      "real": "/usr/share/icons/breeze-dark/status/22/data-error.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/status/64/dialog-error.svg",
+      "source": "/usr/share/icons/breeze-dark/status/64/dialog-error.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 64,
+      "dirType": "Scalable"
+     },
+     "48": {
+      "file": "breeze-dark/status/64/dialog-error.svg",
+      "source": "/usr/share/icons/breeze-dark/status/64/dialog-error.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 64,
+      "dirType": "Scalable"
+     }
+    },
+    "dialog-information": {
+     "16": {
+      "file": "breeze-dark/status/16/dialog-information.svg",
+      "source": "/usr/share/icons/breeze-dark/status/16/dialog-information.svg",
+      "real": "/usr/share/icons/breeze-dark/status/16/data-information.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/status/22/dialog-information.svg",
+      "source": "/usr/share/icons/breeze-dark/status/22/dialog-information.svg",
+      "real": "/usr/share/icons/breeze-dark/status/22/data-information.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/status/64/dialog-information.svg",
+      "source": "/usr/share/icons/breeze-dark/status/64/dialog-information.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 64,
+      "dirType": "Scalable"
+     },
+     "48": {
+      "file": "breeze-dark/status/64/dialog-information.svg",
+      "source": "/usr/share/icons/breeze-dark/status/64/dialog-information.svg",
+      "real": null,
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 64,
+      "dirType": "Scalable"
+     }
+    },
+    "emblem-favorite": {
+     "16": {
+      "file": "breeze-dark/emblems/16/emblem-favorite.svg",
+      "source": "/usr/share/icons/breeze-dark/emblems/16/emblem-favorite.svg",
+      "real": "/usr/share/icons/breeze-dark/emblems/16/rating.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "breeze-dark/emblems/22/emblem-favorite.svg",
+      "source": "/usr/share/icons/breeze-dark/emblems/22/emblem-favorite.svg",
+      "real": "/usr/share/icons/breeze-dark/emblems/22/rating.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "breeze-dark/emblems/22/emblem-favorite.svg",
+      "source": "/usr/share/icons/breeze-dark/emblems/22/emblem-favorite.svg",
+      "real": "/usr/share/icons/breeze-dark/emblems/22/rating.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "breeze-dark/emblems/22/emblem-favorite.svg",
+      "source": "/usr/share/icons/breeze-dark/emblems/22/emblem-favorite.svg",
+      "real": "/usr/share/icons/breeze-dark/emblems/22/rating.svg",
+      "package": "breeze-icon-theme-6.29.0-1.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     }
+    }
+   }
+  },
+  "Papirus-Dark": {
+   "inherits": [
+    "breeze-dark",
+    "hicolor"
+   ],
+   "followsColorScheme": true,
+   "index": "/usr/share/icons/Papirus-Dark/index.theme",
+   "indexPackage": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+   "icons": {
+    "folder": {
+     "16": {
+      "file": "papirus-dark/16x16/places/folder.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/places/folder.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/places/folder.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/places/folder.svg",
+      "real": "/usr/share/icons/Papirus/22x22/places/folder-blue.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/places/folder.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/places/folder.svg",
+      "real": "/usr/share/icons/Papirus/32x32/places/folder-blue.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/places/folder.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder.svg",
+      "real": "/usr/share/icons/Papirus/48x48/places/folder-blue.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "folder-documents": {
+     "16": {
+      "file": "papirus-dark/16x16/places/folder-documents.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/places/folder-documents.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/places/folder-documents.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/places/folder-documents.svg",
+      "real": "/usr/share/icons/Papirus/22x22/places/folder-blue-documents.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/places/folder-documents.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/places/folder-documents.svg",
+      "real": "/usr/share/icons/Papirus/32x32/places/folder-blue-documents.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/places/folder-documents.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-documents.svg",
+      "real": "/usr/share/icons/Papirus/48x48/places/folder-blue-documents.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "folder-download": {
+     "16": {
+      "file": "papirus-dark/16x16/places/folder-download.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/places/folder-download.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/places/folder-download.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/places/folder-download.svg",
+      "real": "/usr/share/icons/Papirus/22x22/places/folder-blue-download.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/places/folder-download.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/places/folder-download.svg",
+      "real": "/usr/share/icons/Papirus/32x32/places/folder-blue-download.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/places/folder-download.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-download.svg",
+      "real": "/usr/share/icons/Papirus/48x48/places/folder-blue-download.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "user-home": {
+     "16": {
+      "file": "papirus-dark/16x16/places/user-home.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/places/user-home.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/places/user-home.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/places/user-home.svg",
+      "real": "/usr/share/icons/Papirus/22x22/places/user-blue-home.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/places/user-home.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/places/user-home.svg",
+      "real": "/usr/share/icons/Papirus/32x32/places/user-blue-home.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/places/user-home.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/places/user-home.svg",
+      "real": "/usr/share/icons/Papirus/48x48/places/user-blue-home.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "user-trash": {
+     "16": {
+      "file": "papirus-dark/16x16/places/user-trash.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/places/user-trash.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/places/user-trash.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/places/user-trash.svg",
+      "real": "/usr/share/icons/Papirus/22x22/places/user-trash.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/places/user-trash.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/places/user-trash.svg",
+      "real": "/usr/share/icons/Papirus/32x32/places/user-trash.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/places/user-trash.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/places/user-trash.svg",
+      "real": "/usr/share/icons/Papirus/48x48/places/user-trash.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "text-x-generic": {
+     "16": {
+      "file": "papirus-dark/16x16/mimetypes/text-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/mimetypes/text-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/16x16/mimetypes/text-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/mimetypes/text-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/mimetypes/text-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/22x22/mimetypes/text-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/mimetypes/text-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/mimetypes/text-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/32x32/mimetypes/text-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/mimetypes/text-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/mimetypes/text-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/48x48/mimetypes/text-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "application-pdf": {
+     "16": {
+      "file": "papirus-dark/16x16/mimetypes/application-pdf.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/mimetypes/application-pdf.svg",
+      "real": "/usr/share/icons/Papirus/16x16/mimetypes/application-pdf.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/mimetypes/application-pdf.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/mimetypes/application-pdf.svg",
+      "real": "/usr/share/icons/Papirus/22x22/mimetypes/application-pdf.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/mimetypes/application-pdf.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/mimetypes/application-pdf.svg",
+      "real": "/usr/share/icons/Papirus/32x32/mimetypes/application-pdf.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/mimetypes/application-pdf.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/mimetypes/application-pdf.svg",
+      "real": "/usr/share/icons/Papirus/48x48/mimetypes/application-pdf.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "image-x-generic": {
+     "16": {
+      "file": "papirus-dark/16x16/mimetypes/image-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/mimetypes/image-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/16x16/mimetypes/image-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/mimetypes/image-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/mimetypes/image-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/22x22/mimetypes/image-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/mimetypes/image-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/mimetypes/image-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/32x32/mimetypes/image-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/mimetypes/image-x-generic.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/mimetypes/image-x-generic.svg",
+      "real": "/usr/share/icons/Papirus/48x48/mimetypes/image-x-generic.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    },
+    "edit-copy": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/edit-copy.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/edit-copy.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/edit-copy.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/edit-copy.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/24x24/actions/edit-copy.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/edit-copy.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/24x24/actions/edit-copy.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/edit-copy.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     }
+    },
+    "list-add": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/list-add.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/list-add.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/list-add.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/list-add.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/24x24/actions/list-add.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/list-add.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/24x24/actions/list-add.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/list-add.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     }
+    },
+    "edit-delete": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/edit-delete.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/edit-delete.svg",
+      "real": "/usr/share/icons/Papirus-Dark/16x16/actions/entry-delete.svg",
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/edit-delete.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/edit-delete.svg",
+      "real": "/usr/share/icons/Papirus-Dark/22x22/actions/entry-delete.svg",
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/24x24/actions/edit-delete.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/edit-delete.svg",
+      "real": "/usr/share/icons/Papirus-Dark/24x24/actions/entry-delete.svg",
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/24x24/actions/edit-delete.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/edit-delete.svg",
+      "real": "/usr/share/icons/Papirus-Dark/24x24/actions/entry-delete.svg",
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     }
+    },
+    "document-save": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/document-save.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/document-save.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/document-save.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/document-save.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/24x24/actions/document-save.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/document-save.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/24x24/actions/document-save.svg",
+      "source": "/usr/share/icons/Papirus-Dark/24x24/actions/document-save.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 24,
+      "dirType": "Fixed"
+     }
+    },
+    "dialog-warning": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/dialog-warning.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/dialog-warning.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/dialog-warning.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/dialog-warning.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/status/dialog-warning.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/status/dialog-warning.svg",
+      "real": "/usr/share/icons/Papirus/32x32/status/dialog-warning.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/status/dialog-warning.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/status/dialog-warning.svg",
+      "real": "/usr/share/icons/Papirus/48x48/status/dialog-warning.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Scalable"
+     }
+    },
+    "dialog-error": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/dialog-error.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/dialog-error.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/dialog-error.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/dialog-error.svg",
+      "real": null,
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/status/dialog-error.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/status/dialog-error.svg",
+      "real": "/usr/share/icons/Papirus/32x32/status/dialog-error.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/status/dialog-error.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/status/dialog-error.svg",
+      "real": "/usr/share/icons/Papirus/48x48/status/dialog-error.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Scalable"
+     }
+    },
+    "dialog-information": {
+     "16": {
+      "file": "papirus-dark/16x16/actions/dialog-information.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/actions/dialog-information.svg",
+      "real": "/usr/share/icons/Papirus-Dark/16x16/actions/help-about.svg",
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/actions/dialog-information.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/actions/dialog-information.svg",
+      "real": "/usr/share/icons/Papirus-Dark/22x22/actions/help-about.svg",
+      "package": "papirus-icon-theme-dark-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/status/dialog-information.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/status/dialog-information.svg",
+      "real": "/usr/share/icons/Papirus/32x32/status/dialog-information.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/status/dialog-information.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/status/dialog-information.svg",
+      "real": "/usr/share/icons/Papirus/48x48/status/dialog-information.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Scalable"
+     }
+    },
+    "emblem-favorite": {
+     "16": {
+      "file": "papirus-dark/16x16/emblems/emblem-favorite.svg",
+      "source": "/usr/share/icons/Papirus-Dark/16x16/emblems/emblem-favorite.svg",
+      "real": "/usr/share/icons/Papirus/16x16/emblems/emblem-favorite.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 16,
+      "dirType": "Fixed"
+     },
+     "22": {
+      "file": "papirus-dark/22x22/emblems/emblem-favorite.svg",
+      "source": "/usr/share/icons/Papirus-Dark/22x22/emblems/emblem-favorite.svg",
+      "real": "/usr/share/icons/Papirus/22x22/emblems/emblem-favorite.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 22,
+      "dirType": "Fixed"
+     },
+     "32": {
+      "file": "papirus-dark/32x32/emblems/emblem-favorite.svg",
+      "source": "/usr/share/icons/Papirus-Dark/32x32/emblems/emblem-favorite.svg",
+      "real": "/usr/share/icons/Papirus/32x32/emblems/emblem-favorite.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 32,
+      "dirType": "Fixed"
+     },
+     "48": {
+      "file": "papirus-dark/48x48/emblems/emblem-favorite.svg",
+      "source": "/usr/share/icons/Papirus-Dark/48x48/emblems/emblem-favorite.svg",
+      "real": "/usr/share/icons/Papirus/48x48/emblems/emblem-favorite.svg",
+      "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+      "dirSize": 48,
+      "dirType": "Fixed"
+     }
+    }
+   },
+   "folderColours": {
+    "blue": {
+     "file": "papirus-dark/48x48/places/folder-blue.svg",
+     "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-blue.svg",
+     "real": "/usr/share/icons/Papirus/48x48/places/folder-blue.svg",
+     "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+     "dirSize": 48,
+     "dirType": "Fixed"
+    },
+    "green": {
+     "file": "papirus-dark/48x48/places/folder-green.svg",
+     "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-green.svg",
+     "real": "/usr/share/icons/Papirus/48x48/places/folder-green.svg",
+     "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+     "dirSize": 48,
+     "dirType": "Fixed"
+    },
+    "grey": {
+     "file": "papirus-dark/48x48/places/folder-grey.svg",
+     "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-grey.svg",
+     "real": "/usr/share/icons/Papirus/48x48/places/folder-grey.svg",
+     "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+     "dirSize": 48,
+     "dirType": "Fixed"
+    },
+    "teal": {
+     "file": "papirus-dark/48x48/places/folder-teal.svg",
+     "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-teal.svg",
+     "real": "/usr/share/icons/Papirus/48x48/places/folder-teal.svg",
+     "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+     "dirSize": 48,
+     "dirType": "Fixed"
+    },
+    "darkcyan": {
+     "file": "papirus-dark/48x48/places/folder-darkcyan.svg",
+     "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-darkcyan.svg",
+     "real": "/usr/share/icons/Papirus/48x48/places/folder-darkcyan.svg",
+     "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+     "dirSize": 48,
+     "dirType": "Fixed"
+    },
+    "bluegrey": {
+     "file": "papirus-dark/48x48/places/folder-bluegrey.svg",
+     "source": "/usr/share/icons/Papirus-Dark/48x48/places/folder-bluegrey.svg",
+     "real": "/usr/share/icons/Papirus/48x48/places/folder-bluegrey.svg",
+     "package": "papirus-icon-theme-20250501-2.fc44.noarch",
+     "dirSize": 48,
+     "dirType": "Fixed"
+    }
+   }
+  }
+ }
+}

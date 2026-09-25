@@ -1,0 +1,209 @@
+/* Discord's own default dark theme CSS custom properties, reconstructed —
+ * Discord is installed on this host (flatpak com.discordapp.Discord 1.0.149)
+ * but Vencord is NOT (~/.var/app/com.discordapp.Discord/config/Vencord and
+ * ~/.config/Vencord both absent), so this is NOT a copy of an injected
+ * theme's view of stock; it is Discord's own compiled :root/.theme-dark
+ * ramp, reconstructed from a maintained third-party reference because
+ * Discord ships no public variable-reference docs of its own.
+ *
+ * Source: docs.betterdiscord.app/discord/variables (BetterDiscord's Discord
+ * CSS Reference — the same reference the shipped indigo-glass.theme.css's
+ * own author cites in spirit; BetterDiscord's docs exist specifically to
+ * mirror Discord's actual compiled variables, including the "new dark"
+ * #313338 ramp shipped since the 2023 client redesign — these hex values
+ * are independently well-known/verifiable, not tutorial placeholders,
+ * fetched 2026-09-25). HSL -> hex conversion is exact (Python colorsys),
+ * saturation-factor defaults to 1 (no user accessibility override active).
+ *
+ * --brand-experiment-100/-200/-360 have no page-cited HSL step (the page
+ * exposes only 500/560/600 for the brand ramp in the excerpt fetched); those
+ * three are INTERPOLATED tints of brand-500 (#5865F2) toward white, marked
+ * below, not independently verified — same "reasonable approximation,
+ * disclosed" policy as the Obsidian stock reconstruction.
+ * --status-positive-text/-warning-text/-danger-text: the fetched page excerpt
+ * paired these with white/black in a way that contradicts every other public
+ * theming guide (status text is semantic-coloured, not white-on-dark), so
+ * they are reconstructed here as mirroring --text-positive/-warning/-danger
+ * instead of trusting that fetch verbatim — flagged as a citation
+ * disagreement, not silently resolved.
+ * --channeltextarea-background has no cited value; approximated as
+ * --background-secondary (Discord's composer historically matches the
+ * channel-list surface), flagged.
+ *
+ * DOM: Discord's real classes are build-hashed and change every release
+ * (e.g. `container_a1b2c` instead of a stable `container`), which is exactly
+ * why the shipped theme.css itself targets `[class*="containerDefault"]`-
+ * style substring selectors — this stock DOM mirrors that convention,
+ * giving every specimen element a hash-suffixed class so the shipped file's
+ * own selectors (and this reconstruction's) match by substring the same way
+ * they would against a real, obfuscated Discord release. */
+
+:root {
+  --primary-100: #F9F9F9;
+  --primary-130: #F2F3F5;
+  --primary-230: #DBDEE1;
+  --primary-330: #B5BAC1;
+  --primary-360: #949BA4;
+  --primary-400: #80848E;
+  --primary-500: #4E5058;
+  --primary-530: #41434A;
+  --primary-600: #313338;
+  --primary-630: #2B2D31;
+  --primary-660: #232428;
+  --primary-700: #1E1F22;
+  --primary-730: #1A1B1E;
+  --primary-800: #111214;
+  --white-500: #FFFFFF;
+  --black-500: #000000;
+  --blue-345: #00A8FC;
+  --green-345: #26B968;
+  --yellow-300: #F0B132;
+  --red-345: #FA777C;
+  --brand-500: #5865F2;
+  --brand-560: #4752C4;
+  --brand-600: #3C45A5;
+  --brand-100: #E5E7FE;  /* interpolated tint of brand-500, not cited */
+  --brand-200: #C7CCFB;  /* interpolated tint of brand-500, not cited */
+  --brand-360: #8990F5;  /* interpolated tint of brand-500, not cited */
+}
+
+.theme-dark {
+  --background-primary: var(--primary-600);
+  --background-secondary: var(--primary-630);
+  --background-secondary-alt: var(--primary-660);
+  --background-tertiary: var(--primary-700);
+  --background-accent: var(--primary-530);
+  --background-floating: var(--primary-800);
+  --background-mobile-primary: var(--primary-600);
+  --background-mobile-secondary: var(--primary-630);
+  --background-modifier-hover: hsla(228, 6%, 32.5%, 0.3);
+  --background-modifier-active: hsla(228, 6%, 32.5%, 0.48);
+  --background-modifier-selected: hsla(228, 6%, 32.5%, 0.6);
+  --background-modifier-accent: hsla(228, 6%, 32.5%, 0.48);
+
+  --text-normal: var(--primary-230);
+  --text-muted: var(--primary-360);
+  --text-link: var(--blue-345);
+  --text-positive: var(--green-345);
+  --text-warning: var(--yellow-300);
+  --text-danger: var(--red-345);
+
+  --interactive-normal: var(--primary-330);
+  --interactive-hover: var(--primary-230);
+  --interactive-active: var(--white-500);
+  --interactive-muted: var(--primary-500);
+
+  --header-primary: var(--primary-130);
+  --header-secondary: var(--primary-330);
+
+  --channels-default: var(--primary-360);
+  --channel-icon: var(--primary-400);
+  --channeltextarea-background: var(--background-secondary); /* approximated, not cited - see header */
+
+  --activity-card-background: var(--primary-700);
+  --modal-background: var(--primary-600);
+  --modal-footer-background: var(--primary-630);
+  --scrollbar-thin-thumb: var(--primary-730);
+  --scrollbar-auto-thumb: var(--primary-730);
+  --scrollbar-auto-track: transparent;
+
+  --brand-experiment: var(--brand-500);
+  --brand-experiment-100: var(--brand-100);
+  --brand-experiment-200: var(--brand-200);
+  --brand-experiment-360: var(--brand-360);
+  --brand-experiment-500: var(--brand-500);
+  --brand-experiment-560: var(--brand-560);
+  --brand-experiment-600: var(--brand-600);
+
+  --status-positive-text: var(--text-positive); /* mirrors --text-positive - see header re: fetched page disagreement */
+  --status-warning-text: var(--text-warning);
+  --status-danger-text: var(--text-danger);
+}
+
+/* ---- Component rules: the stock DOM the shipped theme's wildcard [class*=]
+   selectors target, same substring-match convention (see header). Discord's
+   own corner radii, unlike Obsidian's --radius-* variables, are NOT exposed
+   as custom properties - every rounded corner below is Discord's own
+   hardcoded px value, reconstructed from the visible product, not a cited
+   variable (there is nothing to cite: it isn't themeable at the source). */
+
+body, .theme-dark { background: var(--background-primary); color: var(--text-normal); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+/* Server rail */
+.guilds_stock { background: var(--background-tertiary); width: 72px; padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+.listItem_stock { width: 48px; height: 48px; border-radius: 24px; background: var(--background-primary); display: flex; align-items: center; justify-content: center; color: var(--interactive-normal); }
+.listItem_stock.selected_stock { border-radius: 16px; background: var(--brand-experiment-500); color: var(--white-500); }
+.listItem_stock:hover { border-radius: 16px; background: var(--brand-experiment); color: var(--white-500); }
+
+/* Channel list */
+.sidebar_stock { background: var(--background-secondary); width: 240px; padding: 8px; }
+.containerDefault_stock { border-radius: 4px; margin-bottom: 1px; }
+.containerDefault_stock .link_stock { padding: 6px 8px; color: var(--channels-default); display: flex; align-items: center; gap: 6px; border-radius: 4px; }
+.containerDefault_stock .link_stock:hover { background: var(--background-modifier-hover); color: var(--interactive-hover); }
+.containerDefault_stock .link_stock:active { background: var(--background-modifier-active); }
+.containerDefault_stock.containerSelected_stock .link_stock { background: var(--background-modifier-selected); color: var(--interactive-active); }
+.icon_stock { color: var(--channel-icon); }
+
+/* Chat */
+.chat_stock { flex: 1; background: var(--background-primary); display: flex; flex-direction: column; }
+.messageListItem_stock { padding: 2px 16px; }
+.messageListItem_stock:hover { background: var(--background-modifier-hover); }
+.username_stock { color: var(--header-primary); font-weight: 600; }
+.timestamp_stock { color: var(--text-muted); font-size: 11px; }
+.markup_stock { color: var(--text-normal); }
+.markup_stock a { color: var(--text-link); }
+.markup_stock code, .markup_stock pre, .markup_stock kbd, .markup_stock samp, .markup_stock tt { background: var(--background-secondary); border-radius: 4px; font-family: "Consolas", monospace; }
+.mentioned_stock { background: hsla(235, 85.6%, 64.7%, 0.1); border-left: 2px solid var(--brand-experiment); }
+.embedFull_stock { background: var(--background-secondary-alt); border-left: 4px solid var(--background-accent); border-radius: 4px; padding: 8px 10px; }
+.reactionsContainer_stock { display: flex; gap: 4px; }
+.reaction_stock { background: var(--background-secondary); border: 1px solid transparent; border-radius: 8px; padding: 2px 6px; }
+.reaction_stock.reactionMe_stock { background: hsla(235, 85.6%, 64.7%, 0.15); border-color: var(--brand-experiment); }
+.replyBar_stock { border-left: 2px solid var(--interactive-muted); color: var(--text-muted); padding-left: 8px; margin-bottom: 2px; }
+
+/* Composer */
+.channelTextArea_stock { background: var(--channeltextarea-background); border-radius: 8px; padding: 8px 12px; margin: 0 16px 16px; }
+
+/* Member list */
+.members_stock { background: var(--background-secondary); width: 200px; padding: 8px; }
+.members_stock::-webkit-scrollbar-thumb { background: var(--scrollbar-auto-thumb); }
+.header_stock { color: var(--header-secondary); text-transform: uppercase; font-size: 11px; letter-spacing: 0.02em; margin-bottom: 4px; }
+.member_stock { color: var(--interactive-normal); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 6px; }
+.member_stock:hover { background: var(--background-modifier-hover); color: var(--interactive-hover); }
+.avatar_stock { width: 24px; height: 24px; border-radius: 50%; background: var(--background-accent); }
+.status_positive_stock { color: var(--status-positive-text); }
+.status_warning_stock { color: var(--status-warning-text); }
+
+/* User popout */
+.user_popout_stock { background: var(--background-floating); border-radius: 8px; padding: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.24); } /* drift-allow: Discord's own stock shadow value, reconstructed for the stock lane, not a live value */
+.activityCard_stock { background: var(--activity-card-background); border-radius: 4px; padding: 6px 8px; margin-top: 6px; }
+
+/* Modal */
+.modal_stock { background: var(--modal-background); border-radius: 8px; padding: 16px; }
+.footer_stock { background: var(--modal-footer-background); border-radius: 0 0 8px 8px; padding: 12px 16px; }
+
+/* Buttons */
+.button_stock { border-radius: 4px; padding: 8px 16px; border: 0; font-weight: 500; }
+.button_stock.colorBrand_stock { background: var(--brand-experiment); color: var(--white-500); }
+.button_stock.colorBrand_stock:hover { background: var(--brand-experiment-560); }
+.button_stock.colorBrand_stock:active { background: var(--brand-experiment-600); }
+.button_stock.colorPrimary_stock { background: var(--primary-530); color: var(--text-normal); }
+.button_stock.colorDanger_stock { background: var(--status-danger-text); color: var(--white-500); }
+
+/* Context menu / tooltip */
+.menu_stock { background: var(--background-floating); border-radius: 8px; padding: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.24); } /* drift-allow: Discord's own stock shadow value, reconstructed for the stock lane, not a live value */
+.item_stock { color: var(--interactive-normal); border-radius: 4px; padding: 6px 8px; }
+.item_stock:hover { background: var(--brand-experiment); color: var(--white-500); }
+.item_stock:focus-visible { background: var(--background-modifier-accent); }
+.item_stock.colorDanger_stock { color: var(--status-danger-text); }
+.tooltip_stock { background: var(--black-500); color: var(--white-500); border-radius: 4px; padding: 4px 8px; font-size: 12px; }
+
+/* Settings sidebar */
+.settingsSidebar_stock { background: var(--background-secondary); width: 200px; padding: 16px 6px; }
+.settingsSidebar_stock .item_stock { padding: 6px 10px; color: var(--interactive-normal); }
+.settingsSidebar_stock .item_stock.selected_stock { background: var(--background-modifier-selected); color: var(--interactive-active); }
+
+/* Search input */
+input.input_stock { background: var(--background-tertiary); color: var(--text-normal); border: 0; border-radius: 4px; padding: 6px 8px; }
+
+::selection { background: hsla(228, 6%, 32.5%, 0.6); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thin-thumb); }

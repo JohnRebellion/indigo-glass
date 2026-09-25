@@ -1,0 +1,94 @@
+/* libadwaita dark named colours — stock/before comparison for /desktop/gtk-user-css/.
+ *
+ * Not hand-transcribed from upstream SCSS source (gitlab.gnome.org raw file
+ * fetches 404'd for this exact tag from this host, and the project's mirror
+ * status could not be confirmed). Instead this is EXTRACTED from the actual
+ * compiled stylesheet libadwaita 1.9.3 ships and this host has installed:
+ *
+ *   rpm -q libadwaita          -> libadwaita-1.9.3-1.fc44.x86_64
+ *   gresource extract /usr/lib64/libadwaita-1.so.0 \
+ *     /org/gnome/Adwaita/styles/gtk.css
+ *
+ * That resource is the compiled output of upstream's src/stylesheet/*.scss —
+ * the same artefact GTK4/libadwaita apps load at runtime, so it is a more
+ * direct provenance than the SCSS source would be. Values below are the
+ * *resolved dark branch*: libadwaita ships one stylesheet with light values
+ * as defaults and a single `@media (prefers-color-scheme: dark) { ... }`
+ * block re-defining a subset (GTK evaluates media queries and the later
+ * @define-color wins) — this file inlines that resolution so it reads the
+ * same shape as SageInk's own gtk-4.0/gtk.css (a flat @define-color list),
+ * dark values only, taken 2026-09-25.
+ *
+ * `accent_bg_color`/`accent_fg_color` are not compiled into this stylesheet
+ * at all — GTK injects them at runtime as `@define-color accent_bg_color %s;`
+ * from the user's chosen accent (org.gnome.desktop.interface accent-color).
+ * The un-set default is GNOME's "blue" swatch, #3584e4, with white text —
+ * both cited from the same .so's `--accent-blue: #3584e4` constant and the
+ * long-standing GNOME HIG default; not independently re-derived from a
+ * config default in this session.
+ *
+ * `borders` (color-mix toward transparent) is stock libadwaita's own choice,
+ * not a translation artefact — real evidence that unmodified libadwaita
+ * already ships a translucent-by-default control border, which Sage Ink's
+ * gtk-4.0/gtk.css replaces with the opaque `border_strong` token.
+ */
+
+@define-color accent_bg_color #3584e4;
+@define-color accent_fg_color white;
+@define-color accent_color oklab(from @accent_bg_color max(l, 0.85) a b);
+
+@define-color destructive_bg_color #c01c28; /* red_4 */
+@define-color destructive_fg_color white;
+@define-color destructive_color oklab(from @destructive_bg_color max(l, 0.85) a b);
+@define-color success_bg_color #26a269; /* green_5 */
+@define-color success_fg_color white;
+@define-color success_color oklab(from @success_bg_color max(l, 0.85) a b);
+@define-color warning_bg_color #cd9309;
+@define-color warning_fg_color RGB(0 0 0 / 80%);
+@define-color warning_color oklab(from @warning_bg_color max(l, 0.85) a b);
+@define-color error_bg_color #c01c28; /* red_4 */
+@define-color error_fg_color white;
+@define-color error_color oklab(from @error_bg_color max(l, 0.85) a b);
+
+@define-color window_bg_color #222226;
+@define-color window_fg_color white;
+@define-color view_bg_color #1d1d20;
+@define-color view_fg_color white;
+@define-color headerbar_bg_color #2e2e32;
+@define-color headerbar_fg_color white;
+@define-color headerbar_border_color white;
+@define-color headerbar_backdrop_color @window_bg_color;
+@define-color headerbar_shade_color RGB(0 0 6 / 36%);
+@define-color sidebar_bg_color #2e2e32;
+@define-color sidebar_fg_color white;
+@define-color sidebar_backdrop_color #28282c;
+@define-color sidebar_shade_color RGB(0 0 6 / 25%);
+@define-color sidebar_border_color RGB(0 0 6 / 36%);
+
+/* Stock libadwaita's dark card is a translucent WHITE overlay over whatever
+ * sits behind it, not an opaque fill — the one entry here that most directly
+ * shows what "colour-as-elevation instead of translucency" (Sage Ink's own
+ * gtk-4.0/gtk.css header) replaced. */
+@define-color card_bg_color RGB(255 255 255 / 8%);
+@define-color card_fg_color white;
+@define-color card_shade_color RGB(0 0 6 / 36%);
+
+@define-color dialog_bg_color #36363a;
+@define-color dialog_fg_color white;
+@define-color popover_bg_color #36363a;
+@define-color popover_fg_color white;
+@define-color popover_shade_color RGB(0 0 6 / 25%);
+
+@define-color theme_bg_color @window_bg_color;
+@define-color theme_fg_color @window_fg_color;
+@define-color theme_base_color @view_bg_color;
+@define-color theme_text_color @view_fg_color;
+@define-color theme_selected_bg_color @accent_bg_color;
+@define-color theme_selected_fg_color @accent_fg_color;
+@define-color insensitive_bg_color color-mix(in srgb, @window_bg_color 60%, @view_bg_color);
+@define-color insensitive_fg_color color-mix(in srgb, @window_fg_color 50%, transparent);
+@define-color insensitive_base_color @view_bg_color;
+/* Stock: a translucent border by default (currentColor at 15%), not a token
+ * hex — the GTK4 half of the same "translucent-by-default" divergence noted
+ * on card_bg_color above. */
+@define-color borders color-mix(in srgb, currentColor 15%, transparent);

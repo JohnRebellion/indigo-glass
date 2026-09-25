@@ -1,0 +1,9 @@
+# Stock fixture: /usr/share/plasma/desktoptheme/breeze-dark/plasmarc (rpm -qf: libplasma-6.7.4-1.fc44.x86_64), Fedora 44 host, copied 2026-09-25. Unmodified below.
+[Wallpaper]
+defaultWallpaperTheme=Next
+defaultFileSuffix=.png
+defaultWidth=1920
+defaultHeight=1080
+
+[AdaptiveTransparency]
+enabled=true

@@ -1,0 +1,294 @@
+/* Obsidian's own default dark theme (.theme-dark), reconstructed — Obsidian
+ * is not installed on this host (no rpm/flatpak, no ~/.config/obsidian), so
+ * this is NOT a copy of an installed file; every value below is cited.
+ *
+ * Semantic variable values (--background-*, --text-*, --interactive-*,
+ * --scrollbar-*, the default font stack): obsidian-community/obsidian-style-
+ * settings, obsidian-default-theme.css, "default-dark" column
+ * (github.com/obsidian-community/obsidian-style-settings, fetched 2026-09-25).
+ * That repo exists specifically so theme authors can see Obsidian's own
+ * unthemed variable values; it has been the stable community reference for
+ * several major Obsidian versions.
+ *
+ * Base color scale, extended colors (red/orange/yellow/green/cyan/blue/
+ * purple/pink), border width and radius scale: the OFFICIAL current
+ * obsidian-developer-docs CSS variable reference
+ * (github.com/obsidianmd/obsidian-developer-docs, en/Reference/CSS variables/
+ * Foundations/{Colors,Borders,Radiuses}.md, fetched 2026-09-25) — --color-*,
+ * --border-width, --radius-*.
+ *
+ * Variable NAMES for callouts/code/tags/blockquote/table/links/lists (no
+ * public default hex — Obsidian derives most of these from the extended
+ * colors above at run time): the same developer-docs reference,
+ * en/Reference/CSS variables/Editor/{Callout,Code,Tag,Blockquote,Table,Link,
+ * List}.md. Values below compute callout/code colors from the extended
+ * palette the way Obsidian's own compiled CSS does (hue name -> --color-x).
+ *
+ * DOM class names (ribbon, nav-file/-folder, workspace-tab-header, cm-editor,
+ * modal/prompt, menu, tooltip, callout structure, task-list-item...) are
+ * Obsidian's documented, stable plugin/theme-facing classes — the same ones
+ * obsidian/Indigo Glass/theme.css itself targets (see the shipped file's own
+ * selectors) plus help.obsidian.md's plugin developer notes. Frozen per
+ * fixtures/README.md; refresh deliberately and say so in the commit. */
+
+.theme-dark {
+  /* Base + extended colors: official obsidian-developer-docs Foundations/Colors.md */
+  --color-base-00: #1c1c1c;
+  --color-base-05: #212121;
+  --color-base-10: #232323;
+  --color-base-20: #282828;
+  --color-base-25: #2e2e2e;
+  --color-base-30: #333333;
+  --color-base-35: #3f3f3f;
+  --color-base-40: #555555;
+  --color-base-50: #666666;
+  --color-base-60: #999999;
+  --color-base-70: #b3b3b3;
+  --color-base-100: #dadada;
+  --color-red: #fb464c;
+  --color-orange: #e9973f;
+  --color-yellow: #e0de71;
+  --color-green: #44cf6e;
+  --color-cyan: #53dfdd;
+  --color-blue: #027aff;
+  --color-purple: #a882ff;
+  --color-pink: #fa99cd;
+
+  /* Semantic values: obsidian-style-settings default-dark reference */
+  --background-primary: #202020;
+  --background-primary-alt: #1a1a1a;
+  --background-secondary: #161616;
+  --background-secondary-alt: #000000;
+  --background-modifier-hover: rgba(255, 255, 255, 0.05); /* stock's own hover wash, not composited - reconstruction of Obsidian's real (undocumented exact) hover tint */
+  --background-modifier-active-hover: rgba(255, 255, 255, 0.08);
+  --background-modifier-border: #333333;
+  --background-modifier-border-hover: #3f3f3f;
+  --background-modifier-border-focus: #7f6df2;
+  --background-modifier-form-field: #0000004d;  /* drift-allow: Obsidian's own default-dark value, reconstructed on purpose (see file header) - vendor stock lane, not Sage Ink material */
+  --background-modifier-success: #197300;
+  --background-modifier-error: #3d0000;
+  --background-modifier-error-rgb: 61, 0, 0;
+  --background-modifier-error-hover: #470000;
+
+  --text-normal: #dcddde;
+  --text-muted: #999999;
+  --text-faint: #666666;
+  --text-on-accent: #dcddde;
+  --text-error: #ff3333;
+  --text-success: #44cf6e;
+  --text-accent: #7f6df2;
+  --text-accent-hover: #8875ff;
+  --text-selection: #17304dfc;
+  --text-highlight-bg: #ffff0066;
+  --text-highlight-bg-active: #ff800066;
+  --text-italic-color: var(--text-muted);
+
+  --interactive-accent: #483699;
+  --interactive-accent-hover: #4d3ca6;
+  --interactive-normal: #2a2a2a;
+  --interactive-hover: #303030;
+  --interactive-success: #197300;
+
+  --tag-color: #a882ff;
+  --tag-background: rgba(168, 130, 255, 0.15);  /* drift-allow: Obsidian's own default-dark value, reconstructed on purpose (see file header) - vendor stock lane, not Sage Ink material */
+  --tag-color-hover: #8875ff;
+
+  --code-normal: #dcddde;
+  --code-background: #1a1a1a;
+  --code-comment: #999999;
+  --code-keyword: #a882ff;
+  --code-string: #44cf6e;
+  --code-number: #e9973f;
+  --code-function: #027aff;
+  --code-tag: #fa99cd;
+  --code-property: #53dfdd;
+  --code-operator: #dcddde;
+  --code-punctuation: #999999;
+  --code-class: #e0de71;
+  --code-constant: #e9973f;
+  --code-important: #fb464c;
+
+  --link-color: #7f6df2;
+  --link-color-hover: #8875ff;
+  --link-external-color: #7f6df2;
+  --link-external-color-hover: #8875ff;
+  --link-unresolved-color: #fb464c;
+  --link-unresolved-opacity: 0.7;
+
+  --h1-color: #dcddde;
+  --h2-color: #dcddde;
+  --h3-color: #dcddde;
+  --h4-color: #dcddde;
+  --h5-color: #dcddde;
+  --h6-color: #999999;
+
+  --blockquote-background-color: transparent;
+  --blockquote-border-thickness: 4px;
+  --blockquote-border-color: var(--color-base-30);
+  --blockquote-color: var(--text-muted);
+
+  --table-background: transparent;
+  --table-border-color: var(--color-base-30);
+  --table-header-color: var(--text-normal);
+  --table-row-alt-background: rgba(255, 255, 255, 0.03);  /* drift-allow: Obsidian's own default-dark value, reconstructed on purpose (see file header) - vendor stock lane, not Sage Ink material */
+
+  --hr-color: var(--color-base-30);
+
+  --scrollbar-bg: rgba(255, 255, 255, 0.05);  /* drift-allow: Obsidian's own default-dark value, reconstructed on purpose (see file header) - vendor stock lane, not Sage Ink material */
+  --scrollbar-thumb-bg: rgba(255, 255, 255, 0.1);  /* drift-allow: Obsidian's own default-dark value, reconstructed on purpose (see file header) - vendor stock lane, not Sage Ink material */
+  --scrollbar-active-thumb-bg: rgba(255, 255, 255, 0.2);  /* drift-allow: Obsidian's own default-dark value, reconstructed on purpose (see file header) - vendor stock lane, not Sage Ink material */
+}
+
+body {
+  --font-text: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-monospace: "Source Code Pro", monospace;
+  --font-interface: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-text-size: 16px;
+  --font-text-theme: var(--font-text);
+  --font-mono-theme: var(--font-monospace);
+  --border-width: 1px;
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-l: 12px;
+  --radius-xl: 16px;
+}
+
+/* ---- Component rules: the stock DOM + paint the shipped theme overrides ---- */
+
+.theme-dark { background: var(--background-primary); color: var(--text-normal); font-family: var(--font-interface); }
+
+/* Ribbon */
+.workspace-ribbon { background: var(--background-secondary); border-right: var(--border-width) solid var(--background-modifier-border); padding: 8px 4px; display: flex; flex-direction: column; gap: 2px; }
+.side-dock-ribbon-action { color: var(--text-muted); border-radius: var(--radius-s); padding: 6px; }
+.side-dock-ribbon-action.is-active { color: var(--text-normal); background: var(--background-modifier-hover); }
+
+/* Sidebar file explorer */
+.workspace-sidedock { background: var(--background-secondary); }
+/* --background-secondary-alt: official description is literally "Background
+   for surfaces on top of secondary background" (Foundations/Colors.md) - the
+   file list is exactly that surface. */
+.nav-files-container { background: var(--background-secondary-alt); padding: 4px 0; max-height: 160px; overflow-y: scroll; }
+.nav-files-container::-webkit-scrollbar { width: 8px; background: var(--scrollbar-bg); }
+.nav-files-container::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-bg); border-radius: var(--radius-xl); }
+.nav-files-container::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-active-thumb-bg); }
+.nav-folder-title { color: var(--text-normal); border-radius: var(--radius-s); padding: 2px 6px; display: flex; align-items: center; gap: 4px; }
+.nav-folder-collapse-indicator { color: var(--text-faint); }
+.nav-file-title { color: var(--text-normal); border-radius: var(--radius-s); padding: 2px 6px 2px 20px; }
+.nav-file-title.is-active { background: var(--interactive-accent); color: var(--text-on-accent); }
+
+/* Tab header + workspace leaf */
+.workspace-tab-header-container { background: var(--background-primary); border-bottom: var(--border-width) solid var(--background-modifier-border); display: flex; }
+.workspace-tab-header { color: var(--text-muted); border-radius: var(--radius-s) var(--radius-s) 0 0; padding: 6px 10px; }
+.workspace-tab-header.is-active { color: var(--text-normal); background: var(--background-primary-alt); }
+.workspace-tab-header:hover { background: var(--interactive-hover); }
+.workspace-leaf-content { background: var(--background-primary); padding: 8px; }
+
+/* Reading view */
+.markdown-preview-view { color: var(--text-normal); font-family: var(--font-text-theme); font-size: var(--font-text-size); }
+.markdown-preview-view h1 { color: var(--h1-color); }
+.markdown-preview-view h2 { color: var(--h2-color); }
+.markdown-preview-view h3 { color: var(--h3-color); }
+.markdown-preview-view h4 { color: var(--h4-color); }
+.markdown-preview-view h5 { color: var(--h5-color); }
+.markdown-preview-view h6 { color: var(--h6-color); }
+a.internal-link { color: var(--link-color); text-decoration: none; }
+a.internal-link:hover { color: var(--link-color-hover); }
+a.internal-link.is-unresolved { color: var(--link-unresolved-color); opacity: var(--link-unresolved-opacity); }
+a.external-link { color: var(--link-external-color); }
+a.external-link:hover { color: var(--link-external-color-hover); }
+.tag { color: var(--tag-color); background: var(--tag-background); border-radius: var(--radius-xl); padding: 1px 8px; text-decoration: none; }
+.tag:hover { color: var(--tag-color-hover); }
+blockquote { background: var(--blockquote-background-color); border-left: var(--blockquote-border-thickness) solid var(--blockquote-border-color); color: var(--blockquote-color); padding: 2px 14px; margin: 6px 0; }
+.callout { border-radius: var(--radius-s); border: var(--border-width) solid rgba(var(--callout-color), 0.25); background: rgba(var(--callout-color), 0.1); padding: 8px 12px; margin: 6px 0; }
+.callout-title { color: rgb(var(--callout-color)); display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.callout-content { color: var(--text-normal); margin-top: 4px; }
+/* Per-type --callout-color, same mechanism (and the same type groupings) the
+   shipped theme.css overrides - Obsidian's own compiled CSS assigns these
+   from the extended color scale (Foundations/Colors.md) exactly this way. */
+.callout[data-callout="default"] { --callout-color: 153, 153, 153; }
+.callout[data-callout="note"] { --callout-color: 2, 122, 255; }
+.callout[data-callout="info"],
+.callout[data-callout="tip"] { --callout-color: 83, 223, 221; }
+.callout[data-callout="question"] { --callout-color: 233, 151, 63; }
+.callout[data-callout="warning"],
+.callout[data-callout="caution"] { --callout-color: 224, 222, 113; }
+.callout[data-callout="success"],
+.callout[data-callout="done"] { --callout-color: 68, 207, 110; }
+.callout[data-callout="failure"],
+.callout[data-callout="error"],
+.callout[data-callout="bug"] { --callout-color: 251, 70, 76; }
+.callout[data-callout="example"],
+.callout[data-callout="quote"] { --callout-color: 168, 130, 255; }
+code { background: var(--code-background); color: var(--code-normal); font-family: var(--font-mono-theme); border-radius: var(--radius-s); padding: 1px 5px; }
+pre { background: var(--code-background); border-radius: var(--radius-m); padding: 8px 12px; }
+pre > code { padding: 0; }
+.task-list-item { list-style: none; }
+.task-list-item-checkbox { accent-color: var(--interactive-accent); }
+table { border-collapse: collapse; }
+table thead th { background: var(--table-header-color); color: var(--background-primary); border: var(--border-width) solid var(--table-border-color); padding: 4px 8px; }
+table tbody td { border: var(--border-width) solid var(--table-border-color); padding: 4px 8px; }
+table tbody tr:nth-child(even) { background: var(--table-row-alt-background); }
+mark { background: var(--text-highlight-bg); color: var(--text-normal); }
+
+/* Editor */
+.cm-editor { background: var(--background-primary); color: var(--text-normal); font-family: var(--font-mono-theme); }
+.cm-editor .cm-content { caret-color: var(--text-normal); }
+.cm-editor .cm-cursor { border-left: 1px solid var(--text-normal); }
+.cm-editor .cm-selectionBackground { background: var(--text-selection) !important; }
+.cm-editor .cm-activeLine { background: rgba(255, 255, 255, 0.03); }
+.cm-editor .cm-indent-guide { border-left: 1px solid rgba(255, 255, 255, 0.06); }
+.HyperMD-list-line { color: var(--text-normal); }
+
+/* Command palette / modal */
+.modal-bg { background: var(--background-modifier-cover); }
+.modal, .prompt, .popover { background: var(--background-primary); border-radius: var(--radius-l); border: var(--border-width) solid var(--background-modifier-border); }
+.prompt-input-container { border-bottom: var(--border-width) solid var(--background-modifier-border); padding: 4px 8px; }
+input.prompt-input { background: transparent; color: var(--text-normal); border: 0; font-family: var(--font-interface); }
+.suggestion-item { color: var(--text-normal); padding: 4px 8px; border-radius: var(--radius-s); }
+.suggestion-item.is-selected { background: var(--interactive-accent); color: var(--text-on-accent); }
+/* --text-accent / --text-accent-hover: "Accent text" / "Accent text (hover)"
+   (Foundations/Colors.md) - the fuzzy-match highlight in a suggestion item. */
+.suggestion-highlight { color: var(--text-accent); }
+.suggestion-highlight:hover { color: var(--text-accent-hover); }
+
+/* Settings */
+.setting-item { border-top: var(--border-width) solid var(--background-modifier-border); padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+.checkbox-container { width: 30px; height: 16px; border-radius: var(--radius-xl); background: var(--background-modifier-border); position: relative; }
+.checkbox-container.is-enabled { background: var(--interactive-accent); }
+input.slider[type='range'] { accent-color: var(--interactive-accent); }
+button.mod-cta { background: var(--interactive-accent); color: var(--text-on-accent); border: 0; border-radius: var(--radius-s); padding: 6px 14px; }
+button.mod-cta:hover { background: var(--interactive-accent-hover); }
+textarea { background: var(--background-modifier-form-field); color: var(--text-normal); border: var(--border-width) solid var(--background-modifier-border); border-radius: var(--radius-s); }
+/* --background-modifier-border-hover / -focus: official descriptions are
+   "Border color (hover)" / "Border color (focus)" (Foundations/Colors.md) -
+   the same textarea border demonstrates both states. */
+textarea:hover { border-color: var(--background-modifier-border-hover); }
+textarea:focus { border-color: var(--background-modifier-border-focus); outline: none; }
+.mod-warning-banner { background: rgba(var(--background-modifier-error-rgb), 0.15); color: var(--text-error); padding: 4px 8px; border-radius: var(--radius-s); }
+/* --text-success / --background-modifier-success: official descriptions are
+   "Success text" / "Success background" - same banner shape as the warning
+   banner above, success case. */
+.mod-success-banner { background: var(--background-modifier-success); color: var(--text-success); padding: 4px 8px; border-radius: var(--radius-s); }
+/* --background-modifier-error / -hover (flat, distinct from the -rgb
+   composite above): "Error background" / "Error background (hover)" -
+   Obsidian's ButtonComponent.setDestructive() (obsidian-api obsidian.d.ts,
+   since 1.13.0) applies a `.mod-destructive` class for exactly this case. */
+button.mod-destructive { background: var(--background-modifier-error); color: var(--text-error); border: 0; border-radius: var(--radius-s); padding: 6px 14px; }
+button.mod-destructive:hover { background: var(--background-modifier-error-hover); }
+
+/* Status bar */
+.status-bar { background: var(--background-secondary); color: var(--text-muted); border-top: var(--border-width) solid var(--background-modifier-border); padding: 2px 10px; font-size: 12px; }
+.status-bar-item + .status-bar-item { border-left: var(--border-width) solid var(--background-modifier-border); margin-left: 8px; padding-left: 8px; }
+
+/* Context menu */
+.menu { background: var(--background-primary); border: var(--border-width) solid var(--background-modifier-border); border-radius: var(--radius-m); padding: 4px; }
+.menu-item { color: var(--text-normal); border-radius: var(--radius-s); padding: 4px 10px; }
+.menu-item.is-selected { background: var(--background-modifier-hover); }
+.menu-item.is-disabled { color: var(--text-faint); }
+
+/* Tooltip */
+.tooltip { background: var(--interactive-normal); color: var(--text-normal); border-radius: var(--radius-s); padding: 4px 8px; font-size: 12px; }
+.tooltip .tooltip-arrow { border-top-color: var(--interactive-normal); }
+
+::selection { background: var(--text-selection); }
+button { font-family: var(--font-interface); }

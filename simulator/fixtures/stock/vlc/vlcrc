@@ -1,0 +1,26 @@
+# Sage Ink stock fixture -- VLC 3.0.x compiled-in Qt-interface defaults.
+#
+# A real vlcrc ships every option commented out at its default, e.g.
+# "#qt-fs-opacity=0.800000" (see vlc/README.md "Why not kwriteconfig6").
+# Reproduced here uncommented, under [qt], so the same INI parser that reads
+# the generated tokens/out/vlcrc.ini can render this lane. Defaults are the
+# add_bool/add_float_with_range/add_string calls in modules/gui/qt/qt.cpp,
+# VLC 3.0.x branch, commit 35f126b6510b31374784657d95834ff4be04f596:
+#   qt-dark-palette   add_bool( "qt-dark-palette", false, ... )        L263
+#   qt-fs-opacity     add_float_with_range( "qt-fs-opacity", 0.8, ..)  L247
+#   qt-slider-colours add_string( "qt-slider-colours",
+#                       "153;210;153;20;210;20;255;199;15;245;39;29", .. ) L290
+# https://github.com/videolan/vlc/blob/35f126b6510b31374784657d95834ff4be04f596/modules/gui/qt/qt.cpp#L247-L304
+#
+# The four RGB stops (153,210,153) / (20,210,20) / (255,199,15) / (245,39,29)
+# are the "shiny" volume triangle's green -> yellow -> red gradient
+# (modules/gui/qt/util/input_slider.cpp SoundSlider ctor reads this as
+# 12 numbers, 3 per stop). The seek bar's blue is not a setting -- it is
+# QColor(50,156,255) hardcoded in SeekSlider's constructor, same file.
+#
+# Installed host: vlc-3.0.23-10.fc44.x86_64 (`rpm -q vlc`), same branch.
+
+[qt]
+qt-dark-palette=0
+qt-fs-opacity=0.800000
+qt-slider-colours=153;210;153;20;210;20;255;199;15;245;39;29

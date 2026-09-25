@@ -1,0 +1,15 @@
+Stock lane for /desktop/plasma-theme/ — Breeze Dark Plasma desktop theme as it
+renders on a stock Plasma 6.7.4 session (KWin blur on, so libplasma's KSvg
+selector is "translucent"; theme_p.cpp updateKSvgSelectors).
+
+breeze-dark/{colors,plasmarc,metadata.json}
+  /usr/share/plasma/desktoptheme/breeze-dark/*   rpm -qf: libplasma-6.7.4-1.fc44.x86_64
+  breeze-dark ships no SVGs: every image falls back to the "default" image set
+  (ksvg imageset_p.cpp setImageSetName: fallbackImageSets = {"default"}).
+default/**.svg
+  gunzip of /usr/share/plasma/desktoptheme/default/**.svgz   rpm -qf: libplasma-6.7.4-1.fc44.x86_64
+  default/widgets/tasks.svg is also what the SageInk lane renders for the task
+  manager: SageInk ships no widgets/tasks, so KSvg falls back to it.
+
+Copied 2026-09-25 on the Fedora 44 host. metadata.json cannot carry a comment;
+this file is its provenance. Licence LGPL-2.0-or-later (KDE VDG).

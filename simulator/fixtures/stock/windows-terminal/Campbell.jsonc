@@ -1,0 +1,42 @@
+// "Campbell" — Windows Terminal / conhost's built-in default color scheme.
+// Campbell is NOT a JSON entry in the shipped defaults.json (that file only
+// *references* it by name for the default profile's "colorScheme"); it is a
+// hardcoded C++ fallback, assembled here from two files fetched from
+// microsoft/terminal (main branch, 2026-09-25):
+//
+//   - The 16-slot ANSI table: src/types/colorTable.cpp, `campbellColorTable`
+//     (an `std::array<til::color, 16>` in ANSI order — black, red, green,
+//     yellow, blue, purple, cyan, white, then the eight bright variants).
+//   - background/foreground/cursorColor/selectionBackground: NOT part of
+//     that table. ColorScheme's WINRT_PROPERTY defaults
+//     (src/cascadia/TerminalSettingsModel/ColorScheme.h) fall back to
+//     DEFAULT_BACKGROUND / DEFAULT_FOREGROUND / DEFAULT_CURSOR_COLOR
+//     (src/inc/DefaultSettings.h), which resolve to COLOR_BLACK (#000000),
+//     COLOR_WHITE (#FFFFFF), and COLOR_WHITE (#FFFFFF) respectively.
+//     SelectionBackground's own default is DEFAULT_FOREGROUND, i.e. also
+//     #FFFFFF. These do NOT match the ANSI black/white slots below — that is
+//     the real (if slightly surprising) upstream default, not a transcription
+//     error here.
+{
+  "name": "Campbell",
+  "background": "#000000",
+  "foreground": "#FFFFFF",
+  "cursorColor": "#FFFFFF",
+  "selectionBackground": "#FFFFFF",
+  "black": "#0C0C0C",
+  "red": "#C50F1F",
+  "green": "#13A10E",
+  "yellow": "#C19C00",
+  "blue": "#0037DA",
+  "purple": "#881798",
+  "cyan": "#3A96DD",
+  "white": "#CCCCCC",
+  "brightBlack": "#767676",
+  "brightRed": "#E74856",
+  "brightGreen": "#16C60C",
+  "brightYellow": "#F9F1A5",
+  "brightBlue": "#3B78FF",
+  "brightPurple": "#B4009E",
+  "brightCyan": "#61D6D6",
+  "brightWhite": "#F2F2F2"
+}

@@ -1,0 +1,71 @@
+/* Spotify's own default dark client - reconstructed component rules for the
+ * real selectors the shipped user.css targets (Spotify desktop's DOM class
+ * names, e.g. `.main-card-card`, `.main-trackList-trackListRow`,
+ * `.Root__now-playing-bar`, are widely used/confirmed across community
+ * Spicetify CSS snippets and this repo's own shipped file - not synthetic
+ * hash-suffixed tokens the way Discord's are, since Spotify's build classes
+ * are comparatively stable across releases; still not vendor-published, so
+ * treated as community-corroborated, not officially documented).
+ *
+ * Spotify itself has no `--spice-*` custom properties at all - those only
+ * exist once Spicetify's own core is loaded - so every colour below is a
+ * literal hex from fixtures/stock/spicetify/color.ini's own values (see that
+ * file's header for citations/approximations), not a variable. This mirrors
+ * fixtures/stock/vencord/stock.css's approach exactly (stock hardcodes,
+ * shipped can use variables).
+ *
+ * Corner radii and shadow softness are NOT independently cited (Spotify
+ * publishes no token doc for them - see developer.spotify.com/documentation/
+ * design, which gives brand-guideline colours only, no component geometry);
+ * they reflect the widely-recognisable rounded-card / pill-button / soft-
+ * shadow look of the real client, disclosed as visual-convention
+ * reconstruction rather than a sourced spec, same disclosure Vencord's
+ * stock.css gives its own un-cited corner radii. */
+
+body { background: #121212; color: #FFFFFF; font-family: "Circular Std", -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+/* Sidebar / library */
+.Root__nav-bar, .main-yourLibraryX-libraryRootlist { background: #000000; width: 240px; padding: 8px; }
+.main-yourLibraryX-listItem { padding: 2px 0; }
+.main-yourLibraryX-listItem .main-yourLibraryX-rowItem { padding: 6px 8px; border-radius: 4px; color: #B3B3B3; display: flex; align-items: center; gap: 8px; }
+.main-yourLibraryX-listItem .main-yourLibraryX-rowItem:hover { background: rgba(255,255,255,0.1); color: #FFFFFF; }
+
+/* Cards (album/playlist tiles) */
+.main-card-card { background-color: #181818; border: 0; border-radius: 8px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+.main-card-card:hover { background-color: #282828; }
+
+/* Track rows */
+.main-trackList-trackListRow { padding: 8px 16px; border-radius: 4px; display: flex; align-items: center; gap: 12px; }
+.main-trackList-trackListRow:hover { background-color: rgba(255,255,255,0.1); }
+.main-trackList-trackListRow.main-trackList-selected,
+.main-trackList-trackListRow[aria-selected="true"] { background-color: rgba(255,255,255,0.1); }
+.main-trackList-rowMainContent { display: flex; flex-direction: column; }
+.standalone-ellipsis-one-line { color: #FFFFFF; }
+.standalone-ellipsis-one-line[data-text-color="brightAccent"] { color: #1ED760; }
+[class*="playing"] [data-encore-id="text"] { color: #1ED760; }
+
+/* Now-playing bar */
+.Root__now-playing-bar, .main-nowPlayingBar-nowPlayingBar { background-color: #181818; border-top: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; display: flex; align-items: center; gap: 16px; }
+.progress-bar__bg, .x-progressBar-bg { background-color: #4d4d4d; height: 4px; border-radius: 2px; }
+.progress-bar__fg, .x-progressBar-fillForeground { background-color: #B3B3B3; height: 4px; border-radius: 2px; }
+.main-nowPlayingBar-nowPlayingBar:hover .progress-bar__fg,
+.main-nowPlayingBar-nowPlayingBar:hover .x-progressBar-fillForeground { background-color: #1ED760; }
+
+/* Buttons */
+.main-buttons-button, .Button-md-encore-light, .Button-sm-encore-light { background-color: #1ED760; color: #000000; border: 0; border-radius: 9999px; padding: 8px 32px; font-weight: 700; }
+.main-buttons-button:hover, .Button-md-encore-light:hover, .Button-sm-encore-light:hover { background-color: #3BE477; }
+
+/* Context menu */
+.main-contextMenu-menu { background-color: #282828; border: 0; border-radius: 4px; padding: 4px; box-shadow: 0 16px 24px rgba(0,0,0,0.3), 0 6px 8px rgba(0,0,0,0.2); }
+.main-contextMenu-menuItemButton { padding: 8px 12px; border-radius: 2px; color: #FFFFFF; }
+.main-contextMenu-menuItemButton:hover { background-color: rgba(255,255,255,0.1); }
+.main-topBar-UpgradeButton { background-color: #1ED760; color: #000000; border-radius: 9999px; padding: 6px 16px; font-weight: 700; }
+
+/* Search input - no confirmed real Spotify class this pass (see model.ts);
+   modeled with the standard `type="search"` selector so this rule matches
+   the literal <input type="search"> the specimen renders, real class or not. */
+input[type="search"] { background-color: #FFFFFF; color: #000000; border: 0; border-radius: 9999px; padding: 8px 16px; }
+
+::selection { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background-color: #535353; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background-color: #B3B3B3; }
