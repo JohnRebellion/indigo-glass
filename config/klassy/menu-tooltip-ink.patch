@@ -2,7 +2,7 @@ diff --git a/kstyle/breezestyle.cpp b/kstyle/breezestyle.cpp
 index a08fd6e..eff3028 100644
 --- a/kstyle/breezestyle.cpp
 +++ b/kstyle/breezestyle.cpp
-@@ -4990,14 +5009,18 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
+@@ -4990,14 +5009,27 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
      if (widget && !widget->isWindow()) {
          return true;
      }
@@ -12,18 +12,27 @@ index a08fd6e..eff3028 100644
      const auto seamlessEdges = _helper->menuSeamlessEdges(widget);
      auto background(_helper->frameBackgroundColor(palette));
 -    auto outline(_helper->frameOutlineColor(palette));
-+    // Sage Ink: literal black, not frameOutlineColor()'s Window/WindowText
-+    // blend - matches the 2px @borders black used for this same popup
-+    // surface in GTK (gtk-dark.css) and the Plasma FrameSVG dialog/tooltip
-+    // border tiles (border-top/-bottom/-left/-right in widgets/tooltip.svg,
-+    // dialogs/background.svg).
-+    auto outline(QColor(0, 0, 0));
++    // Sage Ink: border_strong (#5E5E60 / 94,94,96), not frameOutlineColor()'s
++    // Window/WindowText blend. FIXED 2026-09-25 (simulator/desktop/
++    // klassy-style found it live): this was literal QColor(0, 0, 0) to match
++    // the 2px @borders black used for this same popup surface in GTK
++    // (gtk-dark.css) and the Plasma FrameSVG dialog/tooltip border tiles -
++    // but on Sage Ink's near-black surfaces (surface #0D0D10, surface_alt
++    // #121216) pure black measures 1.08:1 / 1.12:1, an invisible border, not
++    // the 3:1 UI-ring floor docs/ELEVATION.md requires. border_strong is the
++    // token STATE_GRAMMAR.md's Tier B ("chrome") names for exactly this -
++    // measures 3.00:1 / 2.89:1 here, still short of 3:1 against these two
++    // surfaces specifically (see the indigo-glass simulator's klassy-style
++    // report for the proposed tokens.toml border_strong alpha fix,
++    // 0.335 -> 0.34, which would clear both) - a real remaining gap, but a
++    // near-3x improvement over black and the correct token either way.
++    auto outline(QColor(94, 94, 96));
  
      painter->save();
  
      if (StyleConfigData::menuOpacity() < 100) {
          if (widget && widget->isWindow()) {
-@@ -5005,11 +5028,14 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
+@@ -5005,11 +5037,14 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
          }
          background.setAlphaF(StyleConfigData::menuOpacity() / 100.0);
          outline = _helper->alphaColor(palette.color(QPalette::WindowText), 0.25);
@@ -39,7 +48,7 @@ index a08fd6e..eff3028 100644
  
      return true;
  }
-@@ -5022,14 +5048,20 @@ bool Style::drawPanelTipLabelPrimitive(const QStyleOption *option, QPainter *pai
+@@ -5022,14 +5057,21 @@ bool Style::drawPanelTipLabelPrimitive(const QStyleOption *option, QPainter *pai
          _shadowHelper->registerWidget(widget->window(), true);
      }
  
@@ -49,11 +58,12 @@ index a08fd6e..eff3028 100644
 -    const bool hasAlpha(_helper->hasAlphaChannel(widget));
 -
 -    _helper->renderMenuFrame(painter, option->rect, background, outline, hasAlpha);
-+    // Sage Ink: literal black, not a ToolTipBase/ToolTipText blend - matches
-+    // the 2px @borders black used for this same surface in GTK
-+    // (gtk-dark.css) and the Plasma FrameSVG tooltip border tiles
-+    // (widgets/tooltip.svg border-top/-bottom/-left/-right).
-+    const auto outline(QColor(0, 0, 0));
++    // Sage Ink: border_strong (#5E5E60 / 94,94,96), not a ToolTipBase/
++    // ToolTipText blend. FIXED 2026-09-25, same defect and same fix as
++    // drawPanelMenuPrimitive above (was literal black, 1.12:1 against this
++    // tooltip's own surface_alt fill - see that comment for the full
++    // measurement and the proposed tokens.toml border_strong alpha fix).
++    const auto outline(QColor(94, 94, 96));
 +
 +    // Sage Ink: sharp corners, not roundCorners=hasAlpha (stock Klassy rounds
 +    // whenever the tooltip window supports an alpha channel, which is true

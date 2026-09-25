@@ -6,3 +6,10 @@ enabled=false
 
 [AdaptiveTransparency]
 enabled=false
+
+# Sage Ink: no blur. Without this group libplasma defaults blurBehindEnabled
+# to true (theme_p.cpp processBlurBehindSettings), and Dialog/PanelView ask
+# KWin to blur behind every popup and panel (dialog.cpp updateTheme,
+# panelview.cpp updateMask) whenever the blur effect is on. Added 2026-09-25.
+[BlurBehindEffect]
+enabled=false

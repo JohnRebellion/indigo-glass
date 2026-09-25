@@ -1,11 +1,11 @@
 diff --git a/kdecoration/breezedecoration.cpp b/kdecoration/breezedecoration.cpp
-index db5b4a1..a0427ad 100644
+index 17f16d1..de27bc2 100644
 --- a/kdecoration/breezedecoration.cpp
 +++ b/kdecoration/breezedecoration.cpp
-@@ -90,8 +90,35 @@ struct CompositeShadowParams {
- const CompositeShadowParams s_shadowParams[] = {
-     // None
-     CompositeShadowParams(),
+@@ -93,8 +93,35 @@ const CompositeShadowParams s_shadowParams[] = {
+         QPoint(0, 4),
+         ShadowParams(QPoint(0, 0), 16, 0),
+         ShadowParams(QPoint(0, -2), 8, 0)),
 -    // Small
 -    CompositeShadowParams(QPoint(0, 4), ShadowParams(QPoint(0, 0), 16, 1), ShadowParams(QPoint(0, -2), 8, 0.4)),
 +    // Small — PATCHED: Sage Ink's solid, opaque, ZERO-blur offset shadow.
@@ -40,7 +40,7 @@ index db5b4a1..a0427ad 100644
      // Medium
      CompositeShadowParams(QPoint(0, 8), ShadowParams(QPoint(0, 0), 32, 0.9), ShadowParams(QPoint(0, -4), 16, 0.3)),
      // Large
-@@ -1772,8 +1799,23 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
+@@ -1810,8 +1837,23 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
  
      QImage shadowTexture = shadowRenderer.render();
  
@@ -65,7 +65,7 @@ index db5b4a1..a0427ad 100644
  
      const QRect outerRect = shadowTexture.rect();
  
-@@ -1793,8 +1835,6 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
+@@ -1831,8 +1873,6 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
      const QRectF innerRect = outerRect - padding;
  
      painter.setPen(Qt::NoPen);
@@ -74,7 +74,7 @@ index db5b4a1..a0427ad 100644
  
      QPainterPath roundedRectMask;
      if (hasNoBorders() && !m_internalSettings->roundAllCornersWhenNoBorders() && !c->isShaded()) {
-@@ -1807,6 +1847,18 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
+@@ -1845,6 +1885,18 @@ std::shared_ptr<KDecoration3::DecorationShadow> Decoration::createShadowObject(Q
          roundedRectMask.addRoundedRect(innerRect, (m_scaledCornerRadius + 0.5), (m_scaledCornerRadius + 0.5));
      }
  
@@ -91,5 +91,5 @@ index db5b4a1..a0427ad 100644
 +    painter.setBrush(Qt::black);
 +    painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
      painter.drawPath(roundedRectMask);
-     painter.end();
  
+     // Draw Thin window outline

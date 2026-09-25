@@ -1,14 +1,23 @@
-# Sage Ink — global window opacity rule
-# Append to ~/.config/kwinrulesrc
-# Replace UUID below with output of `uuidgen`
-# Update [General] count + rules accordingly
-
-[REPLACE-WITH-UUIDGEN-OUTPUT]
-Description=Sage Ink — global window opacity
-opacityactive=88
-opacityactiverule=2
-opacityinactive=85
-opacityinactiverule=2
-wmclass=.*
-wmclassmatch=3
-wmclasscomplete=false
+# Sage Ink — window opacity (superseded, kept for history — DO NOT reapply)
+#
+# FOUND live by the indigo-glass simulator's /desktop/kwin/ page, 2026-09-25:
+# this file still shipped opacityactive=88 / opacityinactive=85 forced onto
+# EVERY window (wmclass=.* + the *rule=2 "Force" type), i.e. a global 85-88%
+# translucency rule — exactly the material CLAUDE.md says was deliberately
+# removed ("opaque flat ink ... no translucency", v5, 2026-08-28) and that
+# scripts/install.sh's own comment above the (removed) apply step disavows:
+#
+#   "No global window-opacity rule is written any more (Sage Ink v5,
+#    2026-08-28). Ink windows are opaque - tokens.toml [opacity].
+#    window_active/window_inactive are both 1.00 now (were 0.92/0.85). This
+#    block used to write a NEW uuidgen-keyed rule on every run, which is
+#    non-idempotent ... Don't recreate it."
+#
+# install.sh has not applied this file since v5; nothing currently installs
+# it. It was left on disk with its pre-v5 values, so anyone who found it and
+# ran the kwriteconfig6 commands by hand would have reintroduced the exact
+# translucency bug the tokens.toml change fixed. Emptied of instructions on
+# purpose — a truly opaque global rule would be a no-op over KWin's own
+# default (100%), so there is nothing to append here. If a kwinrulesrc need
+# ever comes back, start from a fresh `uuidgen` and opacity 100 / no opacity
+# keys at all, never these numbers.

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Sage Ink, 2026-09-25: the eight frame tiles were one solid #000000 fill
+     each, i.e. an 8px black outline - 1.08:1 on the popup fill and on a dark
+     desktop, so popups had no visible edge. Each tile is now the popup's
+     ColorScheme-Background fill with a 2px border_strong #5E5E60 strip on
+     its outer side (the edge-* rects; their transform undoes the tile's own
+     so the strips are exact in document units). ELEVATION.md level 2 and the
+     Klassy menu/tooltip outline (config/klassy/menu-tooltip-ink.patch) use
+     the same 2px border_strong. Content margins (hint-*-margin, 8px) are
+     unchanged. The shadow-* tiles stay at opacity 0: outline instead of
+     drop-shadow was an explicit direction (commit 41d2d92). -->
 <svg
    width="100"
    height="100"
@@ -246,7 +256,7 @@
     <path
        d="m190 252h50v6.998h-50z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path48"
        style="opacity:1" />
     <path
@@ -254,6 +264,13 @@
        fill="#ffffff"
        opacity="0"
        id="path50" />
+    <rect
+       id="edge-top-0" transform="matrix(-1.190476 0 0 0.874738 274.52381 233.624913)"
+       x="29"
+       y="21.006"
+       width="42"
+       height="2"
+       fill="#5E5E60" />
   </g>
   <g
      id="shadow-topright"
@@ -340,9 +357,16 @@
     <path
        d="m183 259v50l7 1e-5v-50z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path94"
        style="opacity:1" />
+    <rect
+       id="edge-right-0" transform="matrix(-0.874967 0 0 1.190476 252.113046 224.47619)"
+       x="76.989"
+       y="29"
+       width="2"
+       height="42"
+       fill="#5E5E60" />
   </g>
   <g
      id="left"
@@ -350,9 +374,16 @@
     <path
        d="m247 259v50l-7 1e-5v-50z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path97"
        style="opacity:1" />
+    <rect
+       id="edge-left-0" transform="matrix(-0.874967 0 0 1.190476 265.368799 224.47619)"
+       x="20.994"
+       y="29"
+       width="2"
+       height="42"
+       fill="#5E5E60" />
   </g>
   <g
      id="bottom"
@@ -360,16 +391,23 @@
     <path
        d="m190 252h50v6.9999h-50z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path100"
        style="opacity:1" />
+    <rect
+       id="edge-bottom-0" transform="matrix(1.190476 0 0 -0.874967 155.47619 321.112958)"
+       x="29"
+       y="76.989"
+       width="42"
+       height="2"
+       fill="#5E5E60" />
   </g>
   <g
      id="topright">
     <path
        d="M71,20.999 H79 V28.999 H71 Z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path103"
        style="opacity:1" />
     <path
@@ -377,15 +415,43 @@
        fill="#ffffff"
        opacity="0"
        id="path105" />
+    <rect
+       id="edge-topright-0"
+       x="71"
+       y="21"
+       width="8"
+       height="2"
+       fill="#5E5E60" />
+    <rect
+       id="edge-topright-1"
+       x="77"
+       y="21"
+       width="2"
+       height="8"
+       fill="#5E5E60" />
   </g>
   <g
      id="bottomleft">
     <path
        d="M29,79 H21 V71 H29 Z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path108"
        style="opacity:1" />
+    <rect
+       id="edge-bottomleft-0"
+       x="21"
+       y="77"
+       width="8"
+       height="2"
+       fill="#5E5E60" />
+    <rect
+       id="edge-bottomleft-1"
+       x="21"
+       y="71"
+       width="2"
+       height="8"
+       fill="#5E5E60" />
   </g>
   <g
      id="bottomright"
@@ -393,9 +459,23 @@
     <path
        d="M3.0005,51.939 V47.9395 H7 V51.939 Z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path111"
        style="opacity:1" />
+    <rect
+       id="edge-bottomright-0" transform="matrix(-0 -0.49995 -0.49995 -0 42.49625 87.436256)"
+       x="71"
+       y="77"
+       width="8"
+       height="2"
+       fill="#5E5E60" />
+    <rect
+       id="edge-bottomright-1" transform="matrix(-0 -0.49995 -0.49995 -0 42.49625 87.436256)"
+       x="77"
+       y="71"
+       width="2"
+       height="8"
+       fill="#5E5E60" />
   </g>
   <rect
      id="center"
@@ -441,7 +521,7 @@
     <path
        d="M7,47.939 H3 V51.939 H7 Z"
        class="ColorScheme-Background"
-       fill="#000000"
+       fill="currentColor"
        id="path119"
        style="opacity:1" />
     <path
@@ -450,6 +530,20 @@
        fill="#ffffff"
        opacity="0"
        id="path121" />
+    <rect
+       id="edge-topleft-0" transform="matrix(-0 0.5 0.5 -0 -7.5 37.439)"
+       x="21"
+       y="21"
+       width="8"
+       height="2"
+       fill="#5E5E60" />
+    <rect
+       id="edge-topleft-1" transform="matrix(-0 0.5 0.5 -0 -7.5 37.439)"
+       x="21"
+       y="21"
+       width="2"
+       height="8"
+       fill="#5E5E60" />
   </g>
   <rect
      id="hint-top-margin"

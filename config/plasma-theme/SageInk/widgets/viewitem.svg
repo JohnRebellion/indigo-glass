@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+<!-- Sage Ink, 2026-09-25: the 2px selected/hover rings were a literal
+     #456246 (off the token palette, 2.85:1 on surface - under the 3:1 ring
+     floor) on paths already classed ColorScheme-ButtonFocus. They now fill
+     currentColor, so the colour scheme paints them: selected and
+     selected+hover in ButtonFocus (DecorationFocus = text, the Tier C white
+     outline), hover in ButtonHover (DecorationHover = accent_hi). -->
 
 <svg
    width="257"
@@ -276,7 +282,7 @@
        inkscape:connector-curvature="0"
        id="selected-center"
        d="m -266,448 v 46 h 46 v -46 z"
-       style="opacity:0;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.958333"
+       style="opacity:0;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.958333"
        class="ColorScheme-ButtonFocus" />
     <g
        transform="matrix(1,0,0,3.0009825,-457.14285,-2043.3868)"
@@ -284,7 +290,7 @@
       <path
          id="path4119"
          d="m 186.14285,830.19038 v 15.32824 h 2 v -15.32824 z"
-         style="opacity:1;fill:#456246;fill-rule:nonzero;stroke:none;stroke-width:1.09431"
+         style="opacity:1;fill:currentColor;fill-rule:nonzero;stroke:none;stroke-width:1.09431"
          inkscape:connector-curvature="0"
          class="ColorScheme-ButtonFocus" />
     </g>
@@ -293,7 +299,7 @@
        id="selected-topleft">
       <path
          id="path4131"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25002"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25002"
          class="ColorScheme-ButtonFocus"
          d="M 186.14285,825.85718 H 188.14285 V 827.85718 H 186.14285 Z " />
     </g>
@@ -301,7 +307,7 @@
        transform="matrix(0.36657704,0,0,1,-336.71201,-382.8414)"
        id="selected-top">
       <path
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
          d="m 192.89831,825.8414 v 2 h 125.48478 v -2 z"
          id="path4143"
          inkscape:connector-curvature="0"
@@ -312,7 +318,7 @@
        id="selected-topright">
       <path
          id="path4155"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
          class="ColorScheme-ButtonFocus"
          d="M 323.14285,825.8414 H 325.14285 V 827.8414 H 323.14285 Z " />
     </g>
@@ -320,7 +326,7 @@
        transform="matrix(1,0,0,3.0000017,-540.14285,-2042.557)"
        id="selected-right">
       <path
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09449"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09449"
          d="m 325.14286,830.1852 v 15.33332 h -2 V 830.1852 Z"
          id="path4167"
          inkscape:connector-curvature="0"
@@ -456,8 +462,8 @@
        inkscape:connector-curvature="0"
        id="hover-center"
        d="m -251,526 v 46 h 46 v -46 z"
-       style="opacity:0;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.958333"
-       class="ColorScheme-ButtonFocus"
+       style="opacity:0;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.958333"
+       class="ColorScheme-ButtonHover"
        inkscape:label="#selected-center-5" />
     <g
        transform="matrix(1,0,0,3.0009825,-442.14285,-1965.3872)"
@@ -466,13 +472,13 @@
       <path
          id="path4119-9"
          d="m 186.14285,830.19051 v 15.32831 h 2 v -15.32831 z"
-         style="opacity:1;fill:#456246;fill-rule:nonzero;stroke:none;stroke-width:1.09431"
+         style="opacity:1;fill:currentColor;fill-rule:nonzero;stroke:none;stroke-width:1.09431"
          inkscape:connector-curvature="0"
-         class="ColorScheme-ButtonFocus" />
+         class="ColorScheme-ButtonHover" />
       <path
-         class="ColorScheme-ButtonFocus"
+         class="ColorScheme-ButtonHover"
          inkscape:connector-curvature="0"
-         style="fill:#456246;fill-rule:nonzero;stroke:none;stroke-width:0.978785"
+         style="fill:currentColor;fill-rule:nonzero;stroke:none;stroke-width:0.978785"
          d="m 186.14285,830.19051 v 15.32832 h 1 v -15.32832 z"
          id="path3175" />
     </g>
@@ -482,13 +488,13 @@
        inkscape:label="#selected-topleft-7">
       <path
          id="path3133"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
-         class="ColorScheme-ButtonFocus"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         class="ColorScheme-ButtonHover"
          d="M 186.14285,825.84212 H 188.14285 V 827.84212 H 186.14285 Z " />
       <path
          id="path3135"
-         style="opacity:0;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
-         class="ColorScheme-ButtonFocus"
+         style="opacity:0;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         class="ColorScheme-ButtonHover"
          d="M 191.14285 825.84212 A 5 5 0 0 0 186.14285 830.84212 L 187.14285 830.84212 A 4 4 0 0 1 191.14285 826.84212 L 191.14285 825.84212 z " />
     </g>
     <g
@@ -496,17 +502,17 @@
        id="hover-top"
        inkscape:label="#selected-top-3">
       <path
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
          d="m 192.89809,825.84186 v 2 h 125.48522 v -2 z"
          id="path4143-7"
          inkscape:connector-curvature="0"
-         class="ColorScheme-ButtonFocus" />
+         class="ColorScheme-ButtonHover" />
       <path
-         class="ColorScheme-ButtonFocus"
+         class="ColorScheme-ButtonHover"
          inkscape:connector-curvature="0"
          id="path3131"
          d="m 192.89809,825.84186 v 1 h 125.54523 v -1 z"
-         style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978955" />
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978955" />
     </g>
     <g
        transform="translate(-525.14285,-304.84186)"
@@ -514,13 +520,13 @@
        inkscape:label="#selected-topright-8">
       <path
          id="path3133-6"
-         style="stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:#456246;opacity:1;"
-         class="ColorScheme-ButtonFocus"
+         style="stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:currentColor;opacity:1;"
+         class="ColorScheme-ButtonHover"
          d="M 323.14285,825.84186 H 325.14285 V 827.84186 H 323.14285 Z" />
       <path
          id="path3135-7"
-         style="opacity:0;stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:#456246;"
-         class="ColorScheme-ButtonFocus"
+         style="opacity:0;stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:currentColor;"
+         class="ColorScheme-ButtonHover"
          d="m 325.14285,830.84186 a 5,5 0 0 0 -5,-5 v 1 a 4,4 0 0 1 4,4 z" />
     </g>
     <g
@@ -528,17 +534,17 @@
        id="hover-right"
        inkscape:label="#selected-right-5">
       <path
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09449"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09449"
          d="m 325.14285,830.18533 v 15.33332 h -2 v -15.33332 z"
          id="path4167-1"
          inkscape:connector-curvature="0"
-         class="ColorScheme-ButtonFocus" />
+         class="ColorScheme-ButtonHover" />
       <path
-         class="ColorScheme-ButtonFocus"
+         class="ColorScheme-ButtonHover"
          inkscape:connector-curvature="0"
          id="path3157"
          d="m 325.14285,830.18533 v 15.33333 h -1 v -15.33333 z"
-         style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978945" />
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978945" />
     </g>
     <path
        d="m -142,530 v 46 h 46 v -46 z"
@@ -547,7 +553,7 @@
        inkscape:connector-curvature="0"
        id="selected+hover-center"
        d="m -146,526 v 46 h 46 v -46 z"
-       style="opacity:0;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.958333"
+       style="opacity:0;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.958333"
        class="ColorScheme-ButtonFocus"
        inkscape:label="#selected-center-5" />
     <g
@@ -557,7 +563,7 @@
       <path
          id="path4119-9-6"
          d="m 186.14285,830.19035 v 15.32831 h 2 v -15.32831 z"
-         style="fill:#456246;fill-rule:nonzero;stroke:none;stroke-width:1.09431"
+         style="fill:currentColor;fill-rule:nonzero;stroke:none;stroke-width:1.09431"
          inkscape:connector-curvature="0"
          class="ColorScheme-ButtonFocus" />
     </g>
@@ -567,7 +573,7 @@
        inkscape:label="#selected-topleft-7">
       <path
          id="path4131-9-7"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
          class="ColorScheme-ButtonFocus"
          d="M 186.14285,825.8571 H 188.14285 V 827.8571 H 186.14285 Z" />
     </g>
@@ -576,7 +582,7 @@
        id="selected+hover-top"
        inkscape:label="#selected-top-3">
       <path
-         style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
          d="m 192.87081,825.84132 v 2 h 125.4852 v -2 z"
          id="path4143-7-8"
          inkscape:connector-curvature="0"
@@ -588,7 +594,7 @@
        inkscape:label="#selected-topright-8">
       <path
          id="path4155-3-0"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
          class="ColorScheme-ButtonFocus"
          d="M 323.14285,825.84132 H 325.14285 V 827.84132 H 323.14285 Z" />
     </g>
@@ -597,7 +603,7 @@
        id="selected+hover-right"
        inkscape:label="#selected-right-5">
       <path
-         style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09449"
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09449"
          d="m 325.14286,830.18516 v 15.33333 h -2 v -15.33333 z"
          id="path4167-1-9"
          inkscape:connector-curvature="0"
@@ -608,7 +614,7 @@
        id="selected-bottomright">
       <path
          id="path4131-3"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none"
          class="ColorScheme-ButtonFocus"
          d="M 186.14285,825.85712 H 187.74285 V 827.45712 H 186.14285 Z " />
     </g>
@@ -616,7 +622,7 @@
        transform="matrix(-0.36657704,0,0,-1,-149.2764,1324.8729)"
        id="selected-bottom">
       <path
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
          d="m 192.9297,825.8729 v 2 h 125.48522 v -2 z"
          id="path4143-6"
          inkscape:connector-curvature="0"
@@ -627,7 +633,7 @@
        id="selected-bottomleft">
       <path
          id="path4155-5"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
          class="ColorScheme-ButtonFocus"
          d="M 323.14285,825.8729 H 325.14285 V 827.8729 H 323.14285 Z " />
     </g>
@@ -637,13 +643,13 @@
        inkscape:label="#hover-bottomright">
       <path
          id="path3133-5-5"
-         style="stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:#456246;opacity:1;"
-         class="ColorScheme-ButtonFocus"
+         style="stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:currentColor;opacity:1;"
+         class="ColorScheme-ButtonHover"
          d="M 185,825 H 187 V 827 H 185 Z" />
       <path
          id="path3135-3-6"
-         style="opacity:0;stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:#456246;"
-         class="ColorScheme-ButtonFocus"
+         style="opacity:0;stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:currentColor;"
+         class="ColorScheme-ButtonHover"
          d="m 190,825 a 5,5 0 0 0 -5,5 h 1 a 4,4 0 0 1 4,-4 z" />
     </g>
     <g
@@ -651,17 +657,17 @@
        id="hover-bottom"
        inkscape:label="#hover-bottom">
       <path
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
          d="m 192.9297,825.8727 v 2 h 125.48522 v -2 z"
          id="path4143-7-6"
          inkscape:connector-curvature="0"
-         class="ColorScheme-ButtonFocus" />
+         class="ColorScheme-ButtonHover" />
       <path
-         class="ColorScheme-ButtonFocus"
+         class="ColorScheme-ButtonHover"
          inkscape:connector-curvature="0"
          id="path3131-8"
          d="m 192.9297,825.8727 v 1 h 125.48522 v -1 z"
-         style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978725" />
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.978725" />
     </g>
     <g
        transform="rotate(180,33.727842,701.50348)"
@@ -669,14 +675,14 @@
        inkscape:label="#hover-bottomleft">
       <path
          id="path3133-5"
-         style="stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:#456246;opacity:1;"
-         class="ColorScheme-ButtonFocus"
+         style="stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:currentColor;opacity:1;"
+         class="ColorScheme-ButtonHover"
          d="M -256,572 H -254 V 575 H -256 Z"
          transform="rotate(-180,33.727842,701.50348)" />
       <path
          id="path3135-3"
-         style="opacity:0;stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:#456246;"
-         class="ColorScheme-ButtonFocus"
+         style="opacity:0;stroke-width:1.25;stroke:none;fill-rule:nonzero;fill-opacity:1;fill:currentColor;"
+         class="ColorScheme-ButtonHover"
          d="m -256,572 a 5,5 0 0 0 5,5 v -1 a 4,4 0 0 1 -4,-4 z"
          transform="rotate(-180,33.727842,701.50348)" />
     </g>
@@ -686,7 +692,7 @@
        inkscape:label="#selected+hover-bottomright">
       <path
          id="path4131-9-7-7"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
          class="ColorScheme-ButtonFocus"
          d="M 186.14286,825.87296 H 188.14286 V 827.87296 H 186.14286 Z" />
     </g>
@@ -695,7 +701,7 @@
        id="selected+hover-bottom"
        inkscape:label="#selected+hover-bottom">
       <path
-         style="fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.09425"
          d="m 192.9297,825.8729 v 2 h 125.48522 v -2 z"
          id="path4143-7-8-4"
          inkscape:connector-curvature="0"
@@ -707,7 +713,7 @@
        inkscape:label="#selected+hover-bottomleft">
       <path
          id="path4155-3-0-0"
-         style="opacity:1;fill:#456246;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
+         style="opacity:1;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25"
          class="ColorScheme-ButtonFocus"
          d="M 323.14285,825.87296 H 325.14285 V 827.87296 H 323.14285 Z" />
     </g>
