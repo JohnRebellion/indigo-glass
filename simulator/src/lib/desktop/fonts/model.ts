@@ -49,7 +49,12 @@ const breezeColors = parseIni(breezeColorsText);
 
 /* Every file in the bundle, by path under share/fonts/indigo-glass-fonts/.
    Lazy ?url glob: the keys are the file list, nothing is fetched. */
-const bundleGlob = import.meta.glob('../../../../../share/fonts/indigo-glass-fonts/**/*.{ttf,otf}', { query: '?url', import: 'default' });
+/* SFProDisplay/ is excluded: SF Pro is Apple proprietary, gitignored, and a
+   local drop-in there must not read as part of the bundle. */
+const bundleGlob = import.meta.glob(
+  ['../../../../../share/fonts/indigo-glass-fonts/**/*.{ttf,otf}', '!../../../../../share/fonts/indigo-glass-fonts/SFProDisplay/**'],
+  { query: '?url', import: 'default' }
+);
 export const BUNDLE_FILES = Object.keys(bundleGlob).map((p) => p.split('indigo-glass-fonts/')[1]).sort();
 
 /* ---------- roles ---------- */
@@ -140,18 +145,29 @@ function docWeight(s: { docRole: string; docWeightRow: string }): { weight: numb
 
 /* ---------- faces the simulator / bundle has ---------- */
 
+/* Families the theme uses but may not redistribute. The user installs them;
+   the simulator draws whatever the viewing machine has. SF Pro Display ships
+   nine upright weights (Ultralight 100 to Black 900). */
+export const USER_SUPPLIED: Record<string, { faces: number[]; licence: string; source: string }> = {
+  'SF Pro Display': {
+    faces: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    licence: 'Apple proprietary, no redistribution licence',
+    source: 'https://developer.apple.com/fonts/'
+  }
+};
+
 /* Weights each family ships as real faces in share/fonts/indigo-glass-fonts
    (read from the file names; Inter is one variable font, 100-900). */
 function bundleFaces(family: string): number[] | null {
   const W: [RegExp, number][] = [[/Thin/, 100], [/Light/, 300], [/Semibold/i, 600], [/Medium/, 500], [/Heavy/, 900], [/Bold/, 700]];
   const dir: Record<string, (f: string) => boolean> = {
     Carlito: (f) => f.startsWith('Carlito/'),
-    'SF Pro Display': (f) => f.startsWith('SFProDisplay/'),
     'MesloLGS NF': (f) => f.startsWith('MesloLGS/'),
     'Iosevka Custom Condensed': (f) => f.startsWith('IosevkaCustom/IosevkaCustom-Condensed'),
     'Iosevka Custom': (f) => f.startsWith('IosevkaCustom/') && !f.includes('Condensed'),
     Inter: (f) => f.startsWith('Inter/')
   };
+  if (USER_SUPPLIED[family]) return USER_SUPPLIED[family].faces;
   const pick = dir[family];
   if (!pick) return null;
   const files = BUNDLE_FILES.filter(pick).filter((f) => !/Italic/.test(f));

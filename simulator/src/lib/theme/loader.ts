@@ -47,14 +47,22 @@ export async function loadPreset(presetId: string, baseUrl = './presets'): Promi
   // theme.txt itself
   rawFiles.set(manifest.themeTxt, new TextEncoder().encode(themeTxt).buffer);
 
-  // Fonts
+  // Fonts. sfpro-*.pf2 are not in git (SF Pro is Apple proprietary) and only
+  // exist where scripts/build-sfpro-pf2.sh has run, so a missing or unparsable
+  // font is skipped; GrubScreen draws those labels with a browser fallback.
   const fonts = new Map<string, PFF2Font>();
   await Promise.all(
     manifest.fonts.map(async (rel) => {
-      const buf = await fetch(`${base}/${rel}`).then((r) => r.arrayBuffer());
-      rawFiles.set(rel, buf);
-      const font = parsePFF2(buf);
-      fonts.set(font.name, font);
+      const r = await fetch(`${base}/${rel}`);
+      if (!r.ok) return;
+      const buf = await r.arrayBuffer();
+      try {
+        const font = parsePFF2(buf);
+        fonts.set(font.name, font);
+        rawFiles.set(rel, buf);
+      } catch {
+        /* dev servers answer a missing file with index.html; treat as absent */
+      }
     })
   );
 
@@ -66,4 +74,14 @@ export async function loadPreset(presetId: string, baseUrl = './presets'): Promi
     fonts,
     rawFiles
   };
+}
+
+/** Font names theme.txt asks for that no loaded PFF2 provides — in practice
+ * the SF Pro sizes, which a fresh clone lacks until build-sfpro-pf2.sh runs. */
+export function missingFonts(theme: Theme, fonts: Map<string, PFF2Font>): string[] {
+  const wanted = new Set<string>();
+  for (const c of theme.components) {
+    for (const k of ['font', 'item_font', 'selected_item_font']) if (c.props[k]) wanted.add(c.props[k]);
+  }
+  return [...wanted].filter((f) => !fonts.has(f)).sort();
 }

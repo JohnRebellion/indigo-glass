@@ -50,7 +50,11 @@ pixmaps it references, and runs on every commit.
 - `generate-cards.sh` — bakes the legacy `card_os/kernel/hardware.png`; unused
   by the current layout.
 - `sfpro-*.pf2` — SF Pro Display at the sizes `theme.txt` names (22, 24, 29, 40,
-  48) plus spares; `carlito-*.pf2` — for `GRUB_FONT`.
+  48). **Not in git**: SF Pro is Apple proprietary with no redistribution
+  licence, so these are rendered locally from your own SF Pro install by
+  `scripts/build-sfpro-pf2.sh` (`sync-grub-parity.sh` runs it). Without SF Pro
+  GRUB draws those labels in its built-in font. `carlito-*.pf2` (OFL) — for
+  `GRUB_FONT`, committed.
 - `icons/*.png` — OS class icons.
 
 ## Switch variant
@@ -90,6 +94,12 @@ the script probes both.
 
 ## Fonts
 
+Install SF Pro Display from <https://developer.apple.com/fonts/> first, then:
+
 ```bash
-grub2-mkfont --no-bitmap -s 24 -o sfpro-24.pf2 /usr/local/share/fonts/s/SF_Pro_Display_Regular.otf
+bash scripts/build-sfpro-pf2.sh           # every size theme.txt / manifest.json names
+SFPRO_OTF=/path/SF-Pro-Display-Regular.otf bash scripts/build-sfpro-pf2.sh
 ```
+
+It runs `grub2-mkfont -s <N> -o sfpro-<N>.pf2 <otf>` per size, into this
+directory and each `simulator/static/presets/<id>/`.

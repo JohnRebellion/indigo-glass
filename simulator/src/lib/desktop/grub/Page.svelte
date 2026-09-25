@@ -12,6 +12,7 @@
   import type { LoadedPreset } from '$lib/theme/loader';
   import type { Lane, Coverage } from '../surface';
   import { meta, roles, contrast } from './index';
+  import { missingFonts } from '$lib/theme/loader';
   import { theme, cfg, loadOursPreset, VGA, STOCK_HELP, stockMenuBox, PAINT } from './model';
 
   type GrubLaneModel = { which: 'stock' } | { which: 'ours'; preset: LoadedPreset };
@@ -81,6 +82,10 @@
             <div class="ours-wrap">
               <GrubScreen preset={lane.model.preset} cfg={cfg} selected={cfg.defaultIndex} width={640} height={360} />
             </div>
+            {@const absent = missingFonts(lane.model.preset.theme, lane.model.preset.fonts)}
+            {#if absent.length}
+              <p class="sub" data-testid="grub-font-fallback">SF Pro Display is used but not bundled (Apple licence). {absent.length} label font(s) drawn with a browser fallback: {absent.join(', ')}. Install SF Pro and run <code>scripts/build-sfpro-pf2.sh</code> for the real GRUB bitmaps.</p>
+            {/if}
           {:else}
             <div class="console" style="width:640px;min-height:360px;">
               <pre class="box">{menu.top}

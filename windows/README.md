@@ -11,7 +11,7 @@ Cross-platform parity. Windows host gets the same chrome (palette, fonts, accent
 | PowerShell 7 profile + Starship | `powershell/Microsoft.PowerShell_profile.ps1` | Mirrors Linux `~/.config/starship.toml` |
 | VSCode Claude Code retint | `vscode/patch-webview-css.ps1` | Reads repo-side `vscode/css/claude-code-indigo.css` |
 | Auto-patch on ext updates | `task-scheduler/IndigoGlass-VSCodePatch.xml` | Logon trigger + hourly check (Win11 has no `systemd.path`) |
-| Fonts (Iosevka, Carlito, SF Pro, Inter, JetBrains) | from `share/fonts/indigo-glass-fonts/` | Per-user install via `install.ps1`, no admin |
+| Fonts (Iosevka, Carlito, Inter, JetBrains; SF Pro user-supplied) | from `share/fonts/indigo-glass-fonts/` | Per-user install via `install.ps1`, no admin. SF Pro is not bundled (Apple licence): install it from developer.apple.com/fonts, or drop your copy into `SFProDisplay/` first |
 | Edge browser configs | already cross-platform via extension cloud sync | Stylus + Dark Reader settings sync from Linux Edge → Win Edge if signed in |
 
 ## Install (Windows host)

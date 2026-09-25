@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
   import GrubScreen from '$lib/GrubScreen.svelte';
-  import { loadPreset, type LoadedPreset } from '$lib/theme/loader';
+  import { loadPreset, missingFonts, type LoadedPreset } from '$lib/theme/loader';
   import type { GrubCfg } from '$lib/theme/cfg';
   import { serialiseTheme, parseTheme } from '$lib/theme/parser';
   import { downloadZip } from 'client-zip';
@@ -162,6 +162,10 @@
               width={viewWidth}
               height={Math.round(viewWidth * 9 / 16)}
             />
+            {@const absent = missingFonts(loaded.theme, loaded.fonts)}
+            {#if absent.length}
+              <p class="font-note" data-testid="grub-font-fallback">SF Pro Display is used but not bundled (Apple licence): {absent.length} font(s) drawn with a browser fallback. Install SF Pro and run <code>scripts/build-sfpro-pf2.sh</code>.</p>
+            {/if}
           {:else}
             <p style="color:#888;padding:2rem">Loading preset…</p>
           {/if}
@@ -211,6 +215,7 @@
     align-items: center;
     margin-bottom: 1.5rem;
   }
+  .font-note { font-size: 0.72rem; color: #C0E3C0; margin: 0.5rem 0 0; }
   .brand h1 { font-size: 1rem; margin: 0; letter-spacing: 0.01em; }
   .brand p  { font-size: 0.72rem; color: #C0E3C0; margin: 0; }
   .logo {

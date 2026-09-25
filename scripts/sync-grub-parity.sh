@@ -17,9 +17,9 @@
 # --deploy to also push to /boot and regenerate grub.cfg.
 #
 # Why an overlay (cp of individual files) and not rsync --delete: the simulator
-# preset is a SUPERSET — it ships extra font sizes (sfpro-20/26/38/64/96) the
-# real theme doesn't need but the browser renderer uses. We overlay the canonical
-# files and leave sim-only extras intact.
+# preset may hold files the real theme doesn't (sim-only extras). We overlay the
+# canonical files and leave those intact. The sfpro-*.pf2 fonts are not in git
+# (Apple licence); step 0 renders them locally via build-sfpro-pf2.sh.
 #
 # Usage:
 #   bash scripts/sync-grub-parity.sh            # sync simulator preset only
@@ -61,8 +61,7 @@ run() {
 #   manifest — only theme.txt + files the simulator manifest.json references
 #              (the browser renderer uses a curated subset; copying carlito
 #              fonts / build scripts into the preset is just dead weight)
-# Files that exist only in $dest are preserved either way (e.g. the simulator's
-# extra sfpro-20/26/38/64/96 sizes the real theme doesn't ship).
+# Files that exist only in $dest are preserved either way.
 overlay() {
   local dest="$1" mode="$2" sudo_pfx="${3:-}"
   local files=()
@@ -142,6 +141,17 @@ regen_grub_cfg() {
 echo "▶ Sage Ink GRUB parity sync"
 echo "  source (truth): $SRC"
 [ "$DRY_RUN" = true ] && echo "  ⚠ DRY RUN"
+echo
+
+# ─── 0. SF Pro bitmaps (not in git: Apple licence) ───
+# Rendered from the user's own SF Pro install. Missing SF Pro is not fatal:
+# GRUB falls back to its built-in font for those labels.
+echo "▶ SF Pro GRUB fonts (local build, never committed)"
+if [ "$DRY_RUN" = true ]; then
+  bash "$REPO_DIR/scripts/build-sfpro-pf2.sh" --check || true
+else
+  bash "$REPO_DIR/scripts/build-sfpro-pf2.sh" || [ $? -eq 3 ]
+fi
 echo
 
 # ─── 1. Simulator preset ───

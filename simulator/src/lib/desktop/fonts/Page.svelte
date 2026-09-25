@@ -14,7 +14,7 @@
   import { meta, roles, contrast } from './index';
   import {
     ours, stock, laneVars, snippet, KEY_VARS, CHECKS, TYPE, NAMING, DOC_VS_TOKEN, DOC_WEIGHTS, DOC_ROLES,
-    SNIPPET_COMMENT, README_ROWS, README_TITLE, README_NOT_SHIPPED, BUNDLE_FILES, BUILD_PLAN, GTK_HOST_MISMATCH,
+    SNIPPET_COMMENT, USER_SUPPLIED, README_ROWS, README_TITLE, README_NOT_SHIPPED, BUNDLE_FILES, BUILD_PLAN, GTK_HOST_MISMATCH,
     KIRIGAMI, type FontsModel, type RoleId
   } from './model';
   import { matchWeight } from './parse';
@@ -314,9 +314,9 @@ $ echo '{GLYPHS}'
         <thead><tr><th>Folder</th><th>README files</th><th>tracked files</th><th>Licence</th></tr></thead>
         <tbody>
           {#each README_ROWS as r}
-            <tr class:rowbad={r.claimed !== r.actual || /proprietary/i.test(r.licence)}>
+            <tr class:rowbad={r.claimed !== r.actual || (/proprietary/i.test(r.licence) && r.actual > 0)}>
               <td class="mono">{r.dir}/</td><td>{r.claimed}</td><td>{r.actual}</td>
-              <td>{r.licence}{#if /proprietary/i.test(r.licence) && r.actual > 0} <span class="badge bad">shipped in the repo bundle</span>{/if}</td>
+              <td>{r.licence}{#if /proprietary/i.test(r.licence) && r.actual > 0} <span class="badge bad">shipped in the repo bundle</span>{:else if /proprietary/i.test(r.licence)} <span class="badge" data-testid="user-supplied">user-supplied, not bundled</span>{/if}</td>
             </tr>
           {/each}
         </tbody>
@@ -324,6 +324,7 @@ $ echo '{GLYPHS}'
       <ul class="sub">
         {#if /Lime Glass/.test(README_TITLE)}<li>The README is headed "Lime Glass"; Lime is token-only (CLAUDE.md) — the bundle serves Sage Ink.</li>{/if}
         {#if README_NOT_SHIPPED && BUNDLE_FILES.some((f) => f.includes('Condensed'))}<li>README says "Iosevka Custom Condensed (NOT shipped)"; the bundle tracks {BUNDLE_FILES.filter((f) => f.includes('Condensed')).length} Condensed files (the simulator's static copy is the same file).</li>{/if}
+        {#each Object.entries(USER_SUPPLIED) as [fam, u]}<li data-testid="user-supplied-note">{fam} is used by the theme but not bundled ({u.licence}). Install it from <code>{u.source}</code>; <code>scripts/build-sfpro-pf2.sh</code> then renders the GRUB bitmaps locally. This page draws it only if the viewing machine has it.</li>{/each}
         <li>Iosevka Custom has Thin / Regular / Heavy only (build plan weights 100/400/900): a 700 request on mono draws Heavy or a synthetic bold.</li>
       </ul>
     </div>

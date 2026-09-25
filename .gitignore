@@ -53,3 +53,10 @@ browser/stylus/out/
 # directory regenerate them (122 PNG/SVG, ~2.3 MB per pass). The findings live in
 # REPORT.md and 03-INSPECTION.md, which are tracked.
 research-reports/sage-ink-mark-*/renders/
+
+# SF Pro Display is Apple proprietary with no redistribution licence. The theme
+# still uses it; users install it themselves (developer.apple.com/fonts) and
+# scripts/build-sfpro-pf2.sh renders the GRUB bitmaps from that local copy.
+share/fonts/indigo-glass-fonts/SFProDisplay/
+share/grub-theme/sfpro-*.pf2
+simulator/static/presets/*/sfpro-*.pf2

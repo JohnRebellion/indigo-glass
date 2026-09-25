@@ -10,7 +10,7 @@ Canonical font set used across all Lime Glass layers (KDE, GRUB, Konsole, VSCode
 | `Inter/` | Inter | 1 variable | OFL 1.1 | UI fallback (single-storey g default; loop-tail via cv11 OT) |
 | `IosevkaCustom/` | Iosevka Custom | 1 (Regular only) | OFL 1.1 | Incomplete - see below |
 | `MesloLGS/` | MesloLGS NF | 4 | MIT | Mono fallback w/ Powerline glyphs |
-| `SFProDisplay/` | SF Pro Display | 6 weights | Apple proprietary | NOT redistributable - install from developer.apple.com |
+| `SFProDisplay/` | SF Pro Display | 0 (user-supplied) | Apple proprietary | Used by the theme, NOT bundled: no redistribution licence. The folder is gitignored; install from developer.apple.com/fonts |
 
 ## Iosevka Custom Condensed (NOT shipped)
 
@@ -79,4 +79,10 @@ fc-match "Inter"
 ## License obligations
 
 - OFL fonts (Carlito, Inter, Iosevka, MesloLGS): bundled w/ this repo per OFL 1.1 redistribution clause
-- SF Pro Display: NOT bundled. Apple proprietary. Install from developer.apple.com (free w/ Apple ID)
+- SF Pro Display: NOT bundled. Apple proprietary, no redistribution licence. The theme still uses it
+  (KDE menu/toolbar/small fonts, window titles, GRUB labels), so install it yourself from
+  https://developer.apple.com/fonts/. Removed from the repo 2026-09-25; `SFProDisplay/` and every
+  `sfpro-*.pf2` are gitignored. You may drop your own copy into `SFProDisplay/` for `install.ps1`.
+- GRUB `sfpro-*.pf2` bitmaps are rendered from SF Pro, so they are not bundled either. After
+  installing SF Pro run `bash scripts/build-sfpro-pf2.sh` (sync-grub-parity.sh runs it for you).
+  Without SF Pro, GRUB draws those labels in its built-in font.

@@ -222,9 +222,9 @@
     const color = parseColor(comp.props.color ?? '#ffffff'); // drift-allow: GRUB gfxmenu's own default when theme.txt omits color
     const fontName = comp.props.font ?? '';
     const font = preset.fonts.get(fontName);
-    if (!font || !text) return;
-
-    drawTextString(text, left, top, width, color, font, align);
+    if (!text) return;
+    if (font) drawTextString(text, left, top, width, color, font, align);
+    else if (fontName) drawFallbackText(text, left, top, width, color, fontName, align);
   }
 
   function renderImageSync(
@@ -382,10 +382,17 @@
       // Text
       const useFont = isSelected ? selFont : itemFont;
       const useColor = isSelected ? selColor : itemColor;
+      const textX = innerX + 12 + iconW + iconSpace;
+      const textW = innerW - 12 - iconW - iconSpace;
       if (useFont) {
-        const textX = innerX + 12 + iconW + iconSpace;
         const textY = itemY + (itemHeight - useFont.ascent - useFont.descent) / 2;
-        drawTextString(entry.title, textX, textY, innerW - 12 - iconW - iconSpace, useColor, useFont, 'left');
+        drawTextString(entry.title, textX, textY, textW, useColor, useFont, 'left');
+      } else {
+        const name = isSelected ? selFontName : itemFontName;
+        if (name) {
+          const m = fallbackMetrics(name);
+          drawFallbackText(entry.title, textX, itemY + (itemHeight - m.ascent - m.descent) / 2, textW, useColor, name, 'left');
+        }
       }
     }
   }
@@ -419,6 +426,48 @@
       drawGlyph(g, drawX + g.xOffset, baselineY - g.height - g.yOffset, color);
       drawX += g.deviceWidth;
     }
+  }
+
+  /* A theme font with no PFF2 loaded: the sfpro-*.pf2 sizes are not in git
+     (SF Pro is Apple proprietary) until scripts/build-sfpro-pf2.sh renders
+     them. Draw the label with the browser instead, from the same family and
+     pixel size the GRUB font name states ("SF Pro Display Regular 22"), so
+     layout stays close; the page says which labels took this path. The
+     viewing machine's own SF Pro is used if installed, else Inter / sans. */
+  function fallbackCss(fontName: string): string {
+    const m = fontName.match(/^(.*?)\s+(Regular|Bold|Medium|Semibold|Light|Thin)?\s*(\d+)$/i);
+    const family = m?.[1] ?? fontName;
+    const weight = /bold/i.test(m?.[2] ?? '') ? 700 : /semibold/i.test(m?.[2] ?? '') ? 600 : /medium/i.test(m?.[2] ?? '') ? 500 : /light/i.test(m?.[2] ?? '') ? 300 : /thin/i.test(m?.[2] ?? '') ? 100 : 400;
+    const px = Number(m?.[3] ?? 16);
+    return `${weight} ${px}px "${family}", "Inter", system-ui, sans-serif`;
+  }
+
+  function fallbackMetrics(fontName: string): { ascent: number; descent: number } {
+    ctx.save();
+    ctx.font = fallbackCss(fontName);
+    const t = ctx.measureText('Hg');
+    ctx.restore();
+    return { ascent: t.fontBoundingBoxAscent, descent: t.fontBoundingBoxDescent };
+  }
+
+  function drawFallbackText(
+    text: string,
+    x: number,
+    y: number,
+    boxWidth: number,
+    color: [number, number, number],
+    fontName: string,
+    align: 'left' | 'center' | 'right'
+  ): void {
+    ctx.save();
+    ctx.font = fallbackCss(fontName);
+    ctx.fillStyle = colorToCss(color);
+    ctx.textBaseline = 'alphabetic';
+    const t = ctx.measureText(text);
+    const drawX = align === 'center' ? x + (boxWidth - t.width) / 2 : align === 'right' ? x + boxWidth - t.width : x;
+    // Same anchoring as drawTextString: baseline sits one ascent below y.
+    ctx.fillText(text, Math.round(drawX), Math.round(y + t.fontBoundingBoxAscent));
+    ctx.restore();
   }
 
   function drawGlyph(

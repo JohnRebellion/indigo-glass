@@ -17,7 +17,7 @@ A complete, cohesive visual identity that spans:
 - **Konsole terminal** — SageInk profile, Iosevka Custom Condensed
 - **Shell prompt** — Starship config with sage segments
 - **System info** — Fastfetch with minimal sage display
-- **GRUB bootloader** (optional) — matching sage-on-ink theme with SF Pro fonts
+- **GRUB bootloader** (optional) — matching sage-on-ink theme with SF Pro fonts (user-supplied)
 - **Web frontend** (bonus) — Tailwind v4 `@theme` block following the neobrutalism.dev customizer's own variable schema
 
 All layers reference the **same color tokens**, so terminal accents match window selections match GTK buttons match webapp buttons. The default variant is **Sage Ink**; **Indigo Glass** ships alongside as a selectable variant (see [Variants](#variants)).
@@ -162,7 +162,7 @@ of the active default.
 | Role | Font | Reason |
 |---|---|---|
 | General UI | **Carlito** | Humanist with double-storey loop-tail g — matches Iosevka mono allograph |
-| Window title / Menu / Toolbar | **SF Pro Display** | Apple-system, sharp and legible at UI sizes |
+| Window title / Menu / Toolbar | **SF Pro Display** (user-supplied, see below) | Apple-system, sharp and legible at UI sizes |
 | Fixed / Mono / Konsole | **Iosevka Custom Condensed** → **MesloLGS NF** → **JetBrainsMono Nerd Font** → monospace | Coding |
 
 Two-family discipline: humanist rounded for content + geometric sharp for chrome.
@@ -192,7 +192,9 @@ Applied to:
 
 The fallback chain is consistent so font installation order doesn't matter; the highest-priority installed font wins.
 
-> **Note:** The author's personal config uses **Iosevka Custom Condensed** for monospace and **SF Pro Display** for chrome — both bundled in `share/fonts/indigo-glass-fonts/` (see `browser/README.md` for install).
+> **Note:** The author's personal config uses **Iosevka Custom Condensed** for monospace (bundled in `share/fonts/indigo-glass-fonts/`) and **SF Pro Display** for chrome.
+>
+> **SF Pro Display is used but not bundled.** It is Apple proprietary with no redistribution licence, so the repo ships neither the `.otf` files nor the GRUB `sfpro-*.pf2` bitmaps rendered from it. Install it yourself from <https://developer.apple.com/fonts/>, then run `bash scripts/build-sfpro-pf2.sh` for GRUB. Without it, KDE and browsers fall back down the font stack and GRUB uses its built-in font.
 
 ---
 
