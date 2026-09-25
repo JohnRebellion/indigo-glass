@@ -12,6 +12,7 @@
     { href: '/browser/',          label: 'Browser',      id: 'browser' },
     { href: '/sites/',            label: 'Sites',        id: 'sites' },
     { href: '/desktop/',          label: 'Desktop',      id: 'desktop' },
+    { href: '/components/',       label: 'Components',   id: 'components' },
     { href: '/vscode/',           label: 'VSCode',       id: 'vscode' },
     { href: '/vscode/claude-code/', label: 'Claude Code', id: 'claude-code' },
     { href: '/grub/',             label: 'GRUB',         id: 'grub' },
