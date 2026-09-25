@@ -599,19 +599,14 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundPositive={hex_to_rgb(p['positive'])}",
     ])
 
-    # ForegroundVisited=130,153,255 (Button, Tooltip) and =189,195,199
-    # (Selection) do not correspond to ANY current semantic token - checked
-    # against accent/accent_hi/accent_alt/text/text_muted/negative/amber/
-    # positive for both shipped variants (2026-09-01). Both are byte-
-    # identical across sage AND indigo despite every other accent-derived
-    # value differing between them, which is the signature of an
-    # uncustomized default inherited from whatever base KDE scheme this was
-    # originally exported from, not a deliberate design choice under this
-    # token system. Preserved as literals rather than invented a mapping -
-    # changing what a value like this SHOULD be is a design decision, not a
-    # drift fix, and out of scope here.
-    _VISITED_UNMAPPED_LINK = "130,153,255"
-    _VISITED_UNMAPPED_SELECTION = "189,195,199"
+    # ForegroundVisited was 130,153,255 (Button, Tooltip) and 189,195,199
+    # (Selection) until 2026-09-25: uncustomised Breeze leftovers, byte-
+    # identical across every variant, kept as literals on 2026-09-01 because
+    # choosing a value was a design decision, not a drift fix. The desktop
+    # simulator (/desktop/kde-colors/) made that decision: every set's
+    # Visited is accent_alt, as Window/View/Header/Complementary already
+    # were. Selection is outlined, not filled (Tier C), so its visited link
+    # sits on the view background like any other.
 
     # Window's accent_hi/accent_alt split for Link/Visited was cross-checked
     # against every OTHER section in both variants (2026-09-01): sage is
@@ -639,7 +634,7 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
         f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
         f"ForegroundLink={hex_to_rgb(p['violet'])}",
-        f"ForegroundVisited={_VISITED_UNMAPPED_LINK}",
+        f"ForegroundVisited={hex_to_rgb(p['violet'])}",
         semantic_negative_neutral_positive,
         f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - a focus outline on a near-black surface needs a neutral that contrasts, matching --ring: white in the reference's dark mode
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
@@ -666,7 +661,7 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundActive={hex_to_rgb(p['text'])}",
         f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
         f"ForegroundLink={hex_to_rgb(p['violet'])}",
-        f"ForegroundVisited={_VISITED_UNMAPPED_SELECTION}",
+        f"ForegroundVisited={hex_to_rgb(p['violet'])}",
         semantic_negative_neutral_positive,
         f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
@@ -678,7 +673,7 @@ def emit_kde_colors(t: dict, variant: str | None = None) -> str:
         f"ForegroundInactive={hex_to_rgb(p['text_muted'])}",
         f"ForegroundActive={hex_to_rgb(p['indigo_hi'])}",
         f"ForegroundLink={hex_to_rgb(p['violet'])}",
-        f"ForegroundVisited={_VISITED_UNMAPPED_LINK}",
+        f"ForegroundVisited={hex_to_rgb(p['violet'])}",
         semantic_negative_neutral_positive,
         f"DecorationFocus={hex_to_rgb(p['text'])}",  # white(ish), not accent - see the Colors:Window note above
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",

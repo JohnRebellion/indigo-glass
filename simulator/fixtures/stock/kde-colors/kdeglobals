@@ -1,0 +1,21 @@
+# Stock Plasma 6 kdeglobals defaults, as a fresh user gets them with the
+# Breeze Dark global theme applied (org.kde.breezedark.desktop). Values are
+# KConfig's compiled-in defaults (kconfigwidgets / plasma-integration), not
+# read from a file, so they are written out here with that provenance.
+[General]
+ColorScheme=BreezeDark
+font=Noto Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+fixed=Hack,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=Noto Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=Noto Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+[KDE]
+LookAndFeelPackage=org.kde.breezedark.desktop
+widgetStyle=Breeze
+
+[Icons]
+Theme=breeze-dark
+
+[WM]
+activeFont=Noto Sans,10,-1,5,700,0,0,0,0,0,0,0,0,0,0,1
