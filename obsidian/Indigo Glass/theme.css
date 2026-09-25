@@ -29,9 +29,9 @@
   --text-normal: #F8F8F8;
   --text-muted: #7F8695;
   --text-faint: #4B5563;
-  --text-on-accent: #FFFFFF;
+  --text-on-accent: #07080A;  /* was #FFFFFF - fill #A6C9A6 is above docs/ELEVATION.md's [on_light] luminance threshold (0.179), so its label must be ink (base #07080A), not white; white-on-#A6C9A6 measured 1.82:1, ink measures well over 4.5:1 (2026-09-25 /desktop/obsidian pass) */
   --text-error: #F42E53;
-  --text-success: #71F79F;
+  --text-success: #3FFABB;  /* was #71F79F - the same stale pre-v5 positive hex line 23's own comment already names; positive is #3FFABB (2026-09-25 /desktop/obsidian pass) */
   --text-accent: #C0E3C0;
   --text-accent-hover: #89A889;
   --text-selection: rgba(166, 201, 166, 0.45);
@@ -55,7 +55,7 @@
   --code-background: #121216;
   --code-comment: #7F8695;
   --code-keyword: #C0E3C0;
-  --code-string: #71F79F;
+  --code-string: #3FFABB;  /* was #71F79F - same stale pre-v5 positive hex as line 23/34 (2026-09-25 /desktop/obsidian pass) */
   --code-number: #89A889;
   --code-function: #FBBF24;
   --code-tag: #C0E3C0;
@@ -96,6 +96,18 @@ body {
   --font-text-size: 16px;
   --font-text-theme: var(--font-text);
   --font-mono-theme: var(--font-monospace);
+  /* Obsidian's own --radius-* scale (4/8/12/16px) was never overridden here,
+     so every component that reads it directly - tabs, callouts, code/pre,
+     modal/popover/menu, suggestion items, checkboxes - still rendered
+     Obsidian's rounded corners under the two hand-patched `border-radius: 0`
+     rules above (lines ~111,122), off the 0/2/9999 ink radius ladder. Setting
+     the variables themselves closes it everywhere at once instead of
+     patching each selector by hand (2026-09-25 /desktop/obsidian pass,
+     found by structure.ts's radius-ladder scan). */
+  --radius-s: 0px;
+  --radius-m: 0px;
+  --radius-l: 0px;
+  --radius-xl: 9999px;  /* pills only: tags, toggle track, scrollbar thumb */
 }
 
 /* Compact density (DENSITY.md) */
@@ -126,6 +138,9 @@ textarea,
 .cm-editor .cm-content {
   padding: 4px 8px !important;
 }
+textarea {
+  border-width: 2px;  /* was the stock 1px hairline (--border-width) - textarea is a control, not chrome, so it takes Sage Ink's 2px control-border floor (2026-09-25 /desktop/obsidian pass, found by structure.ts) */
+}
 
 /* Ink surfaces - opaque, no blur */
 .modal,
@@ -147,11 +162,21 @@ textarea,
 .popover,
 .menu {
   border-width: 2px;
-  /* Solid black, not --background-modifier-border (Obsidian's own native
-     divider variable, used app-wide - overriding it would blacken every
-     hairline in the whole interface, not just these shadow-bearing ones). */
-  border-color: #000000;
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9);
+  /* border_strong (#5E5E60), not --background-modifier-border (Obsidian's own
+     native hairline divider, used app-wide - overriding IT would blacken
+     every hairline in the whole interface, not just these shadow-bearing
+     ones) and not literal black either: docs/ELEVATION.md's scale gives
+     level 2/3 (menu/popover/tooltip, modal) a border_strong edge - only the
+     level-1 primary button edge is ink/base. Was #000000
+     (2026-09-25 /desktop/obsidian pass: this drifted off both the border
+     ladder and the elevation scale in one line). */
+  border-color: #5E5E60;
+  /* [shadow].ink is "4px 4px 0 0 #000000" - fully opaque. Was
+     rgba(0, 0, 0, 0.9): a translucent shadow is exactly what
+     scripts/check-ink-contract.py's rule 1 exists to catch; this file
+     predates that check landing on shipped theme CSS
+     (2026-09-25 /desktop/obsidian pass). */
+  box-shadow: 4px 4px 0 0 #000000;
 }
 
 /* Selection */
@@ -206,7 +231,7 @@ textarea,
 }
 .callout[data-callout="success"],
 .callout[data-callout="done"] {
-  --callout-color: 113, 247, 159;
+  --callout-color: 63, 250, 187;  /* was 113,247,159 (#71F79F) - same stale pre-v5 positive hex as line 23/34/58; positive is #3FFABB = 63,250,187 (2026-09-25 /desktop/obsidian pass) */
 }
 .callout[data-callout="failure"],
 .callout[data-callout="error"],

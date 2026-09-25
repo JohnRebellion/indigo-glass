@@ -147,10 +147,77 @@ body, [class*="markup"], [class*="message"], [class*="title"] {
   background-color: #292F2B !important;  /* was rgba(166,201,166,0.18) - opaque pale-sage badge fill, composited over --ig-surface. A persistent status indicator (this message mentions you), not a transient state - stays a fill, just opaque now. */
 }
 
-/* Sage Ink: popouts/tooltips/modals are opaque + hard-shadow elevated, no blur (was previously only disabled under prefers-reduced-transparency; Sage Ink drops blur unconditionally, not just as an accessibility fallback) */
-[class*="popout"], [class*="tooltip"], [class*="modal"] {
+/* Sage Ink: popouts/tooltips/modals/context-menus are opaque + hard-shadow
+   elevated, no blur (was previously only disabled under
+   prefers-reduced-transparency; Sage Ink drops blur unconditionally, not just
+   as an accessibility fallback). "menu" added to this list 2026-09-25
+   /desktop/vencord pass: Discord's context menu is the same level-2 elevated
+   surface as a modal/popout/tooltip per docs/ELEVATION.md, but its stock
+   class doesn't contain "popout"/"tooltip"/"modal", so it had shipped with
+   none of this - no border, and stock.css's own soft shadow
+   (0 8px 16px rgba(0,0,0,0.24)) untouched (found by structure.ts's shadow
+   scan). */
+[class*="popout"], [class*="tooltip"], [class*="modal"], [class*="menu"] {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border-radius: 0 !important;
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9) !important;
+  /* border_strong (#5E5E60), same level-2/3 elevation edge as Obsidian's
+     .modal,.popover,.menu block - was missing entirely, so these floating
+     surfaces had no edge against the page at all (2026-09-25 /desktop/vencord
+     pass, found by structure.ts's border-width scan). */
+  border: 2px solid #5E5E60 !important;
+  /* [shadow].ink is "4px 4px 0 0 #000000" - fully opaque. Was
+     rgba(0, 0, 0, 0.9) on popout/tooltip/modal, and stock.css's own
+     rgba(0,0,0,0.24) on menu (never overridden at all): a translucent shadow
+     is exactly what scripts/check-ink-contract.py's rule 1 exists to catch;
+     same defect already fixed in Obsidian's shipped theme.css this pass
+     (2026-09-25 /desktop/vencord pass). */
+  box-shadow: 4px 4px 0 0 #000000 !important;
+}
+
+/* Sage Ink radius ladder is exactly 0 / 2px / 9999px (docs/ELEVATION.md).
+   Discord's own corner radii aren't exposed as CSS custom properties (unlike
+   Obsidian's --radius-*), so every drifting selector needs its own override.
+   Found by structure.ts's radius-ladder scan: 35 violations across the
+   channel list, markup/code, embeds, reactions, member rows, activity cards,
+   composer, buttons, search input and every context-menu/settings item
+   (2026-09-25 /desktop/vencord pass). */
+[class*="containerDefault"],
+[class*="link"],
+[class*="member"],
+[class*="activityCard"],
+[class*="embedFull"],
+[class*="channelTextArea"],
+[class*="footer"],
+[class*="button"],
+[class*="input"],
+[class*="item"],
+code, pre, kbd, samp, tt {
+  border-radius: 0 !important;
+}
+
+/* Reactions read as small pill chips - docs/ELEVATION.md's radius-xl "tags"
+   bucket, not the 0 above - kept full-pill, not squared off. */
+[class*="reaction"] {
+  border-radius: 9999px !important;
+}
+
+/* Guild-rail icons stay true circles at every state - Sage Ink doesn't morph
+   shapes on hover/select, and a squircle is off the ladder either way.
+   Declared after the generic [class*="item"] rule above (equal specificity,
+   source order decides) since "listItem" contains the substring "item". */
+[class*="listItem"] {
+  border-radius: 9999px !important;
+}
+
+/* Button labels: fill luminance above docs/ELEVATION.md's [on_light]
+   threshold (0.179) needs an ink label, not white - --ig-indigo (#A6C9A6,
+   relative luminance ~0.62) and --ig-negative (#F42E53, ~0.22) both clear it.
+   Discord's stock CSS hardcodes white text on every colorBrand/colorDanger
+   button (see fixtures/stock/vencord/stock.css); Sage Ink's own fills need
+   the ink override, same rule Obsidian's --text-on-accent already applies.
+   Scoped to [class*="button"] so it doesn't repaint the colorDanger *text*
+   Discord uses for a plain (non-filled) context-menu item. */
+[class*="button"][class*="colorBrand"], [class*="button"][class*="colorDanger"] {
+  color: var(--ig-base) !important;
 }

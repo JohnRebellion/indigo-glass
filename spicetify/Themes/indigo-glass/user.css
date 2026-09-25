@@ -8,18 +8,50 @@
   display: none !important;
 }
 
+/* Context menu panel - was completely untouched by this file (only the single
+   Upgrade item above was ever targeted), so it shipped with Spotify's own
+   default panel chrome: rounded corners and a soft/translucent drop shadow,
+   exactly the material Sage Ink's "opaque ink, no blur, hard offset shadow"
+   rule exists to replace everywhere else in this file. Brought in line with
+   the same level-2 elevated-surface treatment as the card rule below
+   (2026-09-25 /desktop/spicetify pass, found while building the /desktop/
+   simulator page's context-menu specimen). Class name is BEM-inferred from
+   this file's own confirmed `.main-contextMenu-menuItemButton` sibling (same
+   `.main-<Component>-<element>` convention as `.main-card-card` and
+   `.main-trackList-trackListRow` below) - not independently found in a
+   citation, so treat as best-effort, not vendor-confirmed. */
+.main-contextMenu-menu {
+  background-color: #121216 !important;
+  border: 2px solid #5E5E60 !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 0 #000000 !important;
+}
+.main-contextMenu-menuItemButton {
+  border-radius: 0 !important;
+}
+
 /* Selection */
 ::selection {
   background: rgba(166, 201, 166, 0.45) !important;
 }
 
 /* Buttons - compact, indigo. Radius 0 (was 6px, off the 0/2/9999 ink ladder -
-   see tokens/indigo-glass.tokens.toml [radius]). */
+   see tokens/indigo-glass.tokens.toml [radius]). No label colour was ever
+   set here - it relied entirely on an unstated assumption about Spotify's
+   own default button text colour, which this design system has no citation
+   for either way. --spice-button (accent #A6C9A6) clears docs/ELEVATION.md's
+   on-light luminance threshold (0.179) regardless of what the vendor default
+   turns out to be, so the label needs an explicit ink colour, the same rule
+   already applied to Obsidian's --text-on-accent and Vencord's
+   colorBrand/colorDanger buttons this pass, rather than leaving it to chance
+   (2026-09-25 /desktop/spicetify pass, found while building the /desktop/
+   simulator page's button specimen). */
 button.main-buttons-button,
 .Button-md-encore-light,
 .Button-sm-encore-light {
   padding: 4px 12px !important;
   border-radius: 0 !important;
+  color: #07080A !important;
 }
 
 /* Now-playing bar - opaque ink */
@@ -36,6 +68,10 @@ button.main-buttons-button,
 }
 .main-yourLibraryX-listItem .main-yourLibraryX-rowItem {
   padding: 3px 8px !important;
+  /* Was never reset, so Spotify's own ~4px row rounding showed through
+     untouched - off the 0/2/9999 ink radius ladder (2026-09-25
+     /desktop/spicetify pass, found by structure.ts's radius-ladder scan). */
+  border-radius: 0 !important;
 }
 
 /* Cards (album/playlist tiles) - elevated ink tile, hard shadow instead of blur.
@@ -44,18 +80,37 @@ button.main-buttons-button,
    audit; the border reads as the shadow's own silhouette. */
 .main-card-card {
   background-color: #121216 !important;
-  border: 2px solid #000000 !important;
+  /* border_strong (#5E5E60), not literal black - docs/ELEVATION.md gives
+     level-2 elevated tiles a border_strong edge, the same edge Obsidian's
+     .modal,.popover,.menu and Vencord's popout/tooltip/modal/menu block both
+     use; only the level-1 primary-button edge is ink/base. Was #000000
+     (2026-09-25 /desktop/spicetify pass). */
+  border: 2px solid #5E5E60 !important;
   border-radius: 0 !important;
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.9) !important;
+  /* [shadow].ink is "4px 4px 0 0 #000000" - fully opaque. Was
+     rgba(0, 0, 0, 0.9): a translucent shadow is exactly what
+     scripts/check-ink-contract.py's rule 1 exists to catch; same defect
+     already fixed in Obsidian's and Vencord's shipped CSS this pass
+     (2026-09-25 /desktop/spicetify pass). */
+  box-shadow: 4px 4px 0 0 #000000 !important;
 }
 .main-card-card:hover {
-  background-color: #1F2028 !important;
+  /* #1F2028 is the Indigo Glass VARIANT's --ig-surface-alt (tokens/out/
+     css-vars.indigo.css:9), not Sage Ink's (#121216) - cross-variant token
+     drift, caught by scripts/check-ink-contract.py flagging it as off this
+     layer's own palette (2026-09-25 /desktop/spicetify pass). */
+  background-color: #121216 !important;
   border-color: #A6C9A6 !important;
 }
 
 /* Track rows - tight */
 .main-trackList-trackListRow {
   padding: 2px 8px !important;
+  /* Was never reset, so Spotify's own ~4px row rounding showed through on
+     every row state (base, hover, selected, playing) - off the 0/2/9999 ink
+     radius ladder (2026-09-25 /desktop/spicetify pass, found by
+     structure.ts's radius-ladder scan). */
+  border-radius: 0 !important;
 }
 .main-trackList-trackListRow:hover {
   background-color: rgba(166, 201, 166, 0.10) !important;
