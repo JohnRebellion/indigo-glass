@@ -126,7 +126,7 @@ IntensityEffect=0
 
 [KDE]
 contrast=4
-frameContrast=0.2
+frameContrast=0.345
 
 [WM]
 activeBackground=13,13,16

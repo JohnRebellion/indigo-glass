@@ -33,14 +33,14 @@ Generated output **is committed on purpose** — users install without running c
 - `tokens/out/*` — wholly generated.
 - `share/color-schemes/SageInk.colors` (`codegen.py:64`), `config/plasma-theme/SageInk/colors` (`:72`),
   `share/color-schemes/IndigoGlass.colors` (`:74`), `windows/terminal/indigo-glass.scheme.json` (`:79`),
-  `browser/monkeytype/indigo-glass.json` (`:80`) and `.settings.json` (`:81`).
+  `browser/monkeytype/indigo-glass.json` (`:80`) and `.settings.json` (`:82`).
 - `browser/edge-theme/edge-*/manifest.json`, `browser/darkreader/darkreader.*.json`
   and `browser/stylus/out/stylus-import.*.json` (untracked) — per-Edge-profile
   brand-hue artifacts, generated from `[edge_profiles]` in the TOML
   (`SHIPPED_EDGE_THEME_DIR`/`SHIPPED_DARKREADER_DIR`/`STYLUS_OUT_DIR`,
-  `codegen.py:1385-1388`). `browser/edge-theme/indigo-glass/` stays hand-kept
+  `codegen.py:1457-1460`). `browser/edge-theme/indigo-glass/` stays hand-kept
   legacy; the launchers no longer load it.
-- `vscode/themes/indigo-glass-dark.json` and `-light.json` (`SHIPPED_VSCODE`, `codegen.py:1364`).
+- `vscode/themes/indigo-glass-dark.json` and `-light.json` (`SHIPPED_VSCODE`, `codegen.py:1433`).
   Generated since 2026-09-22 from `tokens/vscode_roles.py`, which holds the role
   MAP; the values stay in the TOML. Edit the map or the tokens, never the themes.
 - `simulator/src/lib/palettes.ts` — its header marks it GENERATED.

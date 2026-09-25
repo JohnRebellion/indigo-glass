@@ -540,8 +540,34 @@ IntensityEffect=0
 
 [KDE]
 contrast=4
-frameContrast=0.2
 """.strip("\n")
+
+
+def _kde_frame_contrast(p: dict) -> float:
+    """[KDE] frameContrast such that Breeze/Klassy's frame outline lands on
+    border_strong exactly.
+
+    Breeze paints every frame, line-edit outline, checkbox edge and
+    separator as KColorUtils::mix(Window, WindowText, frameContrast)
+    (kstyle/breezehelper.cpp frameOutlineColor/separatorColor; Kirigami's
+    separators use the same blend). At the stock 0.2 that is a grey no token
+    names - #3C3C3E on sage, 1.76:1 against surface, measured on
+    simulator /components/text-field/ and /components/checkbox/ 2026-09-25.
+    Window is `surface` and WindowText `text` below, so solve the blend for
+    border_strong per channel (sRGB, rounded as QColor rounds) and take the
+    middle of the interval every channel agrees on."""
+    ch = lambda h: [int(h.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)]
+    lo, hi = ch(p["surface"]), ch(p["text"])
+    want = ch(p["border_strong"])
+    ok = [i / 1000 for i in range(1001)
+          if all(round(a + (b - a) * i / 1000) == w for a, b, w in zip(lo, hi, want))]
+    if ok:
+        return round((ok[0] + ok[-1]) / 2, 3)
+    # A variant whose border_strong is not on the surface-text line (its
+    # own hue, not a white composite): the nearest blend, off by a unit or
+    # two per channel rather than the 0.2 default's dozens.
+    err = lambda t: max(abs(a + (b - a) * t - w) for a, b, w in zip(lo, hi, want))
+    return min((i / 1000 for i in range(1001)), key=err)
 
 
 def emit_kde_colors(t: dict, variant: str | None = None,
@@ -715,6 +741,7 @@ def emit_kde_colors(t: dict, variant: str | None = None,
         f"DecorationHover={hex_to_rgb(p['indigo_hi'])}",
         "",
         _KDE_INVARIANT_SECTIONS,
+        f"frameContrast={_kde_frame_contrast(p)}",
         "",
         "[WM]",
         f"activeBackground={hex_to_rgb(p['surface'])}",
@@ -1238,7 +1265,11 @@ def _on_accent(t: dict, variant: str, pal: dict) -> str:
     the best of {text, white, black} by measured contrast fixes that, and on
     the light variant independently arrives at white (6.06:1)."""
     fill = pal["accent"]["hex"]
-    return max((pal["text"]["hex"], "#FFFFFF", "#000000"),
+    # `base`, not #000000: docs/ELEVATION.md gives a primary button an ink
+    # (`base`) label, and pure black is no token of a dark variant
+    # (simulator /components/button/, 2026-09-25). On a light variant base
+    # is light and loses to white exactly as black did.
+    return max((pal["text"]["hex"], "#FFFFFF", pal["base"]["hex"]),
                key=lambda c: contrast_ratio(c, fill))
 
 
@@ -1271,9 +1302,13 @@ def _resolve_role(t: dict, variant: str, pal: dict, ansi: dict, expr: str) -> st
         hexv = _on_accent(t, variant, pal)
     elif body == "outline_hard":
         # The silhouette the ink material projects its hard shadow from.
-        # Black on BOTH variants on purpose - neobrutalism.dev's reference
-        # library borders every surface in black on a light canvas too.
-        hexv = "#000000"
+        # Black on a light canvas ([on_light] border, as neobrutalism.dev
+        # borders every surface). On a dark one black was invisible - 1.05:1
+        # on the editor, measured on simulator /components/ 2026-09-25, the
+        # same defect config/klassy/menu-tooltip-ink.patch fixed for Qt
+        # menus that day - so it is border_strong, the 2px edge
+        # docs/ELEVATION.md gives levels 0 and 2.
+        hexv = "#000000" if _base_is_light(t, variant) else pal["border_strong"]["hex"]
     elif body == "orange":
         hexv = _orange(t, variant)
     elif body in pal:
